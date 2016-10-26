@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Crowdo</string>
+    <string name="activity_main_label">Loan Investments</string>
 </resources>

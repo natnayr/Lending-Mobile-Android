@@ -18,8 +18,6 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.d(LOG_TAG, "TEST: Splash is called");
-
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
