@@ -43,6 +43,7 @@ dependencies {
 
     //Retrofit V2 (Async library)
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
 
     //GSON (JSON to Object library)
     compile 'com.google.code.gson:gson:2.8.0'
