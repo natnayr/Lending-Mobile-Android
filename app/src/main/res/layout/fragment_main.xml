@@ -1,12 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/colorSecondaryText"
+    tools:context="com.crowdo.p2pmobile.LoansFragment">
     <ListView
         android:id="@+id/listview_loans"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:divider="@color/colorDivider"/>
-</RelativeLayout>
+        android:layout_height="match_parent"
+        android:divider="@color/colorDivider"
+        android:background="@color/colorIconsText"
+        android:dividerHeight="1dp"/>
+</FrameLayout>

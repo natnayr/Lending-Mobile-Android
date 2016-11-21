@@ -48,4 +48,5 @@ dependencies {
     //GSON (JSON to Object library)
     compile 'com.google.code.gson:gson:2.8.0'
 
+    provided 'org.glassfish:javax.annotation:10.0-b28'
 }
