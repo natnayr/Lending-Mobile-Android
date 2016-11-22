@@ -51,6 +51,7 @@ public class TestRetrofitCalls {
         assertTrue(response.isSuccessful());
         assertTrue(list.size() > 0);
 
+        // Print out first entry to check
         System.out.println("ListSize => " + list.size());
         LoanItem item = list.get(0);
         System.out.println("tenure => " + item.tenureOut);

@@ -1,6 +1,4 @@
 <resources>
     <string name="app_name">Crowdo</string>
     <string name="activity_main_label">Loan Investments</string>
-    <string name="api_stage">dev</string>
-    <string name="api_url">https://krune2aiye.execute-api.ap-southeast-1.amazonaws.com/</string>
 </resources>
