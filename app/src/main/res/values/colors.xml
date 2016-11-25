@@ -9,4 +9,21 @@
     <color name="colorIconsText">#FFFFFF</color>
     <color name="colorDivider">#BDBDBD</color>
     <color name="colorCrowdoRed">#E60000</color>
+
+    <!-- Colors for Grade Backgrounds-->
+    <!-- Material Color Green500 -->
+    <color name="gradeColorAPlus">#4CAF50</color>
+    <!-- Material Color LightGreen500 -->
+    <color name="gradeColorA">#8BC34A</color>
+    <!-- Material Color Lime500 -->
+    <color name="gradeColorBPlus">#CDDC39</color>
+    <!-- Material Color Yellow500 -->
+    <color name="gradeColorB">#FFEB3B</color>
+    <!-- Material Color Amber500 -->
+    <color name="gradeColorC">#FFC107</color>
+    <!-- Material Color Orange500 -->
+    <color name="gradeColorD">#FF9800</color>
+    <!-- Material Color DeepOrange500 -->
+    <color name="gradeColorE">#FF5722</color>
+
 </resources>

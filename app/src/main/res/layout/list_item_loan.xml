@@ -25,6 +25,7 @@
             android:layout_marginRight="@dimen/list_top_bar_horizontal_pad" />
 
         <LinearLayout
+            android:id="@+id/loan_item_credit_grade_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/credit_grade_box"

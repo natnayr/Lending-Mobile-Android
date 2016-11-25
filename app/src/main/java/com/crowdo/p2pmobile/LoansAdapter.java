@@ -1,5 +1,10 @@
 package com.crowdo.p2pmobile;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +22,10 @@ import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindColor;
+import butterknife.BindDrawable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -76,30 +85,6 @@ public class LoansAdapter extends BaseAdapter {
         }
     };
 
-    @Override
-    public View getView(final int position, View contextView, ViewGroup parent) {
-
-        LayoutInflater inflater = (LayoutInflater)
-                this.mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        if(contextView == null){
-            contextView = inflater.inflate(R.layout.list_item_loan, null);
-
-            // get LoanItem populated
-            LoanItem item = mLoanList.get(position);
-
-            TextView mLoanId = (TextView) contextView.findViewById(R.id.loan_item_iden_no);
-            mLoanId.setText(item.loanIdOut);
-
-            TextView mLoanGrade = (TextView) contextView.findViewById(R.id.loan_item_credit_grade_text);
-            mLoanGrade.setText(item.grade);
-
-
-        }
-
-
-        return contextView;
-    }
 
     @Override
     public int getCount() {
@@ -115,6 +100,73 @@ public class LoansAdapter extends BaseAdapter {
     public long getItemId(int i) {
         return 0;
     }
+
+    @Override
+    public View getView(final int position, View contextView, ViewGroup parent) {
+
+
+        ViewHolder holder;
+
+        LayoutInflater inflater = (LayoutInflater)
+                this.mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+
+        if(contextView == null){
+            contextView = inflater.inflate(R.layout.list_item_loan, null);
+            holder = new ViewHolder(contextView);
+            contextView.setTag(holder);
+        }else{
+            holder = (ViewHolder) contextView.getTag();
+        }
+
+        // get LoanItem populated
+        LoanItem item = mLoanList.get(position);
+        holder.mLoanId.setText(item.loanIdOut);
+        holder.mLoanGrade.setText(item.grade);
+
+        GradientDrawable mGradeShape = (GradientDrawable) holder.mLoanGradeDrawable.getBackground();
+
+        switch (item.grade) {
+            case "A+": mGradeShape.setColor(holder.colorAPlus);
+                break;
+            case "A": mGradeShape.setColor(holder.colorA);
+                break;
+            case "B+": mGradeShape.setColor(holder.colorBPlus);
+                break;
+            case "B": mGradeShape.setColor(holder.colorB);
+                break;
+            case "C": mGradeShape.setColor(holder.colorC);
+                break;
+            case "D": mGradeShape.setColor(holder.colorD);
+                break;
+            case "E": mGradeShape.setColor(holder.colorE);
+                break;
+        }
+
+
+
+        return contextView;
+    }
+
+    // ViewHolder Pattern for ButterKnife
+    static class ViewHolder{
+        @BindView(R.id.loan_item_iden_no) TextView mLoanId;
+        @BindView(R.id.loan_item_credit_grade_text) TextView mLoanGrade;
+        @BindView(R.id.loan_item_credit_grade_layout) View mLoanGradeDrawable;
+        @BindColor(R.color.gradeColorAPlus) int colorAPlus;
+        @BindColor(R.color.gradeColorA) int colorA;
+        @BindColor(R.color.gradeColorBPlus) int colorBPlus;
+        @BindColor(R.color.gradeColorB) int colorB;
+        @BindColor(R.color.gradeColorC) int colorC;
+        @BindColor(R.color.gradeColorD) int colorD;
+        @BindColor(R.color.gradeColorE) int colorE;
+
+        public ViewHolder(View view){
+            ButterKnife.bind(this, view);
+        }
+    }
+
+
 
 
 
