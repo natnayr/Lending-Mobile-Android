@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Crowdo</string>
-    <string name="activity_main_label">Loan Investments</string>
+    <string name="activity_main_action_bar_label">Loan Investments</string>
+
     <string name="gradeA">A</string>
     <string name="gradeA_plus">A+</string>
     <string name="gradeB">B</string>
@@ -8,5 +9,7 @@
     <string name="gradeC">C</string>
     <string name="gradeD">D</string>
     <string name="gradeE">D</string>
+    <string name="title_activity_details">DetailsActivity</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

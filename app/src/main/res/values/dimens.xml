@@ -3,9 +3,18 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="list_top_bar_horizontal_pad">4dp</dimen>
-    <dimen name="list_top_bar_vertical_pad">4dp</dimen>
+    <dimen name="list_top_horizontal_padding">4dp</dimen>
+    <dimen name="list_top_vertical_padding">4dp</dimen>
 
-    <dimen name="list_item_credit_horizontal_pad">4dp</dimen>
-    <dimen name="list_item_credit_vertical_pad">2dp</dimen>
+    <dimen name="list_top_box_horizontal_padding">4dp</dimen>
+    <dimen name="list_top_box_vertical_padding">0dp</dimen>
+    <dimen name="list_top_credit_vertical_margin">5dp</dimen>
+
+    <dimen name="list_mid_left_margin">8dp</dimen>
+    <dimen name="list_mid_right_margin">16dp</dimen>
+    <dimen name="list_mid_vertical_margin">4dp</dimen>
+
+    <dimen name="list_btm_left_margin">8dp</dimen>
+    <dimen name="list_btm_top_margin">4dp</dimen>
+    <dimen name="list_btm_btm_margin">4dp</dimen>
 </resources>

@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorSecondaryText"
+    android:background="@color/color_secondary_text"
     tools:context="com.crowdo.p2pmobile.LoansListFragment">
     <ListView
         android:id="@+id/listview_loans"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@color/colorDivider"
-        android:background="@color/colorIconsText"
+        android:divider="@color/color_divider"
+        android:background="@color/color_icons_text"
         android:dividerHeight="1dp"/>
 </FrameLayout>

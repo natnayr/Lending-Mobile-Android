@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fa_shield">&#xf132;</string>
+    <string name="fa_file_text">&#xf15c;</string>
+    <string name="fa_money">&#xf0d6;</string>
+    <string name="fa_unlock_alt">&#xf13e;</string>
+</resources>

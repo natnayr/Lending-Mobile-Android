@@ -1,51 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:background="@drawable/touch_selector">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/list_top_bar_vertical_pad"
-        android:paddingBottom="@dimen/list_top_bar_vertical_pad"
-        android:paddingLeft="@dimen/list_top_bar_horizontal_pad"
-        android:paddingRight="@dimen/list_top_bar_horizontal_pad">
 
-        <TextView
-            android:id="@+id/loan_item_iden_no"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="CWD0012345"
-            android:textSize="12dp"
-            android:textColor="@color/colorSecondaryText"
-            android:layout_marginRight="@dimen/list_top_bar_horizontal_pad" />
-
-        <LinearLayout
-            android:id="@+id/loan_item_credit_grade_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/credit_grade_box"
-            android:gravity="center_horizontal"
-            android:paddingTop="@dimen/list_item_credit_vertical_pad"
-            android:paddingBottom="@dimen/list_item_credit_vertical_pad"
-            android:paddingLeft="@dimen/list_item_credit_horizontal_pad"
-            android:paddingRight="@dimen/list_item_credit_horizontal_pad">
-            <TextView
-                android:id="@+id/loan_item_credit_grade_text"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="A+"
-                android:textSize="9dp"
-                android:textColor="@color/colorIconsText"
-
-                />
-        </LinearLayout>
-
-    </LinearLayout>
-
+    <include layout="@layout/top_list_item_loan"/>
+    <include layout="@layout/mid_list_item_loan"/>
+    <include layout="@layout/btm_list_item_loan"/>
 
 </LinearLayout>

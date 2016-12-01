@@ -1,9 +1,8 @@
 package com.crowdo.p2pmobile;
 
-import android.util.Log;
-
-import com.crowdo.p2pmobile.data.APIServicesInterface;
+import com.crowdo.p2pmobile.data.APIServices;
 import com.crowdo.p2pmobile.data.LoanItem;
+import com.crowdo.p2pmobile.data.LoanListClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -12,10 +11,16 @@ import org.junit.Test;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
+import rx.Observer;
+import rx.Scheduler;
+import rx.Subscription;
+import rx.android.plugins.RxAndroidSchedulersHook;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static org.junit.Assert.assertTrue;
 
@@ -29,46 +34,49 @@ public class TestRetrofitCalls {
     public static final String STAGE = "dev/";
     public static final String LOG_TAG = TestRetrofitCalls.class.getSimpleName();
 
-    @Test
-    public void testDownloadList() throws Exception{
-
-        Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd")
-                .create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL + STAGE)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        APIServicesInterface apiService = retrofit.create(APIServicesInterface.class);
-        Call<List<LoanItem>> call = apiService.getLoansList();
-
-        Response<List<LoanItem>> response = call.execute();
-
-        List<LoanItem> list = response.body();
-
-        assertTrue(response.isSuccessful());
-        assertTrue(list.size() > 0);
-
-        // Print out first entry to check
-        System.out.println("ListSize => " + list.size());
-        LoanItem item = list.get(0);
-        System.out.println("tenure => " + item.tenureOut);
-        System.out.println("collateralOut => " + item.collateralOut);
-        System.out.println("targetAmountOut => " + item.targetAmountOut);
-        System.out.println("grade => " + item.grade);
-        System.out.println("fundingDuration => " + item.fundingDuration);
-        System.out.println("fundingStartDate => " + item.fundingStartDate);
-        System.out.println("fundingEndDate => " + item.fundingEndDate);
-        System.out.println("loanIdOut => " + item.loanIdOut);
-        System.out.println("fundedPercentageCache => " + item.fundedPercentageCache);
-        System.out.println("interestRateOut => " + item.interestRateOut);
-        System.out.println("loanStatus => " + item.loanStatus);
-        System.out.println("sortWeight => " + item.sortWeight);
-        System.out.println("security => " + item.security);
-        System.out.println("collateralDescriptionOut => " + item.collateralDescriptionOut);
-        System.out.println("id => " + item.id);
-        System.out.println("fundingAmountToCompleteCache => " + item.fundingAmountToCompleteCache);
-    }
+//    @Test
+//    public void testDownloadList() throws Exception{
+//
+//        LoanListClient client = LoanListClient.getInstance();
+//        Subscription subscription = LoanListClient.getInstance()
+//                .getLiveLoans()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<List<LoanItem>>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        System.out.println("Completed");
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        System.out.println("Error");
+//                    }
+//
+//                    @Override
+//                    public void onNext(List<LoanItem> loanItems) {
+//                        System.out.println("onNext");
+//
+//                        assertTrue(loanItems.size() > 0);
+//                        // Print out first entry to check
+//                        System.out.println("ListSize => " + loanItems.size());
+//                        LoanItem item = loanItems.get(0);
+//                        System.out.println("tenure => " + item.tenureOut);
+//                        System.out.println("collateralOut => " + item.collateralOut);
+//                        System.out.println("targetAmountOut => " + item.targetAmountOut);
+//                        System.out.println("grade => " + item.grade);
+//                        System.out.println("fundingDuration => " + item.fundingDuration);
+//                        System.out.println("fundingStartDate => " + item.fundingStartDate);
+//                        System.out.println("fundingEndDate => " + item.fundingEndDate);
+//                        System.out.println("loanIdOut => " + item.loanIdOut);
+//                        System.out.println("fundedPercentageCache => " + item.fundedPercentageCache);
+//                        System.out.println("interestRateOut => " + item.interestRateOut);
+//                        System.out.println("loanStatus => " + item.loanStatus);
+//                        System.out.println("sortWeight => " + item.sortWeight);
+//                        System.out.println("security => " + item.security);
+//                        System.out.println("id => " + item.id);
+//                        System.out.println("fundingAmountToCompleteCache => " + item.fundingAmountToCompleteCache);
+//                    }
+//                });
+//    }
 }

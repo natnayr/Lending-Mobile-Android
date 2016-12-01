@@ -17,9 +17,13 @@ public class LoanItem {
     @Expose
     public String collateralOut;
 
+    @SerializedName("security")
+    @Expose
+    public String security;
+
     @SerializedName("target_amount_out")
     @Expose
-    public long targetAmountOut;
+    public double targetAmountOut;
 
     @SerializedName("grade")
     @Expose
@@ -31,11 +35,11 @@ public class LoanItem {
 
     @SerializedName("funding_start_date")
     @Expose
-    public Date fundingStartDate;
+    public String fundingStartDate;
 
     @SerializedName("funding_end_date")
     @Expose
-    public Date fundingEndDate;
+    public String fundingEndDate;
 
     @SerializedName("loan_id_out")
     @Expose
@@ -43,7 +47,7 @@ public class LoanItem {
 
     @SerializedName("funded_percentage_cache")
     @Expose
-    public double fundedPercentageCache;
+    public int fundedPercentageCache;
 
     @SerializedName("interest_rate_out")
     @Expose
@@ -55,22 +59,21 @@ public class LoanItem {
 
     @SerializedName("sort_weight")
     @Expose
-    public long sortWeight;
+    public int sortWeight;
 
-    @SerializedName("security")
+    @SerializedName("frequency_out")
     @Expose
-    public String security;
+    public String frequencyOut;
 
-    @SerializedName("collateral_description_out")
+    @SerializedName("currency_out")
     @Expose
-    public String collateralDescriptionOut;
+    public String currencyOut;
 
     @SerializedName("id")
     @Expose
-    public long id;
+    public int id;
 
     @SerializedName("funding_amount_to_complete_cache")
     @Expose
-    public long fundingAmountToCompleteCache;
-
+    public double fundingAmountToCompleteCache;
 }
