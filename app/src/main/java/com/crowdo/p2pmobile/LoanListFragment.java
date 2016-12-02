@@ -3,6 +3,7 @@ package com.crowdo.p2pmobile;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +14,6 @@ import android.widget.Toast;
 
 import com.crowdo.p2pmobile.data.LoanListItem;
 import com.crowdo.p2pmobile.data.LoanListClient;
-import com.f2prateek.dart.HensonNavigable;
-import com.f2prateek.dart.henson.processor.HensonExtraProcessor;
 
 import java.util.List;
 
@@ -35,6 +34,7 @@ public class LoanListFragment extends Fragment {
     private ListView mListView;
     private LoanListAdapter mLoanAdapter;
     private Subscription subscription;
+    private SwipeRefreshLayout swipeContainer;
 
     public LoanListFragment(){
     }
@@ -44,6 +44,8 @@ public class LoanListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mLoanAdapter = new LoanListAdapter(getActivity());
         populateLoansList();
+
+
     }
 
     @Override
@@ -52,6 +54,16 @@ public class LoanListFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         mListView = (ListView) rootView.findViewById(R.id.listview_loans);
+
+        swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeLoanListView);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                populateLoansList();
+            }
+        });
+
+        swipeContainer.setColorSchemeResources(R.color.color_primary);
 
         mListView.setAdapter(mLoanAdapter);
         Log.d(LOG_TAG, "TEST: onCreateView setAdapter");
@@ -63,7 +75,7 @@ public class LoanListFragment extends Fragment {
                                     View view, int position, long l) {
                 Toast.makeText(getActivity(), "hello, im at position " + position, Toast.LENGTH_LONG).show();
                 LoanListItem item = (LoanListItem) adapterView.getItemAtPosition(position);
-                
+
                 Intent intent = Henson.with(getActivity())
                         .gotoDetailsActivity()
                         .loanID(item.loanIdOut)
@@ -98,12 +110,14 @@ public class LoanListFragment extends Fragment {
                     @Override
                     public void onCompleted() {
                         Log.d(LOG_TAG, "TEST: populateLoansList Rx onComplete");
+                        swipeContainer.setRefreshing(false);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
                         Log.d(LOG_TAG, "ERROR: " + e.getMessage());
+                        swipeContainer.setRefreshing(false);
                     }
 
                     @Override

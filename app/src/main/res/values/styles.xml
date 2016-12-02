@@ -16,4 +16,8 @@
         <!-- Stub for screens with sufficient width, in other screen sizes it will change-->
     </style>
 
+    <style name="ThemeProgressBar" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/color_accent</item>
+    </style>
+
 </resources>

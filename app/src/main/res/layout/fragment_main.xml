@@ -1,6 +1,7 @@
-<FrameLayout
+<android.support.v4.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeLoanListView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_secondary_text"
@@ -12,4 +13,4 @@
         android:divider="@color/color_divider"
         android:background="@color/color_icons_text"
         android:dividerHeight="1dp"/>
-</FrameLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

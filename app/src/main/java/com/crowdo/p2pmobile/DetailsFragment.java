@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -17,6 +18,13 @@ public class DetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_details, container, false);
+
+        View rootView = inflater.inflate(R.layout.fragment_details, container, false);
+
+
+        ProgressBar progressBar = (ProgressBar) rootView.findViewById(R.id.loan_detail_progress_bar);
+        progressBar.setProgress(70);
+
+        return rootView;
     }
 }

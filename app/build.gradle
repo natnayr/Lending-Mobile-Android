@@ -61,9 +61,3 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.4'
 
 }
-
-apt {
-    arguments {
-        "dart.henson.package" "com.crowdo.p2pmobile"
-    }
-}

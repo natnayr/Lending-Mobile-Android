@@ -26,5 +26,4 @@
         android:textColor="@color/color_secondary_text"
         android:fontFamily="@string/font_family_light"/>
 
-
 </LinearLayout>
