@@ -9,8 +9,6 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by cwdsg05 on 1/12/16.
@@ -25,7 +23,6 @@ public class LoanListClient {
 
     private static LoanListClient instance;
     private APIServices apiServices;
-
 
     public LoanListClient(){
         final Gson gson = new GsonBuilder()
@@ -49,7 +46,7 @@ public class LoanListClient {
         return instance;
     }
 
-    public Observable<List<LoanItem>> getLiveLoans(){
+    public Observable<List<LoanListItem>> getLiveLoans(){
         return apiServices.getLoansList();
     }
 

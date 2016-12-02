@@ -1,27 +1,5 @@
 package com.crowdo.p2pmobile;
 
-import com.crowdo.p2pmobile.data.APIServices;
-import com.crowdo.p2pmobile.data.LoanItem;
-import com.crowdo.p2pmobile.data.LoanListClient;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import org.junit.Test;
-
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Observable;
-import rx.Observer;
-import rx.Scheduler;
-import rx.Subscription;
-import rx.android.plugins.RxAndroidSchedulersHook;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -42,7 +20,7 @@ public class TestRetrofitCalls {
 //                .getLiveLoans()
 //                .subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Observer<List<LoanItem>>() {
+//                .subscribe(new Observer<List<LoanListItem>>() {
 //                    @Override
 //                    public void onCompleted() {
 //                        System.out.println("Completed");
@@ -54,13 +32,13 @@ public class TestRetrofitCalls {
 //                    }
 //
 //                    @Override
-//                    public void onNext(List<LoanItem> loanItems) {
+//                    public void onNext(List<LoanListItem> loanItems) {
 //                        System.out.println("onNext");
 //
 //                        assertTrue(loanItems.size() > 0);
 //                        // Print out first entry to check
 //                        System.out.println("ListSize => " + loanItems.size());
-//                        LoanItem item = loanItems.get(0);
+//                        LoanListItem item = loanItems.get(0);
 //                        System.out.println("tenure => " + item.tenureOut);
 //                        System.out.println("collateralOut => " + item.collateralOut);
 //                        System.out.println("targetAmountOut => " + item.targetAmountOut);

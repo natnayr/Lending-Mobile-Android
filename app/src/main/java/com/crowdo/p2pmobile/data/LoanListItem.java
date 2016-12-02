@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 @Generated("org.jsonschema2pojo")
-public class LoanItem {
+public class LoanListItem {
 
     @SerializedName("tenure_out")
     @Expose

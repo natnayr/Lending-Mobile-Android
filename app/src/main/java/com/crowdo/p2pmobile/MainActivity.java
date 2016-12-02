@@ -6,6 +6,8 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.f2prateek.dart.HensonNavigable;
+
 public class MainActivity extends Activity {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -19,7 +21,8 @@ public class MainActivity extends Activity {
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.fragment_loans, new LoansListFragment());
+        ft.replace(R.id.fragment_loans, new LoanListFragment());
+        ft.addToBackStack(null);
         ft.commit();
 
     }

@@ -11,12 +11,13 @@ import android.content.Context;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.crowdo.p2pmobile.data.LoanItem;
+import com.crowdo.p2pmobile.data.LoanListItem;
 import com.crowdo.p2pmobile.helper.FontManager;
 
 
 import org.apache.commons.lang3.text.WordUtils;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
 
 import java.util.ArrayList;
@@ -31,12 +32,12 @@ import butterknife.ButterKnife;
  * Created by cwdsg05 on 15/11/16.
  */
 
-public class LoansAdapter extends BaseAdapter {
+public class LoanListAdapter extends BaseAdapter {
 
-    private final String LOG_TAG = LoansAdapter.class.getSimpleName();
+    private final String LOG_TAG = LoanListAdapter.class.getSimpleName();
 
     private Context mContext;
-    private ArrayList<LoanItem> mLoanList = new ArrayList<LoanItem>();
+    private ArrayList<LoanListItem> mLoanList = new ArrayList<LoanListItem>();
 
     private static final String IN_FREQUENCY_MONTH_VALUE = "Monthly";
     private static final String OUT_FREQUENCY_MONTH_VALUE = "Months";
@@ -48,8 +49,10 @@ public class LoansAdapter extends BaseAdapter {
     private static final String IN_SEC_INVOICE_OR_CHEQUE = "Working Order/Invoice";
     private static final String OUT_SEC_INVOICE_OR_CHEQUE = "Working Order/\nInvoice";
 
+    private static final String DATE_TIME_REGION = "Asia/Singapore";
 
-    public LoansAdapter(Context context) {
+
+    public LoanListAdapter(Context context) {
         super();
         this.mContext = context;
     }
@@ -60,7 +63,7 @@ public class LoansAdapter extends BaseAdapter {
     }
 
     @Override
-    public LoanItem getItem(int position) {
+    public LoanListItem getItem(int position) {
         if(position < 0 || position >= mLoanList.size()){
             return null;
         }else{
@@ -89,7 +92,7 @@ public class LoansAdapter extends BaseAdapter {
         return view;
     }
 
-    public void setLoans(@Nullable List<LoanItem> retreivedLoans){
+    public void setLoans(@Nullable List<LoanListItem> retreivedLoans){
         if(retreivedLoans == null){
             return;
         }
@@ -127,7 +130,7 @@ public class LoansAdapter extends BaseAdapter {
             ButterKnife.bind(this, view);
         }
 
-        public void attachLoanItem(LoanItem item, Context context){
+        public void attachLoanItem(LoanListItem item, Context context){
             mLoanId.setText(item.loanIdOut);
             mLoanGrade.setText(item.grade);
 
@@ -149,8 +152,9 @@ public class LoansAdapter extends BaseAdapter {
                     break;
             }
 
+            DateTime sgNow = new DateTime(DateTimeZone.forID(DATE_TIME_REGION)); // set SG time
             DateTime endDate = new DateTime(item.fundingEndDate);
-            int daysLeft = Days.daysBetween(DateTime.now().toLocalDate(), endDate.toLocalDate()).getDays();
+            int daysLeft = Days.daysBetween(sgNow.toLocalDate(), endDate.toLocalDate()).getDays();
 
             if(daysLeft<0){
                 mDaysLeftAndPercentage.setText("Closed - " + item.fundedPercentageCache + "% Funded");

@@ -1,6 +1,7 @@
 package com.crowdo.p2pmobile;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,10 +11,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.crowdo.p2pmobile.data.LoanItem;
+import com.crowdo.p2pmobile.data.LoanListItem;
 import com.crowdo.p2pmobile.data.LoanListClient;
+import com.f2prateek.dart.HensonNavigable;
+import com.f2prateek.dart.henson.processor.HensonExtraProcessor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observer;
@@ -26,21 +28,21 @@ import rx.schedulers.Schedulers;
  * Created by cwdsg05 on 8/11/16.
  */
 
-public class LoansListFragment extends Fragment {
+public class LoanListFragment extends Fragment {
 
-    private static final String LOG_TAG = LoansListFragment.class.getSimpleName();
+    private static final String LOG_TAG = LoanListFragment.class.getSimpleName();
 
     private ListView mListView;
-    private LoansAdapter mLoanAdapter;
+    private LoanListAdapter mLoanAdapter;
     private Subscription subscription;
 
-    public LoansListFragment(){
+    public LoanListFragment(){
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mLoanAdapter = new LoansAdapter(getActivity());
+        mLoanAdapter = new LoanListAdapter(getActivity());
         populateLoansList();
     }
 
@@ -60,7 +62,13 @@ public class LoansListFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView,
                                     View view, int position, long l) {
                 Toast.makeText(getActivity(), "hello, im at position " + position, Toast.LENGTH_LONG).show();
-                LoanItem item = (LoanItem) adapterView.getItemAtPosition(position);
+                LoanListItem item = (LoanListItem) adapterView.getItemAtPosition(position);
+                
+                Intent intent = Henson.with(getActivity())
+                        .gotoDetailsActivity()
+                        .loanID(item.loanIdOut)
+                        .build();
+                startActivity(intent);
             }
         });
 
@@ -86,7 +94,7 @@ public class LoansListFragment extends Fragment {
                 .getLiveLoans()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<LoanItem>>() {
+                .subscribe(new Observer<List<LoanListItem>>() {
                     @Override
                     public void onCompleted() {
                         Log.d(LOG_TAG, "TEST: populateLoansList Rx onComplete");
@@ -99,10 +107,10 @@ public class LoansListFragment extends Fragment {
                     }
 
                     @Override
-                    public void onNext(List<LoanItem> loanItems) {
+                    public void onNext(List<LoanListItem> loanListItems) {
                         Log.d(LOG_TAG, "TEST: populateLoansList Rx onNext with "
-                                + loanItems.size() + " items retreived.");
-                        mLoanAdapter.setLoans(loanItems);
+                                + loanListItems.size() + " items retreived.");
+                        mLoanAdapter.setLoans(loanListItems);
                     }
                 });
 

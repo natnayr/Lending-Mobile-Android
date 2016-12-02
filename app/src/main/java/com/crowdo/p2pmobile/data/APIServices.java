@@ -2,7 +2,6 @@ package com.crowdo.p2pmobile.data;
 
 import java.util.List;
 
-import retrofit2.Call;
 import retrofit2.http.GET;
 import rx.Observable;
 
@@ -13,5 +12,5 @@ import rx.Observable;
 public interface APIServices {
 
     @GET("loans")
-    Observable<List<LoanItem>> getLoansList();
+    Observable<List<LoanListItem>> getLoansList();
 }
