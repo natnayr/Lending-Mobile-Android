@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_details"
+    android:background="@color/color_icons_text"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_icons_text"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     tools:context="com.crowdo.p2pmobile.DetailsFragment">
@@ -14,15 +14,14 @@
         android:id="@+id/loan_detail_iden_no"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textColor="@color/color_secondary_text"
-        android:fontFamily="@string/font_family_light"
-        android:text="CWD0012345"
-        android:paddingTop="@dimen/list_top_vertical_padding"
-        android:paddingBottom="@dimen/list_top_vertical_padding"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal"/>
+        android:gravity="center_horizontal"
+        android:textColor="@color/color_secondary_text"
+        android:textSize="12sp"
+        android:text="CWD0012345"
+        android:fontFamily="@string/font_family_regular"
+        android:layout_marginTop="@dimen/loan_detail_vertical_bracket_margin"/>
 
     <LinearLayout
         android:id="@+id/loan_detail_essentials_bar"
@@ -37,35 +36,36 @@
             android:orientation="horizontal"
             android:gravity="center_horizontal">
             <TextView
+                android:id="@+id/loan_detail_percentage_return"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="42sp"
+                android:textSize="34sp"
                 android:textColor="@color/color_accent"
-                android:fontFamily="@string/font_family_light"
-                android:text="28.0" />
+                android:text="28.0"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:text="%"
-                android:fontFamily="@string/font_family_light"
                 android:textColor="@color/color_accent" />
         </LinearLayout>
         <TextView
+            android:id="@+id/loan_detail_grade"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="B+"
-            android:textSize="42sp"
+            android:textSize="34sp"
             android:textColor="@color/grade_color_B_plus"
-            android:fontFamily="@string/font_family_light"
             android:gravity="center_horizontal"/>
         <TextView
+            android:id="@+id/loan_detail_collateral_icon_container"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:textSize="42sp"
+            android:textSize="34sp"
             android:text="@string/fa_shield"
+            android:textColor="@color/fa_icon_shield"
             android:gravity="center_horizontal"/>
     </LinearLayout>
 
@@ -74,49 +74,270 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/loan_detail_vertical_bracket_margin"
         android:layout_below="@+id/loan_detail_essentials_bar">
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Interest\nReturn"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textColor="@color/color_primary_text"
-            android:fontFamily="@string/font_family_light"
             android:layout_gravity="center_vertical"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:fontFamily="@string/font_family_regular"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Grade"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textColor="@color/color_primary_text"
-            android:fontFamily="@string/font_family_light"
             android:layout_gravity="center_vertical"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:fontFamily="@string/font_family_regular"/>
+        <TextView
+            android:id="@+id/loan_detail_collateral_description"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Collateral -\nJewelry"
+            android:textSize="12sp"
+            android:textColor="@color/color_primary_text"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:fontFamily="@string/font_family_regular"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/loan_detail_progress_column"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_below="@+id/loan_detail_essentials_description_bar">
+        <com.crowdo.p2pmobile.custom_ui.GoalProgressBar
+            android:id="@+id/loan_detail_progress_bar"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="wrap_content"
+            app:goalIndicatorHeight="16dp"
+            app:goalIndicatorThickness="2dp"
+            app:goalReachedColor="@color/color_accent"
+            app:unfilledSectionColor="@color/color_accent_50"
+            app:barThickness="3dp"
+            app:indicatorType="none"
+            app:animateDuration="700"
+            android:layout_marginRight="4dp"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Collateral\n- Jewelry"
-            android:textSize="14sp"
-            android:textColor="@color/color_primary_text"
-            android:fontFamily="@string/font_family_light"
-            android:layout_gravity="center_vertical"
-            android:gravity="center"/>
+            android:id="@+id/loan_detail_progress_description"
+            android:text="75%\nFunded"
+            android:textColor="@color/color_secondary_text"
+            android:gravity="center"
+            android:textSize="10dp"/>
     </LinearLayout>
-    <ProgressBar
-        android:id="@+id/loan_detail_progress_bar"
-        android:theme="@style/ThemeProgressBar"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:progressDrawable="@drawable/custom_progress_bar"
+
+    <LinearLayout
+        android:id="@+id/loan_detail_amount_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:indeterminateOnly="false"
-        android:max="100"
-        android:progress="70"
-        android:layout_below="@+id/loan_detail_essentials_description_bar"/>
+        android:layout_below="@+id/loan_detail_progress_column"
+        android:layout_marginBottom="@dimen/loan_detail_info_vertical_bracket_margin"
+        android:gravity="center_horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Principal Amount:"
+            android:textSize="14sp"
+            android:layout_marginRight="6dp"
+            android:textColor="@color/color_secondary_text" />
+        <TextView
+            android:id="@+id/loan_detail_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1,000,000,000"
+            android:textSize="22sp"/>
+        <TextView
+            android:id="@+id/loan_detail_amount_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="IDR"
+            android:textSize="12sp"
+            android:textColor="@color/color_secondary_text"
+            android:layout_marginLeft="4dp" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/loan_detail_avalible_bid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loan_detail_amount_bar"
+        android:layout_marginBottom="@dimen/loan_detail_vertical_bracket_margin"
+        android:gravity="center_horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Avalible for Bid:"
+            android:textSize="12sp"
+            android:layout_marginRight="6dp"
+            android:textColor="@color/color_secondary_text" />
+        <TextView
+            android:id="@+id/loan_detail_avalible_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1,000,000,000"
+            android:textSize="14sp"/>
+        <TextView
+            android:id="@+id/loan_detail_avalible_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="IDR"
+            android:textSize="10sp"
+            android:textColor="@color/color_secondary_text"
+            android:layout_marginLeft="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/loan_detail_calendar_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loan_detail_avalible_bid"
+        android:layout_marginBottom="@dimen/loan_detail_vertical_bracket_margin"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6"
+            android:textSize="28sp"
+            android:layout_marginRight="6dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Months Tenor"
+            android:gravity="left"
+            android:textSize="12sp"
+            android:textColor="@color/color_secondary_text"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="16"
+            android:textSize="28sp"
+            android:layout_marginRight="6dp"
+            android:layout_marginLeft="@dimen/loan_detail_cal_spaceing" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Days Left"
+            android:gravity="left"
+            android:textSize="12sp"
+            android:textColor="@color/color_secondary_text"/>
+    </LinearLayout>
+
+
+
+
+
+    <LinearLayout
+        android:layout_above="@+id/loan_detail_button_btm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/loan_detail_vertical_bracket_margin">
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="6"
+            android:layout_height="match_parent"
+            android:text="1,000,000"
+            android:textSize="28sp"
+            android:gravity="center_horizontal"
+            android:background="@drawable/load_detail_text_box_layout" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/loan_detail_button_btm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="@dimen/loan_detail_btn_padding_btm"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:background="@drawable/loan_detail_factsheet_btn_layout">
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_cloud_download_black_36dp"
+                android:tint="@color/color_icons_text"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_icons_text"
+                    android:text="Factsheet"
+                    android:textSize="20sp"
+                    android:fontFamily="@string/font_family_regular"
+                    android:layout_marginBottom="2dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_icons_text"
+                    android:text="(More Info)"
+                    android:textSize="14sp"
+                    android:fontFamily="@string/font_family_regular"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="@dimen/loan_detail_btn_padding_btm"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:background="@drawable/loan_detail_add_cart_btn_layout">
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_shopping_cart_black_36dp"
+                android:tint="@color/color_icons_text"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_icons_text"
+                    android:text="Bid"
+                    android:textSize="36sp"
+                    android:fontFamily="@string/font_family_regular"
+                    android:gravity="left"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>

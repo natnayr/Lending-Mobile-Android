@@ -17,4 +17,16 @@
     <dimen name="list_btm_left_margin">8dp</dimen>
     <dimen name="list_btm_top_margin">4dp</dimen>
     <dimen name="list_btm_btm_margin">4dp</dimen>
+
+
+    <dimen name="loan_detail_vertical_bracket_margin">10dp</dimen>
+
+    <dimen name="loan_detail_info_vertical_bracket_margin">4dp</dimen>
+
+    <dimen name="loan_detail_cal_spaceing">20dp</dimen>
+
+    <dimen name="loan_detail_btn_padding_top">6dip</dimen>
+    <dimen name="loan_detail_btn_padding_btm">6dip</dimen>
+    <dimen name="loan_detail_btn_padding_left">4dip</dimen>
+    <dimen name="loan_detail_btn_padding_right">4dip</dimen>
 </resources>

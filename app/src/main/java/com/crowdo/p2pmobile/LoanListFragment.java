@@ -73,9 +73,7 @@ public class LoanListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView,
                                     View view, int position, long l) {
-                Toast.makeText(getActivity(), "hello, im at position " + position, Toast.LENGTH_LONG).show();
                 LoanListItem item = (LoanListItem) adapterView.getItemAtPosition(position);
-
                 Intent intent = Henson.with(getActivity())
                         .gotoDetailsActivity()
                         .loanID(item.loanIdOut)

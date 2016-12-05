@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/color_divider" />
+
+    <stroke android:width="0dp"
+        android:color="@color/color_icons_text" />
+
+    <corners android:radius="7dip"/>
+
+    <padding android:left="@dimen/loan_detail_btn_padding_left"
+        android:right="@dimen/loan_detail_btn_padding_right"
+        android:top="@dimen/loan_detail_btn_padding_top"
+        android:bottom="@dimen/loan_detail_btn_padding_btm"/>
+</shape>

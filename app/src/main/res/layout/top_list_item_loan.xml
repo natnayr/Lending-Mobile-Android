@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:textSize="12sp"
         android:textColor="@color/color_secondary_text"
-        android:fontFamily="@string/font_family_light"
         android:layout_marginLeft="@dimen/list_top_horizontal_padding"
         android:layout_marginRight="@dimen/list_top_horizontal_padding"
         android:paddingTop="@dimen/list_top_vertical_padding"
@@ -35,8 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textSize="10sp"
-            android:textColor="@color/color_icons_text"
-            android:fontFamily="@string/font_family_light"/>
+            android:textColor="@color/color_icons_text"/>
     </LinearLayout>
     <TextView
         android:id="@+id/loan_item_days_left_and_percentage_funded"
@@ -46,7 +44,6 @@
         android:textColor="@color/color_secondary_text"
         android:layout_marginLeft="@dimen/list_top_box_horizontal_padding"
         android:layout_marginRight="@dimen/list_top_box_horizontal_padding"
-        android:fontFamily="@string/font_family_light"
         android:paddingTop="@dimen/list_top_vertical_padding"
         android:paddingBottom="@dimen/list_top_vertical_padding"/>
 </LinearLayout>

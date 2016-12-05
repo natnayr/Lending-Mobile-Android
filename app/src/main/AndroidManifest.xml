@@ -29,7 +29,7 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".DetailsActivity"
-            android:label="@string/title_activity_details"
+            android:label="@string/activity_detail_action_bar_label"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data

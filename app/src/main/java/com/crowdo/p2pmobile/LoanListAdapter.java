@@ -1,5 +1,6 @@
 package com.crowdo.p2pmobile;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.crowdo.p2pmobile.data.LoanListItem;
+import com.crowdo.p2pmobile.helper.CurrencyNumberFormatter;
 import com.crowdo.p2pmobile.helper.FontManager;
 
 
@@ -126,6 +128,10 @@ public class LoanListAdapter extends BaseAdapter {
         @BindColor(R.color.grade_color_D) int colorD;
         @BindColor(R.color.grade_color_E) int colorE;
 
+        @BindColor(R.color.fa_icon_shield) int shieldColor;
+        @BindColor(R.color.fa_icon_file_text) int fileColor;
+        @BindColor(R.color.fa_icon_unlock_alt) int unlockAltColor;
+
         public LoanViewHolder(View view){
             ButterKnife.bind(this, view);
         }
@@ -174,20 +180,24 @@ public class LoanListAdapter extends BaseAdapter {
             switch(item.security){
                 case IN_SEC_COLLATERAL:
                     mSecurityIcon.setText(R.string.fa_shield);
+                    mSecurityIcon.setTextColor(shieldColor);
                     mSecurityDescription.setText(WordUtils.wrap(
                         WordUtils.capitalize(item.collateralOut.replaceAll("_", " ")), 15));
                     break;
                 case IN_SEC_UNCOLLATERALIZED:
                     mSecurityIcon.setText(R.string.fa_unlock_alt);
+                    mSecurityIcon.setTextColor(unlockAltColor);
                     mSecurityDescription.setText(OUT_SEC_UNCOLLATERALIZED);
                     break;
                 case IN_SEC_INVOICE_OR_CHEQUE:
                     mSecurityIcon.setText(R.string.fa_file_text);
+                    mSecurityIcon.setTextColor(fileColor);
                     mSecurityDescription.setText(OUT_SEC_INVOICE_OR_CHEQUE);
                     break;
             }
 
-            mLoanAmount.setText(item.currencyOut + " " + (int) item.targetAmountOut);
+            mLoanAmount.setText(CurrencyNumberFormatter.formatCurrency(item.currencyOut,
+                    item.currencyOut+" ", item.targetAmountOut, false));
 
             Typeface iconFont = FontManager.getTypeface(context, FontManager.FONTAWESOME);
             FontManager.markAsIconContainer(mSecurityIcon, iconFont);

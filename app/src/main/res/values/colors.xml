@@ -4,6 +4,7 @@
     <color name="color_primary_dark">#E64A19</color>
     <color name="color_primary_light">#FFCDBC</color>
     <color name="color_accent">#536DFE</color>
+    <color name="color_accent_50">#E8EAF6</color>
     <color name="color_primary_text">#212121</color>
     <color name="color_secondary_text">#757575</color>
     <color name="color_icons_text">#FFFFFF</color>
@@ -28,5 +29,6 @@
 
     <color name="fa_icon_shield">#FFEB3B</color>
     <color name="fa_icon_file_text">#4CAF50</color>
+    <color name="fa_icon_unlock_alt">#607D8B</color>
 
 </resources>
