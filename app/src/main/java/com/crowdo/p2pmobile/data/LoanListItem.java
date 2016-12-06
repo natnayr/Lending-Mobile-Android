@@ -71,7 +71,7 @@ public class LoanListItem {
 
     @SerializedName("id")
     @Expose
-    public int id;
+    public long id;
 
     @SerializedName("funding_amount_to_complete_cache")
     @Expose

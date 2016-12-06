@@ -44,8 +44,6 @@ public class LoanListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mLoanAdapter = new LoanListAdapter(getActivity());
         populateLoansList();
-
-
     }
 
     @Override
@@ -63,7 +61,8 @@ public class LoanListFragment extends Fragment {
             }
         });
 
-        swipeContainer.setColorSchemeResources(R.color.color_primary);
+        swipeContainer.setColorSchemeResources(R.color.color_primary_light,
+                R.color.color_primary, R.color.color_primary_dark);
 
         mListView.setAdapter(mLoanAdapter);
         Log.d(LOG_TAG, "TEST: onCreateView setAdapter");

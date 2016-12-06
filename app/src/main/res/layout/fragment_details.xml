@@ -242,33 +242,41 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/loan_detail_vertical_bracket_margin">
         <ImageButton
+            android:id="@+id/loan_detail_amount_minus_btn"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_marginRight="-2dp"
-            android:background="@drawable/load_detail_minus_bid_btn_layout"
-            android:padding="6dp"
+            android:padding="8dp"
             style="@style/Widget.AppCompat.Button"
             android:src="@drawable/ic_minus_black_24dp"
             android:tint="@color/color_divider" />
         <EditText
+            android:id="@+id/loan_detail_enter_amount_edittext"
             android:layout_width="0dp"
             android:layout_weight="5"
             android:layout_height="match_parent"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:text="1,000,000"
-            android:textSize="24sp"
-            android:textColor="@color/color_secondary_text"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="1,000,000,000"
+            android:textSize="18sp"
+            android:textColor="@color/color_primary_text"
+            android:inputType="number"
             android:gravity="center"
-            android:background="@drawable/load_detail_text_box_layout" />
+            android:hint="@string/loan_detail_enter_amount_hint"
+            android:textColorHint="@color/color_secondary_text"
+            android:maxLines="1"
+            android:theme="@style/LoanDetailEditTextStyle"
+            android:background="@drawable/load_detail_edittext_layout"
+            android:cursorVisible="true"
+            android:textCursorDrawable="@null"/>
         <ImageButton
+            android:id="@+id/loan_detail_amount_plus_btn"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_marginLeft="-2dp"
-            android:background="@drawable/load_detail_add_bid_btn_layout"
-            android:padding="6dp"
+            android:padding="8dp"
             style="@style/Widget.AppCompat.Button"
             android:src="@drawable/ic_plus_black_24dp"
             android:tint="@color/color_divider"/>
@@ -279,7 +287,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/loan_detail_vertical_bracket_margin">
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -288,7 +297,8 @@
             android:layout_marginRight="5dp"
             android:layout_marginBottom="@dimen/loan_detail_btn_padding_btm"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:background="@drawable/loan_detail_factsheet_btn_layout">
+            android:background="@drawable/loan_detail_factsheet_btn_layout"
+            android:gravity="center">
             <ImageView
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -307,14 +317,13 @@
                     android:textColor="@color/color_icons_text"
                     android:text="Factsheet"
                     android:textSize="20sp"
-                    android:fontFamily="@string/font_family_regular"
-                    android:layout_marginBottom="2dp"/>
+                    android:fontFamily="@string/font_family_regular" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/color_icons_text"
                     android:text="(More Info)"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:fontFamily="@string/font_family_regular"/>
             </LinearLayout>
         </LinearLayout>
@@ -328,7 +337,8 @@
             android:layout_marginLeft="5dp"
             android:layout_marginBottom="@dimen/loan_detail_btn_padding_btm"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:background="@drawable/loan_detail_cart_btn_layout">
+            android:background="@drawable/loan_detail_cart_btn_layout"
+            android:gravity="center">
             <ImageView
                 android:layout_width="0dp"
                 android:layout_weight="1"

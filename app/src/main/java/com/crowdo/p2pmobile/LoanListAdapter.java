@@ -1,6 +1,5 @@
 package com.crowdo.p2pmobile;
 
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.Nullable;
@@ -81,7 +80,7 @@ public class LoanListAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View contextView, ViewGroup parent) {
         final View view = (contextView != null ? contextView : createView(parent));
-        final LoanViewHolder viewHolder = (LoanViewHolder) view.getTag();
+        final LoanListViewHolder viewHolder = (LoanListViewHolder) view.getTag();
         viewHolder.attachLoanItem(getItem(position), mContext);
         return view;
     }
@@ -89,8 +88,8 @@ public class LoanListAdapter extends BaseAdapter {
     private View createView(ViewGroup parent){
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         final View view = inflater.inflate(R.layout.list_item_loan, parent, false);
-        final LoanViewHolder loanViewHolder = new LoanViewHolder(view);
-        view.setTag(loanViewHolder);
+        final LoanListViewHolder loanListViewHolder = new LoanListViewHolder(view);
+        view.setTag(loanListViewHolder);
         return view;
     }
 
@@ -104,8 +103,8 @@ public class LoanListAdapter extends BaseAdapter {
         Log.d(LOG_TAG, "TEST: setmLoanList clear and addAll");
     }
 
-    // LoanViewHolder Pattern for ButterKnife
-    static class LoanViewHolder {
+    // LoanListViewHolder Pattern for ButterKnife
+    static class LoanListViewHolder {
         @BindView(R.id.loan_item_iden_no) TextView mLoanId;
         @BindView(R.id.loan_item_credit_grade_text) TextView mLoanGrade;
         @BindView(R.id.loan_item_days_left_and_percentage_funded) TextView mDaysLeftAndPercentage;
@@ -132,7 +131,7 @@ public class LoanListAdapter extends BaseAdapter {
         @BindColor(R.color.fa_icon_file_text) int fileColor;
         @BindColor(R.color.fa_icon_unlock_alt) int unlockAltColor;
 
-        public LoanViewHolder(View view){
+        public LoanListViewHolder(View view){
             ButterKnife.bind(this, view);
         }
 

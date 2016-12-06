@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.f2prateek.dart.Dart;
@@ -15,8 +16,8 @@ public class DetailsActivity extends Activity {
 
     private static final String LOG_TAG = DetailsActivity.class.getSimpleName();
     public static final String TAG_DETAILS_FRAGMENT = "DetailsFragment";
+    public static final String BUNDLE_LOANID_KEY = "BundleDetailsFragmentLoanIDKey";
     @InjectExtra public String loanID;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,15 +26,21 @@ public class DetailsActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         Dart.inject(this);
+        Log.d(LOG_TAG, "TEST: I have loanID: " + loanID);
 
-        Fragment detailsFragment = getFragmentManager().findFragmentByTag(TAG_DETAILS_FRAGMENT);
+        Bundle args = new Bundle();
+        args.putString(BUNDLE_LOANID_KEY, loanID);
 
-        if(detailsFragment == null) {
+        Fragment fragment = getFragmentManager().findFragmentByTag(TAG_DETAILS_FRAGMENT);
+
+        if(fragment == null) {
+            DetailsFragment detailsFragment = new DetailsFragment();
+            detailsFragment.setArguments(args);
             getFragmentManager().beginTransaction()
-                    .add(new DetailsFragment(), TAG_DETAILS_FRAGMENT)
+                    .replace(R.id.fragment_details, detailsFragment, TAG_DETAILS_FRAGMENT)
+                    .addToBackStack(TAG_DETAILS_FRAGMENT)
                     .commit();
         }
-
     }
 
     @Override

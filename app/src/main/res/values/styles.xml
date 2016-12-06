@@ -25,4 +25,11 @@
         <item name="android:textColor">@color/color_primary_text</item>
     </style>
 
+    <style name="LoanDetailEditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:colorAccent">@color/color_primary</item>
+        <item name="android:colorControlNormal">@color/color_primary</item>
+        <item name="android:colorControlActivated">@color/color_primary_light</item>
+        <item name="android:colorControlHighlight">@color/color_primary_light</item>
+    </style>
+
 </resources>

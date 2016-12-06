@@ -13,4 +13,6 @@
     <string name="title_activity_details">DetailsActivity</string>
     <string name="action_settings">Settings</string>
 
+
+    <string name="loan_detail_enter_amount_hint">Enter in units of 1,000</string>
 </resources>

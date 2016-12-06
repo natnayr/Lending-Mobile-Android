@@ -23,7 +23,7 @@ public class CurrencyNumberFormatter {
         switch(currency){
             case IDR:
                 nf = NumberFormat.getCurrencyInstance(new Locale("en", "id-ID"));
-                String curSymbol = (wantSymbol) ? symbol : "";
+                String curSymbol = (!wantSymbol) ? symbol : "";
                 dfs.setCurrencySymbol(curSymbol);
                 dfs.setGroupingSeparator(',');
                 dfs.setMonetaryDecimalSeparator('.');
@@ -32,7 +32,6 @@ public class CurrencyNumberFormatter {
             default:
                 nf = NumberFormat.getCurrencyInstance(new Locale("en", "SG"));
                 output = nf.format(amount);
-
         }
 
         //always removes trailing zeros and decimal point if empty
