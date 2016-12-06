@@ -236,30 +236,42 @@
     </LinearLayout>
 
 
-
-
-
     <LinearLayout
         android:layout_above="@+id/loan_detail_button_btm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/loan_detail_vertical_bracket_margin">
-        <Button
+        <ImageButton
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginRight="-2dp"
+            android:background="@drawable/load_detail_minus_bid_btn_layout"
+            android:padding="6dp"
+            style="@style/Widget.AppCompat.Button"
+            android:src="@drawable/ic_minus_black_24dp"
+            android:tint="@color/color_divider" />
         <EditText
             android:layout_width="0dp"
-            android:layout_weight="6"
+            android:layout_weight="5"
             android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:text="1,000,000"
-            android:textSize="28sp"
-            android:gravity="center_horizontal"
+            android:textSize="24sp"
+            android:textColor="@color/color_secondary_text"
+            android:gravity="center"
             android:background="@drawable/load_detail_text_box_layout" />
-        <Button
+        <ImageButton
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_marginLeft="-2dp"
+            android:background="@drawable/load_detail_add_bid_btn_layout"
+            android:padding="6dp"
+            style="@style/Widget.AppCompat.Button"
+            android:src="@drawable/ic_plus_black_24dp"
+            android:tint="@color/color_divider"/>
     </LinearLayout>
 
     <LinearLayout
@@ -316,12 +328,12 @@
             android:layout_marginLeft="5dp"
             android:layout_marginBottom="@dimen/loan_detail_btn_padding_btm"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:background="@drawable/loan_detail_add_cart_btn_layout">
+            android:background="@drawable/loan_detail_cart_btn_layout">
             <ImageView
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_add_shopping_cart_black_36dp"
+                android:src="@drawable/ic_cart_black_36dp"
                 android:tint="@color/color_icons_text"/>
             <LinearLayout
                 android:layout_width="0dp"
