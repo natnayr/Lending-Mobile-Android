@@ -78,6 +78,10 @@ public class LoanDetail {
     @Expose
     public String collateralDescriptionOut;
 
+    @SerializedName("currency_out")
+    @Expose
+    public String currencyOut;
+
     @SerializedName("id")
     @Expose
     public int id;

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_details"
+    android:id="@+id/loan_details"
     android:background="@color/color_icons_text"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -261,19 +261,19 @@
             android:layout_height="match_parent"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            android:text="1,000,000,000"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@color/color_primary_text"
             android:inputType="number"
             android:gravity="center"
             android:hint="@string/loan_detail_enter_amount_hint"
-            android:textColorHint="@color/color_secondary_text"
+            android:textColorHint="@color/color_divider"
+            android:ems="5"
             android:maxLines="1"
             android:theme="@style/LoanDetailEditTextStyle"
             android:background="@drawable/load_detail_edittext_layout"
             android:cursorVisible="true"
-            android:textCursorDrawable="@null"/>
-        <ImageButton
+            android:textCursorDrawable="@null" />
+         <ImageButton
             android:id="@+id/loan_detail_amount_plus_btn"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -335,6 +335,7 @@
 
 
         <LinearLayout
+            android:id="@+id/loan_detail_bid_enter_btn"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
@@ -343,7 +344,8 @@
             android:layout_marginBottom="@dimen/loan_detail_btn_padding_btm"
             style="@style/Widget.AppCompat.Button.Colored"
             android:background="@drawable/loan_detail_cart_btn_layout"
-            android:gravity="center">
+            android:gravity="center"
+            android:clickable="true">
             <ImageView
                 android:layout_width="0dp"
                 android:layout_weight="1"

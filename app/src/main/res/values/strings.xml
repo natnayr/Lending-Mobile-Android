@@ -14,5 +14,5 @@
     <string name="action_settings">Settings</string>
 
 
-    <string name="loan_detail_enter_amount_hint">Enter in units of 1,000</string>
+    <string name="loan_detail_enter_amount_hint">enter in units of 1,000,000</string>
 </resources>

@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
         Fragment loanListFragment = getFragmentManager().findFragmentByTag(TAG_LOAN_LIST_FRAGMENT);
         if(loanListFragment == null){
             getFragmentManager().beginTransaction()
-                    .add(new DetailsFragment(), TAG_LOAN_LIST_FRAGMENT)
+                    .add(new LoanListFragment(), TAG_LOAN_LIST_FRAGMENT)
                     .commit();
         }
 

@@ -196,7 +196,7 @@ public class LoanListAdapter extends BaseAdapter {
             }
 
             mLoanAmount.setText(CurrencyNumberFormatter.formatCurrency(item.currencyOut,
-                    item.currencyOut+" ", item.targetAmountOut, false));
+                    item.currencyOut+" ", item.targetAmountOut, true));
 
             Typeface iconFont = FontManager.getTypeface(context, FontManager.FONTAWESOME);
             FontManager.markAsIconContainer(mSecurityIcon, iconFont);

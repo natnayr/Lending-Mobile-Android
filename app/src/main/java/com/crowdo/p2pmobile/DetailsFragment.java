@@ -2,23 +2,37 @@ package com.crowdo.p2pmobile;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.crowdo.p2pmobile.custom_ui.GoalProgressBar;
 import com.crowdo.p2pmobile.data.LoanDetail;
 import com.crowdo.p2pmobile.data.LoanDetailClient;
+import com.crowdo.p2pmobile.helper.CurrencyNumberFormatter;
 import com.crowdo.p2pmobile.helper.FontManager;
+
+import org.apache.commons.lang3.text.WordUtils;
+
+
+import java.util.Locale;
 
 import butterknife.BindColor;
 import butterknife.BindDrawable;
@@ -34,6 +48,15 @@ import rx.schedulers.Schedulers;
  */
 public class DetailsFragment extends Fragment {
 
+    private static final String IN_FREQUENCY_MONTH_VALUE = "Monthly";
+    private static final String OUT_FREQUENCY_MONTH_VALUE = "Months";
+
+    private static final String IN_SEC_COLLATERAL = "Collateral";
+    private static final String OUT_SEC_COLLATERAL = "";
+    private static final String IN_SEC_UNCOLLATERALIZED = "Uncollateralized";
+    private static final String OUT_SEC_UNCOLLATERALIZED = "No Collateral";
+    private static final String IN_SEC_INVOICE_OR_CHEQUE = "Working Order/Invoice";
+    private static final String OUT_SEC_INVOICE_OR_CHEQUE = "Working Order/\nInvoice";
 
     private static final String LOG_TAG = DetailsFragment.class.getSimpleName();
     private Subscription subscription;
@@ -42,7 +65,6 @@ public class DetailsFragment extends Fragment {
     public DetailsFragment() {
 
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,7 +108,7 @@ public class DetailsFragment extends Fragment {
                 @Override
                 public void onError(Throwable e) {
                     e.printStackTrace();
-                    Log.d(LOG_TAG, "ERROR: " + e.getMessage());
+                    Log.e(LOG_TAG, "ERROR: " + e.getMessage());
                 }
 
                 @Override
@@ -102,6 +124,7 @@ public class DetailsFragment extends Fragment {
     static class LoanDetailsViewHolder {
 
         // static views
+        @BindView(R.id.loan_details) RelativeLayout mLoanDetailRelativeLayout;
         @BindView(R.id.loan_detail_iden_no) TextView mLoanIdenTextView;
         @BindView(R.id.loan_detail_percentage_return) TextView mPercentageReturn;
         @BindView(R.id.loan_detail_grade) TextView mGrade;
@@ -121,12 +144,22 @@ public class DetailsFragment extends Fragment {
         @BindView(R.id.loan_detail_amount_plus_btn) ImageButton mAmountPlusBtn;
         @BindView(R.id.loan_detail_enter_amount_edittext) EditText mEnterAmount;
         @BindView(R.id.loan_detail_amount_minus_btn) ImageButton mAmountMinusBtn;
-//        @BindView(R.id.loan_detail_factsheet_download_btn) Button mFactsheetDownloadBtn;
-
+        @BindView(R.id.loan_detail_factsheet_download_btn) LinearLayout mFactsheetDownloadBtn;
+        @BindView(R.id.loan_detail_bid_enter_btn) LinearLayout mBidEnterBtn;
 
         // color
+        @BindColor(R.color.fa_icon_shield) int shieldColor;
+        @BindColor(R.color.fa_icon_file_text) int fileColor;
+        @BindColor(R.color.fa_icon_unlock_alt) int unlockAltColor;
         @BindColor(R.color.color_icons_text) int iconTextColor; //white
-        @BindColor(R.color.color_divider) int dividerColor; //white
+        @BindColor(R.color.color_divider) int dividerColor;
+        @BindColor(R.color.grade_color_A_plus) int colorAPlus;
+        @BindColor(R.color.grade_color_A) int colorA;
+        @BindColor(R.color.grade_color_B_plus) int colorBPlus;
+        @BindColor(R.color.grade_color_E) int colorB;
+        @BindColor(R.color.grade_colorC) int colorC;
+        @BindColor(R.color.grade_color_D) int colorD;
+        @BindColor(R.color.grade_color_E) int colorE;
 
         //drawables extras
         @BindDrawable(R.drawable.loan_detail_plus_bid_btn_enabled) Drawable mPlusEnabledDrawable;
@@ -198,12 +231,124 @@ public class DetailsFragment extends Fragment {
 
             Typeface iconFont = FontManager.getTypeface(context, FontManager.FONTAWESOME);
             FontManager.markAsIconContainer(mSecurityIcon, iconFont);
+
+            //toClear focus of editext
+            mLoanDetailRelativeLayout.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if(event.getAction() == MotionEvent.ACTION_DOWN){
+                        //map touch to edittext
+                        if(mEnterAmount.isFocused()){
+                            Rect outRect = new Rect();
+                            mEnterAmount.getGlobalVisibleRect(outRect);
+                            if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                                mEnterAmount.clearFocus();
+                                InputMethodManager imm = (InputMethodManager)
+                                        v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                            }
+                        }
+                    }
+                    return false;
+                }
+            });
+
+            //toClear focus when press keypad enter
+            mEnterAmount.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int key, KeyEvent event) {
+                    if(event.getAction() == KeyEvent.ACTION_DOWN){
+                        switch (key){
+                            case KeyEvent.KEYCODE_DPAD_CENTER:
+                            case KeyEvent.KEYCODE_ENTER:
+                            case KeyEvent.KEYCODE_NUMPAD_ENTER:
+                                mEnterAmount.clearFocus();
+                                InputMethodManager imm = (InputMethodManager)
+                                        v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                            default:
+                                break;
+                        }
+                    }
+
+                    return false;
+                }
+            });
+
+            mEnterAmount.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+
         }
 
         public void attachView(LoanDetail loanDetail, Context context){
-            mProgressBar.setProgress(75);
 
-            mSecurityIcon.setText(R.string.fa_shield);
+            mLoanIdenTextView.setText(loanDetail.loanIdOut);
+            mPercentageReturn.setText(Double.toString(loanDetail.interestRateOut));
+            mGrade.setText(loanDetail.grade);
+
+            switch (loanDetail.grade) {
+                case "A+": mGrade.setTextColor(colorAPlus);
+                    break;
+                case "A": mGrade.setTextColor(colorA);
+                    break;
+                case "B+": mGrade.setTextColor(colorBPlus);
+                    break;
+                case "B": mGrade.setTextColor(colorB);
+                    break;
+                case "C": mGrade.setTextColor(colorC);
+                    break;
+                case "D": mGrade.setTextColor(colorD);
+                    break;
+                case "E": mGrade.setTextColor(colorE);
+                    break;
+            }
+
+            switch(loanDetail.security){
+                case IN_SEC_COLLATERAL:
+                    mSecurityIcon.setText(R.string.fa_shield);
+                    mSecurityIcon.setTextColor(shieldColor);
+                    mSecurityDescription.setText(WordUtils.wrap(
+                            WordUtils.capitalize(loanDetail.collateralOut.replaceAll("_", " ")
+                                    + "\n" + IN_SEC_COLLATERAL), 25));
+                    break;
+                case IN_SEC_UNCOLLATERALIZED:
+                    mSecurityIcon.setText(R.string.fa_unlock_alt);
+                    mSecurityIcon.setTextColor(unlockAltColor);
+                    mSecurityDescription.setText(OUT_SEC_UNCOLLATERALIZED);
+                    break;
+                case IN_SEC_INVOICE_OR_CHEQUE:
+                    mSecurityIcon.setText(R.string.fa_file_text);
+                    mSecurityIcon.setTextColor(fileColor);
+                    mSecurityDescription.setText(OUT_SEC_INVOICE_OR_CHEQUE);
+                    break;
+            }
+
+            int progressNum = loanDetail.fundedPercentageCache;
+            mProgressBar.setProgress(progressNum);
+            mProgressDescription.setText(progressNum+"%\nFunded");
+
+            mTargetAmount.setText(CurrencyNumberFormatter.formatCurrency(loanDetail.currencyOut,
+                    loanDetail.currencyOut+" ", loanDetail.targetAmountOut, false));
+            mTargetAmountCurrency.setText(loanDetail.currencyOut);
+
+            mAvalibleAmount.setText(CurrencyNumberFormatter.formatCurrency(loanDetail.currencyOut,
+                    loanDetail.currencyOut+" ", loanDetail.fundingAmountToCompleteCache, false));
+            mAvalibleAmountCurrency.setText(loanDetail.currencyOut);
+
+
+
         }
 
     }

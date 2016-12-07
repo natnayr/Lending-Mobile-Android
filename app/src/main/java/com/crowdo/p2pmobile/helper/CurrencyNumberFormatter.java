@@ -4,6 +4,7 @@ package com.crowdo.p2pmobile.helper;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.util.Currency;
 import java.util.Locale;
 
 /**
@@ -14,23 +15,24 @@ public class CurrencyNumberFormatter {
 
     private static final String IDR = "IDR";
 
-    public static String formatCurrency(String currency, String symbol, double amount, boolean wantSymbol){
+    public static String formatCurrency(String currencyStr, String symbol, double amount, boolean wantSymbol){
 
-        String output;
+        String output = "";
         NumberFormat nf;
         DecimalFormatSymbols dfs = new DecimalFormatSymbols();
 
-        switch(currency){
+        switch(currencyStr){
             case IDR:
-                nf = NumberFormat.getCurrencyInstance(new Locale("en", "id-ID"));
-                String curSymbol = (!wantSymbol) ? symbol : "";
-                dfs.setCurrencySymbol(curSymbol);
+                nf = NumberFormat.getCurrencyInstance(new Locale("in", "ID"));
+                nf.setMaximumFractionDigits(0);
+                if(wantSymbol) {
+                    dfs.setCurrencySymbol("Rp ");
+                }else{
+                    dfs.setCurrencySymbol("");
+                }
                 dfs.setGroupingSeparator(',');
                 dfs.setMonetaryDecimalSeparator('.');
                 ((DecimalFormat) nf).setDecimalFormatSymbols(dfs);
-                output = nf.format(amount);
-            default:
-                nf = NumberFormat.getCurrencyInstance(new Locale("en", "SG"));
                 output = nf.format(amount);
         }
 

@@ -62,5 +62,4 @@ dependencies {
 
     compile 'com.android.support:design:24.2.1'
 
-
 }

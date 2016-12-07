@@ -37,7 +37,7 @@ public class DetailsActivity extends Activity {
             DetailsFragment detailsFragment = new DetailsFragment();
             detailsFragment.setArguments(args);
             getFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_details, detailsFragment, TAG_DETAILS_FRAGMENT)
+                    .replace(R.id.loan_details, detailsFragment, TAG_DETAILS_FRAGMENT)
                     .addToBackStack(TAG_DETAILS_FRAGMENT)
                     .commit();
         }
