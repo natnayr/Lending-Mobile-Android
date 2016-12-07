@@ -4,4 +4,5 @@
     android:id="@+id/fragment_details"
     android:name="com.crowdo.p2pmobile.DetailsFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="match_parent"
+    tools:layout="@layout/fragment_details" />

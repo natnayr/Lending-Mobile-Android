@@ -4,4 +4,5 @@
     android:id="@+id/fragment_loans"
     android:name="com.crowdo.p2pmobile.LoanListFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="match_parent"
+    tools:layout="@layout/fragment_main" />

@@ -2,13 +2,9 @@ package com.crowdo.p2pmobile;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,18 +13,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.crowdo.p2pmobile.custom_ui.GoalProgressBar;
 import com.crowdo.p2pmobile.data.LoanDetail;
 import com.crowdo.p2pmobile.data.LoanDetailClient;
-import com.crowdo.p2pmobile.data.LoanListClient;
-import com.crowdo.p2pmobile.data.LoanListItem;
 import com.crowdo.p2pmobile.helper.FontManager;
-import com.f2prateek.dart.InjectExtra;
-
-import java.util.List;
 
 import butterknife.BindColor;
 import butterknife.BindDrawable;
@@ -47,9 +37,10 @@ public class DetailsFragment extends Fragment {
 
     private static final String LOG_TAG = DetailsFragment.class.getSimpleName();
     private Subscription subscription;
-    private String loanIDpassed = null;
+    private String loanId = null;
 
     public DetailsFragment() {
+
     }
 
 
@@ -58,11 +49,8 @@ public class DetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if(getArguments() != null && getArguments()
                 .getString(DetailsActivity.BUNDLE_LOANID_KEY) != null) {
-            String loanIDParsed = getArguments().getString(DetailsActivity.BUNDLE_LOANID_KEY);
-            Log.d(LOG_TAG, "TEST: passed loanIDParsed: " + loanIDParsed);
-            this.loanIDpassed = loanIDParsed;
-            // get data
-            populateLoanDetails(loanIDParsed);
+            this.loanId = getArguments()
+                    .getString(DetailsActivity.BUNDLE_LOANID_KEY); //store
         }
     }
 
@@ -72,16 +60,18 @@ public class DetailsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_details, parent, false);
 
-        final LoanDetailsViewHolder loanDetailsViewHolder = new LoanDetailsViewHolder(rootView);
+        final LoanDetailsViewHolder viewHolder = new LoanDetailsViewHolder(rootView);
         //init view first, attach after rxjava is done
-        loanDetailsViewHolder.initView(getActivity());
+        viewHolder.initView(getActivity());
+        //get data and populate
+        populateLoanDetails(this.loanId, viewHolder);
 
-        rootView.setTag(loanDetailsViewHolder);
+        rootView.setTag(viewHolder);
         return rootView;
     }
 
 
-    private void populateLoanDetails(final String loanIdOut){
+    private void populateLoanDetails(final String loanIdOut, final LoanDetailsViewHolder viewHolder){
         subscription = LoanDetailClient.getInstance()
             .getLoanDetails(loanIdOut)
             .subscribeOn(Schedulers.io())
@@ -103,27 +93,46 @@ public class DetailsFragment extends Fragment {
                 public void onNext(LoanDetail loanDetail) {
                     Log.d(LOG_TAG, "TEST: populated LOANDETAILS Rx onNext with :"
                             + loanDetail.id + " retreived.");
+                    viewHolder.attachView(loanDetail, getActivity());
+                    Log.d(LOG_TAG, "TEST: View exists = " + (getView() != null));
                 }
             });
     }
 
     static class LoanDetailsViewHolder {
 
+        // static views
+        @BindView(R.id.loan_detail_iden_no) TextView mLoanIdenTextView;
+        @BindView(R.id.loan_detail_percentage_return) TextView mPercentageReturn;
+        @BindView(R.id.loan_detail_grade) TextView mGrade;
+        @BindView(R.id.loan_detail_security_icon_container) TextView mSecurityIcon;
+        @BindView(R.id.loan_detail_security_description) TextView mSecurityDescription;
         @BindView(R.id.loan_detail_progress_bar) GoalProgressBar mProgressBar;
-        @BindView(R.id.loan_detail_collateral_icon_container) TextView mSecurityIcon;
+        @BindView(R.id.loan_detail_progress_description) TextView mProgressDescription;
+        @BindView(R.id.loan_detail_target_amount) TextView mTargetAmount;
+        @BindView(R.id.loan_detail_target_amount_currency) TextView mTargetAmountCurrency;
+        @BindView(R.id.loan_detail_avalible_amount) TextView mAvalibleAmount;
+        @BindView(R.id.loan_detail_avalible_amount_currency) TextView mAvalibleAmountCurrency;
+        @BindView(R.id.loan_detail_tenor_duration) TextView mTenorDuration;
+        @BindView(R.id.loan_detail_tenor_description) TextView mTenorDescription;
+        @BindView(R.id.loan_detail_days_left) TextView mNumDaysLeft;
 
-        @BindView(R.id.loan_detail_enter_amount_edittext) EditText mEnterAmount;
+        // to interact with
         @BindView(R.id.loan_detail_amount_plus_btn) ImageButton mAmountPlusBtn;
+        @BindView(R.id.loan_detail_enter_amount_edittext) EditText mEnterAmount;
         @BindView(R.id.loan_detail_amount_minus_btn) ImageButton mAmountMinusBtn;
+//        @BindView(R.id.loan_detail_factsheet_download_btn) Button mFactsheetDownloadBtn;
 
+
+        // color
         @BindColor(R.color.color_icons_text) int iconTextColor; //white
         @BindColor(R.color.color_divider) int dividerColor; //white
 
+        //drawables extras
         @BindDrawable(R.drawable.loan_detail_plus_bid_btn_enabled) Drawable mPlusEnabledDrawable;
         @BindDrawable(R.drawable.loan_detail_plus_bid_btn_pressed) Drawable mPlusPressedDrawable;
         @BindDrawable(R.drawable.loan_detail_plus_bid_btn_focused) Drawable mPlusFocusedDrawable;
         @BindDrawable(R.drawable.loan_detail_plus_bid_btn_disabled) Drawable mPlusDisabledDrawable;
-
         @BindDrawable(R.drawable.loan_detail_minus_bid_btn_enabled) Drawable mMinusEnabledDrawable;
         @BindDrawable(R.drawable.loan_detail_minus_bid_btn_pressed) Drawable mMinusPressedDrawable;
         @BindDrawable(R.drawable.loan_detail_minus_bid_btn_focused) Drawable mMinusFocusedDrawable;
@@ -135,7 +144,6 @@ public class DetailsFragment extends Fragment {
 
 
         public void initView(Context context){
-//            mProgressBar.setProgress(75);
 
             mAmountPlusBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -188,14 +196,14 @@ public class DetailsFragment extends Fragment {
                 }
             });
 
-//            mSecurityIcon.setText(R.string.fa_shield);
-
             Typeface iconFont = FontManager.getTypeface(context, FontManager.FONTAWESOME);
             FontManager.markAsIconContainer(mSecurityIcon, iconFont);
         }
 
         public void attachView(LoanDetail loanDetail, Context context){
+            mProgressBar.setProgress(75);
 
+            mSecurityIcon.setText(R.string.fa_shield);
         }
 
     }

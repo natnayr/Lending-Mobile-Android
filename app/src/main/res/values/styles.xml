@@ -1,15 +1,17 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Base.ThemeOverlay.AppCompat.ActionBar">
+    <style name="AppTheme" parent="android:Theme.Material.Light">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="colorAccent">@color/color_accent</item>
+        <item name="android:colorPrimary">@color/color_primary</item>
+        <item name="android:colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="android:colorAccent">@color/color_accent</item>
+        <item name="android:textColorPrimary">@color/color_icons_text</item>
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
     </style>
 
-    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+
+    <style name="SplashTheme" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/background_splash</item>
     </style>
 
@@ -20,16 +22,24 @@
     <style name="LoanDetailStyle" parent="AppTheme">
     </style>
 
-    <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
+    <style name="RobotoTextViewStyle" parent="android:TextAppearance.Material.Widget.TextView">
         <item name="android:fontFamily">@string/font_family_light</item>
         <item name="android:textColor">@color/color_primary_text</item>
     </style>
 
-    <style name="LoanDetailEditTextStyle" parent="Widget.AppCompat.EditText">
+    <style name="LoanDetailEditTextStyle" parent="android:TextAppearance.Material.Widget.EditText">
         <item name="android:colorAccent">@color/color_primary</item>
         <item name="android:colorControlNormal">@color/color_primary</item>
         <item name="android:colorControlActivated">@color/color_primary_light</item>
         <item name="android:colorControlHighlight">@color/color_primary_light</item>
+        <item name="android:textColorHighlight">@color/color_primary_light</item>
+        <item name="android:textColorLink">@color/color_accent</item>
     </style>
+
+    <style name="LoanDetailImageButton" parent="android:Widget.Holo.Light.ImageButton">
+        <item name="android:colorButtonNormal">@color/color_icons_text</item>
+    </style>
+
+
 
 </resources>
