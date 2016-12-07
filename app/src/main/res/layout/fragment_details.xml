@@ -269,6 +269,7 @@
             android:textColorHint="@color/color_divider"
             android:ems="5"
             android:maxLines="1"
+            android:maxLength="20"
             android:theme="@style/LoanDetailEditTextStyle"
             android:background="@drawable/load_detail_edittext_layout"
             android:cursorVisible="true"

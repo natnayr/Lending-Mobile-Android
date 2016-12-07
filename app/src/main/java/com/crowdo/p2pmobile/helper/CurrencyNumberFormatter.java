@@ -15,7 +15,9 @@ public class CurrencyNumberFormatter {
 
     private static final String IDR = "IDR";
 
-    public static String formatCurrency(String currencyStr, String symbol, double amount, boolean wantSymbol){
+
+    public static String formatCurrency(String currencyStr, double amount,
+                                        String symbol, boolean wantSymbol){
 
         String output = "";
         NumberFormat nf;
@@ -39,4 +41,13 @@ public class CurrencyNumberFormatter {
         //always removes trailing zeros and decimal point if empty
         return output.indexOf(".") < 0 ? output : output.replaceAll("0*$", "").replaceAll("\\.$", "");
     }
+
+    //dirty hack, if long is input
+    public static String formatCurrency(String currencyStr, long amount,
+                                        String symbol, boolean wantSymbol){
+        return formatCurrency(currencyStr, ((Long) amount).doubleValue(),
+                symbol, wantSymbol);
+    }
+
+
 }

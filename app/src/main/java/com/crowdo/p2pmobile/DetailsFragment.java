@@ -275,24 +275,11 @@ public class DetailsFragment extends Fragment {
                 }
             });
 
-            mEnterAmount.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                }
 
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-
-                }
-            });
 
         }
 
-        public void attachView(LoanDetail loanDetail, Context context){
+        public void attachView(final LoanDetail loanDetail, Context context){
 
             mLoanIdenTextView.setText(loanDetail.loanIdOut);
             mPercentageReturn.setText(Double.toString(loanDetail.interestRateOut));
@@ -340,15 +327,48 @@ public class DetailsFragment extends Fragment {
             mProgressDescription.setText(progressNum+"%\nFunded");
 
             mTargetAmount.setText(CurrencyNumberFormatter.formatCurrency(loanDetail.currencyOut,
-                    loanDetail.currencyOut+" ", loanDetail.targetAmountOut, false));
+                    loanDetail.targetAmountOut, loanDetail.currencyOut+" ", false));
             mTargetAmountCurrency.setText(loanDetail.currencyOut);
 
             mAvalibleAmount.setText(CurrencyNumberFormatter.formatCurrency(loanDetail.currencyOut,
-                    loanDetail.currencyOut+" ", loanDetail.fundingAmountToCompleteCache, false));
+                    loanDetail.fundingAmountToCompleteCache, loanDetail.currencyOut+" ", false));
             mAvalibleAmountCurrency.setText(loanDetail.currencyOut);
 
 
+            mEnterAmount.addTextChangedListener(new TextWatcher() {
+                private String current = "";
 
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (!s.toString().equals(current)) {
+                        mEnterAmount.removeTextChangedListener(this);
+
+                        String cleanString = s.toString().replaceAll("[^\\\\d]", "").trim();
+
+                        //so as not to break Long maxNum, max ~trillion
+                        if (cleanString.length() > 0 || cleanString.length() <= 13) {
+                            long parsed = Long.parseLong(cleanString);
+
+                            current = CurrencyNumberFormatter.formatCurrency(loanDetail.currencyOut, parsed,
+                                    "Rp ", true);
+                        } else {
+                            current = cleanString;
+                        }
+
+                        mEnterAmount.setText(current);
+                        mEnterAmount.setSelection(current.length());
+                        mEnterAmount.addTextChangedListener(this);
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                }
+            });
         }
 
     }
