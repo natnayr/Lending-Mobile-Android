@@ -13,7 +13,7 @@ import java.util.Locale;
 
 public class CurrencyNumberFormatter {
 
-    private static final String IDR = "IDR";
+    public static final String IDR = "IDR";
 
 
     public static String formatCurrency(String currencyStr, double amount,

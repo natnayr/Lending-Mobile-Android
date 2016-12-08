@@ -11,6 +11,8 @@ import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 @Generated("org.jsonschema2pojo")
 public class LoanDetail {
 
@@ -25,6 +27,10 @@ public class LoanDetail {
     @SerializedName("collateral_out")
     @Expose
     public String collateralOut;
+
+    @SerializedName("security")
+    @Expose
+    public String security;
 
     @SerializedName("target_amount_out")
     @Expose
@@ -70,9 +76,9 @@ public class LoanDetail {
     @Expose
     public String loanType;
 
-    @SerializedName("security")
+    @SerializedName("frequency_out")
     @Expose
-    public String security;
+    public String frequencyOut;
 
     @SerializedName("collateral_description_out")
     @Expose
@@ -89,5 +95,6 @@ public class LoanDetail {
     @SerializedName("funding_amount_to_complete_cache")
     @Expose
     public double fundingAmountToCompleteCache;
+
 
 }

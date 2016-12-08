@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindColor;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -50,7 +51,6 @@ public class LoanListAdapter extends BaseAdapter {
     private static final String IN_SEC_INVOICE_OR_CHEQUE = "Working Order/Invoice";
     private static final String OUT_SEC_INVOICE_OR_CHEQUE = "Working Order/\nInvoice";
 
-    private static final String DATE_TIME_REGION = "Asia/Singapore";
 
 
     public LoanListAdapter(Context context) {
@@ -109,8 +109,8 @@ public class LoanListAdapter extends BaseAdapter {
         @BindView(R.id.loan_item_credit_grade_text) TextView mLoanGrade;
         @BindView(R.id.loan_item_days_left_and_percentage_funded) TextView mDaysLeftAndPercentage;
         @BindView(R.id.loan_item_percentage_return) TextView mPercentageReturn;
-        @BindView(R.id.loan_item_term_amount) TextView mTermAmount;
-        @BindView(R.id.loan_item_term_description) TextView mTermDescription;
+        @BindView(R.id.loan_item_tenure_amount) TextView mTermAmount;
+        @BindView(R.id.loan_item_tenure_description) TextView mTermDescription;
         @BindView(R.id.loan_item_collateral_description) TextView mSecurityDescription;
         @BindView(R.id.loan_item_amount) TextView mLoanAmount;
 
@@ -130,6 +130,8 @@ public class LoanListAdapter extends BaseAdapter {
         @BindColor(R.color.fa_icon_shield) int shieldColor;
         @BindColor(R.color.fa_icon_file_text) int fileColor;
         @BindColor(R.color.fa_icon_unlock_alt) int unlockAltColor;
+
+        @BindString(R.string.date_time_region) String DATE_TIME_REGION;
 
         public LoanListViewHolder(View view){
             ButterKnife.bind(this, view);

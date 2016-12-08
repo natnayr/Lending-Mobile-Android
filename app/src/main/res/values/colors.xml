@@ -33,4 +33,7 @@
     <color name="fa_icon_file_text">#4CAF50</color>
     <color name="fa_icon_unlock_alt">#607D8B</color>
 
+    <color name="edittext_hint_color">#009688</color>
+    <color name="edittext_error_color">#F44336</color>
+
 </resources>

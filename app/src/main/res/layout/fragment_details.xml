@@ -19,7 +19,6 @@
         android:gravity="center_horizontal"
         android:textColor="@color/color_secondary_text"
         android:textSize="12sp"
-        android:text="CWD0012345"
         android:fontFamily="@string/font_family_regular"
         android:layout_marginTop="@dimen/loan_detail_vertical_bracket_margin"/>
 
@@ -40,12 +39,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="34sp"
-                android:textColor="@color/color_accent"
-                android:text="28.0"/>
+                android:textColor="@color/color_accent" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
+                android:layout_marginLeft="2dp"
                 android:text="%"
                 android:textColor="@color/color_accent" />
         </LinearLayout>
@@ -54,7 +53,6 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="B+"
             android:textSize="34sp"
             android:textColor="@color/grade_color_B_plus"
             android:gravity="center_horizontal"/>
@@ -64,7 +62,6 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textSize="34sp"
-            android:text="@string/fa_shield"
             android:textColor="@color/fa_icon_shield"
             android:gravity="center_horizontal"/>
     </LinearLayout>
@@ -101,7 +98,6 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Collateral -\nJewelry"
             android:textSize="12sp"
             android:textColor="@color/color_primary_text"
             android:layout_gravity="center_vertical"
@@ -133,7 +129,6 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="75%\nFunded"
             android:textColor="@color/color_secondary_text"
             android:gravity="center"
             android:textSize="10dp"/>
@@ -157,13 +152,11 @@
             android:id="@+id/loan_detail_target_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1,000,000,000"
             android:textSize="22sp"/>
         <TextView
             android:id="@+id/loan_detail_target_amount_currency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="IDR"
             android:textSize="12sp"
             android:textColor="@color/color_secondary_text"
             android:layout_marginLeft="4dp" />
@@ -187,13 +180,11 @@
             android:id="@+id/loan_detail_avalible_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1,000,000,000"
             android:textSize="14sp"/>
         <TextView
             android:id="@+id/loan_detail_avalible_amount_currency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="IDR"
             android:textSize="10sp"
             android:textColor="@color/color_secondary_text"
             android:layout_marginLeft="4dp" />
@@ -207,17 +198,15 @@
         android:layout_marginBottom="@dimen/loan_detail_vertical_bracket_margin"
         android:gravity="center">
         <TextView
-            android:id="@+id/loan_detail_tenor_duration"
+            android:id="@+id/loan_detail_tenure_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="6"
             android:textSize="28sp"
             android:layout_marginRight="6dp" />
         <TextView
-            android:id="@+id/loan_detail_tenor_description"
+            android:id="@+id/loan_detail_tenure_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Months Tenor"
             android:gravity="left"
             android:textSize="12sp"
             android:textColor="@color/color_secondary_text"/>
@@ -225,11 +214,11 @@
             android:id="@+id/loan_detail_days_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="16"
             android:textSize="28sp"
             android:layout_marginRight="6dp"
             android:layout_marginLeft="@dimen/loan_detail_cal_spaceing" />
         <TextView
+            android:id="@+id/loan_detail_days_left_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Days Left"
@@ -243,7 +232,8 @@
         android:layout_above="@+id/loan_detail_complete_action_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/loan_detail_vertical_bracket_margin">
+        android:layout_marginBottom="@dimen/loan_detail_vertical_bracket_margin"
+        android:orientation="horizontal">
         <ImageButton
             android:id="@+id/loan_detail_amount_minus_btn"
             android:layout_width="0dp"
@@ -263,18 +253,18 @@
                 android:theme="@style/Theme.AppCompat.Light">
                 <EditText
                     android:id="@+id/loan_detail_enter_amount_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
                     android:textSize="16sp"
                     android:textColor="@color/color_primary_text"
                     android:inputType="number"
                     android:gravity="center"
-                    android:hint="@string/loan_detail_enter_amount_hint"
+                    android:hint="@string/loan_detail_enter_amount_hint_default"
                     android:textColorHint="@color/color_divider"
                     android:maxLines="1"
-                    android:maxLength="20"
+                    android:maxLength="18"
                     android:theme="@style/LoanDetailEditTextStyle"
                     android:background="@null"
                     android:cursorVisible="true"

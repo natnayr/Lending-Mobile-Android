@@ -2,6 +2,7 @@
     <string name="app_name">Crowdo</string>
     <string name="activity_main_action_bar_label">Loan Investments</string>
     <string name="activity_detail_action_bar_label">Loan Details</string>
+    <string name="date_time_region">Asia/Singapore</string>
 
     <string name="gradeA">A</string>
     <string name="gradeA_plus">A+</string>
@@ -14,6 +15,9 @@
     <string name="action_settings">Settings</string>
 
 
-    <string name="loan_detail_enter_amount_hint">Enter in units of 1,000,000</string>
-    <string name="loan_detail_enter_amount_error">Rounded to 1,000,000</string>
+    <string name="loan_detail_enter_amount_hint_default">Enter in units of 1,000,000</string>
+    <string name="loan_detail_enter_amount_hint_rounded">Rounded to nearest unit</string>
+    <string name="loan_detail_enter_amount_hint_error_positive">Positive values only please</string>
+    <string name="loan_detail_enter_amount_hint_error_please_clear">Error, We cleared the input</string>
+
 </resources>
