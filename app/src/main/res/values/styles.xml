@@ -8,6 +8,9 @@
         <item name="android:colorAccent">@color/color_accent</item>
         <item name="android:textColorPrimary">@color/color_icons_text</item>
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
+        <item name="android:textColorSecondary">@color/color_secondary_text</item>
+        <item name="android:textColorPrimaryInverse">@color/color_icons_text</item>
+        <item name="android:colorBackground">@color/color_background</item>
     </style>
 
 

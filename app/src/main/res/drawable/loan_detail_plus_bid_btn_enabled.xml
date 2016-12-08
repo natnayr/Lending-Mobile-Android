@@ -4,19 +4,19 @@
         android:color="@color/color_icons_text" />
 
     <stroke
-        android:width="2dip"
+        android:width="@dimen/loan_detail_enter_amount_stroke_width"
         android:color="@color/color_divider" />
 
     <corners
-        android:topLeftRadius="0dip"
-        android:topRightRadius="7dip"
-        android:bottomRightRadius="7dip"
-        android:bottomLeftRadius="0dip" />
+        android:topLeftRadius="@dimen/loan_detail_enter_amount_radius_corner_width"
+        android:topRightRadius="@dimen/loan_detail_enter_amount_radius_round_width"
+        android:bottomRightRadius="@dimen/loan_detail_enter_amount_radius_round_width"
+        android:bottomLeftRadius="@dimen/loan_detail_enter_amount_radius_corner_width" />
 
     <padding
-        android:top="0dip"
-        android:bottom="0dip"
-        android:left="0dip"
-        android:right="0dip"/>
+        android:top="@dimen/loan_detail_enter_amount_padding"
+        android:bottom="@dimen/loan_detail_enter_amount_padding"
+        android:left="@dimen/loan_detail_enter_amount_padding"
+        android:right="@dimen/loan_detail_enter_amount_padding"/>
 
 </shape>

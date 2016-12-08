@@ -3,12 +3,22 @@
 
     <!--  State when a row is being pressed -->
     <item android:state_pressed="true"
+        android:state_enabled="true"
         android:drawable="@color/color_primary_light" />
 
     <!--  State when a row is activated -->
     <item android:state_activated="true"
         android:drawable="@color/color_primary_light" />
 
-    <item android:drawable="@color/color_icons_text" />
+    <!-- State when a row is enabled, not being pressed -->
+    <item android:state_enabled="true"
+        android:state_pressed="false"
+        android:drawable="@color/color_background" />
+
+    <!-- State when a row is disabled, no being pressed -->
+    <item android:state_enabled="false"
+        android:drawable="@color/color_divider_light" />
+
+    <item android:drawable="@color/color_background" />
 
 </selector>

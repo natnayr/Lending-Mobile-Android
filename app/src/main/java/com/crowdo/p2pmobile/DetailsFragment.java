@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,7 +15,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -31,8 +29,6 @@ import com.crowdo.p2pmobile.helper.FontManager;
 
 import org.apache.commons.lang3.text.WordUtils;
 
-
-import java.util.Locale;
 
 import butterknife.BindColor;
 import butterknife.BindDrawable;
@@ -116,7 +112,6 @@ public class DetailsFragment extends Fragment {
                     Log.d(LOG_TAG, "TEST: populated LOANDETAILS Rx onNext with :"
                             + loanDetail.id + " retreived.");
                     viewHolder.attachView(loanDetail, getActivity());
-                    Log.d(LOG_TAG, "TEST: View exists = " + (getView() != null));
                 }
             });
     }
@@ -144,8 +139,10 @@ public class DetailsFragment extends Fragment {
         @BindView(R.id.loan_detail_amount_plus_btn) ImageButton mAmountPlusBtn;
         @BindView(R.id.loan_detail_enter_amount_edittext) EditText mEnterAmount;
         @BindView(R.id.loan_detail_amount_minus_btn) ImageButton mAmountMinusBtn;
-        @BindView(R.id.loan_detail_factsheet_download_btn) LinearLayout mFactsheetDownloadBtn;
-        @BindView(R.id.loan_detail_bid_enter_btn) LinearLayout mBidEnterBtn;
+        @BindView(R.id.loan_detail_factsheet_download_btn) LinearLayout mFactsheetDownloadBtn; //LinearLayout act as button
+        @BindView(R.id.loan_detail_bid_enter_btn) LinearLayout mBidEnterBtn; //LinearLayout act as button
+//        @BindView()
+
 
         // color
         @BindColor(R.color.fa_icon_shield) int shieldColor;
@@ -344,24 +341,31 @@ public class DetailsFragment extends Fragment {
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    if (!s.toString().equals(current)) {
-                        mEnterAmount.removeTextChangedListener(this);
+                    try {
+                        if (!s.toString().equals(current)) {
+                            mEnterAmount.removeTextChangedListener(this);
 
-                        String cleanString = s.toString().replaceAll("[^\\\\d]", "").trim();
+                            //remove all non-digit
+                            String cleanString = s.toString().replaceAll("[^\\d]", "").trim();
 
-                        //so as not to break Long maxNum, max ~trillion
-                        if (cleanString.length() > 0 || cleanString.length() <= 13) {
-                            long parsed = Long.parseLong(cleanString);
+                            //so as not to break Long maxNum, max ~trillion
+                            if (cleanString.length() > 0 && cleanString.length() < 15) {
+                                long parsed = Long.parseLong(cleanString);
 
-                            current = CurrencyNumberFormatter.formatCurrency(loanDetail.currencyOut, parsed,
-                                    "Rp ", true);
-                        } else {
-                            current = cleanString;
+                                current = CurrencyNumberFormatter.formatCurrency(loanDetail.currencyOut, parsed,
+                                        "Rp ", true);
+                            } else {
+                                //gave up
+                                current = cleanString;
+                            }
+
+                            mEnterAmount.setText(current);
+                            mEnterAmount.setSelection(current.length());
+                            mEnterAmount.addTextChangedListener(this);
                         }
-
-                        mEnterAmount.setText(current);
-                        mEnterAmount.setSelection(current.length());
-                        mEnterAmount.addTextChangedListener(this);
+                    }catch(NumberFormatException nfe){
+                        //catch long error
+                        Log.e(LOG_TAG, "Error: NumFormatException", nfe);
                     }
                 }
 
