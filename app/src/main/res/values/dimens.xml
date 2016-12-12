@@ -18,12 +18,16 @@
     <dimen name="list_btm_top_margin">4dp</dimen>
     <dimen name="list_btm_btm_margin">4dp</dimen>
 
+    <dimen name="loan_detail_figure_text_size">38sp</dimen>
+    <dimen name="loan_detail_small_text_size">12sp</dimen>
 
-    <dimen name="loan_detail_vertical_bracket_margin">10dp</dimen>
 
-    <dimen name="loan_detail_info_vertical_bracket_margin">4dp</dimen>
+    <dimen name="loan_detail_vertical_bracket_margin">8dp</dimen>
+    <dimen name="loan_detail_figure_vertical_spacing_margin">8dp</dimen>
+    <dimen name="loan_detail_progress_margin_end">8dp</dimen>
 
-    <dimen name="loan_detail_cal_spaceing">20dp</dimen>
+    <dimen name="loan_detail_duration_spacing">10dp</dimen>
+    <dimen name="loan_detail_duration_word_spacing">10dp</dimen>
 
     <dimen name="loan_detail_btn_padding_top">6dip</dimen>
     <dimen name="loan_detail_btn_padding_btm">6dip</dimen>
@@ -35,5 +39,16 @@
     <dimen name="loan_detail_enter_amount_radius_corner_width">0dip</dimen>
 
     <dimen name="loan_detail_enter_amount_padding">0dip</dimen>
+
+    <dimen name="loan_detail_schedule_margin_left">7dp</dimen>
+
+    <dimen name="loan_detail_schedule_radius_round_width">5dip</dimen>
+    <dimen name="loan_detail_schedule_radius_corner_width">0dip</dimen>
+
+    <dimen name="loan_detail_schedule_box_vertical_padding">4dp</dimen>
+    <dimen name="loan_detail_schedule_box_horizontal_padding">4dp</dimen>
+
+    <dimen name="loan_detail_avalible_amount_margin_left">10dp</dimen>
+
 
 </resources>

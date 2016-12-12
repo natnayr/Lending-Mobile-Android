@@ -1,5 +1,6 @@
 package com.crowdo.p2pmobile;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.Nullable;
@@ -7,19 +8,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.content.Context;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.crowdo.p2pmobile.data.LoanListItem;
-import com.crowdo.p2pmobile.helper.CurrencyNumberFormatter;
+import com.crowdo.p2pmobile.helper.CustomDateHelper;
+import com.crowdo.p2pmobile.helper.CustomNumberFormatter;
 import com.crowdo.p2pmobile.helper.FontManager;
 
-
 import org.apache.commons.lang3.text.WordUtils;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Days;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -159,9 +156,8 @@ public class LoanListAdapter extends BaseAdapter {
                     break;
             }
 
-            DateTime sgNow = new DateTime(DateTimeZone.forID(DATE_TIME_REGION)); // set SG time
-            DateTime endDate = new DateTime(item.fundingEndDate);
-            int daysLeft = Days.daysBetween(sgNow.toLocalDate(), endDate.toLocalDate()).getDays();
+
+            int daysLeft = CustomDateHelper.findDaysLeft(DATE_TIME_REGION, item.fundingEndDate);
 
             if(daysLeft<0){
                 mDaysLeftAndPercentage.setText("Closed - " + item.fundedPercentageCache + "% Funded");
@@ -197,7 +193,7 @@ public class LoanListAdapter extends BaseAdapter {
                     break;
             }
 
-            mLoanAmount.setText(CurrencyNumberFormatter.formatCurrency(item.currencyOut,
+            mLoanAmount.setText(CustomNumberFormatter.formatCurrency(item.currencyOut,
                     item.targetAmountOut, item.currencyOut+" ", true));
 
             Typeface iconFont = FontManager.getTypeface(context, FontManager.FONTAWESOME);

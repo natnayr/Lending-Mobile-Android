@@ -21,7 +21,7 @@
         android:id="@+id/loan_item_credit_grade_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/credit_grade_box"
+        android:background="@drawable/loan_list_credit_grade_box"
         android:gravity="center_horizontal"
         android:layout_marginTop="@dimen/list_top_credit_vertical_margin"
         android:layout_marginBottom="@dimen/list_top_credit_vertical_margin"

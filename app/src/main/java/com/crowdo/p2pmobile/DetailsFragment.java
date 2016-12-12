@@ -6,7 +6,6 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -25,15 +24,11 @@ import android.widget.TextView;
 import com.crowdo.p2pmobile.custom_ui.GoalProgressBar;
 import com.crowdo.p2pmobile.data.LoanDetail;
 import com.crowdo.p2pmobile.data.LoanDetailClient;
-import com.crowdo.p2pmobile.helper.AmountRounder;
-import com.crowdo.p2pmobile.helper.CurrencyNumberFormatter;
+import com.crowdo.p2pmobile.helper.CustomDateHelper;
+import com.crowdo.p2pmobile.helper.CustomNumberFormatter;
 import com.crowdo.p2pmobile.helper.FontManager;
 
 import org.apache.commons.lang3.text.WordUtils;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Days;
-
 
 import butterknife.BindColor;
 import butterknife.BindDrawable;
@@ -51,7 +46,8 @@ import rx.schedulers.Schedulers;
 public class DetailsFragment extends Fragment {
 
     private static final String IN_FREQUENCY_MONTH_VALUE = "Monthly";
-    private static final String OUT_FREQUENCY_MONTH_VALUE = "Months Tenure";
+    private static final String OUT_FREQUENCY_MONTH_LABEL = "Months Tenure";
+    private static final String OUT_FREQUENCY_MONTH_SCHEDULE_LABEL = "Monthly";
 
     private static final String IN_SEC_COLLATERAL = "Collateral";
     private static final String OUT_SEC_COLLATERAL = "";
@@ -60,9 +56,8 @@ public class DetailsFragment extends Fragment {
     private static final String IN_SEC_INVOICE_OR_CHEQUE = "Working Order/Invoice";
     private static final String OUT_SEC_INVOICE_OR_CHEQUE = "Working Order/\nInvoice";
 
-
-    private static final long AMOUNT_UNIT = 1000000;
-    private static final int ENTER_AMOUNT_MAX_LENGTH = 18;
+    private static final int AMOUNT_UNIT = 1;
+    private static final int ENTER_AMOUNT_MAX_LENGTH = 4;
     private static final String LOG_TAG = DetailsFragment.class.getSimpleName();
     private Subscription subscription;
     private String initLoanId = null;
@@ -84,11 +79,11 @@ public class DetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
 
-
         View rootView = inflater.inflate(R.layout.fragment_details, parent, false);
 
         final LoanDetailsViewHolder viewHolder = new LoanDetailsViewHolder(rootView);
-        //init view first, attach after rxjava is done
+
+        //Init view first,
         viewHolder.initView(getActivity());
 
         subscription = LoanDetailClient.getInstance()
@@ -121,11 +116,6 @@ public class DetailsFragment extends Fragment {
     }
 
 
-//    private void populateLoanDetails(final String loanIdOut, final LoanDetailsViewHolder viewHolder,
-//                                     final ProgressDialog progressDialog){
-//
-//    }
-
     static class LoanDetailsViewHolder {
 
         // static views
@@ -135,30 +125,35 @@ public class DetailsFragment extends Fragment {
         @BindView(R.id.loan_detail_grade) TextView mGrade;
         @BindView(R.id.loan_detail_security_icon_container) TextView mSecurityIcon;
         @BindView(R.id.loan_detail_security_description) TextView mSecurityDescription;
+
         @BindView(R.id.loan_detail_progress_bar) GoalProgressBar mProgressBar;
         @BindView(R.id.loan_detail_progress_description) TextView mProgressDescription;
-        @BindView(R.id.loan_detail_target_amount) TextView mTargetAmount;
-        @BindView(R.id.loan_detail_target_amount_currency) TextView mTargetAmountCurrency;
-        @BindView(R.id.loan_detail_avalible_amount) TextView mAvalibleAmount;
-        @BindView(R.id.loan_detail_avalible_amount_currency) TextView mAvalibleAmountCurrency;
+
         @BindView(R.id.loan_detail_tenure_duration) TextView mTenureDuration;
         @BindView(R.id.loan_detail_tenure_description) TextView mTenureDescription;
         @BindView(R.id.loan_detail_days_left) TextView mNumDaysLeft;
+        @BindView(R.id.loan_detail_target_amount) TextView mTargetAmount;
+        @BindView(R.id.loan_detail_target_amount_description) TextView mTargetAmountDescription;
+
+        @BindView(R.id.loan_detail_schedule_header) TextView mScheduleFrequencyLabel;
+        @BindView(R.id.loan_detail_schedule_start_date) TextView mScheduleStartDate;
+        @BindView(R.id.loan_detail_schedule_first_repayment_date) TextView mScheduleFirstRepaymentDate;
+        @BindView(R.id.loan_detail_schedule_last_repayment_date) TextView getmScheduleLastRepaymentDate;
+        @BindView(R.id.loan_detail_schedule_angle_right_first_icon_container) TextView mAngleRightIconFirst;
+        @BindView(R.id.loan_detail_schedule_angle_right_second_icon_container) TextView mAngleRightIconSecond;
+
+        @BindView(R.id.loan_detail_avalible_amount) TextView mAvalibleAmount;
 
         // to interact with
-        @BindView(R.id.loan_detail_amount_plus_btn) ImageButton mAmountPlusBtn;
-        @BindView(R.id.loan_detail_enter_amount_edittext_layout) TextInputLayout mEnterAmountTextLayout;
-        @BindView(R.id.loan_detail_enter_amount_edittext) EditText mEnterAmount;
         @BindView(R.id.loan_detail_amount_minus_btn) ImageButton mAmountMinusBtn;
+        @BindView(R.id.loan_detail_amount_plus_btn) ImageButton mAmountPlusBtn;
+        @BindView(R.id.loan_detail_enter_amount_edittext) EditText mEnterAmount;
         @BindView(R.id.loan_detail_factsheet_download_btn) LinearLayout mFactsheetDownloadBtn; //LinearLayout act as button
         @BindView(R.id.loan_detail_bid_enter_btn) LinearLayout mBidEnterBtn; //LinearLayout act as button
 
         // String Bindings
-        @BindString(R.string.date_time_region) String DATE_TIME_REGION;
-        @BindString(R.string.loan_detail_enter_amount_hint_error_positive) String errorPositiveMsg;
-        @BindString(R.string.loan_detail_enter_amount_hint_error_please_clear) String errorClearMsg;
-        @BindString(R.string.loan_detail_enter_amount_hint_default) String hintDefaultMsg;
-        @BindString(R.string.loan_detail_enter_amount_hint_rounded) String hintRoundedMsg;
+        @BindString(R.string.date_time_region) String DATE_TIME_REGION; //constant
+        @BindString(R.string.loan_detail_target_amount_principal) String mTargetAmountPrincipalString;
 
         // color
         @BindColor(R.color.fa_icon_shield) int shieldColor;
@@ -186,46 +181,72 @@ public class DetailsFragment extends Fragment {
         @BindDrawable(R.drawable.loan_detail_minus_bid_btn_focused) Drawable mMinusFocusedDrawable;
         @BindDrawable(R.drawable.loan_detail_minus_bid_btn_disabled) Drawable mMinusDisabledDrawable;
 
-        public LoanDetailsViewHolder(View view){
+        public LoanDetailsViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
 
 
-        public void initView(Context context){
-
-            mAmountPlusBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //add base unit to edittext
-                }
-            });
-
-            mAmountMinusBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //add base unit to edittext
-                }
-            });
+        public void initView(Context context) {
 
             mAmountPlusBtn.setBackground(mPlusEnabledDrawable);
             mAmountMinusBtn.setBackground(mMinusEnabledDrawable);
 
+            mAmountPlusBtn.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        mAmountPlusBtn.setBackground(mPlusPressedDrawable);
+                        mAmountPlusBtn.getDrawable().setTint(iconTextColor);
 
+                        //round & minus value
+                        addToEnterAmount(AMOUNT_UNIT);
 
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        mAmountPlusBtn.setBackground(mPlusEnabledDrawable);
+                        mAmountPlusBtn.getDrawable().setTint(dividerColor);
+                        return true;
+                }
+                return false;
+                }
+            });
+
+            mAmountMinusBtn.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            mAmountMinusBtn.setBackground(mMinusPressedDrawable);
+                            mAmountMinusBtn.getDrawable().setTint(iconTextColor);
+
+                            //round & minus value
+                            addToEnterAmount(-AMOUNT_UNIT);
+                            return true;
+                        case MotionEvent.ACTION_UP:
+                            mAmountMinusBtn.setBackground(mMinusEnabledDrawable);
+                            mAmountMinusBtn.getDrawable().setTint(dividerColor);
+                            return true;
+                    }
+                    return false;
+                }
+            });
 
             Typeface iconFont = FontManager.getTypeface(context, FontManager.FONTAWESOME);
             FontManager.markAsIconContainer(mSecurityIcon, iconFont);
+            FontManager.markAsIconContainer(mAngleRightIconFirst, iconFont);
+            FontManager.markAsIconContainer(mAngleRightIconSecond, iconFont);
 
             //toClear focus of editext
             mLoanDetailRelativeLayout.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         //map touch to edittext
-                        if(mEnterAmount.isFocused()){
+                        if (mEnterAmount.isFocused()) {
                             Rect outRect = new Rect();
                             mEnterAmount.getGlobalVisibleRect(outRect);
-                            if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                            if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
                                 mEnterAmount.clearFocus();
                                 InputMethodManager imm = (InputMethodManager)
                                         v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -241,8 +262,8 @@ public class DetailsFragment extends Fragment {
             mEnterAmount.setOnKeyListener(new View.OnKeyListener() {
                 @Override
                 public boolean onKey(View v, int key, KeyEvent event) {
-                    if(event.getAction() == KeyEvent.ACTION_DOWN){
-                        switch (key){
+                    if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                        switch (key) {
                             case KeyEvent.KEYCODE_DPAD_CENTER:
                             case KeyEvent.KEYCODE_ENTER:
                             case KeyEvent.KEYCODE_NUMPAD_ENTER:
@@ -259,12 +280,9 @@ public class DetailsFragment extends Fragment {
                 }
             });
 
-            //default settings
-            mEnterAmountTextLayout.setErrorEnabled(false);
-            mEnterAmountTextLayout.setHintTextAppearance(R.style.HintAppearance);
         }
 
-        public void attachView(final LoanDetail loanDetail, final Context context){
+        public void attachView(final LoanDetail loanDetail, final Context context) {
 
 
             mLoanIdenTextView.setText(loanDetail.loanIdOut);
@@ -272,23 +290,30 @@ public class DetailsFragment extends Fragment {
             mGrade.setText(loanDetail.grade);
 
             switch (loanDetail.grade) {
-                case "A+": mGrade.setTextColor(colorAPlus);
+                case "A+":
+                    mGrade.setTextColor(colorAPlus);
                     break;
-                case "A": mGrade.setTextColor(colorA);
+                case "A":
+                    mGrade.setTextColor(colorA);
                     break;
-                case "B+": mGrade.setTextColor(colorBPlus);
+                case "B+":
+                    mGrade.setTextColor(colorBPlus);
                     break;
-                case "B": mGrade.setTextColor(colorB);
+                case "B":
+                    mGrade.setTextColor(colorB);
                     break;
-                case "C": mGrade.setTextColor(colorC);
+                case "C":
+                    mGrade.setTextColor(colorC);
                     break;
-                case "D": mGrade.setTextColor(colorD);
+                case "D":
+                    mGrade.setTextColor(colorD);
                     break;
-                case "E": mGrade.setTextColor(colorE);
+                case "E":
+                    mGrade.setTextColor(colorE);
                     break;
             }
 
-            switch(loanDetail.security){
+            switch (loanDetail.security) {
                 case IN_SEC_COLLATERAL:
                     mSecurityIcon.setText(R.string.fa_shield);
                     mSecurityIcon.setTextColor(shieldColor);
@@ -310,33 +335,37 @@ public class DetailsFragment extends Fragment {
 
             int progressNum = loanDetail.fundedPercentageCache;
             mProgressBar.setProgress(progressNum);
-            mProgressDescription.setText(progressNum+"%\nFunded");
-
-            mTargetAmount.setText(CurrencyNumberFormatter.formatCurrency(loanDetail.currencyOut,
-                    loanDetail.targetAmountOut, loanDetail.currencyOut+" ", false));
-            mTargetAmountCurrency.setText(loanDetail.currencyOut);
-
-            mAvalibleAmount.setText(CurrencyNumberFormatter.formatCurrency(loanDetail.currencyOut,
-                    loanDetail.fundingAmountToCompleteCache, loanDetail.currencyOut+" ", false));
-            mAvalibleAmountCurrency.setText(loanDetail.currencyOut);
+            mProgressDescription.setText(progressNum + "%\nFunded");
 
             mTenureDuration.setText(Integer.toString(loanDetail.tenureOut));
 
-            String termDescription = OUT_FREQUENCY_MONTH_VALUE;
+            String termDescription = OUT_FREQUENCY_MONTH_LABEL;
             if(!loanDetail.frequencyOut.equals(IN_FREQUENCY_MONTH_VALUE))
                 termDescription = loanDetail.frequencyOut;
             mTenureDescription.setText(termDescription);
 
-            DateTime sgNow = new DateTime(DateTimeZone.forID(DATE_TIME_REGION)); // set SG time
-            DateTime endDate = new DateTime(loanDetail.fundingEndDate);
-            int daysLeft = Days.daysBetween(sgNow.toLocalDate(), endDate.toLocalDate()).getDays();
+            int daysLeft = CustomDateHelper.findDaysLeft(DATE_TIME_REGION, loanDetail.fundingEndDate);
 
             if(daysLeft<0){
                 mNumDaysLeft.setText("0");
-
             }else{
                 mNumDaysLeft.setText(daysLeft);
             }
+
+            mTargetAmount.setText(CustomNumberFormatter.truncateNumber(loanDetail.targetAmountOut));
+            mTargetAmountDescription.setText(mTargetAmountPrincipalString + " (" + loanDetail.currencyOut + ")");
+
+
+            String scheduleTermDescription = OUT_FREQUENCY_MONTH_SCHEDULE_LABEL;
+            if(!loanDetail.frequencyOut.equals(IN_FREQUENCY_MONTH_VALUE))
+                scheduleTermDescription = loanDetail.frequencyOut;
+            mScheduleFrequencyLabel.setText(scheduleTermDescription);
+
+
+
+
+            mAvalibleAmount.setText(CustomNumberFormatter.formatCurrency(loanDetail.currencyOut,
+                    loanDetail.fundingAmountToCompleteCache, loanDetail.currencyOut+" ", false) + " " + loanDetail.currencyOut);
 
             //Add textwatcher here cause of required currency
             mEnterAmount.addTextChangedListener(new TextWatcher() {
@@ -353,42 +382,27 @@ public class DetailsFragment extends Fragment {
                         if (!s.toString().equals(current)) {
 
                             //remove all non-digit
-                            String cleanString = s.toString().replaceAll("[^\\d]", "").trim();
+                            current = s.toString().replaceAll("[^\\d]", "").trim();
 
-                            //so as not to break Long maxNum, max ~trillion
-                            if (cleanString.length() > 0 && cleanString.length() < ENTER_AMOUNT_MAX_LENGTH) {
-                                long parsed = Long.parseLong(cleanString);
-
-                                //validate negative
-                                if(parsed < 0) {
-                                    current = cleanString;
-                                    mEnterAmountTextLayout.setHint(errorPositiveMsg);
-                                    mEnterAmountTextLayout.setHintTextAppearance(R.style.ErrorAppearance);
-                                }else{
-                                    if (loanDetail.currencyOut.equals(CurrencyNumberFormatter.IDR)){
-                                        current = CurrencyNumberFormatter.formatCurrency(
-                                                loanDetail.currencyOut, parsed, "Rp ", true);
-                                    }
+                            if(Long.parseLong(current) < Integer.MAX_VALUE) {
+                                int num = Integer.parseInt(current);
+                                if(num < 0){
+                                    current = "0";
+                                }else if(num >= Math.pow(10, ENTER_AMOUNT_MAX_LENGTH)){
+                                    current = Double.toString(Math.pow(10, ENTER_AMOUNT_MAX_LENGTH));
                                 }
-                            } else {
-                                //gave up
-                                current = cleanString;
                             }
 
-                            //fall through
                             mEnterAmount.setText(current);
                             mEnterAmount.setSelection(current.length());
                         }
-                    }catch(NumberFormatException | IndexOutOfBoundsException e){
+                    } catch (NumberFormatException | IndexOutOfBoundsException e) {
                         //catch long error
                         Log.e(LOG_TAG, "ERROR", e);
-                        mEnterAmountTextLayout.setHint(errorClearMsg);
-                        mEnterAmountTextLayout.setHintTextAppearance(R.style.ErrorAppearance);
                         //clear it for them
-                        mEnterAmount.setText("");
-                        mEnterAmount.setSelection(0);
-                        current = "";
-                    }finally {
+                        mEnterAmount.setText(current);
+                        mEnterAmount.setSelection(current.length());
+                    } finally {
                         mEnterAmount.addTextChangedListener(this);
                     }
                 }
@@ -398,105 +412,24 @@ public class DetailsFragment extends Fragment {
                 }
             });
 
-            mEnterAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View view, boolean onFocus) {
-                    if(!onFocus){
-                        mEnterAmount.getText().toString();
-                    }
-                }
-            });
-
-
-            mAmountPlusBtn.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-                    switch (motionEvent.getAction()){
-                        case MotionEvent.ACTION_DOWN:
-                            mAmountPlusBtn.setBackground(mPlusPressedDrawable);
-                            mAmountPlusBtn.getDrawable().setTint(iconTextColor);
-
-                            //round & minus value
-                            addToEnterAmount(AMOUNT_UNIT);
-                            roundUpEnterAmount();
-
-                            return true;
-                        case MotionEvent.ACTION_UP:
-                            mAmountPlusBtn.setBackground(mPlusEnabledDrawable);
-                            mAmountPlusBtn.getDrawable().setTint(dividerColor);
-                            return true;
-                    }
-                    return false;
-                }
-            });
-
-            mAmountMinusBtn.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-                    switch (motionEvent.getAction()){
-                        case MotionEvent.ACTION_DOWN:
-                            mAmountMinusBtn.setBackground(mMinusPressedDrawable);
-                            mAmountMinusBtn.getDrawable().setTint(iconTextColor);
-
-                            //round & minus value
-                            addToEnterAmount(-AMOUNT_UNIT);
-                            roundUpEnterAmount();
-                            return true;
-                        case MotionEvent.ACTION_UP:
-                            mAmountMinusBtn.setBackground(mMinusEnabledDrawable);
-                            mAmountMinusBtn.getDrawable().setTint(dividerColor);
-                            return true;
-                    }
-                    return false;
-                }
-            });
-
         }
 
-        private void addToEnterAmount(long byAmount) {
-            String empty = "";
+        private void addToEnterAmount(int byAmount) {
             String cleanString = mEnterAmount.getText().toString()
                     .replaceAll("[^\\d]", "").trim();
 
-            if("0".equals(cleanString) || empty.equals(cleanString)){
-                if(byAmount > 0) {
+            if ("0".equals(cleanString) || "".equals(cleanString)) {
+                if (byAmount > 0) {
                     //post byAmount
-                    mEnterAmount.setText(Long.toString(AMOUNT_UNIT));
+                    mEnterAmount.setText(Integer.toString(AMOUNT_UNIT));
                 }
-            }else if (cleanString.length() < ENTER_AMOUNT_MAX_LENGTH) {
-                long curAmount = Long.parseLong(cleanString);
-                if(curAmount >= 0 ) {
-                    mEnterAmount.setText(Long.toString(curAmount + byAmount));
-                }
-            }
-        }
-
-
-        private void roundUpEnterAmount(){
-            String empty = "";
-
-            String valStr = mEnterAmount.getText().toString();
-            if (!valStr.toString().equals(empty)) {
-                String cleanString = valStr.toString().replaceAll("[^\\d]", "").trim();
-                //within long value range
-                if (cleanString.length() > 0 && cleanString.length() < ENTER_AMOUNT_MAX_LENGTH) {
-                    long parsed = Long.parseLong(cleanString);
-
-                    if ((parsed % AMOUNT_UNIT) == 0) {
-                        //back to default
-                        mEnterAmountTextLayout.setHint(hintDefaultMsg);
-                        mEnterAmountTextLayout.setHintTextAppearance(R.style.HintAppearance);
-                    } else {
-                        mEnterAmount.setText(Long.toString(
-                                AmountRounder.roundUpToNearestUnit(
-                                        parsed, AMOUNT_UNIT)));
-                        mEnterAmountTextLayout.setHint(hintRoundedMsg);
-                        mEnterAmountTextLayout.setHintTextAppearance(R.style.HintAppearance);
-                    }
-
+            } else if (cleanString.length() <= ENTER_AMOUNT_MAX_LENGTH) {
+                int curAmount = Integer.parseInt(cleanString);
+                if ((curAmount + byAmount) >= 0 &&
+                        (curAmount + byAmount) < (Math.pow(10,ENTER_AMOUNT_MAX_LENGTH))) {
+                    mEnterAmount.setText(Integer.toString(curAmount + byAmount));
                 }
             }
         }
-
     }
 }
