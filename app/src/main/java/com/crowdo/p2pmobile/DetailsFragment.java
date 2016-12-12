@@ -285,8 +285,8 @@ public class DetailsFragment extends Fragment {
         public void attachView(final LoanDetail loanDetail, final Context context) {
 
 
-            mLoanIdenTextView.setText(loanDetail.loanIdOut);
-            mPercentageReturn.setText(Double.toString(loanDetail.interestRateOut));
+            mLoanIdenTextView.setText(loanDetail.loanId);
+            mPercentageReturn.setText(Double.toString(loanDetail.interestRate));
             mGrade.setText(loanDetail.grade);
 
             switch (loanDetail.grade) {
@@ -318,7 +318,7 @@ public class DetailsFragment extends Fragment {
                     mSecurityIcon.setText(R.string.fa_shield);
                     mSecurityIcon.setTextColor(shieldColor);
                     mSecurityDescription.setText(WordUtils.wrap(
-                            WordUtils.capitalize(loanDetail.collateralOut.replaceAll("_", " ")
+                            WordUtils.capitalize(loanDetail.collateral.replaceAll("_", " ")
                                     + "\n" + IN_SEC_COLLATERAL), 25));
                     break;
                 case IN_SEC_UNCOLLATERALIZED:
@@ -337,11 +337,11 @@ public class DetailsFragment extends Fragment {
             mProgressBar.setProgress(progressNum);
             mProgressDescription.setText(progressNum + "%\nFunded");
 
-            mTenureDuration.setText(Integer.toString(loanDetail.tenureOut));
+            mTenureDuration.setText(Integer.toString(loanDetail.tenure));
 
             String termDescription = OUT_FREQUENCY_MONTH_LABEL;
-            if(!loanDetail.frequencyOut.equals(IN_FREQUENCY_MONTH_VALUE))
-                termDescription = loanDetail.frequencyOut;
+            if(!loanDetail.frequency.equals(IN_FREQUENCY_MONTH_VALUE))
+                termDescription = loanDetail.frequency;
             mTenureDescription.setText(termDescription);
 
             int daysLeft = CustomDateHelper.findDaysLeft(DATE_TIME_REGION, loanDetail.fundingEndDate);
@@ -352,20 +352,19 @@ public class DetailsFragment extends Fragment {
                 mNumDaysLeft.setText(daysLeft);
             }
 
-            mTargetAmount.setText(CustomNumberFormatter.truncateNumber(loanDetail.targetAmountOut));
-            mTargetAmountDescription.setText(mTargetAmountPrincipalString + " (" + loanDetail.currencyOut + ")");
+            mTargetAmount.setText(CustomNumberFormatter.truncateNumber(loanDetail.targetAmount));
+            mTargetAmountDescription.setText(mTargetAmountPrincipalString + " (" + loanDetail.currency + ")");
 
 
             String scheduleTermDescription = OUT_FREQUENCY_MONTH_SCHEDULE_LABEL;
-            if(!loanDetail.frequencyOut.equals(IN_FREQUENCY_MONTH_VALUE))
-                scheduleTermDescription = loanDetail.frequencyOut;
+            if(!loanDetail.frequency.equals(IN_FREQUENCY_MONTH_VALUE))
+                scheduleTermDescription = loanDetail.frequency;
             mScheduleFrequencyLabel.setText(scheduleTermDescription);
 
 
 
-
-            mAvalibleAmount.setText(CustomNumberFormatter.formatCurrency(loanDetail.currencyOut,
-                    loanDetail.fundingAmountToCompleteCache, loanDetail.currencyOut+" ", false) + " " + loanDetail.currencyOut);
+            mAvalibleAmount.setText(CustomNumberFormatter.formatCurrency(loanDetail.currency,
+                    loanDetail.fundingAmountToCompleteCache, loanDetail.currency+" ", false) + " " + loanDetail.currency);
 
             //Add textwatcher here cause of required currency
             mEnterAmount.addTextChangedListener(new TextWatcher() {

@@ -39,16 +39,16 @@ public class TestRetrofitCalls {
 //                        // Print out first entry to check
 //                        System.out.println("ListSize => " + loanItems.size());
 //                        LoanListItem item = loanItems.get(0);
-//                        System.out.println("tenure => " + item.tenureOut);
-//                        System.out.println("collateralOut => " + item.collateralOut);
-//                        System.out.println("targetAmountOut => " + item.targetAmountOut);
+//                        System.out.println("tenure => " + item.tenure);
+//                        System.out.println("collateral => " + item.collateral);
+//                        System.out.println("targetAmount => " + item.targetAmount);
 //                        System.out.println("grade => " + item.grade);
 //                        System.out.println("fundingDuration => " + item.fundingDuration);
 //                        System.out.println("fundingStartDate => " + item.fundingStartDate);
 //                        System.out.println("fundingEndDate => " + item.fundingEndDate);
-//                        System.out.println("loanIdOut => " + item.loanIdOut);
+//                        System.out.println("loanId => " + item.loanId);
 //                        System.out.println("fundedPercentageCache => " + item.fundedPercentageCache);
-//                        System.out.println("interestRateOut => " + item.interestRateOut);
+//                        System.out.println("interestRate => " + item.interestRate);
 //                        System.out.println("loanStatus => " + item.loanStatus);
 //                        System.out.println("sortWeight => " + item.sortWeight);
 //                        System.out.println("security => " + item.security);

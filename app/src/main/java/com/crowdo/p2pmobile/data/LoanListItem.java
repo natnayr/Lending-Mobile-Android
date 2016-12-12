@@ -1,78 +1,71 @@
 package com.crowdo.p2pmobile.data;
 
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-
-@Generated("org.jsonschema2pojo")
 public class LoanListItem {
 
-    @SerializedName("tenure_out")
+    @SerializedName("loan_id")
     @Expose
-    public int tenureOut;
-
-    @SerializedName("collateral_out")
-    @Expose
-    public String collateralOut;
-
-    @SerializedName("security")
-    @Expose
-    public String security;
-
-    @SerializedName("target_amount_out")
-    @Expose
-    public double targetAmountOut;
-
-    @SerializedName("grade")
-    @Expose
-    public String grade;
-
-    @SerializedName("funding_duration")
-    @Expose
-    public int fundingDuration;
+    public String loanId;
 
     @SerializedName("funding_start_date")
     @Expose
     public String fundingStartDate;
 
+    @SerializedName("sort_weight")
+    @Expose
+    public int sortWeight;
+
+    @SerializedName("collateral")
+    @Expose
+    public String collateral;
+
+    @SerializedName("grade")
+    @Expose
+    public String grade;
+
+    @SerializedName("interest_rate")
+    @Expose
+    public double interestRate;
+
+    @SerializedName("tenure")
+    @Expose
+    public int tenure;
+
     @SerializedName("funding_end_date")
     @Expose
     public String fundingEndDate;
 
-    @SerializedName("loan_id_out")
+    @SerializedName("funding_duration")
     @Expose
-    public String loanIdOut;
+    public int fundingDuration;
+
+    @SerializedName("currency")
+    @Expose
+    public String currency;
+
+    @SerializedName("frequency")
+    @Expose
+    public String frequency;
 
     @SerializedName("funded_percentage_cache")
     @Expose
     public int fundedPercentageCache;
 
-    @SerializedName("interest_rate_out")
+    @SerializedName("target_amount")
     @Expose
-    public double interestRateOut;
+    public double targetAmount;
 
     @SerializedName("loan_status")
     @Expose
     public String loanStatus;
 
-    @SerializedName("sort_weight")
+    @SerializedName("security")
     @Expose
-    public int sortWeight;
-
-    @SerializedName("frequency_out")
-    @Expose
-    public String frequencyOut;
-
-    @SerializedName("currency_out")
-    @Expose
-    public String currencyOut;
+    public String security;
 
     @SerializedName("id")
     @Expose
-    public long id;
-
-    @SerializedName("funding_amount_to_complete_cache")
-    @Expose
-    public double fundingAmountToCompleteCache;
+    public int id;
 }

@@ -48,8 +48,7 @@ public class LoanListAdapter extends BaseAdapter {
     private static final String IN_SEC_INVOICE_OR_CHEQUE = "Working Order/Invoice";
     private static final String OUT_SEC_INVOICE_OR_CHEQUE = "Working Order/\nInvoice";
 
-
-
+    
     public LoanListAdapter(Context context) {
         super();
         this.mContext = context;
@@ -135,7 +134,7 @@ public class LoanListAdapter extends BaseAdapter {
         }
 
         public void attachLoanItem(LoanListItem item, Context context){
-            mLoanId.setText(item.loanIdOut);
+            mLoanId.setText(item.loanId);
             mLoanGrade.setText(item.grade);
 
             GradientDrawable mGradeShape = (GradientDrawable) mLoanGradeDrawable.getBackground();
@@ -165,13 +164,13 @@ public class LoanListAdapter extends BaseAdapter {
                 mDaysLeftAndPercentage.setText(daysLeft + " Days Left - " + item.fundedPercentageCache + "% Funded");
             }
 
-            mPercentageReturn.setText(Double.toString(item.interestRateOut));
-            mTermAmount.setText(Integer.toString(item.tenureOut));
+            mPercentageReturn.setText(Double.toString(item.interestRate));
+            mTermAmount.setText(Integer.toString(item.tenure));
 
             //check if monthly is set differently
             String termDescription = OUT_FREQUENCY_MONTH_VALUE;
-            if(!item.frequencyOut.equals(IN_FREQUENCY_MONTH_VALUE))
-                termDescription = item.frequencyOut;
+            if(!item.frequency.equals(IN_FREQUENCY_MONTH_VALUE))
+                termDescription = item.frequency;
             mTermDescription.setText(termDescription);
 
             switch(item.security){
@@ -179,7 +178,7 @@ public class LoanListAdapter extends BaseAdapter {
                     mSecurityIcon.setText(R.string.fa_shield);
                     mSecurityIcon.setTextColor(shieldColor);
                     mSecurityDescription.setText(WordUtils.wrap(
-                        WordUtils.capitalize(item.collateralOut.replaceAll("_", " ")), 15));
+                        WordUtils.capitalize(item.collateral.replaceAll("_", " ")), 15));
                     break;
                 case IN_SEC_UNCOLLATERALIZED:
                     mSecurityIcon.setText(R.string.fa_unlock_alt);
@@ -193,8 +192,8 @@ public class LoanListAdapter extends BaseAdapter {
                     break;
             }
 
-            mLoanAmount.setText(CustomNumberFormatter.formatCurrency(item.currencyOut,
-                    item.targetAmountOut, item.currencyOut+" ", true));
+            mLoanAmount.setText(CustomNumberFormatter.formatCurrency(item.currency,
+                    item.targetAmount, item.currency+" ", true));
 
             Typeface iconFont = FontManager.getTypeface(context, FontManager.FONTAWESOME);
             FontManager.markAsIconContainer(mSecurityIcon, iconFont);

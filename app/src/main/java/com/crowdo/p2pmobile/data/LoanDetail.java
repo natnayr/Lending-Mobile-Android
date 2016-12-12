@@ -4,93 +4,94 @@ package com.crowdo.p2pmobile.data;
  * Created by cwdsg05 on 18/11/16.
  */
 
-
-import javax.annotation.Generated;
-
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
-
-@Generated("org.jsonschema2pojo")
 public class LoanDetail {
 
-    @SerializedName("sort_weight")
+    @SerializedName("loan_id")
     @Expose
-    public int sortWeight;
+    public String loanId;
 
-    @SerializedName("tenure_out")
+    @SerializedName("collateral_description")
     @Expose
-    public int tenureOut;
-
-    @SerializedName("collateral_out")
-    @Expose
-    public String collateralOut;
-
-    @SerializedName("security")
-    @Expose
-    public String security;
-
-    @SerializedName("target_amount_out")
-    @Expose
-    public double targetAmountOut;
+    public String collateralDescription;
 
     @SerializedName("grade")
     @Expose
     public String grade;
 
-    @SerializedName("funding_duration")
+    @SerializedName("last_repayment")
     @Expose
-    public int fundingDuration;
+    public String lastRepayment;
 
-    @SerializedName("funding_start_date")
+    @SerializedName("currency")
     @Expose
-    public String fundingStartDate;
+    public String currency;
 
-    @SerializedName("funding_end_date")
+    @SerializedName("frequency")
     @Expose
-    public String fundingEndDate;
-
-    @SerializedName("loan_id_out")
-    @Expose
-    public String loanIdOut;
-
-    @SerializedName("start_date_out")
-    @Expose
-    public String startDateOut;
+    public String frequency;
 
     @SerializedName("funded_percentage_cache")
     @Expose
     public int fundedPercentageCache;
 
-    @SerializedName("interest_rate_out")
+    @SerializedName("id")
     @Expose
-    public double interestRateOut;
-
-    @SerializedName("loan_status")
-    @Expose
-    public String loanStatus;
+    public int id;
 
     @SerializedName("loan_type")
     @Expose
     public String loanType;
 
-    @SerializedName("frequency_out")
+    @SerializedName("interest_rate")
     @Expose
-    public String frequencyOut;
+    public double interestRate;
 
-    @SerializedName("collateral_description_out")
+    @SerializedName("funding_start_date")
     @Expose
-    public String collateralDescriptionOut;
+    public String fundingStartDate;
 
-    @SerializedName("currency_out")
+    @SerializedName("target_amount")
     @Expose
-    public String currencyOut;
+    public double targetAmount;
 
-    @SerializedName("id")
+    @SerializedName("start_date")
     @Expose
-    public int id;
+    public String startDate;
+
+    @SerializedName("collateral")
+    @Expose
+    public String collateral;
+
+    @SerializedName("sort_weight")
+    @Expose
+    public int sortWeight;
+
+    @SerializedName("first_repayment")
+    @Expose
+    public String firstRepayment;
+
+    @SerializedName("funding_duration")
+    @Expose
+    public int fundingDuration;
+
+    @SerializedName("funding_end_date")
+    @Expose
+    public String fundingEndDate;
+
+    @SerializedName("tenure")
+    @Expose
+    public int tenure;
+
+    @SerializedName("loan_status")
+    @Expose
+    public String loanStatus;
+
+    @SerializedName("security")
+    @Expose
+    public String security;
 
     @SerializedName("funding_amount_to_complete_cache")
     @Expose
