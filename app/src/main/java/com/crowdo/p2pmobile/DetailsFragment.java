@@ -2,6 +2,7 @@ package com.crowdo.p2pmobile;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -86,7 +87,7 @@ public class DetailsFragment extends Fragment {
         final LoanDetailsViewHolder viewHolder = new LoanDetailsViewHolder(rootView);
 
         //Init view first,
-        viewHolder.initView(getActivity());
+        viewHolder.initView(getActivity(), this.initId);
 
         subscription = LoanDetailClient.getInstance()
                 .getLoanDetails(this.initId)
@@ -196,7 +197,7 @@ public class DetailsFragment extends Fragment {
         }
 
 
-        public void initView(Context context) {
+        public void initView(final Context context, final int holderId) {
 
             mAmountPlusBtn.setBackground(mPlusEnabledDrawable);
             mAmountMinusBtn.setBackground(mMinusEnabledDrawable);
@@ -285,11 +286,23 @@ public class DetailsFragment extends Fragment {
                                 break;
                         }
                     }
-
                     return false;
                 }
             });
 
+            mFactsheetDownloadBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(holderId >= 0) {
+                        Intent intent = Henson.with(context)
+                                .gotoFactSheetActivity()
+                                .id(holderId)
+                                .build();
+                        Log.d(LOG_TAG, "TEST: factsheet id before parse " + holderId);
+                        context.startActivity(intent);
+                    }
+                }
+            });
         }
 
         public void attachView(final LoanDetail loanDetail, final Context context) {

@@ -2,6 +2,7 @@
     <string name="app_name">Crowdo</string>
     <string name="activity_main_action_bar_label">Loan Investments</string>
     <string name="activity_detail_action_bar_label">Loan Details</string>
+    <string name="activity_factsheet_action_bar_label">Fact-Sheet View(PDF)</string>
     <string name="date_time_region">Asia/Singapore</string>
 
     <string name="gradeA">A</string>
@@ -13,7 +14,6 @@
     <string name="gradeE">D</string>
     <string name="title_activity_details">DetailsActivity</string>
     <string name="action_settings">Settings</string>
-
 
     <string name="loan_detail_enter_amount_hint_default">Enter in units of 1,000,000</string>
     <string name="loan_detail_enter_amount_hint_rounded">Rounded to nearest unit</string>
