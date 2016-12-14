@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.f2prateek.dart.Dart;
@@ -16,8 +15,8 @@ public class DetailsActivity extends Activity {
 
     private static final String LOG_TAG = DetailsActivity.class.getSimpleName();
     public static final String TAG_DETAILS_FRAGMENT = "DetailsFragment";
-    public static final String BUNDLE_LOANID_KEY = "BundleDetailsFragmentLoanIDKey";
-    @InjectExtra public String loanID;
+    public static final String BUNDLE_ID_KEY = "BundleDetailsFragmentIDKey";
+    @InjectExtra public int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +25,9 @@ public class DetailsActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         Dart.inject(this);
-        Log.d(LOG_TAG, "TEST: I have loanID: " + loanID);
 
         Bundle args = new Bundle();
-        args.putString(BUNDLE_LOANID_KEY, loanID);
+        args.putInt(BUNDLE_ID_KEY, this.id);
 
         Fragment fragment = getFragmentManager().findFragmentByTag(TAG_DETAILS_FRAGMENT);
 
@@ -44,21 +42,36 @@ public class DetailsActivity extends Activity {
     }
 
     @Override
+    public void onBackPressed() {
+        int count = getFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
+            super.onBackPressed();
+        } else {
+            toBackStackOrParent();
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                Intent upIntent = NavUtils.getParentActivityIntent(this);
-                if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-                    TaskStackBuilder.create(this)
-                            .addNextIntentWithParentStack(upIntent)
-                            .startActivities();
-                } else {
-                    //If no backstack then navigate to logical parent
-                    NavUtils.navigateUpTo(this, upIntent);
-                }
-                return true;
+                return toBackStackOrParent();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean toBackStackOrParent(){
+        Intent upIntent = NavUtils.getParentActivityIntent(this);
+        if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+            TaskStackBuilder.create(this)
+                    .addNextIntentWithParentStack(upIntent)
+                    .startActivities();
+        } else {
+            //If no backstack then navigate to logical main list view
+            NavUtils.navigateUpTo(this, upIntent);
+        }
+        return true;
     }
 }

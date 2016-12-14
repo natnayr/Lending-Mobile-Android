@@ -18,6 +18,6 @@ public interface APIServices {
     @GET("loans")
     Observable<List<LoanListItem>> getLoansList();
 
-    @GET("loans/{loan_id}")
-    Observable<LoanDetail> getLoanDetail(@Path("loan_id") String loanId);
+    @GET("loans/{id}")
+    Observable<LoanDetail> getLoanDetail(@Path("id") int id);
 }

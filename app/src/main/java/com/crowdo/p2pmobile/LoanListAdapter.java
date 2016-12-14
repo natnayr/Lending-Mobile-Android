@@ -48,7 +48,7 @@ public class LoanListAdapter extends BaseAdapter {
     private static final String IN_SEC_INVOICE_OR_CHEQUE = "Working Order/Invoice";
     private static final String OUT_SEC_INVOICE_OR_CHEQUE = "Working Order/\nInvoice";
 
-    
+
     public LoanListAdapter(Context context) {
         super();
         this.mContext = context;
@@ -96,7 +96,6 @@ public class LoanListAdapter extends BaseAdapter {
         mLoanList.clear();
         mLoanList.addAll(retreivedLoans);
         notifyDataSetChanged();
-        Log.d(LOG_TAG, "TEST: setmLoanList clear and addAll");
     }
 
     // LoanListViewHolder Pattern for ButterKnife

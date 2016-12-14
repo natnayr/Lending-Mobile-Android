@@ -26,7 +26,8 @@
             android:name=".MainActivity"
             android:label="@string/activity_main_action_bar_label"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTop" />
         <activity
             android:name=".DetailsActivity"
             android:label="@string/activity_detail_action_bar_label"

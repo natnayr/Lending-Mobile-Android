@@ -1,5 +1,7 @@
 package com.crowdo.p2pmobile.data;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -15,8 +17,6 @@ import rx.Observable;
 public class LoanDetailClient {
 
     private static final String LOG_TAG = LoanListClient.class.getSimpleName();
-
-
 
     private static LoanDetailClient instance;
     private APIServices apiServices;
@@ -42,8 +42,9 @@ public class LoanDetailClient {
         return instance;
     }
 
-    public Observable<LoanDetail> getLoanDetails(String loanId){
-        return apiServices.getLoanDetail(loanId);
+    public Observable<LoanDetail> getLoanDetails(int id){
+        Log.d(LOG_TAG, "TEST: parsing to apiServices.getLoanDetail: " + id);
+        return apiServices.getLoanDetail(id);
     }
 
 }

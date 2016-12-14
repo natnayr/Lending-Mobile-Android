@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -60,18 +61,19 @@ public class DetailsFragment extends Fragment {
     private static final int ENTER_AMOUNT_MAX_LENGTH = 4;
     private static final String LOG_TAG = DetailsFragment.class.getSimpleName();
     private Subscription subscription;
-    private String initLoanId = null;
+    private int initId;
 
     public DetailsFragment() {
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(getArguments() != null && getArguments()
-                .getString(DetailsActivity.BUNDLE_LOANID_KEY) != null) {
-            this.initLoanId = getArguments()
-                    .getString(DetailsActivity.BUNDLE_LOANID_KEY); //store
+                .getInt(DetailsActivity.BUNDLE_ID_KEY) >= 0 ) {
+            this.initId = getArguments()
+                    .getInt(DetailsActivity.BUNDLE_ID_KEY); //store
         }
     }
 
@@ -87,7 +89,7 @@ public class DetailsFragment extends Fragment {
         viewHolder.initView(getActivity());
 
         subscription = LoanDetailClient.getInstance()
-                .getLoanDetails(this.initLoanId)
+                .getLoanDetails(this.initId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<LoanDetail>() {
@@ -105,11 +107,19 @@ public class DetailsFragment extends Fragment {
 
                     @Override
                     public void onNext(LoanDetail loanDetail) {
-                        Log.d(LOG_TAG, "TEST: populated LOANDETAILS Rx onNext with :"
-                                + loanDetail.id + " retreived.");
+                        Log.d(LOG_TAG, "TEST: populated LoanDetails Rx onNext with :"
+                                + loanDetail.loanId + " loanid retreived.");
                         viewHolder.attachView(loanDetail, getActivity());
                     }
                 });
+
+        rootView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                return false;
+            }
+        });
+
 
         rootView.setTag(viewHolder);
         return rootView;
@@ -138,7 +148,7 @@ public class DetailsFragment extends Fragment {
         @BindView(R.id.loan_detail_schedule_header) TextView mScheduleFrequencyLabel;
         @BindView(R.id.loan_detail_schedule_start_date) TextView mScheduleStartDate;
         @BindView(R.id.loan_detail_schedule_first_repayment_date) TextView mScheduleFirstRepaymentDate;
-        @BindView(R.id.loan_detail_schedule_last_repayment_date) TextView getmScheduleLastRepaymentDate;
+        @BindView(R.id.loan_detail_schedule_last_repayment_date) TextView mScheduleLastRepaymentDate;
         @BindView(R.id.loan_detail_schedule_angle_right_first_icon_container) TextView mAngleRightIconFirst;
         @BindView(R.id.loan_detail_schedule_angle_right_second_icon_container) TextView mAngleRightIconSecond;
 
@@ -284,7 +294,6 @@ public class DetailsFragment extends Fragment {
 
         public void attachView(final LoanDetail loanDetail, final Context context) {
 
-
             mLoanIdenTextView.setText(loanDetail.loanId);
             mPercentageReturn.setText(Double.toString(loanDetail.interestRate));
             mGrade.setText(loanDetail.grade);
@@ -355,13 +364,14 @@ public class DetailsFragment extends Fragment {
             mTargetAmount.setText(CustomNumberFormatter.truncateNumber(loanDetail.targetAmount));
             mTargetAmountDescription.setText(mTargetAmountPrincipalString + " (" + loanDetail.currency + ")");
 
-
             String scheduleTermDescription = OUT_FREQUENCY_MONTH_SCHEDULE_LABEL;
             if(!loanDetail.frequency.equals(IN_FREQUENCY_MONTH_VALUE))
                 scheduleTermDescription = loanDetail.frequency;
             mScheduleFrequencyLabel.setText(scheduleTermDescription);
 
-
+            mScheduleStartDate.setText(CustomDateHelper.dateTimeFormatter("dd MMM yyyy", loanDetail.startDate));
+            mScheduleFirstRepaymentDate.setText(CustomDateHelper.dateTimeFormatter("dd MMM yyyy", loanDetail.firstRepayment));
+            mScheduleLastRepaymentDate.setText(CustomDateHelper.dateTimeFormatter("dd MMM yyyy", loanDetail.lastRepayment));
 
             mAvalibleAmount.setText(CustomNumberFormatter.formatCurrency(loanDetail.currency,
                     loanDetail.fundingAmountToCompleteCache, loanDetail.currency+" ", false) + " " + loanDetail.currency);

@@ -34,7 +34,7 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
 
     //Picasso library (Image handler)
-    compile 'com.squareup.picasso:picasso:2.5.2'
+//    compile 'com.squareup.picasso:picasso:2.5.2'
 
     //Dart + Henson (Intent helpers)
     compile 'com.f2prateek.dart:dart:2.0.1'
@@ -54,13 +54,14 @@ dependencies {
     //GSON (JSON to Object library)
     compile 'com.google.code.gson:gson:2.8.0'
 
-    provided 'org.glassfish:javax.annotation:10.0-b28'
+//    provided 'org.glassfish:javax.annotation:10.0-b28'
 
     //DateTime Library
     compile 'joda-time:joda-time:2.9.6'
 
+    //commons
     compile 'org.apache.commons:commons-lang3:3.4'
 
-
+    compile 'com.github.barteksc:android-pdf-viewer:2.3.0'
 
 }

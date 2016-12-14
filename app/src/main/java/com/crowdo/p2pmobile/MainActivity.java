@@ -22,8 +22,6 @@ public class MainActivity extends Activity {
 
         Dart.inject(this);
 
-        Log.d(LOG_TAG, "TEST: " + this.getClass().getSimpleName() + " is called");
-
         Fragment loanListFragment = getFragmentManager().findFragmentByTag(TAG_LOAN_LIST_FRAGMENT);
         if(loanListFragment == null){
             getFragmentManager().beginTransaction()

@@ -65,17 +65,16 @@ public class LoanListFragment extends Fragment {
                 R.color.color_primary, R.color.color_primary_dark);
 
         mListView.setAdapter(mLoanAdapter);
-        Log.d(LOG_TAG, "TEST: onCreateView setAdapter");
-
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> adapterView,
                                     View view, int position, long l) {
+
                 LoanListItem item = (LoanListItem) adapterView.getItemAtPosition(position);
                 Intent intent = Henson.with(getActivity())
                         .gotoDetailsActivity()
-                        .loanID(item.loanId)
+                        .id(item.id)
                         .build();
                 startActivity(intent);
             }
@@ -113,7 +112,7 @@ public class LoanListFragment extends Fragment {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        Log.d(LOG_TAG, "ERROR: " + e.getMessage());
+                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
                         swipeContainer.setRefreshing(false);
                     }
 
