@@ -1,45 +1,29 @@
 package com.crowdo.p2pmobile;
 
 import android.app.Fragment;
-import android.content.Context;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.Rect;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.webkit.WebView;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import com.crowdo.p2pmobile.custom_ui.GoalProgressBar;
 import com.crowdo.p2pmobile.data.LoanDetail;
 import com.crowdo.p2pmobile.data.LoanDetailClient;
-import com.crowdo.p2pmobile.helper.CustomDateHelper;
-import com.crowdo.p2pmobile.helper.CustomNumberFormatter;
-import com.crowdo.p2pmobile.helper.FontManager;
+import com.crowdo.p2pmobile.data.LoanFactSheetClient;
+import com.crowdo.p2pmobile.viewholders.DetailsFragmentViewHolder;
 
-import org.apache.commons.lang3.text.WordUtils;
+import java.io.File;
 
-import butterknife.BindColor;
-import butterknife.BindDrawable;
-import butterknife.BindString;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
+import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -47,21 +31,9 @@ import rx.schedulers.Schedulers;
  */
 public class DetailsFragment extends Fragment {
 
-    private static final String IN_FREQUENCY_MONTH_VALUE = "Monthly";
-    private static final String OUT_FREQUENCY_MONTH_LABEL = "Months Tenure";
-    private static final String OUT_FREQUENCY_MONTH_SCHEDULE_LABEL = "Monthly";
-
-    private static final String IN_SEC_COLLATERAL = "Collateral";
-    private static final String OUT_SEC_COLLATERAL = "";
-    private static final String IN_SEC_UNCOLLATERALIZED = "Uncollateralized";
-    private static final String OUT_SEC_UNCOLLATERALIZED = "No Collateral";
-    private static final String IN_SEC_INVOICE_OR_CHEQUE = "Working Order/Invoice";
-    private static final String OUT_SEC_INVOICE_OR_CHEQUE = "Working Order/\nInvoice";
-
-    private static final int AMOUNT_UNIT = 1;
-    private static final int ENTER_AMOUNT_MAX_LENGTH = 4;
     private static final String LOG_TAG = DetailsFragment.class.getSimpleName();
-    private Subscription subscription;
+    private Subscription detailsSubscription;
+    private Subscription factsheetSubscription;
     private int initId;
 
     public DetailsFragment() {
@@ -84,12 +56,12 @@ public class DetailsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_details, parent, false);
 
-        final LoanDetailsViewHolder viewHolder = new LoanDetailsViewHolder(rootView);
+        final DetailsFragmentViewHolder viewHolder = new DetailsFragmentViewHolder(rootView);
 
         //Init view first,
         viewHolder.initView(getActivity(), this.initId);
 
-        subscription = LoanDetailClient.getInstance()
+        detailsSubscription = LoanDetailClient.getInstance()
                 .getLoanDetails(this.initId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -114,344 +86,48 @@ public class DetailsFragment extends Fragment {
                     }
                 });
 
-        rootView.setOnKeyListener(new View.OnKeyListener() {
+        //set file download button here..
+        viewHolder.mFactsheetDownloadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                return false;
+            public void onClick(View view) {
+
+                if(initId >= 0) {
+                    factsheetSubscription = LoanFactSheetClient.getInstance()
+                        .getLoanFactSheet(initId)
+                        .subscribe(new Observer<File>() {
+                            @Override
+                            public void onCompleted() {
+                                Log.d(LOG_TAG, "TEST: mFactSheetDownloadBtn complete");
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(File file) {
+                                Log.d(LOG_TAG, "TEST: mFactSheetDownloadBtn onNext => "
+                                    + file.getAbsolutePath());
+
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setDataAndType(Uri.fromFile(file), "application/pdf");
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                Intent chooserIntent = Intent.createChooser(intent, "Open With");
+                                try{
+                                    startActivity(chooserIntent);
+                                }catch (ActivityNotFoundException e){
+                                    Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                                }
+
+                            }
+                        });
+                }
             }
         });
-
 
         rootView.setTag(viewHolder);
         return rootView;
     }
 
-
-    static class LoanDetailsViewHolder {
-
-        // static views
-        @BindView(R.id.loan_details) RelativeLayout mLoanDetailRelativeLayout;
-        @BindView(R.id.loan_detail_iden_no) TextView mLoanIdenTextView;
-        @BindView(R.id.loan_detail_percentage_return) TextView mPercentageReturn;
-        @BindView(R.id.loan_detail_grade) TextView mGrade;
-        @BindView(R.id.loan_detail_security_icon_container) TextView mSecurityIcon;
-        @BindView(R.id.loan_detail_security_description) TextView mSecurityDescription;
-
-        @BindView(R.id.loan_detail_progress_bar) GoalProgressBar mProgressBar;
-        @BindView(R.id.loan_detail_progress_description) TextView mProgressDescription;
-
-        @BindView(R.id.loan_detail_tenure_duration) TextView mTenureDuration;
-        @BindView(R.id.loan_detail_tenure_description) TextView mTenureDescription;
-        @BindView(R.id.loan_detail_days_left) TextView mNumDaysLeft;
-        @BindView(R.id.loan_detail_target_amount) TextView mTargetAmount;
-        @BindView(R.id.loan_detail_target_amount_description) TextView mTargetAmountDescription;
-
-        @BindView(R.id.loan_detail_schedule_header) TextView mScheduleFrequencyLabel;
-        @BindView(R.id.loan_detail_schedule_start_date) TextView mScheduleStartDate;
-        @BindView(R.id.loan_detail_schedule_first_repayment_date) TextView mScheduleFirstRepaymentDate;
-        @BindView(R.id.loan_detail_schedule_last_repayment_date) TextView mScheduleLastRepaymentDate;
-        @BindView(R.id.loan_detail_schedule_angle_right_first_icon_container) TextView mAngleRightIconFirst;
-        @BindView(R.id.loan_detail_schedule_angle_right_second_icon_container) TextView mAngleRightIconSecond;
-
-        @BindView(R.id.loan_detail_avalible_amount) TextView mAvalibleAmount;
-
-        // to interact with
-        @BindView(R.id.loan_detail_amount_minus_btn) ImageButton mAmountMinusBtn;
-        @BindView(R.id.loan_detail_amount_plus_btn) ImageButton mAmountPlusBtn;
-        @BindView(R.id.loan_detail_enter_amount_edittext) EditText mEnterAmount;
-        @BindView(R.id.loan_detail_factsheet_download_btn) LinearLayout mFactsheetDownloadBtn; //LinearLayout act as button
-        @BindView(R.id.loan_detail_bid_enter_btn) LinearLayout mBidEnterBtn; //LinearLayout act as button
-
-        // String Bindings
-        @BindString(R.string.date_time_region) String DATE_TIME_REGION; //constant
-        @BindString(R.string.loan_detail_target_amount_principal) String mTargetAmountPrincipalString;
-
-        // color
-        @BindColor(R.color.fa_icon_shield) int shieldColor;
-        @BindColor(R.color.fa_icon_file_text) int fileColor;
-        @BindColor(R.color.fa_icon_unlock_alt) int unlockAltColor;
-        @BindColor(R.color.color_icons_text) int iconTextColor; //white
-        @BindColor(R.color.color_divider) int dividerColor;
-        @BindColor(R.color.grade_color_A_plus) int colorAPlus;
-        @BindColor(R.color.grade_color_A) int colorA;
-        @BindColor(R.color.grade_color_B_plus) int colorBPlus;
-        @BindColor(R.color.grade_color_E) int colorB;
-        @BindColor(R.color.grade_colorC) int colorC;
-        @BindColor(R.color.grade_color_D) int colorD;
-        @BindColor(R.color.grade_color_E) int colorE;
-        @BindColor(R.color.edittext_hint_color) int hintColor;
-        @BindColor(R.color.edittext_error_color) int errorColor;
-
-        //drawables extras
-        @BindDrawable(R.drawable.loan_detail_plus_bid_btn_enabled) Drawable mPlusEnabledDrawable;
-        @BindDrawable(R.drawable.loan_detail_plus_bid_btn_pressed) Drawable mPlusPressedDrawable;
-        @BindDrawable(R.drawable.loan_detail_plus_bid_btn_focused) Drawable mPlusFocusedDrawable;
-        @BindDrawable(R.drawable.loan_detail_plus_bid_btn_disabled) Drawable mPlusDisabledDrawable;
-        @BindDrawable(R.drawable.loan_detail_minus_bid_btn_enabled) Drawable mMinusEnabledDrawable;
-        @BindDrawable(R.drawable.loan_detail_minus_bid_btn_pressed) Drawable mMinusPressedDrawable;
-        @BindDrawable(R.drawable.loan_detail_minus_bid_btn_focused) Drawable mMinusFocusedDrawable;
-        @BindDrawable(R.drawable.loan_detail_minus_bid_btn_disabled) Drawable mMinusDisabledDrawable;
-
-        public LoanDetailsViewHolder(View view) {
-            ButterKnife.bind(this, view);
-        }
-
-
-        public void initView(final Context context, final int holderId) {
-
-            mAmountPlusBtn.setBackground(mPlusEnabledDrawable);
-            mAmountMinusBtn.setBackground(mMinusEnabledDrawable);
-
-            mAmountPlusBtn.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        mAmountPlusBtn.setBackground(mPlusPressedDrawable);
-                        mAmountPlusBtn.getDrawable().setTint(iconTextColor);
-
-                        //round & minus value
-                        addToEnterAmount(AMOUNT_UNIT);
-
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        mAmountPlusBtn.setBackground(mPlusEnabledDrawable);
-                        mAmountPlusBtn.getDrawable().setTint(dividerColor);
-                        return true;
-                }
-                return false;
-                }
-            });
-
-            mAmountMinusBtn.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-                    switch (motionEvent.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-                            mAmountMinusBtn.setBackground(mMinusPressedDrawable);
-                            mAmountMinusBtn.getDrawable().setTint(iconTextColor);
-
-                            //round & minus value
-                            addToEnterAmount(-AMOUNT_UNIT);
-                            return true;
-                        case MotionEvent.ACTION_UP:
-                            mAmountMinusBtn.setBackground(mMinusEnabledDrawable);
-                            mAmountMinusBtn.getDrawable().setTint(dividerColor);
-                            return true;
-                    }
-                    return false;
-                }
-            });
-
-            Typeface iconFont = FontManager.getTypeface(context, FontManager.FONTAWESOME);
-            FontManager.markAsIconContainer(mSecurityIcon, iconFont);
-            FontManager.markAsIconContainer(mAngleRightIconFirst, iconFont);
-            FontManager.markAsIconContainer(mAngleRightIconSecond, iconFont);
-
-            //toClear focus of editext
-            mLoanDetailRelativeLayout.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        //map touch to edittext
-                        if (mEnterAmount.isFocused()) {
-                            Rect outRect = new Rect();
-                            mEnterAmount.getGlobalVisibleRect(outRect);
-                            if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
-                                mEnterAmount.clearFocus();
-                                InputMethodManager imm = (InputMethodManager)
-                                        v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                            }
-                        }
-                    }
-                    return false;
-                }
-            });
-
-            //toClear focus when press keypad enter
-            mEnterAmount.setOnKeyListener(new View.OnKeyListener() {
-                @Override
-                public boolean onKey(View v, int key, KeyEvent event) {
-                    if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                        switch (key) {
-                            case KeyEvent.KEYCODE_DPAD_CENTER:
-                            case KeyEvent.KEYCODE_ENTER:
-                            case KeyEvent.KEYCODE_NUMPAD_ENTER:
-                                mEnterAmount.clearFocus();
-                                InputMethodManager imm = (InputMethodManager)
-                                        v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                            default:
-                                break;
-                        }
-                    }
-                    return false;
-                }
-            });
-
-            mFactsheetDownloadBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(holderId >= 0) {
-                        Intent intent = Henson.with(context)
-                                .gotoFactSheetActivity()
-                                .id(holderId)
-                                .build();
-                        Log.d(LOG_TAG, "TEST: factsheet id before parse " + holderId);
-                        context.startActivity(intent);
-                    }
-                }
-            });
-        }
-
-        public void attachView(final LoanDetail loanDetail, final Context context) {
-
-            mLoanIdenTextView.setText(loanDetail.loanId);
-            mPercentageReturn.setText(Double.toString(loanDetail.interestRate));
-            mGrade.setText(loanDetail.grade);
-
-            switch (loanDetail.grade) {
-                case "A+":
-                    mGrade.setTextColor(colorAPlus);
-                    break;
-                case "A":
-                    mGrade.setTextColor(colorA);
-                    break;
-                case "B+":
-                    mGrade.setTextColor(colorBPlus);
-                    break;
-                case "B":
-                    mGrade.setTextColor(colorB);
-                    break;
-                case "C":
-                    mGrade.setTextColor(colorC);
-                    break;
-                case "D":
-                    mGrade.setTextColor(colorD);
-                    break;
-                case "E":
-                    mGrade.setTextColor(colorE);
-                    break;
-            }
-
-            switch (loanDetail.security) {
-                case IN_SEC_COLLATERAL:
-                    mSecurityIcon.setText(R.string.fa_shield);
-                    mSecurityIcon.setTextColor(shieldColor);
-                    mSecurityDescription.setText(WordUtils.wrap(
-                            WordUtils.capitalize(loanDetail.collateral.replaceAll("_", " ")
-                                    + "\n" + IN_SEC_COLLATERAL), 25));
-                    break;
-                case IN_SEC_UNCOLLATERALIZED:
-                    mSecurityIcon.setText(R.string.fa_unlock_alt);
-                    mSecurityIcon.setTextColor(unlockAltColor);
-                    mSecurityDescription.setText(OUT_SEC_UNCOLLATERALIZED);
-                    break;
-                case IN_SEC_INVOICE_OR_CHEQUE:
-                    mSecurityIcon.setText(R.string.fa_file_text);
-                    mSecurityIcon.setTextColor(fileColor);
-                    mSecurityDescription.setText(OUT_SEC_INVOICE_OR_CHEQUE);
-                    break;
-            }
-
-            int progressNum = loanDetail.fundedPercentageCache;
-            mProgressBar.setProgress(progressNum);
-            mProgressDescription.setText(progressNum + "%\nFunded");
-
-            mTenureDuration.setText(Integer.toString(loanDetail.tenure));
-
-            String termDescription = OUT_FREQUENCY_MONTH_LABEL;
-            if(!loanDetail.frequency.equals(IN_FREQUENCY_MONTH_VALUE))
-                termDescription = loanDetail.frequency;
-            mTenureDescription.setText(termDescription);
-
-            int daysLeft = CustomDateHelper.findDaysLeft(DATE_TIME_REGION, loanDetail.fundingEndDate);
-
-            if(daysLeft<0){
-                mNumDaysLeft.setText("0");
-            }else{
-                mNumDaysLeft.setText(daysLeft);
-            }
-
-            mTargetAmount.setText(CustomNumberFormatter.truncateNumber(loanDetail.targetAmount));
-            mTargetAmountDescription.setText(mTargetAmountPrincipalString + " (" + loanDetail.currency + ")");
-
-            String scheduleTermDescription = OUT_FREQUENCY_MONTH_SCHEDULE_LABEL;
-            if(!loanDetail.frequency.equals(IN_FREQUENCY_MONTH_VALUE))
-                scheduleTermDescription = loanDetail.frequency;
-            mScheduleFrequencyLabel.setText(scheduleTermDescription);
-
-            mScheduleStartDate.setText(CustomDateHelper.dateTimeFormatter("dd MMM yyyy", loanDetail.startDate));
-            mScheduleFirstRepaymentDate.setText(CustomDateHelper.dateTimeFormatter("dd MMM yyyy", loanDetail.firstRepayment));
-            mScheduleLastRepaymentDate.setText(CustomDateHelper.dateTimeFormatter("dd MMM yyyy", loanDetail.lastRepayment));
-
-            mAvalibleAmount.setText(CustomNumberFormatter.formatCurrency(loanDetail.currency,
-                    loanDetail.fundingAmountToCompleteCache, loanDetail.currency+" ", false) + " " + loanDetail.currency);
-
-            //Add textwatcher here cause of required currency
-            mEnterAmount.addTextChangedListener(new TextWatcher() {
-                private String current = "";
-
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    try {
-                        mEnterAmount.removeTextChangedListener(this);
-                        if (!s.toString().equals(current)) {
-
-                            //remove all non-digit
-                            current = s.toString().replaceAll("[^\\d]", "").trim();
-
-                            if(Long.parseLong(current) < Integer.MAX_VALUE) {
-                                int num = Integer.parseInt(current);
-                                if(num < 0){
-                                    current = "0";
-                                }else if(num >= Math.pow(10, ENTER_AMOUNT_MAX_LENGTH)){
-                                    current = Double.toString(Math.pow(10, ENTER_AMOUNT_MAX_LENGTH));
-                                }
-                            }
-
-                            mEnterAmount.setText(current);
-                            mEnterAmount.setSelection(current.length());
-                        }
-                    } catch (NumberFormatException | IndexOutOfBoundsException e) {
-                        //catch long error
-                        Log.e(LOG_TAG, "ERROR", e);
-                        //clear it for them
-                        mEnterAmount.setText(current);
-                        mEnterAmount.setSelection(current.length());
-                    } finally {
-                        mEnterAmount.addTextChangedListener(this);
-                    }
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                }
-            });
-
-        }
-
-        private void addToEnterAmount(int byAmount) {
-            String cleanString = mEnterAmount.getText().toString()
-                    .replaceAll("[^\\d]", "").trim();
-
-            if ("0".equals(cleanString) || "".equals(cleanString)) {
-                if (byAmount > 0) {
-                    //post byAmount
-                    mEnterAmount.setText(Integer.toString(AMOUNT_UNIT));
-                }
-            } else if (cleanString.length() <= ENTER_AMOUNT_MAX_LENGTH) {
-                int curAmount = Integer.parseInt(cleanString);
-                if ((curAmount + byAmount) >= 0 &&
-                        (curAmount + byAmount) < (Math.pow(10,ENTER_AMOUNT_MAX_LENGTH))) {
-                    mEnterAmount.setText(Integer.toString(curAmount + byAmount));
-                }
-            }
-        }
-    }
 }
