@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.crowdo.p2pmobile.data.LoanDetail;
 import com.crowdo.p2pmobile.data.LoanDetailClient;
 import com.crowdo.p2pmobile.data.LoanFactSheetClient;
@@ -92,8 +94,12 @@ public class DetailsFragment extends Fragment {
             public void onClick(View view) {
 
                 if(initId >= 0) {
-                    factsheetSubscription = LoanFactSheetClient.getInstance()
-                        .getLoanFactSheet(initId)
+                    Toast.makeText(getActivity(),
+                            "Downloading...",
+                            Toast.LENGTH_SHORT).show();
+
+                    factsheetSubscription = LoanFactSheetClient.getInstance(getActivity(), initId)
+                        .getLoanFactSheet()
                         .subscribe(new Observer<File>() {
                             @Override
                             public void onCompleted() {
@@ -114,10 +120,20 @@ public class DetailsFragment extends Fragment {
                                 intent.setDataAndType(Uri.fromFile(file), "application/pdf");
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                 Intent chooserIntent = Intent.createChooser(intent, "Open With");
+
+                                Toast.makeText(getActivity(),
+                                        "FactSheet completed downloading into "
+                                                + file.getAbsolutePath()
+                                                + "\n\nLaunching PDF Reader...",
+                                        Toast.LENGTH_LONG).show();
                                 try{
                                     startActivity(chooserIntent);
                                 }catch (ActivityNotFoundException e){
                                     Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                                    //TODO: Instruct user to install PDF reader via toast
+                                    Toast.makeText(getActivity(),
+                                            "Sorry, you do not seem to have a PDF Reader installed..",
+                                            Toast.LENGTH_LONG).show();
                                 }
 
                             }

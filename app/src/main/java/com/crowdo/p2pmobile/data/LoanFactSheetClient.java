@@ -1,7 +1,13 @@
 package com.crowdo.p2pmobile.data;
 
+import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.crowdo.p2pmobile.helper.StorageHelper;
+
+import org.joda.time.DateTime;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,8 +36,12 @@ public class LoanFactSheetClient {
 
     private static LoanFactSheetClient instance;
     private APIServices apiServices;
+    private Context mContext;
+    private int loanId;
 
-    public LoanFactSheetClient(){
+    public LoanFactSheetClient(Context context, int loanId){
+        this.mContext = context;
+        this.loanId = loanId;
 
         final Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -41,14 +51,14 @@ public class LoanFactSheetClient {
         this.apiServices = retrofit.create(APIServices.class);
     }
 
-    public static LoanFactSheetClient getInstance(){
+    public static LoanFactSheetClient getInstance(Context context, int loanId){
         if(instance == null)
-            instance = new LoanFactSheetClient();
+            instance = new LoanFactSheetClient(context, loanId);
         return instance;
     }
 
-    public Observable<File> getLoanFactSheet(int id){
-        return  apiServices.getLoanFactSheet(id)
+    public Observable<File> getLoanFactSheet(){
+        return  apiServices.getLoanFactSheet(this.loanId)
             .flatMap(processResponse())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread());
@@ -69,18 +79,33 @@ public class LoanFactSheetClient {
             public void call(Subscriber<? super File> subscriber) {
                 try {
                     String header = response.headers().get("Content-Disposition");
-                    String fileName = header.replace("attachment; filename=", "");
-                    Log.d(LOG_TAG, "TEST: filename is " +  fileName);
+                    Log.d(LOG_TAG, "TEST: header = [" + header + "]");
+                    String fileName = loanId+"_"+ DateTime.now().toString("yyyy-MM-dd'T'HH:mm");
+                    Log.d(LOG_TAG, "TEST: filename is " +  fileName+".pdf");
 
-                    File file = new File(Environment
-                            .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                            .getAbsoluteFile(), fileName);
+                    Log.d(LOG_TAG, "TEST: is storage readwrite? "
+                            + StorageHelper.isExternalStorageReadableAndWritable());
 
+                    File file;
+                    if(StorageHelper.isExternalStorageReadableAndWritable()){
+                        Log.d(LOG_TAG, "TEST: creating file in " + Environment
+                                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                                .getAbsolutePath());
+                        file = new File(Environment
+                                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                                .getAbsoluteFile(), fileName);
+                    }else{
+                        Toast.makeText(mContext,
+                                "External storage is missing, downloading to internal",
+                                Toast.LENGTH_LONG).show();
+                        file = new File(mContext.getFilesDir(), fileName);
+                    }
 
                     BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
                     bufferedSink.writeAll(response.body().source());
                     bufferedSink.close();
 
+                    Log.d(LOG_TAG, "TEST: bufferedSink done...");
                     subscriber.onNext(file);
                     subscriber.onCompleted();
                 } catch (IOException e) {
