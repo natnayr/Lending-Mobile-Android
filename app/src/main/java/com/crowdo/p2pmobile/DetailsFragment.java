@@ -113,6 +113,11 @@ public class DetailsFragment extends Fragment {
 
                             @Override
                             public void onNext(File file) {
+                                Toast.makeText(getActivity(),
+                                        "FactSheet completed downloading into "
+                                                + file.getAbsolutePath(),
+                                        Toast.LENGTH_LONG).show();
+
                                 Log.d(LOG_TAG, "TEST: mFactSheetDownloadBtn onNext => "
                                     + file.getAbsolutePath());
 
@@ -121,11 +126,6 @@ public class DetailsFragment extends Fragment {
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                 Intent chooserIntent = Intent.createChooser(intent, "Open With");
 
-                                Toast.makeText(getActivity(),
-                                        "FactSheet completed downloading into "
-                                                + file.getAbsolutePath()
-                                                + "\n\nLaunching PDF Reader...",
-                                        Toast.LENGTH_LONG).show();
                                 try{
                                     startActivity(chooserIntent);
                                 }catch (ActivityNotFoundException e){
