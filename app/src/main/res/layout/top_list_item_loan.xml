@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:paddingLeft="@dimen/list_top_horizontal_padding"
-    android:paddingRight="@dimen/list_top_horizontal_padding">
+    android:paddingRight="@dimen/list_top_horizontal_padding"
+    android:gravity="center_vertical">
 
     <TextView
         android:id="@+id/loan_item_iden_no"
@@ -33,7 +34,7 @@
             android:id="@+id/loan_item_credit_grade_text"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textSize="10sp"
+            android:textSize="@dimen/list_box_text_size"
             android:textColor="@color/color_icons_text"/>
     </LinearLayout>
     <TextView
@@ -45,5 +46,6 @@
         android:layout_marginLeft="@dimen/list_top_box_horizontal_padding"
         android:layout_marginRight="@dimen/list_top_box_horizontal_padding"
         android:paddingTop="@dimen/list_top_vertical_padding"
-        android:paddingBottom="@dimen/list_top_vertical_padding"/>
+        android:paddingBottom="@dimen/list_top_vertical_padding"
+        android:text=""/>
 </LinearLayout>

@@ -6,12 +6,13 @@
     <dimen name="list_top_horizontal_padding">4dp</dimen>
     <dimen name="list_top_vertical_padding">4dp</dimen>
 
+    <dimen name="list_box_text_size">10sp</dimen>
     <dimen name="list_small_text_size">12sp</dimen>
     <dimen name="list_figure_text_size">38sp</dimen>
 
     <dimen name="list_top_box_horizontal_padding">4dp</dimen>
-    <dimen name="list_top_box_vertical_padding">0dp</dimen>
-    <dimen name="list_top_credit_vertical_margin">5dp</dimen>
+    <dimen name="list_top_box_vertical_padding">1dp</dimen>
+    <dimen name="list_top_credit_vertical_margin">2dp</dimen>
 
     <dimen name="list_mid_left_margin">8dp</dimen>
     <dimen name="list_mid_right_margin">16dp</dimen>

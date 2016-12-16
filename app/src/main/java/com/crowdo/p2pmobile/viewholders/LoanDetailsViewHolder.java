@@ -51,6 +51,8 @@ public class LoanDetailsViewHolder {
     private static final String IN_SEC_INVOICE_OR_CHEQUE = "Working Order/Invoice";
     private static final String OUT_SEC_INVOICE_OR_CHEQUE = "Working Order/\nInvoice";
 
+    private static final String IN_DATE_TIME_FORMAT = "";
+    private static final String OUT_DATE_TIME_FORMAT = "dd MMM yyyy";
     private static final int AMOUNT_UNIT = 1;
     private static final int ENTER_AMOUNT_MAX_LENGTH = 4;
 
@@ -217,48 +219,55 @@ public class LoanDetailsViewHolder {
         mPercentageReturn.setText(Double.toString(loanDetail.interestRate));
         mGrade.setText(loanDetail.grade);
 
-        switch (loanDetail.grade) {
-            case "A+":
-                mGrade.setTextColor(colorAPlus);
-                break;
-            case "A":
-                mGrade.setTextColor(colorA);
-                break;
-            case "B+":
-                mGrade.setTextColor(colorBPlus);
-                break;
-            case "B":
-                mGrade.setTextColor(colorB);
-                break;
-            case "C":
-                mGrade.setTextColor(colorC);
-                break;
-            case "D":
-                mGrade.setTextColor(colorD);
-                break;
-            case "E":
-                mGrade.setTextColor(colorE);
-                break;
+        
+        if(loanDetail.grade != null) {
+            switch (loanDetail.grade) {
+                case "A+":
+                    mGrade.setTextColor(colorAPlus);
+                    break;
+                case "A":
+                    mGrade.setTextColor(colorA);
+                    break;
+                case "B+":
+                    mGrade.setTextColor(colorBPlus);
+                    break;
+                case "B":
+                    mGrade.setTextColor(colorB);
+                    break;
+                case "C":
+                    mGrade.setTextColor(colorC);
+                    break;
+                case "D":
+                    mGrade.setTextColor(colorD);
+                    break;
+                case "E":
+                    mGrade.setTextColor(colorE);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid grade " + loanDetail.grade);
+            }
         }
 
-        switch (loanDetail.security) {
-            case IN_SEC_COLLATERAL:
-                mSecurityIcon.setText(R.string.fa_shield);
-                mSecurityIcon.setTextColor(shieldColor);
-                mSecurityDescription.setText(WordUtils.wrap(
-                        WordUtils.capitalize(loanDetail.collateral.replaceAll("_", " ")
-                                + "\n" + IN_SEC_COLLATERAL), 25));
-                break;
-            case IN_SEC_UNCOLLATERALIZED:
-                mSecurityIcon.setText(R.string.fa_unlock_alt);
-                mSecurityIcon.setTextColor(unlockAltColor);
-                mSecurityDescription.setText(OUT_SEC_UNCOLLATERALIZED);
-                break;
-            case IN_SEC_INVOICE_OR_CHEQUE:
-                mSecurityIcon.setText(R.string.fa_file_text);
-                mSecurityIcon.setTextColor(fileColor);
-                mSecurityDescription.setText(OUT_SEC_INVOICE_OR_CHEQUE);
-                break;
+        if(loanDetail.security != null) {
+            switch (loanDetail.security) {
+                case IN_SEC_COLLATERAL:
+                    mSecurityIcon.setText(R.string.fa_shield);
+                    mSecurityIcon.setTextColor(shieldColor);
+                    mSecurityDescription.setText(WordUtils.wrap(
+                            WordUtils.capitalize(loanDetail.collateral.replaceAll("_", " ")
+                                    + "\n" + IN_SEC_COLLATERAL), 25));
+                    break;
+                case IN_SEC_UNCOLLATERALIZED:
+                    mSecurityIcon.setText(R.string.fa_unlock_alt);
+                    mSecurityIcon.setTextColor(unlockAltColor);
+                    mSecurityDescription.setText(OUT_SEC_UNCOLLATERALIZED);
+                    break;
+                case IN_SEC_INVOICE_OR_CHEQUE:
+                    mSecurityIcon.setText(R.string.fa_file_text);
+                    mSecurityIcon.setTextColor(fileColor);
+                    mSecurityDescription.setText(OUT_SEC_INVOICE_OR_CHEQUE);
+                    break;
+            }
         }
 
         int progressNum = loanDetail.fundedPercentageCache;
@@ -267,34 +276,48 @@ public class LoanDetailsViewHolder {
 
         mTenureDuration.setText(Integer.toString(loanDetail.tenure));
 
-        String termDescription = OUT_FREQUENCY_MONTH_LABEL;
-        if(!loanDetail.frequency.equals(IN_FREQUENCY_MONTH_VALUE))
-            termDescription = loanDetail.frequency;
-        mTenureDescription.setText(termDescription);
 
-        int daysLeft = CustomDateHelper.findDaysLeft(DATE_TIME_REGION, loanDetail.fundingEndDate);
-        Log.d(LOG_TAG, "TEST: days left on loan " + daysLeft );
 
-        if(daysLeft > 0){
-            mNumDaysLeft.setText(daysLeft);
-        }else{
-            mNumDaysLeft.setText("0");
+        if(loanDetail.frequency != null) {
+            String termDescription = OUT_FREQUENCY_MONTH_LABEL;
+            if (!loanDetail.frequency.equals(IN_FREQUENCY_MONTH_VALUE))
+                termDescription = loanDetail.frequency;
+            mTenureDescription.setText(termDescription);
         }
 
-        mTargetAmount.setText(CustomNumberFormatter.truncateNumber(loanDetail.targetAmount));
-        mTargetAmountDescription.setText(mTargetAmountPrincipalString + " (" + loanDetail.currency + ")");
+        if(loanDetail.fundingEndDate != null) {
+            int daysLeft = CustomDateHelper.findDaysLeft(DATE_TIME_REGION, loanDetail.fundingEndDate);
+            Log.d(LOG_TAG, "TEST: days left on loan " + daysLeft);
 
-        String scheduleTermDescription = OUT_FREQUENCY_MONTH_SCHEDULE_LABEL;
-        if(!loanDetail.frequency.equals(IN_FREQUENCY_MONTH_VALUE))
-            scheduleTermDescription = loanDetail.frequency;
-        mScheduleFrequencyLabel.setText(scheduleTermDescription);
+            if (daysLeft > 0) {
+                mNumDaysLeft.setText(daysLeft);
+            } else {
+                mNumDaysLeft.setText("0");
+            }
+        }
 
-        mScheduleStartDate.setText(CustomDateHelper.dateTimeFormatter("dd MMM yyyy", loanDetail.startDate));
-        mScheduleFirstRepaymentDate.setText(CustomDateHelper.dateTimeFormatter("dd MMM yyyy", loanDetail.firstRepayment));
-        mScheduleLastRepaymentDate.setText(CustomDateHelper.dateTimeFormatter("dd MMM yyyy", loanDetail.lastRepayment));
+        if(loanDetail.currency != null) {
+            mTargetAmount.setText(CustomNumberFormatter.truncateNumber(loanDetail.targetAmount));
+            mTargetAmountDescription.setText(mTargetAmountPrincipalString + " (" + loanDetail.currency + ")");
+        }
 
-        mAvalibleAmount.setText(CustomNumberFormatter.formatCurrency(loanDetail.currency,
-                loanDetail.fundingAmountToCompleteCache, loanDetail.currency+" ", false) + " " + loanDetail.currency);
+        if(loanDetail.frequency != null) {
+            String scheduleTermDescription = OUT_FREQUENCY_MONTH_SCHEDULE_LABEL;
+            if (!loanDetail.frequency.equals(IN_FREQUENCY_MONTH_VALUE))
+                scheduleTermDescription = loanDetail.frequency;
+            mScheduleFrequencyLabel.setText(scheduleTermDescription);
+        }
+
+        if(loanDetail.startDate != null)
+            mScheduleStartDate.setText(CustomDateHelper.dateTimeFormatter(OUT_DATE_TIME_FORMAT, loanDetail.startDate));
+        if(loanDetail.firstRepayment != null)
+            mScheduleFirstRepaymentDate.setText(CustomDateHelper.dateTimeFormatter(OUT_DATE_TIME_FORMAT, loanDetail.firstRepayment));
+        if(loanDetail.lastRepayment != null)
+            mScheduleLastRepaymentDate.setText(CustomDateHelper.dateTimeFormatter(OUT_DATE_TIME_FORMAT, loanDetail.lastRepayment));
+
+        if(loanDetail.currency != null)
+            mAvalibleAmount.setText(CustomNumberFormatter.formatCurrency(loanDetail.currency,
+                    loanDetail.fundingAmountToCompleteCache, loanDetail.currency+" ", false) + " " + loanDetail.currency);
 
         //Add textwatcher here cause of required currency
         mEnterAmount.addTextChangedListener(new TextWatcher() {
@@ -327,7 +350,7 @@ public class LoanDetailsViewHolder {
                     }
                 } catch (NumberFormatException | IndexOutOfBoundsException e) {
                     //catch long error
-                    Log.e(LOG_TAG, "ERROR", e);
+                    Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
                     //clear it for them
                     mEnterAmount.setText(current);
                     mEnterAmount.setSelection(current.length());
