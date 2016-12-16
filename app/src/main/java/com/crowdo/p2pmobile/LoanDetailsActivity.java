@@ -11,10 +11,10 @@ import android.view.MenuItem;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 
-public class DetailsActivity extends Activity {
+public class LoanDetailsActivity extends Activity {
 
-    private static final String LOG_TAG = DetailsActivity.class.getSimpleName();
-    public static final String TAG_DETAILS_FRAGMENT = "DetailsFragment";
+    private static final String LOG_TAG = LoanDetailsActivity.class.getSimpleName();
+    public static final String TAG_LOAN_DETAILS_FRAGMENT = "LoanDetailsFragment";
     public static final String BUNDLE_ID_KEY = "BundleDetailsFragmentIDKey";
     @InjectExtra public int id;
 
@@ -29,14 +29,14 @@ public class DetailsActivity extends Activity {
         Bundle args = new Bundle();
         args.putInt(BUNDLE_ID_KEY, this.id);
 
-        Fragment fragment = getFragmentManager().findFragmentByTag(TAG_DETAILS_FRAGMENT);
+        Fragment fragment = getFragmentManager().findFragmentByTag(TAG_LOAN_DETAILS_FRAGMENT);
 
         if(fragment == null) {
-            DetailsFragment detailsFragment = new DetailsFragment();
-            detailsFragment.setArguments(args);
+            LoanDetailsFragment loanDetailsFragment = new LoanDetailsFragment();
+            loanDetailsFragment.setArguments(args);
             getFragmentManager().beginTransaction()
-                    .replace(R.id.loan_details, detailsFragment, TAG_DETAILS_FRAGMENT)
-                    .addToBackStack(TAG_DETAILS_FRAGMENT)
+                    .replace(R.id.loan_details, loanDetailsFragment, TAG_LOAN_DETAILS_FRAGMENT)
+                    .addToBackStack(TAG_LOAN_DETAILS_FRAGMENT)
                     .commit();
         }
     }

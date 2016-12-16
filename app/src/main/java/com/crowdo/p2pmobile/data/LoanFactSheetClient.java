@@ -20,7 +20,6 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import rx.Observable;
 import rx.Subscriber;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -80,7 +79,7 @@ public class LoanFactSheetClient {
                 try {
                     String header = response.headers().get("Content-Disposition");
                     Log.d(LOG_TAG, "TEST: header = [" + header + "]");
-                    String fileName = loanId+"_"+ DateTime.now().toString("yyyy-MM-dd'T'HH:mm");
+                    String fileName = loanId+"_"+ DateTime.now().toString("yyyy-MM-dd'T'HH:mm" + ".pdf");
                     Log.d(LOG_TAG, "TEST: filename is " +  fileName+".pdf");
 
                     Log.d(LOG_TAG, "TEST: is storage readwrite? "
@@ -96,7 +95,7 @@ public class LoanFactSheetClient {
                                 .getAbsoluteFile(), fileName);
                     }else{
                         Toast.makeText(mContext,
-                                "External storage is missing, downloading to internal",
+                                "External storage is missing, downloading to Internal Drive",
                                 Toast.LENGTH_LONG).show();
                         file = new File(mContext.getFilesDir(), fileName);
                     }

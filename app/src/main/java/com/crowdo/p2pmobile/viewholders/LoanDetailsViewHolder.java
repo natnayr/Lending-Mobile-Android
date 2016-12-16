@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.crowdo.p2pmobile.viewholders.DetailsFragmentViewHolder;
 import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.custom_ui.GoalProgressBar;
 import com.crowdo.p2pmobile.data.LoanDetail;
@@ -37,9 +36,9 @@ import butterknife.ButterKnife;
  * Created by cwdsg05 on 15/12/16.
  */
 
-public class DetailsFragmentViewHolder {
+public class LoanDetailsViewHolder {
 
-    private static final String LOG_TAG = DetailsFragmentViewHolder.class.getSimpleName();
+    private static final String LOG_TAG = LoanDetailsViewHolder.class.getSimpleName();
 
     private static final String IN_FREQUENCY_MONTH_VALUE = "Monthly";
     private static final String OUT_FREQUENCY_MONTH_LABEL = "Months Tenure";
@@ -112,7 +111,7 @@ public class DetailsFragmentViewHolder {
     @BindDrawable(R.drawable.loan_detail_minus_bid_btn_enabled) Drawable mMinusEnabledDrawable;
     @BindDrawable(R.drawable.loan_detail_minus_bid_btn_pressed) Drawable mMinusPressedDrawable;
 
-    public DetailsFragmentViewHolder(View view) {
+    public LoanDetailsViewHolder(View view) {
         ButterKnife.bind(this, view);
     }
 
@@ -274,11 +273,12 @@ public class DetailsFragmentViewHolder {
         mTenureDescription.setText(termDescription);
 
         int daysLeft = CustomDateHelper.findDaysLeft(DATE_TIME_REGION, loanDetail.fundingEndDate);
+        Log.d(LOG_TAG, "TEST: days left on loan " + daysLeft );
 
-        if(daysLeft<0){
-            mNumDaysLeft.setText("0");
-        }else{
+        if(daysLeft > 0){
             mNumDaysLeft.setText(daysLeft);
+        }else{
+            mNumDaysLeft.setText("0");
         }
 
         mTargetAmount.setText(CustomNumberFormatter.truncateNumber(loanDetail.targetAmount));

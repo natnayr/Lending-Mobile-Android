@@ -73,7 +73,7 @@ public class LoanListFragment extends Fragment {
 
                 LoanListItem item = (LoanListItem) adapterView.getItemAtPosition(position);
                 Intent intent = Henson.with(getActivity())
-                        .gotoDetailsActivity()
+                        .gotoLoanDetailsActivity()
                         .id(item.id)
                         .build();
                 startActivity(intent);

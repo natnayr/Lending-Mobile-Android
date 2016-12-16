@@ -6,6 +6,9 @@
     <dimen name="list_top_horizontal_padding">4dp</dimen>
     <dimen name="list_top_vertical_padding">4dp</dimen>
 
+    <dimen name="list_small_text_size">12sp</dimen>
+    <dimen name="list_figure_text_size">38sp</dimen>
+
     <dimen name="list_top_box_horizontal_padding">4dp</dimen>
     <dimen name="list_top_box_vertical_padding">0dp</dimen>
     <dimen name="list_top_credit_vertical_margin">5dp</dimen>
@@ -20,7 +23,6 @@
 
     <dimen name="loan_detail_figure_text_size">38sp</dimen>
     <dimen name="loan_detail_small_text_size">12sp</dimen>
-
 
     <dimen name="loan_detail_vertical_bracket_margin">8dp</dimen>
     <dimen name="loan_detail_figure_vertical_spacing_margin">8dp</dimen>

@@ -2,6 +2,6 @@
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/loan_details"
-    android:name="com.crowdo.p2pmobile.DetailsFragment"
+    android:name="com.crowdo.p2pmobile.LoanDetailsFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />

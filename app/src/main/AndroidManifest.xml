@@ -29,22 +29,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".DetailsActivity"
+            android:name=".LoanDetailsActivity"
             android:label="@string/activity_detail_action_bar_label"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.crowdo.p2pmobile.MainActivity" />
-        </activity>
-        <activity
-            android:name=".FactSheetActivity"
-            android:label="@string/activity_factsheet_action_bar_label"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.crowdo.p2pmobile.DetailsActivity" />
         </activity>
     </application>
 

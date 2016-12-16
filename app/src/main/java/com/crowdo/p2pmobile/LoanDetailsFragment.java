@@ -3,7 +3,6 @@ package com.crowdo.p2pmobile;
 import android.app.Fragment;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,30 +14,26 @@ import android.widget.Toast;
 import com.crowdo.p2pmobile.data.LoanDetail;
 import com.crowdo.p2pmobile.data.LoanDetailClient;
 import com.crowdo.p2pmobile.data.LoanFactSheetClient;
-import com.crowdo.p2pmobile.viewholders.DetailsFragmentViewHolder;
+import com.crowdo.p2pmobile.viewholders.LoanDetailsViewHolder;
 
 import java.io.File;
 
-import okhttp3.ResponseBody;
-import retrofit2.Response;
-import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class DetailsFragment extends Fragment {
+public class LoanDetailsFragment extends Fragment {
 
-    private static final String LOG_TAG = DetailsFragment.class.getSimpleName();
+    private static final String LOG_TAG = LoanDetailsFragment.class.getSimpleName();
     private Subscription detailsSubscription;
     private Subscription factsheetSubscription;
     private int initId;
 
-    public DetailsFragment() {
+    public LoanDetailsFragment() {
     }
 
 
@@ -46,9 +41,9 @@ public class DetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(getArguments() != null && getArguments()
-                .getInt(DetailsActivity.BUNDLE_ID_KEY) >= 0 ) {
+                .getInt(LoanDetailsActivity.BUNDLE_ID_KEY) >= 0 ) {
             this.initId = getArguments()
-                    .getInt(DetailsActivity.BUNDLE_ID_KEY); //store
+                    .getInt(LoanDetailsActivity.BUNDLE_ID_KEY); //store
         }
     }
 
@@ -58,7 +53,7 @@ public class DetailsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_details, parent, false);
 
-        final DetailsFragmentViewHolder viewHolder = new DetailsFragmentViewHolder(rootView);
+        final LoanDetailsViewHolder viewHolder = new LoanDetailsViewHolder(rootView);
 
         //Init view first,
         viewHolder.initView(getActivity(), this.initId);
@@ -77,14 +72,16 @@ public class DetailsFragment extends Fragment {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        Log.e(LOG_TAG, "ERROR: " + e.getMessage());
+                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
                     }
 
                     @Override
                     public void onNext(LoanDetail loanDetail) {
-                        Log.d(LOG_TAG, "TEST: populated LoanDetails Rx onNext with :"
-                                + loanDetail.loanId + " loanid retreived.");
-                        viewHolder.attachView(loanDetail, getActivity());
+                        if(loanDetail != null) {
+                            Log.d(LOG_TAG, "TEST: populated LoanDetails Rx onNext with :"
+                                    + loanDetail.loanId + " loanid retreived.");
+                            viewHolder.attachView(loanDetail, getActivity());
+                        }
                     }
                 });
 
@@ -108,7 +105,6 @@ public class DetailsFragment extends Fragment {
 
                             @Override
                             public void onError(Throwable e) {
-
                             }
 
                             @Override
@@ -130,7 +126,7 @@ public class DetailsFragment extends Fragment {
                                     startActivity(chooserIntent);
                                 }catch (ActivityNotFoundException e){
                                     Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-                                    //TODO: Instruct user to install PDF reader via toast
+
                                     Toast.makeText(getActivity(),
                                             "Sorry, you do not seem to have a PDF Reader installed..",
                                             Toast.LENGTH_LONG).show();

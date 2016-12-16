@@ -13,7 +13,7 @@
         android:id="@+id/loan_item_amount_icon_container"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:textSize="14sp"
+        android:textSize="@dimen/list_small_text_size"
         android:text="@string/fa_money"
         android:textColor="@color/color_secondary_text"
         android:paddingRight="6dp"/>
@@ -22,7 +22,7 @@
         android:id="@+id/loan_item_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
+        android:textSize="@dimen/list_small_text_size"
         android:textColor="@color/color_secondary_text"/>
 
 </LinearLayout>
