@@ -4,6 +4,8 @@ package com.crowdo.p2pmobile.data;
  * Created by cwdsg05 on 18/11/16.
  */
 
+import android.support.annotation.Nullable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

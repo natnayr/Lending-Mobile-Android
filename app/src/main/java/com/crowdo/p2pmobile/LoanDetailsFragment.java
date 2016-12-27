@@ -66,7 +66,7 @@ public class LoanDetailsFragment extends Fragment {
 
                     @Override
                     public void onCompleted() {
-                        Log.d(LOG_TAG, "TEST: populated LOANDETAILS Rx onComplete");
+                        Log.d(LOG_TAG, "Populated LOANDETAILS Rx onComplete");
                     }
 
                     @Override
@@ -78,8 +78,8 @@ public class LoanDetailsFragment extends Fragment {
                     @Override
                     public void onNext(LoanDetail loanDetail) {
                         if(loanDetail != null) {
-                            Log.d(LOG_TAG, "TEST: populated LoanDetails Rx onNext with :"
-                                    + loanDetail.loanId + " loanid retreived.");
+                            Log.d(LOG_TAG, "Populated LoanDetails Rx onNext with loanId "
+                                    + loanDetail.loanId + " retreived.");
                             viewHolder.attachView(loanDetail, getActivity());
                         }
                     }

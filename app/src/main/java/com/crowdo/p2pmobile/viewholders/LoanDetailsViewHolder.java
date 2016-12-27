@@ -276,8 +276,6 @@ public class LoanDetailsViewHolder {
 
         mTenureDuration.setText(Integer.toString(loanDetail.tenure));
 
-
-
         if(loanDetail.frequency != null) {
             String termDescription = OUT_FREQUENCY_MONTH_LABEL;
             if (!loanDetail.frequency.equals(IN_FREQUENCY_MONTH_VALUE))
@@ -287,14 +285,14 @@ public class LoanDetailsViewHolder {
 
         if(loanDetail.fundingEndDate != null) {
             int daysLeft = CustomDateHelper.findDaysLeft(DATE_TIME_REGION, loanDetail.fundingEndDate);
-            Log.d(LOG_TAG, "TEST: days left on loan " + daysLeft);
 
             if (daysLeft > 0) {
-                mNumDaysLeft.setText(daysLeft);
+                mNumDaysLeft.setText(Integer.toString(daysLeft));
             } else {
                 mNumDaysLeft.setText("0");
             }
         }
+
 
         if(loanDetail.currency != null) {
             mTargetAmount.setText(CustomNumberFormatter.truncateNumber(loanDetail.targetAmount));
