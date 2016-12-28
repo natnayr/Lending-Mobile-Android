@@ -5,7 +5,9 @@ import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Streaming;
 import rx.Observable;
@@ -30,5 +32,8 @@ public interface APIServices {
     @Streaming
     @GET("download_factsheet/{id}")
     Observable<Response<ResponseBody>> getLoanFactSheet(@Path("id") int id);
+
+    @POST("members")
+    Observable<RegisteredMemberCheck> postUserCheck(@Body RegisteredMemberCheckInput inputBody);
 
 }

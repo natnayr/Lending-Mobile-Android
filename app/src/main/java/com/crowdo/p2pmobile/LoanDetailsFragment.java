@@ -66,7 +66,7 @@ public class LoanDetailsFragment extends Fragment {
 
                     @Override
                     public void onCompleted() {
-                        Log.d(LOG_TAG, "Populated LOANDETAILS Rx onComplete");
+                        Log.d(LOG_TAG, "Populated LoanDetail Rx onComplete");
                     }
 
                     @Override
