@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="@string/pref_global_keystore">
+    <EditTextPreference
+        android:title="Email"
+        android:key="@string/pref_user_email_key"/>
+
+    <Preference
+        android:title="User ID"
+        android:key="@string/pref_user_id_key"
+        android:defaultValue="-1"/>
+
+    <Preference
+        android:title="Sg Registered?"
+        android:key="@string/pref_is_user_sg_registered_key"
+        android:defaultValue="false"/>
+
+    <Preference
+        android:title="Indo Registered?"
+        android:key="@string/pref_is_user_indo_registered_key"
+        android:defaultValue="true"/>
+
+</PreferenceScreen>

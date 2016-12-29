@@ -1,6 +1,8 @@
 package com.crowdo.p2pmobile;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,14 +11,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.crowdo.p2pmobile.data.LoanListItem;
 import com.crowdo.p2pmobile.data.LoanListClient;
+import com.crowdo.p2pmobile.helper.SharedPreferencesHelper;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -33,8 +39,9 @@ public class LoanListFragment extends Fragment {
 
     private ListView mListView;
     private LoanListAdapter mLoanAdapter;
-    private Subscription subscription;
+    private Subscription loanListSubscription;
     private SwipeRefreshLayout swipeContainer;
+    private AlertDialog alertDialog;
 
     public LoanListFragment(){
     }
@@ -44,6 +51,9 @@ public class LoanListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mLoanAdapter = new LoanListAdapter(getActivity());
         populateLoansList();
+
+        //call for email address to identify user.
+        dialogEmailPrompt();
     }
 
     @Override
@@ -79,7 +89,6 @@ public class LoanListFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
         return rootView;
     }
 
@@ -88,17 +97,29 @@ public class LoanListFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
+
+
     @Override
     public void onDestroy() {
-        if(subscription != null && !subscription.isUnsubscribed()){
-            subscription.unsubscribe();
+        if(loanListSubscription != null && !loanListSubscription.isUnsubscribed()){
+            loanListSubscription.unsubscribe();
         }
         super.onDestroy();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(alertDialog != null && alertDialog.isShowing())
+            alertDialog.dismiss();
+
+        SharedPreferencesHelper.setSharePrefBool(getActivity(),
+                getActivity().getString(R.string.pref_is_email_dialog_run_key),
+                true);
+    }
 
     private void populateLoansList(){
-        subscription = LoanListClient.getInstance()
+        loanListSubscription = LoanListClient.getInstance()
                 .getLiveLoans()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -123,7 +144,57 @@ public class LoanListFragment extends Fragment {
                         mLoanAdapter.setLoans(loanListItems);
                     }
                 });
+    }
 
+    @BindView(R.id.member_check_dialog_email) EditText memberCheckEmailEditText;
+
+    private void dialogEmailPrompt(){
+        boolean enterEmailPopUpShown = SharedPreferencesHelper.getSharedPrefBool(getActivity(),
+                getActivity().getString(R.string.pref_is_email_dialog_run_key),
+                true);
+
+        int acctMemberId = SharedPreferencesHelper.getSharedPrefInt(getActivity(),
+                getActivity().getString(R.string.pref_user_id_key),
+                -1);
+
+        Log.d(LOG_TAG, "TEST: enteredEmailYet=" + enterEmailPopUpShown +
+                " and acctMemberId=" + acctMemberId);
+
+        if(enterEmailPopUpShown && acctMemberId == -1) {
+            Log.d(LOG_TAG, "TEST: email dialog pop up start");
+            LayoutInflater inflater = LayoutInflater.from(getActivity());
+            View dialogView = inflater.inflate(R.layout.member_check_dialog, null);
+            ButterKnife.bind(this, dialogView);
+
+            AlertDialog.Builder alertDialogBuilderInput = new AlertDialog.Builder(getActivity());
+            alertDialogBuilderInput.setView(dialogView);
+
+            alertDialogBuilderInput
+                    .setCancelable(false)
+                    .setPositiveButton("Enter", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int id) {
+
+
+                            Toast.makeText(getActivity(),
+                                    memberCheckEmailEditText.getText(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int id) {
+                            dialogInterface.cancel();
+                        }
+                    });
+
+            alertDialog = alertDialogBuilderInput.create();
+            alertDialog.show();
+        }
+
+        SharedPreferencesHelper.setSharePrefBool(getActivity(),
+                getActivity().getString(R.string.pref_is_email_dialog_run_key),
+                false);
     }
 
 }

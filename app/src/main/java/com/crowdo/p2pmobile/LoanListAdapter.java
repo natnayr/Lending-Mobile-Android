@@ -110,7 +110,6 @@ public class LoanListAdapter extends BaseAdapter {
         @BindView(R.id.loan_item_amount) TextView mLoanAmount;
 
         @BindView(R.id.loan_item_collateral_icon_container) TextView mSecurityIcon;
-
         @BindView(R.id.loan_item_credit_grade_layout) View mLoanGradeDrawable;
         @BindView(R.id.loan_item_amount_icon_container) TextView mLoanAmountIcon;
 

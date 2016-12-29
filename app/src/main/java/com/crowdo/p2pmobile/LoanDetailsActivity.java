@@ -3,15 +3,16 @@ package com.crowdo.p2pmobile;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 
-public class LoanDetailsActivity extends Activity {
+public class LoanDetailsActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = LoanDetailsActivity.class.getSimpleName();
     public static final String TAG_LOAN_DETAILS_FRAGMENT = "LoanDetailsFragment";
@@ -22,7 +23,15 @@ public class LoanDetailsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //toolbar view
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_loan_details);
+        setSupportActionBar(toolbar);
+
+        //enable back buttons
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
 
         Dart.inject(this);
 
@@ -35,7 +44,7 @@ public class LoanDetailsActivity extends Activity {
             LoanDetailsFragment loanDetailsFragment = new LoanDetailsFragment();
             loanDetailsFragment.setArguments(args);
             getFragmentManager().beginTransaction()
-                    .replace(R.id.loan_details, loanDetailsFragment, TAG_LOAN_DETAILS_FRAGMENT)
+                    .replace(R.id.fragment_loan_details, loanDetailsFragment, TAG_LOAN_DETAILS_FRAGMENT)
                     .addToBackStack(TAG_LOAN_DETAILS_FRAGMENT)
                     .commit();
         }

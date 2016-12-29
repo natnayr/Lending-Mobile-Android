@@ -142,4 +142,16 @@ public class LoanDetailsFragment extends Fragment {
         return rootView;
     }
 
+
+    @Override
+    public void onDestroy() {
+        if(detailsSubscription != null && !detailsSubscription.isUnsubscribed()){
+            detailsSubscription.unsubscribe();
+        }
+        if(factsheetSubscription != null && !factsheetSubscription.isUnsubscribed()){
+            factsheetSubscription.unsubscribe();
+        }
+        super.onDestroy();
+    }
+
 }

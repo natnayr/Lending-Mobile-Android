@@ -57,7 +57,7 @@ public class LoanDetailsViewHolder {
     private static final int ENTER_AMOUNT_MAX_LENGTH = 4;
 
     // static views
-    @BindView(R.id.loan_details) RelativeLayout mLoanDetailRelativeLayout;
+    @BindView(R.id.fragment_loan_details) RelativeLayout mLoanDetailRelativeLayout;
     @BindView(R.id.loan_detail_iden_no) TextView mLoanIdenTextView;
     @BindView(R.id.loan_detail_percentage_return) TextView mPercentageReturn;
     @BindView(R.id.loan_detail_grade) TextView mGrade;

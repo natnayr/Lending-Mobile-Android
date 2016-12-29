@@ -3,6 +3,7 @@
     <dimen name="activity_horizontal_padding">8dp</dimen>
     <dimen name="activity_vertical_padding">8dp</dimen>
 
+
     <dimen name="list_top_horizontal_padding">4dp</dimen>
     <dimen name="list_top_vertical_padding">4dp</dimen>
 
@@ -52,9 +53,12 @@
     <dimen name="loan_detail_schedule_box_horizontal_padding">4dp</dimen>
 
     <dimen name="loan_detail_avalible_amount_margin_left">10dp</dimen>
+
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="dialog_horizontal_padding">16dp</dimen>
+    <dimen name="dialog_vertical_padding">16dp</dimen>
 
 </resources>
