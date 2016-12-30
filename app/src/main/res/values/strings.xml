@@ -50,6 +50,7 @@
     <string name="pref_is_email_dialog_run_key">IS_EMAIL_DIALOG</string>
     <string name="pref_user_email_key">USER_EMAIL</string>
     <string name="pref_user_id_key">USER_ID</string>
+    <string name="pref_user_name_key">USER_NAME</string>
     <string name="pref_is_user_sg_registered_key">IS_USER_SG_REGISTERED</string>
     <string name="pref_is_user_indo_registered_key">IS_USER_INDO_REGISTERED</string>
 </resources>

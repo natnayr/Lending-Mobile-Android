@@ -2,6 +2,7 @@ package com.crowdo.p2pmobile;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,12 +18,19 @@ import android.widget.Toast;
 
 import com.crowdo.p2pmobile.data.LoanListItem;
 import com.crowdo.p2pmobile.data.LoanListClient;
+import com.crowdo.p2pmobile.data.RegisteredMemberCheck;
+import com.crowdo.p2pmobile.data.RegisteredMemberCheckClient;
 import com.crowdo.p2pmobile.helper.SharedPreferencesHelper;
+
+import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -101,9 +109,11 @@ public class LoanListFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        if(loanListSubscription != null && !loanListSubscription.isUnsubscribed()){
+        if(loanListSubscription != null &&
+                !loanListSubscription.isUnsubscribed()){
             loanListSubscription.unsubscribe();
         }
+
         super.onDestroy();
     }
 
@@ -147,8 +157,8 @@ public class LoanListFragment extends Fragment {
     }
 
     @BindView(R.id.member_check_dialog_email) EditText memberCheckEmailEditText;
-
     private void dialogEmailPrompt(){
+
         boolean enterEmailPopUpShown = SharedPreferencesHelper.getSharedPrefBool(getActivity(),
                 getActivity().getString(R.string.pref_is_email_dialog_run_key),
                 true);
@@ -174,11 +184,52 @@ public class LoanListFragment extends Fragment {
                     .setPositiveButton("Enter", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int id) {
+                            final String enteredEmail = memberCheckEmailEditText.getText()
+                                    .toString().toLowerCase().trim();
 
+                            Call<RegisteredMemberCheck> call = RegisteredMemberCheckClient.getInstance()
+                                    .postUserCheck(enteredEmail);
 
-                            Toast.makeText(getActivity(),
-                                    memberCheckEmailEditText.getText(),
-                                    Toast.LENGTH_SHORT).show();
+                            call.enqueue(new Callback<RegisteredMemberCheck>() {
+                                @Override
+                                public void onResponse(Call<RegisteredMemberCheck> call,
+                                                       Response<RegisteredMemberCheck> response) {
+                                    Log.d(LOG_TAG, "TEST: onResponse " + response.body().name);
+
+                                    Context context = getActivity();
+                                    RegisteredMemberCheck registeredMemberCheck =
+                                            response.body();
+
+                                    SharedPreferencesHelper.setSharePrefInt(context,
+                                            context.getString(R.string.pref_user_id_key),
+                                            registeredMemberCheck.id);
+
+                                    SharedPreferencesHelper.setSharePrefBool(getActivity(),
+                                            context.getString(R.string.pref_is_user_sg_registered_key),
+                                            registeredMemberCheck.registeredSingapore);
+
+                                    SharedPreferencesHelper.setSharePrefBool(getActivity(),
+                                            context.getString(R.string.pref_is_user_indo_registered_key),
+                                            registeredMemberCheck.registeredIndonesia);
+
+                                    SharedPreferencesHelper.setSharePrefString(getActivity(),
+                                            context.getString(R.string.pref_user_name_key),
+                                            WordUtils.capitalizeFully(registeredMemberCheck.name));
+
+                                    Toast.makeText(getActivity(), "Welcome, "+
+                                            WordUtils.capitalizeFully(registeredMemberCheck.name),
+                                            Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onFailure(Call<RegisteredMemberCheck> call, Throwable t) {
+                                    Log.e(LOG_TAG, "ERROR: CALL FAILURE: " + t.getMessage());
+                                    Toast.makeText(getActivity(), "Sorry, "+ enteredEmail +" did not match anything",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                            dialogInterface.dismiss();
                         }
                     })
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

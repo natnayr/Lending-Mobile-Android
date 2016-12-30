@@ -1,12 +1,17 @@
 package com.crowdo.p2pmobile.data;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Streaming;
@@ -33,7 +38,8 @@ public interface APIServices {
     @GET("download_factsheet/{id}")
     Observable<Response<ResponseBody>> getLoanFactSheet(@Path("id") int id);
 
+    @Headers("Content-Type: application/json")
     @POST("members")
-    Observable<RegisteredMemberCheck> postUserCheck(@Body RegisteredMemberCheckInput inputBody);
+    Call<RegisteredMemberCheck> postUserCheck(@Body Map<String, String> inputBody);
 
 }
