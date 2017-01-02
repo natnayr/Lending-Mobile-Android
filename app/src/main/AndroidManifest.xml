@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".LoanListActivity"
             android:label="@string/activity_main_action_bar_label"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -35,8 +35,13 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.crowdo.p2pmobile.MainActivity" />
+                android:value="com.crowdo.p2pmobile.LoanListActivity" />
         </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/activity_settings_action_bar_label"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

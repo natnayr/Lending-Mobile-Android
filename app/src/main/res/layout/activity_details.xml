@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_loan_details"
         android:layout_width="match_parent"
@@ -14,7 +15,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <fragment
-        android:id="@+id/fragment_loan_details"
+        android:id="@+id/loan_details_content"
         android:name="com.crowdo.p2pmobile.LoanDetailsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

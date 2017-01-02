@@ -3,11 +3,11 @@ package com.crowdo.p2pmobile;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.f2prateek.dart.Dart;
@@ -15,40 +15,48 @@ import com.f2prateek.dart.Dart;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by cwdsg05 on 2/1/17.
- */
+public class LoanListActivity extends AppCompatActivity {
 
-public class SettingsActivity extends AppCompatActivity {
-
-    public static final String TAG_SETTINGS_FRAGMENT = "SettingsFragment";
-    @BindView(R.id.toolbar)  Toolbar toolbar;
-
+    private static final String LOG_TAG = LoanListActivity.class.getSimpleName();
+    public static final String TAG_LOAN_LIST_FRAGMENT = "LoanListFragment";
+    @BindView(R.id.toolbar_loan_list) Toolbar toolbar;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_main);
+
+        //toolbar view
         ButterKnife.bind(this);
-
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.inflateMenu(R.menu.menu_main);
 
-        Fragment settingsFragment = getFragmentManager().findFragmentByTag(TAG_SETTINGS_FRAGMENT);
-        if(settingsFragment == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(new SettingsFragment(), TAG_SETTINGS_FRAGMENT)
+        //inject intent settings
+        Dart.inject(this);
+
+        Fragment loanListFragment = getFragmentManager().findFragmentByTag(TAG_LOAN_LIST_FRAGMENT);
+        if(loanListFragment == null){
+            getFragmentManager().beginTransaction()
+                    .add(new LoanListFragment(), TAG_LOAN_LIST_FRAGMENT)
                     .commit();
         }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            onBackPressed();
+        switch (item.getItemId()){
+            case android.R.id.home:
+                return toBackStackOrParent();
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

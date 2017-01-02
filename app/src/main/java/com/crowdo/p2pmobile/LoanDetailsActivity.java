@@ -12,26 +12,29 @@ import android.view.MenuItem;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class LoanDetailsActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = LoanDetailsActivity.class.getSimpleName();
     public static final String TAG_LOAN_DETAILS_FRAGMENT = "LoanDetailsFragment";
     public static final String BUNDLE_ID_KEY = "BundleDetailsFragmentIDKey";
     @InjectExtra public int id;
+    @BindView(R.id.toolbar_loan_details) Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        ButterKnife.bind(this);
 
         //toolbar view
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_loan_details);
         setSupportActionBar(toolbar);
 
         //enable back buttons
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
 
         Dart.inject(this);
 
@@ -44,7 +47,7 @@ public class LoanDetailsActivity extends AppCompatActivity {
             LoanDetailsFragment loanDetailsFragment = new LoanDetailsFragment();
             loanDetailsFragment.setArguments(args);
             getFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_loan_details, loanDetailsFragment, TAG_LOAN_DETAILS_FRAGMENT)
+                    .replace(R.id.loan_details_content, loanDetailsFragment, TAG_LOAN_DETAILS_FRAGMENT)
                     .addToBackStack(TAG_LOAN_DETAILS_FRAGMENT)
                     .commit();
         }

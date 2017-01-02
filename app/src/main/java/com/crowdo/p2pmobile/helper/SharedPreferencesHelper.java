@@ -11,8 +11,6 @@ import com.crowdo.p2pmobile.R;
 
 public class SharedPreferencesHelper {
 
-
-
     public static SharedPreferences getSharedPref(Context context){
         return context.getSharedPreferences(context.getString(R.string.pref_global_keystore),
                 Context.MODE_PRIVATE);

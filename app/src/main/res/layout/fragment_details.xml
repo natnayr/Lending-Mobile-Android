@@ -2,14 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/fragment_loan_details"
+    android:id="@+id/loan_details_content"
     android:background="@color/color_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_padding"
     android:paddingRight="@dimen/activity_horizontal_padding"
     tools:context="com.crowdo.p2pmobile.LoanDetailsFragment">
-
     <TextView
         android:id="@+id/loan_detail_iden_no"
         android:layout_width="match_parent"
@@ -20,7 +19,7 @@
         android:textColor="@color/color_secondary_text"
         android:textSize="@dimen/loan_detail_small_text_size"
         android:fontFamily="@string/font_family_regular"
-        android:layout_marginTop="@dimen/loan_detail_vertical_bracket_margin"/>
+        android:layout_marginTop="@dimen/loan_detail_vertical_bracket_margin" />
 
     <LinearLayout
         android:id="@+id/loan_detail_essentials_group"

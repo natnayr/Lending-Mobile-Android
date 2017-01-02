@@ -11,6 +11,7 @@
         <item name="android:textColorSecondary">@color/color_secondary_text</item>
         <item name="android:textColorPrimaryInverse">@color/color_icons_text</item>
         <item name="android:colorBackground">@color/color_background</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
     </style>
 
 
@@ -42,6 +43,9 @@
     <style name="LoanDetailImageButton" parent="android:Widget.Holo.Light.ImageButton">
         <item name="android:colorButtonNormal">@color/color_icons_text</item>
     </style>
+
+
+
 
 
 
