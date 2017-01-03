@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.f2prateek.dart.Dart;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,7 +22,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     public static final String TAG_SETTINGS_FRAGMENT = "SettingsFragment";
     @BindView(R.id.toolbar)  Toolbar toolbar;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

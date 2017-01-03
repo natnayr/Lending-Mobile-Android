@@ -12,7 +12,7 @@
         android:logo="@drawable/ic_action_logo_dark"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashActivity"
+            android:name=".SplashAndInitActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>

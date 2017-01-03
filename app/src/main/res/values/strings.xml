@@ -46,12 +46,26 @@
     <string name="loan_detail_bidding_btn_content_description">Bid Here</string>
 
     <string name="percent_label">%</string>
-
-    <string name="pref_global_keystore">GLOBALKEYSTORE_HANDLE</string>
     <string name="pref_is_email_dialog_run_key">IS_EMAIL_DIALOG</string>
-    <string name="pref_user_email_key">USER_EMAIL</string>
     <string name="pref_user_id_key">USER_ID</string>
+
+    <string name="pref_user_email_key">USER_EMAIL</string>
     <string name="pref_user_name_key">USER_NAME</string>
     <string name="pref_is_user_sg_registered_key">IS_USER_SG_REGISTERED</string>
     <string name="pref_is_user_indo_registered_key">IS_USER_INDO_REGISTERED</string>
+
+    <string name="pref_user_email_title">Email Address</string>
+    <string name="pref_user_name_title">Name</string>
+    <string name="pref_is_user_sg_registered_title">SGD Market Allowed?</string>
+    <string name="pref_is_user_indo_registered_title">IDR Market Allowed?</string>
+
+    <string name="pref_user_email_summary">Your Registered Email Address</string>
+    <string name="pref_user_name_summary">Your Stored Name</string>
+    <string name="pref_is_user_sg_registered_summary">Are </string>
+    <string name="pref_is_user_indo_registered_summary">SGD Market Allowed?</string>
+
+    <string name="pref_user_email_dialog_default_value">e.g. john.appleseed@email.com</string>
+
+    <string name="member_check_email_dialog_label">We have not identified you as a registered investor. To bid, please enter your registered email.</string>
+
 </resources>

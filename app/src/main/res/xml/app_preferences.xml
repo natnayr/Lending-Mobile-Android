@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.preference.PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:key="@string/pref_global_keystore">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <android.support.v7.preference.PreferenceCategory
-        android:title="Account Info">
-
-        <android.support.v7.preference.Preference
-            android:key="@string/pref_user_name_key"
-            android:title="Name"/>
+        android:title="My Account">
 
         <android.support.v7.preference.EditTextPreference
             android:key="@string/pref_user_email_key"
-            android:title="Email Address"
-            android:summary="Registered Email Address with Crowdo" />
+            android:title="@string/pref_user_email_title"
+            android:summary="@string/pref_user_email_summary"
+            android:dialogMessage="@string/pref_user_email_summary"
+            android:defaultValue="@string/pref_user_email_dialog_default_value"
+            android:dialogLayout="@layout/pref_dialog_edittext_fix"/>
+
+        <android.support.v7.preference.Preference
+            android:key="@string/pref_user_name_key"
+            android:title="@string/pref_user_name_title"
+            android:summary="@string/pref_user_name_summary"/>
 
     </android.support.v7.preference.PreferenceCategory>
 

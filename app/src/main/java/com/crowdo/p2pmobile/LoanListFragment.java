@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crowdo.p2pmobile.data.LoanListItem;
@@ -26,6 +28,7 @@ import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.List;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -156,7 +159,10 @@ public class LoanListFragment extends Fragment {
                 });
     }
 
-    @BindView(R.id.member_check_dialog_email) EditText memberCheckEmailEditText;
+    @BindView(android.R.id.message) TextView memberCheckEmailTextView;
+    @BindView(android.R.id.edit) EditText memberCheckEmailEditText;
+    @BindString(R.string.member_check_email_dialog_label) String memberCheckEmailDialogLabel;
+    @BindString(R.string.pref_user_email_dialog_default_value) String memberCheckEmailDialogDefaultValue;
     private void dialogEmailPrompt(){
 
         boolean enterEmailPopUpShown = SharedPreferencesHelper.getSharedPrefBool(getActivity(),
@@ -173,8 +179,14 @@ public class LoanListFragment extends Fragment {
         if(enterEmailPopUpShown && acctMemberId == -1) {
             Log.d(LOG_TAG, "TEST: email dialog pop up start");
             LayoutInflater inflater = LayoutInflater.from(getActivity());
-            View dialogView = inflater.inflate(R.layout.member_check_dialog, null);
+            View dialogView = inflater.inflate(R.layout.pref_dialog_edittext_fix, null);
             ButterKnife.bind(this, dialogView);
+
+            // setting dialog layout
+            memberCheckEmailTextView.setText(memberCheckEmailDialogLabel);
+            memberCheckEmailEditText.setHint(memberCheckEmailDialogDefaultValue);
+            memberCheckEmailEditText.setInputType(InputType.TYPE_CLASS_TEXT |
+                    InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 
             AlertDialog.Builder alertDialogBuilderInput = new AlertDialog.Builder(getActivity());
             alertDialogBuilderInput.setView(dialogView);
@@ -194,31 +206,42 @@ public class LoanListFragment extends Fragment {
                                 @Override
                                 public void onResponse(Call<RegisteredMemberCheck> call,
                                                        Response<RegisteredMemberCheck> response) {
-                                    Log.d(LOG_TAG, "TEST: onResponse " + response.body().name);
 
                                     Context context = getActivity();
-                                    RegisteredMemberCheck registeredMemberCheck =
-                                            response.body();
 
-                                    SharedPreferencesHelper.setSharePrefInt(context,
-                                            context.getString(R.string.pref_user_id_key),
-                                            registeredMemberCheck.id);
+                                    if(response.body() != null){
+                                        RegisteredMemberCheck registeredMemberCheck = response.body();
+                                        Log.d(LOG_TAG, "TEST: onResponse " + registeredMemberCheck.name);
 
-                                    SharedPreferencesHelper.setSharePrefBool(getActivity(),
-                                            context.getString(R.string.pref_is_user_sg_registered_key),
-                                            registeredMemberCheck.registeredSingapore);
+                                        SharedPreferencesHelper.setSharePrefInt(context,
+                                                context.getString(R.string.pref_user_id_key),
+                                                registeredMemberCheck.id);
 
-                                    SharedPreferencesHelper.setSharePrefBool(getActivity(),
-                                            context.getString(R.string.pref_is_user_indo_registered_key),
-                                            registeredMemberCheck.registeredIndonesia);
+                                        SharedPreferencesHelper.setSharePrefBool(getActivity(),
+                                                context.getString(R.string.pref_is_user_sg_registered_key),
+                                                registeredMemberCheck.registeredSingapore);
 
-                                    SharedPreferencesHelper.setSharePrefString(getActivity(),
-                                            context.getString(R.string.pref_user_name_key),
-                                            WordUtils.capitalizeFully(registeredMemberCheck.name));
+                                        SharedPreferencesHelper.setSharePrefBool(getActivity(),
+                                                context.getString(R.string.pref_is_user_indo_registered_key),
+                                                registeredMemberCheck.registeredIndonesia);
 
-                                    Toast.makeText(getActivity(), "Welcome, "+
-                                            WordUtils.capitalizeFully(registeredMemberCheck.name),
-                                            Toast.LENGTH_SHORT).show();
+                                        SharedPreferencesHelper.setSharePrefString(getActivity(),
+                                                context.getString(R.string.pref_user_name_key),
+                                                WordUtils.capitalizeFully(registeredMemberCheck.name));
+
+                                        //store keyed in one
+                                        SharedPreferencesHelper.setSharePrefString(getActivity(),
+                                                context.getString(R.string.pref_user_email_key),
+                                                enteredEmail);
+
+                                        Toast.makeText(getActivity(), "Welcome, " +
+                                                        WordUtils.capitalizeFully(registeredMemberCheck.name),
+                                                Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        Log.d(LOG_TAG, "TEST: failed to get email: " + enteredEmail );
+                                        Toast.makeText(getActivity(), "Sorry, "+ enteredEmail +" did not match anything",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
                                 }
 
                                 @Override

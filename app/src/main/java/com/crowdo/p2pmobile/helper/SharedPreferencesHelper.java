@@ -2,6 +2,7 @@ package com.crowdo.p2pmobile.helper;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v7.preference.PreferenceManager;
 
 import com.crowdo.p2pmobile.R;
 
@@ -12,8 +13,7 @@ import com.crowdo.p2pmobile.R;
 public class SharedPreferencesHelper {
 
     public static SharedPreferences getSharedPref(Context context){
-        return context.getSharedPreferences(context.getString(R.string.pref_global_keystore),
-                Context.MODE_PRIVATE);
+        return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     public static String getSharedPrefString(Context context, String key, String defaultValue){

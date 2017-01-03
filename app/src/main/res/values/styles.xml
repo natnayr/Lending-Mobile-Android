@@ -12,8 +12,16 @@
         <item name="android:textColorPrimaryInverse">@color/color_icons_text</item>
         <item name="android:colorBackground">@color/color_background</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="android:alertDialogTheme">@style/Theme.AppCompat.DayNight.Dialog.Alert</item>
     </style>
 
+    <style name="AppAlertDialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <item name="android:colorAccent">@color/color_accent</item>
+    </style>
+
+    <style name="AppAlertDialogContent" parent="Theme.AppCompat.DayNight">
+        <item name="android:colorAccent">@color/color_accent</item>
+    </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/background_splash</item>
@@ -43,10 +51,6 @@
     <style name="LoanDetailImageButton" parent="android:Widget.Holo.Light.ImageButton">
         <item name="android:colorButtonNormal">@color/color_icons_text</item>
     </style>
-
-
-
-
 
 
 </resources>
