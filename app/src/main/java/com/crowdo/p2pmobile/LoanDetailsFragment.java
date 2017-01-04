@@ -163,23 +163,19 @@ public class LoanDetailsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if(viewHolder != null) {
-            int acctMemberId = SharedPreferencesHelper.getSharedPrefInt(getActivity(),
-                    getActivity().getString(R.string.pref_user_id_key), -1);
 
-            Log.d(LOG_TAG, "TEST: acctMemberId=" + acctMemberId);
+            viewHolder.mBidEnterBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-            if(acctMemberId == -1) {
-                viewHolder.mBidEnterBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    int acctMemberId = SharedPreferencesHelper.getSharedPrefInt(getActivity(),
+                            getActivity().getString(R.string.pref_user_id_key), -1);
+
+                    Log.d(LOG_TAG, "TEST: acctMemberId=" + acctMemberId);
+
+                    if(acctMemberId == -1) {
                         dialogEmailPrompt();
-                    }
-                });
-            }else {
-                //email identified, proceed
-                viewHolder.mBidEnterBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    }else {
                         Intent intent = Henson.with(getActivity())
                                 .gotoWebViewActivity()
                                 .id(initId)
@@ -188,8 +184,8 @@ public class LoanDetailsFragment extends Fragment {
 
                         startActivity(intent);
                     }
-                });
-            }
+                }
+            });
         }
     }
 

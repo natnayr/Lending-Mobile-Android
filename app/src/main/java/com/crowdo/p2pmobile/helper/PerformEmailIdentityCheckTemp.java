@@ -24,7 +24,7 @@ public class PerformEmailIdentityCheckTemp {
         this.context = context;
     }
 
-    public void onResponseCode(String LOG_TAG, String enteredEmail,
+    public boolean onResponseCode(String LOG_TAG, String enteredEmail,
                                       Response<RegisteredMemberCheck> response){
         try {
             RegisteredMemberCheck registeredMemberCheck = response.body();
@@ -57,6 +57,8 @@ public class PerformEmailIdentityCheckTemp {
             Toast.makeText(context, "Welcome, " +
                             WordUtils.capitalizeFully(registeredMemberCheck.name),
                     Toast.LENGTH_SHORT).show();
+            if(registeredMemberCheck.id > 0 )
+                return true; //return success
 
         }catch (NullPointerException npe){
             Log.e(LOG_TAG, "ERROR: " + npe.getMessage() + "on email: " + enteredEmail , npe);
@@ -64,6 +66,7 @@ public class PerformEmailIdentityCheckTemp {
                     " did not match anything", Toast.LENGTH_SHORT).show();
             SharedPreferencesHelper.resetUserAccountSharedPreferences(context);
         }
+        return false;
     }
 
     public void onFailure(String LOG_TAG, String enteredEmail, Throwable t){

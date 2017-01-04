@@ -6,16 +6,15 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.f2prateek.dart.Dart;
-import com.f2prateek.dart.HensonNavigable;
 import com.f2prateek.dart.InjectExtra;
-import com.f2prateek.dart.henson.processor.HensonNavigatorGenerator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +27,7 @@ public class WebViewActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = WebViewActivity.class.getSimpleName();
 
-    @BindView(R.id.webview) WebView webview;
+    @BindView(R.id.webview) WebView webView;
     @BindView(R.id.toolbar_webview) Toolbar toolbar;
     @InjectExtra public int id;
     @InjectExtra public String url;
@@ -47,17 +46,46 @@ public class WebViewActivity extends AppCompatActivity {
 
         //inject intent settings
         Dart.inject(this);
-        webview.setWebViewClient(new EmbedWebViewClient());
-        webview.getSettings().setJavaScriptEnabled(true);
-        webview.loadUrl(url);
+
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setLoadsImagesAutomatically(true);
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setAppCacheEnabled(false);
+        webSettings.setBuiltInZoomControls(true);
+        webSettings.setUseWideViewPort(true);
+
+        webView.setInitialScale(1);
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                view.loadUrl(request.getUrl().toString());
+                return true;
+            }
+        });
+
+        webView.setWebChromeClient(new WebChromeClient(){});
+        webView.loadUrl(url);
     }
 
-    private class EmbedWebViewClient extends WebViewClient{
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-            view.loadUrl(request.getUrl().toString());
-            return true;
-        }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        webView.onPause();
+        webView.pauseTimers();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        webView.resumeTimers();
+        webView.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        webView.destroy();
+        webView = null;
+        super.onDestroy();
     }
 
     @Override
