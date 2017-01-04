@@ -87,7 +87,7 @@ public class LoanDetailsViewHolder {
     @BindView(R.id.loan_detail_amount_plus_btn) ImageButton mAmountPlusBtn;
     @BindView(R.id.loan_detail_enter_amount_edittext) EditText mEnterAmount;
     @BindView(R.id.loan_detail_factsheet_download_btn) public LinearLayout mFactsheetDownloadBtn; //LinearLayout act as button
-    @BindView(R.id.loan_detail_bid_enter_btn) LinearLayout mBidEnterBtn; //LinearLayout act as button
+    @BindView(R.id.loan_detail_bid_enter_btn) public LinearLayout mBidEnterBtn; //LinearLayout act as button
 
     // String Bindings
     @BindString(R.string.date_time_region) String DATE_TIME_REGION; //constant

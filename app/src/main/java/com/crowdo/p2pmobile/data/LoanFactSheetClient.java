@@ -77,13 +77,15 @@ public class LoanFactSheetClient {
             @Override
             public void call(Subscriber<? super File> subscriber) {
                 try {
-                    String header = response.headers().get("Content-Disposition");
-                    Log.d(LOG_TAG, "TEST: header = [" + header + "]");
-                    String fileName = loanId+"_"+ DateTime.now().toString("yyyy-MM-dd'T'HH:mm" + ".pdf");
-                    Log.d(LOG_TAG, "TEST: filename is " +  fileName+".pdf");
-
                     Log.d(LOG_TAG, "TEST: is storage readwrite? "
                             + StorageHelper.isExternalStorageReadableAndWritable());
+
+                    String header = response.headers().get("Content-Disposition");
+                    Log.d(LOG_TAG, "TEST: header = [" + header + "]");
+                    String fileName = loanId+"_"+ DateTime.now().toString("yyyy-MM-dd'T'HH:mm") + ".pdf";
+                    Log.d(LOG_TAG, "TEST: filename is " +  fileName+".pdf");
+
+
 
                     File file;
                     if(StorageHelper.isExternalStorageReadableAndWritable()){
@@ -108,6 +110,7 @@ public class LoanFactSheetClient {
                     subscriber.onNext(file);
                     subscriber.onCompleted();
                 } catch (IOException e) {
+                    Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
                     e.printStackTrace();
                     subscriber.onError(e);
                 }

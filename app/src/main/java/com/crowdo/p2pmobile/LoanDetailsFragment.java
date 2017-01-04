@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.crowdo.p2pmobile.data.LoanDetail;
 import com.crowdo.p2pmobile.data.LoanDetailClient;
 import com.crowdo.p2pmobile.data.LoanFactSheetClient;
+import com.crowdo.p2pmobile.helper.SharedPreferencesHelper;
 import com.crowdo.p2pmobile.viewholders.LoanDetailsViewHolder;
 
 import java.io.File;
@@ -32,6 +33,7 @@ public class LoanDetailsFragment extends Fragment {
     private Subscription detailsSubscription;
     private Subscription factsheetSubscription;
     private int initId;
+    private LoanDetailsViewHolder viewHolder;
 
     public LoanDetailsFragment() {
     }
@@ -53,7 +55,7 @@ public class LoanDetailsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_details, parent, false);
 
-        final LoanDetailsViewHolder viewHolder = new LoanDetailsViewHolder(rootView);
+        viewHolder = new LoanDetailsViewHolder(rootView);
 
         //Init view first,
         viewHolder.initView(getActivity(), this.initId);
@@ -105,6 +107,7 @@ public class LoanDetailsFragment extends Fragment {
 
                             @Override
                             public void onError(Throwable e) {
+                                Log.e(LOG_TAG, "ERROR: onError " + e.getMessage(), e);
                             }
 
                             @Override
@@ -142,6 +145,29 @@ public class LoanDetailsFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(viewHolder != null) {
+            if (SharedPreferencesHelper.getSharedPrefInt(getActivity(), getString(R.string.pref_user_id_key), -1) > 0) {
+                viewHolder.mBidEnterBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = Henson.with(getActivity())
+                                .gotoWebViewActivity()
+                                .id(initId)
+                                .build();
+
+                        startActivity(intent);
+                    }
+                });
+            } else {
+                viewHolder.mBidEnterBtn.setAlpha(0.1f);
+                viewHolder.mBidEnterBtn.setElevation(0f);
+                viewHolder.mBidEnterBtn.setEnabled(false);
+            }
+        }
+    }
 
     @Override
     public void onDestroy() {

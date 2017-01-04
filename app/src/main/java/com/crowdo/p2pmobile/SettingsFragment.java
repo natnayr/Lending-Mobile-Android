@@ -1,6 +1,5 @@
 package com.crowdo.p2pmobile;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.preference.EditTextPreference;
@@ -8,19 +7,14 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.crowdo.p2pmobile.data.RegisteredMemberCheck;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheckClient;
 import com.crowdo.p2pmobile.helper.PerformEmailIdentityCheckTemp;
 import com.crowdo.p2pmobile.helper.SharedPreferencesHelper;
 
-import org.apache.commons.lang3.text.WordUtils;
-
 import java.util.Map;
 
-import butterknife.BindString;
-import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,7 +34,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        addPreferencesFromResource(R.xml.app_preferences);
+        addPreferencesFromResource(R.xml.preferences);
         sharedPreferences = SharedPreferencesHelper.getSharedPref(getActivity());
 
         //load preference on Create
@@ -104,6 +98,15 @@ public class SettingsFragment extends PreferenceFragmentCompat
     }
 
     @Override
+    public void onDisplayPreferenceDialog(Preference preference) {
+        Log.d(LOG_TAG, "IM SHOWN fore resource : " +
+                getResources().getResourceName(preference.getLayoutResource()));
+
+        super.onDisplayPreferenceDialog(preference);
+
+    }
+
+    @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if(sharedPreferences != null || key != null) {
             Preference pref = findPreference(key);
@@ -152,16 +155,16 @@ public class SettingsFragment extends PreferenceFragmentCompat
             @Override
             public void onResponse(Call<RegisteredMemberCheck> call,
                                    Response<RegisteredMemberCheck> response) {
-                Context context = getActivity();
-                PerformEmailIdentityCheckTemp.onResponseCode(LOG_TAG, enteredEmail,
-                        context, response);
+                PerformEmailIdentityCheckTemp idenCheck =
+                        new PerformEmailIdentityCheckTemp(getActivity());
+                idenCheck.onResponseCode(LOG_TAG, enteredEmail, response);
             }
 
             @Override
             public void onFailure(Call<RegisteredMemberCheck> call, Throwable t) {
-                Context context = getActivity();
-                PerformEmailIdentityCheckTemp.onFailure(LOG_TAG, enteredEmail,
-                        context, t);
+                PerformEmailIdentityCheckTemp idenCheck =
+                        new PerformEmailIdentityCheckTemp(getActivity());
+                idenCheck.onFailure(LOG_TAG, enteredEmail, t);
             }
         });
     }

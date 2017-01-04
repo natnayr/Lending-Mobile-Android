@@ -18,9 +18,13 @@ import retrofit2.Response;
 
 public class PerformEmailIdentityCheckTemp {
 
+    private Context context;
 
-    public static void onResponseCode(String LOG_TAG, String enteredEmail,
-                                      Context context,
+    public PerformEmailIdentityCheckTemp(Context context){
+        this.context = context;
+    }
+
+    public void onResponseCode(String LOG_TAG, String enteredEmail,
                                       Response<RegisteredMemberCheck> response){
         try {
             RegisteredMemberCheck registeredMemberCheck = response.body();
@@ -62,7 +66,7 @@ public class PerformEmailIdentityCheckTemp {
         }
     }
 
-    public static void onFailure(String LOG_TAG, String enteredEmail, Context context, Throwable t){
+    public void onFailure(String LOG_TAG, String enteredEmail, Throwable t){
         Log.e(LOG_TAG, "ERROR: CALL FAILURE: " + t.getMessage());
         Toast.makeText(context, "Sorry, "+
                         enteredEmail +" did not match anything",

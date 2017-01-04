@@ -8,6 +8,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 
@@ -21,6 +22,7 @@ import butterknife.ButterKnife;
 public class SettingsActivity extends AppCompatActivity {
 
     public static final String TAG_SETTINGS_FRAGMENT = "SettingsFragment";
+    public static final String LOG_TAG = SettingsActivity.class.getSimpleName();
     @BindView(R.id.toolbar)  Toolbar toolbar;
 
     @Override
@@ -44,9 +46,9 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            onBackPressed();
+        switch (item.getItemId()){
+            case android.R.id.home:
+                this.onBackPressed();
         }
 
         return super.onOptionsItemSelected(item);
@@ -55,7 +57,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         int count = getFragmentManager().getBackStackEntryCount();
-
+        Log.d(LOG_TAG, "TEST: onBackPressed count = " + count);
         if (count == 0) {
             super.onBackPressed();
         } else {
@@ -68,11 +70,13 @@ public class SettingsActivity extends AppCompatActivity {
     private boolean toBackStackOrParent(){
         Intent upIntent = NavUtils.getParentActivityIntent(this);
         if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+            Log.d(LOG_TAG, "TEST: TaskBuilder Option");
             TaskStackBuilder.create(this)
                     .addNextIntentWithParentStack(upIntent)
                     .startActivities();
         } else {
             //If no backstack then navigate to logical main list view
+            Log.d(LOG_TAG, "TEST: Navigate Up option");
             NavUtils.navigateUpTo(this, upIntent);
         }
         return true;

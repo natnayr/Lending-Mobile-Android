@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -37,6 +39,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.crowdo.p2pmobile.LoanListActivity" />
         </activity>
+
+        <activity android:name=".WebViewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.crowdo.p2pmobile.LoanDetailsActivity" />
+        </activity>
+
         <activity
             android:name=".SettingsActivity"
             android:label="@string/activity_settings_action_bar_label"

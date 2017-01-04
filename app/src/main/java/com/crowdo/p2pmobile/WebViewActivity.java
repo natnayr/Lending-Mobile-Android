@@ -1,64 +1,62 @@
 package com.crowdo.p2pmobile;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.f2prateek.dart.Dart;
+import com.f2prateek.dart.HensonNavigable;
 import com.f2prateek.dart.InjectExtra;
+import com.f2prateek.dart.henson.processor.HensonNavigatorGenerator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LoanDetailsActivity extends AppCompatActivity {
+/**
+ * Created by cwdsg05 on 4/1/17.
+ */
 
-    private static final String LOG_TAG = LoanDetailsActivity.class.getSimpleName();
-    public static final String TAG_LOAN_DETAILS_FRAGMENT = "LoanDetailsFragment";
-    public static final String BUNDLE_ID_KEY = "BundleDetailsFragmentIDKey";
+public class WebViewActivity extends AppCompatActivity {
+
+    public static final String LOG_TAG = WebViewActivity.class.getSimpleName();
+
+    @BindView(R.id.webview) WebView webview;
+    @BindView(R.id.toolbar_webview) Toolbar toolbar;
     @InjectExtra public int id;
-    @BindView(R.id.toolbar_loan_details) Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_details);
+        setContentView(R.layout.webview);
         ButterKnife.bind(this);
 
         //toolbar view
         setSupportActionBar(toolbar);
-        toolbar.inflateMenu(R.menu.menu);
 
-        //enable back buttons
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        //inject intent settings
         Dart.inject(this);
-
-        Bundle args = new Bundle();
-        args.putInt(BUNDLE_ID_KEY, this.id);
-
-        Fragment fragment = getFragmentManager().findFragmentByTag(TAG_LOAN_DETAILS_FRAGMENT);
-
-        if(fragment == null) {
-            LoanDetailsFragment loanDetailsFragment = new LoanDetailsFragment();
-            loanDetailsFragment.setArguments(args);
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.loan_details_content, loanDetailsFragment, TAG_LOAN_DETAILS_FRAGMENT)
-                    .addToBackStack(TAG_LOAN_DETAILS_FRAGMENT)
-                    .commit();
-        }
+        webview.setWebViewClient(new EmbedWebViewClient());
+        webview.getSettings().setJavaScriptEnabled(true);
+        webview.loadUrl("http://p2p.crowdo.com");
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
+    private class EmbedWebViewClient extends WebViewClient{
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            view.loadUrl(request.getUrl().toString());
+            return true;
+        }
     }
 
     @Override
@@ -77,9 +75,6 @@ public class LoanDetailsActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case android.R.id.home:
                 onBackPressed();
-                return true;
-            case R.id.action_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
         }
 

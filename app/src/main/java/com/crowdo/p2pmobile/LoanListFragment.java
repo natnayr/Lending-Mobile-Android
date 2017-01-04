@@ -2,7 +2,6 @@ package com.crowdo.p2pmobile;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.crowdo.p2pmobile.data.LoanListItem;
 import com.crowdo.p2pmobile.data.LoanListClient;
@@ -24,8 +22,6 @@ import com.crowdo.p2pmobile.data.RegisteredMemberCheck;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheckClient;
 import com.crowdo.p2pmobile.helper.PerformEmailIdentityCheckTemp;
 import com.crowdo.p2pmobile.helper.SharedPreferencesHelper;
-
-import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.List;
 
@@ -180,14 +176,11 @@ public class LoanListFragment extends Fragment {
         if(enterEmailPopUpShown && acctMemberId == -1) {
             Log.d(LOG_TAG, "TEST: email dialog pop up start");
             LayoutInflater inflater = LayoutInflater.from(getActivity());
-            View dialogView = inflater.inflate(R.layout.pref_dialog_edittext_fix, null);
+            View dialogView = inflater.inflate(R.layout.pref_dialog_email_edittext_fix, null);
             ButterKnife.bind(this, dialogView);
 
             // setting dialog layout
             memberCheckEmailTextView.setText(memberCheckEmailDialogLabel);
-            memberCheckEmailEditText.setHint(memberCheckEmailDialogDefaultValue);
-            memberCheckEmailEditText.setInputType(InputType.TYPE_CLASS_TEXT |
-                    InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 
             AlertDialog.Builder alertDialogBuilderInput = new AlertDialog.Builder(getActivity());
             alertDialogBuilderInput.setView(dialogView);
@@ -209,16 +202,16 @@ public class LoanListFragment extends Fragment {
                                 public void onResponse(Call<RegisteredMemberCheck> call,
                                                        Response<RegisteredMemberCheck> response) {
 
-                                    Context context = getActivity();
-                                    PerformEmailIdentityCheckTemp.onResponseCode(LOG_TAG, enteredEmail,
-                                            context, response);
+                                    PerformEmailIdentityCheckTemp idenCheck =
+                                            new PerformEmailIdentityCheckTemp(getActivity());
+                                    idenCheck.onResponseCode(LOG_TAG, enteredEmail, response);
                                 }
 
                                 @Override
                                 public void onFailure(Call<RegisteredMemberCheck> call, Throwable t) {
-                                    Context context = getActivity();
-                                    PerformEmailIdentityCheckTemp.onFailure(LOG_TAG, enteredEmail,
-                                            context, t);
+                                    PerformEmailIdentityCheckTemp idenCheck =
+                                            new PerformEmailIdentityCheckTemp(getActivity());
+                                    idenCheck.onFailure(LOG_TAG, enteredEmail, t);
                                 }
                             });
 

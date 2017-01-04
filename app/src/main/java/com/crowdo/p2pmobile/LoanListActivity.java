@@ -25,11 +25,11 @@ public class LoanListActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         //toolbar view
-        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        toolbar.inflateMenu(R.menu.menu_main);
+        toolbar.inflateMenu(R.menu.menu);
 
         //inject intent settings
         Dart.inject(this);
@@ -45,7 +45,7 @@ public class LoanListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
@@ -53,7 +53,8 @@ public class LoanListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                return toBackStackOrParent();
+                this.onBackPressed();
+                return true;
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;

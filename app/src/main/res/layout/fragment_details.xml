@@ -551,7 +551,7 @@
                 android:text="@string/loan_detail_bidding_btn_label"
                 android:textSize="36sp"
                 android:fontFamily="@string/font_family_regular"
-                android:gravity="center"/>
+                android:gravity="start|center_vertical"/>
         </LinearLayout>
 
     </LinearLayout>

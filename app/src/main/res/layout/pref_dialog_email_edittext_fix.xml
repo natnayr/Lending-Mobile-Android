@@ -28,7 +28,11 @@
         <EditText
             android:id="@android:id/edit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:inputType="textEmailAddress"
+            android:hint="@string/pref_user_email_default_value"
+            />
 
     </LinearLayout>
 </ScrollView>

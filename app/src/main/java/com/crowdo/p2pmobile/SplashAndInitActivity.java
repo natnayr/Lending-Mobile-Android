@@ -18,7 +18,7 @@ public class SplashAndInitActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        PreferenceManager.setDefaultValues(this, R.xml.app_preferences, false);
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         Intent intent = new Intent(this, LoanListActivity.class);
         startActivity(intent);
