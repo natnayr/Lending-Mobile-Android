@@ -68,6 +68,6 @@
     <string name="pref_user_name_default_value">e.g Johnny Cash</string>
     <string name="pref_user_email_default_value">e.g. john.cash@email.com</string>
 
-    <string name="member_check_email_dialog_label">We have not identified you as a registered investor of CROWDO. To bid, please enter your email.</string>
+    <string name="member_check_email_dialog_label">Are you already member of CROWDO? Please enter your email.</string>
 
 </resources>

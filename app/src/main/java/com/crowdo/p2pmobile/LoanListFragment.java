@@ -49,7 +49,6 @@ public class LoanListFragment extends Fragment {
     private LoanListAdapter mLoanAdapter;
     private Subscription loanListSubscription;
     private SwipeRefreshLayout swipeContainer;
-    private AlertDialog alertDialog;
 
     public LoanListFragment(){
     }
@@ -59,9 +58,6 @@ public class LoanListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mLoanAdapter = new LoanListAdapter(getActivity());
         populateLoansList();
-
-        //call for email address to identify user.
-        dialogEmailPrompt();
     }
 
     @Override
@@ -105,8 +101,6 @@ public class LoanListFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-
-
     @Override
     public void onDestroy() {
         if(loanListSubscription != null &&
@@ -115,17 +109,6 @@ public class LoanListFragment extends Fragment {
         }
 
         super.onDestroy();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if(alertDialog != null && alertDialog.isShowing())
-            alertDialog.dismiss();
-
-        SharedPreferencesHelper.setSharePrefBool(getActivity(),
-                getActivity().getString(R.string.pref_is_email_dialog_run_key),
-                true);
     }
 
     private void populateLoansList(){
@@ -156,82 +139,6 @@ public class LoanListFragment extends Fragment {
                 });
     }
 
-    @BindView(android.R.id.message) TextView memberCheckEmailTextView;
-    @BindView(android.R.id.edit) EditText memberCheckEmailEditText;
-    @BindString(R.string.member_check_email_dialog_label) String memberCheckEmailDialogLabel;
-    @BindString(R.string.pref_user_email_default_value) String memberCheckEmailDialogDefaultValue;
-    private void dialogEmailPrompt(){
 
-        boolean enterEmailPopUpShown = SharedPreferencesHelper.getSharedPrefBool(getActivity(),
-                getActivity().getString(R.string.pref_is_email_dialog_run_key),
-                true);
-
-        int acctMemberId = SharedPreferencesHelper.getSharedPrefInt(getActivity(),
-                getActivity().getString(R.string.pref_user_id_key),
-                -1);
-
-        Log.d(LOG_TAG, "TEST: enteredEmailYet=" + enterEmailPopUpShown +
-                " and acctMemberId=" + acctMemberId);
-
-        if(enterEmailPopUpShown && acctMemberId == -1) {
-            Log.d(LOG_TAG, "TEST: email dialog pop up start");
-            LayoutInflater inflater = LayoutInflater.from(getActivity());
-            View dialogView = inflater.inflate(R.layout.pref_dialog_email_edittext_fix, null);
-            ButterKnife.bind(this, dialogView);
-
-            // setting dialog layout
-            memberCheckEmailTextView.setText(memberCheckEmailDialogLabel);
-
-            AlertDialog.Builder alertDialogBuilderInput = new AlertDialog.Builder(getActivity());
-            alertDialogBuilderInput.setView(dialogView);
-
-            alertDialogBuilderInput
-                    .setCancelable(false)
-                    .setPositiveButton("Enter", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int id) {
-
-                            final String enteredEmail = memberCheckEmailEditText.getText()
-                                    .toString().toLowerCase().trim();
-
-                            Call<RegisteredMemberCheck> call = RegisteredMemberCheckClient.getInstance()
-                                    .postUserCheck(enteredEmail);
-
-                            call.enqueue(new Callback<RegisteredMemberCheck>() {
-                                @Override
-                                public void onResponse(Call<RegisteredMemberCheck> call,
-                                                       Response<RegisteredMemberCheck> response) {
-
-                                    PerformEmailIdentityCheckTemp idenCheck =
-                                            new PerformEmailIdentityCheckTemp(getActivity());
-                                    idenCheck.onResponseCode(LOG_TAG, enteredEmail, response);
-                                }
-
-                                @Override
-                                public void onFailure(Call<RegisteredMemberCheck> call, Throwable t) {
-                                    PerformEmailIdentityCheckTemp idenCheck =
-                                            new PerformEmailIdentityCheckTemp(getActivity());
-                                    idenCheck.onFailure(LOG_TAG, enteredEmail, t);
-                                }
-                            });
-
-                            dialogInterface.dismiss();
-                        }
-                    })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int id) {
-                            dialogInterface.cancel();
-                        }
-                    });
-
-            alertDialog = alertDialogBuilderInput.create();
-            alertDialog.show();
-        }
-
-        SharedPreferencesHelper.setSharePrefBool(getActivity(),
-                getActivity().getString(R.string.pref_is_email_dialog_run_key),
-                false);
-    }
 
 }

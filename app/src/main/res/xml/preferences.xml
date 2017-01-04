@@ -6,11 +6,6 @@
         android:title="My Account">
 
         <android.support.v7.preference.Preference
-            android:key="@string/pref_user_id_key"
-            android:title="@string/pref_user_id_title"
-            android:summary="@string/pref_user_name_summary"/>
-
-        <android.support.v7.preference.Preference
             android:key="@string/pref_user_name_key"
             android:title="@string/pref_user_name_title"
             android:summary="@string/pref_user_name_summary"

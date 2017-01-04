@@ -31,6 +31,7 @@ public class WebViewActivity extends AppCompatActivity {
     @BindView(R.id.webview) WebView webview;
     @BindView(R.id.toolbar_webview) Toolbar toolbar;
     @InjectExtra public int id;
+    @InjectExtra public String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class WebViewActivity extends AppCompatActivity {
         Dart.inject(this);
         webview.setWebViewClient(new EmbedWebViewClient());
         webview.getSettings().setJavaScriptEnabled(true);
-        webview.loadUrl("http://p2p.crowdo.com");
+        webview.loadUrl(url);
     }
 
     private class EmbedWebViewClient extends WebViewClient{

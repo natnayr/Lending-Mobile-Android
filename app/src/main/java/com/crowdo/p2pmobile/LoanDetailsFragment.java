@@ -1,7 +1,9 @@
 package com.crowdo.p2pmobile;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,16 +11,27 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crowdo.p2pmobile.data.LoanDetail;
 import com.crowdo.p2pmobile.data.LoanDetailClient;
 import com.crowdo.p2pmobile.data.LoanFactSheetClient;
+import com.crowdo.p2pmobile.data.RegisteredMemberCheck;
+import com.crowdo.p2pmobile.data.RegisteredMemberCheckClient;
+import com.crowdo.p2pmobile.helper.PerformEmailIdentityCheckTemp;
 import com.crowdo.p2pmobile.helper.SharedPreferencesHelper;
 import com.crowdo.p2pmobile.viewholders.LoanDetailsViewHolder;
 
 import java.io.File;
 
+import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -34,6 +47,7 @@ public class LoanDetailsFragment extends Fragment {
     private Subscription factsheetSubscription;
     private int initId;
     private LoanDetailsViewHolder viewHolder;
+    private AlertDialog alertDialog;
 
     public LoanDetailsFragment() {
     }
@@ -149,24 +163,42 @@ public class LoanDetailsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if(viewHolder != null) {
-            if (SharedPreferencesHelper.getSharedPrefInt(getActivity(), getString(R.string.pref_user_id_key), -1) > 0) {
+            int acctMemberId = SharedPreferencesHelper.getSharedPrefInt(getActivity(),
+                    getActivity().getString(R.string.pref_user_id_key), -1);
+
+            Log.d(LOG_TAG, "TEST: acctMemberId=" + acctMemberId);
+
+            if(acctMemberId == -1) {
+                viewHolder.mBidEnterBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogEmailPrompt();
+                    }
+                });
+            }else {
+                //email identified, proceed
                 viewHolder.mBidEnterBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = Henson.with(getActivity())
                                 .gotoWebViewActivity()
                                 .id(initId)
+                                .url("http://p2p.crowdo.com")
                                 .build();
 
                         startActivity(intent);
                     }
                 });
-            } else {
-                viewHolder.mBidEnterBtn.setAlpha(0.1f);
-                viewHolder.mBidEnterBtn.setElevation(0f);
-                viewHolder.mBidEnterBtn.setEnabled(false);
             }
         }
+    }
+
+    @Override
+    public void onStop() {
+        if(alertDialog != null && alertDialog.isShowing())
+            alertDialog.dismiss();
+
+        super.onStop();
     }
 
     @Override
@@ -178,6 +210,76 @@ public class LoanDetailsFragment extends Fragment {
             factsheetSubscription.unsubscribe();
         }
         super.onDestroy();
+    }
+
+    /*
+        Temp Dialog to identify user
+     */
+    @BindView(android.R.id.message) TextView memberCheckEmailTextView;
+    @BindView(android.R.id.edit) EditText memberCheckEmailEditText;
+    @BindString(R.string.member_check_email_dialog_label) String memberCheckEmailDialogLabel;
+    @BindString(R.string.pref_user_email_default_value) String memberCheckEmailDialogDefaultValue;
+    private void dialogEmailPrompt(){
+
+        Log.d(LOG_TAG, "TEST: email dialog pop up start");
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        View dialogView = inflater.inflate(R.layout.pref_dialog_email_edittext_fix, null);
+        ButterKnife.bind(this, dialogView);
+
+        // setting dialog layout
+        memberCheckEmailTextView.setText(memberCheckEmailDialogLabel);
+
+        AlertDialog.Builder alertDialogBuilderInput = new AlertDialog.Builder(getActivity());
+        alertDialogBuilderInput.setView(dialogView);
+
+        alertDialogBuilderInput
+                .setCancelable(false)
+                .setPositiveButton("Enter", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int id) {
+
+                        final String enteredEmail = memberCheckEmailEditText.getText()
+                                .toString().toLowerCase().trim();
+
+                        Call<RegisteredMemberCheck> call = RegisteredMemberCheckClient.getInstance()
+                                .postUserCheck(enteredEmail);
+
+                        call.enqueue(new Callback<RegisteredMemberCheck>() {
+                            @Override
+                            public void onResponse(Call<RegisteredMemberCheck> call,
+                                                   Response<RegisteredMemberCheck> response) {
+
+                                PerformEmailIdentityCheckTemp idenCheck =
+                                        new PerformEmailIdentityCheckTemp(getActivity());
+                                idenCheck.onResponseCode(LOG_TAG, enteredEmail, response);
+                            }
+
+                            @Override
+                            public void onFailure(Call<RegisteredMemberCheck> call, Throwable t) {
+                                PerformEmailIdentityCheckTemp idenCheck =
+                                        new PerformEmailIdentityCheckTemp(getActivity());
+                                idenCheck.onFailure(LOG_TAG, enteredEmail, t);
+                            }
+                        });
+
+                        dialogInterface.dismiss();
+                    }
+                }).setNegativeButton("Register", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setNeutralButton("Proceed as Guest", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int id) {
+                        dialogInterface.cancel();
+                    }
+                });
+
+        alertDialog = alertDialogBuilderInput.create();
+        alertDialog.show();
+
     }
 
 }
