@@ -22,6 +22,7 @@ import com.crowdo.p2pmobile.data.LoanListItem;
 import com.crowdo.p2pmobile.data.LoanListClient;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheck;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheckClient;
+import com.crowdo.p2pmobile.helper.PerformEmailIdentityCheckTemp;
 import com.crowdo.p2pmobile.helper.SharedPreferencesHelper;
 
 import org.apache.commons.lang3.text.WordUtils;
@@ -162,7 +163,7 @@ public class LoanListFragment extends Fragment {
     @BindView(android.R.id.message) TextView memberCheckEmailTextView;
     @BindView(android.R.id.edit) EditText memberCheckEmailEditText;
     @BindString(R.string.member_check_email_dialog_label) String memberCheckEmailDialogLabel;
-    @BindString(R.string.pref_user_email_dialog_default_value) String memberCheckEmailDialogDefaultValue;
+    @BindString(R.string.pref_user_email_default_value) String memberCheckEmailDialogDefaultValue;
     private void dialogEmailPrompt(){
 
         boolean enterEmailPopUpShown = SharedPreferencesHelper.getSharedPrefBool(getActivity(),
@@ -196,6 +197,7 @@ public class LoanListFragment extends Fragment {
                     .setPositiveButton("Enter", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int id) {
+
                             final String enteredEmail = memberCheckEmailEditText.getText()
                                     .toString().toLowerCase().trim();
 
@@ -208,47 +210,15 @@ public class LoanListFragment extends Fragment {
                                                        Response<RegisteredMemberCheck> response) {
 
                                     Context context = getActivity();
-
-                                    if(response.body() != null){
-                                        RegisteredMemberCheck registeredMemberCheck = response.body();
-                                        Log.d(LOG_TAG, "TEST: onResponse " + registeredMemberCheck.name);
-
-                                        SharedPreferencesHelper.setSharePrefInt(context,
-                                                context.getString(R.string.pref_user_id_key),
-                                                registeredMemberCheck.id);
-
-                                        SharedPreferencesHelper.setSharePrefBool(getActivity(),
-                                                context.getString(R.string.pref_is_user_sg_registered_key),
-                                                registeredMemberCheck.registeredSingapore);
-
-                                        SharedPreferencesHelper.setSharePrefBool(getActivity(),
-                                                context.getString(R.string.pref_is_user_indo_registered_key),
-                                                registeredMemberCheck.registeredIndonesia);
-
-                                        SharedPreferencesHelper.setSharePrefString(getActivity(),
-                                                context.getString(R.string.pref_user_name_key),
-                                                WordUtils.capitalizeFully(registeredMemberCheck.name));
-
-                                        //store keyed in one
-                                        SharedPreferencesHelper.setSharePrefString(getActivity(),
-                                                context.getString(R.string.pref_user_email_key),
-                                                enteredEmail);
-
-                                        Toast.makeText(getActivity(), "Welcome, " +
-                                                        WordUtils.capitalizeFully(registeredMemberCheck.name),
-                                                Toast.LENGTH_SHORT).show();
-                                    }else{
-                                        Log.d(LOG_TAG, "TEST: failed to get email: " + enteredEmail );
-                                        Toast.makeText(getActivity(), "Sorry, "+ enteredEmail +" did not match anything",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
+                                    PerformEmailIdentityCheckTemp.onResponseCode(LOG_TAG, enteredEmail,
+                                            context, response);
                                 }
 
                                 @Override
                                 public void onFailure(Call<RegisteredMemberCheck> call, Throwable t) {
-                                    Log.e(LOG_TAG, "ERROR: CALL FAILURE: " + t.getMessage());
-                                    Toast.makeText(getActivity(), "Sorry, "+ enteredEmail +" did not match anything",
-                                            Toast.LENGTH_SHORT).show();
+                                    Context context = getActivity();
+                                    PerformEmailIdentityCheckTemp.onFailure(LOG_TAG, enteredEmail,
+                                            context, t);
                                 }
                             });
 

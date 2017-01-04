@@ -45,4 +45,22 @@ public class SharedPreferencesHelper {
         editor.putBoolean(key, value);
         editor.commit();
     }
+
+    public static void resetUserAccountSharedPreferences(Context context){
+        SharedPreferencesHelper.setSharePrefInt(context,
+                context.getString(R.string.pref_user_id_key),
+                -1);
+        SharedPreferencesHelper.setSharePrefString(context,
+                context.getString(R.string.pref_user_email_key),
+                context.getString(R.string.pref_user_email_default_value));
+        SharedPreferencesHelper.setSharePrefString(context,
+                context.getString(R.string.pref_user_name_key),
+                context.getString(R.string.pref_user_name_default_value));
+        SharedPreferencesHelper.setSharePrefBool(context,
+                context.getString(R.string.pref_is_user_sg_registered_key),
+                false);
+        SharedPreferencesHelper.setSharePrefBool(context,
+                context.getString(R.string.pref_is_user_sg_registered_key),
+                false);
+    }
 }

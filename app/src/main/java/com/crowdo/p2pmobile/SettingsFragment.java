@@ -1,5 +1,6 @@
 package com.crowdo.p2pmobile;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.preference.EditTextPreference;
@@ -7,8 +8,22 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.crowdo.p2pmobile.data.RegisteredMemberCheck;
+import com.crowdo.p2pmobile.data.RegisteredMemberCheckClient;
+import com.crowdo.p2pmobile.helper.PerformEmailIdentityCheckTemp;
 import com.crowdo.p2pmobile.helper.SharedPreferencesHelper;
+
+import org.apache.commons.lang3.text.WordUtils;
+
+import java.util.Map;
+
+import butterknife.BindString;
+import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by cwdsg05 on 29/12/16.
@@ -21,16 +36,56 @@ public class SettingsFragment extends PreferenceFragmentCompat
     SharedPreferences sharedPreferences;
     private static final String LOG_TAG = SettingsFragment.class.getSimpleName();
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         addPreferencesFromResource(R.xml.app_preferences);
         sharedPreferences = SharedPreferencesHelper.getSharedPref(getActivity());
 
         //load preference on Create
         for(int i=0; i<getPreferenceScreen().getPreferenceCount(); i++){
             pickPreferenceObject(getPreferenceScreen().getPreference(i));
+        }
+    }
+
+    @Override
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+    }
+
+    private void pickPreferenceObject(Preference pref){
+        if(pref instanceof PreferenceCategory) {
+            PreferenceCategory prefCategory = (PreferenceCategory) pref;
+            for (int i = 0; i < prefCategory.getPreferenceCount(); i++) {
+                pickPreferenceObject(prefCategory.getPreference(i));
+            }
+        }else{
+            initSummary(pref);
+        }
+    }
+
+    private void initSummary(Preference pref){
+        if(pref != null) {
+            if (pref instanceof EditTextPreference) {
+                EditTextPreference editTextPreference = (EditTextPreference) pref;
+                pref.setSummary(editTextPreference.getText());
+            } else {
+                //for static display preferences
+                try {
+                    Map<String, ?> keys = sharedPreferences.getAll();
+                    if(keys.get(pref.getKey()) != null) {
+                        if (keys.get(pref.getKey()).getClass().equals(String.class)) {
+                            pref.setSummary(sharedPreferences.getString(pref.getKey(), ""));
+                        } else if (keys.get(pref.getKey()).getClass().equals(Integer.class)) {
+                            pref.setSummary(Integer.toString(sharedPreferences.getInt(pref.getKey(), -1)));
+                        } else if (keys.get(pref.getKey()).getClass().equals(Boolean.class)) {
+                            pref.setSummary(Boolean.toString(sharedPreferences.getBoolean(pref.getKey(), false)));
+                        }
+                    }
+                }catch (NullPointerException npe){
+                    Log.e(LOG_TAG, "ERROR: " + npe.getMessage(), npe);
+                }
+           }
         }
     }
 
@@ -49,42 +104,67 @@ public class SettingsFragment extends PreferenceFragmentCompat
     }
 
     @Override
-    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-
-    }
-
-    @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        Preference preference = findPreference(key);
-        if(preference instanceof EditTextPreference ||
-                preference instanceof Preference){
-            preference.setSummary(sharedPreferences.getString(key, ""));
-        }
-    }
+        if(sharedPreferences != null || key != null) {
+            Preference pref = findPreference(key);
 
-    private void pickPreferenceObject(Preference pref){
-        Log.d(LOG_TAG, "TEST: prefkey=" + pref.getKey());
-        Log.d(LOG_TAG, "TEST: summary=" + pref.getSummary());
-        Log.d(LOG_TAG, "TEST: value=" + sharedPreferences.getString(pref.getKey(), ""));
-
-        if(pref instanceof PreferenceCategory) {
-            PreferenceCategory prefCategory = (PreferenceCategory) pref;
-            for (int i = 0; i < prefCategory.getPreferenceCount(); i++) {
-                pickPreferenceObject(prefCategory.getPreference(i));
+            Log.d(LOG_TAG, "TEST: onSharedPreferenceChanged called with key:" + key);
+            if (pref instanceof EditTextPreference) {
+                pref.setSummary(sharedPreferences.getString(key, ""));
+            } else {
+                try {
+                    Map<String, ?> keys = sharedPreferences.getAll();
+                    if(keys.get(pref.getKey()) != null) {
+                        if (keys.get(pref.getKey()).getClass().equals(String.class)) {
+                            pref.setSummary(sharedPreferences.getString(pref.getKey(), ""));
+                        } else if (keys.get(pref.getKey()).getClass().equals(Integer.class)) {
+                            pref.setSummary(Integer.toString(sharedPreferences.getInt(pref.getKey(), -1)));
+                        } else if (keys.get(pref.getKey()).getClass().equals(Boolean.class)) {
+                            pref.setSummary(Boolean.toString(sharedPreferences.getBoolean(pref.getKey(), false)));
+                        }
+                    }
+                }catch (NullPointerException npe){
+                    Log.e(LOG_TAG, "ERROR: " + npe.getMessage(), npe);
+                }
             }
-        }else{
-            initSummary(pref);
+
+            //perform identify user
+            if (key.equals(getString(R.string.pref_user_email_key))) {
+                Log.d(LOG_TAG, "TEST: USER_EMAIL key has been called");
+                performEmailIdentify(sharedPreferences, key);
+            }
         }
     }
 
-    private void initSummary(Preference pref){
-        if(pref instanceof EditTextPreference){
-            EditTextPreference editTextPreference = (EditTextPreference) pref;
-            pref.setSummary(editTextPreference.getText());
-        }else if(pref instanceof Preference){
-            pref.setSummary(sharedPreferences.getString(pref.getKey(),
-                    getString(R.string.pref_user_name_summary)));
-        }
+    //Temp to update user in settings
+    private void performEmailIdentify(SharedPreferences sharedPreferences, String key){
+
+        final String enteredEmail = sharedPreferences
+                .getString(getString(R.string.pref_user_email_key), "")
+                .toString().toLowerCase().trim();
+
+        Log.d(LOG_TAG, "TEST: enteredEmail " + enteredEmail);
+
+        Call<RegisteredMemberCheck> call = RegisteredMemberCheckClient.getInstance()
+                .postUserCheck(enteredEmail);
+
+        call.enqueue(new Callback<RegisteredMemberCheck>() {
+            @Override
+            public void onResponse(Call<RegisteredMemberCheck> call,
+                                   Response<RegisteredMemberCheck> response) {
+                Context context = getActivity();
+                PerformEmailIdentityCheckTemp.onResponseCode(LOG_TAG, enteredEmail,
+                        context, response);
+            }
+
+            @Override
+            public void onFailure(Call<RegisteredMemberCheck> call, Throwable t) {
+                Context context = getActivity();
+                PerformEmailIdentityCheckTemp.onFailure(LOG_TAG, enteredEmail,
+                        context, t);
+            }
+        });
     }
+
 
 }

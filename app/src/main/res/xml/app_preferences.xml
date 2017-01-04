@@ -5,18 +5,24 @@
     <android.support.v7.preference.PreferenceCategory
         android:title="My Account">
 
+        <android.support.v7.preference.Preference
+            android:key="@string/pref_user_id_key"
+            android:title="@string/pref_user_id_title"
+            android:summary="@string/pref_user_name_summary"/>
+
+        <android.support.v7.preference.Preference
+            android:key="@string/pref_user_name_key"
+            android:title="@string/pref_user_name_title"
+            android:summary="@string/pref_user_name_summary"
+            android:defaultValue="@string/pref_user_name_default_value"/>
+
         <android.support.v7.preference.EditTextPreference
             android:key="@string/pref_user_email_key"
             android:title="@string/pref_user_email_title"
             android:summary="@string/pref_user_email_summary"
             android:dialogMessage="@string/pref_user_email_summary"
-            android:defaultValue="@string/pref_user_email_dialog_default_value"
+            android:defaultValue="@string/pref_user_email_default_value"
             android:dialogLayout="@layout/pref_dialog_edittext_fix"/>
-
-        <android.support.v7.preference.Preference
-            android:key="@string/pref_user_name_key"
-            android:title="@string/pref_user_name_title"
-            android:summary="@string/pref_user_name_summary"/>
 
     </android.support.v7.preference.PreferenceCategory>
 
