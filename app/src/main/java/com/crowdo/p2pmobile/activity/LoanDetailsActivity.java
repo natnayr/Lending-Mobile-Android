@@ -32,7 +32,7 @@ public class LoanDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
         ButterKnife.bind(this);
 
-        //toolbar view
+        //mToolbar view
         setSupportActionBar(toolbar);
         toolbar.inflateMenu(R.menu.menu);
 

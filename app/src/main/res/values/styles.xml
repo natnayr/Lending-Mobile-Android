@@ -7,9 +7,9 @@
         <item name="android:colorPrimaryDark">@color/color_primary_dark</item>
         <item name="android:colorAccent">@color/color_accent</item>
         <item name="android:textColorPrimary">@color/color_icons_text</item>
-        <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
         <item name="android:textColorSecondary">@color/color_secondary_text</item>
         <item name="android:textColorPrimaryInverse">@color/color_icons_text</item>
+        <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
         <item name="android:colorBackground">@color/color_background</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.DayNight.Dialog.Alert</item>
@@ -23,15 +23,13 @@
         <item name="android:colorAccent">@color/color_accent</item>
     </style>
 
-    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/background_splash</item>
-    </style>
-
-    <style name="LoanListStyle" parent="AppTheme">
-        <!-- Stub for screens with sufficient width, in other screen sizes it will change-->
-    </style>
-
-    <style name="LoanDetailStyle" parent="AppTheme">
+    <style name="WelcomeTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:colorPrimary">@color/color_primary</item>
+        <item name="android:colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="android:colorAccent">@color/color_accent</item>
+        <item name="android:textColorPrimary">@color/color_icons_text</item>
+        <item name="android:textColorSecondary">@color/color_secondary_text</item>
+        <item name="android:textColorPrimaryInverse">@color/color_icons_text</item>
     </style>
 
     <style name="RobotoTextViewStyle" parent="android:TextAppearance.Material.Widget.TextView">

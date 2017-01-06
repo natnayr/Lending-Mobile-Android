@@ -3,6 +3,12 @@
     <dimen name="activity_horizontal_padding">8dp</dimen>
     <dimen name="activity_vertical_padding">8dp</dimen>
 
+    <dimen name="welcome_btn_radius_corner_width">3dip</dimen>
+    <dimen name="welcome_btn_stoke_width">2dip</dimen>
+    <dimen name="welcome_btn_padding">12dip</dimen>
+    <dimen name="welcome_btn_btm_margin">40dp</dimen>
+    <dimen name="welcome_btn_text_size">20sp</dimen>
+
     <dimen name="list_top_horizontal_padding">4dp</dimen>
     <dimen name="list_top_vertical_padding">4dp</dimen>
 

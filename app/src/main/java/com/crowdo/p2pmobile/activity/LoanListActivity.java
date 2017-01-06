@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.fragment.LoanListFragment;
+import com.crowdo.p2pmobile.helper.SharedPreferencesHelper;
 import com.f2prateek.dart.Dart;
 
 import butterknife.BindView;
@@ -26,10 +28,12 @@ public class LoanListActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        //toolbar view
+        //mToolbar view
         setSupportActionBar(toolbar);
         toolbar.inflateMenu(R.menu.menu);
 
@@ -90,4 +94,6 @@ public class LoanListActivity extends AppCompatActivity {
         }
         return true;
     }
+
+
 }

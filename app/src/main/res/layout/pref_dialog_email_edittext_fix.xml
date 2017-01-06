@@ -32,6 +32,8 @@
             android:maxLines="1"
             android:inputType="textEmailAddress"
             android:hint="@string/pref_user_email_default_value"
+            android:textColorHint="@color/color_divider"
+            android:textColor="@color/color_primary_text"
             />
 
     </LinearLayout>

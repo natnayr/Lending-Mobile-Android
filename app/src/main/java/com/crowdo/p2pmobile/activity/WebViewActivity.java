@@ -28,8 +28,8 @@ public class WebViewActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = WebViewActivity.class.getSimpleName();
 
-    @BindView(R.id.webview) WebView webView;
-    @BindView(R.id.toolbar_webview) Toolbar toolbar;
+    @BindView(R.id.webview) WebView mWebView;
+    @BindView(R.id.toolbar_webview) Toolbar mToolbar;
     @InjectExtra public int id;
     @InjectExtra public String url;
 
@@ -39,8 +39,8 @@ public class WebViewActivity extends AppCompatActivity {
         setContentView(R.layout.webview);
         ButterKnife.bind(this);
 
-        //toolbar view
-        setSupportActionBar(toolbar);
+        //mToolbar view
+        setSupportActionBar(mToolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -48,15 +48,15 @@ public class WebViewActivity extends AppCompatActivity {
         //inject intent settings
         Dart.inject(this);
 
-        WebSettings webSettings = webView.getSettings();
+        WebSettings webSettings = mWebView.getSettings();
         webSettings.setLoadsImagesAutomatically(true);
         webSettings.setJavaScriptEnabled(true);
         webSettings.setAppCacheEnabled(false);
         webSettings.setBuiltInZoomControls(true);
         webSettings.setUseWideViewPort(true);
 
-        webView.setInitialScale(1);
-        webView.setWebViewClient(new WebViewClient(){
+        mWebView.setInitialScale(1);
+        mWebView.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 view.loadUrl(request.getUrl().toString());
@@ -64,28 +64,28 @@ public class WebViewActivity extends AppCompatActivity {
             }
         });
 
-        webView.setWebChromeClient(new WebChromeClient(){});
-        webView.loadUrl(url);
+        mWebView.setWebChromeClient(new WebChromeClient(){});
+        mWebView.loadUrl(url);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        webView.onPause();
-        webView.pauseTimers();
+        mWebView.onPause();
+        mWebView.pauseTimers();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        webView.resumeTimers();
-        webView.onResume();
+        mWebView.resumeTimers();
+        mWebView.onResume();
     }
 
     @Override
     protected void onDestroy() {
-        webView.destroy();
-        webView = null;
+        mWebView.destroy();
+        mWebView = null;
         super.onDestroy();
     }
 

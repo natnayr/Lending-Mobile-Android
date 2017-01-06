@@ -12,7 +12,9 @@
     <color name="color_divider">#BDBDBD</color>
     <color name="color_divider_light">#EEEEEE</color>
 
-    <!-- Branding Colors -->
+    <!-- Branding Colors & Others -->
+    <color name="color_black_background">#27000000</color>
+    <color name="color_transparent">#00000000</color>
     <color name="color_crowdo_red">#E60000</color>
 
     <!-- Colors for GRADE Backgrounds-->

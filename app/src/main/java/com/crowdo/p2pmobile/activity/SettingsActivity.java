@@ -26,7 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     public static final String TAG_SETTINGS_FRAGMENT = "SettingsFragment";
     public static final String LOG_TAG = SettingsActivity.class.getSimpleName();
-    @BindView(R.id.toolbar)  Toolbar toolbar;
+    @BindView(R.id.toolbar)  Toolbar mToolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
