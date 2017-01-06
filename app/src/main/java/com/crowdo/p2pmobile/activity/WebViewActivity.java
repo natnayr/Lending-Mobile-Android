@@ -1,4 +1,4 @@
-package com.crowdo.p2pmobile;
+package com.crowdo.p2pmobile.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.crowdo.p2pmobile.R;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 

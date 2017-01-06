@@ -1,10 +1,9 @@
-package com.crowdo.p2pmobile;
+package com.crowdo.p2pmobile.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.PreferenceManager;
 
 /**
  * Created by ryan on 19/10/16.
@@ -18,7 +17,6 @@ public class SplashAndInitActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         Intent intent = new Intent(this, LoanListActivity.class);
         startActivity(intent);

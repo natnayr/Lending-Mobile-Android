@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Crowdo</string>
     <string name="activity_settings_action_bar_label">Settings</string>
-    <string name="activity_main_action_bar_label">Loan Investments</string>
-    <string name="activity_detail_action_bar_label">Loan Details</string>
+    <string name="activity_loan_list_action_bar_label">Loan Investments</string>
+    <string name="activity_loan_detail_action_bar_label">Loan Details</string>
     <string name="activity_factsheet_action_bar_label">Fact-Sheet View(PDF)</string>
     <string name="date_time_region">Asia/Singapore</string>
 

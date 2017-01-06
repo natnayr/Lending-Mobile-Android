@@ -1,4 +1,4 @@
-package com.crowdo.p2pmobile.viewholders;
+package com.crowdo.p2pmobile.viewholder;
 
 import android.content.Context;
 import android.graphics.Rect;

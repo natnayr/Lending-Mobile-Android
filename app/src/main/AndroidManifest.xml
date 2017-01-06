@@ -13,9 +13,16 @@
         android:logo="@drawable/ic_action_logo_dark"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashAndInitActivity"
+            android:name=".activity.SplashAndInitActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
+
+        </activity>
+        <activity
+            android:name=".activity.LoanListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,32 +31,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoanListActivity"
-            android:label="@string/activity_main_action_bar_label"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".LoanDetailsActivity"
-            android:label="@string/activity_detail_action_bar_label"
+            android:name=".activity.LoanDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.crowdo.p2pmobile.LoanListActivity" />
+                android:value="com.crowdo.p2pmobile.activity.LoanListActivity" />
         </activity>
 
-        <activity android:name=".WebViewActivity"
+        <activity
+            android:name=".activity.WebViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.crowdo.p2pmobile.LoanDetailsActivity" />
+                android:value="com.crowdo.p2pmobile.activity.LoanDetailsActivity" />
         </activity>
 
         <activity
-            android:name=".SettingsActivity"
-            android:label="@string/activity_settings_action_bar_label"
+            android:name=".activity.SettingsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
     </application>

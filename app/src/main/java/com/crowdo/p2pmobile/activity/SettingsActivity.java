@@ -1,4 +1,4 @@
-package com.crowdo.p2pmobile;
+package com.crowdo.p2pmobile.activity;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -11,6 +11,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+
+import com.crowdo.p2pmobile.R;
+import com.crowdo.p2pmobile.fragment.SettingsFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

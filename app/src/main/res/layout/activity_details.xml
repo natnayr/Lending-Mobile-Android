@@ -16,11 +16,11 @@
         android:minHeight="?attr/actionBarSize"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        android:title="@string/activity_detail_action_bar_label"/>
+        android:title="@string/activity_loan_detail_action_bar_label"/>
 
     <fragment
         android:id="@+id/loan_details_content"
-        android:name="com.crowdo.p2pmobile.LoanDetailsFragment"
+        android:name="com.crowdo.p2pmobile.fragment.LoanDetailsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

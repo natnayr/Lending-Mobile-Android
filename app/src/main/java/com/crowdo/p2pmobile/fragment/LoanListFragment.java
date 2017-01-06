@@ -1,36 +1,23 @@
-package com.crowdo.p2pmobile;
+package com.crowdo.p2pmobile.fragment;
 
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
+import com.crowdo.p2pmobile.R;
+import com.crowdo.p2pmobile.activity.Henson;
 import com.crowdo.p2pmobile.data.LoanListItem;
 import com.crowdo.p2pmobile.data.LoanListClient;
-import com.crowdo.p2pmobile.data.RegisteredMemberCheck;
-import com.crowdo.p2pmobile.data.RegisteredMemberCheckClient;
-import com.crowdo.p2pmobile.helper.PerformEmailIdentityCheckTemp;
-import com.crowdo.p2pmobile.helper.SharedPreferencesHelper;
 
 import java.util.List;
 
-import butterknife.BindString;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;

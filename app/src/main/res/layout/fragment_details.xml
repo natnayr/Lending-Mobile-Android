@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_padding"
     android:paddingRight="@dimen/activity_horizontal_padding"
-    tools:context="com.crowdo.p2pmobile.LoanDetailsFragment">
+    tools:context="com.crowdo.p2pmobile.fragment.LoanDetailsFragment">
     <TextView
         android:id="@+id/loan_detail_iden_no"
         android:layout_width="match_parent"

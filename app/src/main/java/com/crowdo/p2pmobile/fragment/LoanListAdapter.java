@@ -1,16 +1,16 @@
-package com.crowdo.p2pmobile;
+package com.crowdo.p2pmobile.fragment;
 
 import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.data.LoanListItem;
 import com.crowdo.p2pmobile.helper.CustomDateHelper;
 import com.crowdo.p2pmobile.helper.CustomNumberFormatter;

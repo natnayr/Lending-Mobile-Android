@@ -1,4 +1,4 @@
-package com.crowdo.p2pmobile;
+package com.crowdo.p2pmobile.fragment;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
 
+import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheck;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheckClient;
 import com.crowdo.p2pmobile.helper.PerformEmailIdentityCheckTemp;
