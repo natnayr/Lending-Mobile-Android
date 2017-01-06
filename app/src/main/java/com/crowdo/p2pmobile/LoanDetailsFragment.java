@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -127,16 +128,18 @@ public class LoanDetailsFragment extends Fragment {
                             @Override
                             public void onNext(File file) {
                                 Toast.makeText(getActivity(),
-                                        "FactSheet completed downloading into "
-                                                + file.getAbsolutePath(),
-                                        Toast.LENGTH_LONG).show();
+                                        "factsheet stored in app cache as: "
+                                                + file.getName(),
+                                        Toast.LENGTH_SHORT).show();
 
                                 Log.d(LOG_TAG, "TEST: mFactSheetDownloadBtn onNext => "
                                     + file.getAbsolutePath());
 
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.setDataAndType(Uri.fromFile(file), "application/pdf");
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY
+                                        | Intent.FLAG_ACTIVITY_NEW_TASK
+                                        | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 Intent chooserIntent = Intent.createChooser(intent, "Open With");
 
                                 try{
@@ -145,10 +148,14 @@ public class LoanDetailsFragment extends Fragment {
                                     Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
 
                                     Toast.makeText(getActivity(),
-                                            "Sorry, you do not seem to have a PDF Reader installed..",
+                                            "Sorry, you do not seem to have a PDF Reader installed, " +
+                                                    "moving file to downloads",
                                             Toast.LENGTH_LONG).show();
-                                }
 
+                                    file.renameTo(new File(Environment.getExternalStoragePublicDirectory(
+                                            Environment.DIRECTORY_DOWNLOADS).getAbsoluteFile(),
+                                            file.getName()));
+                                }
                             }
                         });
                 }

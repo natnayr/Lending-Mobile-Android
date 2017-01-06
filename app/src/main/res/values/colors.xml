@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_primary">#FF5722</color>
-    <color name="color_primary_dark">#E64A19</color>
-    <color name="color_primary_light">#FFCDBC</color>
-    <color name="color_accent">#448AFF</color>
+    <color name="color_primary">#F44336</color>
+    <color name="color_primary_dark">#D32F2F</color>
+    <color name="color_primary_light">#FFCDD2</color>
+    <color name="color_accent">#536DFE</color>
     <color name="color_accent_50">#E8EAF6</color>
     <color name="color_primary_text">#212121</color>
     <color name="color_secondary_text">#757575</color>
-    <color name="color_icons_text">#ffffff</color>
+    <color name="color_icons_text">#FFFFFF</color>
     <color name="color_background">#FAFAFA</color>
     <color name="color_divider">#BDBDBD</color>
     <color name="color_divider_light">#EEEEEE</color>
+
+    <!-- Branding Colors -->
     <color name="color_crowdo_red">#E60000</color>
 
-    <!-- Colors for Grade Backgrounds-->
+    <!-- Colors for GRADE Backgrounds-->
     <!-- Material Color Green500 -->
     <color name="grade_color_A_plus">#4CAF50</color>
     <!-- Material Color LightGreen500 -->
@@ -29,6 +31,7 @@
     <!-- Material Color DeepOrange500 -->
     <color name="grade_color_E">#FF5722</color>
 
+    <!-- icon colors -->
     <color name="fa_icon_shield">#FFEB3B</color>
     <color name="fa_icon_file_text">#4CAF50</color>
     <color name="fa_icon_unlock_alt">#607D8B</color>

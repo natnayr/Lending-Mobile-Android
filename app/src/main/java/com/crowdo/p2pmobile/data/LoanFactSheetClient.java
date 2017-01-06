@@ -24,7 +24,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-
 /**
  * Created by cwdsg05 on 15/12/16.
  */
@@ -51,9 +50,7 @@ public class LoanFactSheetClient {
     }
 
     public static LoanFactSheetClient getInstance(Context context, int loanId){
-        if(instance == null)
-            instance = new LoanFactSheetClient(context, loanId);
-        return instance;
+        return new LoanFactSheetClient(context, loanId);
     }
 
     public Observable<File> getLoanFactSheet(){
@@ -80,34 +77,37 @@ public class LoanFactSheetClient {
                     Log.d(LOG_TAG, "TEST: is storage readwrite? "
                             + StorageHelper.isExternalStorageReadableAndWritable());
 
+                    String nowTime = DateTime.now().toString("yyyy-MM-dd'T'HH:mm");
                     String header = response.headers().get("Content-Disposition");
                     Log.d(LOG_TAG, "TEST: header = [" + header + "]");
-                    String fileName = loanId+"_"+ DateTime.now().toString("yyyy-MM-dd'T'HH:mm") + ".pdf";
-                    Log.d(LOG_TAG, "TEST: filename is " +  fileName+".pdf");
+                    String fileName = loanId + "-" + nowTime + ".pdf";
+                    Log.d(LOG_TAG, "TEST: filename is " + fileName+".pdf");
 
-
-
-                    File file;
+                    File finalFile, externalRoot;
                     if(StorageHelper.isExternalStorageReadableAndWritable()){
-                        Log.d(LOG_TAG, "TEST: creating file in " + Environment
-                                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                                .getAbsolutePath());
-                        file = new File(Environment
-                                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                                .getAbsoluteFile(), fileName);
+                        if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                            //if external cacahe temp storage is avalible
+                            externalRoot = mContext.getExternalCacheDir().getAbsoluteFile();
+                        }else{
+                            //if not, then store in external downloads directory
+                            externalRoot = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsoluteFile();
+                        }
+                        finalFile = new File(externalRoot, fileName);
                     }else{
+                        //last hope
                         Toast.makeText(mContext,
-                                "External storage is missing, downloading to Internal Drive",
+                                "External storage is missing, downloading to Internal Downloads Folder",
                                 Toast.LENGTH_LONG).show();
-                        file = new File(mContext.getFilesDir(), fileName);
+                        finalFile = new File(mContext.getFilesDir(), fileName);
                     }
 
-                    BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
+                    Log.d(LOG_TAG, "TEST: begining to download into " + finalFile.getAbsolutePath());
+                    BufferedSink bufferedSink = Okio.buffer(Okio.sink(finalFile));
                     bufferedSink.writeAll(response.body().source());
                     bufferedSink.close();
 
                     Log.d(LOG_TAG, "TEST: bufferedSink done...");
-                    subscriber.onNext(file);
+                    subscriber.onNext(finalFile);
                     subscriber.onCompleted();
                 } catch (IOException e) {
                     Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
