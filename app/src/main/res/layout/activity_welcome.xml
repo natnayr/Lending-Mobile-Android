@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,21 +17,38 @@
         android:layout_alignParentTop="true"
         android:src="@drawable/ic_crowdo_logo_red" />
 
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/welcome_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/welcome_pager_tabdots"/>
+
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/welcome_pager_tabdots"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/welcome_btn_group"
+        app:tabBackground="@drawable/welcome_pager_tab_selector"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp"/>
+
     <LinearLayout
+        android:id="@+id/welcome_btn_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/welcome_btn_btm_margin">
+        android:gravity="center_horizontal">
         <Button
             android:id="@+id/welcome_get_started_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Get Started"
             android:textSize="@dimen/welcome_btn_text_size"
             android:textColor="@drawable/welcome_get_started_btn_text"
-            android:fontFamily="@string/font_family_medium"
+            android:fontFamily="@string/font_family_regular"
             android:textAllCaps="true"
             android:background="@drawable/welcome_get_started_btn_layout" />
     </LinearLayout>

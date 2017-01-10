@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_transparent">
+
+    <TextView
+        android:id="@+id/welcome_intro_2_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/welcome_intro_2_body"
+        android:foregroundGravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@string/font_family_regular"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/color_icons_text"
+        android:textSize="@dimen/welcome_tab_title_size"
+        android:text="@string/welcome_intro_2_head"
+        android:layout_marginStart="@dimen/welcome_tab_horizontal_margin"
+        android:layout_marginEnd="@dimen/welcome_tab_horizontal_margin"/>
+
+    <TextView
+        android:id="@+id/welcome_intro_2_body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:foregroundGravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:fontFamily="@string/font_family_light"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"
+        android:lineSpacingExtra="-2dp"
+        android:textColor="@color/color_icons_text"
+        android:textSize="@dimen/welcome_tab_body_size"
+        android:text="@string/welcome_intro_2_body"
+        android:layout_marginStart="@dimen/welcome_tab_horizontal_margin"
+        android:layout_marginEnd="@dimen/welcome_tab_horizontal_margin"/>
+
+</RelativeLayout>
