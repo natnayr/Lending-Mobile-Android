@@ -34,6 +34,7 @@ public class LoanListActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         mToolbar.inflateMenu(R.menu.menu);
         mToolbar.setTitle(getString(R.string.activity_loan_list_action_bar_label));
+        LoanListActivity.this.setTitle(getString(R.string.activity_loan_list_action_bar_label));
 
         //inject intent settings
         Dart.inject(this);

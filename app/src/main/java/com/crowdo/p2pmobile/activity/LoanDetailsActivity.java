@@ -35,7 +35,8 @@ public class LoanDetailsActivity extends AppCompatActivity {
         //mToolbar view
         setSupportActionBar(mToolbar);
         mToolbar.inflateMenu(R.menu.menu);
-        mToolbar.setTitle(getString(R.string.activity_settings_action_bar_label));
+        mToolbar.setTitle(getString(R.string.activity_loan_detail_action_bar_label));
+        LoanDetailsActivity.this.setTitle(getString(R.string.activity_loan_detail_action_bar_label));
 
         //enable back buttons
         getSupportActionBar().setDisplayShowHomeEnabled(true);
