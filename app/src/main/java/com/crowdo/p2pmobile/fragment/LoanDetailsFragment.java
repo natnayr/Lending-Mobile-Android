@@ -174,6 +174,7 @@ public class LoanDetailsFragment extends Fragment {
         super.onResume();
         if(viewHolder != null) {
 
+            //needs to refresh and check user state
             viewHolder.mBidEnterBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -186,13 +187,7 @@ public class LoanDetailsFragment extends Fragment {
                     if(acctMemberId == -1) {
                         dialogEmailPrompt();
                     }else {
-                        Intent intent = Henson.with(getActivity())
-                                .gotoWebViewActivity()
-                                .id(initId)
-                                .url("http://p2p.crowdo.com")
-                                .build();
-
-                        startActivity(intent);
+                        addToCard();
                     }
                 }
             });
@@ -217,6 +212,40 @@ public class LoanDetailsFragment extends Fragment {
         }
         super.onDestroy();
     }
+
+    /*
+        WebView intent into p2p crowdo
+     */
+    private void addToCard(){
+        if(viewHolder != null){
+            int unitAmount;
+
+            try {
+                String inputUnitAmount = viewHolder.mEnterAmount.getText().toString().trim().replaceAll("[^\\d.]", "");
+                unitAmount = (inputUnitAmount.equals("")) ? 0 : Integer.parseInt(inputUnitAmount);
+            }catch (NumberFormatException nfe){
+                Log.d(LOG_TAG, nfe.getMessage(), nfe);
+                unitAmount = 0;
+            }
+
+            Log.d(LOG_TAG, "TEST: entered unit amount: " + unitAmount);
+            if(unitAmount > 0) {
+                Intent intent = Henson.with(getActivity())
+                        .gotoWebViewActivity()
+                        .id(initId)
+                        .url("http://p2p.crowdo.com")
+                        .build();
+
+                startActivity(intent);
+            }else{
+                Toast.makeText(getActivity(), "Please key in a numeric bid amount greater than 0.",
+                        Toast.LENGTH_SHORT).show();
+
+            }
+        }
+
+    }
+
 
     /*
         Temp Dialog to identify user

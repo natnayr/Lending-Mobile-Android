@@ -79,13 +79,12 @@ public class LoanDetailsViewHolder {
     @BindView(R.id.loan_detail_schedule_last_repayment_date) TextView mScheduleLastRepaymentDate;
     @BindView(R.id.loan_detail_schedule_angle_right_first_icon_container) TextView mAngleRightIconFirst;
     @BindView(R.id.loan_detail_schedule_angle_right_second_icon_container) TextView mAngleRightIconSecond;
-
     @BindView(R.id.loan_detail_avalible_amount) TextView mAvalibleAmount;
 
     // to interact with
     @BindView(R.id.loan_detail_amount_minus_btn) ImageButton mAmountMinusBtn;
     @BindView(R.id.loan_detail_amount_plus_btn) ImageButton mAmountPlusBtn;
-    @BindView(R.id.loan_detail_enter_amount_edittext) EditText mEnterAmount;
+    @BindView(R.id.loan_detail_enter_amount_edittext) public EditText mEnterAmount;
     @BindView(R.id.loan_detail_factsheet_download_btn) public LinearLayout mFactsheetDownloadBtn; //LinearLayout act as button
     @BindView(R.id.loan_detail_bid_enter_btn) public LinearLayout mBidEnterBtn; //LinearLayout act as button
 

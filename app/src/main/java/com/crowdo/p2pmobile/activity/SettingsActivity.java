@@ -35,6 +35,8 @@ public class SettingsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(mToolbar);
+        mToolbar.setTitle(getString(R.string.activity_loan_list_action_bar_label));
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 

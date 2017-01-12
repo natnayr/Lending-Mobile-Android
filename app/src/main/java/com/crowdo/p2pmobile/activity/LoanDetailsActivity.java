@@ -24,7 +24,7 @@ public class LoanDetailsActivity extends AppCompatActivity {
     public static final String TAG_LOAN_DETAILS_FRAGMENT = "LoanDetailsFragment";
     public static final String BUNDLE_ID_KEY = "BundleDetailsFragmentIDKey";
     @InjectExtra public int id;
-    @BindView(R.id.toolbar_loan_details) Toolbar toolbar;
+    @BindView(R.id.toolbar) Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +33,9 @@ public class LoanDetailsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         //mToolbar view
-        setSupportActionBar(toolbar);
-        toolbar.inflateMenu(R.menu.menu);
+        setSupportActionBar(mToolbar);
+        mToolbar.inflateMenu(R.menu.menu);
+        mToolbar.setTitle(getString(R.string.activity_settings_action_bar_label));
 
         //enable back buttons
         getSupportActionBar().setDisplayShowHomeEnabled(true);

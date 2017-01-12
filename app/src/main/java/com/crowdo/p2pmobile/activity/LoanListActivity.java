@@ -6,14 +6,12 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.fragment.LoanListFragment;
-import com.crowdo.p2pmobile.helper.SharedPreferencesHelper;
 import com.f2prateek.dart.Dart;
 
 import butterknife.BindView;
@@ -23,19 +21,19 @@ public class LoanListActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = LoanListActivity.class.getSimpleName();
     public static final String TAG_LOAN_LIST_FRAGMENT = "LoanListFragment";
-    @BindView(R.id.toolbar_loan_list) Toolbar toolbar;
+    @BindView(R.id.toolbar) Toolbar mToolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
         //mToolbar view
-        setSupportActionBar(toolbar);
-        toolbar.inflateMenu(R.menu.menu);
+        setSupportActionBar(mToolbar);
+        mToolbar.inflateMenu(R.menu.menu);
+        mToolbar.setTitle(getString(R.string.activity_loan_list_action_bar_label));
 
         //inject intent settings
         Dart.inject(this);
@@ -46,7 +44,6 @@ public class LoanListActivity extends AppCompatActivity {
                     .add(new LoanListFragment(), TAG_LOAN_LIST_FRAGMENT)
                     .commit();
         }
-
     }
 
     @Override

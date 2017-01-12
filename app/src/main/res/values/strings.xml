@@ -13,6 +13,7 @@
     <string name="gradeC">C</string>
     <string name="gradeD">D</string>
     <string name="gradeE">D</string>
+
     <string name="title_activity_details">DetailsActivity</string>
     <string name="action_settings">Settings</string>
 
@@ -74,12 +75,9 @@
     <string name="welcome_intro_1_body">Crowdo connects up and coming businesses with a global community of investors. Invest in loans for competitive returns</string>
 
     <string name="welcome_intro_2_head">Tried of Traditional Lending?</string>
-    <string name="welcome_intro_2_body">Looking to diversify your portfolio with fixed income return?\n\nEverybody can now lend into the best SME business and earn a steady return while supporting the backbone of our country\'s economy.</string>
+    <string name="welcome_intro_2_body">Looking to diversify your portfolio with fixed income returns?\n\nEverybody can now lend into the best SME business and earn a steady return while supporting the backbone of our country\'s economy.</string>
 
     <string name="welcome_intro_3_head">Need Funding for Your Business?</string>
     <string name="welcome_intro_3_body">As entrepreneurs we understand that to get funding from traditional financial institutions can be challenging.\n\nThe good news is that there are many investors out there ready to support your business!</string>
-
-
-
 
 </resources>
