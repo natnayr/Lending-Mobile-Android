@@ -86,10 +86,6 @@ public class WelcomeActivity extends AppCompatActivity implements MediaPlayer.On
             }
         });
 
-
-
-        Log.d(LOG_TAG, "TEST: I'm Called onCreate MediaPlayer");
-
         mWelcomeGetStartedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,7 +113,6 @@ public class WelcomeActivity extends AppCompatActivity implements MediaPlayer.On
         int screenHeight = size.y;
         float screenProportion = (float) screenWidth / (float) screenHeight;
         ViewGroup.LayoutParams lp = mSurfaceView.getLayoutParams();
-        Log.d(LOG_TAG, "TEST: videoProportion:" + videoProportion + " screenProportion:" + screenProportion);
         if(videoProportion > screenProportion){
             lp.width = screenWidth;
             lp.height = (int) ((float) screenWidth / videoProportion);
@@ -187,9 +182,9 @@ public class WelcomeActivity extends AppCompatActivity implements MediaPlayer.On
 
     enum WelcomeLayoutEnum {
 
-        FIRST_INTRO(R.layout.welcome_intro_1),
-        SECOND_INTRO(R.layout.welcome_intro_2),
-        THIRD_INTRO(R.layout.welcome_intro_3);
+        ONE(R.layout.welcome_intro_1),
+        TWO(R.layout.welcome_intro_2),
+        THREE(R.layout.welcome_intro_3);
 
         private int mLayoutResId;
 

@@ -31,8 +31,6 @@ import rx.schedulers.Schedulers;
 public class LoanFactSheetClient {
 
     public static final String LOG_TAG = LoanFactSheetClient.class.getSimpleName();
-
-    private static LoanFactSheetClient instance;
     private APIServices apiServices;
     private Context mContext;
     private int loanId;
@@ -74,9 +72,6 @@ public class LoanFactSheetClient {
             @Override
             public void call(Subscriber<? super File> subscriber) {
                 try {
-                    Log.d(LOG_TAG, "TEST: is storage readwrite? "
-                            + StorageHelper.isExternalStorageReadableAndWritable());
-
                     String nowTime = DateTime.now().toString("yyyy-MM-dd'T'HH:mm");
                     String header = response.headers().get("Content-Disposition");
                     Log.d(LOG_TAG, "TEST: header = [" + header + "]");
@@ -101,7 +96,7 @@ public class LoanFactSheetClient {
                         finalFile = new File(mContext.getFilesDir(), fileName);
                     }
 
-                    Log.d(LOG_TAG, "TEST: begining to download into " + finalFile.getAbsolutePath());
+                    Log.d(LOG_TAG, "TEST: Begining to download into " + finalFile.getAbsolutePath());
                     BufferedSink bufferedSink = Okio.buffer(Okio.sink(finalFile));
                     bufferedSink.writeAll(response.body().source());
                     bufferedSink.close();

@@ -86,7 +86,7 @@ public class LoanDetailsFragment extends Fragment {
 
                     @Override
                     public void onCompleted() {
-                        Log.d(LOG_TAG, "Populated LoanDetail Rx onComplete");
+                        Log.d(LOG_TAG, "TEST: Populated LoanDetail Rx onComplete");
                     }
 
                     @Override
@@ -98,7 +98,7 @@ public class LoanDetailsFragment extends Fragment {
                     @Override
                     public void onNext(LoanDetail loanDetail) {
                         if(loanDetail != null) {
-                            Log.d(LOG_TAG, "Populated LoanDetails Rx onNext with loanId "
+                            Log.d(LOG_TAG, "TEST: Populated LoanDetails Rx onNext with loanId "
                                     + loanDetail.loanId + " retreived.");
                             viewHolder.attachView(loanDetail, getActivity());
                         }
@@ -134,9 +134,6 @@ public class LoanDetailsFragment extends Fragment {
                                         "factsheet stored in app cache as: "
                                                 + file.getName(),
                                         Toast.LENGTH_SHORT).show();
-
-                                Log.d(LOG_TAG, "TEST: mFactSheetDownloadBtn onNext => "
-                                    + file.getAbsolutePath());
 
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.setDataAndType(Uri.fromFile(file), "application/pdf");
@@ -182,8 +179,6 @@ public class LoanDetailsFragment extends Fragment {
                     int acctMemberId = SharedPreferencesHelper.getSharedPrefInt(getActivity(),
                             getActivity().getString(R.string.pref_user_id_key), -1);
 
-                    Log.d(LOG_TAG, "TEST: acctMemberId=" + acctMemberId);
-
                     if(acctMemberId == -1) {
                         dialogEmailPrompt();
                     }else {
@@ -228,7 +223,6 @@ public class LoanDetailsFragment extends Fragment {
                 unitAmount = 0;
             }
 
-            Log.d(LOG_TAG, "TEST: entered unit amount: " + unitAmount);
             if(unitAmount > 0) {
                 Intent intent = Henson.with(getActivity())
                         .gotoWebViewActivity()
@@ -256,7 +250,7 @@ public class LoanDetailsFragment extends Fragment {
     @BindString(R.string.pref_user_email_default_value) String memberCheckEmailDialogDefaultValue;
     private void dialogEmailPrompt(){
 
-        Log.d(LOG_TAG, "TEST: email dialog pop up start");
+        Log.d(LOG_TAG, "TEST: Email Dialog Triggered");
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         View dialogView = inflater.inflate(R.layout.pref_dialog_email_edittext_fix, null);
         ButterKnife.bind(this, dialogView);

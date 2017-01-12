@@ -63,7 +63,6 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         int count = getFragmentManager().getBackStackEntryCount();
-        Log.d(LOG_TAG, "TEST: onBackPressed count = " + count);
         if (count == 0) {
             super.onBackPressed();
         } else {
@@ -76,13 +75,11 @@ public class SettingsActivity extends AppCompatActivity {
     private boolean toBackStackOrParent(){
         Intent upIntent = NavUtils.getParentActivityIntent(this);
         if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-            Log.d(LOG_TAG, "TEST: TaskBuilder Option");
             TaskStackBuilder.create(this)
                     .addNextIntentWithParentStack(upIntent)
                     .startActivities();
         } else {
             //If no backstack then navigate to logical main list view
-            Log.d(LOG_TAG, "TEST: Navigate Up option");
             NavUtils.navigateUpTo(this, upIntent);
         }
         return true;

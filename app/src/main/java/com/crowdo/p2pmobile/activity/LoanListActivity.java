@@ -79,7 +79,6 @@ public class LoanListActivity extends AppCompatActivity {
     }
 
 
-
     private boolean toBackStackOrParent(){
         Intent upIntent = NavUtils.getParentActivityIntent(this);
         if (NavUtils.shouldUpRecreateTask(this, upIntent)) {

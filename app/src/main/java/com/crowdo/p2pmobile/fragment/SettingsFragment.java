@@ -100,7 +100,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
     @Override
     public void onDisplayPreferenceDialog(Preference preference) {
-        Log.d(LOG_TAG, "IM SHOWN fore resource : " +
+        Log.d(LOG_TAG, "TEST: Preference Dialog triggered for: " +
                 getResources().getResourceName(preference.getLayoutResource()));
 
         super.onDisplayPreferenceDialog(preference);
@@ -112,7 +112,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
         if(sharedPreferences != null || key != null) {
             Preference pref = findPreference(key);
 
-            Log.d(LOG_TAG, "TEST: onSharedPreferenceChanged called with key:" + key);
+            Log.d(LOG_TAG, "TEST: onSharedPreferenceChanged called with key: " + key);
             if (pref instanceof EditTextPreference) {
                 pref.setSummary(sharedPreferences.getString(key, ""));
             } else {
@@ -134,7 +134,6 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
             //perform identify user
             if (key.equals(getString(R.string.pref_user_email_key))) {
-                Log.d(LOG_TAG, "TEST: USER_EMAIL key has been called");
                 performEmailIdentify(sharedPreferences, key);
             }
         }
@@ -147,7 +146,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
                 .getString(getString(R.string.pref_user_email_key), "")
                 .toString().toLowerCase().trim();
 
-        Log.d(LOG_TAG, "TEST: enteredEmail " + enteredEmail);
+        Log.d(LOG_TAG, "TEST: enteredEmail is " + enteredEmail);
 
         Call<RegisteredMemberCheck> call = RegisteredMemberCheckClient.getInstance()
                 .postUserCheck(enteredEmail);

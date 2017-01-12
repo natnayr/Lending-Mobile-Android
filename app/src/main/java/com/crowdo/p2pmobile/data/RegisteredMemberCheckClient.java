@@ -56,7 +56,6 @@ public class RegisteredMemberCheckClient {
     }
 
     public Call<RegisteredMemberCheck> postUserCheck(String email){
-        Log.d(LOG_TAG, "TEST: parsing to apiServices.postUserCheck: " + email);
         Map<String, String> requestBody = new HashMap<String, String>();
         requestBody.put("email", email);
         return apiServices.postUserCheck(requestBody);
