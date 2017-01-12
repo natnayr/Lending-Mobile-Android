@@ -72,7 +72,6 @@ public class WelcomeActivity extends AppCompatActivity implements MediaPlayer.On
                 }catch (IOException e){
                     Log.e(LOG_TAG, "ERROR: surfaceCreated error " + e.getMessage(), e);
                     e.printStackTrace();
-                    
                 }
             }
 
