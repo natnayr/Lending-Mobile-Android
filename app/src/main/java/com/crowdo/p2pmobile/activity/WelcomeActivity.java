@@ -3,7 +3,6 @@ package com.crowdo.p2pmobile.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import com.crowdo.p2pmobile.R;
 import java.io.IOException;
-import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -33,8 +31,6 @@ public class WelcomeActivity extends AppCompatActivity implements MediaPlayer.On
 
     private static final String LOG_TAG = WelcomeActivity.class.getSimpleName();
     @BindView(R.id.welcome_get_started_btn) Button mWelcomeGetStartedButton;
-    @BindDrawable(R.drawable.welcome_get_started_btn_enable) Drawable mWelcomeGetStartedButtonEnabled;
-    @BindDrawable(R.drawable.welcome_get_started_btn_pressed) Drawable mWelcomeGetStartedButtonPressed;
     @BindView(R.id.welcome_pager) ViewPager mViewPager;
     @BindView(R.id.welcome_pager_tabdots) TabLayout mTabLayout;
 
