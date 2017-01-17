@@ -56,11 +56,12 @@ public class SharedPreferencesHelper {
         SharedPreferencesHelper.setSharePrefString(context,
                 context.getString(R.string.pref_user_name_key),
                 context.getString(R.string.pref_user_name_default_value));
-        SharedPreferencesHelper.setSharePrefBool(context,
-                context.getString(R.string.pref_is_user_sg_registered_key),
-                false);
-        SharedPreferencesHelper.setSharePrefBool(context,
-                context.getString(R.string.pref_is_user_sg_registered_key),
-                false);
+        SharedPreferencesHelper.setSharePrefString(context,
+                context.getString(R.string.pref_user_name_key),
+                context.getString(R.string.pref_user_name_default_value));
+
+        SharedPreferencesHelper.setSharePrefString(context,
+                context.getString(R.string.pref_user_investor_approval_status),
+                context.getString(R.string.pref_user_investor_approval_status_default_value));
     }
 }

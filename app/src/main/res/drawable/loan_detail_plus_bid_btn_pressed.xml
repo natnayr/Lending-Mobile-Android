@@ -5,7 +5,7 @@
 
     <stroke
         android:width="@dimen/loan_detail_enter_amount_stroke_width"
-        android:color="@color/color_icons_text" />
+        android:color="@color/color_background" />
 
     <corners
         android:topLeftRadius="@dimen/loan_detail_enter_amount_radius_corner_width"

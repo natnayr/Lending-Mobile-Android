@@ -59,6 +59,9 @@
 
     <dimen name="loan_detail_avalible_amount_margin_left">10dp</dimen>
 
+    <!-- drawer width standard mobile increment (56dp) * 5 -->
+    <dimen name="drawer_width_mobile">280dp</dimen>
+
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>

@@ -36,14 +36,6 @@ public class PerformEmailIdentityCheckTemp {
                     context.getString(R.string.pref_user_id_key),
                     registeredMemberCheck.id);
 
-            SharedPreferencesHelper.setSharePrefBool(context,
-                    context.getString(R.string.pref_is_user_sg_registered_key),
-                    registeredMemberCheck.registeredSingapore);
-
-            SharedPreferencesHelper.setSharePrefBool(context,
-                    context.getString(R.string.pref_is_user_indo_registered_key),
-                    registeredMemberCheck.registeredIndonesia);
-
             SharedPreferencesHelper.setSharePrefString(context,
                     context.getString(R.string.pref_user_name_key),
                     WordUtils.capitalizeFully(registeredMemberCheck.name));
@@ -52,6 +44,10 @@ public class PerformEmailIdentityCheckTemp {
             SharedPreferencesHelper.setSharePrefString(context,
                     context.getString(R.string.pref_user_email_key),
                     enteredEmail);
+
+            SharedPreferencesHelper.setSharePrefString(context,
+                    context.getString(R.string.pref_user_investor_approval_status),
+                    registeredMemberCheck.approvalStatus);
 
             Toast.makeText(context, "Welcome, " +
                             WordUtils.capitalizeFully(registeredMemberCheck.name),
