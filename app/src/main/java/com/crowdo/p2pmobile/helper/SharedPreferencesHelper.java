@@ -56,12 +56,9 @@ public class SharedPreferencesHelper {
         SharedPreferencesHelper.setSharePrefString(context,
                 context.getString(R.string.pref_user_name_key),
                 context.getString(R.string.pref_user_name_default_value));
-        SharedPreferencesHelper.setSharePrefString(context,
-                context.getString(R.string.pref_user_name_key),
-                context.getString(R.string.pref_user_name_default_value));
 
         SharedPreferencesHelper.setSharePrefString(context,
-                context.getString(R.string.pref_user_investor_approval_status),
+                context.getString(R.string.pref_user_investor_approval_status_key),
                 context.getString(R.string.pref_user_investor_approval_status_default_value));
     }
 }

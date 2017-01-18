@@ -106,7 +106,7 @@ public class LoanListFragment extends Fragment {
                 .subscribe(new Observer<List<LoanListItem>>() {
                     @Override
                     public void onCompleted() {
-                        Log.d(LOG_TAG, "TEST: populateLoansList Rx onComplete");
+                        Log.d(LOG_TAG, "APP: populateLoansList Rx onComplete");
                         swipeContainer.setRefreshing(false);
                     }
 
@@ -119,7 +119,7 @@ public class LoanListFragment extends Fragment {
 
                     @Override
                     public void onNext(List<LoanListItem> loanListItems) {
-                        Log.d(LOG_TAG, "TEST: populateLoansList Rx onNext with "
+                        Log.d(LOG_TAG, "APP: populateLoansList Rx onNext with "
                                 + loanListItems.size() + " items retreived.");
                         mLoanAdapter.setLoans(loanListItems);
                     }

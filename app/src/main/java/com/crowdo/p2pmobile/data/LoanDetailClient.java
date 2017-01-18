@@ -44,7 +44,7 @@ public class LoanDetailClient {
     }
 
     public Observable<LoanDetail> getLoanDetails(int id){
-        Log.d(LOG_TAG, "TEST: parsing to apiServices.getLoanDetail: " + id);
+        Log.d(LOG_TAG, "APP: parsing to apiServices.getLoanDetail: " + id);
         return apiServices.getLoanDetail(id);
     }
 

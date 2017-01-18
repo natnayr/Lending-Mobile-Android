@@ -7,6 +7,7 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheck;
@@ -42,6 +43,20 @@ public class SettingsFragment extends PreferenceFragmentCompat
         for(int i=0; i<getPreferenceScreen().getPreferenceCount(); i++){
             pickPreferenceObject(getPreferenceScreen().getPreference(i));
         }
+
+        Preference exitSessBtn = findPreference(getString(R.string.pref_user_logout_key));
+        exitSessBtn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+
+                Log.d(LOG_TAG, "APP: Session Cleared");
+                Toast.makeText(getActivity(), "Cleared",
+                        Toast.LENGTH_SHORT).show();
+
+                SharedPreferencesHelper.resetUserAccountSharedPreferences(getActivity());
+                return true;
+            }
+        });
     }
 
     @Override
@@ -100,7 +115,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
     @Override
     public void onDisplayPreferenceDialog(Preference preference) {
-        Log.d(LOG_TAG, "TEST: Preference Dialog triggered for: " +
+        Log.d(LOG_TAG, "APP: Preference Dialog triggered for: " +
                 getResources().getResourceName(preference.getLayoutResource()));
 
         super.onDisplayPreferenceDialog(preference);
@@ -112,7 +127,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
         if(sharedPreferences != null || key != null) {
             Preference pref = findPreference(key);
 
-            Log.d(LOG_TAG, "TEST: onSharedPreferenceChanged called with key: " + key);
+            Log.d(LOG_TAG, "APP: onSharedPreferenceChanged called with key: " + key);
             if (pref instanceof EditTextPreference) {
                 pref.setSummary(sharedPreferences.getString(key, ""));
             } else {
@@ -146,7 +161,9 @@ public class SettingsFragment extends PreferenceFragmentCompat
                 .getString(getString(R.string.pref_user_email_key), "")
                 .toString().toLowerCase().trim();
 
-        Log.d(LOG_TAG, "TEST: enteredEmail is " + enteredEmail);
+        Log.d(LOG_TAG, "APP: enteredEmail is " + enteredEmail);
+        final PerformEmailIdentityCheckTemp idenCheck =
+                new PerformEmailIdentityCheckTemp(getActivity());
 
         Call<RegisteredMemberCheck> call = RegisteredMemberCheckClient.getInstance()
                 .postUserCheck(enteredEmail);
@@ -155,15 +172,12 @@ public class SettingsFragment extends PreferenceFragmentCompat
             @Override
             public void onResponse(Call<RegisteredMemberCheck> call,
                                    Response<RegisteredMemberCheck> response) {
-                PerformEmailIdentityCheckTemp idenCheck =
-                        new PerformEmailIdentityCheckTemp(getActivity());
+
                 idenCheck.onResponseCode(LOG_TAG, enteredEmail, response);
             }
 
             @Override
             public void onFailure(Call<RegisteredMemberCheck> call, Throwable t) {
-                PerformEmailIdentityCheckTemp idenCheck =
-                        new PerformEmailIdentityCheckTemp(getActivity());
                 idenCheck.onFailure(LOG_TAG, enteredEmail, t);
             }
         });

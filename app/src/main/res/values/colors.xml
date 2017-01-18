@@ -8,6 +8,7 @@
     <color name="color_primary_text">#212121</color>
     <color name="color_secondary_text">#757575</color>
     <color name="color_icons_text">#FFFFFF</color>
+    <color name="color_icons_text_secondary">#e0e0e0</color>
     <color name="color_background">#FAFAFA</color>
     <color name="color_divider">#BDBDBD</color>
     <color name="color_divider_light">#EEEEEE</color>

@@ -86,7 +86,7 @@ public class LoanDetailsFragment extends Fragment {
 
                     @Override
                     public void onCompleted() {
-                        Log.d(LOG_TAG, "TEST: Populated LoanDetail Rx onComplete");
+                        Log.d(LOG_TAG, "APP: Populated LoanDetail Rx onComplete");
                     }
 
                     @Override
@@ -98,7 +98,7 @@ public class LoanDetailsFragment extends Fragment {
                     @Override
                     public void onNext(LoanDetail loanDetail) {
                         if(loanDetail != null) {
-                            Log.d(LOG_TAG, "TEST: Populated LoanDetails Rx onNext with loanId "
+                            Log.d(LOG_TAG, "APP: Populated LoanDetails Rx onNext with loanId "
                                     + loanDetail.loanId + " retreived.");
                             viewHolder.attachView(loanDetail, getActivity());
                         }
@@ -120,7 +120,7 @@ public class LoanDetailsFragment extends Fragment {
                         .subscribe(new Observer<File>() {
                             @Override
                             public void onCompleted() {
-                                Log.d(LOG_TAG, "TEST: mFactSheetDownloadBtn complete");
+                                Log.d(LOG_TAG, "APP: mFactSheetDownloadBtn complete");
                             }
 
                             @Override
@@ -250,7 +250,7 @@ public class LoanDetailsFragment extends Fragment {
     @BindString(R.string.pref_user_email_default_value) String memberCheckEmailDialogDefaultValue;
     private void dialogEmailPrompt(){
 
-        Log.d(LOG_TAG, "TEST: Email Dialog Triggered");
+        Log.d(LOG_TAG, "APP: Email Dialog Triggered");
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         View dialogView = inflater.inflate(R.layout.pref_dialog_email_edittext_fix, null);
         ButterKnife.bind(this, dialogView);

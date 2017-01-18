@@ -11,13 +11,21 @@
         <item name="android:textColorPrimaryInverse">@color/color_icons_text</item>
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
         <item name="android:colorBackground">@color/color_background</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="preferenceTheme">@style/PreferenceTheme</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.DayNight.Dialog.Alert</item>
     </style>
 
     <style name="PopupMenuTheme" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:background">@color/color_background</item>
         <item name="android:textColor">@color/color_primary_text</item>
+    </style>
+
+    <style name="PreferenceTheme" parent="PreferenceThemeOverlay.v14.Material">
+        <item name="android:textViewStyle">@style/PreferenceThemeTextViewStyle</item>
+    </style>
+
+    <style name="PreferenceThemeTextViewStyle" parent="android:TextAppearance.Material.Widget.TextView">
+        <item name="android:fontFamily">@string/font_family_regular</item>
     </style>
 
     <style name="AppAlertDialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">

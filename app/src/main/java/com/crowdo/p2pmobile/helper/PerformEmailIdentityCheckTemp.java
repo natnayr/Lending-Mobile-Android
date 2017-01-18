@@ -46,7 +46,7 @@ public class PerformEmailIdentityCheckTemp {
                     enteredEmail);
 
             SharedPreferencesHelper.setSharePrefString(context,
-                    context.getString(R.string.pref_user_investor_approval_status),
+                    context.getString(R.string.pref_user_investor_approval_status_key),
                     registeredMemberCheck.approvalStatus);
 
             Toast.makeText(context, "Welcome, " +
