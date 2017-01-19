@@ -1,4 +1,4 @@
-package com.crowdo.p2pmobile.activity;
+package com.crowdo.p2pmobile.activities;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -11,50 +11,39 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.crowdo.p2pmobile.R;
-import com.crowdo.p2pmobile.fragment.LoanDetailsFragment;
+import com.crowdo.p2pmobile.fragments.LoanListFragment;
 import com.f2prateek.dart.Dart;
-import com.f2prateek.dart.InjectExtra;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LoanDetailsActivity extends AppCompatActivity {
+public class LoanListActivity extends AppCompatActivity {
 
-    private static final String LOG_TAG = LoanDetailsActivity.class.getSimpleName();
-    public static final String TAG_LOAN_DETAILS_FRAGMENT = "LoanDetailsFragment";
-    public static final String BUNDLE_ID_KEY = "BundleDetailsFragmentIDKey";
-    @InjectExtra public int id;
+    private static final String LOG_TAG = LoanListActivity.class.getSimpleName();
+    public static final String TAG_LOAN_LIST_FRAGMENT = "LoanListFragment";
+
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_details);
+
+        setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
         //mToolbar view
         setSupportActionBar(mToolbar);
         mToolbar.inflateMenu(R.menu.menu);
-        mToolbar.setTitle(getString(R.string.activity_loan_detail_action_bar_label));
-        LoanDetailsActivity.this.setTitle(getString(R.string.activity_loan_detail_action_bar_label));
+        mToolbar.setTitle(getString(R.string.activity_loan_list_action_bar_label));
+        LoanListActivity.this.setTitle(getString(R.string.activity_loan_list_action_bar_label));
 
-        //enable back buttons
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        //inject intent settings
         Dart.inject(this);
 
-        Bundle args = new Bundle();
-        args.putInt(BUNDLE_ID_KEY, this.id);
-
-        Fragment fragment = getFragmentManager().findFragmentByTag(TAG_LOAN_DETAILS_FRAGMENT);
-
-        if(fragment == null) {
-            LoanDetailsFragment loanDetailsFragment = new LoanDetailsFragment();
-            loanDetailsFragment.setArguments(args);
+        Fragment loanListFragment = getFragmentManager().findFragmentByTag(TAG_LOAN_LIST_FRAGMENT);
+        if(loanListFragment == null){
             getFragmentManager().beginTransaction()
-                    .replace(R.id.loan_details_content, loanDetailsFragment, TAG_LOAN_DETAILS_FRAGMENT)
-                    .addToBackStack(TAG_LOAN_DETAILS_FRAGMENT)
+                    .add(new LoanListFragment(), TAG_LOAN_LIST_FRAGMENT)
                     .commit();
         }
     }
@@ -63,6 +52,20 @@ public class LoanDetailsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                this.onBackPressed();
+                return true;
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -76,19 +79,6 @@ public class LoanDetailsActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            case R.id.action_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     private boolean toBackStackOrParent(){
         Intent upIntent = NavUtils.getParentActivityIntent(this);
@@ -102,4 +92,6 @@ public class LoanDetailsActivity extends AppCompatActivity {
         }
         return true;
     }
+
+
 }

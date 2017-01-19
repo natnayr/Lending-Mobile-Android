@@ -1,4 +1,4 @@
-package com.crowdo.p2pmobile.fragment;
+package com.crowdo.p2pmobile.fragments;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -16,17 +16,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.crowdo.p2pmobile.activity.Henson;
-import com.crowdo.p2pmobile.activity.LoanDetailsActivity;
+import com.crowdo.p2pmobile.activities.Henson;
+import com.crowdo.p2pmobile.activities.LoanDetailsActivity;
 import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.data.LoanDetail;
 import com.crowdo.p2pmobile.data.LoanDetailClient;
 import com.crowdo.p2pmobile.data.LoanFactSheetClient;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheck;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheckClient;
-import com.crowdo.p2pmobile.helper.PerformEmailIdentityCheckTemp;
-import com.crowdo.p2pmobile.helper.SharedPreferencesUtils;
-import com.crowdo.p2pmobile.viewholder.LoanDetailsViewHolder;
+import com.crowdo.p2pmobile.helpers.PerformEmailIdentityCheckTemp;
+import com.crowdo.p2pmobile.helpers.SharedPreferencesUtils;
+import com.crowdo.p2pmobile.viewholders.LoanDetailsViewHolder;
 
 import java.io.File;
 

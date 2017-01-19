@@ -1,4 +1,4 @@
-package com.crowdo.p2pmobile.helper;
+package com.crowdo.p2pmobile.helpers;
 
 import android.content.Context;
 import android.content.SharedPreferences;

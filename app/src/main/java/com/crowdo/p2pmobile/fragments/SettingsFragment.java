@@ -1,4 +1,4 @@
-package com.crowdo.p2pmobile.fragment;
+package com.crowdo.p2pmobile.fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,8 +12,8 @@ import android.widget.Toast;
 import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheck;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheckClient;
-import com.crowdo.p2pmobile.helper.PerformEmailIdentityCheckTemp;
-import com.crowdo.p2pmobile.helper.SharedPreferencesUtils;
+import com.crowdo.p2pmobile.helpers.PerformEmailIdentityCheckTemp;
+import com.crowdo.p2pmobile.helpers.SharedPreferencesUtils;
 
 import java.util.Map;
 

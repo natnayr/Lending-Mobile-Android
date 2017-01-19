@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/loan_details_content"
-        android:name="com.crowdo.p2pmobile.fragment.LoanDetailsFragment"
+        android:name="com.crowdo.p2pmobile.fragments.LoanDetailsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

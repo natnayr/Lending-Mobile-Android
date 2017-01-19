@@ -5,7 +5,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.crowdo.p2pmobile.helper.HardwareUtils;
+import com.crowdo.p2pmobile.helpers.HardwareUtils;
 
 import org.joda.time.DateTime;
 

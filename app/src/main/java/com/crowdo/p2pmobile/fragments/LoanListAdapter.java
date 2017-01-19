@@ -1,4 +1,4 @@
-package com.crowdo.p2pmobile.fragment;
+package com.crowdo.p2pmobile.fragments;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 
 import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.data.LoanListItem;
-import com.crowdo.p2pmobile.viewholder.LoanListViewHolder;
+import com.crowdo.p2pmobile.viewholders.LoanListViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

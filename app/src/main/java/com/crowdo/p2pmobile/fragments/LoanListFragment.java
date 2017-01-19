@@ -1,4 +1,4 @@
-package com.crowdo.p2pmobile.fragment;
+package com.crowdo.p2pmobile.fragments;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.crowdo.p2pmobile.R;
-import com.crowdo.p2pmobile.activity.Henson;
+import com.crowdo.p2pmobile.activities.Henson;
 import com.crowdo.p2pmobile.data.LoanListItem;
 import com.crowdo.p2pmobile.data.LoanListClient;
 

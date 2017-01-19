@@ -1,4 +1,4 @@
-package com.crowdo.p2pmobile.viewholder;
+package com.crowdo.p2pmobile.viewholders;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -20,9 +20,9 @@ import android.widget.TextView;
 import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.custom_ui.GoalProgressBar;
 import com.crowdo.p2pmobile.data.LoanDetail;
-import com.crowdo.p2pmobile.helper.DateUtils;
-import com.crowdo.p2pmobile.helper.NumericUtils;
-import com.crowdo.p2pmobile.helper.FontUtils;
+import com.crowdo.p2pmobile.helpers.DateUtils;
+import com.crowdo.p2pmobile.helpers.NumericUtils;
+import com.crowdo.p2pmobile.helpers.FontUtils;
 
 import org.apache.commons.lang3.text.WordUtils;
 

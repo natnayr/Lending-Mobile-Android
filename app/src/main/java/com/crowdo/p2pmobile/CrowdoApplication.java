@@ -4,8 +4,8 @@ import android.app.Application;
 import android.content.Intent;
 import android.support.v7.preference.PreferenceManager;
 
-import com.crowdo.p2pmobile.activity.WelcomeActivity;
-import com.crowdo.p2pmobile.helper.SharedPreferencesUtils;
+import com.crowdo.p2pmobile.activities.WelcomeActivity;
+import com.crowdo.p2pmobile.helpers.SharedPreferencesUtils;
 
 /**
  * Created by cwdsg05 on 6/1/17.

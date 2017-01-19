@@ -1,4 +1,4 @@
-package com.crowdo.p2pmobile.helper;
+package com.crowdo.p2pmobile.helpers;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -25,6 +25,5 @@ public class DateUtils {
         DateTimeFormatter dtf = DateTimeFormat.forPattern(SQL_DATE_PATTERN);
         return dtf.parseDateTime(date).toString(outPattern);
     }
-
 
 }
