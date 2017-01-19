@@ -10,7 +10,7 @@ import com.crowdo.p2pmobile.R;
  * Created by cwdsg05 on 29/12/16.
  */
 
-public class SharedPreferencesHelper {
+public class SharedPreferencesUtils {
 
     public static SharedPreferences getSharedPref(Context context){
         return PreferenceManager.getDefaultSharedPreferences(context);
@@ -47,17 +47,17 @@ public class SharedPreferencesHelper {
     }
 
     public static void resetUserAccountSharedPreferences(Context context){
-        SharedPreferencesHelper.setSharePrefInt(context,
+        SharedPreferencesUtils.setSharePrefInt(context,
                 context.getString(R.string.pref_user_id_key),
                 -1);
-        SharedPreferencesHelper.setSharePrefString(context,
+        SharedPreferencesUtils.setSharePrefString(context,
                 context.getString(R.string.pref_user_email_key),
                 "");
-        SharedPreferencesHelper.setSharePrefString(context,
+        SharedPreferencesUtils.setSharePrefString(context,
                 context.getString(R.string.pref_user_name_key),
                 context.getString(R.string.pref_user_name_default_value));
 
-        SharedPreferencesHelper.setSharePrefString(context,
+        SharedPreferencesUtils.setSharePrefString(context,
                 context.getString(R.string.pref_user_investor_approval_status_key),
                 context.getString(R.string.pref_user_investor_approval_status_default_value));
     }

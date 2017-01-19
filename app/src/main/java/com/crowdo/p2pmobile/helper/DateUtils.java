@@ -10,7 +10,7 @@ import org.joda.time.format.DateTimeFormatter;
  * Created by cwdsg05 on 12/12/16.
  */
 
-public class CustomDateHelper {
+public class DateUtils {
 
     public static final String SQL_DATE_PATTERN = "yyyy-MM-dd";
 

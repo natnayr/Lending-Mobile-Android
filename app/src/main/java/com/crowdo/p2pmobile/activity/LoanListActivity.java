@@ -21,6 +21,7 @@ public class LoanListActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = LoanListActivity.class.getSimpleName();
     public static final String TAG_LOAN_LIST_FRAGMENT = "LoanListFragment";
+
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
     @Override

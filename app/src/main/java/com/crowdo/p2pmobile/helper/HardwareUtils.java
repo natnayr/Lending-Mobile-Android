@@ -6,7 +6,7 @@ import android.os.Environment;
  * Created by cwdsg05 on 15/12/16.
  */
 
-public class StorageHelper {
+public class HardwareUtils {
 
     private static boolean externalStorageReadable, externalStorageWritable;
 

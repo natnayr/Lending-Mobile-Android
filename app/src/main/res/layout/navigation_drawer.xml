@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <FrameLayout
-        android:id="@+id/drawer_content_frame"
+        android:id="@+id/content_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
     <ListView
-        android:id="@+id/drawer_list"
+        android:id="@+id/left_drawer"
         android:layout_width="match_parent"
         android:layout_height="@dimen/drawer_width_mobile"
         android:layout_gravity="start"

@@ -20,9 +20,9 @@ import android.widget.TextView;
 import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.custom_ui.GoalProgressBar;
 import com.crowdo.p2pmobile.data.LoanDetail;
-import com.crowdo.p2pmobile.helper.CustomDateHelper;
-import com.crowdo.p2pmobile.helper.CustomNumberFormatter;
-import com.crowdo.p2pmobile.helper.FontManager;
+import com.crowdo.p2pmobile.helper.DateUtils;
+import com.crowdo.p2pmobile.helper.NumericUtils;
+import com.crowdo.p2pmobile.helper.FontUtils;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -162,10 +162,10 @@ public class LoanDetailsViewHolder {
             }
         });
 
-        Typeface iconFont = FontManager.getTypeface(context, FontManager.FONTAWESOME);
-        FontManager.markAsIconContainer(mSecurityIcon, iconFont);
-        FontManager.markAsIconContainer(mAngleRightIconFirst, iconFont);
-        FontManager.markAsIconContainer(mAngleRightIconSecond, iconFont);
+        Typeface iconFont = FontUtils.getTypeface(context, FontUtils.FONTAWESOME);
+        FontUtils.markAsIconContainer(mSecurityIcon, iconFont);
+        FontUtils.markAsIconContainer(mAngleRightIconFirst, iconFont);
+        FontUtils.markAsIconContainer(mAngleRightIconSecond, iconFont);
 
         //toClear focus of editext
         mLoanDetailRelativeLayout.setOnTouchListener(new View.OnTouchListener() {
@@ -283,7 +283,7 @@ public class LoanDetailsViewHolder {
         }
 
         if(loanDetail.fundingEndDate != null) {
-            int daysLeft = CustomDateHelper.findDaysLeft(DATE_TIME_REGION, loanDetail.fundingEndDate);
+            int daysLeft = DateUtils.findDaysLeft(DATE_TIME_REGION, loanDetail.fundingEndDate);
 
             if (daysLeft > 0) {
                 mNumDaysLeft.setText(Integer.toString(daysLeft));
@@ -294,7 +294,7 @@ public class LoanDetailsViewHolder {
 
 
         if(loanDetail.currency != null) {
-            mTargetAmount.setText(CustomNumberFormatter.truncateNumber(loanDetail.targetAmount));
+            mTargetAmount.setText(NumericUtils.truncateNumber(loanDetail.targetAmount));
             mTargetAmountDescription.setText(mTargetAmountPrincipalString + " (" + loanDetail.currency + ")");
         }
 
@@ -306,14 +306,14 @@ public class LoanDetailsViewHolder {
         }
 
         if(loanDetail.startDate != null)
-            mScheduleStartDate.setText(CustomDateHelper.dateTimeFormatter(OUT_DATE_TIME_FORMAT, loanDetail.startDate));
+            mScheduleStartDate.setText(DateUtils.dateTimeFormatter(OUT_DATE_TIME_FORMAT, loanDetail.startDate));
         if(loanDetail.firstRepayment != null)
-            mScheduleFirstRepaymentDate.setText(CustomDateHelper.dateTimeFormatter(OUT_DATE_TIME_FORMAT, loanDetail.firstRepayment));
+            mScheduleFirstRepaymentDate.setText(DateUtils.dateTimeFormatter(OUT_DATE_TIME_FORMAT, loanDetail.firstRepayment));
         if(loanDetail.lastRepayment != null)
-            mScheduleLastRepaymentDate.setText(CustomDateHelper.dateTimeFormatter(OUT_DATE_TIME_FORMAT, loanDetail.lastRepayment));
+            mScheduleLastRepaymentDate.setText(DateUtils.dateTimeFormatter(OUT_DATE_TIME_FORMAT, loanDetail.lastRepayment));
 
         if(loanDetail.currency != null)
-            mAvalibleAmount.setText(CustomNumberFormatter.formatCurrency(loanDetail.currency,
+            mAvalibleAmount.setText(NumericUtils.formatCurrency(loanDetail.currency,
                     loanDetail.fundingAmountToCompleteCache, loanDetail.currency+" ", false) + " " + loanDetail.currency);
 
         //Add textwatcher here cause of required currency

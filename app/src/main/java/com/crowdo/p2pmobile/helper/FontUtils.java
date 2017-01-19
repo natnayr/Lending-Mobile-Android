@@ -10,7 +10,7 @@ import android.widget.TextView;
  * Created by cwdsg05 on 30/11/16.
  */
 
-public class FontManager {
+public class FontUtils {
 
     public static final String ROOT = "fonts/",
             FONTAWESOME = ROOT + "fontawesome-webfont.ttf";

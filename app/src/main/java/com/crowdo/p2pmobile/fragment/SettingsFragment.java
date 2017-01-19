@@ -13,7 +13,7 @@ import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheck;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheckClient;
 import com.crowdo.p2pmobile.helper.PerformEmailIdentityCheckTemp;
-import com.crowdo.p2pmobile.helper.SharedPreferencesHelper;
+import com.crowdo.p2pmobile.helper.SharedPreferencesUtils;
 
 import java.util.Map;
 
@@ -37,7 +37,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.preferences);
-        sharedPreferences = SharedPreferencesHelper.getSharedPref(getActivity());
+        sharedPreferences = SharedPreferencesUtils.getSharedPref(getActivity());
 
         //load preference on Create
         for(int i=0; i<getPreferenceScreen().getPreferenceCount(); i++){
@@ -53,7 +53,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
                 Toast.makeText(getActivity(), "Cleared",
                         Toast.LENGTH_SHORT).show();
 
-                SharedPreferencesHelper.resetUserAccountSharedPreferences(getActivity());
+                SharedPreferencesUtils.resetUserAccountSharedPreferences(getActivity());
                 return true;
             }
         });

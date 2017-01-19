@@ -1,31 +1,18 @@
 package com.crowdo.p2pmobile.fragment;
 
 import android.content.Context;
-import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.data.LoanListItem;
-import com.crowdo.p2pmobile.helper.CustomDateHelper;
-import com.crowdo.p2pmobile.helper.CustomNumberFormatter;
-import com.crowdo.p2pmobile.helper.FontManager;
 import com.crowdo.p2pmobile.viewholder.LoanListViewHolder;
-
-import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindColor;
-import butterknife.BindString;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 /**

@@ -32,20 +32,20 @@ public class PerformEmailIdentityCheckTemp {
                     registeredMemberCheck.id <= 0)
                 throw new NullPointerException();
 
-            SharedPreferencesHelper.setSharePrefInt(context,
+            SharedPreferencesUtils.setSharePrefInt(context,
                     context.getString(R.string.pref_user_id_key),
                     registeredMemberCheck.id);
 
-            SharedPreferencesHelper.setSharePrefString(context,
+            SharedPreferencesUtils.setSharePrefString(context,
                     context.getString(R.string.pref_user_name_key),
                     WordUtils.capitalizeFully(registeredMemberCheck.name));
 
             //store keyed in one
-            SharedPreferencesHelper.setSharePrefString(context,
+            SharedPreferencesUtils.setSharePrefString(context,
                     context.getString(R.string.pref_user_email_key),
                     enteredEmail);
 
-            SharedPreferencesHelper.setSharePrefString(context,
+            SharedPreferencesUtils.setSharePrefString(context,
                     context.getString(R.string.pref_user_investor_approval_status_key),
                     registeredMemberCheck.approvalStatus);
 
@@ -59,7 +59,7 @@ public class PerformEmailIdentityCheckTemp {
             Log.e(LOG_TAG, "ERROR: " + npe.getMessage() + "on email: " + enteredEmail , npe);
             Toast.makeText(context, "Sorry, "+ enteredEmail +
                     " did not match anything", Toast.LENGTH_SHORT).show();
-            SharedPreferencesHelper.resetUserAccountSharedPreferences(context);
+            SharedPreferencesUtils.resetUserAccountSharedPreferences(context);
         }
         return false;
     }
@@ -70,7 +70,7 @@ public class PerformEmailIdentityCheckTemp {
                         enteredEmail +" did not match anything",
                 Toast.LENGTH_SHORT).show();
 
-        SharedPreferencesHelper.resetUserAccountSharedPreferences(context);
+        SharedPreferencesUtils.resetUserAccountSharedPreferences(context);
     }
 
 }

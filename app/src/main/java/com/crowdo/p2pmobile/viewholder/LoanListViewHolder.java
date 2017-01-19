@@ -8,9 +8,9 @@ import android.widget.TextView;
 
 import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.data.LoanListItem;
-import com.crowdo.p2pmobile.helper.CustomDateHelper;
-import com.crowdo.p2pmobile.helper.CustomNumberFormatter;
-import com.crowdo.p2pmobile.helper.FontManager;
+import com.crowdo.p2pmobile.helper.DateUtils;
+import com.crowdo.p2pmobile.helper.NumericUtils;
+import com.crowdo.p2pmobile.helper.FontUtils;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -88,7 +88,7 @@ public class LoanListViewHolder {
                 break;
         }
 
-        int daysLeft = CustomDateHelper.findDaysLeft(DATE_TIME_REGION, item.fundingEndDate);
+        int daysLeft = DateUtils.findDaysLeft(DATE_TIME_REGION, item.fundingEndDate);
 
         if(daysLeft<0){
             mDaysLeftAndPercentage.setText("Closed - " + item.fundedPercentageCache + "% Funded");
@@ -124,11 +124,11 @@ public class LoanListViewHolder {
                 break;
         }
 
-        mLoanAmount.setText(CustomNumberFormatter.formatCurrency(item.currency,
+        mLoanAmount.setText(NumericUtils.formatCurrency(item.currency,
                 item.targetAmount, item.currency+" ", true));
 
-        Typeface iconFont = FontManager.getTypeface(context, FontManager.FONTAWESOME);
-        FontManager.markAsIconContainer(mSecurityIcon, iconFont);
-        FontManager.markAsIconContainer(mLoanAmountIcon, iconFont);
+        Typeface iconFont = FontUtils.getTypeface(context, FontUtils.FONTAWESOME);
+        FontUtils.markAsIconContainer(mSecurityIcon, iconFont);
+        FontUtils.markAsIconContainer(mLoanAmountIcon, iconFont);
     }
 }

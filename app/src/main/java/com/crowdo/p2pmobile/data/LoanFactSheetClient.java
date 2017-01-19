@@ -5,7 +5,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.crowdo.p2pmobile.helper.StorageHelper;
+import com.crowdo.p2pmobile.helper.HardwareUtils;
 
 import org.joda.time.DateTime;
 
@@ -79,7 +79,7 @@ public class LoanFactSheetClient {
                     Log.d(LOG_TAG, "APP: filename is " + fileName+".pdf");
 
                     File finalFile, externalRoot;
-                    if(StorageHelper.isExternalStorageReadableAndWritable()){
+                    if(HardwareUtils.isExternalStorageReadableAndWritable()){
                         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                             //if external cacahe temp storage is avalible
                             externalRoot = mContext.getExternalCacheDir().getAbsoluteFile();

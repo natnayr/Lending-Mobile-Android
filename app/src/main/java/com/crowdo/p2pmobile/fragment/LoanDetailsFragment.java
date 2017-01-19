@@ -25,7 +25,7 @@ import com.crowdo.p2pmobile.data.LoanFactSheetClient;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheck;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheckClient;
 import com.crowdo.p2pmobile.helper.PerformEmailIdentityCheckTemp;
-import com.crowdo.p2pmobile.helper.SharedPreferencesHelper;
+import com.crowdo.p2pmobile.helper.SharedPreferencesUtils;
 import com.crowdo.p2pmobile.viewholder.LoanDetailsViewHolder;
 
 import java.io.File;
@@ -176,7 +176,7 @@ public class LoanDetailsFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                    int acctMemberId = SharedPreferencesHelper.getSharedPrefInt(getActivity(),
+                    int acctMemberId = SharedPreferencesUtils.getSharedPrefInt(getActivity(),
                             getActivity().getString(R.string.pref_user_id_key), -1);
 
                     if(acctMemberId == -1) {

@@ -11,7 +11,7 @@ import java.util.Locale;
  * Created by cwdsg05 on 5/12/16.
  */
 
-public class CustomNumberFormatter {
+public class NumericUtils {
 
     public static final String IDR = "IDR";
 
