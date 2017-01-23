@@ -98,6 +98,7 @@ public class LoanDetailsViewHolder {
     @BindColor(R.color.fa_icon_unlock_alt) int unlockAltColor;
     @BindColor(R.color.color_icons_text) int iconTextColor; //white
     @BindColor(R.color.color_divider) int dividerColor;
+    
     @BindColor(R.color.grade_color_A_plus) int colorAPlus;
     @BindColor(R.color.grade_color_A) int colorA;
     @BindColor(R.color.grade_color_B_plus) int colorBPlus;
