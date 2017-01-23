@@ -16,7 +16,13 @@
 #   public *;
 #}
 
--dontwarn okio.**
--dontwarn retrofit2.Platform$Java8
--dontwarn org.joda.time.**
--dontwarn rx.internal.util.unsafe.**
+-verbose
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-useuniqueclassmembernames
+-keepattributes *Annotation*
+
+#turn off warnings for unused
+#-dontwarn okio.**
+#-dontwarn org.joda.convert.**
+#-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement

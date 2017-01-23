@@ -5,10 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class RegisteredMemberCheck {
 
-    @SerializedName("registered_singapore")
-    @Expose
-    public boolean registeredSingapore;
-
     @SerializedName("id")
     @Expose
     public int id;
@@ -17,8 +13,8 @@ public class RegisteredMemberCheck {
     @Expose
     public String name;
 
-    @SerializedName("registered_indonesia")
+    @SerializedName("approval_status")
     @Expose
-    public boolean registeredIndonesia;
+    public String approvalStatus;
 
 }

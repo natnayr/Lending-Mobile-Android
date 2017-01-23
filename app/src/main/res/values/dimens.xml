@@ -28,8 +28,8 @@
     <dimen name="list_btm_top_margin">4dp</dimen>
     <dimen name="list_btm_btm_margin">4dp</dimen>
 
-    <dimen name="loan_detail_figure_text_size">38sp</dimen>
     <dimen name="loan_detail_small_text_size">12sp</dimen>
+    <dimen name="loan_detail_figure_text_size">38sp</dimen>
 
     <dimen name="loan_detail_vertical_bracket_margin">8dp</dimen>
     <dimen name="loan_detail_figure_vertical_spacing_margin">8dp</dimen>
@@ -58,6 +58,9 @@
     <dimen name="loan_detail_schedule_box_horizontal_padding">4dp</dimen>
 
     <dimen name="loan_detail_avalible_amount_margin_left">10dp</dimen>
+
+    <!-- drawer width standard mobile increment (56dp) * 5 -->
+    <dimen name="drawer_width_mobile">280dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>

@@ -5,7 +5,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.crowdo.p2pmobile.helper.StorageHelper;
+import com.crowdo.p2pmobile.helpers.HardwareUtils;
 
 import org.joda.time.DateTime;
 
@@ -74,12 +74,12 @@ public class LoanFactSheetClient {
                 try {
                     String nowTime = DateTime.now().toString("yyyy-MM-dd'T'HH:mm");
                     String header = response.headers().get("Content-Disposition");
-                    Log.d(LOG_TAG, "TEST: header = [" + header + "]");
+                    Log.d(LOG_TAG, "APP: header = [" + header + "]");
                     String fileName = loanId + "-" + nowTime + ".pdf";
-                    Log.d(LOG_TAG, "TEST: filename is " + fileName+".pdf");
+                    Log.d(LOG_TAG, "APP: filename is " + fileName+".pdf");
 
                     File finalFile, externalRoot;
-                    if(StorageHelper.isExternalStorageReadableAndWritable()){
+                    if(HardwareUtils.isExternalStorageReadableAndWritable()){
                         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                             //if external cacahe temp storage is avalible
                             externalRoot = mContext.getExternalCacheDir().getAbsoluteFile();
@@ -96,12 +96,12 @@ public class LoanFactSheetClient {
                         finalFile = new File(mContext.getFilesDir(), fileName);
                     }
 
-                    Log.d(LOG_TAG, "TEST: Begining to download into " + finalFile.getAbsolutePath());
+                    Log.d(LOG_TAG, "APP: Begining to download into " + finalFile.getAbsolutePath());
                     BufferedSink bufferedSink = Okio.buffer(Okio.sink(finalFile));
                     bufferedSink.writeAll(response.body().source());
                     bufferedSink.close();
 
-                    Log.d(LOG_TAG, "TEST: bufferedSink done...");
+                    Log.d(LOG_TAG, "APP: bufferedSink done...");
                     subscriber.onNext(finalFile);
                     subscriber.onCompleted();
                 } catch (IOException e) {

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_is_user_sg_registered_title"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="activity_factsheet_action_bar_label"></string>
+</resources>

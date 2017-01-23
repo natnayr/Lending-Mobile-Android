@@ -21,7 +21,10 @@
             android:inputType="textEmailAddress"
             android:singleLine="true"/>
 
-
+        <android.support.v7.preference.Preference
+            android:key="@string/pref_user_logout_key"
+            android:title="Exit Session"
+            android:summary="Clear your stored details"/>
 
     </android.support.v7.preference.PreferenceCategory>
 

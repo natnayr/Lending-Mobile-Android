@@ -1,21 +1,25 @@
 <resources>
-    <string name="app_name">Crowdo</string>
+    <string name="app_name" translatable="false">Crowdo</string>
     <string name="activity_settings_action_bar_label">Settings</string>
     <string name="activity_loan_list_action_bar_label">Loan Investments</string>
     <string name="activity_loan_detail_action_bar_label">Loan Details</string>
     <string name="activity_factsheet_action_bar_label">Fact-Sheet View(PDF)</string>
-    <string name="date_time_region">Asia/Singapore</string>
+    <string name="date_time_region" translatable="false">Asia/Singapore</string>
 
-    <string name="gradeA">A</string>
-    <string name="gradeA_plus">A+</string>
-    <string name="gradeB">B</string>
-    <string name="gradeB_plus">B+</string>
-    <string name="gradeC">C</string>
-    <string name="gradeD">D</string>
-    <string name="gradeE">D</string>
+    <string name="welcome_intro_1_head">Invest in Asia\'s Top Startups and SMEs</string>
+    <string name="welcome_intro_1_body">Crowdo connects up and coming businesses with a global community of investors. Invest in loans for competitive returns</string>
+    <string name="welcome_intro_2_head">Tried of Traditional Lending?</string>
+    <string name="welcome_intro_2_body">Looking to diversify your portfolio with fixed income returns?\n\nEverybody can now lend into the best SME business and earn a steady return while supporting the backbone of our country\'s economy.</string>
+    <string name="welcome_intro_3_head">Need Funding for Your Business?</string>
+    <string name="welcome_intro_3_body">As entrepreneurs we understand that to get funding from traditional financial institutions can be challenging.\n\nThe good news is that there are many investors out there ready to support your business!</string>
 
-    <string name="title_activity_details">DetailsActivity</string>
-    <string name="action_settings">Settings</string>
+    <string name="gradeA" translatable="false">A</string>
+    <string name="gradeA_plus" translatable="false">A+</string>
+    <string name="gradeB" translatable="false">B</string>
+    <string name="gradeB_plus" translatable="false">B+</string>
+    <string name="gradeC" translatable="false">C</string>
+    <string name="gradeD" translatable="false">D</string>
+    <string name="gradeE" translatable="false">E</string>
 
     <string name="loan_detail_enter_amount_hint_default">Enter in units of 1,000,000</string>
     <string name="loan_detail_enter_amount_hint_rounded">Rounded to nearest unit</string>
@@ -34,7 +38,7 @@
     <string name="loan_detail_schedule_last_repayment_label">Last\nRepayment</string>
 
     <string name="loan_detail_avalible_amount_description">Avalible for Bidding:</string>
-    <string name="loan_detail_enter_amount_currency_symbol_idr">Rp</string>
+    <string name="loan_detail_enter_amount_currency_symbol_idr" translatable="false">Rp</string>
     <string name="loan_detail_enter_amount_unit_zeros_idr">,000,000</string>
     <string name="loan_detail_enter_amount_minus_content_description">subtract amount by one unit</string>
     <string name="loan_detail_enter_amount_plus_content_description">add amount by one unit</string>
@@ -46,38 +50,32 @@
     <string name="loan_detail_bidding_btn_label">Bid</string>
     <string name="loan_detail_bidding_btn_content_description">Bid Here</string>
 
-    <string name="percent_label">%</string>
-    <string name="pref_is_email_dialog_run_key">IS_EMAIL_DIALOG</string>
+    <string name="percent_label" translatable="false">%</string>
+    <string name="member_check_email_dialog_label">Are you already member of CROWDO? Please enter your email.</string>
 
-    <string name="pref_user_id_key">USER_ID</string>
-    <string name="pref_user_email_key">USER_EMAIL</string>
-    <string name="pref_user_name_key">USER_NAME</string>
-    <string name="pref_is_user_sg_registered_key">IS_USER_SG_REGISTERED</string>
-    <string name="pref_is_user_indo_registered_key">IS_USER_INDO_REGISTERED</string>
+    <string name="investor_approval_status_enum_approved" translatable="false">approved</string>
+    <string name="investor_approval_status_enum_declined" translatable="false">declined</string>
+    <string name="investor_approval_status_enum_non_investor" translatable="false">non_investor</string>
 
-    <string name="pref_user_id_title">User ID</string>
+    <!-- Preferences -->
+    <string name="pref_is_email_dialog_run_key" translatable="false">IS_EMAIL_DIALOG</string>
+
+    <string name="pref_user_id_key" translatable="false">USER_ID</string>
+    <string name="pref_user_email_key" translatable="false">USER_EMAIL</string>
+    <string name="pref_user_name_key" translatable="false">USER_NAME</string>
+    <string name="pref_user_investor_approval_status_key" translatable="false">USER_INVESTOR_APPROVAL_STATUS</string>
+    <string name="pref_user_logout_key" translatable="false">USER_LOGOUT_KEY</string>
+
+    <string name="pref_user_id_title" translatable="false">User ID</string>
     <string name="pref_user_email_title">Email Address</string>
     <string name="pref_user_name_title">Name</string>
-    <string name="pref_is_user_sg_registered_title">SGD Market Allowed?</string>
-    <string name="pref_is_user_indo_registered_title">IDR Market Allowed?</string>
 
     <string name="pref_user_email_summary">Your Registered Email Address</string>
     <string name="pref_user_name_summary">Your Stored Name</string>
-    <string name="pref_is_user_sg_registered_summary">Are you registered to bid in SGD?</string>
-    <string name="pref_is_user_indo_registered_summary">Are you registered to bid in IDR?</string>
+    <string name="pref_user_investor_approval_status_summary">Investor Approval Status</string>
 
-    <string name="pref_user_name_default_value">e.g Johnny Cash</string>
-    <string name="pref_user_email_default_value">e.g. john.cash@email.com</string>
-
-    <string name="member_check_email_dialog_label">Are you already member of CROWDO? Please enter your email.</string>
-
-    <string name="welcome_intro_1_head">Invest in Asia\'s Top Startups and SMEs</string>
-    <string name="welcome_intro_1_body">Crowdo connects up and coming businesses with a global community of investors. Invest in loans for competitive returns</string>
-
-    <string name="welcome_intro_2_head">Tried of Traditional Lending?</string>
-    <string name="welcome_intro_2_body">Looking to diversify your portfolio with fixed income returns?\n\nEverybody can now lend into the best SME business and earn a steady return while supporting the backbone of our country\'s economy.</string>
-
-    <string name="welcome_intro_3_head">Need Funding for Your Business?</string>
-    <string name="welcome_intro_3_body">As entrepreneurs we understand that to get funding from traditional financial institutions can be challenging.\n\nThe good news is that there are many investors out there ready to support your business!</string>
+    <string name="pref_user_name_default_value" translatable="false">e.g Johnny Cash</string>
+    <string name="pref_user_email_default_value" translatable="false">e.g. john.cash@email.com</string>
+    <string name="pref_user_investor_approval_status_default_value" translatable="false">@string/investor_approval_status_enum_non_investor</string>
 
 </resources>
