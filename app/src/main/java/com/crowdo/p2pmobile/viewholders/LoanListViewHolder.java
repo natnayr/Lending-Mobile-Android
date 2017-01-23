@@ -51,7 +51,7 @@ public class LoanListViewHolder {
     @BindColor(R.color.grade_color_A_plus) int colorAPlus;
     @BindColor(R.color.grade_color_A) int colorA;
     @BindColor(R.color.grade_color_B_plus) int colorBPlus;
-    @BindColor(R.color.grade_color_E) int colorB;
+    @BindColor(R.color.grade_colorB) int colorB;
     @BindColor(R.color.grade_colorC) int colorC;
     @BindColor(R.color.grade_color_D) int colorD;
     @BindColor(R.color.grade_color_E) int colorE;
