@@ -33,7 +33,7 @@
 
     <string name="loan_detail_schedule_header_string">Monthly</string>
     <string name="loan_detail_schedule_header_content_description">Payment Schedule</string>
-    <string name="loan_detail_schedule_start_label">Start\n</string>
+    <string name="loan_detail_schedule_start_label">Start</string>
     <string name="loan_detail_schedule_first_repayment_label">1st\nRepayment</string>
     <string name="loan_detail_schedule_last_repayment_label">Last\nRepayment</string>
 

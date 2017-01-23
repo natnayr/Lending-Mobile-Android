@@ -1,11 +1,16 @@
 package com.crowdo.p2pmobile.fragments;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
+import android.text.Html;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,6 +22,8 @@ import com.crowdo.p2pmobile.helpers.SharedPreferencesUtils;
 
 import java.util.Map;
 
+import butterknife.BindColor;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,6 +38,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     //SharedPreference object uses default provided from PreferenceManager
     SharedPreferences sharedPreferences;
     private static final String LOG_TAG = SettingsFragment.class.getSimpleName();
+    @BindColor(R.color.color_icons_text_secondary) int colorTextSecondary;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +65,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
                 return true;
             }
         });
+
     }
 
     @Override

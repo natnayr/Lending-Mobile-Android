@@ -82,7 +82,7 @@ public class LoanDetailsActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
-            case R.id.action_settings:
+            case R.id.nav_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
         }
