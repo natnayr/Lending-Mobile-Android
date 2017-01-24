@@ -263,7 +263,7 @@ public class LoanDetailsFragment extends Fragment {
 
         alertDialogBuilderInput
                 .setCancelable(false)
-                .setPositiveButton("Enter", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int id) {
 
@@ -293,13 +293,7 @@ public class LoanDetailsFragment extends Fragment {
 
                         dialogInterface.dismiss();
                     }
-                }).setNegativeButton("Register", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
-                .setNeutralButton("Proceed as Guest", new DialogInterface.OnClickListener() {
+                }).setNeutralButton("Continue as Guest", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int id) {
                         dialogInterface.cancel();
