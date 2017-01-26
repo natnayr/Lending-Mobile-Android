@@ -18,10 +18,8 @@ public interface APIServices {
 
 //    public static final String API_BASE_URL = "https://krune2aiye.execute-api.ap-southeast-1.amazonaws.com/";
 
-    public static final String API_BASE_URL = "http://77eeb001.ngrok.io/";
+    public static final String API_BASE_URL = "http://p2pid.crowdo.com/";
     public static final String STAGE = "internal_api/";
-
-    public static final String P2P_BASE_URL = "https://p2pid.crowdo.com/";
 
     @GET("loan_listing")
     Observable<List<LoanListItem>> getLoansList();

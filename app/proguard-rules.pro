@@ -16,11 +16,7 @@
 #   public *;
 #}
 
--verbose
--dontusemixedcaseclassnames
--dontskipnonpubliclibraryclasses
--useuniqueclassmembernames
--keepattributes *Annotation*
+-dontobfuscate
 
 #turn off warnings for unused
 #-dontwarn okio.**

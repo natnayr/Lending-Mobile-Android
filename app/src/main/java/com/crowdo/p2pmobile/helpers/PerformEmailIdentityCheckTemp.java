@@ -29,35 +29,36 @@ public class PerformEmailIdentityCheckTemp {
             RegisteredMemberCheck registeredMemberCheck = response;
 
             if(registeredMemberCheck.name == null ||
-                    registeredMemberCheck.email == null)
+                    registeredMemberCheck.email == null) {
                 throw new NullPointerException();
+            }
 
             SharedPreferencesUtils.setSharePrefInt(context,
-                    context.getString(R.string.pref_user_id_key),
+                    ConstantVariables.PREF_KEY_USER_ID,
                     registeredMemberCheck.memberId);
 
             SharedPreferencesUtils.setSharePrefBool(context,
-                    context.getString(R.string.pref_user_is_member_key),
+                    ConstantVariables.PREF_KEY_USER_IS_MEMBER,
                     registeredMemberCheck.isMember);
 
             SharedPreferencesUtils.setSharePrefString(context,
-                    context.getString(R.string.pref_user_name_key),
+                    ConstantVariables.PREF_KEY_USER_NAME,
                     WordUtils.capitalizeFully(registeredMemberCheck.name));
 
             SharedPreferencesUtils.setSharePrefString(context,
-                    context.getString(R.string.pref_user_email_key),
+                    ConstantVariables.PREF_KEY_USER_EMAIL,
                     enteredEmail);
 
             SharedPreferencesUtils.setSharePrefBool(context,
-                    context.getString(R.string.pref_user_investor_approval_sgd_key),
+                    ConstantVariables.PREF_KEY_USER_INVESTOR_APPROVAL_SGD,
                     registeredMemberCheck.canInvestSgd);
 
             SharedPreferencesUtils.setSharePrefBool(context,
-                    context.getString(R.string.pref_user_investor_approval_idr_key),
+                    ConstantVariables.PREF_KEY_USER_INVESTOR_APPROVAL_IDR,
                     registeredMemberCheck.canInvestIdr);
 
             Toast.makeText(context, "Welcome, " +
-                            WordUtils.capitalizeFully(registeredMemberCheck.name),
+                    WordUtils.capitalizeFully(registeredMemberCheck.name),
                     Toast.LENGTH_SHORT).show();
 
             return true; //return success

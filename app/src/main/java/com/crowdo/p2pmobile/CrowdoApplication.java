@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.preference.PreferenceManager;
 
 import com.crowdo.p2pmobile.activities.WelcomeActivity;
+import com.crowdo.p2pmobile.helpers.ConstantVariables;
 import com.crowdo.p2pmobile.helpers.SharedPreferencesUtils;
 
 /**
@@ -24,7 +25,7 @@ public class CrowdoApplication extends Application{
 
     private void redirectToWelcome(){
         int userId = SharedPreferencesUtils.getSharedPrefInt(this,
-                getString(R.string.pref_user_id_key), -1);
+                ConstantVariables.PREF_KEY_USER_ID, -1);
 
         //if userId is less than 0, not registered.
         if(userId < 0){

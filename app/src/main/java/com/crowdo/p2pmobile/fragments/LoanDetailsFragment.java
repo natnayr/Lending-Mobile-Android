@@ -19,11 +19,13 @@ import android.widget.Toast;
 import com.crowdo.p2pmobile.activities.Henson;
 import com.crowdo.p2pmobile.activities.LoanDetailsActivity;
 import com.crowdo.p2pmobile.R;
+import com.crowdo.p2pmobile.data.APIServices;
 import com.crowdo.p2pmobile.data.LoanDetail;
 import com.crowdo.p2pmobile.data.LoanDetailClient;
 import com.crowdo.p2pmobile.data.LoanFactSheetClient;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheck;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheckClient;
+import com.crowdo.p2pmobile.helpers.ConstantVariables;
 import com.crowdo.p2pmobile.helpers.PerformEmailIdentityCheckTemp;
 import com.crowdo.p2pmobile.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pmobile.viewholders.LoanDetailsViewHolder;
@@ -33,9 +35,6 @@ import java.io.File;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -50,9 +49,11 @@ public class LoanDetailsFragment extends Fragment {
     private Subscription detailsSubscription;
     private Subscription factsheetSubscription;
     private Subscription memberCheckSubscription;
-    private int initId;
+    private int initLoanId;
     private LoanDetailsViewHolder viewHolder;
+    private LoanDetail mLoanDetail;
     private AlertDialog alertDialog;
+
 
     public LoanDetailsFragment() {
     }
@@ -63,7 +64,7 @@ public class LoanDetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if(getArguments() != null && getArguments()
                 .getInt(LoanDetailsActivity.BUNDLE_ID_KEY) >= 0 ) {
-            this.initId = getArguments()
+            this.initLoanId = getArguments()
                     .getInt(LoanDetailsActivity.BUNDLE_ID_KEY); //store
         }
     }
@@ -77,10 +78,10 @@ public class LoanDetailsFragment extends Fragment {
         viewHolder = new LoanDetailsViewHolder(rootView);
 
         //Init view first,
-        viewHolder.initView(getActivity(), this.initId);
+        viewHolder.initView(getActivity(), this.initLoanId);
 
         detailsSubscription = LoanDetailClient.getInstance()
-                .getLoanDetails(this.initId)
+                .getLoanDetails(this.initLoanId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<LoanDetail>() {
@@ -99,6 +100,7 @@ public class LoanDetailsFragment extends Fragment {
                     @Override
                     public void onNext(LoanDetail loanDetail) {
                         if(loanDetail != null) {
+                            mLoanDetail = loanDetail;
                             Log.d(LOG_TAG, "APP: Populated LoanDetails Rx onNext with loanId "
                                     + loanDetail.loanId + " retreived.");
                             viewHolder.attachView(loanDetail, getActivity());
@@ -111,12 +113,12 @@ public class LoanDetailsFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if(initId >= 0) {
+                if(initLoanId >= 0) {
                     Toast.makeText(getActivity(),
                             "Downloading...",
                             Toast.LENGTH_SHORT).show();
 
-                    factsheetSubscription = LoanFactSheetClient.getInstance(getActivity(), initId)
+                    factsheetSubscription = LoanFactSheetClient.getInstance(getActivity(), initLoanId)
                         .getLoanFactSheet()
                         .subscribe(new Observer<File>() {
                             @Override
@@ -178,12 +180,12 @@ public class LoanDetailsFragment extends Fragment {
                 public void onClick(View v) {
 
                     int acctMemberId = SharedPreferencesUtils.getSharedPrefInt(getActivity(),
-                            getActivity().getString(R.string.pref_user_id_key), -1);
+                            ConstantVariables.PREF_KEY_USER_ID, -1);
 
                     if(acctMemberId == -1) {
                         dialogEmailPrompt();
                     }else {
-                        addToCard();
+                        addToCart();
                     }
                 }
             });
@@ -216,30 +218,51 @@ public class LoanDetailsFragment extends Fragment {
     /*
         WebView intent into p2p crowdo
      */
-    private void addToCard(){
+    private void addToCart(){
         if(viewHolder != null){
-            int unitAmount;
+            int unitBidAmount;
+
+            String email = SharedPreferencesUtils
+                    .getSharedPrefString(getActivity(),
+                    ConstantVariables.PREF_KEY_USER_EMAIL, null);
+
+            if(email == null)
+                return;
 
             try {
                 String inputUnitAmount = viewHolder.mEnterAmount.getText().toString().trim().replaceAll("[^\\d.]", "");
-                unitAmount = (inputUnitAmount.equals("")) ? 0 : Integer.parseInt(inputUnitAmount);
+                unitBidAmount = (inputUnitAmount.equals("")) ? 0 : Integer.parseInt(inputUnitAmount);
             }catch (NumberFormatException nfe){
                 Log.d(LOG_TAG, nfe.getMessage(), nfe);
-                unitAmount = 0;
+                unitBidAmount = 0;
             }
 
-            if(unitAmount > 0) {
-                Intent intent = Henson.with(getActivity())
-                        .gotoWebViewActivity()
-                        .id(initId)
-                        .url("http://p2p.crowdo.com")
-                        .build();
+            long biddingAmount = unitBidAmount * ConstantVariables.IDR_BASE_UNIT;
 
-                startActivity(intent);
-            }else{
-                Toast.makeText(getActivity(), "Please key in a numeric bid amount greater than 0.",
+            if(unitBidAmount <= 0 ) {
+                Toast.makeText(getActivity(), "Please key in BID Amount greater than 0",
                         Toast.LENGTH_SHORT).show();
+                return;
+            }else if(mLoanDetail.fundingAvalibleAmount < biddingAmount){
+                Toast.makeText(getActivity(), "Sorry, Bid amount entered is too high",
+                        Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            Log.d(LOG_TAG, "APP: URL "+ APIServices.API_BASE_URL + "mobile/login_and_checkout_authenticate?" +
+                    "email=" + email + "&loan_id=" + initLoanId +
+                    "&invest_amount="+biddingAmount);
+
+            Intent intent = Henson.with(getActivity())
+                    .gotoWebViewActivity()
+                    .id(initLoanId)
+                    .url(APIServices.API_BASE_URL+"mobile/login_and_checkout_authenticate?" +
+                            "email=" + email + "&loan_id=" + initLoanId +
+                            "&invest_amount="+biddingAmount)
+                    .build();
+
+
+            startActivity(intent);
         }
 
     }
@@ -270,7 +293,9 @@ public class LoanDetailsFragment extends Fragment {
                 .setNegativeButton("Sign Up", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                                Uri.parse(APIServices.API_BASE_URL+"mobile/sign_up"));
+                        startActivity(browserIntent);
                     }
                 })
                 .setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
@@ -304,7 +329,9 @@ public class LoanDetailsFragment extends Fragment {
                             @Override
                             public void onNext(RegisteredMemberCheck registeredMemberCheck) {
                                 Log.d(LOG_TAG, "APP: onNext return " + registeredMemberCheck.memberId);
-                                idenCheck.onResponseCode(LOG_TAG, enteredEmail, registeredMemberCheck);
+                                if(idenCheck.onResponseCode(LOG_TAG, enteredEmail, registeredMemberCheck)) {
+                                    addToCart();
+                                }
                             }
                     });
 

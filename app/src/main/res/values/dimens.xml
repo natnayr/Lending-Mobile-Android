@@ -59,6 +59,8 @@
 
     <dimen name="loan_detail_avalible_amount_margin_left">10dp</dimen>
 
+    <dimen name="webview_progressbar_height">2dp</dimen>
+
     <!-- drawer width standard mobile increment (56dp) * 5 -->
     <dimen name="drawer_width_mobile">280dp</dimen>
 

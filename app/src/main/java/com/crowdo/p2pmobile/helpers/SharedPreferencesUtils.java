@@ -3,6 +3,9 @@ package com.crowdo.p2pmobile.helpers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.preference.PreferenceManager;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.webkit.WebView;
 
 import com.crowdo.p2pmobile.R;
 
@@ -48,22 +51,24 @@ public class SharedPreferencesUtils {
 
     public static void resetUserAccountSharedPreferences(Context context){
         SharedPreferencesUtils.setSharePrefInt(context,
-                context.getString(R.string.pref_user_id_key),
+                ConstantVariables.PREF_KEY_USER_ID,
                 -1);
         SharedPreferencesUtils.setSharePrefBool(context,
-                context.getString(R.string.pref_user_is_member_key),
+                ConstantVariables.PREF_KEY_USER_IS_MEMBER,
                 false);
         SharedPreferencesUtils.setSharePrefString(context,
-                context.getString(R.string.pref_user_email_key),
+                ConstantVariables.PREF_KEY_USER_EMAIL,
                 "");
         SharedPreferencesUtils.setSharePrefString(context,
-                context.getString(R.string.pref_user_name_key),
+                ConstantVariables.PREF_KEY_USER_NAME,
                 "");
         SharedPreferencesUtils.setSharePrefBool(context,
-                context.getString(R.string.pref_user_investor_approval_sgd_key),
+                ConstantVariables.PREF_KEY_USER_INVESTOR_APPROVAL_SGD,
                 false);
         SharedPreferencesUtils.setSharePrefBool(context,
-                context.getString(R.string.pref_user_investor_approval_idr_key),
+                ConstantVariables.PREF_KEY_USER_INVESTOR_APPROVAL_IDR,
                 false);
+
+        
     }
 }

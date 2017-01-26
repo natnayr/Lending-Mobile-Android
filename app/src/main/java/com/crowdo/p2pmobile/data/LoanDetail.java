@@ -97,7 +97,7 @@ public class LoanDetail {
 
     @SerializedName("funding_amount_to_complete_cache")
     @Expose
-    public double fundingAmountToCompleteCache;
+    public double fundingAvalibleAmount;
 
 
 }

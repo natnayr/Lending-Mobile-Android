@@ -41,7 +41,7 @@ public class LoanFactSheetClient {
 
         final Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .baseUrl(APIServices.P2P_BASE_URL)
+                .baseUrl(APIServices.API_BASE_URL)
                 .build();
 
         this.apiServices = retrofit.create(APIServices.class);

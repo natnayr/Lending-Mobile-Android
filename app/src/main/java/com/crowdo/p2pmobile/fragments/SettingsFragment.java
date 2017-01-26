@@ -19,6 +19,7 @@ import com.crowdo.p2pmobile.data.LoanDetail;
 import com.crowdo.p2pmobile.data.LoanDetailClient;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheck;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheckClient;
+import com.crowdo.p2pmobile.helpers.ConstantVariables;
 import com.crowdo.p2pmobile.helpers.PerformEmailIdentityCheckTemp;
 import com.crowdo.p2pmobile.helpers.SharedPreferencesUtils;
 
@@ -60,7 +61,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
             pickPreferenceObject(getPreferenceScreen().getPreference(i));
         }
 
-        Preference exitSessBtn = findPreference(getString(R.string.pref_user_logout_key));
+        Preference exitSessBtn = findPreference(ConstantVariables.PREF_KEY_USER_LOGOUT_KEY);
         exitSessBtn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -174,7 +175,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
             }
 
             //perform identify user
-            if (key.equals(getString(R.string.pref_user_email_key))) {
+            if (key.equals(ConstantVariables.PREF_KEY_USER_EMAIL)) {
                 performEmailIdentify(sharedPreferences);
             }
         }
@@ -184,7 +185,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     private void performEmailIdentify(SharedPreferences sharedPreferences){
 
         String enteredEmail = sharedPreferences
-                .getString(getString(R.string.pref_user_email_key), null);
+                .getString(ConstantVariables.PREF_KEY_USER_EMAIL, null);
 
         if(enteredEmail == null)
             return;

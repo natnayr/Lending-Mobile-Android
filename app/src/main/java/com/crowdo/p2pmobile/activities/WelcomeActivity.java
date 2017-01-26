@@ -38,7 +38,7 @@ public class WelcomeActivity extends AppCompatActivity implements MediaPlayer.On
     @BindView(R.id.welcome_pager_tabdots) TabLayout mTabLayout;
 
     private static final int MAXPAGE = 2;
-    private static final int TIMESECONDS = 10;
+    private static final int TIMESECONDS = 13;
 
     private SurfaceView mSurfaceView;
     private int stopPosition;
