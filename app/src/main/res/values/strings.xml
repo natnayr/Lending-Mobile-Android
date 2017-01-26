@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Crowdo</string>
+    <string name="app_name" translatable="false">Crowdo Indo</string>
     <string name="activity_settings_action_bar_label">Settings</string>
     <string name="activity_loan_list_action_bar_label">Loan Investments</string>
     <string name="activity_loan_detail_action_bar_label">Loan Details</string>
@@ -53,17 +53,15 @@
     <string name="percent_label" translatable="false">%</string>
     <string name="member_check_email_dialog_label">Are you already member of CROWDO? Please enter your email.</string>
 
-    <string name="investor_approval_status_enum_approved" translatable="false">approved</string>
-    <string name="investor_approval_status_enum_declined" translatable="false">declined</string>
-    <string name="investor_approval_status_enum_non_investor" translatable="false">non_investor</string>
-
     <!-- Preferences -->
     <string name="pref_is_email_dialog_run_key" translatable="false">IS_EMAIL_DIALOG</string>
 
     <string name="pref_user_id_key" translatable="false">USER_ID</string>
+    <string name="pref_user_is_member_key" translatable="false">USER_IS_MEMBER</string>
     <string name="pref_user_email_key" translatable="false">USER_EMAIL</string>
     <string name="pref_user_name_key" translatable="false">USER_NAME</string>
-    <string name="pref_user_investor_approval_status_key" translatable="false">USER_INVESTOR_APPROVAL_STATUS</string>
+    <string name="pref_user_investor_approval_sgd_key" translatable="false">USER_INVESTOR_APPROVAL_SGD</string>
+    <string name="pref_user_investor_approval_idr_key" translatable="false">USER_INVESTOR_APPROVAL_IDR</string>
     <string name="pref_user_logout_key" translatable="false">USER_LOGOUT_KEY</string>
 
     <string name="pref_user_id_title" translatable="false">User ID</string>
@@ -76,6 +74,5 @@
 
     <string name="pref_user_name_default_value" translatable="false">e.g Johnny Cash</string>
     <string name="pref_user_email_default_value" translatable="false">e.g. john.cash@email.com</string>
-    <string name="pref_user_investor_approval_status_default_value" translatable="false">@string/investor_approval_status_enum_non_investor</string>
 
 </resources>

@@ -15,6 +15,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.crowdo.p2pmobile.R;
+import com.crowdo.p2pmobile.data.LoanDetail;
+import com.crowdo.p2pmobile.data.LoanDetailClient;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheck;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheckClient;
 import com.crowdo.p2pmobile.helpers.PerformEmailIdentityCheckTemp;
@@ -27,6 +29,10 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by cwdsg05 on 29/12/16.
@@ -36,9 +42,11 @@ public class SettingsFragment extends PreferenceFragmentCompat
         implements SharedPreferences.OnSharedPreferenceChangeListener{
 
     //SharedPreference object uses default provided from PreferenceManager
+    @BindColor(R.color.color_icons_text_secondary) int colorTextSecondary;
     SharedPreferences sharedPreferences;
     private static final String LOG_TAG = SettingsFragment.class.getSimpleName();
-    @BindColor(R.color.color_icons_text_secondary) int colorTextSecondary;
+    private Subscription memberCheckSubscription;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -123,6 +131,15 @@ public class SettingsFragment extends PreferenceFragmentCompat
     }
 
     @Override
+    public void onDestroy() {
+        if(memberCheckSubscription != null && !memberCheckSubscription.isUnsubscribed()){
+            memberCheckSubscription.unsubscribe();
+        }
+
+        super.onDestroy();
+    }
+
+    @Override
     public void onDisplayPreferenceDialog(Preference preference) {
         Log.d(LOG_TAG, "APP: Preference Dialog triggered for: " +
                 getResources().getResourceName(preference.getLayoutResource()));
@@ -158,39 +175,45 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
             //perform identify user
             if (key.equals(getString(R.string.pref_user_email_key))) {
-                performEmailIdentify(sharedPreferences, key);
+                performEmailIdentify(sharedPreferences);
             }
         }
     }
 
     //Temp to update user in settings
-    private void performEmailIdentify(SharedPreferences sharedPreferences, String key){
+    private void performEmailIdentify(SharedPreferences sharedPreferences){
 
-        final String enteredEmail = sharedPreferences
-                .getString(getString(R.string.pref_user_email_key), "")
-                .toString().toLowerCase().trim();
+        String enteredEmail = sharedPreferences
+                .getString(getString(R.string.pref_user_email_key), null);
+
+        if(enteredEmail == null)
+            return;
+
+        final String enteredEmailFinal = enteredEmail.toString().toLowerCase().trim();;
 
         Log.d(LOG_TAG, "APP: enteredEmail is " + enteredEmail);
+
         final PerformEmailIdentityCheckTemp idenCheck =
                 new PerformEmailIdentityCheckTemp(getActivity());
 
-        Call<RegisteredMemberCheck> call = RegisteredMemberCheckClient.getInstance()
-                .postUserCheck(enteredEmail);
+        memberCheckSubscription = RegisteredMemberCheckClient.getInstance()
+            .postUserCheck(enteredEmail)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Observer<RegisteredMemberCheck>() {
+                   @Override
+                   public void onCompleted() {
+                   }
 
-        call.enqueue(new Callback<RegisteredMemberCheck>() {
-            @Override
-            public void onResponse(Call<RegisteredMemberCheck> call,
-                                   Response<RegisteredMemberCheck> response) {
+                   @Override
+                   public void onError(Throwable e) {
+                       idenCheck.onFailure(LOG_TAG, enteredEmailFinal, e);
+                   }
 
-                idenCheck.onResponseCode(LOG_TAG, enteredEmail, response);
-            }
-
-            @Override
-            public void onFailure(Call<RegisteredMemberCheck> call, Throwable t) {
-                idenCheck.onFailure(LOG_TAG, enteredEmail, t);
-            }
-        });
+                   @Override
+                   public void onNext(RegisteredMemberCheck registeredMemberCheck) {
+                       idenCheck.onResponseCode(LOG_TAG, enteredEmailFinal, registeredMemberCheck);
+                   }
+       });
     }
-
-
 }

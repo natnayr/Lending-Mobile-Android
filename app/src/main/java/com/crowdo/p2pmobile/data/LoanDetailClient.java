@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -29,7 +28,7 @@ public class LoanDetailClient {
         final Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(APIServices.LAMBDA_BASE_URL + APIServices.STAGE)
+                .baseUrl(APIServices.API_BASE_URL + APIServices.STAGE)
                 .build();
 
         this.apiServices = retrofit.create(APIServices.class);

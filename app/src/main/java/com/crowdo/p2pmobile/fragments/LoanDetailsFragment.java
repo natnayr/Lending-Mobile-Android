@@ -49,6 +49,7 @@ public class LoanDetailsFragment extends Fragment {
     private static final String LOG_TAG = LoanDetailsFragment.class.getSimpleName();
     private Subscription detailsSubscription;
     private Subscription factsheetSubscription;
+    private Subscription memberCheckSubscription;
     private int initId;
     private LoanDetailsViewHolder viewHolder;
     private AlertDialog alertDialog;
@@ -205,6 +206,10 @@ public class LoanDetailsFragment extends Fragment {
         if(factsheetSubscription != null && !factsheetSubscription.isUnsubscribed()){
             factsheetSubscription.unsubscribe();
         }
+
+        if(memberCheckSubscription != null && !memberCheckSubscription.isUnsubscribed()){
+            memberCheckSubscription.unsubscribe();
+        }
         super.onDestroy();
     }
 
@@ -234,7 +239,6 @@ public class LoanDetailsFragment extends Fragment {
             }else{
                 Toast.makeText(getActivity(), "Please key in a numeric bid amount greater than 0.",
                         Toast.LENGTH_SHORT).show();
-
             }
         }
 
@@ -262,38 +266,52 @@ public class LoanDetailsFragment extends Fragment {
         alertDialogBuilderInput.setView(dialogView);
 
         alertDialogBuilderInput
-                .setCancelable(false)
+                .setCancelable(true)
+                .setNegativeButton("Sign Up", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
                 .setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int id) {
 
-                        final String enteredEmail = memberCheckEmailEditText.getText()
-                                .toString().toLowerCase().trim();
+                    final String enteredEmail = memberCheckEmailEditText.getText()
+                            .toString().toLowerCase().trim();
 
-                        Call<RegisteredMemberCheck> call = RegisteredMemberCheckClient.getInstance()
-                                .postUserCheck(enteredEmail);
+                    Log.d(LOG_TAG, "APP: enteredEmail is " + enteredEmail);
 
-                        call.enqueue(new Callback<RegisteredMemberCheck>() {
+                    final PerformEmailIdentityCheckTemp idenCheck =
+                            new PerformEmailIdentityCheckTemp(getActivity());
+
+                    memberCheckSubscription = RegisteredMemberCheckClient.getInstance()
+                        .postUserCheck(enteredEmail)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<RegisteredMemberCheck>() {
                             @Override
-                            public void onResponse(Call<RegisteredMemberCheck> call,
-                                                   Response<RegisteredMemberCheck> response) {
+                            public void onCompleted() {
 
-                                PerformEmailIdentityCheckTemp idenCheck =
-                                        new PerformEmailIdentityCheckTemp(getActivity());
-                                idenCheck.onResponseCode(LOG_TAG, enteredEmail, response);
                             }
 
                             @Override
-                            public void onFailure(Call<RegisteredMemberCheck> call, Throwable t) {
-                                PerformEmailIdentityCheckTemp idenCheck =
-                                        new PerformEmailIdentityCheckTemp(getActivity());
-                                idenCheck.onFailure(LOG_TAG, enteredEmail, t);
+                            public void onError(Throwable e) {
+                                Log.d(LOG_TAG, "ERROR: onError");
+                                idenCheck.onFailure(LOG_TAG, enteredEmail, e);
                             }
-                        });
 
-                        dialogInterface.dismiss();
+                            @Override
+                            public void onNext(RegisteredMemberCheck registeredMemberCheck) {
+                                Log.d(LOG_TAG, "APP: onNext return " + registeredMemberCheck.memberId);
+                                idenCheck.onResponseCode(LOG_TAG, enteredEmail, registeredMemberCheck);
+                            }
+                    });
+
+                    dialogInterface.dismiss();
+
                     }
-                }).setNeutralButton("Continue as Guest", new DialogInterface.OnClickListener() {
+                }).setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int id) {
                         dialogInterface.cancel();
@@ -302,7 +320,6 @@ public class LoanDetailsFragment extends Fragment {
 
         alertDialog = alertDialogBuilderInput.create();
         alertDialog.show();
-
     }
 
 }

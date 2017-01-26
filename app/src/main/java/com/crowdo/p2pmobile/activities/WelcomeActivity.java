@@ -20,6 +20,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import com.crowdo.p2pmobile.R;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -34,12 +37,19 @@ public class WelcomeActivity extends AppCompatActivity implements MediaPlayer.On
     @BindView(R.id.welcome_pager) ViewPager mViewPager;
     @BindView(R.id.welcome_pager_tabdots) TabLayout mTabLayout;
 
+    private static final int MAXPAGE = 2;
+    private static final int TIMESECONDS = 10;
+
     private SurfaceView mSurfaceView;
     private int stopPosition;
     private  MediaPlayer mPlayer;
     private SurfaceHolder mHolder;
     private Uri videoUri;
     private Context mContext;
+
+    private Timer mTimer;
+    private int page;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +60,7 @@ public class WelcomeActivity extends AppCompatActivity implements MediaPlayer.On
         videoUri = Uri.parse("android.resource://" +
                 getPackageName() + "/" + R.raw.crowdo_video_phone);
 
+        this.page = 0;
         mContext = this;
 
         mSurfaceView = (SurfaceView) findViewById(R.id.welcome_surface_view);
@@ -96,6 +107,28 @@ public class WelcomeActivity extends AppCompatActivity implements MediaPlayer.On
 
         mTabLayout.setupWithViewPager(mViewPager, true);
         mViewPager.setAdapter(new WelcomePagerAdapter(this));
+        pageSwitcher(TIMESECONDS);
+    }
+
+    private void pageSwitcher(int seconds){
+        mTimer = new Timer();
+        mTimer.scheduleAtFixedRate(new FlipPageTask(), 0, seconds * 1000);
+    }
+
+    class FlipPageTask extends TimerTask{
+        @Override
+        public void run() {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if(page >= MAXPAGE) {
+                        page = 0;
+                    }
+
+                    mViewPager.setCurrentItem(page++);
+                }
+            });
+        }
     }
 
     @Override
@@ -179,8 +212,7 @@ public class WelcomeActivity extends AppCompatActivity implements MediaPlayer.On
     enum WelcomeLayoutEnum {
 
         ONE(R.layout.welcome_intro_1),
-        TWO(R.layout.welcome_intro_2),
-        THREE(R.layout.welcome_intro_3);
+        TWO(R.layout.welcome_intro_2);
 
         private int mLayoutResId;
 

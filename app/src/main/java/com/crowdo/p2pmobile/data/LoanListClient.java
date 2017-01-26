@@ -28,14 +28,13 @@ public class LoanListClient {
         final Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(APIServices.LAMBDA_BASE_URL + APIServices.STAGE)
+                .baseUrl(APIServices.API_BASE_URL + APIServices.STAGE)
                 .build();
 
         this.apiServices = retrofit.create(APIServices.class);
     }
 
     public static LoanListClient getInstance(){
-
         if(instance == null)
             instance = new LoanListClient();
 

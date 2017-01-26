@@ -24,36 +24,43 @@ public class PerformEmailIdentityCheckTemp {
     }
 
     public boolean onResponseCode(String LOG_TAG, String enteredEmail,
-                                      Response<RegisteredMemberCheck> response){
+                                      RegisteredMemberCheck response){
         try {
-            RegisteredMemberCheck registeredMemberCheck = response.body();
+            RegisteredMemberCheck registeredMemberCheck = response;
 
             if(registeredMemberCheck.name == null ||
-                    registeredMemberCheck.id <= 0)
+                    registeredMemberCheck.email == null)
                 throw new NullPointerException();
 
             SharedPreferencesUtils.setSharePrefInt(context,
                     context.getString(R.string.pref_user_id_key),
-                    registeredMemberCheck.id);
+                    registeredMemberCheck.memberId);
+
+            SharedPreferencesUtils.setSharePrefBool(context,
+                    context.getString(R.string.pref_user_is_member_key),
+                    registeredMemberCheck.isMember);
 
             SharedPreferencesUtils.setSharePrefString(context,
                     context.getString(R.string.pref_user_name_key),
                     WordUtils.capitalizeFully(registeredMemberCheck.name));
 
-            //store keyed in one
             SharedPreferencesUtils.setSharePrefString(context,
                     context.getString(R.string.pref_user_email_key),
                     enteredEmail);
 
-            SharedPreferencesUtils.setSharePrefString(context,
-                    context.getString(R.string.pref_user_investor_approval_status_key),
-                    registeredMemberCheck.approvalStatus);
+            SharedPreferencesUtils.setSharePrefBool(context,
+                    context.getString(R.string.pref_user_investor_approval_sgd_key),
+                    registeredMemberCheck.canInvestSgd);
+
+            SharedPreferencesUtils.setSharePrefBool(context,
+                    context.getString(R.string.pref_user_investor_approval_idr_key),
+                    registeredMemberCheck.canInvestIdr);
 
             Toast.makeText(context, "Welcome, " +
                             WordUtils.capitalizeFully(registeredMemberCheck.name),
                     Toast.LENGTH_SHORT).show();
-            if(registeredMemberCheck.id > 0 )
-                return true; //return success
+
+            return true; //return success
 
         }catch (NullPointerException npe){
             Log.e(LOG_TAG, "ERROR: " + npe.getMessage() + "on email: " + enteredEmail , npe);

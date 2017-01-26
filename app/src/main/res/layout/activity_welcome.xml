@@ -16,10 +16,22 @@
         android:foregroundGravity="center"/>
 
     <ImageView
+        android:id="@+id/welcome_logo_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:src="@drawable/ic_crowdo_logo_red" />
+        android:src="@drawable/ic_crowdo_logo_red"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/color_icons_text"
+        android:text="INDONESIA"
+        android:fontFamily="@string/font_family_medium"
+        android:textSize="28dp"/>
 
 
     <android.support.v4.view.ViewPager

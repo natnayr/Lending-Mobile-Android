@@ -50,15 +50,20 @@ public class SharedPreferencesUtils {
         SharedPreferencesUtils.setSharePrefInt(context,
                 context.getString(R.string.pref_user_id_key),
                 -1);
+        SharedPreferencesUtils.setSharePrefBool(context,
+                context.getString(R.string.pref_user_is_member_key),
+                false);
         SharedPreferencesUtils.setSharePrefString(context,
                 context.getString(R.string.pref_user_email_key),
                 "");
         SharedPreferencesUtils.setSharePrefString(context,
                 context.getString(R.string.pref_user_name_key),
-                context.getString(R.string.pref_user_name_default_value));
-
-        SharedPreferencesUtils.setSharePrefString(context,
-                context.getString(R.string.pref_user_investor_approval_status_key),
-                context.getString(R.string.pref_user_investor_approval_status_default_value));
+                "");
+        SharedPreferencesUtils.setSharePrefBool(context,
+                context.getString(R.string.pref_user_investor_approval_sgd_key),
+                false);
+        SharedPreferencesUtils.setSharePrefBool(context,
+                context.getString(R.string.pref_user_investor_approval_idr_key),
+                false);
     }
 }

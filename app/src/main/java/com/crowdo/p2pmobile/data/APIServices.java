@@ -1,19 +1,12 @@
 package com.crowdo.p2pmobile.data;
 
-import org.json.JSONObject;
-
-import java.io.File;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.ResponseBody;
-import retrofit2.Call;
 import retrofit2.Response;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
-import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import retrofit2.http.Streaming;
 import rx.Observable;
 
@@ -23,23 +16,23 @@ import rx.Observable;
 
 public interface APIServices {
 
-    public static final String LAMBDA_BASE_URL = "https://krune2aiye.execute-api.ap-southeast-1.amazonaws.com/";
-    public static final String STAGE = "dev/";
+//    public static final String API_BASE_URL = "https://krune2aiye.execute-api.ap-southeast-1.amazonaws.com/";
 
-    public static final String P2P_BASE_URL = "https://p2p.crowdo.com/";
+    public static final String API_BASE_URL = "http://77eeb001.ngrok.io/";
+    public static final String STAGE = "internal_api/";
 
-    @GET("loans")
+    public static final String P2P_BASE_URL = "https://p2pid.crowdo.com/";
+
+    @GET("loan_listing")
     Observable<List<LoanListItem>> getLoansList();
 
-    @GET("loans/{id}")
+    @GET("loan_details/{id}")
     Observable<LoanDetail> getLoanDetail(@Path("id") int id);
 
     @Streaming
     @GET("download_factsheet/{id}")
     Observable<Response<ResponseBody>> getLoanFactSheet(@Path("id") int id);
 
-    @Headers("Content-Type: application/json")
-    @POST("members")
-    Call<RegisteredMemberCheck> postUserCheck(@Body Map<String, String> inputBody);
-
+    @GET("member_by_email?")
+    Observable<RegisteredMemberCheck> getUserCheck(@Query("email") String email);
 }
