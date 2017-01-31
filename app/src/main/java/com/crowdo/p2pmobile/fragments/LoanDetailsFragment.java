@@ -3,11 +3,13 @@ package com.crowdo.p2pmobile.fragments;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,10 +30,12 @@ import com.crowdo.p2pmobile.data.RegisteredMemberCheckClient;
 import com.crowdo.p2pmobile.helpers.ConstantVariables;
 import com.crowdo.p2pmobile.helpers.PerformEmailIdentityCheckTemp;
 import com.crowdo.p2pmobile.helpers.SharedPreferencesUtils;
+import com.crowdo.p2pmobile.helpers.SnackBarUtil;
 import com.crowdo.p2pmobile.viewholders.LoanDetailsViewHolder;
 
 import java.io.File;
 
+import butterknife.BindColor;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,14 +49,17 @@ import rx.schedulers.Schedulers;
  */
 public class LoanDetailsFragment extends Fragment {
 
+    @BindColor(R.color.color_icons_text) int colorIconText;
+
     private static final String LOG_TAG = LoanDetailsFragment.class.getSimpleName();
-    private Subscription detailsSubscription;
-    private Subscription factsheetSubscription;
-    private Subscription memberCheckSubscription;
-    private int initLoanId;
+    Subscription detailsSubscription;
+    Subscription factsheetSubscription;
+    Subscription memberCheckSubscription;
+
     private LoanDetailsViewHolder viewHolder;
     private LoanDetail mLoanDetail;
     private AlertDialog alertDialog;
+    private int initLoanId;
 
 
     public LoanDetailsFragment() {
@@ -74,6 +81,7 @@ public class LoanDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_details, parent, false);
+        ButterKnife.bind(this, rootView);
 
         viewHolder = new LoanDetailsViewHolder(rootView);
 
@@ -118,6 +126,8 @@ public class LoanDetailsFragment extends Fragment {
                             "Downloading...",
                             Toast.LENGTH_SHORT).show();
 
+
+
                     factsheetSubscription = LoanFactSheetClient.getInstance(getActivity(), initLoanId)
                         .getLoanFactSheet()
                         .subscribe(new Observer<File>() {
@@ -133,10 +143,15 @@ public class LoanDetailsFragment extends Fragment {
 
                             @Override
                             public void onNext(File file) {
-                                Toast.makeText(getActivity(),
-                                        "factsheet stored in app cache as: "
-                                                + file.getName(),
-                                        Toast.LENGTH_SHORT).show();
+                                final Snackbar snackBarOnNext = SnackBarUtil.snackBarCreate(getView(),
+                                            "FactSheet stored in: " + file.getName(),
+                                            colorIconText);
+                                snackBarOnNext.setAction("OK", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        snackBarOnNext.dismiss();
+                                    }
+                                }).show();
 
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.setDataAndType(Uri.fromFile(file), "application/pdf");
@@ -150,10 +165,17 @@ public class LoanDetailsFragment extends Fragment {
                                 }catch (ActivityNotFoundException e){
                                     Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
 
-                                    Toast.makeText(getActivity(),
-                                            "Sorry, you do not seem to have a PDF Reader installed, " +
+                                    final Snackbar snackBarNoPDF = SnackBarUtil.snackBarCreate(getView(),
+                                            "Error, you do not seem to have a PDF Reader installed, " +
                                                     "moving file to downloads",
-                                            Toast.LENGTH_LONG).show();
+                                            colorIconText);
+                                    snackBarNoPDF.setAction("OK", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            snackBarNoPDF.dismiss();
+                                        }
+                                    }).show();
+
 
                                     file.renameTo(new File(Environment.getExternalStoragePublicDirectory(
                                             Environment.DIRECTORY_DOWNLOADS).getAbsoluteFile(),
@@ -183,7 +205,8 @@ public class LoanDetailsFragment extends Fragment {
                             ConstantVariables.PREF_KEY_USER_ID, -1);
 
                     if(acctMemberId == -1) {
-                        dialogEmailPrompt();
+                        DialogHolder dh = new DialogHolder();
+                        dh.dialogEmailPrompt(getActivity());
                     }else {
                         addToCart();
                     }
@@ -226,6 +249,11 @@ public class LoanDetailsFragment extends Fragment {
                     .getSharedPrefString(getActivity(),
                     ConstantVariables.PREF_KEY_USER_EMAIL, null);
 
+            boolean approvedToInvest = SharedPreferencesUtils
+                    .getSharedPrefBool(getActivity(),
+                            ConstantVariables.PREF_KEY_USER_INVESTOR_APPROVAL_IDR, false);
+
+
             if(email == null)
                 return;
 
@@ -239,26 +267,60 @@ public class LoanDetailsFragment extends Fragment {
 
             long biddingAmount = unitBidAmount * ConstantVariables.IDR_BASE_UNIT;
 
-            if(unitBidAmount <= 0 ) {
-                Toast.makeText(getActivity(), "Please key in BID Amount greater than 0",
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }else if(mLoanDetail.fundingAvalibleAmount < biddingAmount){
-                Toast.makeText(getActivity(), "Sorry, Bid amount entered is too high",
-                        Toast.LENGTH_SHORT).show();
+            if(approvedToInvest == false){
+                final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
+                        "Only approved investors are able to invest on Crowdo platform",
+                        colorIconText);
+                snackbar.setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        snackbar.dismiss();
+                    }
+                })
+                .show();
                 return;
             }
 
-            Log.d(LOG_TAG, "APP: URL "+ APIServices.API_BASE_URL + "mobile/login_and_checkout_authenticate?" +
-                    "email=" + email + "&loan_id=" + initLoanId +
-                    "&invest_amount="+biddingAmount);
+
+            if(unitBidAmount <= 0 ) {
+                final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
+                        "Please key in BID Amount greater than 0",
+                        colorIconText);
+
+                snackbar.setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        snackbar.dismiss();
+                    }
+                })
+                .show();
+                return;
+
+            }else if(mLoanDetail.fundingAvalibleAmount < biddingAmount){
+
+                final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
+                        "Sorry, Bid amount entered is too high",
+                        colorIconText);
+                snackbar.setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        snackbar.dismiss();
+                    }
+                }).show();
+                return;
+            }
+
+            String webViewUrl = APIServices.API_BASE_URL+
+                    "mobile/login_and_checkout_authenticate?" +
+                    "email="+email+"&loan_id="+initLoanId +
+                    "&invest_amount="+biddingAmount+"&market=idr";
+
+            Log.d(LOG_TAG, "APP: URL " + webViewUrl);
 
             Intent intent = Henson.with(getActivity())
                     .gotoWebViewActivity()
                     .id(initLoanId)
-                    .url(APIServices.API_BASE_URL+"mobile/login_and_checkout_authenticate?" +
-                            "email=" + email + "&loan_id=" + initLoanId +
-                            "&invest_amount="+biddingAmount)
+                    .url(webViewUrl)
                     .build();
 
 
@@ -268,85 +330,88 @@ public class LoanDetailsFragment extends Fragment {
     }
 
 
-    /*
-        Temp Dialog to identify user
-     */
-    @BindView(android.R.id.message) TextView memberCheckEmailTextView;
-    @BindView(android.R.id.edit) EditText memberCheckEmailEditText;
-    @BindString(R.string.member_check_email_dialog_label) String memberCheckEmailDialogLabel;
-    @BindString(R.string.pref_user_email_default_value) String memberCheckEmailDialogDefaultValue;
-    private void dialogEmailPrompt(){
+    class DialogHolder{
+        /*
+            Temp Dialog to identify user
+         */
+        @BindView(android.R.id.message) TextView memberCheckEmailTextView;
+        @BindView(android.R.id.edit) EditText memberCheckEmailEditText;
+        @BindString(R.string.member_check_email_dialog_label) String memberCheckEmailDialogLabel;
+        @BindString(R.string.pref_user_email_default_value) String memberCheckEmailDialogDefaultValue;
+        public void dialogEmailPrompt(final Context context){
 
-        Log.d(LOG_TAG, "APP: Email Dialog Triggered");
-        LayoutInflater inflater = LayoutInflater.from(getActivity());
-        View dialogView = inflater.inflate(R.layout.pref_dialog_email_edittext_fix, null);
-        ButterKnife.bind(this, dialogView);
+            Log.d(LOG_TAG, "APP: Email Dialog Triggered");
+            LayoutInflater inflater = LayoutInflater.from(context);
+            View dialogView = inflater.inflate(R.layout.pref_dialog_email_edittext_fix, null);
+            ButterKnife.bind(this, dialogView);
 
-        // setting dialog layout
-        memberCheckEmailTextView.setText(memberCheckEmailDialogLabel);
+            // setting dialog layout
+            memberCheckEmailTextView.setText(memberCheckEmailDialogLabel);
 
-        AlertDialog.Builder alertDialogBuilderInput = new AlertDialog.Builder(getActivity());
-        alertDialogBuilderInput.setView(dialogView);
+            AlertDialog.Builder alertDialogBuilderInput = new AlertDialog.Builder(context);
+            alertDialogBuilderInput.setView(dialogView);
 
-        alertDialogBuilderInput
-                .setCancelable(true)
-                .setNegativeButton("Sign Up", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                                Uri.parse(APIServices.API_BASE_URL+"mobile/sign_up"));
-                        startActivity(browserIntent);
-                    }
-                })
-                .setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int id) {
+            alertDialogBuilderInput
+                    .setCancelable(true)
+                    .setNegativeButton("Sign Up", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                                    Uri.parse(APIServices.API_BASE_URL+"mobile/sign_up"));
 
-                    final String enteredEmail = memberCheckEmailEditText.getText()
-                            .toString().toLowerCase().trim();
+                            startActivity(browserIntent);
+                        }
+                    })
+                    .setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int id) {
 
-                    Log.d(LOG_TAG, "APP: enteredEmail is " + enteredEmail);
+                        final String enteredEmail = memberCheckEmailEditText.getText()
+                                .toString().toLowerCase().trim();
 
-                    final PerformEmailIdentityCheckTemp idenCheck =
-                            new PerformEmailIdentityCheckTemp(getActivity());
+                        Log.d(LOG_TAG, "APP: enteredEmail is " + enteredEmail);
 
-                    memberCheckSubscription = RegisteredMemberCheckClient.getInstance()
-                        .postUserCheck(enteredEmail)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Observer<RegisteredMemberCheck>() {
-                            @Override
-                            public void onCompleted() {
+                        final PerformEmailIdentityCheckTemp idenCheck =
+                                new PerformEmailIdentityCheckTemp(context);
 
-                            }
+                        memberCheckSubscription = RegisteredMemberCheckClient.getInstance()
+                            .postUserCheck(enteredEmail)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Observer<RegisteredMemberCheck>() {
+                                @Override
+                                public void onCompleted() {
 
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.d(LOG_TAG, "ERROR: onError");
-                                idenCheck.onFailure(LOG_TAG, enteredEmail, e);
-                            }
-
-                            @Override
-                            public void onNext(RegisteredMemberCheck registeredMemberCheck) {
-                                Log.d(LOG_TAG, "APP: onNext return " + registeredMemberCheck.memberId);
-                                if(idenCheck.onResponseCode(LOG_TAG, enteredEmail, registeredMemberCheck)) {
-                                    addToCart();
                                 }
-                            }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Log.d(LOG_TAG, "ERROR: onError");
+                                    idenCheck.onFailure(LOG_TAG, enteredEmail, e, getView());
+                                }
+
+                                @Override
+                                public void onNext(RegisteredMemberCheck registeredMemberCheck) {
+                                    Log.d(LOG_TAG, "APP: onNext return " + registeredMemberCheck.memberId);
+                                    if(idenCheck.onResponseCode(LOG_TAG, enteredEmail, registeredMemberCheck, getView())) {
+                                        addToCart();
+                                    }
+                                }
+                        });
+
+                        dialogInterface.dismiss();
+
+                        }
+                    }).setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int id) {
+                            dialogInterface.cancel();
+                        }
                     });
 
-                    dialogInterface.dismiss();
-
-                    }
-                }).setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int id) {
-                        dialogInterface.cancel();
-                    }
-                });
-
-        alertDialog = alertDialogBuilderInput.create();
-        alertDialog.show();
+            alertDialog = alertDialogBuilderInput.create();
+            alertDialog.show();
+    }
     }
 
 }

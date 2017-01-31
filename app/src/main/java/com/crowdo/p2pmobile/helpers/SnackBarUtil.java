@@ -10,14 +10,13 @@ import android.widget.TextView;
 
 public class SnackBarUtil {
 
+    public static Snackbar snackBarCreate(View view, String msg, int colorText) {
 
-    public static Snackbar snackBarCreate(View view, int colorText) {
-
-        Snackbar snackbar = Snackbar.make(view(),
-                "Please key in BID Amount greater than 0",
-                Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(view,
+                msg, Snackbar.LENGTH_SHORT);
         TextView snackTextView = (TextView) snackbar.getView()
                 .findViewById(android.support.design.R.id.snackbar_text);
         snackTextView.setTextColor(colorText);
+        return snackbar;
     }
 }

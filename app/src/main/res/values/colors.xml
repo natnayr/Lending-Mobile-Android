@@ -20,22 +20,22 @@
 
     <!-- Colors for GRADE Backgrounds-->
     <!-- Material Color Green500 -->
-    <color name="grade_color_A_plus">#4CAF50</color>
+    <color name="grade_color_A_plus">#388E3C</color>
     <!-- Material Color LightGreen500 -->
-    <color name="grade_color_A">#8BC34A</color>
+    <color name="grade_color_A">#689F38</color>
     <!-- Material Color Lime500 -->
-    <color name="grade_color_B_plus">#CDDC39</color>
+    <color name="grade_color_B_plus">#AFB42B</color>
     <!-- Material Color Yellow500 -->
-    <color name="grade_colorB">#FFEB3B</color>
+    <color name="grade_colorB">#FBC02D</color>
     <!-- Material Color Amber500 -->
-    <color name="grade_colorC">#FFC107</color>
+    <color name="grade_colorC">#FFA000</color>
     <!-- Material Color Orange500 -->
-    <color name="grade_color_D">#FF9800</color>
+    <color name="grade_color_D">#F57C00</color>
     <!-- Material Color DeepOrange500 -->
-    <color name="grade_color_E">#FF5722</color>
+    <color name="grade_color_E">#E64A19</color>
 
     <!-- icon colors -->
-    <color name="fa_icon_shield">#FFEB3B</color>
+    <color name="fa_icon_shield">#FFC107</color>
     <color name="fa_icon_file_text">#4CAF50</color>
     <color name="fa_icon_unlock_alt">#607D8B</color>
 

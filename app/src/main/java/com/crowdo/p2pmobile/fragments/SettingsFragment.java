@@ -2,34 +2,27 @@ package com.crowdo.p2pmobile.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
-import android.text.Html;
 import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
 
 import com.crowdo.p2pmobile.R;
-import com.crowdo.p2pmobile.data.LoanDetail;
-import com.crowdo.p2pmobile.data.LoanDetailClient;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheck;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheckClient;
 import com.crowdo.p2pmobile.helpers.ConstantVariables;
 import com.crowdo.p2pmobile.helpers.PerformEmailIdentityCheckTemp;
 import com.crowdo.p2pmobile.helpers.SharedPreferencesUtils;
+import com.crowdo.p2pmobile.helpers.SnackBarUtil;
 
 import java.util.Map;
 
 import butterknife.BindColor;
-import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -43,7 +36,6 @@ public class SettingsFragment extends PreferenceFragmentCompat
         implements SharedPreferences.OnSharedPreferenceChangeListener{
 
     //SharedPreference object uses default provided from PreferenceManager
-    @BindColor(R.color.color_icons_text_secondary) int colorTextSecondary;
     SharedPreferences sharedPreferences;
     private static final String LOG_TAG = SettingsFragment.class.getSimpleName();
     private Subscription memberCheckSubscription;
@@ -67,8 +59,16 @@ public class SettingsFragment extends PreferenceFragmentCompat
             public boolean onPreferenceClick(Preference preference) {
 
                 Log.d(LOG_TAG, "APP: Session Cleared");
-                Toast.makeText(getActivity(), "Cleared",
-                        Toast.LENGTH_SHORT).show();
+                int colorIconText = ContextCompat.getColor(getContext(), R.color.color_icons_text);
+
+                final Snackbar snackBarOnNext = SnackBarUtil.snackBarCreate(getView(),
+                        "Cleared", colorIconText);
+                snackBarOnNext.setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        snackBarOnNext.dismiss();
+                    }
+                }).show();
 
                 SharedPreferencesUtils.resetUserAccountSharedPreferences(getActivity());
                 return true;
@@ -187,7 +187,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
         String enteredEmail = sharedPreferences
                 .getString(ConstantVariables.PREF_KEY_USER_EMAIL, null);
 
-        if(enteredEmail == null)
+        if(enteredEmail == null || enteredEmail.equals(""))
             return;
 
         final String enteredEmailFinal = enteredEmail.toString().toLowerCase().trim();;
@@ -208,12 +208,12 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
                    @Override
                    public void onError(Throwable e) {
-                       idenCheck.onFailure(LOG_TAG, enteredEmailFinal, e);
+                       idenCheck.onFailure(LOG_TAG, enteredEmailFinal, e, getView());
                    }
 
                    @Override
                    public void onNext(RegisteredMemberCheck registeredMemberCheck) {
-                       idenCheck.onResponseCode(LOG_TAG, enteredEmailFinal, registeredMemberCheck);
+                       idenCheck.onResponseCode(LOG_TAG, enteredEmailFinal, registeredMemberCheck, getView());
                    }
        });
     }

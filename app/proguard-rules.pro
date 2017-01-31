@@ -16,7 +16,8 @@
 #   public *;
 #}
 
--dontobfuscate
+#-keep class * extends android.webkit.WebChromeClient { *; }
+#-dontwarn im.delight.android.webview.**
 
 #turn off warnings for unused
 #-dontwarn okio.**

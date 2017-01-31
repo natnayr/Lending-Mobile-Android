@@ -2,6 +2,7 @@ package com.crowdo.p2pmobile.helpers;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.crowdo.p2pmobile.R;
@@ -24,7 +25,7 @@ public class PerformEmailIdentityCheckTemp {
     }
 
     public boolean onResponseCode(String LOG_TAG, String enteredEmail,
-                                      RegisteredMemberCheck response){
+                                      RegisteredMemberCheck response, View view){
         try {
             RegisteredMemberCheck registeredMemberCheck = response;
 
@@ -65,17 +66,15 @@ public class PerformEmailIdentityCheckTemp {
 
         }catch (NullPointerException npe){
             Log.e(LOG_TAG, "ERROR: " + npe.getMessage() + "on email: " + enteredEmail , npe);
-            Toast.makeText(context, "Sorry, "+ enteredEmail +
-                    " did not match anything", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "There is no account associated to "+ enteredEmail, Toast.LENGTH_SHORT).show();
             SharedPreferencesUtils.resetUserAccountSharedPreferences(context);
         }
         return false;
     }
 
-    public void onFailure(String LOG_TAG, String enteredEmail, Throwable t){
+    public void onFailure(String LOG_TAG, String enteredEmail, Throwable t, View view){
         Log.e(LOG_TAG, "ERROR: CALL FAILURE: " + t.getMessage());
-        Toast.makeText(context, "Sorry, "+
-                        enteredEmail +" did not match anything",
+        Toast.makeText(context, "There is no account associated to "+ enteredEmail,
                 Toast.LENGTH_SHORT).show();
 
         SharedPreferencesUtils.resetUserAccountSharedPreferences(context);
