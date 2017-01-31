@@ -6,8 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.crowdo.p2pmobile.helpers.HardwareUtils;
-
-import org.joda.time.DateTime;
+import com.crowdo.p2pmobile.helpers.SnackBarUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,72 +24,67 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by cwdsg05 on 15/12/16.
+ * Created by cwdsg05 on 31/1/17.
  */
 
-public class LoanFactSheetClient {
+public class WebViewFileSaveClient {
 
-    public static final String LOG_TAG = LoanFactSheetClient.class.getSimpleName();
+    public static final String LOG_TAG = WebViewFileSaveClient.class.getSimpleName();
     private APIServices apiServices;
     private Context mContext;
-    private int loanId;
+    private String url;
+    private String fileName;
 
-    public LoanFactSheetClient(Context context, int loanId){
+
+    public WebViewFileSaveClient(Context context, String endpoint, String fileName){
         this.mContext = context;
-        this.loanId = loanId;
+        this.url = endpoint;
+        this.fileName = fileName;
 
         final Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .baseUrl(APIServices.API_BASE_URL)
+                .baseUrl(endpoint + "/")
                 .build();
 
         this.apiServices = retrofit.create(APIServices.class);
     }
 
-    public static LoanFactSheetClient getInstance(Context context, int loanId){
-        return new LoanFactSheetClient(context, loanId);
+    public static WebViewFileSaveClient getInstance(Context context, String url, String fileName){
+        return new WebViewFileSaveClient(context, url, fileName);
     }
 
-    public Observable<File> getLoanFactSheet(){
-        return  apiServices.getLoanFactSheet(this.loanId)
-            .flatMap(processResponse())
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread());
+    public Observable<File> getDownloadFile(){
+        return apiServices.getWebViewDownloadFile(this.url)
+                .flatMap(processResponse())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     private Func1<Response<ResponseBody>, Observable<File>> processResponse(){
         return new Func1<Response<ResponseBody>, Observable<File>>() {
             @Override
-            public Observable<File> call(Response<ResponseBody> responseBodyResponse) {
-                return saveFile(responseBodyResponse);
+            public Observable<File> call(Response<ResponseBody> response) {
+                return saveFile(response);
             }
         };
     }
 
-    private Observable<File> saveFile(final Response<ResponseBody> response) {
+    private Observable<File> saveFile(final Response<ResponseBody> response){
         return Observable.create(new Observable.OnSubscribe<File>() {
             @Override
             public void call(Subscriber<? super File> subscriber) {
                 try {
-                    String nowTime = DateTime.now().toString("yyyy-MM-dd");
-                    String header = response.headers().get("Content-Disposition");
-                    Log.d(LOG_TAG, "APP: header = [" + header + "]");
-                    String fileName = "FactSheet-" + loanId + "-" + nowTime + ".pdf";
-
                     File finalFile, externalRoot;
-                    if(HardwareUtils.isExternalStorageReadableAndWritable()){
-                        if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                            //if external cacahe temp storage is avalible
+                    if (HardwareUtils.isExternalStorageReadableAndWritable()) {
+                        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                             externalRoot = mContext.getExternalCacheDir().getAbsoluteFile();
-                        }else{
-                            //if not, then store in external downloads directory
+                        } else {
                             externalRoot = Environment
                                     .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
                                     .getAbsoluteFile();
                         }
                         finalFile = new File(externalRoot, fileName);
-                    }else{
-                        //last hope
+                    } else {
                         Toast.makeText(mContext,
                                 "External storage is missing, downloading to Internal Downloads Folder",
                                 Toast.LENGTH_LONG).show();
@@ -104,7 +98,7 @@ public class LoanFactSheetClient {
 
                     subscriber.onNext(finalFile);
                     subscriber.onCompleted();
-                } catch (IOException e) {
+                }catch (IOException e){
                     Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
                     e.printStackTrace();
                     subscriber.onError(e);
@@ -112,4 +106,5 @@ public class LoanFactSheetClient {
             }
         });
     }
+
 }

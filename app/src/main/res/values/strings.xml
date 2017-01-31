@@ -35,7 +35,7 @@
     <string name="loan_detail_schedule_first_repayment_label">1st\nRepayment</string>
     <string name="loan_detail_schedule_last_repayment_label">Last\nRepayment</string>
 
-    <string name="loan_detail_avalible_amount_description">Avalible for Bidding:</string>
+    <string name="loan_detail_avalible_amount_description">Available for Bidding:</string>
     <string name="loan_detail_enter_amount_currency_symbol_idr" translatable="false">Rp</string>
     <string name="loan_detail_enter_amount_unit_zeros_idr">,000,000</string>
     <string name="loan_detail_enter_amount_minus_content_description">subtract amount by one unit</string>

@@ -11,9 +11,12 @@ import android.widget.TextView;
 public class SnackBarUtil {
 
     public static Snackbar snackBarCreate(View view, String msg, int colorText) {
+        return snackBarCreate(view, msg, colorText, Snackbar.LENGTH_SHORT);
+    }
 
-        Snackbar snackbar = Snackbar.make(view,
-                msg, Snackbar.LENGTH_SHORT);
+    public static Snackbar snackBarCreate(View view, String msg, int colorText, int snackBarLength) {
+        Snackbar snackbar = Snackbar.make(view, msg, snackBarLength);
+
         TextView snackTextView = (TextView) snackbar.getView()
                 .findViewById(android.support.design.R.id.snackbar_text);
         snackTextView.setTextColor(colorText);

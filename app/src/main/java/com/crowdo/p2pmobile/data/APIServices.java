@@ -8,6 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Streaming;
+import retrofit2.http.Url;
 import rx.Observable;
 
 /**
@@ -33,4 +34,8 @@ public interface APIServices {
 
     @GET("member_by_email?")
     Observable<RegisteredMemberCheck> getUserCheck(@Query("email") String email);
+
+    @Streaming
+    @GET
+    Observable<Response<ResponseBody>> getWebViewDownloadFile(@Url String fileUrl);
 }

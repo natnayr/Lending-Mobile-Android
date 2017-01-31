@@ -126,8 +126,6 @@ public class LoanDetailsFragment extends Fragment {
                             "Downloading...",
                             Toast.LENGTH_SHORT).show();
 
-
-
                     factsheetSubscription = LoanFactSheetClient.getInstance(getActivity(), initLoanId)
                         .getLoanFactSheet()
                         .subscribe(new Observer<File>() {
@@ -142,45 +140,41 @@ public class LoanDetailsFragment extends Fragment {
                             }
 
                             @Override
-                            public void onNext(File file) {
+                            public void onNext(final File file) {
                                 final Snackbar snackBarOnNext = SnackBarUtil.snackBarCreate(getView(),
-                                            "FactSheet stored in: " + file.getName(),
-                                            colorIconText);
-                                snackBarOnNext.setAction("OK", new View.OnClickListener() {
+                                            file.getName(),
+                                            colorIconText, Snackbar.LENGTH_LONG);
+
+                                snackBarOnNext.setAction("OPEN", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        snackBarOnNext.dismiss();
-                                    }
-                                }).show();
+                                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                                        intent.setDataAndType(Uri.fromFile(file), "application/pdf");
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY
+                                                | Intent.FLAG_ACTIVITY_NEW_TASK
+                                                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        Intent chooserIntent = Intent.createChooser(intent, "Open With");
 
-                                Intent intent = new Intent(Intent.ACTION_VIEW);
-                                intent.setDataAndType(Uri.fromFile(file), "application/pdf");
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY
-                                        | Intent.FLAG_ACTIVITY_NEW_TASK
-                                        | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                Intent chooserIntent = Intent.createChooser(intent, "Open With");
+                                        try{
+                                            startActivity(chooserIntent);
+                                        }catch (ActivityNotFoundException e){
+                                            Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
 
-                                try{
-                                    startActivity(chooserIntent);
-                                }catch (ActivityNotFoundException e){
-                                    Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-
-                                    final Snackbar snackBarNoPDF = SnackBarUtil.snackBarCreate(getView(),
-                                            "Error, you do not seem to have a PDF Reader installed, " +
-                                                    "moving file to downloads",
-                                            colorIconText);
-                                    snackBarNoPDF.setAction("OK", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            snackBarNoPDF.dismiss();
+                                            final Snackbar snackBarNoPDF = SnackBarUtil.snackBarCreate(getView(),
+                                                    "Error, you do not seem to have a PDF Reader installed, " +
+                                                            "moving file to downloads",
+                                                    colorIconText);
+                                            snackBarNoPDF.setAction("OK", new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    snackBarNoPDF.dismiss();
+                                                }
+                                            });
+                                            snackBarNoPDF.show();
                                         }
-                                    }).show();
-
-
-                                    file.renameTo(new File(Environment.getExternalStoragePublicDirectory(
-                                            Environment.DIRECTORY_DOWNLOADS).getAbsoluteFile(),
-                                            file.getName()));
-                                }
+                                    }
+                                });
+                                snackBarOnNext.show();
                             }
                         });
                 }
@@ -411,7 +405,7 @@ public class LoanDetailsFragment extends Fragment {
 
             alertDialog = alertDialogBuilderInput.create();
             alertDialog.show();
-    }
+        }
     }
 
 }
