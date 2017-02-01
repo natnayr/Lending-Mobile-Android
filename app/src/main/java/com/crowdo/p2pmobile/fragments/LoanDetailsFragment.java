@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,9 +123,11 @@ public class LoanDetailsFragment extends Fragment {
             public void onClick(View view) {
 
                 if(initLoanId >= 0) {
-                    Toast.makeText(getActivity(),
-                            "Downloading...",
-                            Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(getActivity(),
+                            "Downloading...", Toast.LENGTH_SHORT);
+
+                    toast.setGravity(Gravity.TOP, 0, 0);
+                    toast.show();
 
                     factsheetSubscription = LoanFactSheetClient.getInstance(getActivity(), initLoanId)
                         .getLoanFactSheet()
@@ -141,11 +144,11 @@ public class LoanDetailsFragment extends Fragment {
 
                             @Override
                             public void onNext(final File file) {
-                                final Snackbar snackBarOnNext = SnackBarUtil.snackBarCreate(getView(),
+                                final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
                                             file.getName(),
                                             colorIconText, Snackbar.LENGTH_LONG);
 
-                                snackBarOnNext.setAction("OPEN", new View.OnClickListener() {
+                                snackbar.setAction("OPEN", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -160,21 +163,20 @@ public class LoanDetailsFragment extends Fragment {
                                         }catch (ActivityNotFoundException e){
                                             Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
 
-                                            final Snackbar snackBarNoPDF = SnackBarUtil.snackBarCreate(getView(),
-                                                    "Error, you do not seem to have a PDF Reader installed, " +
-                                                            "moving file to downloads",
+                                            final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
+                                                    "Having an issue reading pdf file",
                                                     colorIconText);
-                                            snackBarNoPDF.setAction("OK", new View.OnClickListener() {
+                                            snackbar.setAction("OK", new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
-                                                    snackBarNoPDF.dismiss();
+                                                    snackbar.dismiss();
                                                 }
                                             });
-                                            snackBarNoPDF.show();
+                                            snackbar.show();
                                         }
                                     }
                                 });
-                                snackBarOnNext.show();
+                                snackbar.show();
                             }
                         });
                 }

@@ -8,7 +8,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Streaming;
-import retrofit2.http.Url;
 import rx.Observable;
 
 /**
@@ -16,8 +15,6 @@ import rx.Observable;
  */
 
 public interface APIServices {
-
-//    public static final String API_BASE_URL = "https://krune2aiye.execute-api.ap-southeast-1.amazonaws.com/";
 
     public static final String API_BASE_URL = "http://p2pid.crowdo.com/";
     public static final String STAGE = "internal_api/";
@@ -30,12 +27,9 @@ public interface APIServices {
 
     @Streaming
     @GET("download_factsheet/{id}")
-    Observable<Response<ResponseBody>> getLoanFactSheet(@Path("id") int id);
+    Observable<Response<ResponseBody>> getLoanFactSheet(@Path("id") int id,
+                                                        @Query("lang") String lang);
 
     @GET("member_by_email?")
     Observable<RegisteredMemberCheck> getUserCheck(@Query("email") String email);
-
-    @Streaming
-    @GET
-    Observable<Response<ResponseBody>> getWebViewDownloadFile(@Url String fileUrl);
 }

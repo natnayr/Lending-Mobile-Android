@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
@@ -25,19 +26,22 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.crowdo.p2pmobile.R;
-import com.crowdo.p2pmobile.data.WebViewFileSaveClient;
+import com.crowdo.p2pmobile.helpers.PermissionsUtil;
 import com.crowdo.p2pmobile.helpers.SnackBarUtil;
+import com.esafirm.rxdownloader.RxDownloader;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import im.delight.android.webview.AdvancedWebView;
-import rx.Observer;
-import rx.Subscription;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by cwdsg05 on 4/1/17.
@@ -47,28 +51,21 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
     public static final String LOG_TAG = WebViewActivity.class.getSimpleName();
 
-
     @BindView(R.id.webview) AdvancedWebView mWebView;
     @BindView(R.id.toolbar_webview) Toolbar mToolbar;
     @BindView(R.id.webview_swipe_container) SwipeRefreshLayout swipeContainer;
     @BindView(R.id.webview_progress_bar) ProgressBar mProgressBar;
-    @BindView(R.id.webview_root) View rootView;
+    @BindView(R.id.webview_root) CoordinatorLayout rootView;
     @BindColor(R.color.color_icons_text) int colorIconText;
     @InjectExtra public int id;
     @InjectExtra public String url;
-
-    Subscription webviewDownloadSubscription;
-
-    private static final String PDF_MIMETYPE = "application/pdf";
-    private static final String IMG_MIMETYPE = "image/*";
-    private static final String IMG_MIMEREGEX = "image/(?:jpe?g|png|gif)$";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.webview);
 
-        ButterKnife.bind(this);
+        ButterKnife.bind(WebViewActivity.this);
 
         //mToolbar view
         setSupportActionBar(mToolbar);
@@ -77,9 +74,9 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         //inject intent settings
-        Dart.inject(this);
+        Dart.inject(WebViewActivity.this);
 
-        mWebView.setListener(this, this);
+        mWebView.setListener(WebViewActivity.this, WebViewActivity.this);
         mWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
         mWebView.loadUrl(url);
 
@@ -168,79 +165,106 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
     }
 
     @Override
-    public void onDownloadRequested(final String url, final String suggestedFilename,
+    public void onDownloadRequested(final String url, final String fileName,
                                     final String downloadMimeType, long contentLength,
                                     String contentDisposition, String userAgent) {
 
-        final String extension = MimeTypeMap.getFileExtensionFromUrl(url);
-        final String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-
-
-        Log.d(LOG_TAG, "APP: URL:" + url +
-                " suggestedFileName:" + suggestedFilename +
-                " mimeType:" + mimeType);
-
-        Toast.makeText(this, "Downloading...", Toast.LENGTH_SHORT).show();
-
-        webviewDownloadSubscription = WebViewFileSaveClient
-            .getInstance(this, url, suggestedFilename)
-            .getDownloadFile()
-            .subscribe(new Observer<File>() {
-                @Override
-                public void onCompleted() {
-                    Log.d(LOG_TAG, "APP: webViewDownload complete");
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    Log.e(LOG_TAG, "ERROR: onError " + e.getMessage(), e);
-                }
-
-                @Override
-                public void onNext(final File file) {
-                    final Snackbar snackBarOnNext = SnackBarUtil.snackBarCreate(rootView,
-                            file.getName(),
+        //check permissions
+        if(!PermissionsUtil.checkPermission(this,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+            final Snackbar snackBar = SnackBarUtil
+                    .snackBarCreate(rootView, "Unable to write to external Drive",
                             colorIconText, Snackbar.LENGTH_LONG);
+            snackBar.setAction("OK", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    snackBar.dismiss();
+                }
+            }).show();
+            return;
+        }
 
-                    snackBarOnNext.setAction("OPEN", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(Intent.ACTION_VIEW);
-                            if(mimeType != null) {
-                                if (mimeType.equals(PDF_MIMETYPE)) {
-                                    Log.d(LOG_TAG, "APP: YOOOO HOOOO");
-                                    intent.setDataAndType(Uri.fromFile(file), PDF_MIMETYPE);
-                                } else if (mimeType.matches(IMG_MIMEREGEX)) {
-                                    Log.d(LOG_TAG, "APP: YOOOO IMAGEEESSS");
-                                    intent.setDataAndType(Uri.fromFile(file), IMG_MIMETYPE);
+        String mimeType = null;
+        final String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if(extension != null) {
+            mimeType = MimeTypeMap.getSingleton()
+                    .getMimeTypeFromExtension(extension);
+        }
+
+        Toast.makeText(this, "Downloading...",
+                Toast.LENGTH_SHORT).show();
+
+        final String usageMimeType = mimeType;
+
+        RxDownloader.getInstance(this)
+                .download(url, fileName, mimeType)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(LOG_TAG, "APP: Completed WebView Download");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(LOG_TAG, "ERROR: onError " + e.getMessage(), e);
+                    }
+
+                    @Override
+                    public void onNext(final String s) {
+                        Log.d(LOG_TAG, "APP: file is now in " + s);
+
+                        final Snackbar snackbar = SnackBarUtil
+                                .snackBarCreate(rootView, "Downloaded to " + s,
+                                colorIconText, Snackbar.LENGTH_LONG);
+
+
+                        snackbar.setAction("OPEN", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                                    File downloadFile = new File(new URI(s));
+
+                                    intent.setDataAndType(Uri.fromFile(downloadFile), usageMimeType);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY
+                                            | Intent.FLAG_ACTIVITY_NEW_TASK
+                                            | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    Intent chooserIntent = Intent.createChooser(intent, "Open With");
+
+
+                                    startActivity(chooserIntent);
+                                }catch(URISyntaxException ue){
+                                    Log.e(LOG_TAG, "ERROR: " + ue.getMessage(), ue);
+                                    final Snackbar snackbar = SnackBarUtil.snackBarCreate(rootView,
+                                            "Error, reading file",
+                                            colorIconText);
+
+                                    snackbar.setAction("OK", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            snackbar.dismiss();
+                                        }
+                                    });
+                                }catch (ActivityNotFoundException anfe){
+                                    Log.e(LOG_TAG, "ERROR: " + anfe.getMessage(), anfe);
+                                    final Snackbar snackbar = SnackBarUtil.snackBarCreate(rootView,
+                                            "Error, you do not seem to have a PDF Reader installed, " +
+                                                    "moving file to downloads",
+                                            colorIconText);
+
+                                    snackbar.setAction("OK", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            snackbar.dismiss();
+                                        }
+                                    });
                                 }
                             }
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY
-                                    | Intent.FLAG_ACTIVITY_NEW_TASK
-                                    | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            Intent chooserIntent = Intent.createChooser(intent, "Open With");
-
-                            try{
-                                startActivity(chooserIntent);
-                            }catch (ActivityNotFoundException e){
-                                Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-                                final Snackbar snackBarError = SnackBarUtil.snackBarCreate(
-                                        rootView, "Error opening file", colorIconText);
-
-                                snackBarError.setAction("OK", new View.OnClickListener(){
-                                    @Override
-                                    public void onClick(View v) {
-                                        snackBarError.dismiss();
-                                    }
-                                });
-
-                                snackBarError.show();
-                            }
-                        }
-                    });
-                    snackBarOnNext.show();
-                }
-            });
+                        });
+                        snackbar.show();
+                    }
+                });
     }
 
     @Override
@@ -269,7 +293,6 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
         }
         return true;
     }
-
 
     public class WebAppInterface {
         Context mContext;

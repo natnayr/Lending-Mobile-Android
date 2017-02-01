@@ -20,9 +20,11 @@ import android.widget.TextView;
 import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.custom_ui.GoalProgressBar;
 import com.crowdo.p2pmobile.data.LoanDetail;
+import com.crowdo.p2pmobile.helpers.ConstantVariables;
 import com.crowdo.p2pmobile.helpers.DateUtils;
 import com.crowdo.p2pmobile.helpers.NumericUtils;
 import com.crowdo.p2pmobile.helpers.FontUtils;
+import com.crowdo.p2pmobile.helpers.SnackBarUtil;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -122,6 +124,11 @@ public class LoanDetailsViewHolder {
         mAmountPlusBtn.setBackground(mPlusEnabledDrawable);
         mAmountMinusBtn.setBackground(mMinusEnabledDrawable);
 
+        Typeface iconFont = FontUtils.getTypeface(context, FontUtils.FONTAWESOME);
+        FontUtils.markAsIconContainer(mSecurityIcon, iconFont);
+        FontUtils.markAsIconContainer(mAngleRightIconFirst, iconFont);
+        FontUtils.markAsIconContainer(mAngleRightIconSecond, iconFont);
+
         mAmountPlusBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -162,11 +169,6 @@ public class LoanDetailsViewHolder {
                 return false;
             }
         });
-
-        Typeface iconFont = FontUtils.getTypeface(context, FontUtils.FONTAWESOME);
-        FontUtils.markAsIconContainer(mSecurityIcon, iconFont);
-        FontUtils.markAsIconContainer(mAngleRightIconFirst, iconFont);
-        FontUtils.markAsIconContainer(mAngleRightIconSecond, iconFont);
 
         //toClear focus of editext
         mLoanDetailRelativeLayout.setOnTouchListener(new View.OnTouchListener() {
@@ -214,7 +216,7 @@ public class LoanDetailsViewHolder {
     }
 
     public void attachView(final LoanDetail loanDetail, final Context context) {
-
+        
         mLoanIdenTextView.setText(loanDetail.loanId);
         mPercentageReturn.setText(Double.toString(loanDetail.interestRate));
         mGrade.setText(loanDetail.grade);
@@ -376,7 +378,7 @@ public class LoanDetailsViewHolder {
         } else if (cleanString.length() <= ENTER_AMOUNT_MAX_LENGTH) {
             int curAmount = Integer.parseInt(cleanString);
             if ((curAmount + byAmount) >= 0 &&
-                    (curAmount + byAmount) < (Math.pow(10,ENTER_AMOUNT_MAX_LENGTH))) {
+                    (curAmount + byAmount) < (Math.pow(10, ENTER_AMOUNT_MAX_LENGTH))) {
                 mEnterAmount.setText(Integer.toString(curAmount + byAmount));
             }
         }

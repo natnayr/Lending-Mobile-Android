@@ -8,8 +8,8 @@ android {
         applicationId "com.crowdo.p2pmobile"
         minSdkVersion 21
         targetSdkVersion 24
-        versionCode 2
-        versionName "0.1.1"
+        versionCode 3
+        versionName "0.1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -67,8 +67,6 @@ dependencies {
     //GSON (JSON to Object library)
     compile 'com.google.code.gson:gson:2.8.0'
 
-//    provided 'org.glassfish:javax.annotation:10.0-b28'
-
     //DateTime Library
     compile 'joda-time:joda-time:2.9.6'
 
@@ -80,4 +78,7 @@ dependencies {
 
     //Advanced Webview
     compile 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
+
+    //Rx Downloader
+    compile 'com.github.esafirm:RxDownloader:1.0.1'
 }

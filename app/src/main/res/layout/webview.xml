@@ -16,8 +16,14 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/color_primary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme"/>
+            android:elevation="2dp"
+            android:minHeight="?attr/actionBarSize"
+            android:clipToPadding="true"
+            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/PopupMenuTheme"
+            app:layout_scrollFlags="scroll|enterAlways" />
+
 
         <ProgressBar
             android:id="@+id/webview_progress_bar"

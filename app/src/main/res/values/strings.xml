@@ -26,7 +26,7 @@
 
     <string name="loan_detail_percentage_return_label">Interest\nReturn</string>
     <string name="loan_detail_grade_label">Grade</string>
-    <string name="loan_detail_days_left">Days Left</string>
+    <string name="loan_detail_days_left">Days Left\n to Invest</string>
     <string name="loan_detail_target_amount_principal">Principal\nTarget</string>
 
     <string name="loan_detail_schedule_header_string">Monthly</string>

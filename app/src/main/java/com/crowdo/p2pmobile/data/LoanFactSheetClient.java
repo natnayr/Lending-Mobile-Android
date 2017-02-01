@@ -5,6 +5,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.crowdo.p2pmobile.helpers.ConstantVariables;
 import com.crowdo.p2pmobile.helpers.HardwareUtils;
 
 import org.joda.time.DateTime;
@@ -52,7 +53,8 @@ public class LoanFactSheetClient {
     }
 
     public Observable<File> getLoanFactSheet(){
-        return  apiServices.getLoanFactSheet(this.loanId)
+        return  apiServices.getLoanFactSheet(this.loanId,
+                ConstantVariables.APP_LANG_SET)
             .flatMap(processResponse())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread());

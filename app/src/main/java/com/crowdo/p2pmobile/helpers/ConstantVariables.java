@@ -17,5 +17,6 @@ public class ConstantVariables {
     public static final String PREF_KEY_USER_INVESTOR_APPROVAL_IDR = "USER_INVESTOR_APPROVAL_IDR";
     public static final String PREF_KEY_USER_LOGOUT_KEY = "USER_LOGOUT_KEY";
 
+    public static final String APP_LANG_SET = "en";
 
 }

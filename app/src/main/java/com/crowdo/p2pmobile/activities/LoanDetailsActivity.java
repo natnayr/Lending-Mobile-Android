@@ -20,7 +20,6 @@ import butterknife.ButterKnife;
 
 public class LoanDetailsActivity extends AppCompatActivity {
 
-    private static final String LOG_TAG = LoanDetailsActivity.class.getSimpleName();
     public static final String TAG_LOAN_DETAILS_FRAGMENT = "LoanDetailsFragment";
     public static final String BUNDLE_ID_KEY = "BundleDetailsFragmentIDKey";
     @InjectExtra public int id;
