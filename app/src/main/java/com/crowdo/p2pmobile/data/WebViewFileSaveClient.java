@@ -36,14 +36,14 @@ public class WebViewFileSaveClient {
     private String fileName;
 
 
-    public WebViewFileSaveClient(Context context, String endpoint, String fileName){
+    public WebViewFileSaveClient(Context context, String url, String fileName){
         this.mContext = context;
-        this.url = endpoint;
+        this.url = url;
         this.fileName = fileName;
 
         final Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .baseUrl(endpoint + "/")
+                .baseUrl(url + "/")
                 .build();
 
         this.apiServices = retrofit.create(APIServices.class);

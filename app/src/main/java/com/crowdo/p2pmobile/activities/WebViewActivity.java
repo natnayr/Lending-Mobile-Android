@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
@@ -60,8 +59,9 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
     Subscription webviewDownloadSubscription;
 
-    private static final String pdfMimeType = "pdf";
-    private static final String imgMimeType = "image/*";
+    private static final String PDF_MIMETYPE = "application/pdf";
+    private static final String IMG_MIMETYPE = "image/*";
+    private static final String IMG_MIMEREGEX = "image/(?:jpe?g|png|gif)$";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,15 +172,13 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
                                     final String downloadMimeType, long contentLength,
                                     String contentDisposition, String userAgent) {
 
-        final String mimeType = MimeTypeMap.getFileExtensionFromUrl(url);
+        final String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        final String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+
 
         Log.d(LOG_TAG, "APP: URL:" + url +
                 " suggestedFileName:" + suggestedFilename +
-                " mimeType:" + mimeType +
-                " downloadMimeType:" + downloadMimeType);
-
-        https://cwd-nexus.s3-ap-southeast-1.amazonaws.com/documents/top_up/425/transaction_proof/IMG-20170126-WA0034.jpeg?X-Amz-Expires=600&X-Amz-Date=20170131T141032Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJIR32J6J7253L5TA/20170131/ap-southeast-1/s3/aws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=e4d24193b753b8943aaf78593f1b87e2f05510cd91b77763cdd87f846e4274bf
-
+                " mimeType:" + mimeType);
 
         Toast.makeText(this, "Downloading...", Toast.LENGTH_SHORT).show();
 
@@ -208,12 +206,14 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(Intent.ACTION_VIEW);
-
-                            if(mimeType.equals(pdfMimeType)){
-                                Log.d(LOG_TAG, "APP: YOOOO HOOOO");
-                                intent.setDataAndType(Uri.fromFile(file), "application/pdf");
-                            }else if(mimeType.equals("jpeg")){
-                                intent.setDataAndType(Uri.fromFile(file), "image/*");
+                            if(mimeType != null) {
+                                if (mimeType.equals(PDF_MIMETYPE)) {
+                                    Log.d(LOG_TAG, "APP: YOOOO HOOOO");
+                                    intent.setDataAndType(Uri.fromFile(file), PDF_MIMETYPE);
+                                } else if (mimeType.matches(IMG_MIMEREGEX)) {
+                                    Log.d(LOG_TAG, "APP: YOOOO IMAGEEESSS");
+                                    intent.setDataAndType(Uri.fromFile(file), IMG_MIMETYPE);
+                                }
                             }
                             intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY
                                     | Intent.FLAG_ACTIVITY_NEW_TASK
