@@ -216,11 +216,10 @@ public class LoanDetailsViewHolder {
     }
 
     public void attachView(final LoanDetail loanDetail, final Context context) {
-        
+
         mLoanIdenTextView.setText(loanDetail.loanId);
         mPercentageReturn.setText(Double.toString(loanDetail.interestRate));
         mGrade.setText(loanDetail.grade);
-
         
         if(loanDetail.grade != null) {
             switch (loanDetail.grade) {
