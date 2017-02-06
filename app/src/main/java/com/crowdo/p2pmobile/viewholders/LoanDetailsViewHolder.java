@@ -2,7 +2,6 @@ package com.crowdo.p2pmobile.viewholders;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,7 +22,6 @@ import com.crowdo.p2pmobile.custom_ui.GoalProgressBar;
 import com.crowdo.p2pmobile.data.LoanDetail;
 import com.crowdo.p2pmobile.helpers.DateUtils;
 import com.crowdo.p2pmobile.helpers.NumericUtils;
-import com.crowdo.p2pmobile.helpers.FontUtils;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -78,8 +76,6 @@ public class LoanDetailsViewHolder {
     @BindView(R.id.loan_detail_schedule_start_date) TextView mScheduleStartDate;
     @BindView(R.id.loan_detail_schedule_first_repayment_date) TextView mScheduleFirstRepaymentDate;
     @BindView(R.id.loan_detail_schedule_last_repayment_date) TextView mScheduleLastRepaymentDate;
-    @BindView(R.id.loan_detail_schedule_angle_right_first_icon_container) TextView mAngleRightIconFirst;
-    @BindView(R.id.loan_detail_schedule_angle_right_second_icon_container) TextView mAngleRightIconSecond;
     @BindView(R.id.loan_detail_avalible_amount) TextView mAvalibleAmount;
 
     // to interact with
@@ -126,10 +122,6 @@ public class LoanDetailsViewHolder {
 
         mAmountPlusBtn.setBackground(mPlusEnabledDrawable);
         mAmountMinusBtn.setBackground(mMinusEnabledDrawable);
-
-        Typeface iconFont = FontUtils.getTypeface(context, FontUtils.FONTAWESOME);
-        FontUtils.markAsIconContainer(mAngleRightIconFirst, iconFont);
-        FontUtils.markAsIconContainer(mAngleRightIconSecond, iconFont);
 
         mAmountPlusBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override

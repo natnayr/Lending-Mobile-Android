@@ -15,12 +15,15 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true">
             <TextView
                 android:id="@+id/loan_item_percentage_return"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/list_figure_text_size"
+                android:text="26.0"
                 android:textColor="@color/color_accent"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -36,22 +39,20 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/list_figure_text_size"
             android:textColor="@color/color_primary_text"
-            android:layout_centerInParent="true"/>
+            android:text="9"
+            android:layout_centerInParent="true" />
 
-        <LinearLayout
+
+        <ImageView
+            android:id="@+id/loan_item_collateral_icon_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_alignParentRight="true"
-            android:paddingRight="8dp">
-            <ImageView
-                android:id="@+id/loan_item_collateral_icon_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:src="@drawable/ic_shield_outline_black_38dp"
-                android:tint="@color/fa_icon_shield"/>
-        </LinearLayout>
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_shield_outline_black_38dp"
+            android:tint="@color/fa_icon_shield"/>
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -79,6 +80,7 @@
             android:id="@+id/loan_item_collateral_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Jewelry"
             android:textSize="@dimen/list_small_text_size"
             android:textColor="@color/color_primary_text"
             android:gravity="right"
