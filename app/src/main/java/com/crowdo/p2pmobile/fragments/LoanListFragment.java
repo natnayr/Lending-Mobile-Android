@@ -1,9 +1,8 @@
 package com.crowdo.p2pmobile.fragments;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,7 +52,6 @@ public class LoanListFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         mListView = (ListView) rootView.findViewById(R.id.listview_loans);;
-
 
         swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeLoanListView);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

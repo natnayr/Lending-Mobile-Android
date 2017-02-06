@@ -1,6 +1,6 @@
 package com.crowdo.p2pmobile.activities;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -40,7 +40,7 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        Fragment settingsFragment = getFragmentManager().findFragmentByTag(TAG_SETTINGS_FRAGMENT);
+        Fragment settingsFragment = getSupportFragmentManager().findFragmentByTag(TAG_SETTINGS_FRAGMENT);
         if(settingsFragment == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(new SettingsFragment(), TAG_SETTINGS_FRAGMENT)
@@ -61,7 +61,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        int count = getFragmentManager().getBackStackEntryCount();
+        int count = getSupportFragmentManager()
+                .getBackStackEntryCount();
         if (count == 0) {
             super.onBackPressed();
         } else {

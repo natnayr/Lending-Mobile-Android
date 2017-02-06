@@ -1,6 +1,6 @@
 package com.crowdo.p2pmobile.activities;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -19,7 +19,6 @@ import butterknife.ButterKnife;
 
 public class LoanListActivity extends AppCompatActivity {
 
-    private static final String LOG_TAG = LoanListActivity.class.getSimpleName();
     public static final String TAG_LOAN_LIST_FRAGMENT = "LoanListFragment";
 
     @BindView(R.id.toolbar) Toolbar mToolbar;
@@ -27,7 +26,6 @@ public class LoanListActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
@@ -40,10 +38,11 @@ public class LoanListActivity extends AppCompatActivity {
         //inject intent settings
         Dart.inject(this);
 
-        Fragment loanListFragment = getFragmentManager().findFragmentByTag(TAG_LOAN_LIST_FRAGMENT);
-        if(loanListFragment == null){
-            getFragmentManager().beginTransaction()
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(TAG_LOAN_LIST_FRAGMENT);
+        if(fragment == null){
+            getSupportFragmentManager().beginTransaction()
                     .add(new LoanListFragment(), TAG_LOAN_LIST_FRAGMENT)
+                    .addToBackStack(TAG_LOAN_LIST_FRAGMENT)
                     .commit();
         }
     }
@@ -70,7 +69,8 @@ public class LoanListActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        int count = getFragmentManager().getBackStackEntryCount();
+        int count = getSupportFragmentManager()
+                .getBackStackEntryCount();
 
         if (count == 0) {
             super.onBackPressed();

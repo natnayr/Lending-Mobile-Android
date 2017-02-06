@@ -1,6 +1,6 @@
 package com.crowdo.p2pmobile.activities;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -46,12 +46,12 @@ public class LoanDetailsActivity extends AppCompatActivity {
         Bundle args = new Bundle();
         args.putInt(BUNDLE_ID_KEY, this.id);
 
-        Fragment fragment = getFragmentManager().findFragmentByTag(TAG_LOAN_DETAILS_FRAGMENT);
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(TAG_LOAN_DETAILS_FRAGMENT);
 
         if(fragment == null) {
             LoanDetailsFragment loanDetailsFragment = new LoanDetailsFragment();
             loanDetailsFragment.setArguments(args);
-            getFragmentManager().beginTransaction()
+            getSupportFragmentManager().beginTransaction()
                     .replace(R.id.loan_details_content, loanDetailsFragment, TAG_LOAN_DETAILS_FRAGMENT)
                     .addToBackStack(TAG_LOAN_DETAILS_FRAGMENT)
                     .commit();
@@ -66,7 +66,7 @@ public class LoanDetailsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        int count = getFragmentManager().getBackStackEntryCount();
+        int count = getSupportFragmentManager().getBackStackEntryCount();
 
         if (count == 0) {
             super.onBackPressed();
