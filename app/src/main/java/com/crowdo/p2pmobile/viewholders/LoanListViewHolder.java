@@ -2,8 +2,11 @@ package com.crowdo.p2pmobile.viewholders;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.VectorDrawable;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.crowdo.p2pmobile.R;
@@ -15,6 +18,7 @@ import com.crowdo.p2pmobile.helpers.FontUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
 import butterknife.BindColor;
+import butterknife.BindDrawable;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,7 +48,8 @@ public class LoanListViewHolder {
     @BindView(R.id.loan_item_collateral_description) TextView mSecurityDescription;
     @BindView(R.id.loan_item_amount) TextView mLoanAmount;
 
-    @BindView(R.id.loan_item_collateral_icon_container) TextView mSecurityIcon;
+    @BindView(R.id.loan_item_collateral_icon_container) ImageView mSecurityIcon;
+
     @BindView(R.id.loan_item_credit_grade_layout) View mLoanGradeDrawable;
     @BindView(R.id.loan_item_amount_icon_container) TextView mLoanAmountIcon;
 
@@ -59,6 +64,10 @@ public class LoanListViewHolder {
     @BindColor(R.color.fa_icon_shield) int shieldColor;
     @BindColor(R.color.fa_icon_file_text) int fileColor;
     @BindColor(R.color.fa_icon_unlock_alt) int unlockAltColor;
+
+    @BindDrawable(R.drawable.ic_file_document_black_38dp) Drawable mFileIcon;
+    @BindDrawable(R.drawable.ic_lock_open_black_38dp) Drawable mLockOpenIcon;
+    @BindDrawable(R.drawable.ic_shield_outline_black_38dp) Drawable mShieldOutlineIcon;
 
     @BindString(R.string.date_time_region) String DATE_TIME_REGION;
 
@@ -107,19 +116,19 @@ public class LoanListViewHolder {
 
         switch(item.security){
             case IN_SEC_COLLATERAL:
-                mSecurityIcon.setText(R.string.fa_shield);
-                mSecurityIcon.setTextColor(shieldColor);
+                mSecurityIcon.setImageDrawable(mShieldOutlineIcon);
+                mSecurityIcon.setColorFilter(shieldColor);
                 mSecurityDescription.setText(WordUtils.wrap(
                         WordUtils.capitalize(item.collateral.replaceAll("_", " ")), 15));
                 break;
             case IN_SEC_UNCOLLATERALIZED:
-                mSecurityIcon.setText(R.string.fa_unlock_alt);
-                mSecurityIcon.setTextColor(unlockAltColor);
+                mSecurityIcon.setImageDrawable(mLockOpenIcon);
+                mSecurityIcon.setColorFilter(unlockAltColor);
                 mSecurityDescription.setText(OUT_SEC_UNCOLLATERALIZED);
                 break;
             case IN_SEC_INVOICE_OR_CHEQUE:
-                mSecurityIcon.setText(R.string.fa_file_text);
-                mSecurityIcon.setTextColor(fileColor);
+                mSecurityIcon.setImageDrawable(mFileIcon);
+                mSecurityIcon.setColorFilter(fileColor);
                 mSecurityDescription.setText(OUT_SEC_INVOICE_OR_CHEQUE);
                 break;
         }
@@ -128,7 +137,6 @@ public class LoanListViewHolder {
                 item.targetAmount, item.currency+" ", true));
 
         Typeface iconFont = FontUtils.getTypeface(context, FontUtils.FONTAWESOME);
-        FontUtils.markAsIconContainer(mSecurityIcon, iconFont);
         FontUtils.markAsIconContainer(mLoanAmountIcon, iconFont);
     }
 }

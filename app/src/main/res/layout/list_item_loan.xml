@@ -7,8 +7,8 @@
     android:gravity="center_vertical"
     android:background="@drawable/touch_selector">
 
-    <include layout="@layout/top_list_item_loan" />
-    <include layout="@layout/mid_list_item_loan"/>
-    <include layout="@layout/btm_list_item_loan"/>
+    <include layout="@layout/list_item_loan_top" />
+    <include layout="@layout/list_item_loan_mid"/>
+    <include layout="@layout/list_item_loan_btm"/>
 
 </LinearLayout>

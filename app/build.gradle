@@ -8,8 +8,8 @@ android {
         applicationId "com.crowdo.p2pmobile"
         minSdkVersion 21
         targetSdkVersion 24
-        versionCode 4
-        versionName "0.1.2.1"
+        versionCode 5
+        versionName "0.1.2.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

@@ -6,10 +6,10 @@
     <string name="activity_factsheet_action_bar_label">Fact-Sheet View(PDF)</string>
     <string name="date_time_region" translatable="false">Asia/Singapore</string>
 
-    <string name="welcome_intro_1_head">Put your Money On Track</string>
-    <string name="welcome_intro_1_body">Personally tailored investment from your fingertips</string>
-    <string name="welcome_intro_2_head">Imagine The Possibilities</string>
-    <string name="welcome_intro_2_body">Meaningful connections with global investors in just a click away</string>
+    <string name="welcome_intro_1_head">Earn competitive returns</string>
+    <string name="welcome_intro_1_body">Personalized investments at your fingertips</string>
+    <string name="welcome_intro_2_head">Possibilities without Boundaries</string>
+    <string name="welcome_intro_2_body">High quality fundraising from a global community of investors is just a few clicks away</string>
 
     <string name="gradeA" translatable="false">A</string>
     <string name="gradeA_plus" translatable="false">A+</string>

@@ -17,15 +17,17 @@
 
         <item
             android:id="@+id/drawer_menu_subheader"
-            android:title="subheader">
+            android:title="">
             <menu>
-                <item
-                    android:id="@+id/drawer_menu_subheader_1"
-                    android:title="sub header 1"/>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/drawer_menu_subheader_1"
+                        android:title="sub header 1"/>
 
-                <item
-                    android:id="@+id/drawer_menu_subheader_2"
-                    android:title="sub header 2"/>
+                    <item
+                        android:id="@+id/drawer_menu_subheader_2"
+                        android:title="sub header 2"/>
+                </group>
             </menu>
         </item>
     </group>

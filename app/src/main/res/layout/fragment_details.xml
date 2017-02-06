@@ -48,6 +48,7 @@
                 android:text="@string/percent_label"
                 android:textColor="@color/color_accent" />
         </LinearLayout>
+
         <TextView
             android:id="@+id/loan_detail_grade"
             android:layout_width="0dp"
@@ -56,14 +57,16 @@
             android:textSize="@dimen/loan_detail_figure_text_size"
             android:textColor="@color/grade_color_B_plus"
             android:gravity="center_horizontal"/>
-        <TextView
+
+        <ImageView
             android:id="@+id/loan_detail_security_icon_container"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/loan_detail_figure_text_size"
-            android:textColor="@color/fa_icon_shield"
-            android:gravity="center_horizontal"/>
+            android:layout_weight="1"
+            android:foregroundGravity="center"
+            android:src="@drawable/ic_shield_outline_black_38dp"
+            android:tint="@color/fa_icon_shield"/>
+
     </LinearLayout>
 
     <LinearLayout

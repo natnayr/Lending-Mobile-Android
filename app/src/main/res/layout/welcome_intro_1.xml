@@ -28,7 +28,7 @@
         android:foregroundGravity="center_horizontal"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:fontFamily="@string/font_family_light"
+        android:fontFamily="@string/font_family_regular"
         android:gravity="center"
         android:layout_marginBottom="10dp"
         android:lineSpacingExtra="-2dp"

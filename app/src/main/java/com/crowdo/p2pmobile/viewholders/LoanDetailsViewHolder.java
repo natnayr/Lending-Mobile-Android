@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,11 +21,9 @@ import android.widget.TextView;
 import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.custom_ui.GoalProgressBar;
 import com.crowdo.p2pmobile.data.LoanDetail;
-import com.crowdo.p2pmobile.helpers.ConstantVariables;
 import com.crowdo.p2pmobile.helpers.DateUtils;
 import com.crowdo.p2pmobile.helpers.NumericUtils;
 import com.crowdo.p2pmobile.helpers.FontUtils;
-import com.crowdo.p2pmobile.helpers.SnackBarUtil;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -63,7 +62,7 @@ public class LoanDetailsViewHolder {
     @BindView(R.id.loan_detail_iden_no) TextView mLoanIdenTextView;
     @BindView(R.id.loan_detail_percentage_return) TextView mPercentageReturn;
     @BindView(R.id.loan_detail_grade) TextView mGrade;
-    @BindView(R.id.loan_detail_security_icon_container) TextView mSecurityIcon;
+    @BindView(R.id.loan_detail_security_icon_container) ImageView mSecurityIcon;
     @BindView(R.id.loan_detail_security_description) TextView mSecurityDescription;
 
     @BindView(R.id.loan_detail_progress_bar) GoalProgressBar mProgressBar;
@@ -97,7 +96,7 @@ public class LoanDetailsViewHolder {
     // color
     @BindColor(R.color.fa_icon_shield) int shieldColor;
     @BindColor(R.color.fa_icon_file_text) int fileColor;
-    @BindColor(R.color.fa_icon_unlock_alt) int unlockAltColor;
+    @BindColor(R.color.fa_icon_unlock_alt) int lockOpenColor;
     @BindColor(R.color.color_icons_text) int iconTextColor; //white
     @BindColor(R.color.color_divider) int dividerColor;
     
@@ -110,6 +109,10 @@ public class LoanDetailsViewHolder {
     @BindColor(R.color.grade_color_E) int colorE;
 
     //drawables extras
+    @BindDrawable(R.drawable.ic_file_document_black_38dp) Drawable mFileIcon;
+    @BindDrawable(R.drawable.ic_lock_open_black_38dp) Drawable mLockOpenIcon;
+    @BindDrawable(R.drawable.ic_shield_outline_black_38dp) Drawable mShieldOutlineIcon;
+
     @BindDrawable(R.drawable.loan_detail_plus_bid_btn_enabled) Drawable mPlusEnabledDrawable;
     @BindDrawable(R.drawable.loan_detail_plus_bid_btn_pressed) Drawable mPlusPressedDrawable;
     @BindDrawable(R.drawable.loan_detail_minus_bid_btn_enabled) Drawable mMinusEnabledDrawable;
@@ -125,7 +128,6 @@ public class LoanDetailsViewHolder {
         mAmountMinusBtn.setBackground(mMinusEnabledDrawable);
 
         Typeface iconFont = FontUtils.getTypeface(context, FontUtils.FONTAWESOME);
-        FontUtils.markAsIconContainer(mSecurityIcon, iconFont);
         FontUtils.markAsIconContainer(mAngleRightIconFirst, iconFont);
         FontUtils.markAsIconContainer(mAngleRightIconSecond, iconFont);
 
@@ -252,20 +254,20 @@ public class LoanDetailsViewHolder {
         if(loanDetail.security != null) {
             switch (loanDetail.security) {
                 case IN_SEC_COLLATERAL:
-                    mSecurityIcon.setText(R.string.fa_shield);
-                    mSecurityIcon.setTextColor(shieldColor);
+                    mSecurityIcon.setImageDrawable(mShieldOutlineIcon);
+                    mSecurityIcon.setColorFilter(shieldColor);
                     mSecurityDescription.setText(WordUtils.wrap(
                             WordUtils.capitalize(loanDetail.collateral.replaceAll("_", " ")
                                     + "\n" + IN_SEC_COLLATERAL), 25));
                     break;
                 case IN_SEC_UNCOLLATERALIZED:
-                    mSecurityIcon.setText(R.string.fa_unlock_alt);
-                    mSecurityIcon.setTextColor(unlockAltColor);
+                    mSecurityIcon.setImageDrawable(mLockOpenIcon);
+                    mSecurityIcon.setColorFilter(lockOpenColor);
                     mSecurityDescription.setText(OUT_SEC_UNCOLLATERALIZED);
                     break;
                 case IN_SEC_INVOICE_OR_CHEQUE:
-                    mSecurityIcon.setText(R.string.fa_file_text);
-                    mSecurityIcon.setTextColor(fileColor);
+                    mSecurityIcon.setImageDrawable(mFileIcon);
+                    mSecurityIcon.setColorFilter(fileColor);
                     mSecurityDescription.setText(OUT_SEC_INVOICE_OR_CHEQUE);
                     break;
             }
