@@ -37,6 +37,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     //SharedPreference object uses default provided from PreferenceManager
     SharedPreferences sharedPreferences;
     private static final String LOG_TAG = SettingsFragment.class.getSimpleName();
+    public static final String TAG_SETTINGS_FRAGMENT = "LOAN_DETAILS_FRAGMENT_TAG";
     private Subscription memberCheckSubscription;
 
 

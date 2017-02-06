@@ -20,7 +20,6 @@ import butterknife.ButterKnife;
 
 public class LoanDetailsActivity extends AppCompatActivity {
 
-    public static final String TAG_LOAN_DETAILS_FRAGMENT = "LoanDetailsFragment";
     public static final String BUNDLE_ID_KEY = "BundleDetailsFragmentIDKey";
     @InjectExtra public int id;
     @BindView(R.id.toolbar) Toolbar mToolbar;
@@ -28,7 +27,7 @@ public class LoanDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_details);
+        setContentView(R.layout.activity_loan_details);
         ButterKnife.bind(this);
 
         //mToolbar view
@@ -46,14 +45,16 @@ public class LoanDetailsActivity extends AppCompatActivity {
         Bundle args = new Bundle();
         args.putInt(BUNDLE_ID_KEY, this.id);
 
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(TAG_LOAN_DETAILS_FRAGMENT);
+        Fragment fragment = getSupportFragmentManager()
+                .findFragmentByTag(LoanDetailsFragment.TAG_LOAN_DETAILS_FRAGMENT);
 
         if(fragment == null) {
             LoanDetailsFragment loanDetailsFragment = new LoanDetailsFragment();
             loanDetailsFragment.setArguments(args);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.loan_details_content, loanDetailsFragment, TAG_LOAN_DETAILS_FRAGMENT)
-                    .addToBackStack(TAG_LOAN_DETAILS_FRAGMENT)
+                    .replace(R.id.loan_details_content, loanDetailsFragment,
+                            LoanDetailsFragment.TAG_LOAN_DETAILS_FRAGMENT)
+                    .addToBackStack(LoanDetailsFragment.TAG_LOAN_DETAILS_FRAGMENT)
                     .commit();
         }
     }

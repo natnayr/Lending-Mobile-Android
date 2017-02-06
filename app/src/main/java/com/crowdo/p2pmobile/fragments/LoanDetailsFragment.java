@@ -52,6 +52,7 @@ public class LoanDetailsFragment extends Fragment {
     @BindColor(R.color.color_icons_text) int colorIconText;
 
     private static final String LOG_TAG = LoanDetailsFragment.class.getSimpleName();
+    public static final String TAG_LOAN_DETAILS_FRAGMENT = "LOAN_DETAILS_FRAGMENT_TAG";
     Subscription detailsSubscription;
     Subscription factsheetSubscription;
     Subscription memberCheckSubscription;
@@ -80,7 +81,7 @@ public class LoanDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_details, parent, false);
+        View rootView = inflater.inflate(R.layout.fragment_loan_details, parent, false);
         ButterKnife.bind(this, rootView);
 
         viewHolder = new LoanDetailsViewHolder(rootView);

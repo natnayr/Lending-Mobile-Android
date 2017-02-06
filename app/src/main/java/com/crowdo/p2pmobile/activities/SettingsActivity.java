@@ -23,7 +23,6 @@ import butterknife.ButterKnife;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    public static final String TAG_SETTINGS_FRAGMENT = "SettingsFragment";
     public static final String LOG_TAG = SettingsActivity.class.getSimpleName();
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
@@ -40,10 +39,11 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        Fragment settingsFragment = getSupportFragmentManager().findFragmentByTag(TAG_SETTINGS_FRAGMENT);
+        Fragment settingsFragment = getSupportFragmentManager()
+                .findFragmentByTag(SettingsFragment.TAG_SETTINGS_FRAGMENT);
         if(settingsFragment == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(new SettingsFragment(), TAG_SETTINGS_FRAGMENT)
+                    .add(new SettingsFragment(), SettingsFragment.TAG_SETTINGS_FRAGMENT)
                     .commit();
         }
     }

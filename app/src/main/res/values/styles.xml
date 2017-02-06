@@ -13,6 +13,7 @@
         <item name="android:colorBackground">@color/color_background</item>
         <item name="preferenceTheme">@style/PreferenceTheme</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.DayNight.Dialog.Alert</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
     <style name="PopupMenuTheme" parent="ThemeOverlay.AppCompat.Light">

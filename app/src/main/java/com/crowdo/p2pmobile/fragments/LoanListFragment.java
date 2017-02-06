@@ -31,6 +31,7 @@ public class LoanListFragment extends Fragment {
 
     private static final String LOG_TAG = LoanListFragment.class.getSimpleName();
 
+    public static final String TAG_LOAN_LIST_FRAGMENT = "LOAN_LIST_FRAGMENT_TAG";
     private ListView mListView;
     private LoanListAdapter mLoanAdapter;
     private Subscription loanListSubscription;
@@ -49,7 +50,7 @@ public class LoanListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_loan_list, container, false);
 
         mListView = (ListView) rootView.findViewById(R.id.listview_loans);;
 

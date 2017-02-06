@@ -52,6 +52,9 @@
     <string name="member_check_email_dialog_label">Are you already member of CROWDO? Please enter your email.</string>
 
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="nav_drawer_open">Open navigation drawer</string>
+    <string name="nav_drawer_close">Close navigation drawer</string>
+
 
     <!-- Preferences -->
     <string name="pref_user_email_key" translatable="false">USER_EMAIL</string>

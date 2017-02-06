@@ -19,8 +19,9 @@
             android:theme="@style/WelcomeTheme">
 
         </activity>
+
         <activity
-            android:name=".activities.LoanListActivity"
+            android:name=".activities.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" >
@@ -31,6 +32,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".activities.LoanListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" >
+        </activity>
+
         <activity
             android:name=".activities.LoanDetailsActivity"
             android:screenOrientation="portrait"

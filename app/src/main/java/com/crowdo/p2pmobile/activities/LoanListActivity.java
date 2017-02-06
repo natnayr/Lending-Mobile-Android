@@ -19,14 +19,13 @@ import butterknife.ButterKnife;
 
 public class LoanListActivity extends AppCompatActivity {
 
-    public static final String TAG_LOAN_LIST_FRAGMENT = "LoanListFragment";
 
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_loan_list);
         ButterKnife.bind(this);
 
         //mToolbar view
@@ -38,11 +37,12 @@ public class LoanListActivity extends AppCompatActivity {
         //inject intent settings
         Dart.inject(this);
 
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(TAG_LOAN_LIST_FRAGMENT);
+        Fragment fragment = getSupportFragmentManager()
+                .findFragmentByTag(LoanListFragment.TAG_LOAN_LIST_FRAGMENT);
         if(fragment == null){
             getSupportFragmentManager().beginTransaction()
-                    .add(new LoanListFragment(), TAG_LOAN_LIST_FRAGMENT)
-                    .addToBackStack(TAG_LOAN_LIST_FRAGMENT)
+                    .add(R.id.loans_content, new LoanListFragment(),
+                            LoanListFragment.TAG_LOAN_LIST_FRAGMENT)
                     .commit();
         }
     }
