@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_alignParentLeft="true"
+    android:layout_marginLeft="@dimen/list_mid_left_margin"
+    android:layout_marginTop="@dimen/list_btm_top_margin"
+    android:layout_marginBottom="@dimen/list_btm_btm_margin">
+
+    <TextView
+        android:id="@+id/loan_item_amount_icon_container"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textSize="@dimen/list_small_text_size"
+        android:text="@string/fa_money"
+        android:textColor="@color/color_secondary_text"
+        android:paddingRight="6dp"/>
+
+    <TextView
+        android:id="@+id/loan_item_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/list_small_text_size"
+        android:textColor="@color/color_secondary_text"/>
+
+</LinearLayout>
