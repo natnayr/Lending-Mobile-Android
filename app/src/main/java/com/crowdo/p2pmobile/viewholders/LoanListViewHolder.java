@@ -1,7 +1,6 @@
 package com.crowdo.p2pmobile.viewholders;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.view.View;
@@ -12,7 +11,6 @@ import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.data.LoanListItem;
 import com.crowdo.p2pmobile.helpers.DateUtils;
 import com.crowdo.p2pmobile.helpers.NumericUtils;
-import com.crowdo.p2pmobile.helpers.FontUtils;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -50,7 +48,6 @@ public class LoanListViewHolder {
     @BindView(R.id.loan_item_collateral_icon_container) ImageView mSecurityIcon;
 
     @BindView(R.id.loan_item_credit_grade_layout) View mLoanGradeDrawable;
-    @BindView(R.id.loan_item_amount_icon_container) TextView mLoanAmountIcon;
 
     @BindColor(R.color.grade_color_A_plus) int colorAPlus;
     @BindColor(R.color.grade_color_A) int colorA;
@@ -134,8 +131,5 @@ public class LoanListViewHolder {
 
         mLoanAmount.setText(NumericUtils.formatCurrency(item.currency,
                 item.targetAmount, item.currency+" ", true));
-
-        Typeface iconFont = FontUtils.getTypeface(context, FontUtils.FONTAWESOME);
-        FontUtils.markAsIconContainer(mLoanAmountIcon, iconFont);
     }
 }

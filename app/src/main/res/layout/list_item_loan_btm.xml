@@ -9,14 +9,14 @@
     android:layout_marginTop="@dimen/list_btm_top_margin"
     android:layout_marginBottom="@dimen/list_btm_btm_margin">
 
-    <TextView
+    <ImageView
         android:id="@+id/loan_item_amount_icon_container"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:textSize="@dimen/list_small_text_size"
-        android:text="@string/fa_money"
-        android:textColor="@color/color_secondary_text"
-        android:paddingRight="6dp"/>
+        android:src="@drawable/ic_cash_multiple_black_12dp"
+        android:tint="@color/color_secondary_text"
+        android:paddingRight="6dp"
+        android:layout_gravity="center_vertical"/>
 
     <TextView
         android:id="@+id/loan_item_amount"

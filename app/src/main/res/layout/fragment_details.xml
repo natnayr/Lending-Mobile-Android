@@ -56,16 +56,14 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textSize="@dimen/loan_detail_figure_text_size"
-            android:gravity="center"/>
+            android:gravity="center_horizontal"/>
 
         <ImageView
             android:id="@+id/loan_detail_security_icon_container"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:src="@drawable/ic_shield_outline_black_38dp"
-            android:tint="@color/fa_icon_shield"/>
+            android:gravity="center_horizontal" />
 
     </LinearLayout>
 
