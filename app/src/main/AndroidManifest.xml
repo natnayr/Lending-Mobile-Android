@@ -17,7 +17,6 @@
             android:name=".activities.WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WelcomeTheme">
-
         </activity>
 
         <activity
@@ -27,16 +26,9 @@
             android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".activities.LoanListActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" >
         </activity>
 
         <activity
@@ -45,7 +37,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.crowdo.p2pmobile.activities.LoanListActivity" />
+                android:value="com.crowdo.p2pmobile.activities.MainActivity" />
         </activity>
 
         <activity
@@ -56,11 +48,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.crowdo.p2pmobile.activities.LoanDetailsActivity" />
         </activity>
-
-        <activity
-            android:name=".activities.SettingsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

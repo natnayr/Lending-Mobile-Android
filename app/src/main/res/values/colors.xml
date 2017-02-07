@@ -10,6 +10,7 @@
     <color name="color_icons_text">#FFFFFF</color>
     <color name="color_icons_text_secondary">#e0e0e0</color>
     <color name="color_background">#FAFAFA</color>
+    <color name="color_background_dark">#222222</color>
     <color name="color_divider">#BDBDBD</color>
     <color name="color_divider_light">#EEEEEE</color>
 

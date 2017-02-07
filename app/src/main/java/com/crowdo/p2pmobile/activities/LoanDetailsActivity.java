@@ -32,7 +32,6 @@ public class LoanDetailsActivity extends AppCompatActivity {
 
         //mToolbar view
         setSupportActionBar(mToolbar);
-        mToolbar.inflateMenu(R.menu.menu);
         mToolbar.setTitle(getString(R.string.activity_loan_detail_action_bar_label));
         LoanDetailsActivity.this.setTitle(getString(R.string.activity_loan_detail_action_bar_label));
 
@@ -60,12 +59,6 @@ public class LoanDetailsActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
     public void onBackPressed() {
         int count = getSupportFragmentManager().getBackStackEntryCount();
 
@@ -74,20 +67,6 @@ public class LoanDetailsActivity extends AppCompatActivity {
         } else {
             toBackStackOrParent();
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            case R.id.nav_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private boolean toBackStackOrParent(){

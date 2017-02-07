@@ -1,6 +1,7 @@
 package com.crowdo.p2pmobile.fragments;
 
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -11,6 +12,7 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.ValueCallback;
 
 import com.crowdo.p2pmobile.R;
@@ -41,6 +43,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     private Subscription memberCheckSubscription;
 
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,13 +75,27 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
                 SharedPreferencesUtils.resetUserAccountSharedPreferences(getActivity());
 
-                CookieManager cookieManager = CookieManager.getInstance();
-                cookieManager.removeSessionCookies(new ValueCallback<Boolean>() {
-                    @Override
-                    public void onReceiveValue(Boolean value) {
-                        Log.d(LOG_TAG, "APP: onReceiveValue " + value);
-                    }
-                });
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                    CookieManager cookieManager = CookieManager.getInstance();
+                    cookieManager.removeSessionCookies(new ValueCallback<Boolean>() {
+                        @Override
+                        public void onReceiveValue(Boolean value) {
+                            Log.d(LOG_TAG, "APP: CookieManager.removeSessionCookies onReceiveValue " + value);
+                        }
+                    });
+                    cookieManager.flush();
+                }else{
+                    Log.d(LOG_TAG, "APP: Remove Cookies API < " + String.valueOf(Build.VERSION_CODES.LOLLIPOP));
+                    CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(getActivity());
+                    cookieSyncManager.startSync();
+                    CookieManager cookieManager = CookieManager.getInstance();
+                    cookieManager.removeAllCookie();
+                    cookieManager.removeSessionCookie();
+                    cookieSyncManager.stopSync();
+                    cookieSyncManager.sync();
+                }
+
+
 
                 return true;
             }
@@ -88,6 +105,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+
+
     }
 
     private void pickPreferenceObject(Preference pref){

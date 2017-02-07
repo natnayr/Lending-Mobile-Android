@@ -3,15 +3,15 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="android:colorPrimary">@color/color_primary</item>
-        <item name="android:colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="android:colorAccent">@color/color_accent</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
         <item name="android:textColorPrimary">@color/color_icons_text</item>
         <item name="android:textColorSecondary">@color/color_secondary_text</item>
         <item name="android:textColorPrimaryInverse">@color/color_icons_text</item>
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
         <item name="android:colorBackground">@color/color_background</item>
-        <item name="preferenceTheme">@style/PreferenceTheme</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.DayNight.Dialog.Alert</item>
         <item name="android:windowTranslucentStatus">true</item>
     </style>
@@ -21,47 +21,42 @@
         <item name="android:textColor">@color/color_primary_text</item>
     </style>
 
-    <style name="PreferenceTheme" parent="PreferenceThemeOverlay.v14.Material">
-        <item name="android:textViewStyle">@style/PreferenceThemeTextViewStyle</item>
-    </style>
-
-    <style name="PreferenceThemeTextViewStyle" parent="android:TextAppearance.Material.Widget.TextView">
-        <item name="android:fontFamily">@string/font_family_regular</item>
+    <style name="PreferenceThemeOverlay" parent="PreferenceThemeOverlay.v14.Material">
     </style>
 
     <style name="AppAlertDialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
-        <item name="android:colorAccent">@color/color_accent</item>
+        <item name="colorAccent">@color/color_accent</item>
     </style>
 
     <style name="AppAlertDialogContent" parent="Theme.AppCompat.DayNight">
-        <item name="android:colorAccent">@color/color_accent</item>
+        <item name="colorAccent">@color/color_accent</item>
     </style>
 
     <style name="WelcomeTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:colorPrimary">@color/color_primary</item>
-        <item name="android:colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="android:colorAccent">@color/color_accent</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
         <item name="android:textColorPrimary">@color/color_icons_text</item>
         <item name="android:textColorSecondary">@color/color_secondary_text</item>
         <item name="android:textColorPrimaryInverse">@color/color_icons_text</item>
     </style>
 
-    <style name="RobotoTextViewStyle" parent="android:TextAppearance.Material.Widget.TextView">
-        <item name="android:fontFamily">@string/font_family_light</item>
+    <style name="RobotoTextViewStyle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@string/font_family_regular</item>
         <item name="android:textColor">@color/color_primary_text</item>
     </style>
 
-    <style name="LoanDetailEditTextStyle" parent="android:TextAppearance.Material.Widget.EditText">
-        <item name="android:colorAccent">@color/color_primary</item>
-        <item name="android:colorControlNormal">@color/color_primary</item>
-        <item name="android:colorControlActivated">@color/color_primary_light</item>
-        <item name="android:colorControlHighlight">@color/color_primary_light</item>
+    <style name="LoanDetailEditTextStyle" parent="Base.Widget.AppCompat.EditText">
+        <item name="colorAccent">@color/color_primary</item>
+        <item name="colorControlNormal">@color/color_primary</item>
+        <item name="colorControlActivated">@color/color_primary_light</item>
+        <item name="colorControlHighlight">@color/color_primary_light</item>
         <item name="android:textColorHighlight">@color/color_primary_light</item>
         <item name="android:textColorLink">@color/color_accent</item>
     </style>
 
     <style name="LoanDetailImageButton" parent="android:Widget.Holo.Light.ImageButton">
-        <item name="android:colorButtonNormal">@color/color_icons_text</item>
+        <item name="colorButtonNormal">@color/color_icons_text</item>
     </style>
 
 

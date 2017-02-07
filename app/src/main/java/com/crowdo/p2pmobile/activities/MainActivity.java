@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity{
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private ActionBarDrawerToggle drawerToggle;
+    private View navHeader;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,21 +44,18 @@ public class MainActivity extends AppCompatActivity{
 
         setSupportActionBar(mToolbar);
 
-        setupDrawerContent(mNavDrawer);
-        drawerToggle = setUpDrawerToggele();
-
-        mDrawer.addDrawerListener(drawerToggle);
-
-        View navHeader = mNavDrawer.getHeaderView(0);
-
-
+        //load first fragment
+        mToolbar.setTitle(getString(R.string.activity_loan_list_action_bar_label));
         MainActivity.this.setTitle(getString(R.string.activity_loan_list_action_bar_label));
-
-        //load first
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.main_content, new LoanListFragment())
                 .commit();
 
+        setupDrawerContent(mNavDrawer);
+        drawerToggle = setUpDrawerToggle();
+        mDrawer.addDrawerListener(drawerToggle);
+
+        navHeader = mNavDrawer.getHeaderView(0); //reference point
     }
 
     private void setupDrawerContent(NavigationView navigationView){
@@ -116,7 +114,7 @@ public class MainActivity extends AppCompatActivity{
 
         switch (item.getItemId()){
             case android.R.id.home:
-                mDrawer.openDrawer((GravityCompat.END));
+                mDrawer.openDrawer(GravityCompat.END);
                 return true;
         }
 
@@ -135,7 +133,7 @@ public class MainActivity extends AppCompatActivity{
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
-    private ActionBarDrawerToggle setUpDrawerToggele(){
+    private ActionBarDrawerToggle setUpDrawerToggle(){
         return new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
     }
 }

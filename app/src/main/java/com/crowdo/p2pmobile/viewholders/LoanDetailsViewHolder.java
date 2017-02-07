@@ -3,6 +3,7 @@ package com.crowdo.p2pmobile.viewholders;
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -129,15 +130,18 @@ public class LoanDetailsViewHolder {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         mAmountPlusBtn.setBackground(mPlusPressedDrawable);
-                        mAmountPlusBtn.getDrawable().setTint(iconTextColor);
-
+                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            mAmountPlusBtn.getDrawable().setTint(iconTextColor);
+                        }
                         //round & minus value
                         addToEnterAmount(AMOUNT_UNIT);
 
                         return true;
                     case MotionEvent.ACTION_UP:
                         mAmountPlusBtn.setBackground(mPlusEnabledDrawable);
-                        mAmountPlusBtn.getDrawable().setTint(dividerColor);
+                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            mAmountPlusBtn.getDrawable().setTint(dividerColor);
+                        }
                         return true;
                 }
                 return false;
@@ -150,14 +154,17 @@ public class LoanDetailsViewHolder {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         mAmountMinusBtn.setBackground(mMinusPressedDrawable);
-                        mAmountMinusBtn.getDrawable().setTint(iconTextColor);
-
+                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            mAmountMinusBtn.getDrawable().setTint(iconTextColor);
+                        }
                         //round & minus value
                         addToEnterAmount(-AMOUNT_UNIT);
                         return true;
                     case MotionEvent.ACTION_UP:
                         mAmountMinusBtn.setBackground(mMinusEnabledDrawable);
-                        mAmountMinusBtn.getDrawable().setTint(dividerColor);
+                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            mAmountMinusBtn.getDrawable().setTint(dividerColor);
+                        }
                         return true;
                 }
                 return false;

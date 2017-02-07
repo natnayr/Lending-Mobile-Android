@@ -24,8 +24,9 @@
         android:id="@+id/main_nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="end"
+        android:layout_gravity="start"
         android:background="@color/color_icons_text"
+        android:fitsSystemWindows="true"
         app:menu="@menu/drawer_menu"
         app:headerLayout="@layout/nav_header"/>
 

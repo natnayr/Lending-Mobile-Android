@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -63,35 +64,42 @@ public class WelcomeActivity extends AppCompatActivity implements MediaPlayer.On
         this.page = 0;
         mContext = this;
 
-        mSurfaceView = (SurfaceView) findViewById(R.id.welcome_surface_view);
-        mHolder = mSurfaceView.getHolder();
-        mHolder.addCallback(new SurfaceHolder.Callback() {
-            @Override
-            public void surfaceCreated(SurfaceHolder holder) {
-                mPlayer = new MediaPlayer();
-                mPlayer.setDisplay(mHolder);
-                mPlayer.setLooping(true);
-                try{
-                    mPlayer.setDataSource(mContext, videoUri);
-                    mPlayer.setOnPreparedListener(WelcomeActivity.this);
-                    mPlayer.prepare();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mSurfaceView = (SurfaceView) findViewById(R.id.welcome_surface_view);
+            mHolder = mSurfaceView.getHolder();
+            mHolder.addCallback(new SurfaceHolder.Callback() {
+                @Override
+                public void surfaceCreated(SurfaceHolder holder) {
+                    mPlayer = new MediaPlayer();
+                    mPlayer.setDisplay(mHolder);
+                    mPlayer.setLooping(true);
+                    try {
+                        mPlayer.setDataSource(mContext, videoUri);
+                        mPlayer.setOnPreparedListener(WelcomeActivity.this);
+                        mPlayer.prepare();
 
-                }catch (IOException e){
-                    Log.e(LOG_TAG, "ERROR: surfaceCreated error " + e.getMessage(), e);
-                    e.printStackTrace();
+                    } catch (IOException e) {
+                        Log.e(LOG_TAG, "ERROR: surfaceCreated error " + e.getMessage(), e);
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-            @Override
-            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+                @Override
+                public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 
-            }
+                }
 
-            @Override
-            public void surfaceDestroyed(SurfaceHolder holder) {
+                @Override
+                public void surfaceDestroyed(SurfaceHolder holder) {
 
-            }
-        });
+                }
+            });
+
+        }else{
+
+
+
+        }
 
         mWelcomeGetStartedButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +115,13 @@ public class WelcomeActivity extends AppCompatActivity implements MediaPlayer.On
 
         mTabLayout.setupWithViewPager(mViewPager, true);
         mViewPager.setAdapter(new WelcomePagerAdapter(this));
-        pageSwitcher(TIMESECONDS);
+
+        //Backwards Compatibility
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            pageSwitcher(TIMESECONDS);
+        }else{
+
+        }
     }
 
     private void pageSwitcher(int seconds){
