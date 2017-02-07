@@ -25,9 +25,15 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:maxWidth="320dp"
         android:background="@color/color_icons_text"
         android:fitsSystemWindows="true"
         app:menu="@menu/drawer_menu"
-        app:headerLayout="@layout/nav_header"/>
+        app:headerLayout="@layout/nav_header"
+        app:itemTextAppearance="@style/TextAppearance.AppCompat.Menu"
+        app:itemIconTint="@color/drawer_menu_icon_tint"
+        app:itemTextColor="@color/drawer_menu_text_color"
+        app:itemBackground="@drawable/drawer_menu_background_color"
+        app:elevation="2dp"/>
 
 </android.support.v4.widget.DrawerLayout>
