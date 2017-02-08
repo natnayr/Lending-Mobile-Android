@@ -18,5 +18,12 @@ public class ConstantVariables {
     public static final String PREF_KEY_USER_LOGOUT_KEY = "USER_LOGOUT_KEY";
 
     public static final String APP_LANG_SET = "en";
+    public static final String PDF_CONTENT_TYPE = "application/pdf";
+
+    public static final String IN_SEC_COLLATERAL = "Collateral";
+    public static final String IN_SEC_UNCOLLATERALIZED = "Uncollateralized";
+    public static final String IN_SEC_INVOICE_OR_CHEQUE = "Working Order/Invoice";
+
+    public static final String OUT_DATE_TIME_FORMAT = "dd MMM yyyy";
 
 }

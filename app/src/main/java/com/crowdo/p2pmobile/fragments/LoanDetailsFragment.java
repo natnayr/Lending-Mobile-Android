@@ -49,7 +49,16 @@ import rx.schedulers.Schedulers;
  */
 public class LoanDetailsFragment extends Fragment {
 
-    @BindColor(R.color.color_icons_text) int colorIconText;
+    @BindColor(R.color.color_icons_text) int mColorIconText;
+
+    @BindString(R.string.downloading_label) String mLabelToastDownloading;
+    @BindString(R.string.loan_detail_prog_snackbar_error_reading_pdf) String mLabelSnackPDFReadError;
+    @BindString(R.string.intent_file_chooser) String mLabelIntentChooser;
+    @BindString(R.string.loan_detail_prog_snackbar_bid_too_low_label) String mLabelBidTooLow;
+    @BindString(R.string.loan_detail_prog_snackbar_bid_too_high_label) String mLabelBidTooHigh;
+    @BindString(R.string.loan_detail_prog_snackbar_approved_investor_only) String mLabelApprovedInvestorOnly;
+    @BindString(R.string.okay_label) String mLabelOkay;
+    @BindString(R.string.open_label) String mLabelOpen;
 
     private static final String LOG_TAG = LoanDetailsFragment.class.getSimpleName();
     public static final String TAG_LOAN_DETAILS_FRAGMENT = "LOAN_DETAILS_FRAGMENT_TAG";
@@ -124,7 +133,7 @@ public class LoanDetailsFragment extends Fragment {
 
                 if(initLoanId >= 0) {
                     Toast toast = Toast.makeText(getActivity(),
-                            "Downloading...", Toast.LENGTH_SHORT);
+                            mLabelToastDownloading, Toast.LENGTH_SHORT);
 
                     toast.setGravity(Gravity.TOP, 0, 0);
                     toast.show();
@@ -146,17 +155,17 @@ public class LoanDetailsFragment extends Fragment {
                             public void onNext(final File file) {
                                 final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
                                             file.getName(),
-                                            colorIconText, Snackbar.LENGTH_LONG);
+                                        mColorIconText, Snackbar.LENGTH_LONG);
 
-                                snackbar.setAction("OPEN", new View.OnClickListener() {
+                                snackbar.setAction(mLabelOpen, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         Intent intent = new Intent(Intent.ACTION_VIEW);
-                                        intent.setDataAndType(Uri.fromFile(file), "application/pdf");
+                                        intent.setDataAndType(Uri.fromFile(file), ConstantVariables.PDF_CONTENT_TYPE);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY
                                                 | Intent.FLAG_ACTIVITY_NEW_TASK
                                                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        Intent chooserIntent = Intent.createChooser(intent, "Open With");
+                                        Intent chooserIntent = Intent.createChooser(intent, mLabelIntentChooser);
 
                                         try{
                                             startActivity(chooserIntent);
@@ -164,9 +173,9 @@ public class LoanDetailsFragment extends Fragment {
                                             Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
 
                                             final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
-                                                    "Having an issue reading pdf file",
-                                                    colorIconText);
-                                            snackbar.setAction("OK", new View.OnClickListener() {
+                                                    mLabelSnackPDFReadError,
+                                                    mColorIconText, Snackbar.LENGTH_LONG);
+                                            snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
                                                     snackbar.dismiss();
@@ -265,9 +274,9 @@ public class LoanDetailsFragment extends Fragment {
 
             if(approvedToInvest == false){
                 final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
-                        "Only approved investors are able to invest on Crowdo platform",
-                        colorIconText);
-                snackbar.setAction("OK", new View.OnClickListener() {
+                        mLabelApprovedInvestorOnly,
+                        mColorIconText);
+                snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         snackbar.dismiss();
@@ -280,10 +289,10 @@ public class LoanDetailsFragment extends Fragment {
 
             if(unitBidAmount <= 0 ) {
                 final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
-                        "Please key in BID Amount greater than 0",
-                        colorIconText);
+                        mLabelBidTooLow,
+                        mColorIconText);
 
-                snackbar.setAction("OK", new View.OnClickListener() {
+                snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         snackbar.dismiss();
@@ -295,9 +304,9 @@ public class LoanDetailsFragment extends Fragment {
             }else if(mLoanDetail.fundingAvalibleAmount < biddingAmount){
 
                 final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
-                        "Sorry, Bid amount entered is too high",
-                        colorIconText);
-                snackbar.setAction("OK", new View.OnClickListener() {
+                        mLabelBidTooHigh,
+                        mColorIconText);
+                snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         snackbar.dismiss();
@@ -332,8 +341,13 @@ public class LoanDetailsFragment extends Fragment {
          */
         @BindView(android.R.id.message) TextView memberCheckEmailTextView;
         @BindView(android.R.id.edit) EditText memberCheckEmailEditText;
-        @BindString(R.string.member_check_email_dialog_label) String memberCheckEmailDialogLabel;
-        @BindString(R.string.pref_user_email_default_value) String memberCheckEmailDialogDefaultValue;
+
+        @BindString(R.string.member_check_email_dialog_label) String mMemberCheckEmailDialogLabel;
+        @BindString(R.string.pref_user_email_default_value) String mMemberCheckEmailDialogDefaultValue;
+        @BindString(R.string.sign_up_label) String mSignUpLabel;
+        @BindString(R.string.proceed_label) String mProceedLabel;
+        @BindString(R.string.cancel_label) String mCancelLabel;
+
         public void dialogEmailPrompt(final Context context){
 
             Log.d(LOG_TAG, "APP: Email Dialog Triggered");
@@ -342,14 +356,14 @@ public class LoanDetailsFragment extends Fragment {
             ButterKnife.bind(this, dialogView);
 
             // setting dialog layout
-            memberCheckEmailTextView.setText(memberCheckEmailDialogLabel);
+            memberCheckEmailTextView.setText(mMemberCheckEmailDialogLabel);
 
             AlertDialog.Builder alertDialogBuilderInput = new AlertDialog.Builder(context);
             alertDialogBuilderInput.setView(dialogView);
 
             alertDialogBuilderInput
                     .setCancelable(true)
-                    .setNegativeButton("Sign Up", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(mSignUpLabel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent browserIntent = new Intent(Intent.ACTION_VIEW,
@@ -358,7 +372,7 @@ public class LoanDetailsFragment extends Fragment {
                             startActivity(browserIntent);
                         }
                     })
-                    .setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(mProceedLabel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int id) {
 
@@ -398,7 +412,7 @@ public class LoanDetailsFragment extends Fragment {
                         dialogInterface.dismiss();
 
                         }
-                    }).setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    }).setNeutralButton(mCancelLabel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int id) {
                             dialogInterface.cancel();

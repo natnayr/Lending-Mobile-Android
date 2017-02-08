@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_marginLeft="@dimen/list_mid_left_margin"
-    android:layout_marginRight="@dimen/list_mid_right_margin">
+    android:layout_marginStart="@dimen/list_mid_left_margin"
+    android:layout_marginEnd="@dimen/list_mid_right_margin">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,19 +17,18 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_centerInParent="true"
-            android:layout_alignParentLeft="true">
+            android:layout_alignParentStart="true">
             <TextView
                 android:id="@+id/loan_item_percentage_return"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/list_figure_text_size"
-                android:text="26.0"
                 android:textColor="@color/color_accent"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/list_small_text_size"
-                android:text="%"
+                android:text="@string/percent_label"
                 android:textColor="@color/color_accent" />
         </LinearLayout>
 
@@ -39,7 +38,6 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/list_figure_text_size"
             android:textColor="@color/color_primary_text"
-            android:text="9"
             android:layout_centerInParent="true" />
 
 
@@ -47,10 +45,8 @@
             android:id="@+id/loan_item_collateral_icon_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerInParent="true"
-            android:src="@drawable/ic_shield_outline_black_38dp"
             android:tint="@color/fa_icon_shield"/>
 
     </RelativeLayout>
@@ -63,15 +59,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/list_small_text_size"
-            android:text="Return"
+            android:text="@string/loan_list_percentage_return_label"
             android:textColor="@color/color_accent"
-            android:layout_alignParentLeft="true"/>
+            android:layout_alignParentStart="true"/>
 
         <TextView
-            android:id="@+id/loan_item_tenure_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/list_small_text_size"
+            android:text="@string/loan_list_tenure_label"
             android:textColor="@color/color_primary_text"
             android:layout_centerHorizontal="true"
             android:gravity="center"/>
@@ -80,10 +76,9 @@
             android:id="@+id/loan_item_collateral_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Jewelry"
             android:textSize="@dimen/list_small_text_size"
             android:textColor="@color/color_primary_text"
-            android:gravity="right"
-            android:layout_alignParentRight="true"/>
+            android:gravity="end"
+            android:layout_alignParentEnd="true"/>
     </RelativeLayout>
 </LinearLayout>

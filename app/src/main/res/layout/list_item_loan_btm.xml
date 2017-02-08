@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:orientation="horizontal"
-    android:layout_alignParentLeft="true"
-    android:layout_marginLeft="@dimen/list_mid_left_margin"
+    android:layout_alignParentStart="true"
+    android:layout_marginStart="@dimen/list_mid_left_margin"
     android:layout_marginTop="@dimen/list_btm_top_margin"
     android:layout_marginBottom="@dimen/list_btm_btm_margin">
 
@@ -15,7 +15,8 @@
         android:layout_width="wrap_content"
         android:src="@drawable/ic_cash_multiple_black_12dp"
         android:tint="@color/color_secondary_text"
-        android:paddingRight="6dp"
+        android:paddingStart="@dimen/list_btm_content_left_margin"
+        android:paddingEnd="@dimen/list_btm_content_spacing_margin"
         android:layout_gravity="center_vertical"/>
 
     <TextView

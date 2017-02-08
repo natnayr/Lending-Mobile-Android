@@ -46,6 +46,5 @@
         android:layout_marginLeft="@dimen/list_top_box_horizontal_padding"
         android:layout_marginRight="@dimen/list_top_box_horizontal_padding"
         android:paddingTop="@dimen/list_top_vertical_padding"
-        android:paddingBottom="@dimen/list_top_vertical_padding"
-        android:text=""/>
+        android:paddingBottom="@dimen/list_top_vertical_padding"/>
 </LinearLayout>

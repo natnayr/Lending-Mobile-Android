@@ -24,6 +24,8 @@ import com.crowdo.p2pmobile.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pmobile.helpers.SnackBarUtil;
 
 import java.util.Map;
+
+import butterknife.BindString;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -42,6 +44,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
     public static final String TAG_SETTINGS_FRAGMENT = "LOAN_DETAILS_FRAGMENT_TAG";
     private Subscription memberCheckSubscription;
 
+    @BindString(R.string.okay_label) String mLabelOkay;
+    @BindString(R.string.pref_user_session_clear_label) String mLabelSessionClear;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -65,8 +69,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
                 int colorIconText = ContextCompat.getColor(getContext(), R.color.color_icons_text);
 
                 final Snackbar snackBarOnNext = SnackBarUtil.snackBarCreate(getView(),
-                        "Cleared", colorIconText);
-                snackBarOnNext.setAction("OK", new View.OnClickListener() {
+                        mLabelSessionClear, colorIconText);
+                snackBarOnNext.setAction(mLabelOkay, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         snackBarOnNext.dismiss();

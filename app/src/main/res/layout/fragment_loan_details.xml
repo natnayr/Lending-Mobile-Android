@@ -63,7 +63,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal" />
+            android:gravity="center_horizontal"/>
 
     </LinearLayout>
 
@@ -176,7 +176,7 @@
         android:layout_marginBottom="@dimen/loan_detail_vertical_bracket_margin"
         android:layout_below="@+id/loan_detail_secondary_group">
         <TextView
-            android:id="@+id/loan_detail_tenure_description"
+
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -184,6 +184,7 @@
             android:textColor="@color/color_primary_text"
             android:layout_gravity="center_vertical"
             android:gravity="center"
+            android:text="@string/loan_detail_tenure_label"
             android:fontFamily="@string/font_family_regular"/>
         <TextView
             android:layout_width="0dp"
@@ -228,6 +229,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/loan_detail_small_text_size"
+            android:text="@string/loan_detail_schedule_header_string"
             android:textColor="@color/color_secondary_text"/>
     </LinearLayout>
 
@@ -313,7 +315,7 @@
                 android:padding="10dp"
                 android:text="@string/loan_detail_enter_amount_unit_zeros_idr"
                 android:textSize="20sp"
-                android:gravity="start"/>
+                android:gravity="start" />
         </LinearLayout>
         <ImageButton
             android:id="@+id/loan_detail_amount_plus_btn"
@@ -507,7 +509,7 @@
         </RelativeLayout>
 
         <ImageView
-            android:id="@+id/loan_detail_schedule_angle_right_first_icon_container"
+            android:id="@+id/loan_detail_schedule_angle_right_second_icon_container"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

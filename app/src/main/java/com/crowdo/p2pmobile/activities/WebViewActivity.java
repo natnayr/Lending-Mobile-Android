@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -37,6 +38,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import butterknife.BindColor;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import im.delight.android.webview.AdvancedWebView;
@@ -56,7 +58,17 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
     @BindView(R.id.webview_swipe_container) SwipeRefreshLayout swipeContainer;
     @BindView(R.id.webview_progress_bar) ProgressBar mProgressBar;
     @BindView(R.id.webview_root) CoordinatorLayout rootView;
+
     @BindColor(R.color.color_icons_text) int colorIconText;
+
+    @BindString(R.string.downloading_label) String mLabelDownloading;
+    @BindString(R.string.okay_label) String mLabelOkay;
+    @BindString(R.string.open_label) String mLabelOpen;
+    @BindString(R.string.intent_file_chooser) String mLabelIntentFile;
+    @BindString(R.string.webview_unable_open_file) String mLabelErrorOpenFile;
+    @BindString(R.string.webview_download_to) String mLabelDownloadedTo;
+    @BindString(R.string.webview_unable_external_drive) String mLabelNoExternalDrive;
+
     @InjectExtra public int id;
     @InjectExtra public String url;
 
@@ -88,8 +100,10 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
             @Override
             public void onPermissionRequest(PermissionRequest request) {
-                Log.d(LOG_TAG, "APP: Permission Requested");
-                request.grant(request.getResources());
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Log.d(LOG_TAG, "APP: Permission Requested");
+                    request.grant(request.getResources());
+                }
             }
         });
 
@@ -174,9 +188,9 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
         if(!PermissionsUtil.checkPermission(this,
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE)){
             final Snackbar snackBar = SnackBarUtil
-                    .snackBarCreate(rootView, "Unable to write to external Drive",
+                    .snackBarCreate(rootView, mLabelNoExternalDrive,
                             colorIconText, Snackbar.LENGTH_LONG);
-            snackBar.setAction("OK", new View.OnClickListener() {
+            snackBar.setAction(mLabelOkay, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     snackBar.dismiss();
@@ -192,7 +206,7 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
                     .getMimeTypeFromExtension(extension);
         }
 
-        Toast.makeText(this, "Downloading...",
+        Toast.makeText(this, mLabelDownloading,
                 Toast.LENGTH_SHORT).show();
 
         final String usageMimeType = mimeType;
@@ -216,11 +230,11 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
                         Log.d(LOG_TAG, "APP: file is now in " + s);
 
                         final Snackbar snackbar = SnackBarUtil
-                                .snackBarCreate(rootView, "Downloaded to " + s,
+                                .snackBarCreate(rootView, mLabelDownloadedTo + s,
                                 colorIconText, Snackbar.LENGTH_LONG);
 
 
-                        snackbar.setAction("OPEN", new View.OnClickListener() {
+                        snackbar.setAction(mLabelOpen, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 try {
@@ -231,17 +245,17 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY
                                             | Intent.FLAG_ACTIVITY_NEW_TASK
                                             | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    Intent chooserIntent = Intent.createChooser(intent, "Open With");
+                                    Intent chooserIntent = Intent.createChooser(intent, mLabelIntentFile);
 
 
                                     startActivity(chooserIntent);
                                 }catch(URISyntaxException ue){
                                     Log.e(LOG_TAG, "ERROR: " + ue.getMessage(), ue);
                                     final Snackbar snackbar = SnackBarUtil.snackBarCreate(rootView,
-                                            "Error, reading file",
+                                            mLabelErrorOpenFile,
                                             colorIconText);
 
-                                    snackbar.setAction("OK", new View.OnClickListener() {
+                                    snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
                                             snackbar.dismiss();
@@ -250,11 +264,10 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
                                 }catch (ActivityNotFoundException anfe){
                                     Log.e(LOG_TAG, "ERROR: " + anfe.getMessage(), anfe);
                                     final Snackbar snackbar = SnackBarUtil.snackBarCreate(rootView,
-                                            "Error, you do not seem to have a PDF Reader installed, " +
-                                                    "moving file to downloads",
+                                            mLabelErrorOpenFile,
                                             colorIconText);
 
-                                    snackbar.setAction("OK", new View.OnClickListener() {
+                                    snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
                                             snackbar.dismiss();

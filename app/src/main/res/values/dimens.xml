@@ -28,6 +28,9 @@
     <dimen name="list_btm_top_margin">4dp</dimen>
     <dimen name="list_btm_btm_margin">4dp</dimen>
 
+    <dimen name="list_btm_content_left_margin">0dp</dimen>
+    <dimen name="list_btm_content_spacing_margin">4dp</dimen>
+
     <dimen name="loan_detail_small_text_size">12sp</dimen>
     <dimen name="loan_detail_figure_text_size">38sp</dimen>
 

@@ -5,6 +5,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.helpers.ConstantVariables;
 import com.crowdo.p2pmobile.helpers.HardwareUtils;
 
@@ -74,27 +75,33 @@ public class LoanFactSheetClient {
             @Override
             public void call(Subscriber<? super File> subscriber) {
                 try {
-                    String nowTime = DateTime.now().toString("yyyy-MM-dd");
-                    String header = response.headers().get("Content-Disposition");
+                    String header = response.headers().get("Content-Disposition")
+                            .replace("attachment; filename=", "")
+                            .replace("\"", "");
                     Log.d(LOG_TAG, "APP: header = [" + header + "]");
-                    String fileName = "FactSheet-" + loanId + "-" + nowTime + ".pdf";
+                    String fileName = header;
 
                     File finalFile, externalRoot;
                     if(HardwareUtils.isExternalStorageReadableAndWritable()){
+                        Log.d(LOG_TAG, "APP: isExternalStorageReadableAndWritable() is true");
                         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                            //if external cacahe temp storage is avalible
-                            externalRoot = mContext.getExternalCacheDir().getAbsoluteFile();
-                        }else{
                             //if not, then store in external downloads directory
+                            Log.d(LOG_TAG, "APP: Shared/External Storage Directory set as root");
                             externalRoot = Environment
                                     .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
                                     .getAbsoluteFile();
+                        }else{
+                            //if external cacahe temp storage is avalible
+                            Log.d(LOG_TAG, "APP: External Storage Cache Directory set as root");
+                            externalRoot = mContext.getExternalCacheDir().getAbsoluteFile();
                         }
                         finalFile = new File(externalRoot, fileName);
                     }else{
+                        Log.d(LOG_TAG, "APP: isExternalStorageReadableAndWritable() is false");
+
                         //last hope
-                        Toast.makeText(mContext,
-                                "External storage is missing, downloading to Internal Downloads Folder",
+                        Toast.makeText(mContext, mContext.getString(
+                                R.string.loan_detail_factsheet_prog_toast_external_storage_miss),
                                 Toast.LENGTH_LONG).show();
                         finalFile = new File(mContext.getFilesDir(), fileName);
                     }

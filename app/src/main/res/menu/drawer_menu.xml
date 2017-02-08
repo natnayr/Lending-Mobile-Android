@@ -6,12 +6,12 @@
             android:id="@+id/nav_drawer_loan_list"
             android:checked="true"
             android:icon="@drawable/ic_gavel_black_24dp"
-            android:title="Loan Investments"/>
+            android:title="@string/activity_loan_list_action_bar_label"/>
         <item
             android:id="@+id/nav_drawer_settings"
             android:checked="false"
             android:icon="@drawable/ic_settings_black_24dp"
-            android:title="Settings"/>
+            android:title="@string/activity_settings_action_bar_label"/>
 
         <!--<item-->
             <!--android:id="@+id/drawer_menu_subheader"-->

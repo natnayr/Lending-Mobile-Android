@@ -44,7 +44,7 @@
             android:id="@+id/welcome_get_started_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Get Started"
+            android:text="@string/welcome_btn_label"
             android:textSize="@dimen/welcome_btn_text_size"
             android:textColor="@drawable/welcome_get_started_btn_text"
             android:fontFamily="@string/font_family_regular"

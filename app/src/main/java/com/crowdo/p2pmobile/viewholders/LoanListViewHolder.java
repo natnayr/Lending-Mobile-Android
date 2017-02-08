@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.data.LoanListItem;
+import com.crowdo.p2pmobile.helpers.ConstantVariables;
 import com.crowdo.p2pmobile.helpers.DateUtils;
 import com.crowdo.p2pmobile.helpers.NumericUtils;
 
@@ -26,22 +27,12 @@ import butterknife.ButterKnife;
 
 public class LoanListViewHolder {
 
-    private static final String IN_FREQUENCY_MONTH_VALUE = "Monthly";
-    private static final String OUT_FREQUENCY_MONTH_VALUE = "Months";
-
-    private static final String IN_SEC_COLLATERAL = "Collateral";
-    private static final String OUT_SEC_COLLATERAL = "";
-    private static final String IN_SEC_UNCOLLATERALIZED = "Uncollateralized";
-    private static final String OUT_SEC_UNCOLLATERALIZED = "No Collateral";
-    private static final String IN_SEC_INVOICE_OR_CHEQUE = "Working Order/Invoice";
-    private static final String OUT_SEC_INVOICE_OR_CHEQUE = "Working Order/\nInvoice";
 
     @BindView(R.id.loan_item_iden_no) TextView mLoanId;
     @BindView(R.id.loan_item_credit_grade_text) TextView mLoanGrade;
     @BindView(R.id.loan_item_days_left_and_percentage_funded) TextView mDaysLeftAndPercentage;
     @BindView(R.id.loan_item_percentage_return) TextView mPercentageReturn;
     @BindView(R.id.loan_item_tenure_amount) TextView mTermAmount;
-    @BindView(R.id.loan_item_tenure_description) TextView mTermDescription;
     @BindView(R.id.loan_item_collateral_description) TextView mSecurityDescription;
     @BindView(R.id.loan_item_amount) TextView mLoanAmount;
 
@@ -66,6 +57,12 @@ public class LoanListViewHolder {
     @BindDrawable(R.drawable.ic_shield_outline_black_38dp) Drawable mShieldOutlineIcon;
 
     @BindString(R.string.date_time_region) String DATE_TIME_REGION;
+    @BindString(R.string.loan_list_bid_status_closed) String BID_STATUS_CLOSED;
+    @BindString(R.string.loan_list_bid_status_open) String BID_STATUS_OPEN_DAYS;
+    @BindString(R.string.percent_label) String PERCENTAGE_LABEL;
+    @BindString(R.string.loan_list_out_sec_uncollateralized) String OUT_SEC_UNCOLLATERALIZED;
+    @BindString(R.string.loan_list_out_sec_invoice_or_cheque) String OUT_SEC_INVOICE_OR_CHEQUE;
+
 
     public LoanListViewHolder(Context mContext, View view){
         ButterKnife.bind(this, view);
@@ -96,36 +93,43 @@ public class LoanListViewHolder {
         int daysLeft = DateUtils.findDaysLeft(DATE_TIME_REGION, item.fundingEndDate);
 
         if(daysLeft<0){
-            mDaysLeftAndPercentage.setText("Closed - " + item.fundedPercentageCache + "% Funded");
+            mDaysLeftAndPercentage.setText(BID_STATUS_CLOSED +
+                    item.fundedPercentageCache +
+                    PERCENTAGE_LABEL);
         }else{
-            mDaysLeftAndPercentage.setText(daysLeft + " Days Left - " + item.fundedPercentageCache + "% Funded");
+            mDaysLeftAndPercentage.setText(daysLeft + BID_STATUS_OPEN_DAYS +
+                    item.fundedPercentageCache +
+                    PERCENTAGE_LABEL);
         }
 
         mPercentageReturn.setText(Double.toString(item.interestRate));
         mTermAmount.setText(Integer.toString(item.tenure));
 
-        //check if monthly is set differently
-        String termDescription = OUT_FREQUENCY_MONTH_VALUE;
-        if(!item.frequency.equals(IN_FREQUENCY_MONTH_VALUE))
-            termDescription = item.frequency;
-        mTermDescription.setText(termDescription);
 
         switch(item.security){
-            case IN_SEC_COLLATERAL:
+            case ConstantVariables.IN_SEC_COLLATERAL:
                 mSecurityIcon.setImageDrawable(mShieldOutlineIcon);
                 mSecurityIcon.setColorFilter(shieldColor);
-                mSecurityDescription.setText(WordUtils.wrap(
-                        WordUtils.capitalize(item.collateral.replaceAll("_", " ")), 15));
+                String collateralDesc = WordUtils.wrap(
+                        WordUtils.capitalize(item.collateral.replaceAll("_", " ")), 15);
+                mSecurityDescription.setText(collateralDesc);
+                mSecurityIcon.setContentDescription(collateralDesc);
                 break;
-            case IN_SEC_UNCOLLATERALIZED:
+            case ConstantVariables.IN_SEC_UNCOLLATERALIZED:
                 mSecurityIcon.setImageDrawable(mLockOpenIcon);
                 mSecurityIcon.setColorFilter(unlockAltColor);
-                mSecurityDescription.setText(OUT_SEC_UNCOLLATERALIZED);
+                mSecurityDescription.setText(
+                        OUT_SEC_UNCOLLATERALIZED);
+                mSecurityIcon.setContentDescription(
+                        OUT_SEC_UNCOLLATERALIZED);
                 break;
-            case IN_SEC_INVOICE_OR_CHEQUE:
+            case ConstantVariables.IN_SEC_INVOICE_OR_CHEQUE:
                 mSecurityIcon.setImageDrawable(mFileIcon);
                 mSecurityIcon.setColorFilter(fileColor);
-                mSecurityDescription.setText(OUT_SEC_INVOICE_OR_CHEQUE);
+                mSecurityDescription.setText(
+                        OUT_SEC_INVOICE_OR_CHEQUE);
+                mSecurityIcon.setContentDescription(
+                        OUT_SEC_INVOICE_OR_CHEQUE);
                 break;
         }
 
