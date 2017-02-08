@@ -82,7 +82,7 @@
     <string name="open_label">OPEN</string>
     <string name="sign_up_label">Sign Up</string>
     <string name="proceed_label">Proceed</string>
-    <string name="cancel_label">"Cancel"</string>
+    <string name="cancel_label">Cancel</string>
     <string name="intent_file_chooser">Open With</string>
 
     <string name="nav_drawer_open">Open navigation drawer</string>
