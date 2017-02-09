@@ -1,12 +1,19 @@
 package com.crowdo.p2pmobile;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.preference.PreferenceManager;
 
+import com.crowdo.p2pmobile.data.APIServices;
 import com.crowdo.p2pmobile.view.activities.WelcomeActivity;
 import com.crowdo.p2pmobile.helpers.ConstantVariables;
 import com.crowdo.p2pmobile.helpers.SharedPreferencesUtils;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import rx.Scheduler;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by cwdsg05 on 6/1/17.
@@ -14,13 +21,40 @@ import com.crowdo.p2pmobile.helpers.SharedPreferencesUtils;
 
 public class CrowdoApplication extends Application{
 
+    private APIServices apiServices;
+    private Scheduler scheduler;
+
+
     @Override
     public void onCreate() {
         super.onCreate();
         //first thing to do
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        redirectToWelcome(); //if need to redirect
 
+        //init mobile db
+        Realm.init(this);
+        RealmConfiguration config = new RealmConfiguration.Builder().build();
+        Realm.setDefaultConfiguration(config);
+
+        redirectToWelcome(); //if need to redirect
+    }
+
+    private static CrowdoApplication get(Context context){
+        return (CrowdoApplication) context.getApplicationContext();
+    }
+
+    public static CrowdoApplication create(Context context){
+        return CrowdoApplication.get(context);
+    }
+
+    public Scheduler subscribeScheduler(){
+        if(scheduler == null)
+            scheduler = Schedulers.io();
+        return scheduler;
+    }
+
+    public void setScheduler(Scheduler scheduler){
+        this.scheduler = scheduler;
     }
 
     private void redirectToWelcome(){
