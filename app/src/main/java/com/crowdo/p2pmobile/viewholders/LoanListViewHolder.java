@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.crowdo.p2pmobile.R;
-import com.crowdo.p2pmobile.data.LoanListItem;
+import com.crowdo.p2pmobile.model.LoanListItem;
 import com.crowdo.p2pmobile.helpers.ConstantVariables;
 import com.crowdo.p2pmobile.helpers.DateUtils;
 import com.crowdo.p2pmobile.helpers.NumericUtils;

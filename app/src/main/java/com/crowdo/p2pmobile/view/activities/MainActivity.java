@@ -1,4 +1,4 @@
-package com.crowdo.p2pmobile.activities;
+package com.crowdo.p2pmobile.view.activities;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -16,8 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.crowdo.p2pmobile.R;
-import com.crowdo.p2pmobile.fragments.LoanListFragment;
-import com.crowdo.p2pmobile.fragments.SettingsFragment;
+import com.crowdo.p2pmobile.view.fragments.LoanListFragment;
+import com.crowdo.p2pmobile.view.fragments.SettingsFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

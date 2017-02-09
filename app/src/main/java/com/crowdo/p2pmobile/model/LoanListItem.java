@@ -1,4 +1,4 @@
-package com.crowdo.p2pmobile.data;
+package com.crowdo.p2pmobile.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

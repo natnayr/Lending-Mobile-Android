@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/settings_content"
-        android:name="com.crowdo.p2pmobile.fragments.SettingsFragment"
+        android:name="com.crowdo.p2pmobile.view.fragments.SettingsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

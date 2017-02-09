@@ -1,4 +1,4 @@
-package com.crowdo.p2pmobile.activities;
+package com.crowdo.p2pmobile.view.activities;
 
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;

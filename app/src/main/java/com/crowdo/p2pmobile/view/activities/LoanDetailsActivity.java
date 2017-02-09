@@ -1,4 +1,4 @@
-package com.crowdo.p2pmobile.activities;
+package com.crowdo.p2pmobile.view.activities;
 
 import android.support.v4.app.Fragment;
 import android.content.Intent;
@@ -7,11 +7,9 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.crowdo.p2pmobile.R;
-import com.crowdo.p2pmobile.fragments.LoanDetailsFragment;
+import com.crowdo.p2pmobile.view.fragments.LoanDetailsFragment;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 

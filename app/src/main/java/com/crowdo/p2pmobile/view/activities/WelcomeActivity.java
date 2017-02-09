@@ -1,4 +1,4 @@
-package com.crowdo.p2pmobile.activities;
+package com.crowdo.p2pmobile.view.activities;
 
 import android.content.Context;
 import android.content.Intent;

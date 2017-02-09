@@ -5,12 +5,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.crowdo.p2pmobile.R;
-import com.crowdo.p2pmobile.data.RegisteredMemberCheck;
+import com.crowdo.p2pmobile.model.RegisteredMemberCheck;
 
 import org.apache.commons.lang3.text.WordUtils;
-
-import retrofit2.Response;
 
 /**
  * Created by cwdsg05 on 4/1/17.

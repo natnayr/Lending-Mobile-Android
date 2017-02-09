@@ -1,4 +1,4 @@
-package com.crowdo.p2pmobile.fragments;
+package com.crowdo.p2pmobile.view.fragments;
 
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -16,7 +16,7 @@ import android.webkit.CookieSyncManager;
 import android.webkit.ValueCallback;
 
 import com.crowdo.p2pmobile.R;
-import com.crowdo.p2pmobile.data.RegisteredMemberCheck;
+import com.crowdo.p2pmobile.model.RegisteredMemberCheck;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheckClient;
 import com.crowdo.p2pmobile.helpers.ConstantVariables;
 import com.crowdo.p2pmobile.helpers.PerformEmailIdentityCheckTemp;

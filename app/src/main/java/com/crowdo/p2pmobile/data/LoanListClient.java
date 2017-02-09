@@ -1,5 +1,6 @@
 package com.crowdo.p2pmobile.data;
 
+import com.crowdo.p2pmobile.model.LoanListItem;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

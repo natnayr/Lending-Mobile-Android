@@ -1,4 +1,4 @@
-package com.crowdo.p2pmobile.data;
+package com.crowdo.p2pmobile.model;
 
 /**
  * Created by cwdsg05 on 18/11/16.

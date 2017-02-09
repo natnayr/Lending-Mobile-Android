@@ -1,5 +1,9 @@
 package com.crowdo.p2pmobile.data;
 
+import com.crowdo.p2pmobile.model.LoanDetail;
+import com.crowdo.p2pmobile.model.LoanListItem;
+import com.crowdo.p2pmobile.model.RegisteredMemberCheck;
+
 import java.util.List;
 
 import okhttp3.ResponseBody;

@@ -1,9 +1,9 @@
 package com.crowdo.p2pmobile.data;
 
+import com.crowdo.p2pmobile.model.RegisteredMemberCheck;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;

@@ -14,13 +14,13 @@
         android:logo="@drawable/ic_key_logo"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.WelcomeActivity"
+            android:name=".view.activities.WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WelcomeTheme">
         </activity>
 
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".view.activities.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" >
@@ -32,21 +32,21 @@
         </activity>
 
         <activity
-            android:name=".activities.LoanDetailsActivity"
+            android:name=".view.activities.LoanDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.crowdo.p2pmobile.activities.MainActivity" />
+                android:value=".view.activities.MainActivity" />
         </activity>
 
         <activity
-            android:name=".activities.WebViewActivity"
+            android:name=".view.activities.WebViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.crowdo.p2pmobile.activities.LoanDetailsActivity" />
+                android:value=".view.activities.LoanDetailsActivity" />
         </activity>
     </application>
 
