@@ -27,79 +27,70 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="GENERAL"
-        android:textAllCaps="true"/>
-    
+        android:textAllCaps="true"
+        android:layout_below="@+id/learning_center_input_layout_search"/>
+
     <com.github.aakira.expandablelayout.ExpandableRelativeLayout
         android:id="@+id/learning_center_expand_layout_general"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/learning_center_input_layout_search"
+        android:layout_below="@id/learning_center_title_general"
         app:ael_expanded="false"
         app:ael_duration="500"
         app:ael_interpolator="bounce"
         app:ael_orientation="vertical">
-
-
-
         <ListView
             android:id="@+id/learning_center_list_view_general"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/learning_center_title_general"/>
-
-
+            android:layout_height="wrap_content"/>
     </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
+
+    <TextView
+        android:id="@+id/learning_center_title_investor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/learning_center_expand_layout_general"
+        android:text="INVESTOR"
+        android:textAllCaps="true"/>
     <com.github.aakira.expandablelayout.ExpandableRelativeLayout
         android:id="@+id/learning_center_expand_layout_investor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/learning_center_expand_layout_general"
+        android:layout_below="@id/learning_center_title_investor"
         app:ael_expanded="false"
         app:ael_duration="500"
         app:ael_interpolator="bounce"
         app:ael_orientation="vertical">
-
-        <TextView
-            android:id="@+id/learning_center_title_investor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="INVESTOR"
-            android:textAllCaps="true"/>
 
         <ListView
             android:id="@+id/learning_center_list_view_investor"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/learning_center_title_investor"/>
-
+            android:layout_height="wrap_content"/>
 
     </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
+
+    <TextView
+        android:id="@+id/learning_center_title_borrowers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/learning_center_expand_layout_investor"
+        android:text="Borrowers"
+        android:textAllCaps="true"/>
     <com.github.aakira.expandablelayout.ExpandableRelativeLayout
         android:id="@+id/learning_center_expand_layout_borrowers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/learning_center_expand_layout_investor"
+        android:layout_below="@id/learning_center_title_borrowers"
         app:ael_expanded="false"
         app:ael_duration="500"
         app:ael_interpolator="bounce"
         app:ael_orientation="vertical">
-
-        <TextView
-            android:id="@+id/learning_center_title_borrowers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Borrowers"
-            android:textAllCaps="true"/>
-
         <ListView
             android:id="@+id/learning_center_list_view_borrowers"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/learning_center_title_borrowers"/>
-
-
+            android:layout_height="wrap_content"/>
     </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
 
