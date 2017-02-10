@@ -3,9 +3,11 @@ package com.crowdo.p2pmobile;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.preference.PreferenceManager;
 
 import com.crowdo.p2pmobile.data.APIServices;
+import com.crowdo.p2pmobile.helpers.LearningCenterUtils;
 import com.crowdo.p2pmobile.view.activities.WelcomeActivity;
 import com.crowdo.p2pmobile.helpers.ConstantVariables;
 import com.crowdo.p2pmobile.helpers.SharedPreferencesUtils;
@@ -24,7 +26,6 @@ public class CrowdoApplication extends Application{
     private APIServices apiServices;
     private Scheduler scheduler;
 
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -32,9 +33,15 @@ public class CrowdoApplication extends Application{
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         //init mobile db
-        Realm.init(this);
-        RealmConfiguration config = new RealmConfiguration.Builder().build();
+        Realm.init(getApplicationContext());
+        RealmConfiguration config = new RealmConfiguration
+                .Builder()
+                .deleteRealmIfMigrationNeeded()
+                .build();
+
         Realm.setDefaultConfiguration(config);
+
+        initLoadLearningDB(this); //loadDB;
 
         redirectToWelcome(); //if need to redirect
     }
@@ -55,6 +62,16 @@ public class CrowdoApplication extends Application{
 
     public void setScheduler(Scheduler scheduler){
         this.scheduler = scheduler;
+    }
+
+    private void initLoadLearningDB(final Context context){
+        boolean loadedLearningCenterDB = SharedPreferencesUtils
+                .getSharedPrefBool(context,
+                        ConstantVariables.PREF_KEY_LOADED_LEARNINGCENTER_DB, false);
+
+        if(!loadedLearningCenterDB){
+            new LearningCenterUtils().populateData(context);
+        }
     }
 
     private void redirectToWelcome(){

@@ -94,11 +94,6 @@ public class WelcomeActivity extends AppCompatActivity implements MediaPlayer.On
 
                 }
             });
-
-        }else{
-
-
-
         }
 
         mWelcomeGetStartedButton.setOnClickListener(new View.OnClickListener() {

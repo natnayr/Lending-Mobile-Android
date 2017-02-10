@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="learning_center_categories_csv">
+        <item>General</item>
+        <item>Investor</item>
+        <item>Borrower</item>
+    </string-array>
+
+    <string-array name="learning_center_categories_display_en">
+        <item>General Enquires</item>
+        <item>Lender</item>
+        <item>Borrowers</item>
+        <item>Fees</item>
+        <item>Loan Documents</item>
+    </string-array>
+
+    <string-array name="learning_center_categories_display_id">
+        <item>Pertanyaan Umum</item>
+        <item>Kreditur</item>
+        <item>Peminjam</item>
+        <item>Biaya</item>
+        <item>Dokumen Pinjaman</item>
+    </string-array>
+</resources>
