@@ -41,8 +41,6 @@ public class CrowdoApplication extends Application{
 
         Realm.setDefaultConfiguration(config);
 
-        initLoadLearningDB(this); //loadDB;
-
         redirectToWelcome(); //if need to redirect
     }
 
@@ -62,16 +60,6 @@ public class CrowdoApplication extends Application{
 
     public void setScheduler(Scheduler scheduler){
         this.scheduler = scheduler;
-    }
-
-    private void initLoadLearningDB(final Context context){
-        boolean loadedLearningCenterDB = SharedPreferencesUtils
-                .getSharedPrefBool(context,
-                        ConstantVariables.PREF_KEY_LOADED_LEARNINGCENTER_DB, false);
-
-        if(!loadedLearningCenterDB){
-            new LearningCenterUtils().populateData(context);
-        }
     }
 
     private void redirectToWelcome(){

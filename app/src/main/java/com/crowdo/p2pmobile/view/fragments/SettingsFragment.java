@@ -47,7 +47,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     @BindString(R.string.okay_label) String mLabelOkay;
     @BindString(R.string.pref_user_session_clear_label) String mLabelSessionClear;
 
-    @SuppressWarnings("deprecation")
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

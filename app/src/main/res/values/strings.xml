@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name" translatable="false">Crowdo P2P</string>
-    <string name="activity_settings_action_bar_label">Settings</string>
-    <string name="activity_loan_list_action_bar_label">Investments</string>
-    <string name="activity_loan_detail_action_bar_label">Details</string>
-    <string name="activity_factsheet_action_bar_label">Fact-Sheet View (PDF)</string>
+    <string name="toolbar_title_settings">Settings</string>
+    <string name="toolbar_title_loan_list">Investments</string>
+    <string name="toolbar_title_loan_detail">Details</string>
+    <string name="toolbar_title_learning_center">Learning Center</string>
+    <string name="toolbar_title_factsheet">Fact-Sheet View (PDF)</string>
     <string name="date_time_region" translatable="false">Asia/Singapore</string>
 
     <string name="welcome_intro_1_head">Earn competitive returns</string>

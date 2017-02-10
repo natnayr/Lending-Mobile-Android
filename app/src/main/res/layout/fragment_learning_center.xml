@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/learning_center_input_layout_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Enter Search Here"
+            android:inputType="text"
+            android:gravity="start"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/learning_center_title_general"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GENERAL"
+        android:textAllCaps="true"/>
+    
+    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        android:id="@+id/learning_center_expand_layout_general"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/learning_center_input_layout_search"
+        app:ael_expanded="false"
+        app:ael_duration="500"
+        app:ael_interpolator="bounce"
+        app:ael_orientation="vertical">
+
+
+
+        <ListView
+            android:id="@+id/learning_center_list_view_general"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/learning_center_title_general"/>
+
+
+    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        android:id="@+id/learning_center_expand_layout_investor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/learning_center_expand_layout_general"
+        app:ael_expanded="false"
+        app:ael_duration="500"
+        app:ael_interpolator="bounce"
+        app:ael_orientation="vertical">
+
+        <TextView
+            android:id="@+id/learning_center_title_investor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="INVESTOR"
+            android:textAllCaps="true"/>
+
+        <ListView
+            android:id="@+id/learning_center_list_view_investor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/learning_center_title_investor"/>
+
+
+    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        android:id="@+id/learning_center_expand_layout_borrowers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/learning_center_expand_layout_investor"
+        app:ael_expanded="false"
+        app:ael_duration="500"
+        app:ael_interpolator="bounce"
+        app:ael_orientation="vertical">
+
+        <TextView
+            android:id="@+id/learning_center_title_borrowers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Borrowers"
+            android:textAllCaps="true"/>
+
+        <ListView
+            android:id="@+id/learning_center_list_view_borrowers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/learning_center_title_borrowers"/>
+
+
+    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+
+</RelativeLayout>

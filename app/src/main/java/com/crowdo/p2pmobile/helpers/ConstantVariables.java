@@ -20,7 +20,7 @@ public class ConstantVariables {
     public static final String APP_LANG_SET = "en";
     public static final String PDF_CONTENT_TYPE = "application/pdf";
 
-    public static final String LEARNING_CENTER_CSV_FILE_LOCATION = "FAQ_Template.json";
+    public static final String LEARNING_CENTER_CSV_FILE_LOCATION = "FAQ_template.csv";
     public static final String LEARNING_CENTER_DB_EN = "en";
     public static final String LEARNING_CENTER_DB_ID = "id";
 

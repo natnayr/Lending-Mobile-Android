@@ -71,8 +71,9 @@ dependencies {
     //DateTime Library
     compile 'joda-time:joda-time:2.9.6'
 
-    //commons
+    //commons lang
     compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'org.apache.commons:commons-csv:1.4'
 
     //Okio IO
     compile ('com.squareup.okio:okio:1.11.0')
@@ -84,5 +85,7 @@ dependencies {
     //Rx Downloader
     compile 'com.github.esafirm:RxDownloader:1.0.1'
 
+    //Expandable Layout
+    compile 'com.github.aakira:expandable-layout:1.6.0@aar'
 
 }

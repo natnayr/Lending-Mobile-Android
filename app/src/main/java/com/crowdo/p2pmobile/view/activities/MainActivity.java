@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.crowdo.p2pmobile.R;
+import com.crowdo.p2pmobile.view.fragments.LearningCenterFragment;
 import com.crowdo.p2pmobile.view.fragments.LoanListFragment;
 import com.crowdo.p2pmobile.view.fragments.SettingsFragment;
 
@@ -45,8 +46,8 @@ public class MainActivity extends AppCompatActivity{
         setSupportActionBar(mToolbar);
 
         //load first fragment
-        mToolbar.setTitle(getString(R.string.activity_loan_list_action_bar_label));
-        MainActivity.this.setTitle(getString(R.string.activity_loan_list_action_bar_label));
+        mToolbar.setTitle(getString(R.string.toolbar_title_loan_list));
+        MainActivity.this.setTitle(getString(R.string.toolbar_title_loan_list));
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.main_content, new LoanListFragment())
                 .commit();
@@ -80,6 +81,9 @@ public class MainActivity extends AppCompatActivity{
                 break;
             case R.id.nav_drawer_settings:
                 fragmentClass = SettingsFragment.class;
+                break;
+            case R.id.nav_drawer_learning_center:
+                fragmentClass = LearningCenterFragment.class;
                 break;
             default:
                 fragmentClass = LoanListFragment.class;

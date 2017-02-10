@@ -52,7 +52,7 @@ public class LoanListFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_loan_list, container, false);
 
-        mListView = (ListView) rootView.findViewById(R.id.listview_loans);;
+        mListView = (ListView) rootView.findViewById(R.id.listview_loans);
 
         swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeLoanListView);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
