@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.preference.PreferenceManager;
+import android.util.Log;
 
 import com.crowdo.p2pmobile.data.APIServices;
 import com.crowdo.p2pmobile.helpers.LearningCenterUtils;
@@ -25,6 +26,8 @@ public class CrowdoApplication extends Application{
 
     private APIServices apiServices;
     private Scheduler scheduler;
+    private Realm realm;
+    private static final String LOG_TAG = CrowdoApplication.class.getSimpleName();
 
     @Override
     public void onCreate() {
@@ -33,6 +36,8 @@ public class CrowdoApplication extends Application{
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         //init mobile db
+
+
         Realm.init(getApplicationContext());
         RealmConfiguration config = new RealmConfiguration
                 .Builder()
@@ -40,6 +45,8 @@ public class CrowdoApplication extends Application{
                 .build();
 
         Realm.setDefaultConfiguration(config);
+        realm = Realm.getDefaultInstance();
+        Log.d(LOG_TAG, "APP: Realm DB configured");
 
         redirectToWelcome(); //if need to redirect
     }
@@ -72,5 +79,11 @@ public class CrowdoApplication extends Application{
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onTerminate() {
+        realm.close();
+        super.onTerminate();
     }
 }

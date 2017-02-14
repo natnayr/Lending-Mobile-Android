@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="lcvm"
+            type="com.crowdo.p2pmobile.viewmodel.LearningCenterViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/item_learning_canter_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_learning_center_questions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{lcvm.question}"
+                android:layout_alignParentTop="true"/>
+
+            <com.github.aakira.expandablelayout.ExpandableLinearLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/item_learning_center_expand_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:ael_expanded="false"
+                app:ael_duration="500"
+                app:ael_interpolator="fastOutLinearIn">
+                <TextView
+                    android:id="@+id/item_learning_center_answer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{lcvm.answer}"
+                    android:textColor="@color/color_primary"/>
+            </com.github.aakira.expandablelayout.ExpandableLinearLayout>
+    </LinearLayout>
+
+</layout>

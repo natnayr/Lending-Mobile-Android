@@ -23,6 +23,9 @@ public class ConstantVariables {
     public static final String LEARNING_CENTER_CSV_FILE_LOCATION = "FAQ_template.csv";
     public static final String LEARNING_CENTER_DB_EN = "en";
     public static final String LEARNING_CENTER_DB_ID = "id";
+    public static final String LEARNING_CENTER_DB_CATEGORY_KEY_GENERAL = "General";
+    public static final String LEARNING_CENTER_DB_CATEGORY_KEY_INVESTOR = "Investor";
+    public static final String LEARNING_CENTER_DB_CATEGORY_KEY_BORROWER = "Borrower";
 
     public static final String IN_SEC_COLLATERAL = "Collateral";
     public static final String IN_SEC_UNCOLLATERALIZED = "Uncollateralized";

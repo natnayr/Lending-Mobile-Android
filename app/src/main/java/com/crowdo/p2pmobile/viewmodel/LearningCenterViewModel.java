@@ -1,22 +1,32 @@
 package com.crowdo.p2pmobile.viewmodel;
 
 import android.content.Context;
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.support.annotation.NonNull;
-import java.util.Observable;
-
-import rx.Subscription;
+import com.crowdo.p2pmobile.model.LearningCenter;
 
 /**
  * Created by cwdsg05 on 9/2/17.
  */
 
-public class LearningCenterViewModel extends Observable{
+public class LearningCenterViewModel extends BaseObservable{
 
-    private Context context;
-    private Subscription subscription;
+    private Context mContext;
+    private LearningCenter learningCenter;
 
-    public LearningCenterViewModel(@NonNull Context context){
-        this.context = context;
+    public LearningCenterViewModel(LearningCenter learningCenter, @NonNull Context context){
+        this.learningCenter = learningCenter;
+        this.mContext = context;
     }
+
+    @Bindable
+    public String getQuestion(){
+        return learningCenter.getQuestion();
+    }
+
+    @Bindable
+    public String getAnswer() { return learningCenter.getAnswer(); }
+
 
 }
