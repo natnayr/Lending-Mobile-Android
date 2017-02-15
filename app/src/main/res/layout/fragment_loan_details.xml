@@ -19,7 +19,8 @@
         android:textColor="@color/color_secondary_text"
         android:textSize="@dimen/loan_detail_small_text_size"
         android:fontFamily="@string/font_family_regular"
-        android:layout_marginTop="@dimen/loan_detail_vertical_bracket_margin" />
+        android:layout_marginTop="@dimen/loan_detail_vertical_bracket_margin"
+        android:textIsSelectable="true"/>
 
     <LinearLayout
         android:id="@+id/loan_detail_essentials_group"

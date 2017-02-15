@@ -91,5 +91,4 @@ dependencies {
 
     //Expandable Layout
     compile 'com.github.aakira:expandable-layout:1.6.0@aar'
-
 }

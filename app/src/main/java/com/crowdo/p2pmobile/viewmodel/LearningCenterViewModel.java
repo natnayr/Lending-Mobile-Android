@@ -9,7 +9,6 @@ import com.crowdo.p2pmobile.model.LearningCenter;
 /**
  * Created by cwdsg05 on 9/2/17.
  */
-
 public class LearningCenterViewModel extends BaseObservable{
 
     private Context mContext;
@@ -30,5 +29,4 @@ public class LearningCenterViewModel extends BaseObservable{
 
     @Bindable
     public String getIndex() { return learningCenter.getIndex(); }
-
 }

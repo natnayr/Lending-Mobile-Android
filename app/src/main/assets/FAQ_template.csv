@@ -12,9 +12,9 @@ General,Does Crowdo advise as to where to invest?,"No. Crowdo is not authorized 
 General,Is Crowdo a fund?,"No. When investors invest in a Loan through Crowdo, they invest solely in the Loans that they've chosen. However, we occasionally make Loans available for individual investment funds looking to invest in a pool of to-be-selected businesses Loans.",,Apakah Crowdo memberikan dana?,"Tidak. Ketika investor berinvestasi di pinjaman Crowdo mereka hanya berinvestasi di Pinjaman yang mereka pilih. Namun, terkadang kami menyediakan pinjaman untuk dana investasi perorangan yang ingin berinvestasi di kumpulan pinjaman bisnis yang akan dipilih."
 General,Is Crowdo authorised and regulated to operate in Indonesia?,Yes. Crowdo has received legal opinion that the current business model is compliant with current regulations within its respective jurisdictions.,,Apakah Crowdo resmi dan sudah diregulasi untuk beroperasi di Indonesia?,Ya. Crowdo telah menerima pendapat hukum bahwa model bisnis saat ini telah mematuhi peraturan yang berlaku dalam yurisdiksi masing-masing.
 General,Is Crowdo authorised and regulated to operate in Singapore?,Yes. Crowdo is a Capital Market Service License holder approved by the Monetary Authority of Singapore.,,Apakah Crowdo resmi dan sudah diregulasi untuk beroperasi di Singapura?,Ya. Crowdo telah memegang Lisensi Layanan Pasar Modal disetujui oleh Otoritas Moneter Singapura.
-General,What is the difference between Crowdo International Platform and Crowdo Indonesian Platform?,"From the Investors' perspective, Crowdo International Platform currently is only open to Accredited Investors (link to explanation) and Institutional Investors (link to explanation). Crowdo's Indonesian Platform is available for everyone.
+General,What is the difference between Crowdo International Platform and Crowdo Indonesian Platform?,"From the Investors' perspective, Crowdo International Platform currently is only open to Accredited Investors and Institutional Investors. Crowdo's Indonesian Platform is available for everyone.
 
-In terms of Borrowers, Crowdo International Platform is available for SMEs worldwide while Crowdo Indonesian Platform is only for Indonesian SMEs and Citizens.",,Apa perbedaan antara Platform Crowdo Internasional dan Platform Crowdo Indonesia ?,"Dari sudut pandang investor, platform Crowdo Internasional saat ini hanya terbuka untuk investor Terakreditasi (link to explanation) dan Investor Institusional (link to explanation). Platform Crowdo Indonesia ini tersedia untuk semua orang.
+In terms of Borrowers, Crowdo International Platform is available for SMEs worldwide while Crowdo Indonesian Platform is only for Indonesian SMEs and Citizens.",,Apa perbedaan antara Platform Crowdo Internasional dan Platform Crowdo Indonesia ?,"Dari sudut pandang investor, platform Crowdo Internasional saat ini hanya terbuka untuk investor Terakreditasi dan Investor Institusional. Platform Crowdo Indonesia ini tersedia untuk semua orang.
  Untuk Peminjam, platform Crowdo Internasional tersedia untuk UKM dari seluruh dunia, sedangkan Platform Crowdo Indonesia diperuntukkan bagi UKM dan Warga Negara Indonesia."
 ,,,,,
 ,Borrower,,,Peminjam,
@@ -44,7 +44,8 @@ Borrower,What is the tax implication for Borrowers?,"Note: The following does no
  
 For Indonesian-based Borrower:
 If Borrower borrows from Indonesia Resident Investors there is no applicable tax arising specifically from the loan as long as it is recognized as an expense and the money are loaned by Indonesia Resident Investors. However, if the borrower defaults on their loan, they will be required to recognize the loan as income on their tax reporting.
-If Borrower borrows from Non Indonesia Resident Investors, the interest payments from borrower to Non Indonesian Resident investors would be deemed as income originated in Indonesia and subject to withholding tax of 20% (domestic) or 10% under most of Indonesia's DTAs. The liability to withhold rests with borrower. 
+If Borrower borrows from Non Indonesia Resident Investors
+, the interest payments from borrower to Non Indonesian Resident investors would be deemed as income originated in Indonesia and subject to withholding tax of 20% (domestic) or 10% under most of Indonesia's DTAs. The liability to withhold rests with borrower. 
  
 For Singapore-based Borrower:
 If Borrower borrows from Singapore Resident Investors there is no applicable tax arising specifically from the loan as long as it is recognized as an expense and the money are loaned by Singapore Resident Investors. 
@@ -58,10 +59,11 @@ If Borrower borrows from Non Singapore Resident Investors, the interest payments
  Jika peminjam meminjam dari investor penduduk Singapore, tidak akan ada pajak khusus dari pinjaman tersebut selama pinjaman tersebut dihitung sebagai pengeluaran dan uang yang dipinjamkan berasal dari Investor asli Singapore."
 ,,,,,
 ,Investor,,,Investor,
-Investor,Who can become an Investor?,"By submitting required information via Crowdo website, everyone can become a Crowdo Indonesian Platform Investor while only Accredited Investor (AI) or Institutional Investor (II) can become a Crowdo International Platform Investor. To begin the application process, signup and login to the website and click on the ""Become Investor"" link. Once your application has been approved, you will be a Qualified Investor and you will be able to start making investment. To declare yourself to be an AI or II, please click on ""Accredidation"".",,Siapa yang bisa menjadi Investor?,"Dengan menyerahkan informasi yang dibutuhkan melalui website Crowdo, semuanya dapat menjadi Investor di website Crowdo Indonesia sementara hanya Investor terakreditasi (AI) atau Institusi Investor (II) dapat menjadi Investor Internasional Crowdo. Untuk memulai proses pengajuan, daftar dan masuk ke website lalu klik Link ""Menjadi Investor"". Setelah proses permohonan diterima, Anda akan menjadi Investor dan Anda dapat memberikan investasi. Untuk menyatakan bahwa anda adalah AI dan II< mohon klik ""Akreditasi""."
+Investor,Who can become an Investor?,"By submitting required information via Crowdo website, everyone can become a Crowdo Indonesian Platform Investor while only Accredited Investor (AI) or Institutional Investor (II) can become a Crowdo International Platform Investor. To begin the application process, signup and login to the website and click on the ""Become Investor"" link. Once your application has been approved, you will be a Qualified Investor and you will be able to start making investment.",,Siapa yang bisa menjadi Investor?,"Dengan menyerahkan informasi yang dibutuhkan melalui website Crowdo, semuanya dapat menjadi Investor di website Crowdo Indonesia sementara hanya Investor terakreditasi (AI) atau Institusi Investor (II) dapat menjadi Investor Internasional Crowdo. Untuk memulai proses pengajuan, daftar dan masuk ke website lalu klik Link ""Menjadi Investor"". Setelah proses permohonan diterima, Anda akan menjadi Investor dan Anda dapat memberikan investasi."
 Investor,What is a Qualified Investor?,"1) Individuals, who has
 - Net personal assets > S$2mm (or equivalent other currency), but net equity of primary residence capped at S$1 million ( or equivalent other currency); or
-- Net financial assets > S$1mm (or equivalent other currency); or
+- Net financial assets > S$1mm (or equivalent other currency)
+; or
 - Annual Income > S$300,000
 2) Entity ( Corporations or others)
 - Net assets > S$10mm (or equivalent)
@@ -98,7 +100,8 @@ The loan repayment schedule is calculated to give investor a constant monthly re
 The constant monthly installment amount is calculated using the PMT formula in Excel: Monthly Installment = PMT(Effective Annual Interest Rate/12, # of repayments, loan principle) 
  
 The break down of monthly principle repayment and monthly interest repayment can be calculated as following:
- a) Monthly principle repayment amount is calculated using the PPMT formula in Excel: Principle Repayment Month n = PPMT(Effective Annual Interest Rate/12, n, # of repayments, loan principle) 
+ 
+a) Monthly principle repayment amount is calculated using the PPMT formula in Excel: Principle Repayment Month n = PPMT(Effective Annual Interest Rate/12, n, # of repayments, loan principle) 
  
 b) Monthly interest repayment amount is calculated using the IPMT formula in Excel: Interest Repayment Month n = IPMT(Effective Annual Interest Rate/12, n, # of repayments, loan principle) 
  
