@@ -1,6 +1,7 @@
 package com.crowdo.p2pmobile.view.fragments;
 
 import android.app.AlertDialog;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -14,10 +15,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crowdo.p2pmobile.helpers.SoftInputHelper;
 import com.crowdo.p2pmobile.view.activities.Henson;
 import com.crowdo.p2pmobile.view.activities.LoanDetailsActivity;
 import com.crowdo.p2pmobile.R;
@@ -194,6 +197,12 @@ public class LoanDetailsFragment extends Fragment {
 
         rootView.setTag(viewHolder);
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        SoftInputHelper.hideSoftKeyboard(getActivity());
     }
 
     @Override

@@ -44,7 +44,7 @@ public class LoanDetailsViewHolder {
     private static final int AMOUNT_UNIT = 1;
     private static final int ENTER_AMOUNT_MAX_LENGTH = 4;
 
-    // static views
+    // views
     @BindView(R.id.loan_details_content) RelativeLayout mLoanDetailRelativeLayout;
     @BindView(R.id.loan_detail_iden_no) TextView mLoanIdenTextView;
     @BindView(R.id.loan_detail_percentage_return) TextView mPercentageReturn;

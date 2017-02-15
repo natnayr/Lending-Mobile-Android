@@ -39,7 +39,7 @@ public class WelcomeActivity extends AppCompatActivity implements MediaPlayer.On
     @BindView(R.id.welcome_pager_tabdots) TabLayout mTabLayout;
 
     private static final int MAXPAGE = 2;
-    private static final int TIMESECONDS = 13;
+    private static final int TIMEFRAME = 13180;
 
     private SurfaceView mSurfaceView;
     private int stopPosition;
@@ -113,15 +113,15 @@ public class WelcomeActivity extends AppCompatActivity implements MediaPlayer.On
 
         //Backwards Compatibility
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            pageSwitcher(TIMESECONDS);
+            pageSwitcher(TIMEFRAME);
         }else{
 
         }
     }
 
-    private void pageSwitcher(int seconds){
+    private void pageSwitcher(int timeframeEach){
         mTimer = new Timer();
-        mTimer.scheduleAtFixedRate(new FlipPageTask(), 0, seconds * 1000);
+        mTimer.scheduleAtFixedRate(new FlipPageTask(), 0, timeframeEach);
     }
 
     class FlipPageTask extends TimerTask{

@@ -8,10 +8,15 @@ import io.realm.RealmObject;
 
 public class LearningCenter extends RealmObject{
 
+    private String index;
     private String category;
     private String language;
     private String question;
     private String answer;
+
+    public String getIndex() { return index; }
+
+    public void setIndex(String index) { this.index = index; }
 
     public String getCategory() {
         return category;

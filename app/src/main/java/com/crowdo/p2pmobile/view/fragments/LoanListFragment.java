@@ -1,5 +1,7 @@
 package com.crowdo.p2pmobile.view.fragments;
 
+import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,10 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.crowdo.p2pmobile.R;
+import com.crowdo.p2pmobile.helpers.SoftInputHelper;
 import com.crowdo.p2pmobile.view.activities.Henson;
 import com.crowdo.p2pmobile.model.LoanListItem;
 import com.crowdo.p2pmobile.data.LoanListClient;
@@ -85,8 +89,9 @@ public class LoanListFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        SoftInputHelper.hideSoftKeyboard(getActivity());
     }
 
     @Override

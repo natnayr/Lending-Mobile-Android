@@ -28,5 +28,7 @@ public class LearningCenterViewModel extends BaseObservable{
     @Bindable
     public String getAnswer() { return learningCenter.getAnswer(); }
 
+    @Bindable
+    public String getIndex() { return learningCenter.getIndex(); }
 
 }

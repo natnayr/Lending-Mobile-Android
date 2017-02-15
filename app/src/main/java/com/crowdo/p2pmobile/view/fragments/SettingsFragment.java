@@ -1,8 +1,10 @@
 package com.crowdo.p2pmobile.view.fragments;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.preference.EditTextPreference;
@@ -11,11 +13,13 @@ import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.ValueCallback;
 
 import com.crowdo.p2pmobile.R;
+import com.crowdo.p2pmobile.helpers.SoftInputHelper;
 import com.crowdo.p2pmobile.model.RegisteredMemberCheck;
 import com.crowdo.p2pmobile.data.RegisteredMemberCheckClient;
 import com.crowdo.p2pmobile.helpers.ConstantVariables;
@@ -147,6 +151,12 @@ public class SettingsFragment extends PreferenceFragmentCompat
                 }
            }
         }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        SoftInputHelper.hideSoftKeyboard(getActivity());
     }
 
     @Override

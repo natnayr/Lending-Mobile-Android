@@ -1,26 +1,33 @@
 package com.crowdo.p2pmobile.view.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.databinding.FragmentLearningCenterBinding;
 import com.crowdo.p2pmobile.helpers.ConstantVariables;
 import com.crowdo.p2pmobile.helpers.LearningCenterUtils;
 import com.crowdo.p2pmobile.helpers.SharedPreferencesUtils;
+import com.crowdo.p2pmobile.helpers.SoftInputHelper;
 import com.crowdo.p2pmobile.model.LearningCenter;
 
-import butterknife.BindArray;
 import butterknife.BindString;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -34,13 +41,18 @@ public class LearningCenterFragment extends Fragment{
     public static final String LOG_TAG = LearningCenterFragment.class.getSimpleName();
     private Realm realm;
     private String lang;
-    private RealmResults<LearningCenter> generalResults;
-    private RealmResults<LearningCenter> investorResults;
-    private RealmResults<LearningCenter> borrowerResults;
+    private RealmResults<LearningCenter> mGeneralResults;
+    private RealmResults<LearningCenter> mInvestorResults;
+    private RealmResults<LearningCenter> mBorrowerResults;
+    private LearningCenterAdapter mGeneralAdapter;
+    private LearningCenterAdapter mInvestorAdapter;
+    private LearningCenterAdapter mBorrowerAdapter;
+
     @BindString(R.string.learning_center_categories_label_general) String mGeneralLabel;
     @BindString(R.string.learning_center_categories_label_investor) String mInvestorLabel;
     @BindString(R.string.learning_center_categories_label_borrower) String mBorrowerLabel;
-
+    @BindView(R.id.learning_center_root_layout) RelativeLayout mRootRelativeLayout;
+    @BindView(R.id.learning_center_input_edittext_search) EditText mLearningCenterSearchInput;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,65 +71,77 @@ public class LearningCenterFragment extends Fragment{
 
         //do realm call db transactions
         realm.beginTransaction();
-        generalResults = realm.where(LearningCenter.class)
-                .equalTo("language", this.lang)
+        mGeneralResults = realm.where(LearningCenter.class)
+                .equalTo("language", lang)
                 .equalTo("category", ConstantVariables.LEARNING_CENTER_DB_CATEGORY_KEY_GENERAL)
                 .findAll();
         realm.commitTransaction();
 
         realm.beginTransaction();
-        investorResults = realm.where(LearningCenter.class)
-                .equalTo("language", this.lang)
+        mInvestorResults = realm.where(LearningCenter.class)
+                .equalTo("language", lang)
                 .equalTo("category", ConstantVariables.LEARNING_CENTER_DB_CATEGORY_KEY_INVESTOR)
                 .findAll();
         realm.commitTransaction();
 
         realm.beginTransaction();
-        borrowerResults = realm.where(LearningCenter.class)
-                .equalTo("language", this.lang)
+        mBorrowerResults = realm.where(LearningCenter.class)
+                .equalTo("language", lang)
                 .equalTo("category", ConstantVariables.LEARNING_CENTER_DB_CATEGORY_KEY_BORROWER)
                 .findAll();
         realm.commitTransaction();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_learning_center, container, false);
-        ButterKnife.bind(this, rootView);
+        FragmentLearningCenterBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_learning_center,
+                container, false);
 
-        FragmentLearningCenterBinding binding = DataBindingUtil.setContentView(getActivity(),
-                R.layout.fragment_learning_center);
+        View view = binding.getRoot();
+        ButterKnife.bind(this, view);
+
+        SoftInputHelper.setupUI(view, getActivity(), new EditText[]{mLearningCenterSearchInput});
+        mLearningCenterSearchInput.addTextChangedListener(new SearchEditTextWatcher());
+
 
         //General RecycleView setAdapter
         RecyclerView.LayoutManager generalLayoutManager = new LinearLayoutManager(getActivity());
         binding.learningCenterRecycleViewGeneral.setLayoutManager(generalLayoutManager);
-        LearningCenterAdapter generalAdapter = new LearningCenterAdapter(getActivity(), generalResults);
-        binding.learningCenterRecycleViewGeneral.setAdapter(generalAdapter);
+        mGeneralAdapter = new LearningCenterAdapter(getActivity(), realm.copyFromRealm(mGeneralResults));
+        binding.learningCenterRecycleViewGeneral.setAdapter(mGeneralAdapter);
 
         //Investor RecycleView setAdapter
         RecyclerView.LayoutManager investorLayoutManager = new LinearLayoutManager(getActivity());
         binding.learningCenterRecycleViewInvestor.setLayoutManager(investorLayoutManager);
-        LearningCenterAdapter investorAdapter = new LearningCenterAdapter(getActivity(), investorResults);
-        binding.learningCenterRecycleViewInvestor.setAdapter(investorAdapter);
+        mInvestorAdapter = new LearningCenterAdapter(getActivity(), realm.copyFromRealm(mInvestorResults));
+        binding.learningCenterRecycleViewInvestor.setAdapter(mInvestorAdapter);
 
         //Borrower RecycleView setAdapter
         RecyclerView.LayoutManager borrowerLayoutManager = new LinearLayoutManager(getActivity());
         binding.learningCenterRecycleViewBorrowers.setLayoutManager(borrowerLayoutManager);
-        LearningCenterAdapter borrowerAdapter = new LearningCenterAdapter(getActivity(), borrowerResults);
-        binding.learningCenterRecycleViewBorrowers.setAdapter(borrowerAdapter);
+        mBorrowerAdapter = new LearningCenterAdapter(getActivity(), realm.copyFromRealm(mBorrowerResults));
+        binding.learningCenterRecycleViewBorrowers.setAdapter(mBorrowerAdapter);
 
-        return rootView;
+
+        return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        SoftInputHelper.hideSoftKeyboard(getActivity());
+    }
 
     @Override
     public void onResume() {
         super.onResume();
     }
 
+
+
     @Override
     public void onDestroy() {
-        realm.close();
         super.onDestroy();
     }
 
@@ -131,4 +155,35 @@ public class LearningCenterFragment extends Fragment{
             new LearningCenterUtils().populateData(context, realm);
         }
     }
+
+    private class SearchEditTextWatcher implements TextWatcher{
+        String searchStr;
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            try{
+                mLearningCenterSearchInput.removeTextChangedListener(this);
+                searchStr = mLearningCenterSearchInput.getText().toString();
+
+                mGeneralAdapter.search(searchStr);
+                mInvestorAdapter.search(searchStr);
+                mBorrowerAdapter.search(searchStr);
+
+            }catch(IndexOutOfBoundsException e){
+                Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                e.printStackTrace();
+            }finally{
+                mLearningCenterSearchInput.addTextChangedListener(this);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    }
+
 }

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data/>
     <RelativeLayout
+        android:id="@+id/learning_center_root_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:focusable="true"
         android:focusableInTouchMode="true" >
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/learning_center_input_layout_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:focusableInTouchMode="true">
             <EditText
                 android:id="@+id/learning_center_input_edittext_search"
                 android:layout_width="match_parent"
@@ -30,6 +30,7 @@
                 android:drawablePadding="5dp"
                 android:drawableLeft="@drawable/ic_search_black_16dp"
                 android:drawableTint="@color/color_secondary_text"
+                android:focusable="true"
                 />
         </android.support.design.widget.TextInputLayout>
 
@@ -47,57 +48,89 @@
                     android:id="@+id/learning_center_title_general"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:paddingStart="10dp"
-                    android:textSize="16sp"
-                    android:text="GENERAL"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginTop="5dp"
+                    android:textSize="18sp"
+                    android:text="@string/learning_center_categories_label_general"
                     android:textAllCaps="true"
                     android:textColor="@color/color_primary_dark"
-                    android:gravity="start"/>
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/learning_center_recycle_view_general"
+                    android:gravity="start"
+                    android:background="@drawable/learning_category_label_layout"/>
+                <com.github.aakira.expandablelayout.ExpandableLinearLayout
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/learning_center_expand_general"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clipToPadding="false"
-                    android:paddingBottom="10dp" />
+                    android:orientation="vertical"
+                    app:ael_expanded="true"
+                    app:ael_duration="200"
+                    app:ael_interpolator="fastOutLinearIn">
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/learning_center_recycle_view_general"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:layout_marginTop="5dp"/>
+                </com.github.aakira.expandablelayout.ExpandableLinearLayout>
                 <TextView
                     android:id="@+id/learning_center_title_investor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:paddingStart="10dp"
-                    android:textSize="16sp"
-                    android:text="INVESTOR"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginTop="5dp"
+                    android:textSize="18sp"
+                    android:text="@string/learning_center_categories_label_investor"
                     android:textColor="@color/color_primary_dark"
                     android:textAllCaps="true"
                     android:gravity="start"
-                    />
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/learning_center_recycle_view_investor"
+                    android:background="@drawable/learning_category_label_layout" />
+                <com.github.aakira.expandablelayout.ExpandableLinearLayout
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/learning_center_expand_investor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clipToPadding="false"
-                    android:paddingBottom="10dp" />
+                    android:orientation="vertical"
+                    app:ael_expanded="true"
+                    app:ael_duration="200"
+                    app:ael_interpolator="fastOutLinearIn">
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/learning_center_recycle_view_investor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:layout_marginTop="5dp"/>
+                </com.github.aakira.expandablelayout.ExpandableLinearLayout>
                 <TextView
                     android:id="@+id/learning_center_title_borrowers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:paddingStart="10dp"
-                    android:textSize="16sp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginTop="5dp"
+                    android:textSize="18sp"
                     android:text="Borrowers"
                     android:textAllCaps="true"
                     android:textColor="@color/color_primary_dark"
-                    android:gravity="start" />
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/learning_center_recycle_view_borrowers"
+                    android:gravity="start"
+                    android:background="@drawable/learning_category_label_layout"/>
+                <com.github.aakira.expandablelayout.ExpandableLinearLayout
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/learning_center_expand_borrower"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clipToPadding="false"
-                    android:paddingBottom="10dp" />
+                    android:orientation="vertical"
+                    app:ael_expanded="true"
+                    app:ael_duration="200"
+                    app:ael_interpolator="fastOutLinearIn">
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/learning_center_recycle_view_borrowers"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:layout_marginTop="5dp"/>
+                </com.github.aakira.expandablelayout.ExpandableLinearLayout>
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>
