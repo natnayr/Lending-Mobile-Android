@@ -66,9 +66,14 @@ public class LearningCenterAdapter extends RecyclerView.Adapter<LearningCenterAd
         final ItemLearningCenterBinding binding = holder.binding;
         holder.setIsRecyclable(false);
         binding.setLcvm(new LearningCenterItemViewModel(mCollection.get(position), mContext));
-        binding.itemLearningCenterQuestions.setOnClickListener(new View.OnClickListener(){
+        binding.itemLearningCenterRelativeLayoutQuestion.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                if(binding.itemLearningCenterExpandLayout.isExpanded()) {
+                    binding.itemLearningCenterDrawableQuestion.setRotation(0f);
+                }else{
+                    binding.itemLearningCenterDrawableQuestion.setRotation(180f);
+                }
                 binding.itemLearningCenterExpandLayout.toggle();
             }
         });

@@ -14,11 +14,12 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.DayNight.Dialog.Alert</item>
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="windowActionModeOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="android:windowActionBarOverlay">true</item>
     </style>
 
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="windowActionModeOverlay">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
     </style>
 
     <style name="PopupMenuTheme" parent="ThemeOverlay.AppCompat.Light">

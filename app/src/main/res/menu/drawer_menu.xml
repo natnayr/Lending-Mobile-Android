@@ -15,8 +15,7 @@
             android:title="@string/toolbar_title_settings"/>
 
         <item
-            android:id="@+id/drawer_menu_subheader"
-            android:title="Info">
+            android:title="info">
             <menu>
                 <group android:checkableBehavior="single">
                     <item

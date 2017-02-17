@@ -48,7 +48,6 @@ import io.realm.RealmResults;
 /**
  * Created by cwdsg05 on 9/2/17.
  */
-
 public class LearningCenterFragment extends Fragment{
 
     @BindString(R.string.learning_center_categories_label_general) String mGeneralLabel;
@@ -148,6 +147,29 @@ public class LearningCenterFragment extends Fragment{
             }
         });
 
+        binding.learningCenterRelativeLayoutFees.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(binding.learningCenterExpandFees.isExpanded()){
+                    createRotateAnimator(binding.learningCenterTriangleFees, 180f, 0f).start();
+                }else{
+                    createRotateAnimator(binding.learningCenterTriangleFees, 0f, 180f).start();
+                }
+                binding.learningCenterExpandFees.toggle();
+            }
+        });
+
+        binding.learningCenterRelativeLayoutLoanDocuments.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(binding.learningCenterExpandLoanDocuments.isExpanded()){
+                    createRotateAnimator(binding.learningCenterTriangleLoanDocuments, 180f, 0f).start();
+                }else{
+                    createRotateAnimator(binding.learningCenterTriangleLoanDocuments, 0f, 180f).start();
+                }
+                binding.learningCenterExpandLoanDocuments.toggle();
+            }
+        });
 
         //Long process
         populateData();

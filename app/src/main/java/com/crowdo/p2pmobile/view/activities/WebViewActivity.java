@@ -1,5 +1,6 @@
 package com.crowdo.p2pmobile.view.activities;
 
+import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
@@ -320,5 +322,43 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
             Log.d(LOG_TAG, "APP: JavaScriptInterface goBack() called");
             finish();
         }
+    }
+
+    @Override
+    public void onSupportActionModeStarted(@NonNull android.support.v7.view.ActionMode mode) {
+        //cause style.xml windowActionBarOverlay doesnt work
+        mToolbar.setVisibility(View.GONE);
+        super.onSupportActionModeStarted(mode);
+    }
+
+    @Override
+    public void onSupportActionModeFinished(@NonNull android.support.v7.view.ActionMode mode) {
+        //cause style.xml windowActionBarOverlay doesnt work
+        super.onSupportActionModeFinished(mode);
+        mToolbar.animate()
+                .alpha(1.0f)
+                .setDuration(300)
+                .setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mToolbar.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+
     }
 }

@@ -48,25 +48,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_margin="@dimen/learning_center_categories_margin"
                     android:background="@drawable/learning_category_label_layout">
                     <TextView
                         android:id="@+id/learning_center_title_general"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/learning_center_categories_title_size"
                         android:text="@string/learning_center_categories_label_general"
                         android:textAllCaps="true"
                         android:textColor="@color/color_primary_dark"
-                        android:layout_alignParentStart="true" />
+                        android:layout_alignParentStart="true"
+                        android:gravity="center"
+                        android:drawableLeft="@drawable/ic_information_outline_primary_dark_24dp"
+                        android:drawablePadding="@dimen/learning_center_categories_title_drawable_padding" />
                     <TextView
                         android:id="@+id/learning_center_item_count_general"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp"
+                        android:textSize="@dimen/learning_center_categories_count_size"
                         android:textStyle="italic"
                         android:textColor="@color/color_primary_dark"
                         android:layout_toStartOf="@+id/learning_center_triangle_general" />
@@ -74,7 +74,7 @@
                         android:id="@+id/learning_center_triangle_general"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
+                        android:layout_marginStart="@dimen/learning_center_categories_image_rotate_margin_start"
                         android:src="@drawable/ic_arrow_down_drop_circle_outline_black_24dp"
                         android:tint="@color/color_primary_dark"
                         android:layout_alignParentEnd="true"/>
@@ -84,7 +84,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:el_expanded="true"
+                    app:el_expanded="false"
                     app:el_duration="500"
                     app:el_parallax="0.5">
                     <android.support.v7.widget.RecyclerView
@@ -92,7 +92,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clipToPadding="false"
-                        android:layout_marginTop="5dp"/>
+                        android:layout_marginTop="@dimen/learning_center_list_view_margin_top"/>
                 </net.cachapa.expandablelayout.ExpandableLayout>
 
                 <RelativeLayout
@@ -100,25 +100,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_margin="@dimen/learning_center_categories_margin"
                     android:background="@drawable/learning_category_label_layout">
                     <TextView
                         android:id="@+id/learning_center_title_investor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/learning_center_categories_title_size"
                         android:text="@string/learning_center_categories_label_investor"
                         android:textAllCaps="true"
                         android:textColor="@color/color_primary_dark"
-                        android:layout_alignParentStart="true" />
+                        android:layout_alignParentStart="true"
+                        android:gravity="center"
+                        android:drawableLeft="@drawable/ic_account_multiple_primary_dark_24dp"
+                        android:drawablePadding="@dimen/learning_center_categories_title_drawable_padding"/>
                     <TextView
                         android:id="@+id/learning_center_item_count_investor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp"
+                        android:textSize="@dimen/learning_center_categories_count_size"
                         android:textStyle="italic"
                         android:textColor="@color/color_primary_dark"
                         android:layout_toStartOf="@+id/learning_center_triangle_investor" />
@@ -126,7 +126,7 @@
                         android:id="@+id/learning_center_triangle_investor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
+                        android:layout_marginStart="@dimen/learning_center_categories_image_rotate_margin_start"
                         android:src="@drawable/ic_arrow_down_drop_circle_outline_black_24dp"
                         android:tint="@color/color_primary_dark"
                         android:layout_alignParentEnd="true"/>
@@ -137,7 +137,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:el_expanded="true"
+                    app:el_expanded="false"
                     app:el_duration="500"
                     app:el_parallax="0.5">
                     <android.support.v7.widget.RecyclerView
@@ -145,32 +145,32 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clipToPadding="false"
-                        android:layout_marginTop="5dp"/>
+                        android:layout_marginTop="@dimen/learning_center_list_view_margin_top"/>
                 </net.cachapa.expandablelayout.ExpandableLayout>
                 <RelativeLayout
                     android:id="@+id/learning_center_relative_layout_borrower"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_margin="@dimen/learning_center_categories_margin"
                     android:background="@drawable/learning_category_label_layout">
                     <TextView
                         android:id="@+id/learning_center_title_borrower"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/learning_center_categories_title_size"
                         android:text="@string/learning_center_categories_label_borrower"
                         android:textAllCaps="true"
                         android:textColor="@color/color_primary_dark"
-                        android:layout_alignParentStart="true" />
+                        android:layout_alignParentStart="true"
+                        android:gravity="center"
+                        android:drawableLeft="@drawable/ic_rocket_primary_dark_24dp"
+                        android:drawablePadding="@dimen/learning_center_categories_title_drawable_padding"/>
                     <TextView
                         android:id="@+id/learning_center_item_count_borrower"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
+                        android:textSize="@dimen/learning_center_categories_count_size"
                         android:textStyle="italic"
                         android:textColor="@color/color_primary_dark"
                         android:layout_toStartOf="@+id/learning_center_triangle_borrower"/>
@@ -178,7 +178,7 @@
                         android:id="@+id/learning_center_triangle_borrower"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
+                        android:layout_marginStart="@dimen/learning_center_categories_image_rotate_margin_start"
                         android:src="@drawable/ic_arrow_down_drop_circle_outline_black_24dp"
                         android:tint="@color/color_primary_dark"
                         android:layout_alignParentEnd="true"/>
@@ -188,7 +188,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:el_expanded="true"
+                    app:el_expanded="false"
                     app:el_duration="500"
                     app:el_parallax="0.5">
                     <android.support.v7.widget.RecyclerView
@@ -196,38 +196,96 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clipToPadding="false"
-                        android:layout_marginTop="5dp"/>
+                        android:layout_marginTop="@dimen/learning_center_list_view_margin_top"/>
                 </net.cachapa.expandablelayout.ExpandableLayout>
                 <RelativeLayout
+                    android:id="@+id/learning_center_relative_layout_fees"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_margin="@dimen/learning_center_categories_margin"
                     android:background="@drawable/learning_category_label_layout">
                     <TextView
-                        android:id="@+id/learning_center_title_fees"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginTop="5dp"
-                        android:textSize="18sp"
-                        android:text="@string/learning_center_categories_label_fee"
+                        android:textSize="@dimen/learning_center_categories_title_size"
+                        android:text="@string/learning_center_categories_label_fees"
                         android:textAllCaps="true"
-                        android:textColor="@color/color_primary_dark" />
+                        android:textColor="@color/color_primary_dark"
+                        android:gravity="center"
+                        android:drawableLeft="@drawable/ic_attach_money_primary_dark_24dp"
+                        android:drawablePadding="@dimen/learning_center_categories_title_drawable_padding"/>
+                    <ImageView
+                        android:id="@+id/learning_center_triangle_fees"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_arrow_down_drop_circle_outline_black_24dp"
+                        android:tint="@color/color_primary_dark"
+                        android:layout_alignParentEnd="true"/>
                 </RelativeLayout>
-                <!--<net.cachapa.expandablelayout.ExpandableLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:orientation="vertical"-->
-                    <!--app:el_expanded="true"-->
-                    <!--app:el_duration="500"-->
-                    <!--app:el_parallax="0.5">-->
-
-                <!--</net.cachapa.expandablelayout.ExpandableLayout>-->
-
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:id="@+id/learning_center_expand_fees"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:el_expanded="false"
+                    app:el_duration="500"
+                    app:el_parallax="0.5">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:autoLink="email"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:padding="@dimen/activity_horizontal_padding"
+                        android:text="@string/learning_center_msg_fees"
+                        android:textIsSelectable="true"
+                        android:longClickable="true"
+                        android:textSize="@dimen/item_learning_center_question_text_size"/>
+                </net.cachapa.expandablelayout.ExpandableLayout>
+                <RelativeLayout
+                    android:id="@+id/learning_center_relative_layout_loan_documents"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="@dimen/learning_center_categories_margin"
+                    android:background="@drawable/learning_category_label_layout">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/learning_center_categories_title_size"
+                        android:text="@string/learning_center_categories_label_loan_document"
+                        android:textAllCaps="true"
+                        android:textColor="@color/color_primary_dark"
+                        android:gravity="center"
+                        android:drawableLeft="@drawable/ic_book_open_primary_dark_24dp"
+                        android:drawablePadding="@dimen/learning_center_categories_title_drawable_padding"/>
+                    <ImageView
+                        android:id="@+id/learning_center_triangle_loan_documents"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_arrow_down_drop_circle_outline_black_24dp"
+                        android:tint="@color/color_primary_dark"
+                        android:layout_alignParentEnd="true"/>
+                </RelativeLayout>
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:id="@+id/learning_center_expand_loan_documents"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:el_expanded="false"
+                    app:el_duration="500"
+                    app:el_parallax="0.5">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:autoLink="email"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:padding="@dimen/activity_horizontal_padding"
+                        android:text="@string/learning_center_msg_fees"
+                        android:textIsSelectable="true"
+                        android:longClickable="true"
+                        android:textSize="@dimen/item_learning_center_question_text_size"/>
+               </net.cachapa.expandablelayout.ExpandableLayout>
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>

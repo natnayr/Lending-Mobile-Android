@@ -10,4 +10,5 @@
     android:minHeight="?attr/actionBarSize"
     android:background="@color/color_primary"
     app:popupTheme="@style/PopupMenuTheme"
-    android:theme="@style/ToolbarTheme" />
+    android:theme="@style/ToolbarTheme"
+    android:animateLayoutChanges="true"/>

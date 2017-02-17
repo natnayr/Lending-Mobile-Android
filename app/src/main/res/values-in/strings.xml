@@ -68,6 +68,6 @@
     <string name="learning_center_categories_label_general">Pertanyaan Umum</string>
     <string name="learning_center_categories_label_borrower">Peminjam</string>
     <string name="learning_center_categories_label_investor">Kreditur</string>
-    <string name="learning_center_categories_label_fee">Biaya</string>
+    <string name="learning_center_categories_label_fees">Biaya</string>
     <string name="learning_center_categories_label_loan_document">Dokumen Pinjaman</string>
 </resources>

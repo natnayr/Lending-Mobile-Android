@@ -5,6 +5,7 @@
     <string name="toolbar_title_loan_detail">Details</string>
     <string name="toolbar_title_learning_center">Learning Center</string>
     <string name="toolbar_title_factsheet">Fact-Sheet View (PDF)</string>
+    <string name="toolbar_group_info">info</string>
     <string name="date_time_region" translatable="false">Asia/Singapore</string>
 
     <string name="welcome_intro_1_head">Earn competitive returns</string>
@@ -69,10 +70,11 @@
     <string name="learning_center_categories_label_general">General Enquires</string>
     <string name="learning_center_categories_label_investor">Lender</string>
     <string name="learning_center_categories_label_borrower">Borrowers</string>
-    <string name="learning_center_categories_label_fee">Fees</string>
+    <string name="learning_center_categories_label_fees">Fees</string>
     <string name="learning_center_categories_label_loan_document">Loan Documents</string>
 
     <string name="learning_center_categories_item_count_label">&#160;item(s)</string>
+    <string name="learning_center_msg_fees">Please contact <a href="mailto:enquiry.p2p@crowdo.com" target="_top">enquiry.p2p@crowdo.com</a> for fee-related enquiries</string>
 
     <string name="webview_unable_open_file">Error, unable to open file</string>
     <string name="webview_download_to">Downloaded to&#160;</string>

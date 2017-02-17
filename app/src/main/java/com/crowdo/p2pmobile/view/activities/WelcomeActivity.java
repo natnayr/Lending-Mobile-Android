@@ -189,14 +189,7 @@ public class WelcomeActivity extends AppCompatActivity implements MediaPlayer.On
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setMessage(mPreExitQuestion)
-                .setNegativeButton(android.R.string.no, null)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        WelcomeActivity.this.onBackPressed();
-                    }
-                }).create().show();
+        super.onBackPressed();
     }
 
     class WelcomePagerAdapter extends PagerAdapter{
