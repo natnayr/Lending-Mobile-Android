@@ -1,6 +1,7 @@
 package com.crowdo.p2pmobile.view.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
 import android.media.MediaPlayer;
@@ -11,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +26,7 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -37,6 +40,7 @@ public class WelcomeActivity extends AppCompatActivity implements MediaPlayer.On
     @BindView(R.id.welcome_get_started_btn) Button mWelcomeGetStartedButton;
     @BindView(R.id.welcome_pager) ViewPager mViewPager;
     @BindView(R.id.welcome_pager_tabdots) TabLayout mTabLayout;
+    @BindString(R.string.pre_exit_question) String mPreExitQuestion;
 
     private static final int MAXPAGE = 2;
     private static final int TIMEFRAME = 13180;
@@ -183,6 +187,17 @@ public class WelcomeActivity extends AppCompatActivity implements MediaPlayer.On
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setMessage(mPreExitQuestion)
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        WelcomeActivity.this.onBackPressed();
+                    }
+                }).create().show();
+    }
 
     class WelcomePagerAdapter extends PagerAdapter{
         private Context mContext;

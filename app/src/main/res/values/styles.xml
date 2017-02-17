@@ -49,7 +49,6 @@
     <style name="RobotoTextViewStyle" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">@string/font_family_regular</item>
         <item name="android:textColor">@color/color_primary_text</item>
-        <item name="android:textIsSelectable">true</item>
     </style>
 
     <style name="LoanDetailEditTextStyle" parent="Base.Widget.AppCompat.EditText">

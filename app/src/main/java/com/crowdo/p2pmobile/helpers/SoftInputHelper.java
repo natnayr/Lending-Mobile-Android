@@ -1,11 +1,19 @@
 package com.crowdo.p2pmobile.helpers;
 
 import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.text.method.KeyListener;
+import android.view.ActionMode;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * Created by cwdsg05 on 15/2/17.
@@ -30,7 +38,7 @@ public class SoftInputHelper {
             view.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(View v, MotionEvent event) {
                     hideSoftKeyboard(activity);
-                    for(EditText editText : editTextToDefocus){
+                    for (EditText editText : editTextToDefocus) {
                         editText.clearFocus();
                     }
                     return false;

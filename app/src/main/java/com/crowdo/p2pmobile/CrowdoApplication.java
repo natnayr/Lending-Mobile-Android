@@ -3,12 +3,10 @@ package com.crowdo.p2pmobile;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
 import com.crowdo.p2pmobile.data.APIServices;
-import com.crowdo.p2pmobile.helpers.LearningCenterUtils;
 import com.crowdo.p2pmobile.view.activities.WelcomeActivity;
 import com.crowdo.p2pmobile.helpers.ConstantVariables;
 import com.crowdo.p2pmobile.helpers.SharedPreferencesUtils;

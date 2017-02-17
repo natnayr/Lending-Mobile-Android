@@ -7,16 +7,26 @@
             android:checked="true"
             android:icon="@drawable/ic_gavel_black_24dp"
             android:title="@string/toolbar_title_loan_list"/>
-        <item
-            android:id="@+id/nav_drawer_learning_center"
-            android:checked="false"
-            android:icon="@drawable/ic_book_open_page_variant_black_24dp"
-            android:title="@string/toolbar_title_learning_center"/>
+
         <item
             android:id="@+id/nav_drawer_settings"
             android:checked="false"
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="@string/toolbar_title_settings"/>
+
+        <item
+            android:id="@+id/drawer_menu_subheader"
+            android:title="Info">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_drawer_learning_center"
+                        android:checked="false"
+                        android:icon="@drawable/ic_book_open_page_variant_black_24dp"
+                        android:title="@string/toolbar_title_learning_center"/>
+                </group>
+            </menu>
+        </item>
     </group>
 
 </menu>

@@ -23,6 +23,7 @@ import com.crowdo.p2pmobile.view.fragments.LearningCenterFragment;
 import com.crowdo.p2pmobile.view.fragments.LoanListFragment;
 import com.crowdo.p2pmobile.view.fragments.SettingsFragment;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity{
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.main_drawer_layout) DrawerLayout mDrawer;
     @BindView(R.id.main_nav_view) NavigationView mNavDrawer;
+    @BindString(R.string.pre_exit_question) String mPreExitQuestion;
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private ActionBarDrawerToggle drawerToggle;
@@ -132,7 +134,7 @@ public class MainActivity extends AppCompatActivity{
     public void onBackPressed() {
 
         new AlertDialog.Builder(this)
-                .setMessage("Are you sure you want to exit?")
+                .setMessage(mPreExitQuestion)
                 .setNegativeButton(android.R.string.no, null)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {

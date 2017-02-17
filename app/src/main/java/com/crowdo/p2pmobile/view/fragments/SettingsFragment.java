@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.ValueCallback;
+import android.widget.Toast;
 
 import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.helpers.SoftInputHelper;
@@ -48,14 +49,10 @@ public class SettingsFragment extends PreferenceFragmentCompat
     public static final String TAG_SETTINGS_FRAGMENT = "LOAN_DETAILS_FRAGMENT_TAG";
     private Subscription memberCheckSubscription;
 
-    @BindString(R.string.okay_label) String mLabelOkay;
-    @BindString(R.string.pref_user_session_clear_label) String mLabelSessionClear;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         addPreferencesFromResource(R.xml.preferences);
         sharedPreferences = SharedPreferencesUtils.getSharedPref(getActivity());
 
@@ -70,16 +67,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
             public boolean onPreferenceClick(Preference preference) {
 
                 Log.d(LOG_TAG, "APP: Session Cleared");
-                int colorIconText = ContextCompat.getColor(getContext(), R.color.color_icons_text);
-
-                final Snackbar snackBarOnNext = SnackBarUtil.snackBarCreate(getView(),
-                        mLabelSessionClear, colorIconText);
-                snackBarOnNext.setAction(mLabelOkay, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        snackBarOnNext.dismiss();
-                    }
-                }).show();
+                Toast.makeText(getContext(), getString(R.string.pref_user_session_clear_label),
+                        Toast.LENGTH_SHORT).show();
 
                 SharedPreferencesUtils.resetUserAccountSharedPreferences(getActivity());
 
@@ -93,7 +82,6 @@ public class SettingsFragment extends PreferenceFragmentCompat
                     });
                     cookieManager.flush();
                 }else{
-                    Log.d(LOG_TAG, "APP: Remove Cookies API < " + String.valueOf(Build.VERSION_CODES.LOLLIPOP));
                     CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(getActivity());
                     cookieSyncManager.startSync();
                     CookieManager cookieManager = CookieManager.getInstance();
@@ -102,8 +90,6 @@ public class SettingsFragment extends PreferenceFragmentCompat
                     cookieSyncManager.stopSync();
                     cookieSyncManager.sync();
                 }
-
-
 
                 return true;
             }

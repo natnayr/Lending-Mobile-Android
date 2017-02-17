@@ -72,12 +72,15 @@
     <string name="learning_center_categories_label_fee">Fees</string>
     <string name="learning_center_categories_label_loan_document">Loan Documents</string>
 
+    <string name="learning_center_categories_item_count_label">&#160;item(s)</string>
+
     <string name="webview_unable_open_file">Error, unable to open file</string>
     <string name="webview_download_to">Downloaded to&#160;</string>
     <string name="webview_unable_external_drive">Unable to write to external drive</string>
 
 
     <!-- Globals -->
+    <string name="pre_exit_question">Are you sure you want to exit?</string>
     <string name="downloading_label">Downloading...</string>
     <string name="okay_label">OK</string>
     <string name="open_label">OPEN</string>

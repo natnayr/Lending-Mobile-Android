@@ -6,13 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.databinding.ItemLearningCenterBinding;
 import com.crowdo.p2pmobile.model.LearningCenter;
-import com.crowdo.p2pmobile.viewmodel.LearningCenterViewModel;
-import com.github.aakira.expandablelayout.ExpandableLayoutListener;
+import com.crowdo.p2pmobile.viewmodel.LearningCenterItemViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,41 +65,11 @@ public class LearningCenterAdapter extends RecyclerView.Adapter<LearningCenterAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         final ItemLearningCenterBinding binding = holder.binding;
         holder.setIsRecyclable(false);
-        binding.setLcvm(new LearningCenterViewModel(mCollection.get(position), mContext));
-        binding.itemLearningCenterExpandLayout.initLayout();
-        binding.itemLearningCenterExpandLayout.setInRecyclerView(true);
+        binding.setLcvm(new LearningCenterItemViewModel(mCollection.get(position), mContext));
         binding.itemLearningCenterQuestions.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 binding.itemLearningCenterExpandLayout.toggle();
-            }
-        });
-
-        binding.itemLearningCenterExpandLayout.setListener(new ExpandableLayoutListener() {
-            @Override
-            public void onAnimationStart() {
-                binding.itemLearningCenterExpandLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            }
-
-            @Override
-            public void onAnimationEnd() { }
-
-            @Override
-            public void onPreOpen() { }
-
-            @Override
-            public void onPreClose() { }
-
-            @Override
-            public void onOpened() {
-                binding.itemLearningCenterExpandLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            }
-
-            @Override
-            public void onClosed() {
-
             }
         });
     }

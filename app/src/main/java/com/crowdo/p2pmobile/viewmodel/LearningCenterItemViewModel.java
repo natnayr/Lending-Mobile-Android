@@ -9,12 +9,12 @@ import com.crowdo.p2pmobile.model.LearningCenter;
 /**
  * Created by cwdsg05 on 9/2/17.
  */
-public class LearningCenterViewModel extends BaseObservable{
+public class LearningCenterItemViewModel extends BaseObservable{
 
     private Context mContext;
     private LearningCenter learningCenter;
 
-    public LearningCenterViewModel(LearningCenter learningCenter, @NonNull Context context){
+    public LearningCenterItemViewModel(LearningCenter learningCenter, @NonNull Context context){
         this.learningCenter = learningCenter;
         this.mContext = context;
     }

@@ -30,8 +30,7 @@
                 android:drawablePadding="5dp"
                 android:drawableLeft="@drawable/ic_search_black_16dp"
                 android:drawableTint="@color/color_secondary_text"
-                android:focusable="true"
-                />
+                android:focusable="true" />
         </android.support.design.widget.TextInputLayout>
 
         <ScrollView
@@ -42,95 +41,193 @@
             android:layout_below="@+id/learning_center_input_layout_search">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
-                <TextView
-                    android:id="@+id/learning_center_title_general"
+                <RelativeLayout
+                    android:id="@+id/learning_center_relative_layout_general"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_marginStart="5dp"
-                    android:layout_marginEnd="15dp"
+                    android:layout_marginEnd="5dp"
                     android:layout_marginTop="5dp"
-                    android:textSize="18sp"
-                    android:text="@string/learning_center_categories_label_general"
-                    android:textAllCaps="true"
-                    android:textColor="@color/color_primary_dark"
-                    android:gravity="start"
-                    android:background="@drawable/learning_category_label_layout"/>
-                <com.github.aakira.expandablelayout.ExpandableLinearLayout
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/learning_category_label_layout">
+                    <TextView
+                        android:id="@+id/learning_center_title_general"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:text="@string/learning_center_categories_label_general"
+                        android:textAllCaps="true"
+                        android:textColor="@color/color_primary_dark"
+                        android:layout_alignParentStart="true" />
+                    <TextView
+                        android:id="@+id/learning_center_item_count_general"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textStyle="italic"
+                        android:textColor="@color/color_primary_dark"
+                        android:layout_toStartOf="@+id/learning_center_triangle_general" />
+                    <ImageView
+                        android:id="@+id/learning_center_triangle_general"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:src="@drawable/ic_arrow_down_drop_circle_outline_black_24dp"
+                        android:tint="@color/color_primary_dark"
+                        android:layout_alignParentEnd="true"/>
+                </RelativeLayout>
+                <net.cachapa.expandablelayout.ExpandableLayout
                     android:id="@+id/learning_center_expand_general"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:ael_expanded="true"
-                    app:ael_duration="200"
-                    app:ael_interpolator="fastOutLinearIn">
+                    app:el_expanded="true"
+                    app:el_duration="500"
+                    app:el_parallax="0.5">
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/learning_center_recycle_view_general"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clipToPadding="false"
                         android:layout_marginTop="5dp"/>
-                </com.github.aakira.expandablelayout.ExpandableLinearLayout>
-                <TextView
-                    android:id="@+id/learning_center_title_investor"
+                </net.cachapa.expandablelayout.ExpandableLayout>
+
+                <RelativeLayout
+                    android:id="@+id/learning_center_relative_layout_investor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_marginStart="5dp"
-                    android:layout_marginEnd="15dp"
+                    android:layout_marginEnd="5dp"
                     android:layout_marginTop="5dp"
-                    android:textSize="18sp"
-                    android:text="@string/learning_center_categories_label_investor"
-                    android:textColor="@color/color_primary_dark"
-                    android:textAllCaps="true"
-                    android:gravity="start"
-                    android:background="@drawable/learning_category_label_layout" />
-                <com.github.aakira.expandablelayout.ExpandableLinearLayout
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/learning_category_label_layout">
+                    <TextView
+                        android:id="@+id/learning_center_title_investor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:text="@string/learning_center_categories_label_investor"
+                        android:textAllCaps="true"
+                        android:textColor="@color/color_primary_dark"
+                        android:layout_alignParentStart="true" />
+                    <TextView
+                        android:id="@+id/learning_center_item_count_investor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textStyle="italic"
+                        android:textColor="@color/color_primary_dark"
+                        android:layout_toStartOf="@+id/learning_center_triangle_investor" />
+                    <ImageView
+                        android:id="@+id/learning_center_triangle_investor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:src="@drawable/ic_arrow_down_drop_circle_outline_black_24dp"
+                        android:tint="@color/color_primary_dark"
+                        android:layout_alignParentEnd="true"/>
+                </RelativeLayout>
+
+                <net.cachapa.expandablelayout.ExpandableLayout
                     android:id="@+id/learning_center_expand_investor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:ael_expanded="true"
-                    app:ael_duration="200"
-                    app:ael_interpolator="fastOutLinearIn">
+                    app:el_expanded="true"
+                    app:el_duration="500"
+                    app:el_parallax="0.5">
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/learning_center_recycle_view_investor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clipToPadding="false"
                         android:layout_marginTop="5dp"/>
-                </com.github.aakira.expandablelayout.ExpandableLinearLayout>
-                <TextView
-                    android:id="@+id/learning_center_title_borrowers"
+                </net.cachapa.expandablelayout.ExpandableLayout>
+                <RelativeLayout
+                    android:id="@+id/learning_center_relative_layout_borrower"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_marginStart="5dp"
-                    android:layout_marginEnd="15dp"
+                    android:layout_marginEnd="5dp"
                     android:layout_marginTop="5dp"
-                    android:textSize="18sp"
-                    android:text="Borrowers"
-                    android:textAllCaps="true"
-                    android:textColor="@color/color_primary_dark"
-                    android:gravity="start"
-                    android:background="@drawable/learning_category_label_layout"/>
-                <com.github.aakira.expandablelayout.ExpandableLinearLayout
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/learning_center_expand_borrower"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/learning_category_label_layout">
+                    <TextView
+                        android:id="@+id/learning_center_title_borrower"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:text="@string/learning_center_categories_label_borrower"
+                        android:textAllCaps="true"
+                        android:textColor="@color/color_primary_dark"
+                        android:layout_alignParentStart="true" />
+                    <TextView
+                        android:id="@+id/learning_center_item_count_borrower"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textStyle="italic"
+                        android:textColor="@color/color_primary_dark"
+                        android:layout_toStartOf="@+id/learning_center_triangle_borrower"/>
+                    <ImageView
+                        android:id="@+id/learning_center_triangle_borrower"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:src="@drawable/ic_arrow_down_drop_circle_outline_black_24dp"
+                        android:tint="@color/color_primary_dark"
+                        android:layout_alignParentEnd="true"/>
+                </RelativeLayout>
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:id="@+id/learning_center_expand_borrowers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:ael_expanded="true"
-                    app:ael_duration="200"
-                    app:ael_interpolator="fastOutLinearIn">
+                    app:el_expanded="true"
+                    app:el_duration="500"
+                    app:el_parallax="0.5">
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/learning_center_recycle_view_borrowers"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clipToPadding="false"
                         android:layout_marginTop="5dp"/>
-                </com.github.aakira.expandablelayout.ExpandableLinearLayout>
+                </net.cachapa.expandablelayout.ExpandableLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/learning_category_label_layout">
+                    <TextView
+                        android:id="@+id/learning_center_title_fees"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginTop="5dp"
+                        android:textSize="18sp"
+                        android:text="@string/learning_center_categories_label_fee"
+                        android:textAllCaps="true"
+                        android:textColor="@color/color_primary_dark" />
+                </RelativeLayout>
+                <!--<net.cachapa.expandablelayout.ExpandableLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="vertical"-->
+                    <!--app:el_expanded="true"-->
+                    <!--app:el_duration="500"-->
+                    <!--app:el_parallax="0.5">-->
+
+                <!--</net.cachapa.expandablelayout.ExpandableLayout>-->
+
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>

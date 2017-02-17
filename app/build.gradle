@@ -90,5 +90,5 @@ dependencies {
     compile 'com.github.esafirm:RxDownloader:1.0.1'
 
     //Expandable Layout
-    compile 'com.github.aakira:expandable-layout:1.6.0@aar'
+    compile 'net.cachapa.expandablelayout:expandablelayout:2.8'
 }

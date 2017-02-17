@@ -66,8 +66,8 @@ public class LoanListFragment extends Fragment {
             }
         });
 
-        swipeContainer.setColorSchemeResources(R.color.color_primary_light,
-                R.color.color_primary, R.color.color_primary_dark);
+        swipeContainer.setColorSchemeResources(R.color.color_primary_dark,
+                R.color.color_primary, R.color.color_primary_light);
 
         mListView.setAdapter(mLoanAdapter);
 
