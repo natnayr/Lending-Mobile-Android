@@ -210,7 +210,7 @@ public class LearningCenterFragment extends Fragment{
     public void onResume() {
         super.onResume();
     }
-    
+
     @Override
     public void onDestroy() {
         super.onDestroy();
