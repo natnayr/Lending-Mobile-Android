@@ -61,8 +61,12 @@
     <dimen name="learning_center_categories_title_drawable_padding">5dp</dimen>
     <dimen name="learning_center_list_view_margin_top">5dp</dimen>
 
+    <dimen name="item_learning_center_horizontal_margin">16dp</dimen>
+    <dimen name="item_learning_center_vertical_margin">8dp</dimen>
     <dimen name="item_learning_center_question_text_size">18sp</dimen>
     <dimen name="item_learning_center_answer_text_size">14sp</dimen>
+    <dimen name="item_learning_center_answer_vertical_margin">6dp</dimen>
+    <dimen name="item_learning_center_answer_horizontal_margin">10dp</dimen>
 
     <dimen name="webview_progressbar_height">1dp</dimen>
 

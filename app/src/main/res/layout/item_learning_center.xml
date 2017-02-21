@@ -11,8 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp">
+        android:layout_marginTop="@dimen/item_learning_center_vertical_margin"
+        android:layout_marginBottom="@dimen/item_learning_center_vertical_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin">
 
             <RelativeLayout
                 android:id="@+id/item_learning_center_relative_layout_question"
@@ -59,8 +61,10 @@
                     android:textColor="@color/color_accent"
                     android:textIsSelectable="true"
                     android:longClickable="true"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"/>
+                    android:layout_marginTop="@dimen/item_learning_center_answer_vertical_margin"
+                    android:layout_marginBottom="@dimen/item_learning_center_answer_vertical_margin"
+                    android:layout_marginLeft="@dimen/item_learning_center_answer_horizontal_margin"
+                    android:layout_marginRight="@dimen/item_learning_center_answer_horizontal_margin"/>
             </net.cachapa.expandablelayout.ExpandableLayout>
     </LinearLayout>
 

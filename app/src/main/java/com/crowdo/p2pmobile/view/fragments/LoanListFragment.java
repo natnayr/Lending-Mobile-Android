@@ -1,16 +1,19 @@
 package com.crowdo.p2pmobile.view.fragments;
 
-import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -22,6 +25,7 @@ import com.crowdo.p2pmobile.data.LoanListClient;
 
 import java.util.List;
 
+import butterknife.ButterKnife;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -41,7 +45,7 @@ public class LoanListFragment extends Fragment {
     private Subscription loanListSubscription;
     private SwipeRefreshLayout swipeContainer;
 
-    public LoanListFragment(){
+    public LoanListFragment() {
     }
 
     @Override
@@ -55,10 +59,11 @@ public class LoanListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_loan_list, container, false);
+        ButterKnife.bind(this, rootView);
 
         mListView = (ListView) rootView.findViewById(R.id.listview_loans);
 
-        swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeLoanListView);
+        swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.loan_list_view_swipe);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -71,7 +76,7 @@ public class LoanListFragment extends Fragment {
 
         mListView.setAdapter(mLoanAdapter);
 
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView,
                                     View view, int position, long l) {
@@ -85,6 +90,7 @@ public class LoanListFragment extends Fragment {
             }
         });
 
+
         return rootView;
     }
 
@@ -92,19 +98,20 @@ public class LoanListFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         SoftInputHelper.hideSoftKeyboard(getActivity());
+        setHasOptionsMenu(true);
     }
 
     @Override
     public void onDestroy() {
-        if(loanListSubscription != null &&
-                !loanListSubscription.isUnsubscribed()){
+        if (loanListSubscription != null &&
+                !loanListSubscription.isUnsubscribed()) {
             loanListSubscription.unsubscribe();
         }
 
         super.onDestroy();
     }
 
-    private void populateLoansList(){
+    private void populateLoansList() {
         loanListSubscription = LoanListClient.getInstance()
                 .getLiveLoans()
                 .subscribeOn(Schedulers.io())
@@ -131,5 +138,44 @@ public class LoanListFragment extends Fragment {
                     }
                 });
     }
-    
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        Log.d(LOG_TAG, "APP: I'm called to create SearchView");
+        menu.clear();
+
+        inflater.inflate(R.menu.menu_search, menu);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search_loans));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search_loans:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }

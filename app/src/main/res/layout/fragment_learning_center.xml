@@ -7,14 +7,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:focusableInTouchMode="true" >
+        android:focusableInTouchMode="true"
+        android:background="@color/color_background">
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/learning_center_input_layout_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:focusableInTouchMode="true">
+            android:focusableInTouchMode="true"
+            android:layout_alignParentTop="true">
             <EditText
                 android:id="@+id/learning_center_input_edittext_search"
                 android:layout_width="match_parent"
@@ -39,17 +41,18 @@
             android:layout_height="wrap_content"
             android:fillViewport="true"
             android:layout_below="@+id/learning_center_input_layout_search">
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
                 <RelativeLayout
                     android:id="@+id/learning_center_relative_layout_general"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_margin="@dimen/learning_center_categories_margin"
-                    android:background="@drawable/learning_category_label_layout">
+                    android:background="@drawable/learning_category_label_layout"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_alignParentTop="true">
                     <TextView
                         android:id="@+id/learning_center_title_general"
                         android:layout_width="wrap_content"
@@ -83,6 +86,7 @@
                     android:id="@+id/learning_center_expand_general"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/learning_center_relative_layout_general"
                     android:orientation="vertical"
                     app:el_expanded="false"
                     app:el_duration="500"
@@ -99,6 +103,7 @@
                     android:id="@+id/learning_center_relative_layout_investor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/learning_center_expand_general"
                     android:orientation="horizontal"
                     android:layout_margin="@dimen/learning_center_categories_margin"
                     android:background="@drawable/learning_category_label_layout">
@@ -136,6 +141,7 @@
                     android:id="@+id/learning_center_expand_investor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/learning_center_relative_layout_investor"
                     android:orientation="vertical"
                     app:el_expanded="false"
                     app:el_duration="500"
@@ -151,6 +157,7 @@
                     android:id="@+id/learning_center_relative_layout_borrower"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/learning_center_expand_investor"
                     android:orientation="horizontal"
                     android:layout_margin="@dimen/learning_center_categories_margin"
                     android:background="@drawable/learning_category_label_layout">
@@ -187,6 +194,7 @@
                     android:id="@+id/learning_center_expand_borrowers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/learning_center_relative_layout_borrower"
                     android:orientation="vertical"
                     app:el_expanded="false"
                     app:el_duration="500"
@@ -202,6 +210,7 @@
                     android:id="@+id/learning_center_relative_layout_fees"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/learning_center_expand_borrowers"
                     android:orientation="horizontal"
                     android:layout_margin="@dimen/learning_center_categories_margin"
                     android:background="@drawable/learning_category_label_layout">
@@ -227,6 +236,7 @@
                     android:id="@+id/learning_center_expand_fees"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/learning_center_relative_layout_fees"
                     app:el_expanded="false"
                     app:el_duration="500"
                     app:el_parallax="0.5">
@@ -246,6 +256,7 @@
                     android:id="@+id/learning_center_relative_layout_loan_documents"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/learning_center_expand_fees"
                     android:orientation="horizontal"
                     android:layout_margin="@dimen/learning_center_categories_margin"
                     android:background="@drawable/learning_category_label_layout">
@@ -271,6 +282,7 @@
                     android:id="@+id/learning_center_expand_loan_documents"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/learning_center_relative_layout_loan_documents"
                     app:el_expanded="false"
                     app:el_duration="500"
                     app:el_parallax="0.5">
@@ -286,7 +298,7 @@
                         android:longClickable="true"
                         android:textSize="@dimen/item_learning_center_question_text_size"/>
                </net.cachapa.expandablelayout.ExpandableLayout>
-            </LinearLayout>
+            </RelativeLayout>
         </ScrollView>
     </RelativeLayout>
 </layout>
