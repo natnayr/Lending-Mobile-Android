@@ -14,8 +14,15 @@
     <dimen name="welcome_tab_title_size">20sp</dimen>
     <dimen name="welcome_tab_body_size">15sp</dimen>
 
-    <dimen name="list_top_horizontal_padding">4dp</dimen>
-    <dimen name="list_top_vertical_padding">4dp</dimen>
+    <dimen name="list_view_filtering_label_margin">4dp</dimen>
+    <dimen name="list_view_filtering_checkbox_padding">4dp</dimen>
+    <dimen name="list_view_filtering_checkbox_height">24dp</dimen>
+    <dimen name="list_view_filtering_checkbox_width">24dp</dimen>
+    <dimen name="list_view_filtering_switch_view_icon_padding">8dp</dimen>
+    <dimen name="list_view_filtering_switch_view_icon_margin">8dp</dimen>
+
+    <dimen name="list_loan_horizontal_padding">4dp</dimen>
+    <dimen name="list_loan_vertical_padding">4dp</dimen>
     <dimen name="list_box_text_size">10sp</dimen>
     <dimen name="list_small_text_size">12sp</dimen>
     <dimen name="list_figure_text_size">38sp</dimen>

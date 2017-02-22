@@ -22,9 +22,13 @@ import com.crowdo.p2pmobile.helpers.SoftInputHelper;
 import com.crowdo.p2pmobile.view.activities.Henson;
 import com.crowdo.p2pmobile.model.LoanListItem;
 import com.crowdo.p2pmobile.data.LoanListClient;
+import com.crowdo.p2pmobile.viewholders.LoanListFilterViewHolder;
+
+import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Observer;
 import rx.Subscription;
@@ -40,10 +44,15 @@ public class LoanListFragment extends Fragment {
     private static final String LOG_TAG = LoanListFragment.class.getSimpleName();
 
     public static final String TAG_LOAN_LIST_FRAGMENT = "LOAN_LIST_FRAGMENT_TAG";
-    private ListView mListView;
+
+    @BindView(R.id.loan_list_view_filtering_expandable) ExpandableLayout loanListSearchExpandableLayout;
+    @BindView(R.id.listview_loans) ListView mListView;
+    @BindView(R.id.loan_list_view_swipe) SwipeRefreshLayout swipeContainer;
+
     private LoanListAdapter mLoanAdapter;
     private Subscription loanListSubscription;
-    private SwipeRefreshLayout swipeContainer;
+    private LoanListFilterViewHolder filteringViewHolder;
+    private SearchView searchView;
 
     public LoanListFragment() {
     }
@@ -61,9 +70,10 @@ public class LoanListFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_loan_list, container, false);
         ButterKnife.bind(this, rootView);
 
-        mListView = (ListView) rootView.findViewById(R.id.listview_loans);
+        // use view holder
+        filteringViewHolder = new LoanListFilterViewHolder(rootView);
+        filteringViewHolder.initView();
 
-        swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.loan_list_view_swipe);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -90,7 +100,6 @@ public class LoanListFragment extends Fragment {
             }
         });
 
-
         return rootView;
     }
 
@@ -107,7 +116,6 @@ public class LoanListFragment extends Fragment {
                 !loanListSubscription.isUnsubscribed()) {
             loanListSubscription.unsubscribe();
         }
-
         super.onDestroy();
     }
 
@@ -143,29 +151,75 @@ public class LoanListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        Log.d(LOG_TAG, "APP: I'm called to create SearchView");
+        Log.d(LOG_TAG, "APP: inflating SearchView");
         menu.clear();
 
         inflater.inflate(R.menu.menu_search, menu);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search_loans));
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
+        MenuItem menuItem = menu.findItem(R.id.action_search_loans);
+        if(menuItem != null) {
+            searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    if(loanListSearchExpandableLayout != null){
+                        if(loanListSearchExpandableLayout.isExpanded()){
+                            loanListSearchExpandableLayout.collapse();
+                        }
+                    }
+                    searchView.clearFocus();
+                    return false;
+                }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    return false;
+                }
+            });
 
-        searchView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if(hasFocus){
+                        setSearchExpandedLayoutExpand();
+                    }
+                }
+            });
 
+
+            searchView.setOnSearchClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setSearchExpandedLayoutExpand();
+                }
+            });
+            searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+                @Override
+                public boolean onClose() {
+                    setSearchExpandedLayoutCollapse();
+                    return false;
+                }
+            });
+
+            searchView.setQueryHint(getString(R.string.loan_list_action_search));
+        }
+    }
+
+    private void setSearchExpandedLayoutCollapse(){
+        if(loanListSearchExpandableLayout != null){
+            if(loanListSearchExpandableLayout.isExpanded()){
+                Log.d(LOG_TAG, "APP: loanListSearchExpandableLayout is collapsing.");
+                loanListSearchExpandableLayout.collapse();
             }
-        });
+        }
+    }
+
+    private void setSearchExpandedLayoutExpand(){
+        if(loanListSearchExpandableLayout != null){
+            if(!loanListSearchExpandableLayout.isExpanded()){
+                Log.d(LOG_TAG, "APP: loanListSearchExpandableLayout is expanding.");
+                loanListSearchExpandableLayout.expand();
+            }
+        }
     }
 
     @Override
@@ -177,5 +231,11 @@ public class LoanListFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    public boolean isFiltering(){
+        return false;
+    }
+
+
 
 }

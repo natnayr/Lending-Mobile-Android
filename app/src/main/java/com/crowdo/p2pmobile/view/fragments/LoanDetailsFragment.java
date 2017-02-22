@@ -99,7 +99,7 @@ public class LoanDetailsFragment extends Fragment {
         viewHolder = new LoanDetailsViewHolder(rootView);
 
         //Init view first,
-        viewHolder.initView(getActivity(), this.initLoanId);
+        viewHolder.initView();
 
         detailsSubscription = LoanDetailClient.getInstance()
                 .getLoanDetails(this.initLoanId)

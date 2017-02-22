@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/list_top_horizontal_padding"
-        android:paddingRight="@dimen/list_top_horizontal_padding"
+        android:paddingLeft="@dimen/list_loan_horizontal_padding"
+        android:paddingRight="@dimen/list_loan_horizontal_padding"
         android:gravity="center_vertical">
 
         <TextView
@@ -22,10 +22,10 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/list_small_text_size"
             android:textColor="@color/color_secondary_text"
-            android:layout_marginLeft="@dimen/list_top_horizontal_padding"
-            android:layout_marginRight="@dimen/list_top_horizontal_padding"
-            android:paddingTop="@dimen/list_top_vertical_padding"
-            android:paddingBottom="@dimen/list_top_vertical_padding"/>
+            android:layout_marginLeft="@dimen/list_loan_horizontal_padding"
+            android:layout_marginRight="@dimen/list_loan_horizontal_padding"
+            android:paddingTop="@dimen/list_loan_vertical_padding"
+            android:paddingBottom="@dimen/list_loan_vertical_padding"/>
 
         <LinearLayout
             android:id="@+id/loan_item_credit_grade_layout"
@@ -54,8 +54,8 @@
             android:textColor="@color/color_secondary_text"
             android:layout_marginLeft="@dimen/list_top_box_horizontal_padding"
             android:layout_marginRight="@dimen/list_top_box_horizontal_padding"
-            android:paddingTop="@dimen/list_top_vertical_padding"
-            android:paddingBottom="@dimen/list_top_vertical_padding"/>
+            android:paddingTop="@dimen/list_loan_vertical_padding"
+            android:paddingBottom="@dimen/list_loan_vertical_padding"/>
     </LinearLayout>
 
     <LinearLayout

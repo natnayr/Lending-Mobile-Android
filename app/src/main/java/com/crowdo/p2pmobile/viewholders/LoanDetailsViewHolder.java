@@ -109,7 +109,7 @@ public class LoanDetailsViewHolder {
         ButterKnife.bind(this, view);
     }
 
-    public void initView(final Context context, final int holderId) {
+    public void initView() {
 
         mAmountPlusBtn.setBackground(mPlusEnabledDrawable);
         mAmountMinusBtn.setBackground(mMinusEnabledDrawable);
