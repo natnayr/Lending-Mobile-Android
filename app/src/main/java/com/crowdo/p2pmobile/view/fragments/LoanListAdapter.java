@@ -1,6 +1,7 @@
 package com.crowdo.p2pmobile.view.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.crowdo.p2pmobile.model.LoanListItem;
 import com.crowdo.p2pmobile.viewholders.LoanListViewHolder;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -24,7 +26,9 @@ public class LoanListAdapter extends BaseAdapter {
     private final String LOG_TAG = LoanListAdapter.class.getSimpleName();
 
     private Context mContext;
-    private ArrayList<LoanListItem> mLoanList = new ArrayList<LoanListItem>();
+    private List<LoanListItem> mLoanList = Collections.emptyList();
+    private List<LoanListItem> mFilteredList = Collections.emptyList();
+
 
     public LoanListAdapter(Context context) {
         super();
@@ -33,15 +37,15 @@ public class LoanListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mLoanList.size();
+        return mFilteredList.size();
     }
 
     @Override
     public LoanListItem getItem(int position) {
-        if(position < 0 || position >= mLoanList.size()){
+        if(position < 0 || position >= mFilteredList.size()){
             return null;
         }else{
-            return mLoanList.get(position);
+            return mFilteredList.get(position);
         }
     }
 
@@ -71,8 +75,32 @@ public class LoanListAdapter extends BaseAdapter {
             return;
         }
         mLoanList.clear();
+        mFilteredList.clear();
         mLoanList.addAll(retreivedLoans);
+        mFilteredList.addAll(retreivedLoans);
         notifyDataSetChanged();
+    }
+
+    public void searchLoans(String query, List<String> gradesToFilter, List<Integer> termsToFilter, List<String> securityToFilter){
+
+        if(query == null || gradesToFilter == null || termsToFilter == null ||
+                securityToFilter == null){
+            //if any input null, do nothing
+            return;
+        }
+
+        if(query.isEmpty() && gradesToFilter.isEmpty() && termsToFilter.isEmpty() && securityToFilter.isEmpty()){
+            mFilteredList.clear();
+            mFilteredList.addAll(mLoanList);
+            notifyDataSetChanged();
+            return;
+        }else{
+            for(LoanListItem item : mLoanList){
+                
+            }
+        }
+
+
     }
 
 }

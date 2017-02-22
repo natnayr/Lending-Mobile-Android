@@ -185,7 +185,6 @@ public class LoanListFragment extends Fragment {
                 }
             });
 
-
             searchView.setOnSearchClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
