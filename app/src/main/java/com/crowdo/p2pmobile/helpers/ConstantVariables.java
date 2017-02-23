@@ -27,9 +27,17 @@ public class ConstantVariables {
     public static final String LEARNING_CENTER_DB_CATEGORY_KEY_INVESTOR = "Investor";
     public static final String LEARNING_CENTER_DB_CATEGORY_KEY_BORROWER = "Borrower";
 
-    public static final String IN_SEC_COLLATERAL = "Collateral";
+    public static final String IN_SEC_COLLATERALIZED = "Collateral";
     public static final String IN_SEC_UNCOLLATERALIZED = "Uncollateralized";
     public static final String IN_SEC_INVOICE_OR_CHEQUE = "Working Order/Invoice";
+
+    public static final int IN_TERM_3 = 3;
+    public static final int IN_TERM_4 = 4;
+    public static final int IN_TERM_5 = 5;
+    public static final int IN_TERM_6 = 6;
+    public static final int IN_TERM_9 = 9;
+
+
 
     public static final String OUT_DATE_TIME_FORMAT = "dd MMM yyyy";
 

@@ -1,5 +1,6 @@
 package com.crowdo.p2pmobile.view.fragments;
 
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
@@ -7,15 +8,20 @@ import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.helpers.SoftInputHelper;
@@ -28,6 +34,7 @@ import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.List;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Observer;
@@ -49,10 +56,15 @@ public class LoanListFragment extends Fragment {
     @BindView(R.id.listview_loans) ListView mListView;
     @BindView(R.id.loan_list_view_swipe) SwipeRefreshLayout swipeContainer;
 
+    @BindView(R.id.loan_list_view_filtering_hide_button) LinearLayout filteringHideButton;
+    @BindView(R.id.loan_list_view_filtering_count) TextView filteringCountLabel;
+    @BindString(R.string.loan_list_action_filter_item_count_tail) String filteringCountTail;
+
     private LoanListAdapter mLoanAdapter;
     private Subscription loanListSubscription;
     private LoanListFilterViewHolder filteringViewHolder;
     private SearchView searchView;
+
 
     public LoanListFragment() {
     }
@@ -72,7 +84,7 @@ public class LoanListFragment extends Fragment {
 
         // use view holder
         filteringViewHolder = new LoanListFilterViewHolder(rootView);
-        filteringViewHolder.initView();
+        filteringViewHolder.initView(mLoanAdapter);
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -100,6 +112,17 @@ public class LoanListFragment extends Fragment {
             }
         });
 
+        filteringHideButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                loanListSearchExpandableLayout.collapse();
+                searchView.clearFocus();
+                return true;
+            }
+        });
+
+        mLoanAdapter.setFilteringCountTextView(filteringCountLabel, filteringCountTail);
+
         return rootView;
     }
 
@@ -119,35 +142,6 @@ public class LoanListFragment extends Fragment {
         super.onDestroy();
     }
 
-    private void populateLoansList() {
-        loanListSubscription = LoanListClient.getInstance()
-                .getLiveLoans()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<LoanListItem>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.d(LOG_TAG, "APP: populateLoansList Rx onComplete");
-                        swipeContainer.setRefreshing(false);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-                        swipeContainer.setRefreshing(false);
-                    }
-
-                    @Override
-                    public void onNext(List<LoanListItem> loanListItems) {
-                        Log.d(LOG_TAG, "APP: populateLoansList Rx onNext with "
-                                + loanListItems.size() + " items retreived.");
-                        mLoanAdapter.setLoans(loanListItems);
-                    }
-                });
-    }
-
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -155,9 +149,11 @@ public class LoanListFragment extends Fragment {
         menu.clear();
 
         inflater.inflate(R.menu.menu_search, menu);
-        MenuItem menuItem = menu.findItem(R.id.action_search_loans);
+        final MenuItem menuItem = menu.findItem(R.id.action_search_loans);
         if(menuItem != null) {
             searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+
+            searchView.setInputType(InputType.TYPE_CLASS_NUMBER);
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
@@ -166,12 +162,15 @@ public class LoanListFragment extends Fragment {
                             loanListSearchExpandableLayout.collapse();
                         }
                     }
+                    mLoanAdapter.searchLoans();
                     searchView.clearFocus();
                     return false;
                 }
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
+                    mLoanAdapter.setSearchQuery(newText);
+                    mLoanAdapter.searchLoans();
                     return false;
                 }
             });
@@ -203,6 +202,44 @@ public class LoanListFragment extends Fragment {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search_loans:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void populateLoansList() {
+        loanListSubscription = LoanListClient.getInstance()
+                .getLiveLoans()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<LoanListItem>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(LOG_TAG, "APP: populateLoansList Rx onComplete");
+                        swipeContainer.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                        swipeContainer.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onNext(List<LoanListItem> loanListItems) {
+                        Log.d(LOG_TAG, "APP: populateLoansList Rx onNext with "
+                                + loanListItems.size() + " items retreived.");
+                        mLoanAdapter.setLoans(loanListItems);
+                    }
+                });
+    }
+
     private void setSearchExpandedLayoutCollapse(){
         if(loanListSearchExpandableLayout != null){
             if(loanListSearchExpandableLayout.isExpanded()){
@@ -221,19 +258,7 @@ public class LoanListFragment extends Fragment {
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_search_loans:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
-    public boolean isFiltering(){
-        return false;
-    }
 
 
 

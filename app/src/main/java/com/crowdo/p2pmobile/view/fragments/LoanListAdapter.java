@@ -1,19 +1,19 @@
 package com.crowdo.p2pmobile.view.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.crowdo.p2pmobile.R;
 import com.crowdo.p2pmobile.model.LoanListItem;
 import com.crowdo.p2pmobile.viewholders.LoanListViewHolder;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -21,18 +21,31 @@ import java.util.List;
  * Created by cwdsg05 on 15/11/16.
  */
 
-public class LoanListAdapter extends BaseAdapter {
+public class LoanListAdapter extends BaseAdapter{
 
     private final String LOG_TAG = LoanListAdapter.class.getSimpleName();
 
     private Context mContext;
-    private List<LoanListItem> mLoanList = Collections.emptyList();
-    private List<LoanListItem> mFilteredList = Collections.emptyList();
+    private List<LoanListItem> mLoanList;
+    private List<LoanListItem> mFilteredList;
 
+    private String searchQuery;
+    private List<String> gradesToFilter;
+    private List<Integer> termsToFilter;
+    private List<String> securityToFilter;
+
+    private TextView filteringCountTextView;
+    private String filteringCountTextViewTail;
 
     public LoanListAdapter(Context context) {
         super();
         this.mContext = context;
+        this.searchQuery = new String("");
+        this.gradesToFilter = new ArrayList<String>();
+        this.termsToFilter = new ArrayList<Integer>();
+        this.securityToFilter = new ArrayList<String>();
+        this.mFilteredList = new ArrayList<LoanListItem>();
+        this.mLoanList = new ArrayList<LoanListItem>();
     }
 
     @Override
@@ -79,28 +92,106 @@ public class LoanListAdapter extends BaseAdapter {
         mLoanList.addAll(retreivedLoans);
         mFilteredList.addAll(retreivedLoans);
         notifyDataSetChanged();
+        if(filteringCountTextView != null){
+            filteringCountTextView.setText(Integer.toString(getCount())
+                    + filteringCountTextViewTail);
+        }
     }
 
-    public void searchLoans(String query, List<String> gradesToFilter, List<Integer> termsToFilter, List<String> securityToFilter){
+    public void setFilteringCountTextView(TextView filteringCountTextView, String filteringCountTextViewTail) {
+        this.filteringCountTextView = filteringCountTextView;
+        this.filteringCountTextViewTail = filteringCountTextViewTail;
+    }
 
-        if(query == null || gradesToFilter == null || termsToFilter == null ||
-                securityToFilter == null){
+    public String getSearchQuery() {
+        return searchQuery;
+    }
+
+    public void setSearchQuery(String searchQuery) {
+        this.searchQuery = searchQuery;
+    }
+
+    public List<String> getGradesToFilter() {
+        return gradesToFilter;
+    }
+
+    public void setGradesToFilter(List<String> gradesToFilter) {
+        this.gradesToFilter = gradesToFilter;
+    }
+
+    public List<Integer> getTermsToFilter() {
+        return termsToFilter;
+    }
+
+    public void setTermsToFilter(List<Integer> termsToFilter) {
+        this.termsToFilter = termsToFilter;
+    }
+
+    public List<String> getSecurityToFilter() {
+        return securityToFilter;
+    }
+
+    public void setSecurityToFilter(List<String> securityToFilter) {
+        this.securityToFilter = securityToFilter;
+    }
+
+    public void searchLoans(){
+
+        if(this.searchQuery == null || this.gradesToFilter == null || this.termsToFilter == null
+                || this.securityToFilter == null){
             //if any input null, do nothing
             return;
         }
 
-        if(query.isEmpty() && gradesToFilter.isEmpty() && termsToFilter.isEmpty() && securityToFilter.isEmpty()){
+        if(this.searchQuery.isEmpty() && this.gradesToFilter.isEmpty() && this.termsToFilter.isEmpty()
+                && this.securityToFilter.isEmpty()){
             mFilteredList.clear();
             mFilteredList.addAll(mLoanList);
             notifyDataSetChanged();
             return;
         }else{
-            for(LoanListItem item : mLoanList){
-                
+            mFilteredList.clear();
+            mFilteredList.addAll(mLoanList);
+            Iterator<LoanListItem> llit = mFilteredList.iterator();
+            //fill and pick-off method
+
+            while(llit.hasNext()){
+                LoanListItem item = llit.next();
+
+                if(!"".contains(this.searchQuery)){
+                    if(!item.loanId.toLowerCase().trim().contains(this.searchQuery.toLowerCase().trim())) {
+                        llit.remove();
+                        continue;
+                    }
+                }
+
+                if(!gradesToFilter.isEmpty()){
+                    if(!gradesToFilter.contains(item.grade)){
+                        llit.remove();
+                        continue;
+                    }
+                }
+
+                if (!termsToFilter.isEmpty()){
+                    if(!termsToFilter.contains(item.tenure)){
+                        llit.remove();
+                        continue;
+                    }
+                }
+
+                if(!securityToFilter.isEmpty()){
+                    if(!securityToFilter.contains(item.security)){
+                        llit.remove();
+                        continue;
+                    }
+                }
             }
+
+            if(filteringCountTextView != null){
+                filteringCountTextView.setText(Integer.toString(getCount()) + filteringCountTextViewTail);
+            }
+            notifyDataSetChanged();
         }
-
-
     }
 
 }

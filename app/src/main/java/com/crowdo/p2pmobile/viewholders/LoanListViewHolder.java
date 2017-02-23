@@ -107,7 +107,7 @@ public class LoanListViewHolder {
 
 
         switch(item.security){
-            case ConstantVariables.IN_SEC_COLLATERAL:
+            case ConstantVariables.IN_SEC_COLLATERALIZED:
                 mSecurityIcon.setImageDrawable(mShieldOutlineIcon);
                 mSecurityIcon.setColorFilter(shieldColor);
                 String collateralDesc = WordUtils.wrap(

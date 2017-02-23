@@ -243,12 +243,12 @@ public class LoanDetailsViewHolder {
 
         if(loanDetail.security != null) {
             switch (loanDetail.security) {
-                case ConstantVariables.IN_SEC_COLLATERAL:
+                case ConstantVariables.IN_SEC_COLLATERALIZED:
                     mSecurityIcon.setImageDrawable(mShieldOutlineIcon);
                     mSecurityIcon.setColorFilter(mShieldColor);
                     String collateralDesc = WordUtils.wrap(
                             WordUtils.capitalize(loanDetail.collateral.replaceAll("_", " ")
-                                    + "\n" + ConstantVariables.IN_SEC_COLLATERAL), 25);
+                                    + "\n" + ConstantVariables.IN_SEC_COLLATERALIZED), 25);
                     mSecurityDescription.setText(collateralDesc);
                     mSecurityIcon.setContentDescription(collateralDesc);
                     break;

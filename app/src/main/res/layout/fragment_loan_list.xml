@@ -8,7 +8,7 @@
         android:id="@+id/loan_list_view_filtering_expandable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:el_expanded="false"
+        app:el_expanded="true"
         app:el_duration="200"
         app:el_parallax="0">
 
@@ -32,7 +32,7 @@
                     android:id="@+id/loan_list_view_filtering_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Filter Search"
+                    android:text="Filter"
                     android:textAllCaps="true"
                     android:textSize="@dimen/list_small_text_size"
                     android:layout_centerHorizontal="true"
@@ -412,7 +412,6 @@
                         android:layout_alignParentStart="true"
                         android:layout_margin="@dimen/list_view_filtering_label_margin"/>
                     <TableLayout
-                        android:id="@+id/tableLayout1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/loan_list_view_filtering_security_label"
@@ -516,6 +515,41 @@
                     </TableLayout>
                 </RelativeLayout>
 
+                <View
+                    android:id="@+id/loan_list_view_filtering_fourth_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/color_divider_light"
+                    android:layout_below="@+id/loan_list_view_filtering_security_group"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/loan_list_view_filtering_fourth_line">
+                    <TextView
+                        android:id="@+id/loan_list_view_filtering_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:textStyle="italic"
+                        android:textColor="@color/color_secondary_text"
+                        android:textSize="@dimen/list_small_text_size"
+                        android:layout_marginStart="@dimen/activity_horizontal_padding"/>
+
+                    <LinearLayout
+                        android:id="@+id/loan_list_view_filtering_hide_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:paddingRight="@dimen/activity_horizontal_padding"
+                        android:contentDescription="@string/loan_list_action_filter_show_hide">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_chevron_double_up_black_24dp"
+                            android:tint="@color/color_divider"/>
+                    </LinearLayout>
+                </RelativeLayout>
             </RelativeLayout>
 
 
