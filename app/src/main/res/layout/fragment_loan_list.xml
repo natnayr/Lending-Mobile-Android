@@ -547,7 +547,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_chevron_double_up_black_24dp"
-                            android:tint="@color/color_divider"/>
+                            android:tint="@color/color_primary"/>
                     </LinearLayout>
                 </RelativeLayout>
             </RelativeLayout>

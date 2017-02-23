@@ -96,6 +96,7 @@ public class LoanListAdapter extends BaseAdapter{
             filteringCountTextView.setText(Integer.toString(getCount())
                     + filteringCountTextViewTail);
         }
+        searchLoans();
     }
 
     public void setFilteringCountTextView(TextView filteringCountTextView, String filteringCountTextViewTail) {
