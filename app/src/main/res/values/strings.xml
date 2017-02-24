@@ -24,8 +24,8 @@
     <string name="gradeE" translatable="false">E</string>
 
     <string name="loan_list_action_search">Search Loan ID...</string>
-    <string name="loan_list_action_filter_show_hide">Show/Hide Filter</string>
-    <string name="loan_list_action_filter_reset">Reset Filter</string>
+    <string name="loan_list_action_filter_hide">Hide</string>
+    <string name="loan_list_action_filter_clear">Clear</string>
     <string name="loan_list_action_filter_item_count_tail">&#160;loan(s) total</string>
 
 
@@ -89,7 +89,7 @@
 
     <!-- Globals -->
     <string name="pre_exit_question">Are you sure you want to exit?</string>
-    <string name="downloading_label">Downloading...</string>
+    <string name="downloading_label">Downloading, Please tap OPEN to access file</string>
     <string name="okay_label">OK</string>
     <string name="open_label">OPEN</string>
     <string name="sign_up_label">Sign Up</string>

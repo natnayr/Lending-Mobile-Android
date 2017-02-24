@@ -86,7 +86,7 @@ public class LoanFactSheetClient {
                         Log.d(LOG_TAG, "APP: isExternalStorageReadableAndWritable() is true");
                         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                             //if not, then store in external downloads directory
-                            Log.d(LOG_TAG, "APP: Shared/External Storage Directory set as root");
+                            Log.d(LOG_TAG, "APP: Shared/ExternalStorage State Storage Directory is set Environment.MEDIA_MOUNTED");
                             externalRoot = Environment
                                     .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
                                     .getAbsoluteFile();

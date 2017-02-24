@@ -575,7 +575,7 @@
                         android:layout_marginBottom="@dimen/list_view_filtering_action_btn_vertical_margin"
                         android:layout_marginTop="@dimen/list_view_filtering_action_btn_vertical_margin"
                         android:layout_toStartOf="@id/loan_list_view_filtering_hide_button"
-                        android:contentDescription="@string/loan_list_action_filter_show_hide"
+                        android:contentDescription="@string/loan_list_action_filter_hide"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
                         android:background="@drawable/loan_list_filtering_action_btn_layout"
@@ -585,7 +585,7 @@
                             android:layout_width="wrap_content"
                             android:paddingStart="@dimen/list_view_filtering_action_btn_horizontal_padding"
                             android:paddingEnd="@dimen/list_view_filtering_action_btn_horizontal_padding"
-                            android:text="Clear"
+                            android:text="@string/loan_list_action_filter_reset"
                             android:textAllCaps="true"
                             android:textSize="@dimen/list_small_text_size"
                             android:textColor="@color/color_primary_300"/>
