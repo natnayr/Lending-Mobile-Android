@@ -149,7 +149,6 @@ public class LoanListAdapter extends BaseAdapter{
             mFilteredList.clear();
             mFilteredList.addAll(mLoanList);
             notifyDataSetChanged();
-            return;
         }else{
             mFilteredList.clear();
             mFilteredList.addAll(mLoanList);
@@ -187,11 +186,11 @@ public class LoanListAdapter extends BaseAdapter{
                     }
                 }
             }
-
-            if(filteringCountTextView != null){
-                filteringCountTextView.setText(Integer.toString(getCount()) + filteringCountTextViewTail);
-            }
             notifyDataSetChanged();
+        }
+
+        if(filteringCountTextView != null){
+            filteringCountTextView.setText(Integer.toString(getCount()) + filteringCountTextViewTail);
         }
     }
 

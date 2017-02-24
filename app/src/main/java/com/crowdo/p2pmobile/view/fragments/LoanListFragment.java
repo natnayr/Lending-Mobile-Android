@@ -1,6 +1,5 @@
 package com.crowdo.p2pmobile.view.fragments;
 
-import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
@@ -20,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.crowdo.p2pmobile.R;
@@ -57,8 +55,12 @@ public class LoanListFragment extends Fragment {
     @BindView(R.id.loan_list_view_swipe) SwipeRefreshLayout swipeContainer;
 
     @BindView(R.id.loan_list_view_filtering_hide_button) LinearLayout filteringHideButton;
+    @BindView(R.id.loan_list_view_filtering_clear_button) LinearLayout filteringClearButton;
+
     @BindView(R.id.loan_list_view_filtering_count) TextView filteringCountLabel;
     @BindString(R.string.loan_list_action_filter_item_count_tail) String filteringCountTail;
+
+
 
     private LoanListAdapter mLoanAdapter;
     private Subscription loanListSubscription;
@@ -93,8 +95,8 @@ public class LoanListFragment extends Fragment {
             }
         });
 
-        swipeContainer.setColorSchemeResources(R.color.color_primary_dark,
-                R.color.color_primary, R.color.color_primary_light);
+        swipeContainer.setColorSchemeResources(R.color.color_primary_700,
+                R.color.color_primary, R.color.color_primary_300);
 
         mListView.setAdapter(mLoanAdapter);
 
@@ -112,12 +114,19 @@ public class LoanListFragment extends Fragment {
             }
         });
 
-        filteringHideButton.setOnTouchListener(new View.OnTouchListener() {
+        filteringHideButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View v) {
                 loanListSearchExpandableLayout.collapse();
                 searchView.clearFocus();
-                return true;
+            }
+        });
+
+        filteringClearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filteringViewHolder.clearFiltering();
             }
         });
 

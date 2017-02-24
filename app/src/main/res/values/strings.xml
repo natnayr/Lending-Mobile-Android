@@ -25,7 +25,9 @@
 
     <string name="loan_list_action_search">Search Loan ID...</string>
     <string name="loan_list_action_filter_show_hide">Show/Hide Filter</string>
+    <string name="loan_list_action_filter_reset">Reset Filter</string>
     <string name="loan_list_action_filter_item_count_tail">&#160;loan(s) total</string>
+
 
     <string name="loan_list_percentage_return_label">Return</string>
     <string name="loan_list_tenure_label">Months</string>

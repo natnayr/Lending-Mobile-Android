@@ -1,5 +1,6 @@
 package com.crowdo.p2pmobile.viewholders;
 
+import android.support.v7.widget.SearchView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -73,6 +74,7 @@ public class LoanListFilterViewHolder {
     @BindColor(R.color.color_primary_text) int colorPrimaryText;
 
     private LoanListAdapter mLoanAdapter;
+    private SearchView searchView;
 
     public LoanListFilterViewHolder(View view) {
         ButterKnife.bind(this, view);
@@ -80,11 +82,6 @@ public class LoanListFilterViewHolder {
 
     public void initView(LoanListAdapter mLoanAdapter) {
         this.mLoanAdapter = mLoanAdapter;
-        term3Button.setOnClickListener(new FilteringTermButtonClickListener(term3SwitchIconView, ConstantVariables.IN_TERM_3));
-        term4Button.setOnClickListener(new FilteringTermButtonClickListener(term4SwitchIconView, ConstantVariables.IN_TERM_4));
-        term5Button.setOnClickListener(new FilteringTermButtonClickListener(term5SwitchIconView, ConstantVariables.IN_TERM_5));
-        term6Button.setOnClickListener(new FilteringTermButtonClickListener(term6SwitchIconView, ConstantVariables.IN_TERM_6));
-        term9Button.setOnClickListener(new FilteringTermButtonClickListener(term9SwitchIconView, ConstantVariables.IN_TERM_9));
 
         gradeAPlusButton.setOnClickListener(new FilteringGradeButtonClickListener(gradeAPlusCheckBox, gradeAPlus));
         gradeAButton.setOnClickListener(new FilteringGradeButtonClickListener(gradeACheckBox, gradeA));
@@ -93,6 +90,12 @@ public class LoanListFilterViewHolder {
         gradeCButton.setOnClickListener(new FilteringGradeButtonClickListener(gradeCCheckBox, gradeC));
         gradeDButton.setOnClickListener(new FilteringGradeButtonClickListener(gradeDCheckBox, gradeD));
         gradeEButton.setOnClickListener(new FilteringGradeButtonClickListener(gradeECheckBox, gradeE));
+
+        term3Button.setOnClickListener(new FilteringTermButtonClickListener(term3SwitchIconView, ConstantVariables.IN_TERM_3));
+        term4Button.setOnClickListener(new FilteringTermButtonClickListener(term4SwitchIconView, ConstantVariables.IN_TERM_4));
+        term5Button.setOnClickListener(new FilteringTermButtonClickListener(term5SwitchIconView, ConstantVariables.IN_TERM_5));
+        term6Button.setOnClickListener(new FilteringTermButtonClickListener(term6SwitchIconView, ConstantVariables.IN_TERM_6));
+        term9Button.setOnClickListener(new FilteringTermButtonClickListener(term9SwitchIconView, ConstantVariables.IN_TERM_9));
 
         gradeAPlusCheckBox.setOnClickListener(new FilteringGradeButtonClickListener(gradeAPlusCheckBox, gradeAPlus));
         gradeACheckBox.setOnClickListener(new FilteringGradeButtonClickListener(gradeACheckBox, gradeA));
@@ -112,6 +115,38 @@ public class LoanListFilterViewHolder {
                 securityWorkOrderInvoiceSwitch, securityWorkOrderInvoiceLabel, ConstantVariables.IN_SEC_INVOICE_OR_CHEQUE));
 
     }
+
+    public void clearFiltering(){
+        mLoanAdapter.setSearchQuery("");
+        mLoanAdapter.getGradesToFilter().clear();
+        mLoanAdapter.getTermsToFilter().clear();
+        mLoanAdapter.getSecurityToFilter().clear();
+        mLoanAdapter.searchLoans();
+
+        //reset UI
+        gradeAPlusCheckBox.setChecked(false);
+        gradeACheckBox.setChecked(false);
+        gradeBPlusCheckBox.setChecked(false);
+        gradeBCheckBox.setChecked(false);
+        gradeCCheckBox.setChecked(false);
+        gradeDCheckBox.setChecked(false);
+        gradeECheckBox.setChecked(false);
+
+        term3SwitchIconView.setIconEnabled(false);
+        term4SwitchIconView.setIconEnabled(false);
+        term5SwitchIconView.setIconEnabled(false);
+        term6SwitchIconView.setIconEnabled(false);
+        term9SwitchIconView.setIconEnabled(false);
+
+        securityCollaterialisedSwitch.setIconEnabled(false);
+        securityUncollaterialisedSwitch.setIconEnabled(false);
+        securityWorkOrderInvoiceSwitch.setIconEnabled(false);
+        securityCollaterialisedLabel.setTextColor(colorDividerDark);
+        securityUncollaterialisedLabel.setTextColor(colorDividerDark);
+        securityWorkOrderInvoiceLabel.setTextColor(colorDividerDark);
+    }
+
+
 
     class FilteringGradeButtonClickListener implements View.OnClickListener{
         private AnimateCheckBox animateCheckBox;

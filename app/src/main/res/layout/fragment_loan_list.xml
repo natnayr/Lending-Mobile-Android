@@ -299,7 +299,7 @@
                                 app:si_enabled="true"
                                 app:si_tint_color="@color/color_accent"
                                 app:si_no_dash="true"
-                                app:srcCompat="@drawable/ic_numeric_3_box_outline_black_24dp" />
+                                app:srcCompat="@drawable/ic_numeric_3_box_multiple_outline_black_24dp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -320,7 +320,7 @@
                                 app:si_enabled="false"
                                 app:si_tint_color="@color/color_accent"
                                 app:si_no_dash="true"
-                                app:srcCompat="@drawable/ic_numeric_4_box_outline_black_24dp" />
+                                app:srcCompat="@drawable/ic_numeric_4_box_multiple_outline_black_24dp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -341,7 +341,7 @@
                                 app:si_enabled="false"
                                 app:si_tint_color="@color/color_accent"
                                 app:si_no_dash="true"
-                                app:srcCompat="@drawable/ic_numeric_5_box_outline_black_24dp" />
+                                app:srcCompat="@drawable/ic_numeric_5_box_multiple_outline_black_24dp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -362,7 +362,7 @@
                                 app:si_enabled="false"
                                 app:si_tint_color="@color/color_accent"
                                 app:si_no_dash="true"
-                                app:srcCompat="@drawable/ic_numeric_6_box_outline_black_24dp" />
+                                app:srcCompat="@drawable/ic_numeric_6_box_multiple_outline_black_24dp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -383,7 +383,7 @@
                                 app:si_enabled="false"
                                 app:si_tint_color="@color/color_accent"
                                 app:si_no_dash="true"
-                                app:srcCompat="@drawable/ic_numeric_9_box_outline_black_24dp" />
+                                app:srcCompat="@drawable/ic_numeric_9_box_multiple_outline_black_24dp" />
                         </LinearLayout>
                     </LinearLayout>
                 </RelativeLayout>
@@ -540,14 +540,60 @@
                         android:id="@+id/loan_list_view_filtering_hide_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/list_view_filtering_action_btn_horizontal_margin"
+                        android:layout_marginStart="@dimen/list_view_filtering_action_btn_horizontal_margin"
+                        android:layout_marginBottom="@dimen/list_view_filtering_action_btn_vertical_margin"
+                        android:layout_marginTop="@dimen/list_view_filtering_action_btn_vertical_margin"
                         android:layout_alignParentEnd="true"
-                        android:paddingRight="@dimen/activity_horizontal_padding"
-                        android:contentDescription="@string/loan_list_action_filter_show_hide">
+                        android:contentDescription="@string/loan_list_action_filter_reset"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/loan_list_filtering_action_btn_layout"
+                        android:backgroundTint="@color/color_primary_300">
+                        <TextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:paddingStart="@dimen/list_view_filtering_action_btn_horizontal_padding"
+                            android:paddingEnd="@dimen/list_view_filtering_action_btn_horizontal_padding"
+                            android:text="Hide"
+                            android:textAllCaps="true"
+                            android:textSize="@dimen/list_small_text_size"
+                            android:textColor="@color/color_primary_300"/>
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_chevron_double_up_black_24dp"
-                            android:tint="@color/color_primary"/>
+                            android:tint="@color/color_primary_300"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/loan_list_view_filtering_clear_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/list_view_filtering_action_btn_horizontal_margin"
+                        android:layout_marginStart="@dimen/list_view_filtering_action_btn_horizontal_margin"
+                        android:layout_marginBottom="@dimen/list_view_filtering_action_btn_vertical_margin"
+                        android:layout_marginTop="@dimen/list_view_filtering_action_btn_vertical_margin"
+                        android:layout_toStartOf="@id/loan_list_view_filtering_hide_button"
+                        android:contentDescription="@string/loan_list_action_filter_show_hide"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/loan_list_filtering_action_btn_layout"
+                        android:backgroundTint="@color/color_primary_300">
+                        <TextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:paddingStart="@dimen/list_view_filtering_action_btn_horizontal_padding"
+                            android:paddingEnd="@dimen/list_view_filtering_action_btn_horizontal_padding"
+                            android:text="Clear"
+                            android:textAllCaps="true"
+                            android:textSize="@dimen/list_small_text_size"
+                            android:textColor="@color/color_primary_300"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_notification_clear_all_black_24dp"
+                            android:tint="@color/color_primary_300"/>
                     </LinearLayout>
                 </RelativeLayout>
             </RelativeLayout>

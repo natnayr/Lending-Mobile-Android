@@ -2,7 +2,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="android:colorPrimary">@color/color_primary</item>
-        <item name="android:colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="android:colorPrimaryDark">@color/color_primary_700</item>
         <item name="android:colorAccent">@color/color_accent</item>
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>

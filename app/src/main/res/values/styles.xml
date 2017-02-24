@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorPrimaryDark">@color/color_primary_700</item>
         <item name="colorAccent">@color/color_accent</item>
         <item name="android:textColorPrimary">@color/color_icons_text</item>
         <item name="android:textColorSecondary">@color/color_secondary_text</item>
@@ -40,7 +40,7 @@
 
     <style name="WelcomeTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorPrimaryDark">@color/color_primary_700</item>
         <item name="colorAccent">@color/color_accent</item>
         <item name="android:textColorPrimary">@color/color_icons_text</item>
         <item name="android:textColorSecondary">@color/color_secondary_text</item>
@@ -55,9 +55,9 @@
     <style name="LoanDetailEditTextStyle" parent="Base.Widget.AppCompat.EditText">
         <item name="colorAccent">@color/color_primary</item>
         <item name="colorControlNormal">@color/color_primary</item>
-        <item name="colorControlActivated">@color/color_primary_light</item>
-        <item name="colorControlHighlight">@color/color_primary_light</item>
-        <item name="android:textColorHighlight">@color/color_primary_light</item>
+        <item name="colorControlActivated">@color/color_primary_100</item>
+        <item name="colorControlHighlight">@color/color_primary_100</item>
+        <item name="android:textColorHighlight">@color/color_primary_100</item>
         <item name="android:textColorLink">@color/color_accent</item>
     </style>
 

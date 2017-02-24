@@ -20,6 +20,12 @@
     <dimen name="list_view_filtering_checkbox_width">24dp</dimen>
     <dimen name="list_view_filtering_switch_view_icon_padding">8dp</dimen>
     <dimen name="list_view_filtering_switch_view_icon_margin">8dp</dimen>
+    <dimen name="list_view_filtering_action_btn_radius">4dp</dimen>
+    <dimen name="list_view_filtering_action_btn_vertical_padding">2dp</dimen>
+    <dimen name="list_view_filtering_action_btn_horizontal_padding">4dp</dimen>
+    <dimen name="list_view_filtering_action_btn_vertical_margin">8dp</dimen>
+    <dimen name="list_view_filtering_action_btn_horizontal_margin">4dp</dimen>
+    <dimen name="list_view_filtering_action_btn_stoke_width">1dp</dimen>
 
     <dimen name="list_loan_horizontal_padding">4dp</dimen>
     <dimen name="list_loan_vertical_padding">4dp</dimen>

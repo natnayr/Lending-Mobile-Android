@@ -118,8 +118,8 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
             }
         });
 
-        swipeContainer.setColorSchemeResources(R.color.color_primary_light,
-                R.color.color_primary, R.color.color_primary_dark);
+        swipeContainer.setColorSchemeResources(R.color.color_primary_100,
+                R.color.color_primary, R.color.color_primary_700);
 
     }
 

@@ -4,11 +4,11 @@
     <!--  State when a row is being pressed -->
     <item android:state_pressed="true"
         android:state_enabled="true"
-        android:drawable="@color/color_primary_light" />
+        android:drawable="@color/color_primary_100" />
 
     <!--  State when a row is activated -->
     <item android:state_activated="true"
-        android:drawable="@color/color_primary_light" />
+        android:drawable="@color/color_primary_100" />
 
     <!-- State when a row is enabled, not being pressed -->
     <item android:state_enabled="true"
