@@ -8,7 +8,7 @@
         android:id="@+id/loan_list_view_filtering_expandable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:el_expanded="true"
+        app:el_expanded="false"
         app:el_duration="200"
         app:el_parallax="0">
 
@@ -545,7 +545,7 @@
                         android:layout_marginBottom="@dimen/list_view_filtering_action_btn_vertical_margin"
                         android:layout_marginTop="@dimen/list_view_filtering_action_btn_vertical_margin"
                         android:layout_alignParentEnd="true"
-                        android:contentDescription="@string/loan_list_action_filter_reset"
+                        android:contentDescription="@string/loan_list_action_filter_hide"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
                         android:background="@drawable/loan_list_filtering_action_btn_layout"
@@ -555,7 +555,7 @@
                             android:layout_width="wrap_content"
                             android:paddingStart="@dimen/list_view_filtering_action_btn_horizontal_padding"
                             android:paddingEnd="@dimen/list_view_filtering_action_btn_horizontal_padding"
-                            android:text="Hide"
+                            android:text="@string/loan_list_action_filter_hide"
                             android:textAllCaps="true"
                             android:textSize="@dimen/list_small_text_size"
                             android:textColor="@color/color_primary_300"/>
@@ -575,7 +575,7 @@
                         android:layout_marginBottom="@dimen/list_view_filtering_action_btn_vertical_margin"
                         android:layout_marginTop="@dimen/list_view_filtering_action_btn_vertical_margin"
                         android:layout_toStartOf="@id/loan_list_view_filtering_hide_button"
-                        android:contentDescription="@string/loan_list_action_filter_hide"
+                        android:contentDescription="@string/loan_list_action_filter_clear"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
                         android:background="@drawable/loan_list_filtering_action_btn_layout"
@@ -585,7 +585,7 @@
                             android:layout_width="wrap_content"
                             android:paddingStart="@dimen/list_view_filtering_action_btn_horizontal_padding"
                             android:paddingEnd="@dimen/list_view_filtering_action_btn_horizontal_padding"
-                            android:text="@string/loan_list_action_filter_reset"
+                            android:text="@string/loan_list_action_filter_clear"
                             android:textAllCaps="true"
                             android:textSize="@dimen/list_small_text_size"
                             android:textColor="@color/color_primary_300"/>

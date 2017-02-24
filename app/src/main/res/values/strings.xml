@@ -4,6 +4,9 @@
     <string name="toolbar_title_loan_list">Investments</string>
     <string name="toolbar_title_loan_detail">Details</string>
     <string name="toolbar_title_learning_center">Learning Center</string>
+    <string name="toolbar_title_top_up_wallet">Top-Up</string>
+    <string name="toolbar_title_apply_investor">Apply As Investor</string>
+
     <string name="toolbar_title_factsheet">Fact-Sheet View (PDF)</string>
     <string name="toolbar_group_info">info</string>
     <string name="date_time_region" translatable="false">Asia/Singapore</string>
@@ -12,7 +15,6 @@
     <string name="welcome_intro_1_body">Personalized investments at your fingertips</string>
     <string name="welcome_intro_2_head">Possibilities without Boundaries</string>
     <string name="welcome_intro_2_body">High quality fundraising from a global community of investors is just a few clicks away</string>
-
     <string name="welcome_btn_label">Get Started</string>
 
     <string name="gradeA" translatable="false">A</string>
@@ -84,7 +86,6 @@
 
     <string name="webview_unable_open_file">Error, unable to open file</string>
     <string name="webview_download_to">Downloaded to&#160;</string>
-    <string name="webview_unable_external_drive">Unable to write to external drive</string>
 
 
     <!-- Globals -->
@@ -102,6 +103,10 @@
 
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="percent_label" translatable="false">%</string>
+
+    <string name="permissions_write_request">You need to allow access to Storage</string>
+    <string name="permissions_no_write_statement">Unable to write file to local storage</string>
+    <string name="permissions_write_request_continue">Re-click Button to Download</string>
 
     <!-- Preferences -->
     <string name="pref_user_email_key" translatable="false">USER_EMAIL</string>

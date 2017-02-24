@@ -1,5 +1,6 @@
 package com.crowdo.p2pmobile.view.activities;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
@@ -29,7 +30,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.crowdo.p2pmobile.R;
-import com.crowdo.p2pmobile.helpers.PermissionsUtil;
+import com.crowdo.p2pmobile.helpers.PermissionsUtils;
 import com.crowdo.p2pmobile.helpers.SnackBarUtil;
 import com.esafirm.rxdownloader.RxDownloader;
 import com.f2prateek.dart.Dart;
@@ -65,11 +66,13 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
     @BindString(R.string.downloading_label) String mLabelDownloading;
     @BindString(R.string.okay_label) String mLabelOkay;
+    @BindString(R.string.cancel_label) String mLabelCancel;
     @BindString(R.string.open_label) String mLabelOpen;
     @BindString(R.string.intent_file_chooser) String mLabelIntentFile;
     @BindString(R.string.webview_unable_open_file) String mLabelErrorOpenFile;
     @BindString(R.string.webview_download_to) String mLabelDownloadedTo;
-    @BindString(R.string.webview_unable_external_drive) String mLabelNoExternalDrive;
+    @BindString(R.string.permissions_write_request) String mLabelExternalDriveRequest;
+    @BindString(R.string.permissions_no_write_statement) String mLabelCannotWrite;
 
     @InjectExtra public int id;
     @InjectExtra public String url;
@@ -187,17 +190,10 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
                                     String contentDisposition, String userAgent) {
 
         //check permissions
-        if(!PermissionsUtil.checkPermission(this,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-            final Snackbar snackBar = SnackBarUtil
-                    .snackBarCreate(rootView, mLabelNoExternalDrive,
-                            colorIconText, Snackbar.LENGTH_LONG);
-            snackBar.setAction(mLabelOkay, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    snackBar.dismiss();
-                }
-            }).show();
+        PermissionsUtils.checkPermisssionAndRequest(this, mLabelExternalDriveRequest, mLabelOkay, mLabelCancel);
+        if(PermissionsUtils.checkPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == false){
+            Toast.makeText(this, mLabelCannotWrite, Toast.LENGTH_SHORT)
+                    .show();
             return;
         }
 
@@ -244,9 +240,7 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
                                     File downloadFile = new File(new URI(s));
 
                                     intent.setDataAndType(Uri.fromFile(downloadFile), usageMimeType);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY
-                                            | Intent.FLAG_ACTIVITY_NEW_TASK
-                                            | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                     Intent chooserIntent = Intent.createChooser(intent, mLabelIntentFile);
 
 

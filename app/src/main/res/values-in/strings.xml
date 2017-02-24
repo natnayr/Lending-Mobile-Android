@@ -50,7 +50,7 @@
     <string name="proceed_label">Lanjutkan</string>
     <string name="sign_up_label">Daftar</string>
     <string name="webview_download_to">Unduh ke&#160;</string>
-    <string name="webview_unable_external_drive">Tidak bisa di masukkan ke drive external</string>
+    <string name="permissions_no_write_statement">Tidak bisa di masukkan ke drive external</string>
     <string name="webview_unable_open_file">Error, tidak dapat membuka file</string>
     <string name="welcome_btn_label">Mari Mulai</string>
     <string name="welcome_intro_1_body">Personalisasi Investasi Di Gengaman Anda</string>
@@ -70,13 +70,12 @@
     <string name="learning_center_categories_label_investor">Kreditur</string>
     <string name="learning_center_categories_label_fees">Biaya</string>
     <string name="learning_center_categories_label_loan_document">Dokumen Pinjaman</string>
-    <string name="fa_angle_right" translatable="false"></string>
     <string name="loan_list_action_search">Cari Pinjaman ID...</string>
     <string name="pre_exit_question">Apakah Anda yakin ingin keluar?</string>
     <string name="toolbar_group_info">info</string>
     <string name="loan_list_action_filter_item_count_tail">&#160;total pinjaman</string>
     <string name="learning_center_msg_fees">Silahkan hubungi <a href="mailto:enquiry.p2p@crowdo.com" target="_top">enquiry.p2p@crowdo.com</a> untuk pertanyaan terkait</string>
     <string name="loan_list_action_filter_hide">Sembunyikan</string>
-    <string name="loan_list_action_filter_clear">Clear</string>
+    <string name="loan_list_action_filter_clear">Bersihkan</string>
     <string name="learning_center_categories_item_count_label">&#160;item(s)</string>
 </resources>

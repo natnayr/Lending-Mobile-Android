@@ -44,9 +44,6 @@
             android:name=".view.activities.WebViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activities.LoanDetailsActivity" />
         </activity>
     </application>
 

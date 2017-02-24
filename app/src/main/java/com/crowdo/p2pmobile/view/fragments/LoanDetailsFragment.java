@@ -1,6 +1,8 @@
 package com.crowdo.p2pmobile.view.fragments;
 
+import android.Manifest;
 import android.app.AlertDialog;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.content.ActivityNotFoundException;
@@ -15,11 +17,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crowdo.p2pmobile.helpers.PermissionsUtils;
 import com.crowdo.p2pmobile.helpers.SoftInputHelper;
 import com.crowdo.p2pmobile.view.activities.Henson;
 import com.crowdo.p2pmobile.view.activities.LoanDetailsActivity;
@@ -60,8 +62,11 @@ public class LoanDetailsFragment extends Fragment {
     @BindString(R.string.loan_detail_prog_snackbar_bid_too_low_label) String mLabelBidTooLow;
     @BindString(R.string.loan_detail_prog_snackbar_bid_too_high_label) String mLabelBidTooHigh;
     @BindString(R.string.loan_detail_prog_snackbar_approved_investor_only) String mLabelApprovedInvestorOnly;
+    @BindString(R.string.permissions_write_request) String mLabelPermissionRequest;
+    @BindString(R.string.cancel_label) String mLabelCancel;
     @BindString(R.string.okay_label) String mLabelOkay;
     @BindString(R.string.open_label) String mLabelOpen;
+    @BindString(R.string.permissions_no_write_statement) String mLabelCannotWrite;
 
     private static final String LOG_TAG = LoanDetailsFragment.class.getSimpleName();
     public static final String TAG_LOAN_DETAILS_FRAGMENT = "LOAN_DETAILS_FRAGMENT_TAG";
@@ -87,6 +92,11 @@ public class LoanDetailsFragment extends Fragment {
             this.initLoanId = getArguments()
                     .getInt(LoanDetailsActivity.BUNDLE_ID_KEY); //store
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
@@ -134,6 +144,14 @@ public class LoanDetailsFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+                PermissionsUtils.checkPermisssionAndRequest(getActivity(),
+                        mLabelPermissionRequest, mLabelOkay, mLabelCancel);
+                if(!PermissionsUtils.checkPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                    Toast.makeText(getActivity(), mLabelCannotWrite, Toast.LENGTH_SHORT)
+                            .show();
+                    return;
+                }
+
                 if(initLoanId >= 0) {
                     Toast toast = Toast.makeText(getActivity(),
                             mLabelToastDownloading, Toast.LENGTH_SHORT);
@@ -142,56 +160,57 @@ public class LoanDetailsFragment extends Fragment {
                     toast.show();
 
                     factsheetSubscription = LoanFactSheetClient.getInstance(getActivity(), initLoanId)
-                        .getLoanFactSheet()
-                        .subscribe(new Observer<File>() {
-                            @Override
-                            public void onCompleted() {
-                                Log.d(LOG_TAG, "APP: mFactSheetDownloadBtn complete");
-                            }
+                            .getLoanFactSheet()
+                            .subscribe(new Observer<File>() {
+                                @Override
+                                public void onCompleted() {
+                                    Log.d(LOG_TAG, "APP: mFactSheetDownloadBtn complete");
+                                }
 
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.e(LOG_TAG, "ERROR: onError " + e.getMessage(), e);
-                            }
+                                @Override
+                                public void onError(Throwable e) {
+                                    Log.e(LOG_TAG, "ERROR: onError " + e.getMessage(), e);
+                                }
 
-                            @Override
-                            public void onNext(final File file) {
-                                final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
+                                @Override
+                                public void onNext(final File file) {
+                                    final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
                                             file.getName(),
-                                        mColorIconText, Snackbar.LENGTH_LONG);
+                                            mColorIconText, Snackbar.LENGTH_LONG);
 
-                                snackbar.setAction(mLabelOpen, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                                        intent.setDataAndType(Uri.fromFile(file), ConstantVariables.PDF_CONTENT_TYPE);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY
-                                                | Intent.FLAG_ACTIVITY_NEW_TASK
-                                                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        Intent chooserIntent = Intent.createChooser(intent, mLabelIntentChooser);
+                                    snackbar.setAction(mLabelOpen, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                                            intent.setDataAndType(Uri.fromFile(file), ConstantVariables.PDF_CONTENT_TYPE);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY
+                                                    | Intent.FLAG_ACTIVITY_NEW_TASK
+                                                    | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            Intent chooserIntent = Intent.createChooser(intent, mLabelIntentChooser);
 
-                                        try{
-                                            startActivity(chooserIntent);
-                                        }catch (ActivityNotFoundException e){
-                                            Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                                            try{
+                                                startActivity(chooserIntent);
+                                            }catch (ActivityNotFoundException e){
+                                                Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
 
-                                            final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
-                                                    mLabelSnackPDFReadError,
-                                                    mColorIconText, Snackbar.LENGTH_LONG);
-                                            snackbar.setAction(mLabelOkay, new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-                                                    snackbar.dismiss();
-                                                }
-                                            });
-                                            snackbar.show();
+                                                final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
+                                                        mLabelSnackPDFReadError,
+                                                        mColorIconText, Snackbar.LENGTH_LONG);
+                                                snackbar.setAction(mLabelOkay, new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        snackbar.dismiss();
+                                                    }
+                                                });
+                                                snackbar.show();
+                                            }
                                         }
-                                    }
-                                });
-                                snackbar.show();
-                            }
-                        });
+                                    });
+                                    snackbar.show();
+                                }
+                            });
                 }
+
             }
         });
 
@@ -252,9 +271,8 @@ public class LoanDetailsFragment extends Fragment {
         super.onDestroy();
     }
 
-    /*
-        WebView intent into p2p crowdo
-     */
+
+    // WebView Intent into p2p crowdo
     private void addToCart(){
         if(viewHolder != null){
             int unitBidAmount;
