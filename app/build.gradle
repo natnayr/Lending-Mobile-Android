@@ -6,11 +6,11 @@ android {
     compileSdkVersion 24
     buildToolsVersion "25.0.1"
     defaultConfig {
-        applicationId "com.crowdo.p2pmobile"
+        applicationId "com.crowdo.p2pconnect"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 5
-        versionName "0.1.2.2"
+        versionCode 2
+        versionName "0.1.1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

@@ -4,7 +4,7 @@
     <data>
         <variable
             name="lcvm"
-            type="com.crowdo.p2pmobile.viewmodel.LearningCenterItemViewModel" />
+            type="com.crowdo.p2pconnect.viewmodel.LearningCenterItemViewModel" />
     </data>
     <LinearLayout
         android:id="@+id/item_learning_canter_card_view"

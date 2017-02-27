@@ -11,7 +11,7 @@
         <item name="android:textColorPrimaryInverse">@color/color_icons_text</item>
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
         <item name="android:colorBackground">@color/color_background</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.DayNight.Dialog.Alert</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="windowActionBarOverlay">true</item>
@@ -25,9 +25,6 @@
     <style name="PopupMenuTheme" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:background">@color/color_background</item>
         <item name="android:textColor">@color/color_primary_text</item>
-    </style>
-
-    <style name="PreferenceThemeOverlay" parent="PreferenceThemeOverlay.v14.Material">
     </style>
 
     <style name="AppAlertDialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">

@@ -114,7 +114,7 @@
         android:gravity="center_vertical"
         android:layout_below="@+id/loan_detail_essentials_description_group"
         android:layout_marginBottom="@dimen/loan_detail_vertical_bracket_margin">
-        <com.crowdo.p2pmobile.custom_ui.GoalProgressBar
+        <com.crowdo.p2pconnect.custom_ui.GoalProgressBar
             android:id="@+id/loan_detail_progress_bar"
             android:layout_width="0dp"
             android:layout_weight="6"

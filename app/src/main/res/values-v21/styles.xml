@@ -5,15 +5,7 @@
         <item name="android:colorPrimaryDark">@color/color_primary_700</item>
         <item name="android:colorAccent">@color/color_accent</item>
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
-    </style>
-
-    <style name="PreferenceThemeOverlay" parent="PreferenceThemeOverlay.v14.Material">
-        <item name="android:textViewStyle">@style/PreferenceThemeTextViewStyle</item>
-    </style>
-
-    <style name="PreferenceThemeTextViewStyle" parent="android:TextAppearance.Material.Widget.TextView">
-        <item name="android:fontFamily">@string/font_family_regular</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
     </style>
 
     <style name="AppAlertDialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
