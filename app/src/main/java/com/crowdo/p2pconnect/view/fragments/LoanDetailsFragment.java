@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,7 +95,10 @@ public class LoanDetailsFragment extends Fragment {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.d(LOG_TAG, "APP: onRequestPermissionsResult post requestCode="+requestCode);
+        if(requestCode == ConstantVariables.REQUEST_CODE_PERMISSIONS_WRITE_EXTERNAL_STORAGE){
+            downloadFactSheet();
+        }
     }
 
     @Override
@@ -116,7 +118,6 @@ public class LoanDetailsFragment extends Fragment {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<LoanDetail>() {
-
                     @Override
                     public void onCompleted() {
                         Log.d(LOG_TAG, "APP: Populated LoanDetail Rx onComplete");
@@ -144,73 +145,11 @@ public class LoanDetailsFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                PermissionsUtils.checkPermisssionAndRequest(getActivity(),
-                        mLabelPermissionRequest, mLabelOkay, mLabelCancel);
-                if(!PermissionsUtils.checkPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-                    Toast.makeText(getActivity(), mLabelCannotWrite, Toast.LENGTH_SHORT)
-                            .show();
-                    return;
-                }
+                PermissionsUtils.checkPermisssionAndRequestStorageFragment(getActivity(),
+                        LoanDetailsFragment.this, mLabelPermissionRequest, mLabelOkay,
+                        mLabelCancel);
 
-                if(initLoanId >= 0) {
-                    Toast toast = Toast.makeText(getActivity(),
-                            mLabelToastDownloading, Toast.LENGTH_SHORT);
-
-                    toast.setGravity(Gravity.TOP, 0, 0);
-                    toast.show();
-
-                    factsheetSubscription = LoanFactSheetClient.getInstance(getActivity(), initLoanId)
-                            .getLoanFactSheet()
-                            .subscribe(new Observer<File>() {
-                                @Override
-                                public void onCompleted() {
-                                    Log.d(LOG_TAG, "APP: mFactSheetDownloadBtn complete");
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-                                    Log.e(LOG_TAG, "ERROR: onError " + e.getMessage(), e);
-                                }
-
-                                @Override
-                                public void onNext(final File file) {
-                                    final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
-                                            file.getName(),
-                                            mColorIconText, Snackbar.LENGTH_LONG);
-
-                                    snackbar.setAction(mLabelOpen, new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            Intent intent = new Intent(Intent.ACTION_VIEW);
-                                            intent.setDataAndType(Uri.fromFile(file), ConstantVariables.PDF_CONTENT_TYPE);
-                                            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY
-                                                    | Intent.FLAG_ACTIVITY_NEW_TASK
-                                                    | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                            Intent chooserIntent = Intent.createChooser(intent, mLabelIntentChooser);
-
-                                            try{
-                                                startActivity(chooserIntent);
-                                            }catch (ActivityNotFoundException e){
-                                                Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-
-                                                final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
-                                                        mLabelSnackPDFReadError,
-                                                        mColorIconText, Snackbar.LENGTH_LONG);
-                                                snackbar.setAction(mLabelOkay, new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View v) {
-                                                        snackbar.dismiss();
-                                                    }
-                                                });
-                                                snackbar.show();
-                                            }
-                                        }
-                                    });
-                                    snackbar.show();
-                                }
-                            });
-                }
-
+                downloadFactSheet();
             }
         });
 
@@ -269,6 +208,69 @@ public class LoanDetailsFragment extends Fragment {
             memberCheckSubscription.unsubscribe();
         }
         super.onDestroy();
+    }
+
+    private void downloadFactSheet(){
+
+        if(PermissionsUtils.checkPermissionOnly(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                && PermissionsUtils.checkPermissionOnly(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+            if (initLoanId >= 0) {
+                Toast.makeText(getActivity(),
+                        mLabelToastDownloading, Toast.LENGTH_SHORT).show();
+
+                factsheetSubscription = LoanFactSheetClient.getInstance(getActivity(), initLoanId)
+                        .getLoanFactSheet()
+                        .subscribe(new Observer<File>() {
+                            @Override
+                            public void onCompleted() {
+                                Log.d(LOG_TAG, "APP: mFactSheetDownloadBtn complete");
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.e(LOG_TAG, "ERROR: onError " + e.getMessage(), e);
+                            }
+
+                            @Override
+                            public void onNext(final File file) {
+                                final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
+                                        file.getName(),
+                                        mColorIconText, Snackbar.LENGTH_LONG);
+
+                                snackbar.setAction(mLabelOpen, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                                        intent.setDataAndType(Uri.fromFile(file), ConstantVariables.PDF_CONTENT_TYPE);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY
+                                                | Intent.FLAG_ACTIVITY_NEW_TASK
+                                                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        Intent chooserIntent = Intent.createChooser(intent, mLabelIntentChooser);
+
+                                        try {
+                                            startActivity(chooserIntent);
+                                        } catch (ActivityNotFoundException e) {
+                                            Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+
+                                            final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
+                                                    mLabelSnackPDFReadError,
+                                                    mColorIconText, Snackbar.LENGTH_LONG);
+                                            snackbar.setAction(mLabelOkay, new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    snackbar.dismiss();
+                                                }
+                                            });
+                                            snackbar.show();
+                                        }
+                                    }
+                                });
+                                snackbar.show();
+                            }
+                        });
+            }
+        }
     }
 
 

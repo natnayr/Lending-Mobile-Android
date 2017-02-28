@@ -34,8 +34,6 @@ public class CrowdoApplication extends Application{
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         //init mobile db
-
-
         Realm.init(getApplicationContext());
         RealmConfiguration config = new RealmConfiguration
                 .Builder()

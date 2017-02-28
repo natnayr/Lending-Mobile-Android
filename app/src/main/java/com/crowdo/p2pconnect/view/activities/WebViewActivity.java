@@ -30,6 +30,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.esafirm.rxdownloader.RxDownloader;
@@ -190,10 +191,8 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
                                     String contentDisposition, String userAgent) {
 
         //check permissions
-        PermissionsUtils.checkPermisssionAndRequest(this, mLabelExternalDriveRequest, mLabelOkay, mLabelCancel);
-        if(PermissionsUtils.checkPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == false){
-            Toast.makeText(this, mLabelCannotWrite, Toast.LENGTH_SHORT)
-                    .show();
+        if(PermissionsUtils.checkPermissionAndRequestActivity(this, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                ConstantVariables.REQUEST_CODE_PERMISSIONS_WRITE_EXTERNAL_STORAGE) == false){
             return;
         }
 

@@ -32,10 +32,11 @@
         android:fitsSystemWindows="true"
         app:menu="@menu/drawer_menu"
         app:headerLayout="@layout/nav_header"
-        app:itemTextAppearance="@style/TextAppearance.AppCompat.Menu"
+        app:itemTextAppearance="@style/NavMenuTextViewStyle"
         app:itemIconTint="@color/drawer_menu_icon_tint"
         app:itemTextColor="@color/drawer_menu_text_color"
         app:itemBackground="@drawable/drawer_menu_background_color"
         app:elevation="2dp"/>
+
 
 </android.support.v4.widget.DrawerLayout>

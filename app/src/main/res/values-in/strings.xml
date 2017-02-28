@@ -77,9 +77,11 @@
     <string name="loan_list_action_filter_hide">Sembunyikan</string>
     <string name="loan_list_action_filter_clear">Bersihkan</string>
     <string name="learning_center_categories_item_count_label">&#160;item(s)</string>
-    <string name="navmenu_group_info">INFO</string>
+    <string name="navmenu_group_info">info</string>
     <string name="permissions_write_request">Anda perlu memberikan akses ke Penyimpanan</string>
     <string name="permissions_write_request_continue">Klik ulang untuk Mengunduh</string>
     <string name="toolbar_title_top_up_wallet">Top Up</string>
     <string name="toolbar_title_apply_investor">Ajukan Sebagai Investor</string>
+    <string name="navmenu_group_account">akun</string>
+    <string name="permission_overlay_permission_request"></string>
 </resources>

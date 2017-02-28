@@ -37,7 +37,8 @@ public class ConstantVariables {
     public static final int IN_TERM_6 = 6;
     public static final int IN_TERM_9 = 9;
 
-    public static final int REQUEST_CODE_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 1;
+    public static final int REQUEST_CODE_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 12312;
+    public static final int REQUEST_CODE_PERMISSIONS_OVERLAY = 10101;
 
     public static final String OUT_DATE_TIME_FORMAT = "dd MMM yyyy";
 

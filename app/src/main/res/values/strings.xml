@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name" translatable="false">Crowdo Connect</string>
     <string name="app_name_welcome" translatable="false">connect</string>
-    <string name="navmenu_group_info">INFO</string>
+
+    <string name="navmenu_group_info">info</string>
+    <string name="navmenu_group_account">accounts</string>
 
     <string name="toolbar_title_settings">Settings</string>
     <string name="toolbar_title_loan_list">Investments</string>
@@ -10,7 +12,10 @@
     <string name="toolbar_title_top_up_wallet">Top Up</string>
     <string name="toolbar_title_apply_investor">Apply As Investor</string>
     <string name="toolbar_title_factsheet">Fact-Sheet View (PDF)</string>
+    <string name="toolbar_title_language">Language</string>
 
+    <string name="language_english_label">English</string>
+    <string name="language_bahasa_label">Bahasa</string>
     <string name="date_time_region" translatable="false">Asia/Singapore</string>
 
     <string name="welcome_intro_1_head">Earn competitive returns</string>
@@ -31,7 +36,6 @@
     <string name="loan_list_action_filter_hide">Hide</string>
     <string name="loan_list_action_filter_clear">Clear</string>
     <string name="loan_list_action_filter_item_count_tail">&#160;loan(s) total</string>
-
 
     <string name="loan_list_percentage_return_label">Return</string>
     <string name="loan_list_tenure_label">Months</string>
@@ -89,7 +93,6 @@
     <string name="webview_unable_open_file">Error, unable to open file</string>
     <string name="webview_download_to">Downloaded to&#160;</string>
 
-
     <!-- Globals -->
     <string name="pre_exit_question">Are you sure you want to exit?</string>
     <string name="downloading_label">Downloading, Please tap OPEN to access file</string>
@@ -106,8 +109,10 @@
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="percent_label" translatable="false">%</string>
 
+    <string name="permission_overlay_permission_request">For Android Marshmallow devices, "Draw over other Apps" permission is required\n\nClick OK to grant</string>
+
     <string name="permissions_write_request">You need to allow access to Storage</string>
-    <string name="permissions_no_write_statement">Unable to write file to local storage</string>
+    <string name="permissions_no_write_statement">Unable to write file to local storage, please enable Storage Permissions</string>
     <string name="permissions_write_request_continue">Re-click Button to Download</string>
 
     <!-- Preferences -->

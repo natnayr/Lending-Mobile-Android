@@ -63,7 +63,5 @@ public class SharedPreferencesUtils {
         SharedPreferencesUtils.setSharePrefBool(context,
                 ConstantVariables.PREF_KEY_USER_INVESTOR_APPROVAL_IDR,
                 false);
-
-        
     }
 }

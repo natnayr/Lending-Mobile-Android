@@ -14,8 +14,22 @@
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="@string/toolbar_title_settings"/>
 
+
+        <item
+            android:title="@string/navmenu_group_info">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_drawer_learning_center"
+                        android:checked="false"
+                        android:icon="@drawable/ic_book_open_page_variant_black_24dp"
+                        android:title="@string/toolbar_title_learning_center"/>
+                </group>
+            </menu>
+        </item>
+
         <!--<item-->
-            <!--android:title="account">-->
+            <!--android:title="@string/navmenu_group_account">-->
             <!--<menu>-->
                 <!--<group android:checkableBehavior="single">-->
                     <!--<item-->
@@ -31,18 +45,18 @@
                 <!--</group>-->
             <!--</menu>-->
         <!--</item>-->
-        <item
-            android:title="@string/navmenu_group_info">
-            <menu>
-                <group android:checkableBehavior="single">
-                    <item
-                        android:id="@+id/nav_drawer_learning_center"
-                        android:checked="false"
-                        android:icon="@drawable/ic_book_open_page_variant_black_24dp"
-                        android:title="@string/toolbar_title_learning_center"/>
-                </group>
-            </menu>
-        </item>
+
+        <!--<item-->
+            <!--android:title="configure">-->
+            <!--<menu>-->
+                <!--<item-->
+                    <!--android:id="@+id/nav_drawer_language"-->
+                    <!--android:checked="false"-->
+                    <!--android:icon="@drawable/ic_translate_black_24dp"-->
+                    <!--android:title="@string/toolbar_title_apply_investor"-->
+                    <!--android:actionLayout="@layout/spinner_menu"/>-->
+            <!--</menu>-->
+        <!--</item>-->
     </group>
 
 </menu>
