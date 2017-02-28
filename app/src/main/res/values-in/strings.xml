@@ -83,5 +83,4 @@
     <string name="toolbar_title_top_up_wallet">Top Up</string>
     <string name="toolbar_title_apply_investor">Ajukan Sebagai Investor</string>
     <string name="navmenu_group_account">akun</string>
-    <string name="permission_overlay_permission_request"></string>
 </resources>

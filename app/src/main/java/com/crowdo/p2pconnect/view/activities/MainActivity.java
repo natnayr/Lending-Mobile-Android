@@ -26,9 +26,12 @@ import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
+import com.crowdo.p2pconnect.helpers.TypefaceUtils;
 import com.crowdo.p2pconnect.view.fragments.LearningCenterFragment;
 import com.crowdo.p2pconnect.view.fragments.LoanListFragment;
 import com.crowdo.p2pconnect.view.fragments.SettingsFragment;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -41,16 +44,13 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity{
 
     @BindView(R.id.toolbar) Toolbar mToolbar;
-    @BindView(R.id.main_drawer_layout) DrawerLayout mDrawer;
-    @BindView(R.id.main_nav_view) NavigationView mNavDrawer;
     @BindString(R.string.pre_exit_question) String mPreExitQuestion;
     @BindString(R.string.permission_overlay_permission_request) String mOverlayPermissionRequest;
     @BindString(R.string.language_english_label) String mLanguageEnglish;
     @BindString(R.string.language_bahasa_label) String mLanguageBahasa;
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
-    private ActionBarDrawerToggle drawerToggle;
-    private View navHeader;
+    private Drawer navDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,111 +63,49 @@ public class MainActivity extends AppCompatActivity{
         setSupportActionBar(mToolbar);
         mToolbar.setTitle(getString(R.string.toolbar_title_loan_list));
         MainActivity.this.setTitle(getString(R.string.toolbar_title_loan_list));
+
+        //finally load fragment
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.main_content, new LoanListFragment())
                 .commit();
 
-        setupDrawerContent(mNavDrawer);
-        drawerToggle = setUpDrawerToggle();
-        mDrawer.addDrawerListener(drawerToggle);
+        navDrawer = new DrawerBuilder()
+                .withActivity(this)
+                .withToolbar(mToolbar)
+                .withHeader(R.layout.nav_header)
+                .withDrawerWidthDp(280)
+                .build();
 
-        navHeader = mNavDrawer.getHeaderView(0); //reference point
-
-        //set font for connect logo
-        TextView mNavDrawerAppLogo = (TextView) navHeader.findViewById(R.id.nav_header_app_title);
-        Typeface quickSandTypeFace = Typeface.createFromAsset(getAssets(), "fonts/NothingYouCouldDo.ttf");
-        mNavDrawerAppLogo.setTypeface(quickSandTypeFace);
-
-//        String[] langs = {mLanguageEnglish, mLanguageBahasa};
-//
-//        Spinner sp = (Spinner) mNavDrawer.getMenu().findItem(R.id.nav_drawer_language).getActionView();
-//        sp.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, langs));
-//
-//        sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                Log.d(LOG_TAG, "APP: Language selected = " + (String) parent.getItemAtPosition(position));
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
+        TextView mNavDrawerAppLogo = (TextView) navDrawer.getHeader().findViewById(R.id.nav_header_app_title);
+        mNavDrawerAppLogo.setTypeface(TypefaceUtils.getQuickSandTypeFace(this));
     }
 
 
-    private void setupDrawerContent(NavigationView navigationView){
-        navigationView.setNavigationItemSelectedListener(
-            new NavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    selectDrawerItem(item);
-                    return true;
-                }
-            }
-        );
-    }
+//    private void selectDrawerItem(MenuItem item){
+//        Fragment fragment = null;
+//        Class fragmentClass;
+//
+//        switch (item.getItemId()){
+//            case R.id.nav_drawer_loan_list:
+//                fragmentClass = LoanListFragment.class;
+//                break;
+//            case R.id.nav_drawer_settings:
+//                fragmentClass = SettingsFragment.class;
+//                break;
+//            case R.id.nav_drawer_learning_center:
+//                fragmentClass = LearningCenterFragment.class;
+//                break;
+//            default:
+//                fragmentClass = LoanListFragment.class;
+//        }
+//
+//        try{
+//            fragment = (Fragment) fragmentClass.newInstance();
+//        }catch (Exception e){
+//            Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+//            e.printStackTrace();
+//        }
 
-    private void selectDrawerItem(MenuItem item){
-        Fragment fragment = null;
-        Class fragmentClass;
-
-        switch (item.getItemId()){
-            case R.id.nav_drawer_loan_list:
-                fragmentClass = LoanListFragment.class;
-                break;
-            case R.id.nav_drawer_settings:
-                fragmentClass = SettingsFragment.class;
-                break;
-            case R.id.nav_drawer_learning_center:
-                fragmentClass = LearningCenterFragment.class;
-                break;
-            default:
-                fragmentClass = LoanListFragment.class;
-        }
-
-        try{
-            fragment = (Fragment) fragmentClass.newInstance();
-        }catch (Exception e){
-            Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-            e.printStackTrace();
-        }
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_content, fragment)
-                .commit();
-
-        // Highlight the selected item
-        item.setChecked(true);
-        // Set Action Bar
-        setTitle(item.getTitle());
-        // Close the Navi Drawer
-        mDrawer.closeDrawers();
-    }
-
-
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // For handling of events
-        if(drawerToggle.onOptionsItemSelected(item)){
-            return true;
-        }
-
-        switch (item.getItemId()){
-            case android.R.id.home:
-                if(mDrawer.isDrawerOpen(GravityCompat.START)){
-                    mDrawer.closeDrawer(GravityCompat.START);
-                }else{
-                    mDrawer.openDrawer(GravityCompat.START);
-                }
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onBackPressed() {
@@ -179,18 +117,6 @@ public class MainActivity extends AppCompatActivity{
                         MainActivity.super.onBackPressed();
                     }
                 }).create().show();
-    }
-
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
@@ -228,10 +154,6 @@ public class MainActivity extends AppCompatActivity{
 
                     }
                 });
-    }
-
-    private ActionBarDrawerToggle setUpDrawerToggle(){
-        return new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
     }
 
     public boolean checkDrawOverlayPermission() {

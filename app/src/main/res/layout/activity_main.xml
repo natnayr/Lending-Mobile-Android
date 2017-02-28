@@ -1,42 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".view.activities.MainActivity">
-    <LinearLayout
+
+    <include layout="@layout/toolbar"/>
+
+    <FrameLayout
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@color/color_background"/>
 
-        <include layout="@layout/toolbar"/>
-        
-        <FrameLayout
-            android:id="@+id/main_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/color_background"/>
+</LinearLayout>
 
-    </LinearLayout>
+    <!--<android.support.design.widget.NavigationView-->
+        <!--android:id="@+id/main_nav_view"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="start"-->
+        <!--android:maxWidth="240dp"-->
+        <!--android:background="@color/color_icons_text"-->
+        <!--android:fitsSystemWindows="true"-->
+        <!--app:menu="@menu/drawer_menu"-->
+        <!--app:headerLayout="@layout/nav_header"-->
+        <!--app:itemTextAppearance="@style/NavMenuTextViewStyle"-->
+        <!--app:itemIconTint="@color/drawer_menu_icon_tint"-->
+        <!--app:itemTextColor="@color/drawer_menu_text_color"-->
+        <!--app:itemBackground="@drawable/drawer_menu_background_color"-->
+        <!--app:elevation="2dp"/>-->
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/main_nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:maxWidth="240dp"
-        android:background="@color/color_icons_text"
-        android:fitsSystemWindows="true"
-        app:menu="@menu/drawer_menu"
-        app:headerLayout="@layout/nav_header"
-        app:itemTextAppearance="@style/NavMenuTextViewStyle"
-        app:itemIconTint="@color/drawer_menu_icon_tint"
-        app:itemTextColor="@color/drawer_menu_text_color"
-        app:itemBackground="@drawable/drawer_menu_background_color"
-        app:elevation="2dp"/>
-
-
-</android.support.v4.widget.DrawerLayout>

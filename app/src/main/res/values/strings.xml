@@ -12,10 +12,10 @@
     <string name="toolbar_title_top_up_wallet">Top Up</string>
     <string name="toolbar_title_apply_investor">Apply As Investor</string>
     <string name="toolbar_title_factsheet">Fact-Sheet View (PDF)</string>
-    <string name="toolbar_title_language">Language</string>
+    <string name="toolbar_title_language" translatable="false">Language</string>
 
-    <string name="language_english_label">English</string>
-    <string name="language_bahasa_label">Bahasa</string>
+    <string name="language_english_label" translatable="false">English</string>
+    <string name="language_bahasa_label" translatable="false">Bahasa</string>
     <string name="date_time_region" translatable="false">Asia/Singapore</string>
 
     <string name="welcome_intro_1_head">Earn competitive returns</string>
@@ -109,7 +109,7 @@
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="percent_label" translatable="false">%</string>
 
-    <string name="permission_overlay_permission_request">For Android Marshmallow devices, "Draw over other Apps" permission is required\n\nClick OK to grant</string>
+    <string name="permission_overlay_permission_request" translatable="false">For Android Marshmallow devices, "Draw over other Apps" permission is required\n\nClick OK to grant</string>
 
     <string name="permissions_write_request">You need to allow access to Storage</string>
     <string name="permissions_no_write_statement">Unable to write file to local storage, please enable Storage Permissions</string>
