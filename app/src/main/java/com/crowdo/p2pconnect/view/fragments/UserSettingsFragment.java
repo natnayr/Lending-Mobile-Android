@@ -33,15 +33,13 @@ import rx.schedulers.Schedulers;
  * Created by cwdsg05 on 29/12/16.
  */
 
-public class SettingsFragment extends PreferenceFragmentCompat
+public class UserSettingsFragment extends PreferenceFragmentCompat
         implements SharedPreferences.OnSharedPreferenceChangeListener{
 
     //SharedPreference object uses default provided from PreferenceManager
     SharedPreferences sharedPreferences;
-    private static final String LOG_TAG = SettingsFragment.class.getSimpleName();
-    public static final String TAG_SETTINGS_FRAGMENT = "LOAN_DETAILS_FRAGMENT_TAG";
+    private static final String LOG_TAG = UserSettingsFragment.class.getSimpleName();
     private Subscription memberCheckSubscription;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

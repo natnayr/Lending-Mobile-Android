@@ -58,7 +58,7 @@
     <string name="toolbar_title_factsheet">Lihat Lembar Fakta (PDF)</string>
     <string name="toolbar_title_loan_list">Investasi</string>
     <string name="toolbar_title_loan_detail">Rincian</string>
-    <string name="toolbar_title_settings">Pengaturan</string>
+    <string name="toolbar_title_user_settings">Pengaturan Pengguna</string>
     <string name="welcome_intro_2_body">Penggalangan Dana Yang Berkualitas Dari Komunitas Investor Global Dalam Genggaman Anda</string>
     <string name="welcome_intro_2_head">Kemungkinan Tanpa Batasan</string>
     <string name="loan_detail_enter_amount_hint_error_positive">Mohon hanya nilai Non Negatif</string>
@@ -83,4 +83,6 @@
     <string name="toolbar_title_top_up_wallet">Top Up</string>
     <string name="toolbar_title_apply_investor">Ajukan Sebagai Investor</string>
     <string name="navmenu_group_account">akun</string>
+    <string name="toolbar_title_language">Bahasa</string>
+    <string name="permission_overlay_permission_request">Untuk perangkat Android Marshmallow, \"Draw over other Apps\" diperlukan ijin \\n\\nKlik OK untuk menyetujui</string>
 </resources>
