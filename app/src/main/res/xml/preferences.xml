@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.preference.PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <android.support.v7.preference.PreferenceCategory
-        android:title="My Account">
+        android:title="@string/pref_label_account">
 
         <android.support.v7.preference.Preference
             android:key="@string/pref_user_name_key"
@@ -23,8 +22,8 @@
 
         <android.support.v7.preference.Preference
             android:key="@string/pref_user_logout_key"
-            android:title="Exit Session"
-            android:summary="Clear your stored details"/>
+            android:title="@string/pref_user_exit_session_title"
+            android:summary="@string/pref_user_exit_session_summary"/>
 
     </android.support.v7.preference.PreferenceCategory>
 

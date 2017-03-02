@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.databinding.FragmentLearningCenterBinding;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
+import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.model.LearningCenter;
@@ -80,12 +81,7 @@ public class LearningCenterFragment extends Fragment{
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
 
-        if(ConstantVariables.APP_LANG_SET.equals(ConstantVariables.LEARNING_CENTER_DB_ID)){
-            this.lang = ConstantVariables.LEARNING_CENTER_DB_ID;
-        }else{
-            //default english
-            this.lang = ConstantVariables.LEARNING_CENTER_DB_EN;
-        }
+        this.lang = LocaleHelper.getLanguage(getActivity());
 
         progress = new ProgressDialog(getActivity());
         progress.setTitle("Loading");
@@ -239,9 +235,6 @@ public class LearningCenterFragment extends Fragment{
                     int[] counterEn = {1, 1, 1};
                     int[] counterId = {1, 1, 1};
 
-                    final String EN = ConstantVariables.LEARNING_CENTER_DB_EN;
-                    final String ID = ConstantVariables.LEARNING_CENTER_DB_ID;
-
                     try {
                         InputStreamReader isr = new InputStreamReader(getActivity().getAssets()
                                 .open(ConstantVariables.LEARNING_CENTER_CSV_FILE_LOCATION));
@@ -253,7 +246,7 @@ public class LearningCenterFragment extends Fragment{
                                 if (csvCategories.contains(rec.get(0))) {
                                     int csvIdx = csvCategories.indexOf(rec.get(0));
                                     LearningCenter enLearningCenter = realm.createObject(LearningCenter.class);
-                                    enLearningCenter.setLanguage(EN);
+                                    enLearningCenter.setLanguage(ConstantVariables.APP_LANG_EN);
                                     enLearningCenter.setCategory(rec.get(0));
                                     enLearningCenter.setQuestion(rec.get(1));
                                     enLearningCenter.setAnswer(rec.get(2));
@@ -261,7 +254,7 @@ public class LearningCenterFragment extends Fragment{
                                     counterEn[csvIdx]++;
 
                                     LearningCenter idLearningCenter = realm.createObject(LearningCenter.class);
-                                    idLearningCenter.setLanguage(ID);
+                                    idLearningCenter.setLanguage(ConstantVariables.APP_LANG_IN);
                                     idLearningCenter.setCategory(rec.get(0));
                                     idLearningCenter.setQuestion(rec.get(4));
                                     idLearningCenter.setAnswer(rec.get(5));
@@ -275,6 +268,8 @@ public class LearningCenterFragment extends Fragment{
                         Log.e(LOG_TAG, "ERROR: " + ioe.getMessage(), ioe);
                     }
                 }
+
+                Log.d(LOG_TAG, "APP: populateData() language = " + lang);
 
                 //do realm call db transactions
                 mGeneralResults = realm.where(LearningCenter.class)
@@ -345,22 +340,25 @@ public class LearningCenterFragment extends Fragment{
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            try{
+            try {
                 mSearchInput.removeTextChangedListener(this);
-                String searchStr = mSearchInput.getText().toString();
+                String searchStr = s.toString();
+                if("".equals(searchStr) && mGeneralAdapter != null
+                        && mInvestorAdapter != null && mBorrowerAdapter != null) {
+                    mGeneralAdapter.search(searchStr);
+                    mInvestorAdapter.search(searchStr);
+                    mBorrowerAdapter.search(searchStr);
 
-                mGeneralAdapter.search(searchStr);
-                mInvestorAdapter.search(searchStr);
-                mBorrowerAdapter.search(searchStr);
+                    mGeneralItemCount = mGeneralAdapter.getItemCount();
+                    mInvestorItemCount = mInvestorAdapter.getItemCount();
+                    mBorrowerItemCount = mBorrowerAdapter.getItemCount();
 
-                mGeneralItemCount = mGeneralAdapter.getItemCount();
-                mInvestorItemCount = mInvestorAdapter.getItemCount();
-                mBorrowerItemCount = mBorrowerAdapter.getItemCount();
-
-                mGeneralItemCountLabel.setText(String.valueOf(mGeneralItemCount) + mItemCountTailLabel);
-                mInvestorItemCountLabel.setText(String.valueOf(mInvestorItemCount) + mItemCountTailLabel);
-                mBorrowerItemCountLabel.setText(String.valueOf(mBorrowerItemCount) + mItemCountTailLabel);
-
+                    mGeneralItemCountLabel.setText(String.valueOf(mGeneralItemCount) + mItemCountTailLabel);
+                    mInvestorItemCountLabel.setText(String.valueOf(mInvestorItemCount) + mItemCountTailLabel);
+                    mBorrowerItemCountLabel.setText(String.valueOf(mBorrowerItemCount) + mItemCountTailLabel);
+                }
+            }catch(NullPointerException ne){
+                Log.e(LOG_TAG, "ERROR: " + ne.getMessage(), ne);
             }catch(IndexOutOfBoundsException e){
                 Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
             }finally{

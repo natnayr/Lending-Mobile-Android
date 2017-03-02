@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HardwareUtils;
+import com.crowdo.p2pconnect.helpers.LocaleHelper;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,7 +54,7 @@ public class LoanFactSheetClient {
 
     public Observable<File> getLoanFactSheet(){
         return  apiServices.getLoanFactSheet(this.loanId,
-                ConstantVariables.APP_LANG_SET)
+                LocaleHelper.getLanguage(mContext))
             .flatMap(processResponse())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread());

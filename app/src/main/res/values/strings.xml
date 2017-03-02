@@ -3,7 +3,7 @@
     <string name="app_name_welcome" translatable="false">connect</string>
 
     <string name="navmenu_label_extras">Extras</string>
-    <string name="navmenu_label_personalise">Personalise</string>
+    <string name="navmenu_label_personalise">Personalize</string>
     <string name="navmenu_label_language">Language</string>
 
     <string name="toolbar_title_user_settings">User Settings</string>
@@ -15,7 +15,7 @@
     <string name="toolbar_title_factsheet">Fact-Sheet View (PDF)</string>
 
     <string name="language_english_label" translatable="false">English</string>
-    <string name="language_bahasa_label" translatable="false">Bahasa</string>
+    <string name="language_bahasa_label" translatable="false">Bahasa Indonesia</string>
     <string name="date_time_region" translatable="false">Asia/Singapore</string>
 
     <string name="welcome_intro_1_head">Earn competitive returns</string>
@@ -32,23 +32,30 @@
     <string name="gradeD" translatable="false">D</string>
     <string name="gradeE" translatable="false">E</string>
 
-    <string name="loan_list_action_search">Search Loan ID...</string>
+    <string name="loan_list_action_search">Search Loan ID&#46;&#46;&#46;</string>
+    <string name="loan_list_action_filter_title">Filter</string>
     <string name="loan_list_action_filter_hide">Hide</string>
     <string name="loan_list_action_filter_clear">Clear</string>
     <string name="loan_list_action_filter_item_count_tail">&#160;loan(s) total</string>
+    <string name="loan_list_action_filter_grades_label">Grades&#58;</string>
+    <string name="loan_list_action_filter_term_label">Term\nMonths&#58;</string>
+    <string name="loan_list_action_filter_security_label">Securities&#58;</string>
+    <string name="loan_list_action_filter_sec_collateralized">Collateral</string>
+    <string name="loan_list_action_filter_sec_uncollateralized">Non-\nCollateral</string>
+    <string name="loan_list_action_filter_sec_invoice_or_cheque">Working Order/\nInvoice</string>
 
     <string name="loan_list_percentage_return_label">Return</string>
     <string name="loan_list_tenure_label">Months</string>
     <string name="loan_list_bid_status_closed">Closed -&#160;</string>
     <string name="loan_list_bid_status_open">&#160;Days Left -&#160;</string>
     <string name="loan_list_bid_percentage_label">% Funded</string>
-    <string name="loan_list_out_sec_uncollateralized">No Collateral</string>
+    <string name="loan_list_out_sec_uncollateralized">Non-Collateral</string>
     <string name="loan_list_out_sec_invoice_or_cheque">Working Order/\nInvoice</string>
 
     <string name="loan_detail_percentage_return_label">Interest\nReturn</string>
     <string name="loan_detail_grade_label">Grade</string>
     <string name="loan_detail_tenure_label">Months Tenure</string>
-    <string name="loan_detail_days_left">&#160;Days Left\n to Invest</string>
+    <string name="loan_detail_days_left">Days Left\n to Invest</string>
     <string name="loan_detail_target_amount_principal">Principal\nTarget</string>
     <string name="loan_detail_out_sec_uncollateralized">No Collateral</string>
     <string name="loan_detail_out_sec_invoice_or_cheque">Working Order/\nInvoice</string>
@@ -81,6 +88,7 @@
     <string name="loan_detail_factsheet_prog_toast_external_storage_miss">External storage is missing, downloading to Internal Downloads Folder</string>
     <string name="member_check_email_dialog_label">Are you already member of CROWDO? Please enter your email</string>
 
+    <string name="learning_center_search_hint">Search</string>
     <string name="learning_center_categories_label_general">General Enquires</string>
     <string name="learning_center_categories_label_investor">Lender</string>
     <string name="learning_center_categories_label_borrower">Borrowers</string>
@@ -120,7 +128,7 @@
     <string name="pref_user_name_key" translatable="false">USER_NAME</string>
     <string name="pref_user_logout_key" translatable="false">USER_LOGOUT_KEY</string>
 
-    <string name="pref_user_id_title" translatable="false">User ID</string>
+    <string name="pref_label_account">My Account</string>
     <string name="pref_user_email_title">Email Address</string>
     <string name="pref_user_name_title">Name</string>
     <string name="pref_user_exit_session_title">Exit Session</string>

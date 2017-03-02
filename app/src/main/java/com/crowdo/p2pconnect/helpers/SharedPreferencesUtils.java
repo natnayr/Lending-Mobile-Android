@@ -43,25 +43,4 @@ public class SharedPreferencesUtils {
         editor.putBoolean(key, value);
         editor.commit();
     }
-
-    public static void resetUserAccountSharedPreferences(Context context){
-        SharedPreferencesUtils.setSharePrefInt(context,
-                ConstantVariables.PREF_KEY_USER_ID,
-                -1);
-        SharedPreferencesUtils.setSharePrefBool(context,
-                ConstantVariables.PREF_KEY_USER_IS_MEMBER,
-                false);
-        SharedPreferencesUtils.setSharePrefString(context,
-                ConstantVariables.PREF_KEY_USER_EMAIL,
-                "");
-        SharedPreferencesUtils.setSharePrefString(context,
-                ConstantVariables.PREF_KEY_USER_NAME,
-                "");
-        SharedPreferencesUtils.setSharePrefBool(context,
-                ConstantVariables.PREF_KEY_USER_INVESTOR_APPROVAL_SGD,
-                false);
-        SharedPreferencesUtils.setSharePrefBool(context,
-                ConstantVariables.PREF_KEY_USER_INVESTOR_APPROVAL_IDR,
-                false);
-    }
 }

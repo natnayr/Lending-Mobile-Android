@@ -16,13 +16,14 @@ public class ConstantVariables {
     public static final String PREF_KEY_USER_INVESTOR_APPROVAL_IDR = "USER_INVESTOR_APPROVAL_IDR";
     public static final String PREF_KEY_USER_LOGOUT = "USER_LOGOUT_KEY";
     public static final String PREF_KEY_LOADED_LEARNINGCENTER_DB = "LOADED_LEARNINGCENTER_DB_KEY";
+    public static final String PREF_KEY_SELECTED_LANGUAGE = "LOCALE_HELPER_SELECTED_LANGUGAGE";
 
-    public static final String APP_LANG_SET = "en";
+    public static final String APP_LANG_DEFAULT = "en";
+    public static final String APP_LANG_EN = "en";
+    public static final String APP_LANG_IN = "in";
     public static final String PDF_CONTENT_TYPE = "application/pdf";
 
     public static final String LEARNING_CENTER_CSV_FILE_LOCATION = "FAQ_template.csv";
-    public static final String LEARNING_CENTER_DB_EN = "en";
-    public static final String LEARNING_CENTER_DB_ID = "id";
     public static final String LEARNING_CENTER_DB_CATEGORY_KEY_GENERAL = "General";
     public static final String LEARNING_CENTER_DB_CATEGORY_KEY_INVESTOR = "Investor";
     public static final String LEARNING_CENTER_DB_CATEGORY_KEY_BORROWER = "Borrower";

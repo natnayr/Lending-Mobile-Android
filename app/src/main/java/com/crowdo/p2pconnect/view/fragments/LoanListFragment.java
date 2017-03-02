@@ -59,13 +59,10 @@ public class LoanListFragment extends Fragment {
     @BindView(R.id.loan_list_view_filtering_count) TextView filteringCountLabel;
     @BindString(R.string.loan_list_action_filter_item_count_tail) String filteringCountTail;
 
-
-
     private LoanListAdapter mLoanAdapter;
     private Subscription loanListSubscription;
     private LoanListFilterViewHolder filteringViewHolder;
     private SearchView searchView;
-
 
     public LoanListFragment() {
     }
@@ -196,6 +193,10 @@ public class LoanListFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     setSearchExpandedLayoutExpand();
+                    //remove initial onFocus
+                    if(searchView.hasFocus()) {
+                        searchView.clearFocus();
+                    }
                 }
             });
             searchView.setOnCloseListener(new SearchView.OnCloseListener() {

@@ -1,6 +1,7 @@
 package com.crowdo.p2pconnect.view.activities;
 
 import android.animation.Animator;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.widget.TextView;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
+import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.TypefaceUtils;
 import com.crowdo.p2pconnect.view.fragments.LearningCenterFragment;
 import com.crowdo.p2pconnect.view.fragments.LoanListFragment;
@@ -53,6 +55,13 @@ public class MainActivity extends AppCompatActivity{
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private Drawer navDrawer;
 
+    private static final int DRAWER_SELECT_LOAN_LIST_FRAGMENT = 100;
+    private static final int DRAWER_SELECT_USER_SETTINGS_FRAGMENT = 101;
+    private static final int DRAWER_SELECT_LEARNING_CENTER_FRAGMENT = 102;
+    private static final int DRAWER_SELECT_LANGUAGE_CHANGE = 103;
+    private static final int DRAWER_SELECT_LANGUAGE_EN = 500;
+    private static final int DRAWER_SELECT_LANGUAGE_IN = 501;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,9 +79,11 @@ public class MainActivity extends AppCompatActivity{
                 .commit();
 
 
-        navDrawer = buildNavigationDrawer().withSavedInstance(savedInstanceState)
+        navDrawer = buildNavigationDrawer()
+                .withSavedInstance(savedInstanceState)
                 .build();
 
+        navDrawer.setSelection(100);
 
         TextView mNavDrawerAppLogo = (TextView) navDrawer.getHeader().findViewById(R.id.nav_header_app_title);
         mNavDrawerAppLogo.setTypeface(TypefaceUtils.getQuickSandTypeFace(this));
@@ -87,17 +98,17 @@ public class MainActivity extends AppCompatActivity{
                 .withDrawerWidthDp(280)
                 .withFullscreen(true)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withIdentifier(100).withName(R.string.toolbar_title_loan_list).withIcon(CommunityMaterial.Icon.cmd_gavel)
+                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_LOAN_LIST_FRAGMENT).withName(R.string.toolbar_title_loan_list).withIcon(CommunityMaterial.Icon.cmd_gavel)
                                 .withSetSelected(true).withSelectedTextColorRes(R.color.color_primary_700).withSelectedIconColorRes(R.color.color_primary_700),
-                        new PrimaryDrawerItem().withIdentifier(101).withName(R.string.toolbar_title_user_settings).withIcon(CommunityMaterial.Icon.cmd_settings)
+                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_USER_SETTINGS_FRAGMENT).withName(R.string.toolbar_title_user_settings).withIcon(CommunityMaterial.Icon.cmd_settings)
                                 .withSelectedTextColorRes(R.color.color_primary_700).withSelectedIconColorRes(R.color.color_primary_700),
-                        new PrimaryDrawerItem().withIdentifier(102).withName(R.string.toolbar_title_learning_center).withIcon(CommunityMaterial.Icon.cmd_book_open_page_variant)
+                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_LEARNING_CENTER_FRAGMENT).withName(R.string.toolbar_title_learning_center).withIcon(CommunityMaterial.Icon.cmd_book_open_page_variant)
                                 .withSelectedTextColorRes(R.color.color_primary_700).withSelectedIconColorRes(R.color.color_primary_700),
                         new SectionDrawerItem(),
-                        new ExpandableDrawerItem().withIdentifier(103).withName(R.string.navmenu_label_language).withIcon(CommunityMaterial.Icon.cmd_translate)
+                        new ExpandableDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_CHANGE).withName(R.string.navmenu_label_language).withIcon(CommunityMaterial.Icon.cmd_translate)
                                 .withSelectable(false).withSubItems(
-                                    new SecondaryDrawerItem().withIdentifier(500).withName(R.string.language_english_label).withLevel(2),
-                                    new SecondaryDrawerItem().withIdentifier(501).withName(R.string.language_bahasa_label).withLevel(2)
+                                    new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_EN).withName(R.string.language_english_label).withLevel(2),
+                                    new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_IN).withName(R.string.language_bahasa_label).withLevel(2)
                                 )
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -105,38 +116,44 @@ public class MainActivity extends AppCompatActivity{
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if(drawerItem != null){
                             Fragment fragment = null;
-                            Class fragmentClass;
+                            Class fragmentClass = null;
 
                             switch ((int) drawerItem.getIdentifier()){
-                                case 100:
+                                case DRAWER_SELECT_LOAN_LIST_FRAGMENT:
                                     fragmentClass = LoanListFragment.class;
                                     mToolbar.setTitle(R.string.toolbar_title_loan_list);
                                     break;
-                                case 101:
+                                case DRAWER_SELECT_USER_SETTINGS_FRAGMENT:
                                     fragmentClass = UserSettingsFragment.class;
                                     mToolbar.setTitle(R.string.toolbar_title_user_settings);
                                     break;
-                                case 102:
+                                case DRAWER_SELECT_LEARNING_CENTER_FRAGMENT:
                                     fragmentClass = LearningCenterFragment.class;
                                     mToolbar.setTitle(R.string.toolbar_title_learning_center);
                                     break;
-                                case 500:
-
+                                case DRAWER_SELECT_LANGUAGE_EN:
+                                    LocaleHelper.setLocale(MainActivity.this, ConstantVariables.APP_LANG_EN);
+                                    MainActivity.this.recreate();
+                                    break;
+                                case DRAWER_SELECT_LANGUAGE_IN:
+                                    LocaleHelper.setLocale(MainActivity.this, ConstantVariables.APP_LANG_IN);
+                                    MainActivity.this.recreate();
+                                    break;
                                 default:
-                                    fragmentClass = LoanListFragment.class;
-                                    mToolbar.setTitle(R.string.toolbar_title_loan_list);
                             }
 
-                            try{
-                                fragment = (Fragment) fragmentClass.newInstance();
-                            }catch (Exception e){
-                                Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-                                e.printStackTrace();
-                            }
+                            if(fragmentClass != null) {
+                                try {
+                                    fragment = (Fragment) fragmentClass.newInstance();
+                                } catch (Exception e) {
+                                    Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                                    e.printStackTrace();
+                                }
 
-                            getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.main_content, fragment)
-                                    .commit();
+                                getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.main_content, fragment)
+                                        .commit();
+                            }
                         }
 
                         return false;
@@ -219,5 +236,11 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleHelper.onAttach(base, "en"));
+    }
 
 }

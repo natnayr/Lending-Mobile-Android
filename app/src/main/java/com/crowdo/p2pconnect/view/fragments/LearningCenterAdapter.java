@@ -36,20 +36,22 @@ public class LearningCenterAdapter extends RecyclerView.Adapter<LearningCenterAd
     }
 
     public void search(String searchText){
-        searchText = searchText.toLowerCase();
+        if(!"".equals(searchText)) {
+            searchText = searchText.toLowerCase();
 
-        mCollection.clear();
-        if(searchText.length() == 0){
-            mCollection.addAll(mFullList);
-        }else{
-            for(LearningCenter lcItem : mFullList){
-                if(lcItem.getQuestion().toLowerCase().contains(searchText) ||
-                        lcItem.getAnswer().toLowerCase().contains(searchText)){
-                    mCollection.add(lcItem);
+            mCollection.clear();
+            if (searchText.length() == 0) {
+                mCollection.addAll(mFullList);
+            } else {
+                for (LearningCenter lcItem : mFullList) {
+                    if (lcItem.getQuestion().toLowerCase().contains(searchText) ||
+                            lcItem.getAnswer().toLowerCase().contains(searchText)) {
+                        mCollection.add(lcItem);
+                    }
                 }
             }
+            notifyDataSetChanged();
         }
-        notifyDataSetChanged();
     }
 
     @Override

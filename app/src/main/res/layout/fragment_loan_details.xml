@@ -370,7 +370,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/color_icons_text"
                     android:text="@string/loan_detail_factsheet_btn_label"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:fontFamily="@string/font_family_regular" />
                 <TextView
                     android:layout_width="wrap_content"
@@ -408,7 +408,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_icons_text"
                 android:text="@string/loan_detail_bidding_btn_label"
-                android:textSize="36sp"
+                android:textSize="24sp"
                 android:fontFamily="@string/font_family_regular"
                 android:gravity="start|center_vertical"/>
         </LinearLayout>

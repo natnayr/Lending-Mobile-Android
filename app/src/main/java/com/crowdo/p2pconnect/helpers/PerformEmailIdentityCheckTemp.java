@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.crowdo.p2pconnect.model.RegisteredMemberCheck;
+import com.crowdo.p2pconnect.view.fragments.UserSettingsFragment;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -64,7 +65,7 @@ public class PerformEmailIdentityCheckTemp {
         }catch (NullPointerException npe){
             Log.e(LOG_TAG, "ERROR: " + npe.getMessage() + "on email: " + enteredEmail , npe);
             Toast.makeText(context, "There is no account associated to "+ enteredEmail, Toast.LENGTH_SHORT).show();
-            SharedPreferencesUtils.resetUserAccountSharedPreferences(context);
+            UserSettingsFragment.resetUserAccountSharedPreferences(context);
         }
         return false;
     }
@@ -74,7 +75,7 @@ public class PerformEmailIdentityCheckTemp {
         Toast.makeText(context, "There is no account associated to "+ enteredEmail,
                 Toast.LENGTH_SHORT).show();
 
-        SharedPreferencesUtils.resetUserAccountSharedPreferences(context);
+        UserSettingsFragment.resetUserAccountSharedPreferences(context);
     }
 
 }

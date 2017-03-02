@@ -1,5 +1,6 @@
 package com.crowdo.p2pconnect.view.fragments;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -61,7 +62,7 @@ public class UserSettingsFragment extends PreferenceFragmentCompat
                 Toast.makeText(getContext(), getString(R.string.pref_user_session_clear_label),
                         Toast.LENGTH_SHORT).show();
 
-                SharedPreferencesUtils.resetUserAccountSharedPreferences(getActivity());
+                UserSettingsFragment.resetUserAccountSharedPreferences(getActivity());
 
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
                     CookieManager cookieManager = CookieManager.getInstance();
@@ -162,9 +163,7 @@ public class UserSettingsFragment extends PreferenceFragmentCompat
     public void onDisplayPreferenceDialog(Preference preference) {
         Log.d(LOG_TAG, "APP: Preference Dialog triggered for: " +
                 getResources().getResourceName(preference.getLayoutResource()));
-
         super.onDisplayPreferenceDialog(preference);
-
     }
 
     @Override
@@ -236,5 +235,26 @@ public class UserSettingsFragment extends PreferenceFragmentCompat
                         }
                     });
         }
+    }
+
+    public static void resetUserAccountSharedPreferences(Context context){
+        SharedPreferencesUtils.setSharePrefInt(context,
+                ConstantVariables.PREF_KEY_USER_ID,
+                -1);
+        SharedPreferencesUtils.setSharePrefBool(context,
+                ConstantVariables.PREF_KEY_USER_IS_MEMBER,
+                false);
+        SharedPreferencesUtils.setSharePrefString(context,
+                ConstantVariables.PREF_KEY_USER_EMAIL,
+                "");
+        SharedPreferencesUtils.setSharePrefString(context,
+                ConstantVariables.PREF_KEY_USER_NAME,
+                "");
+        SharedPreferencesUtils.setSharePrefBool(context,
+                ConstantVariables.PREF_KEY_USER_INVESTOR_APPROVAL_SGD,
+                false);
+        SharedPreferencesUtils.setSharePrefBool(context,
+                ConstantVariables.PREF_KEY_USER_INVESTOR_APPROVAL_IDR,
+                false);
     }
 }

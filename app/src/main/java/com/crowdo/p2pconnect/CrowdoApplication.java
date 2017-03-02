@@ -7,6 +7,7 @@ import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
 import com.crowdo.p2pconnect.data.APIServices;
+import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.view.activities.WelcomeActivity;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
@@ -81,5 +82,10 @@ public class CrowdoApplication extends Application{
     public void onTerminate() {
         realm.close();
         super.onTerminate();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleHelper.onAttach(base, ConstantVariables.APP_LANG_DEFAULT));
     }
 }
