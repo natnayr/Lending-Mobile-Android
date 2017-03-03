@@ -3,7 +3,7 @@
     <string name="app_name_welcome" translatable="false">connect</string>
 
     <string name="navmenu_label_extras">Extras</string>
-    <string name="navmenu_label_personalise">Personalize</string>
+    <string name="navmenu_label_preferences">Preferences</string>
     <string name="navmenu_label_language">Language</string>
 
     <string name="toolbar_title_user_settings">User Settings</string>

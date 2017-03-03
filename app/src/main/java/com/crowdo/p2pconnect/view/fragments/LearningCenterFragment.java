@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.R2;
 import com.crowdo.p2pconnect.databinding.FragmentLearningCenterBinding;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
@@ -51,14 +52,14 @@ import io.realm.RealmResults;
  */
 public class LearningCenterFragment extends Fragment{
 
-    @BindString(R.string.learning_center_categories_label_general) String mGeneralLabel;
-    @BindString(R.string.learning_center_categories_label_investor) String mInvestorLabel;
-    @BindString(R.string.learning_center_categories_label_borrower) String mBorrowerLabel;
-    @BindString(R.string.learning_center_categories_item_count_label) String mItemCountTailLabel;
-    @BindView(R.id.learning_center_input_edittext_search) EditText mSearchInput;
-    @BindView(R.id.learning_center_item_count_general) TextView mGeneralItemCountLabel;
-    @BindView(R.id.learning_center_item_count_investor) TextView mInvestorItemCountLabel;
-    @BindView(R.id.learning_center_item_count_borrower) TextView mBorrowerItemCountLabel;
+    @BindString(R2.string.learning_center_categories_label_general) String mGeneralLabel;
+    @BindString(R2.string.learning_center_categories_label_investor) String mInvestorLabel;
+    @BindString(R2.string.learning_center_categories_label_borrower) String mBorrowerLabel;
+    @BindString(R2.string.learning_center_categories_item_count_label) String mItemCountTailLabel;
+    @BindView(R2.id.learning_center_input_edittext_search) EditText mSearchInput;
+    @BindView(R2.id.learning_center_item_count_general) TextView mGeneralItemCountLabel;
+    @BindView(R2.id.learning_center_item_count_investor) TextView mInvestorItemCountLabel;
+    @BindView(R2.id.learning_center_item_count_borrower) TextView mBorrowerItemCountLabel;
 
     public static final String LOG_TAG = LearningCenterFragment.class.getSimpleName();
     private Realm realm;

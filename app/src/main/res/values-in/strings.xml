@@ -80,11 +80,11 @@
     <string name="permissions_write_request">Anda perlu memberikan akses ke Penyimpanan</string>
     <string name="permissions_write_request_continue">Klik ulang untuk Mengunduh</string>
     <string name="toolbar_title_top_up_wallet">Top Up</string>
-    <string name="toolbar_title_apply_investor">Ajukan Sebagai Investor</string>
+    <string name="toolbar_title_apply_investor">Daftar Sebagai Investor</string>
     <string name="permission_overlay_permission_request">Untuk perangkat Android Marshmallow, "Mengambil dari aplikasi lain" diperlukan ijin \n\nKlik OK untuk menyetujui</string>
     <string name="navmenu_label_language">Bahasa</string>
     <string name="pref_label_account">Akun Saya</string>
-    <string name="navmenu_label_personalise">Personalisasi</string>
+    <string name="navmenu_label_preferences">Personalisasi</string>
     <string name="navmenu_label_extras">Ekstra</string>
     <string name="loan_list_action_filter_grades_label">Level&#58;</string>
     <string name="loan_list_action_filter_sec_uncollateralized">Tanpa\nJaminan</string>

@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crowdo.p2pconnect.R2;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.view.activities.Henson;
@@ -53,19 +54,19 @@ import rx.schedulers.Schedulers;
  */
 public class LoanDetailsFragment extends Fragment {
 
-    @BindColor(R.color.color_icons_text) int mColorIconText;
+    @BindColor(R2.color.color_icons_text) int mColorIconText;
 
-    @BindString(R.string.downloading_label) String mLabelToastDownloading;
-    @BindString(R.string.loan_detail_prog_snackbar_error_reading_pdf) String mLabelSnackPDFReadError;
-    @BindString(R.string.intent_file_chooser) String mLabelIntentChooser;
-    @BindString(R.string.loan_detail_prog_snackbar_bid_too_low_label) String mLabelBidTooLow;
-    @BindString(R.string.loan_detail_prog_snackbar_bid_too_high_label) String mLabelBidTooHigh;
-    @BindString(R.string.loan_detail_prog_snackbar_approved_investor_only) String mLabelApprovedInvestorOnly;
-    @BindString(R.string.permissions_write_request) String mLabelPermissionRequest;
-    @BindString(R.string.cancel_label) String mLabelCancel;
-    @BindString(R.string.okay_label) String mLabelOkay;
-    @BindString(R.string.open_label) String mLabelOpen;
-    @BindString(R.string.permissions_no_write_statement) String mLabelCannotWrite;
+    @BindString(R2.string.downloading_label) String mLabelToastDownloading;
+    @BindString(R2.string.loan_detail_prog_snackbar_error_reading_pdf) String mLabelSnackPDFReadError;
+    @BindString(R2.string.intent_file_chooser) String mLabelIntentChooser;
+    @BindString(R2.string.loan_detail_prog_snackbar_bid_too_low_label) String mLabelBidTooLow;
+    @BindString(R2.string.loan_detail_prog_snackbar_bid_too_high_label) String mLabelBidTooHigh;
+    @BindString(R2.string.loan_detail_prog_snackbar_approved_investor_only) String mLabelApprovedInvestorOnly;
+    @BindString(R2.string.permissions_write_request) String mLabelPermissionRequest;
+    @BindString(R2.string.cancel_label) String mLabelCancel;
+    @BindString(R2.string.okay_label) String mLabelOkay;
+    @BindString(R2.string.open_label) String mLabelOpen;
+    @BindString(R2.string.permissions_no_write_statement) String mLabelCannotWrite;
 
     private static final String LOG_TAG = LoanDetailsFragment.class.getSimpleName();
     public static final String TAG_LOAN_DETAILS_FRAGMENT = "LOAN_DETAILS_FRAGMENT_TAG";

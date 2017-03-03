@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.R2;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.TypefaceUtils;
@@ -27,14 +27,11 @@ import com.crowdo.p2pconnect.view.fragments.UserSettingsFragment;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.ExpandableBadgeDrawerItem;
 import com.mikepenz.materialdrawer.model.ExpandableDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-
-import java.util.Locale;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -46,11 +43,11 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity{
 
-    @BindView(R.id.toolbar) Toolbar mToolbar;
-    @BindString(R.string.pre_exit_question) String mPreExitQuestion;
-    @BindString(R.string.permission_overlay_permission_request) String mOverlayPermissionRequest;
-    @BindString(R.string.language_english_label) String mLanguageEnglish;
-    @BindString(R.string.language_bahasa_label) String mLanguageBahasa;
+    @BindView(R2.id.toolbar) Toolbar mToolbar;
+    @BindString(R2.string.pre_exit_question) String mPreExitQuestion;
+    @BindString(R2.string.permission_overlay_permission_request) String mOverlayPermissionRequest;
+    @BindString(R2.string.language_english_label) String mLanguageEnglish;
+    @BindString(R2.string.language_bahasa_label) String mLanguageBahasa;
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private Drawer navDrawer;
@@ -61,6 +58,8 @@ public class MainActivity extends AppCompatActivity{
     private static final int DRAWER_SELECT_LANGUAGE_CHANGE = 103;
     private static final int DRAWER_SELECT_LANGUAGE_EN = 500;
     private static final int DRAWER_SELECT_LANGUAGE_IN = 501;
+    private static final int DRAWER_SELECT_TOP_UP_WALLET = 104;
+    private static final int DRAWER_SELECT_APPLY_AS_INVESTOR = 105;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity{
         navDrawer.setSelection(100);
 
         TextView mNavDrawerAppLogo = (TextView) navDrawer.getHeader().findViewById(R.id.nav_header_app_title);
-        mNavDrawerAppLogo.setTypeface(TypefaceUtils.getQuickSandTypeFace(this));
+        mNavDrawerAppLogo.setTypeface(TypefaceUtils.getNothingYouCouldDoTypeFace(this));
     }
 
     private DrawerBuilder buildNavigationDrawer(){
@@ -104,12 +103,17 @@ public class MainActivity extends AppCompatActivity{
                                 .withSelectedTextColorRes(R.color.color_primary_700).withSelectedIconColorRes(R.color.color_primary_700),
                         new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_LEARNING_CENTER_FRAGMENT).withName(R.string.toolbar_title_learning_center).withIcon(CommunityMaterial.Icon.cmd_book_open_page_variant)
                                 .withSelectedTextColorRes(R.color.color_primary_700).withSelectedIconColorRes(R.color.color_primary_700),
-                        new SectionDrawerItem(),
+                        new SectionDrawerItem().withName(R.string.navmenu_label_preferences),
                         new ExpandableDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_CHANGE).withName(R.string.navmenu_label_language).withIcon(CommunityMaterial.Icon.cmd_translate)
                                 .withSelectable(false).withSubItems(
                                     new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_EN).withName(R.string.language_english_label).withLevel(2),
                                     new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_IN).withName(R.string.language_bahasa_label).withLevel(2)
-                                )
+                                ),
+                        new SectionDrawerItem().withName(R.string.navmenu_label_extras),
+                        new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_TOP_UP_WALLET).withName(R.string.toolbar_title_top_up_wallet)
+                                .withIcon(CommunityMaterial.Icon.cmd_wallet),
+                        new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_APPLY_AS_INVESTOR).withName(R.string.toolbar_title_apply_investor)
+                                .withIcon(CommunityMaterial.Icon.cmd_account_star_variant)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override

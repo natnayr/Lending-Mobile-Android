@@ -3,7 +3,6 @@ package com.crowdo.p2pconnect;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
@@ -12,7 +11,6 @@ import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.view.activities.WelcomeActivity;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
-import com.google.common.util.concurrent.ExecutionError;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;

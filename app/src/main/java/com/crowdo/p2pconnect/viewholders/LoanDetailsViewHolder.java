@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.R2;
 import com.crowdo.p2pconnect.custom_ui.GoalProgressBar;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.model.LoanDetail;
@@ -46,65 +47,65 @@ public class LoanDetailsViewHolder {
     private static final int ENTER_AMOUNT_MAX_LENGTH = 4;
 
     // views
-    @BindView(R.id.loan_details_content) RelativeLayout mLoanDetailRelativeLayout;
-    @BindView(R.id.loan_detail_iden_no) TextView mLoanIdenTextView;
-    @BindView(R.id.loan_detail_percentage_return) TextView mPercentageReturn;
-    @BindView(R.id.loan_detail_grade) TextView mGrade;
-    @BindView(R.id.loan_detail_security_icon_container) ImageView mSecurityIcon;
-    @BindView(R.id.loan_detail_security_description) TextView mSecurityDescription;
+    @BindView(R2.id.loan_details_content) RelativeLayout mLoanDetailRelativeLayout;
+    @BindView(R2.id.loan_detail_iden_no) TextView mLoanIdenTextView;
+    @BindView(R2.id.loan_detail_percentage_return) TextView mPercentageReturn;
+    @BindView(R2.id.loan_detail_grade) TextView mGrade;
+    @BindView(R2.id.loan_detail_security_icon_container) ImageView mSecurityIcon;
+    @BindView(R2.id.loan_detail_security_description) TextView mSecurityDescription;
 
-    @BindView(R.id.loan_detail_progress_bar) GoalProgressBar mProgressBar;
-    @BindView(R.id.loan_detail_progress_description) TextView mProgressDescription;
+    @BindView(R2.id.loan_detail_progress_bar) GoalProgressBar mProgressBar;
+    @BindView(R2.id.loan_detail_progress_description) TextView mProgressDescription;
 
-    @BindView(R.id.loan_detail_tenure_duration) TextView mTenureDuration;
-    @BindView(R.id.loan_detail_days_left) TextView mNumDaysLeft;
-    @BindView(R.id.loan_detail_target_amount) TextView mTargetAmount;
-    @BindView(R.id.loan_detail_target_amount_description) TextView mTargetAmountDescription;
+    @BindView(R2.id.loan_detail_tenure_duration) TextView mTenureDuration;
+    @BindView(R2.id.loan_detail_days_left) TextView mNumDaysLeft;
+    @BindView(R2.id.loan_detail_target_amount) TextView mTargetAmount;
+    @BindView(R2.id.loan_detail_target_amount_description) TextView mTargetAmountDescription;
 
-    @BindView(R.id.loan_detail_schedule_start_date) TextView mScheduleStartDate;
-    @BindView(R.id.loan_detail_schedule_first_repayment_date) TextView mScheduleFirstRepaymentDate;
-    @BindView(R.id.loan_detail_schedule_last_repayment_date) TextView mScheduleLastRepaymentDate;
-    @BindView(R.id.loan_detail_avalible_amount) TextView mAvalibleAmount;
+    @BindView(R2.id.loan_detail_schedule_start_date) TextView mScheduleStartDate;
+    @BindView(R2.id.loan_detail_schedule_first_repayment_date) TextView mScheduleFirstRepaymentDate;
+    @BindView(R2.id.loan_detail_schedule_last_repayment_date) TextView mScheduleLastRepaymentDate;
+    @BindView(R2.id.loan_detail_avalible_amount) TextView mAvalibleAmount;
 
     // to interact with
-    @BindView(R.id.loan_detail_amount_minus_btn) ImageButton mAmountMinusBtn;
-    @BindView(R.id.loan_detail_amount_plus_btn) ImageButton mAmountPlusBtn;
-    @BindView(R.id.loan_detail_enter_amount_edittext) public EditText mEnterAmount;
-    @BindView(R.id.loan_detail_factsheet_download_btn) public LinearLayout mFactsheetDownloadBtn; //LinearLayout act as button
-    @BindView(R.id.loan_detail_bid_enter_btn) public LinearLayout mBidEnterBtn; //LinearLayout act as button
+    @BindView(R2.id.loan_detail_amount_minus_btn) ImageButton mAmountMinusBtn;
+    @BindView(R2.id.loan_detail_amount_plus_btn) ImageButton mAmountPlusBtn;
+    @BindView(R2.id.loan_detail_enter_amount_edittext) public EditText mEnterAmount;
+    @BindView(R2.id.loan_detail_factsheet_download_btn) public LinearLayout mFactsheetDownloadBtn; //LinearLayout act as button
+    @BindView(R2.id.loan_detail_bid_enter_btn) public LinearLayout mBidEnterBtn; //LinearLayout act as button
 
     // String Bindings
-    @BindString(R.string.date_time_region) String DATE_TIME_REGION; //constant
-    @BindString(R.string.loan_detail_target_amount_principal) String mTargetAmountPrincipalString;
+    @BindString(R2.string.date_time_region) String DATE_TIME_REGION; //constant
+    @BindString(R2.string.loan_detail_target_amount_principal) String mTargetAmountPrincipalString;
 
-    @BindString(R.string.loan_detail_out_sec_uncollateralized) String mOutSecUncollateralized;
-    @BindString(R.string.loan_detail_out_sec_invoice_or_cheque) String mOutSecInvoiceOrCheque;
-    @BindString(R.string.loan_detail_progress_description_tail_label) String mProgressDescriptionTail;
+    @BindString(R2.string.loan_detail_out_sec_uncollateralized) String mOutSecUncollateralized;
+    @BindString(R2.string.loan_detail_out_sec_invoice_or_cheque) String mOutSecInvoiceOrCheque;
+    @BindString(R2.string.loan_detail_progress_description_tail_label) String mProgressDescriptionTail;
 
     // color
-    @BindColor(R.color.fa_icon_shield) int mShieldColor;
-    @BindColor(R.color.fa_icon_file_text) int mFileColor;
-    @BindColor(R.color.fa_icon_unlock_alt) int mLockOpenColor;
-    @BindColor(R.color.color_icons_text) int mIconTextColor; //white
-    @BindColor(R.color.color_divider) int mDividerColor;
+    @BindColor(R2.color.fa_icon_shield) int mShieldColor;
+    @BindColor(R2.color.fa_icon_file_text) int mFileColor;
+    @BindColor(R2.color.fa_icon_unlock_alt) int mLockOpenColor;
+    @BindColor(R2.color.color_icons_text) int mIconTextColor; //white
+    @BindColor(R2.color.color_divider) int mDividerColor;
     
-    @BindColor(R.color.grade_color_A_plus) int mColorAPlus;
-    @BindColor(R.color.grade_color_A) int mColorA;
-    @BindColor(R.color.grade_color_B_plus) int mColorBPlus;
-    @BindColor(R.color.grade_colorB) int mColorB;
-    @BindColor(R.color.grade_colorC) int mColorC;
-    @BindColor(R.color.grade_color_D) int mColorD;
-    @BindColor(R.color.grade_color_E) int mColorE;
+    @BindColor(R2.color.grade_color_A_plus) int mColorAPlus;
+    @BindColor(R2.color.grade_color_A) int mColorA;
+    @BindColor(R2.color.grade_color_B_plus) int mColorBPlus;
+    @BindColor(R2.color.grade_colorB) int mColorB;
+    @BindColor(R2.color.grade_colorC) int mColorC;
+    @BindColor(R2.color.grade_color_D) int mColorD;
+    @BindColor(R2.color.grade_color_E) int mColorE;
 
     //drawables extras
-    @BindDrawable(R.drawable.ic_file_document_black_38dp) Drawable mFileIcon;
-    @BindDrawable(R.drawable.ic_lock_open_black_38dp) Drawable mLockOpenIcon;
-    @BindDrawable(R.drawable.ic_shield_outline_black_38dp) Drawable mShieldOutlineIcon;
+    @BindDrawable(R2.drawable.ic_file_document_black_38dp) Drawable mFileIcon;
+    @BindDrawable(R2.drawable.ic_lock_open_black_38dp) Drawable mLockOpenIcon;
+    @BindDrawable(R2.drawable.ic_shield_outline_black_38dp) Drawable mShieldOutlineIcon;
 
-    @BindDrawable(R.drawable.loan_detail_plus_bid_btn_enabled) Drawable mPlusEnabledDrawable;
-    @BindDrawable(R.drawable.loan_detail_plus_bid_btn_pressed) Drawable mPlusPressedDrawable;
-    @BindDrawable(R.drawable.loan_detail_minus_bid_btn_enabled) Drawable mMinusEnabledDrawable;
-    @BindDrawable(R.drawable.loan_detail_minus_bid_btn_pressed) Drawable mMinusPressedDrawable;
+    @BindDrawable(R2.drawable.loan_detail_plus_bid_btn_enabled) Drawable mPlusEnabledDrawable;
+    @BindDrawable(R2.drawable.loan_detail_plus_bid_btn_pressed) Drawable mPlusPressedDrawable;
+    @BindDrawable(R2.drawable.loan_detail_minus_bid_btn_enabled) Drawable mMinusEnabledDrawable;
+    @BindDrawable(R2.drawable.loan_detail_minus_bid_btn_pressed) Drawable mMinusPressedDrawable;
 
     public LoanDetailsViewHolder(View view) {
         ButterKnife.bind(this, view);

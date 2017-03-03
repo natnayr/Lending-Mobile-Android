@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.R2;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.view.fragments.LoanDetailsFragment;
@@ -28,7 +29,7 @@ public class LoanDetailsActivity extends AppCompatActivity {
     public static final String LOG_TAG = LoanDetailsActivity.class.getSimpleName();
     public static final String BUNDLE_ID_KEY = "BundleDetailsFragmentIDKey";
     @InjectExtra public int id;
-    @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindView(R2.id.toolbar) Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

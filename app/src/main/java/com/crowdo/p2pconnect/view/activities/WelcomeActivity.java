@@ -23,7 +23,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.helpers.ConstantVariables;
+import com.crowdo.p2pconnect.R2;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 
 import java.io.IOException;
@@ -41,11 +41,11 @@ import butterknife.ButterKnife;
 public class WelcomeActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener{
 
     private static final String LOG_TAG = WelcomeActivity.class.getSimpleName();
-    @BindView(R.id.welcome_get_started_btn) Button mWelcomeGetStartedButton;
-    @BindView(R.id.welcome_pager) ViewPager mViewPager;
-    @BindView(R.id.welcome_pager_tabdots) TabLayout mTabLayout;
-    @BindString(R.string.pre_exit_question) String mPreExitQuestion;
-    @BindView(R.id.welcome_logo_app_name) TextView mWelcomeAppNameView;
+    @BindView(R2.id.welcome_get_started_btn) Button mWelcomeGetStartedButton;
+    @BindView(R2.id.welcome_pager) ViewPager mViewPager;
+    @BindView(R2.id.welcome_pager_tabdots) TabLayout mTabLayout;
+    @BindString(R2.string.pre_exit_question) String mPreExitQuestion;
+    @BindView(R2.id.welcome_logo_app_name) TextView mWelcomeAppNameView;
 
     private static final int MAXPAGE = 2;
     private static final int TIMEFRAME = 13180;
@@ -120,23 +120,21 @@ public class WelcomeActivity extends AppCompatActivity implements MediaPlayer.On
         mTabLayout.setupWithViewPager(mViewPager, true);
         mViewPager.setAdapter(new WelcomePagerAdapter(this));
 
-        Typeface quickSandTypeFace = Typeface.createFromAsset(getAssets(), "fonts/NothingYouCouldDo.ttf");
-        mWelcomeAppNameView.setTypeface(quickSandTypeFace);
+        Typeface nycdTypeFace = Typeface.createFromAsset(getAssets(), "fonts/NothingYouCouldDo.ttf");
+        mWelcomeAppNameView.setTypeface(nycdTypeFace);
 
         //Backwards Compatibility
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             pageSwitcher(TIMEFRAME);
-        }else{
-
         }
     }
 
     private void pageSwitcher(int timeframeEach){
         mTimer = new Timer();
-        mTimer.scheduleAtFixedRate(new FlipPageTask(), 0, timeframeEach);
+        mTimer.scheduleAtFixedRate(new FlipPageTimerTask(), 0, timeframeEach);
     }
 
-    class FlipPageTask extends TimerTask{
+    class FlipPageTimerTask extends TimerTask{
         @Override
         public void run() {
             runOnUiThread(new Runnable() {

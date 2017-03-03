@@ -45,13 +45,6 @@ public class NumericUtils {
         return number.indexOf(".") < 0 ? number : number.replaceAll("0*$", "").replaceAll("\\.$", "");
     }
 
-    //dirty hack, if long is input
-    public static String formatCurrency(String currencyStr, long amount,
-                                        String symbol, boolean wantSymbol){
-        return formatCurrency(currencyStr, ((Long) amount).doubleValue(),
-                symbol, wantSymbol);
-    }
-
     public static String truncateNumber(double longNumber, String localeString) {
         long million = 1000000L;
         long billion = 1000000000L;
@@ -59,6 +52,7 @@ public class NumericUtils {
 
         String millionTruncate;
         String billionTruncate;
+        long number = Math.round(longNumber);
 
         if(localeString.equals(ConstantVariables.APP_LANG_IN)) {
             //bahasa
@@ -69,7 +63,7 @@ public class NumericUtils {
             millionTruncate = ConstantVariables.EN_MILLIONS_TRUNCATE;
             billionTruncate = ConstantVariables.EN_BILLIONS_TRUNCATE;
         }
-        long number = Math.round(longNumber);
+
         if ((number >= million) && (number < billion)) {
             float fraction = calculateFraction(number, million);
             return removeTrailingZeros(Float.toString(fraction)) + millionTruncate;

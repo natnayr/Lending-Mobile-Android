@@ -30,6 +30,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.R2;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
@@ -58,23 +59,23 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
     public static final String LOG_TAG = WebViewActivity.class.getSimpleName();
 
-    @BindView(R.id.webview) AdvancedWebView mWebView;
-    @BindView(R.id.toolbar_webview) Toolbar mToolbar;
-    @BindView(R.id.webview_swipe_container) SwipeRefreshLayout swipeContainer;
-    @BindView(R.id.webview_progress_bar) ProgressBar mProgressBar;
-    @BindView(R.id.webview_root) CoordinatorLayout rootView;
+    @BindView(R2.id.webview) AdvancedWebView mWebView;
+    @BindView(R2.id.toolbar_webview) Toolbar mToolbar;
+    @BindView(R2.id.webview_swipe_container) SwipeRefreshLayout swipeContainer;
+    @BindView(R2.id.webview_progress_bar) ProgressBar mProgressBar;
+    @BindView(R2.id.webview_root) CoordinatorLayout rootView;
 
-    @BindColor(R.color.color_icons_text) int colorIconText;
+    @BindColor(R2.color.color_icons_text) int colorIconText;
 
-    @BindString(R.string.downloading_label) String mLabelDownloading;
-    @BindString(R.string.okay_label) String mLabelOkay;
-    @BindString(R.string.cancel_label) String mLabelCancel;
-    @BindString(R.string.open_label) String mLabelOpen;
-    @BindString(R.string.intent_file_chooser) String mLabelIntentFile;
-    @BindString(R.string.webview_unable_open_file) String mLabelErrorOpenFile;
-    @BindString(R.string.webview_download_to) String mLabelDownloadedTo;
-    @BindString(R.string.permissions_write_request) String mLabelExternalDriveRequest;
-    @BindString(R.string.permissions_no_write_statement) String mLabelCannotWrite;
+    @BindString(R2.string.downloading_label) String mLabelDownloading;
+    @BindString(R2.string.okay_label) String mLabelOkay;
+    @BindString(R2.string.cancel_label) String mLabelCancel;
+    @BindString(R2.string.open_label) String mLabelOpen;
+    @BindString(R2.string.intent_file_chooser) String mLabelIntentFile;
+    @BindString(R2.string.webview_unable_open_file) String mLabelErrorOpenFile;
+    @BindString(R2.string.webview_download_to) String mLabelDownloadedTo;
+    @BindString(R2.string.permissions_write_request) String mLabelExternalDriveRequest;
+    @BindString(R2.string.permissions_no_write_statement) String mLabelCannotWrite;
 
     @InjectExtra public int id;
     @InjectExtra public String url;

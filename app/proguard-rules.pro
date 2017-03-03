@@ -23,3 +23,6 @@
 #-dontwarn okio.**
 #-dontwarn org.joda.convert.**
 #-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+
+-dontshrink
+-dontoptimize

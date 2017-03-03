@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.R2;
 import com.crowdo.p2pconnect.model.LoanListItem;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.DateUtils;
@@ -27,40 +28,40 @@ import butterknife.ButterKnife;
 
 public class LoanListViewHolder {
 
-    @BindView(R.id.loan_item_iden_no) TextView mLoanId;
-    @BindView(R.id.loan_item_credit_grade_text) TextView mLoanGrade;
-    @BindView(R.id.loan_item_days_left_and_percentage_funded) TextView mDaysLeftAndPercentage;
-    @BindView(R.id.loan_item_percentage_return) TextView mPercentageReturn;
-    @BindView(R.id.loan_item_tenure_amount) TextView mTermAmount;
-    @BindView(R.id.loan_item_collateral_description) TextView mSecurityDescription;
-    @BindView(R.id.loan_item_amount) TextView mLoanAmount;
+    @BindView(R2.id.loan_item_iden_no) TextView mLoanId;
+    @BindView(R2.id.loan_item_credit_grade_text) TextView mLoanGrade;
+    @BindView(R2.id.loan_item_days_left_and_percentage_funded) TextView mDaysLeftAndPercentage;
+    @BindView(R2.id.loan_item_percentage_return) TextView mPercentageReturn;
+    @BindView(R2.id.loan_item_tenure_amount) TextView mTermAmount;
+    @BindView(R2.id.loan_item_collateral_description) TextView mSecurityDescription;
+    @BindView(R2.id.loan_item_amount) TextView mLoanAmount;
 
-    @BindView(R.id.loan_item_collateral_icon_container) ImageView mSecurityIcon;
+    @BindView(R2.id.loan_item_collateral_icon_container) ImageView mSecurityIcon;
 
-    @BindView(R.id.loan_item_credit_grade_layout) View mLoanGradeDrawable;
+    @BindView(R2.id.loan_item_credit_grade_layout) View mLoanGradeDrawable;
 
-    @BindColor(R.color.grade_color_A_plus) int colorAPlus;
-    @BindColor(R.color.grade_color_A) int colorA;
-    @BindColor(R.color.grade_color_B_plus) int colorBPlus;
-    @BindColor(R.color.grade_colorB) int colorB;
-    @BindColor(R.color.grade_colorC) int colorC;
-    @BindColor(R.color.grade_color_D) int colorD;
-    @BindColor(R.color.grade_color_E) int colorE;
+    @BindColor(R2.color.grade_color_A_plus) int colorAPlus;
+    @BindColor(R2.color.grade_color_A) int colorA;
+    @BindColor(R2.color.grade_color_B_plus) int colorBPlus;
+    @BindColor(R2.color.grade_colorB) int colorB;
+    @BindColor(R2.color.grade_colorC) int colorC;
+    @BindColor(R2.color.grade_color_D) int colorD;
+    @BindColor(R2.color.grade_color_E) int colorE;
 
-    @BindColor(R.color.fa_icon_shield) int shieldColor;
-    @BindColor(R.color.fa_icon_file_text) int fileColor;
-    @BindColor(R.color.fa_icon_unlock_alt) int unlockAltColor;
+    @BindColor(R2.color.fa_icon_shield) int shieldColor;
+    @BindColor(R2.color.fa_icon_file_text) int fileColor;
+    @BindColor(R2.color.fa_icon_unlock_alt) int unlockAltColor;
 
-    @BindDrawable(R.drawable.ic_file_document_black_38dp) Drawable mFileIcon;
-    @BindDrawable(R.drawable.ic_lock_open_black_38dp) Drawable mLockOpenIcon;
-    @BindDrawable(R.drawable.ic_shield_outline_black_38dp) Drawable mShieldOutlineIcon;
+    @BindDrawable(R2.drawable.ic_file_document_black_38dp) Drawable mFileIcon;
+    @BindDrawable(R2.drawable.ic_lock_open_black_38dp) Drawable mLockOpenIcon;
+    @BindDrawable(R2.drawable.ic_shield_outline_black_38dp) Drawable mShieldOutlineIcon;
 
-    @BindString(R.string.date_time_region) String DATE_TIME_REGION;
-    @BindString(R.string.loan_list_bid_status_closed) String BID_STATUS_CLOSED;
-    @BindString(R.string.loan_list_bid_status_open) String BID_STATUS_OPEN_DAYS;
-    @BindString(R.string.percent_label) String PERCENTAGE_LABEL;
-    @BindString(R.string.loan_list_out_sec_uncollateralized) String OUT_SEC_UNCOLLATERALIZED;
-    @BindString(R.string.loan_list_out_sec_invoice_or_cheque) String OUT_SEC_INVOICE_OR_CHEQUE;
+    @BindString(R2.string.date_time_region) String DATE_TIME_REGION;
+    @BindString(R2.string.loan_list_bid_status_closed) String BID_STATUS_CLOSED;
+    @BindString(R2.string.loan_list_bid_status_open) String BID_STATUS_OPEN_DAYS;
+    @BindString(R2.string.percent_label) String PERCENTAGE_LABEL;
+    @BindString(R2.string.loan_list_out_sec_uncollateralized) String OUT_SEC_UNCOLLATERALIZED;
+    @BindString(R2.string.loan_list_out_sec_invoice_or_cheque) String OUT_SEC_INVOICE_OR_CHEQUE;
 
 
     public LoanListViewHolder(Context mContext, View view){

@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.R2;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.view.activities.Henson;
 import com.crowdo.p2pconnect.model.LoanListItem;
@@ -49,15 +50,15 @@ public class LoanListFragment extends Fragment {
 
     public static final String TAG_LOAN_LIST_FRAGMENT = "LOAN_LIST_FRAGMENT_TAG";
 
-    @BindView(R.id.loan_list_view_filtering_expandable) ExpandableLayout loanListSearchExpandableLayout;
-    @BindView(R.id.listview_loans) ListView mListView;
-    @BindView(R.id.loan_list_view_swipe) SwipeRefreshLayout swipeContainer;
+    @BindView(R2.id.loan_list_view_filtering_expandable) ExpandableLayout loanListSearchExpandableLayout;
+    @BindView(R2.id.listview_loans) ListView mListView;
+    @BindView(R2.id.loan_list_view_swipe) SwipeRefreshLayout swipeContainer;
 
-    @BindView(R.id.loan_list_view_filtering_hide_button) LinearLayout filteringHideButton;
-    @BindView(R.id.loan_list_view_filtering_clear_button) LinearLayout filteringClearButton;
+    @BindView(R2.id.loan_list_view_filtering_hide_button) LinearLayout filteringHideButton;
+    @BindView(R2.id.loan_list_view_filtering_clear_button) LinearLayout filteringClearButton;
 
-    @BindView(R.id.loan_list_view_filtering_count) TextView filteringCountLabel;
-    @BindString(R.string.loan_list_action_filter_item_count_tail) String filteringCountTail;
+    @BindView(R2.id.loan_list_view_filtering_count) TextView filteringCountLabel;
+    @BindString(R2.string.loan_list_action_filter_item_count_tail) String filteringCountTail;
 
     private LoanListAdapter mLoanAdapter;
     private Subscription loanListSubscription;

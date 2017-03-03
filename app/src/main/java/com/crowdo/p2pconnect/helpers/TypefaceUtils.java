@@ -9,7 +9,7 @@ import android.graphics.Typeface;
 
 public class TypefaceUtils {
 
-    public static Typeface getQuickSandTypeFace(final Context context){
+    public static Typeface getNothingYouCouldDoTypeFace(final Context context){
         return Typeface.createFromAsset(context.getAssets(), "fonts/NothingYouCouldDo.ttf");
     }
 }
