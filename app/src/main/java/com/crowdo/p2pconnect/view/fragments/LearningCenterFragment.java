@@ -209,6 +209,7 @@ public class LearningCenterFragment extends Fragment{
 
     @Override
     public void onDestroy() {
+        realm.close();
         super.onDestroy();
     }
 
@@ -216,7 +217,7 @@ public class LearningCenterFragment extends Fragment{
     //Load Data from CSV
     public void populateData(){
         //show progress dialog
-        progress.show();
+//        progress.show();
         //on another thread
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
@@ -269,7 +270,7 @@ public class LearningCenterFragment extends Fragment{
                     }
                 }
 
-                Log.d(LOG_TAG, "APP: populateData() language = " + lang);
+                Log.d(LOG_TAG, "APP: loadedLearningCenterDB SharePref Boolean = " + loadedLearningCenterDB);
 
                 //do realm call db transactions
                 mGeneralResults = realm.where(LearningCenter.class)
@@ -291,27 +292,32 @@ public class LearningCenterFragment extends Fragment{
                 mGeneralAdapter = new LearningCenterAdapter(getActivity(), realm.copyFromRealm(mGeneralResults));
                 mInvestorAdapter = new LearningCenterAdapter(getActivity(), realm.copyFromRealm(mInvestorResults));
                 mBorrowerAdapter = new LearningCenterAdapter(getActivity(), realm.copyFromRealm(mBorrowerResults));
+
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-                Log.d(LOG_TAG, "APP: Realm database is done processing from CSV");
-                SharedPreferencesUtils.setSharePrefBool(getActivity(),
-                        ConstantVariables.PREF_KEY_LOADED_LEARNINGCENTER_DB, true);
 
-                //set adapters
-                binding.learningCenterRecycleViewGeneral.setAdapter(mGeneralAdapter);
-                binding.learningCenterRecycleViewInvestor.setAdapter(mInvestorAdapter);
-                binding.learningCenterRecycleViewBorrowers.setAdapter(mBorrowerAdapter);
-
-                mGeneralItemCount = mGeneralAdapter.getItemCount();
-                mInvestorItemCount = mInvestorAdapter.getItemCount();
-                mBorrowerItemCount = mBorrowerAdapter.getItemCount();
-
-                mGeneralItemCountLabel.setText(String.valueOf(mGeneralItemCount) + mItemCountTailLabel);
-                mInvestorItemCountLabel.setText(String.valueOf(mInvestorItemCount) + mItemCountTailLabel);
-                mBorrowerItemCountLabel.setText(String.valueOf(mBorrowerItemCount) + mItemCountTailLabel);
                 progress.dismiss();
+
+                Log.d(LOG_TAG, "APP: Realm database is done processing from CSV");
+                if(getActivity() != null) {
+                    SharedPreferencesUtils.setSharePrefBool(getActivity(),
+                            ConstantVariables.PREF_KEY_LOADED_LEARNINGCENTER_DB, true);
+
+                    //set adapters
+                    binding.learningCenterRecycleViewGeneral.setAdapter(mGeneralAdapter);
+                    binding.learningCenterRecycleViewInvestor.setAdapter(mInvestorAdapter);
+                    binding.learningCenterRecycleViewBorrowers.setAdapter(mBorrowerAdapter);
+
+                    mGeneralItemCount = mGeneralAdapter.getItemCount();
+                    mInvestorItemCount = mInvestorAdapter.getItemCount();
+                    mBorrowerItemCount = mBorrowerAdapter.getItemCount();
+
+                    mGeneralItemCountLabel.setText(String.valueOf(mGeneralItemCount) + mItemCountTailLabel);
+                    mInvestorItemCountLabel.setText(String.valueOf(mInvestorItemCount) + mItemCountTailLabel);
+                    mBorrowerItemCountLabel.setText(String.valueOf(mBorrowerItemCount) + mItemCountTailLabel);
+                }
             }
         }, new Realm.Transaction.OnError() {
             @Override
@@ -340,29 +346,31 @@ public class LearningCenterFragment extends Fragment{
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            try {
-                mSearchInput.removeTextChangedListener(this);
-                String searchStr = s.toString();
-                if("".equals(searchStr) && mGeneralAdapter != null
-                        && mInvestorAdapter != null && mBorrowerAdapter != null) {
-                    mGeneralAdapter.search(searchStr);
-                    mInvestorAdapter.search(searchStr);
-                    mBorrowerAdapter.search(searchStr);
+            if(s != null) {
+                try {
+                    mSearchInput.removeTextChangedListener(this);
+                    String searchStr = s.toString();
+                    if (mGeneralAdapter != null && mInvestorAdapter != null
+                            && mBorrowerAdapter != null) {
+                        mGeneralAdapter.search(searchStr);
+                        mInvestorAdapter.search(searchStr);
+                        mBorrowerAdapter.search(searchStr);
 
-                    mGeneralItemCount = mGeneralAdapter.getItemCount();
-                    mInvestorItemCount = mInvestorAdapter.getItemCount();
-                    mBorrowerItemCount = mBorrowerAdapter.getItemCount();
+                        mGeneralItemCount = mGeneralAdapter.getItemCount();
+                        mInvestorItemCount = mInvestorAdapter.getItemCount();
+                        mBorrowerItemCount = mBorrowerAdapter.getItemCount();
 
-                    mGeneralItemCountLabel.setText(String.valueOf(mGeneralItemCount) + mItemCountTailLabel);
-                    mInvestorItemCountLabel.setText(String.valueOf(mInvestorItemCount) + mItemCountTailLabel);
-                    mBorrowerItemCountLabel.setText(String.valueOf(mBorrowerItemCount) + mItemCountTailLabel);
+                        mGeneralItemCountLabel.setText(String.valueOf(mGeneralItemCount) + mItemCountTailLabel);
+                        mInvestorItemCountLabel.setText(String.valueOf(mInvestorItemCount) + mItemCountTailLabel);
+                        mBorrowerItemCountLabel.setText(String.valueOf(mBorrowerItemCount) + mItemCountTailLabel);
+                    }
+                } catch (NullPointerException ne) {
+                    Log.e(LOG_TAG, "ERROR: " + ne.getMessage(), ne);
+                } catch (IndexOutOfBoundsException e) {
+                    Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                } finally {
+                    mSearchInput.addTextChangedListener(this);
                 }
-            }catch(NullPointerException ne){
-                Log.e(LOG_TAG, "ERROR: " + ne.getMessage(), ne);
-            }catch(IndexOutOfBoundsException e){
-                Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-            }finally{
-                mSearchInput.addTextChangedListener(this);
             }
         }
 

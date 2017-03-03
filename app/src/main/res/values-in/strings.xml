@@ -63,7 +63,7 @@
     <string name="welcome_intro_2_head">Kemungkinan Tanpa Batasan</string>
     <string name="loan_detail_enter_amount_hint_error_positive">Mohon hanya nilai Non Negatif</string>
     <string name="pref_user_exit_session_summary">Hapus rincian yang anda simpan</string>
-    <string name="pref_user_exit_session_title">Sesi Keluar</string>
+    <string name="pref_user_exit_session_title">Keluar Sesi</string>
     <string name="toolbar_title_learning_center">Pusat Informasi</string>
     <string name="learning_center_categories_label_general">Pertanyaan Umum</string>
     <string name="learning_center_categories_label_borrower">Peminjam</string>
@@ -94,4 +94,6 @@
     <string name="loan_list_action_filter_sec_collateralized">Jaminan</string>
     <string name="loan_list_action_filter_title">Saring</string>
     <string name="learning_center_search_hint">Cari</string>
+    <string name="perform_email_identity_check_exception_aft">&#160;di sistem kami</string>
+    <string name="perform_email_identity_check_exception_bef">Tidak ada akun yang terkait dengan&#160;</string>
 </resources>

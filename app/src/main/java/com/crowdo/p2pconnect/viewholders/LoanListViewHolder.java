@@ -27,7 +27,6 @@ import butterknife.ButterKnife;
 
 public class LoanListViewHolder {
 
-
     @BindView(R.id.loan_item_iden_no) TextView mLoanId;
     @BindView(R.id.loan_item_credit_grade_text) TextView mLoanGrade;
     @BindView(R.id.loan_item_days_left_and_percentage_funded) TextView mDaysLeftAndPercentage;

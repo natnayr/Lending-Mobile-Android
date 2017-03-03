@@ -18,6 +18,8 @@ public class ConstantVariables {
     public static final String PREF_KEY_LOADED_LEARNINGCENTER_DB = "LOADED_LEARNINGCENTER_DB_KEY";
     public static final String PREF_KEY_SELECTED_LANGUAGE = "LOCALE_HELPER_SELECTED_LANGUGAGE";
 
+    public static final long REALM_DB_VERSION = 0;
+
     public static final String APP_LANG_DEFAULT = "en";
     public static final String APP_LANG_EN = "en";
     public static final String APP_LANG_IN = "in";

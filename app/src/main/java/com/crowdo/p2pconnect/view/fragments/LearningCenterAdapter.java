@@ -36,8 +36,8 @@ public class LearningCenterAdapter extends RecyclerView.Adapter<LearningCenterAd
     }
 
     public void search(String searchText){
-        if(!"".equals(searchText)) {
-            searchText = searchText.toLowerCase();
+        if(searchText != null) {
+            searchText = searchText.toLowerCase().trim();
 
             mCollection.clear();
             if (searchText.length() == 0) {

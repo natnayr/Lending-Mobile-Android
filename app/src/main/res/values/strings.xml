@@ -101,6 +101,9 @@
     <string name="webview_unable_open_file">Error, unable to open file</string>
     <string name="webview_download_to">Downloaded to&#160;</string>
 
+    <string name="perform_email_identity_check_exception_bef">No accounts associated with&#160;</string>
+    <string name="perform_email_identity_check_exception_aft">&#160;in our system.</string>
+
     <!-- Globals -->
     <string name="pre_exit_question">Are you sure you want to exit?</string>
     <string name="downloading_label">Downloading, Please tap OPEN to access file</string>
