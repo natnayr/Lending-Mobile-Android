@@ -17,7 +17,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.R2;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.TypefaceUtils;
@@ -43,11 +42,11 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity{
 
-    @BindView(R2.id.toolbar) Toolbar mToolbar;
-    @BindString(R2.string.pre_exit_question) String mPreExitQuestion;
-    @BindString(R2.string.permission_overlay_permission_request) String mOverlayPermissionRequest;
-    @BindString(R2.string.language_english_label) String mLanguageEnglish;
-    @BindString(R2.string.language_bahasa_label) String mLanguageBahasa;
+    @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindString(R.string.pre_exit_question) String mPreExitQuestion;
+    @BindString(R.string.permission_overlay_permission_request) String mOverlayPermissionRequest;
+    @BindString(R.string.language_english_label) String mLanguageEnglish;
+    @BindString(R.string.language_bahasa_label) String mLanguageBahasa;
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private Drawer navDrawer;
@@ -142,6 +141,10 @@ public class MainActivity extends AppCompatActivity{
                                 case DRAWER_SELECT_LANGUAGE_IN:
                                     LocaleHelper.setLocale(MainActivity.this, ConstantVariables.APP_LANG_IN);
                                     MainActivity.this.recreate();
+                                    break;
+                                case DRAWER_SELECT_TOP_UP_WALLET:
+
+
                                     break;
                                 default:
                             }
