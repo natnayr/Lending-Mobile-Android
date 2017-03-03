@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.custom_ui.GoalProgressBar;
+import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.model.LoanDetail;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.DateUtils;
@@ -285,7 +286,8 @@ public class LoanDetailsViewHolder {
 
 
         if(loanDetail.currency != null) {
-            mTargetAmount.setText(NumericUtils.truncateNumber(loanDetail.targetAmount));
+            mTargetAmount.setText(NumericUtils.truncateNumber(loanDetail.targetAmount,
+                    LocaleHelper.getLanguage(context)));
             mTargetAmountDescription.setText(mTargetAmountPrincipalString +
                     " (" + loanDetail.currency + ")");
         }

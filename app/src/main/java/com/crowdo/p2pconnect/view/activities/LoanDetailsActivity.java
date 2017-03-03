@@ -1,6 +1,7 @@
 package com.crowdo.p2pconnect.view.activities;
 
 import android.animation.Animator;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
@@ -9,9 +10,12 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.helpers.ConstantVariables;
+import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.view.fragments.LoanDetailsFragment;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
@@ -21,6 +25,7 @@ import butterknife.ButterKnife;
 
 public class LoanDetailsActivity extends AppCompatActivity {
 
+    public static final String LOG_TAG = LoanDetailsActivity.class.getSimpleName();
     public static final String BUNDLE_ID_KEY = "BundleDetailsFragmentIDKey";
     @InjectExtra public int id;
     @BindView(R.id.toolbar) Toolbar mToolbar;
@@ -76,9 +81,11 @@ public class LoanDetailsActivity extends AppCompatActivity {
             TaskStackBuilder.create(this)
                     .addNextIntentWithParentStack(upIntent)
                     .startActivities();
+            Log.d(LOG_TAG, "APP: TaskStackBuilder.create(this) has been called");
         } else {
             //If no backstack then navigate to logical main list view
             NavUtils.navigateUpTo(this, upIntent);
+            Log.d(LOG_TAG, "APP: NavUtils.navigateUpTo(this, upIntent) has been called");
         }
         return true;
     }
@@ -113,5 +120,10 @@ public class LoanDetailsActivity extends AppCompatActivity {
                     public void onAnimationRepeat(Animator animation) { }
                 });
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 }

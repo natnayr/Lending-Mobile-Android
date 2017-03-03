@@ -23,6 +23,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.helpers.ConstantVariables;
+import com.crowdo.p2pconnect.helpers.LocaleHelper;
+
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -195,6 +198,11 @@ public class WelcomeActivity extends AppCompatActivity implements MediaPlayer.On
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 
     class WelcomePagerAdapter extends PagerAdapter{

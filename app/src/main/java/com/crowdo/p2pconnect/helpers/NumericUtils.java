@@ -52,18 +52,30 @@ public class NumericUtils {
                 symbol, wantSymbol);
     }
 
-    public static String truncateNumber(double longNumber) {
+    public static String truncateNumber(double longNumber, String localeString) {
         long million = 1000000L;
         long billion = 1000000000L;
         long trillion = 1000000000000L;
 
+        String millionTruncate;
+        String billionTruncate;
+
+        if(localeString.equals(ConstantVariables.APP_LANG_IN)) {
+            //bahasa
+            millionTruncate = ConstantVariables.IN_MILLIONS_TRUNCATE;
+            billionTruncate = ConstantVariables.IN_BILLIONS_TRUNCATE;
+        }else{
+            //default EN
+            millionTruncate = ConstantVariables.EN_MILLIONS_TRUNCATE;
+            billionTruncate = ConstantVariables.EN_BILLIONS_TRUNCATE;
+        }
         long number = Math.round(longNumber);
         if ((number >= million) && (number < billion)) {
             float fraction = calculateFraction(number, million);
-            return removeTrailingZeros(Float.toString(fraction)) + "M";
+            return removeTrailingZeros(Float.toString(fraction)) + millionTruncate;
         } else if ((number >= billion) && (number < trillion)) {
             float fraction = calculateFraction(number, billion);
-            return removeTrailingZeros(Float.toString(fraction)) + "B";
+            return removeTrailingZeros(Float.toString(fraction)) + billionTruncate;
         }
         return Long.toString(number);
     }

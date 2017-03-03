@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
+import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.esafirm.rxdownloader.RxDownloader;
@@ -352,6 +353,10 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
                     }
                 });
+    }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 }

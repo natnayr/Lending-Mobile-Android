@@ -23,6 +23,7 @@ public class ConstantVariables {
     public static final String APP_LANG_DEFAULT = "en";
     public static final String APP_LANG_EN = "en";
     public static final String APP_LANG_IN = "in";
+
     public static final String PDF_CONTENT_TYPE = "application/pdf";
 
     public static final String LEARNING_CENTER_CSV_FILE_LOCATION = "FAQ_template.csv";
@@ -42,6 +43,11 @@ public class ConstantVariables {
 
     public static final int REQUEST_CODE_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 12312;
     public static final int REQUEST_CODE_PERMISSIONS_OVERLAY = 10101;
+
+    public static final String EN_MILLIONS_TRUNCATE = "M";
+    public static final String EN_BILLIONS_TRUNCATE = "B";
+    public static final String IN_MILLIONS_TRUNCATE = "JT";
+    public static final String IN_BILLIONS_TRUNCATE = "M";
 
     public static final String OUT_DATE_TIME_FORMAT = "dd MMM yyyy";
 
