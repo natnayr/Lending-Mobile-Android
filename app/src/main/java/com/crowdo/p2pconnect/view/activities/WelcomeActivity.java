@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
+import com.crowdo.p2pconnect.helpers.TypefaceUtils;
 
 import java.io.IOException;
 import java.util.Timer;
@@ -119,7 +120,7 @@ public class WelcomeActivity extends AppCompatActivity implements MediaPlayer.On
         mTabLayout.setupWithViewPager(mViewPager, true);
         mViewPager.setAdapter(new WelcomePagerAdapter(this));
 
-        Typeface nycdTypeFace = Typeface.createFromAsset(getAssets(), "fonts/NothingYouCouldDo.ttf");
+        Typeface nycdTypeFace = TypefaceUtils.getNothingYouCouldDoTypeFace(this);
         mWelcomeAppNameView.setTypeface(nycdTypeFace);
 
         //Backwards Compatibility

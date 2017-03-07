@@ -28,8 +28,7 @@ public class PerformEmailIdentityCheckTemp {
     }
 
     public boolean onResponseCode(String LOG_TAG, String enteredEmail,
-                                      RegisteredMemberCheck response, View view){
-
+                                      RegisteredMemberCheck response){
 
         try {
             RegisteredMemberCheck registeredMemberCheck = response;
@@ -78,7 +77,7 @@ public class PerformEmailIdentityCheckTemp {
         return false;
     }
 
-    public void onFailure(String LOG_TAG, String enteredEmail, Throwable t, View view){
+    public void onFailure(String LOG_TAG, String enteredEmail, Throwable t){
         Log.e(LOG_TAG, "ERROR: CALL FAILURE: " + t.getMessage());
         Toast.makeText(context, this.errMsgBef + enteredEmail + this.errMsgAft,
                 Toast.LENGTH_SHORT).show();

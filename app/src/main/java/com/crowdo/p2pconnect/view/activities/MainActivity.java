@@ -4,10 +4,7 @@ import android.animation.Animator;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -17,8 +14,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
+import com.crowdo.p2pconnect.helpers.PermissionsUtils;
 import com.crowdo.p2pconnect.helpers.TypefaceUtils;
 import com.crowdo.p2pconnect.view.fragments.LearningCenterFragment;
 import com.crowdo.p2pconnect.view.fragments.LoanListFragment;
@@ -66,7 +65,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        checkDrawOverlayPermission();
+        PermissionsUtils.checkDrawOverlayPermission(this, mOverlayPermissionRequest);
 
         mToolbar.setTitle(getString(R.string.toolbar_title_loan_list));
         setSupportActionBar(mToolbar);
@@ -76,7 +75,6 @@ public class MainActivity extends AppCompatActivity{
                 .add(R.id.main_content, new LoanListFragment())
                 .commit();
 
-
         navDrawer = buildNavigationDrawer()
                 .withSavedInstance(savedInstanceState)
                 .build();
@@ -84,6 +82,7 @@ public class MainActivity extends AppCompatActivity{
         navDrawer.setSelection(100);
 
         TextView mNavDrawerAppLogo = (TextView) navDrawer.getHeader().findViewById(R.id.nav_header_app_title);
+        //set typeface
         mNavDrawerAppLogo.setTypeface(TypefaceUtils.getNothingYouCouldDoTypeFace(this));
     }
 
@@ -95,6 +94,7 @@ public class MainActivity extends AppCompatActivity{
                 .withHeader(R.layout.nav_header)
                 .withDrawerWidthDp(280)
                 .withFullscreen(true)
+                .withCloseOnClick(true)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_LOAN_LIST_FRAGMENT).withName(R.string.toolbar_title_loan_list).withIcon(CommunityMaterial.Icon.cmd_gavel)
                                 .withSetSelected(true).withSelectedTextColorRes(R.color.color_primary_700).withSelectedIconColorRes(R.color.color_primary_700),
@@ -105,23 +105,25 @@ public class MainActivity extends AppCompatActivity{
                         new SectionDrawerItem().withName(R.string.navmenu_label_preferences),
                         new ExpandableDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_CHANGE).withName(R.string.navmenu_label_language).withIcon(CommunityMaterial.Icon.cmd_translate)
                                 .withSelectable(false).withSubItems(
-                                    new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_EN).withName(R.string.language_english_label).withLevel(2),
-                                    new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_IN).withName(R.string.language_bahasa_label).withLevel(2)
+                                    new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_EN).withName(R.string.language_english_label).withLevel(2).withSelectable(false),
+                                    new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_IN).withName(R.string.language_bahasa_label).withLevel(2).withSelectable(false)
                                 ),
                         new SectionDrawerItem().withName(R.string.navmenu_label_extras),
                         new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_TOP_UP_WALLET).withName(R.string.toolbar_title_top_up_wallet)
-                                .withIcon(CommunityMaterial.Icon.cmd_wallet),
+                                .withSelectable(false).withIcon(CommunityMaterial.Icon.cmd_wallet),
                         new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_APPLY_AS_INVESTOR).withName(R.string.toolbar_title_apply_investor)
-                                .withIcon(CommunityMaterial.Icon.cmd_account_star_variant)
+                                .withSelectable(false).withIcon(CommunityMaterial.Icon.cmd_account_star_variant)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if(drawerItem != null){
+                        if(drawerItem != null) {
                             Fragment fragment = null;
                             Class fragmentClass = null;
+                            String action = null;
+                            boolean webCall = false;
 
-                            switch ((int) drawerItem.getIdentifier()){
+                            switch ((int) drawerItem.getIdentifier()) {
                                 case DRAWER_SELECT_LOAN_LIST_FRAGMENT:
                                     fragmentClass = LoanListFragment.class;
                                     mToolbar.setTitle(R.string.toolbar_title_loan_list);
@@ -137,19 +139,42 @@ public class MainActivity extends AppCompatActivity{
                                 case DRAWER_SELECT_LANGUAGE_EN:
                                     LocaleHelper.setLocale(MainActivity.this, ConstantVariables.APP_LANG_EN);
                                     MainActivity.this.recreate();
-                                    break;
+                                    return true;
+
                                 case DRAWER_SELECT_LANGUAGE_IN:
-                                    LocaleHelper.setLocale(MainActivity.this, ConstantVariables.APP_LANG_IN);
+                                    LocaleHelper.setLocale(MainActivity.this, ConstantVariables.APP_LANG_ID);
                                     MainActivity.this.recreate();
-                                    break;
+                                    return true;
+
                                 case DRAWER_SELECT_TOP_UP_WALLET:
+                                    action = "top_up";
+                                    webCall = true;
+                                    break;
 
-
+                                case DRAWER_SELECT_APPLY_AS_INVESTOR:
+                                    action = "register_as_investor";
+                                    webCall = true;
                                     break;
                                 default:
+                                    return false; //default close
                             }
 
-                            if(fragmentClass != null) {
+                            if(webCall == true && action != null) {
+                                final String locale = LocaleHelper.getLanguage(MainActivity.this);
+                                String webViewUrl = APIServices.API_BASE_URL +
+                                        "mobile/" + action +
+                                        "?lang=" + locale;
+
+                                Intent intent = Henson.with(MainActivity.this)
+                                        .gotoWebViewActivity()
+                                        .mUrl(webViewUrl)
+                                        .build();
+                                startActivity(intent);
+                                Log.d(LOG_TAG, "APP: webview launched to " + webViewUrl);
+                                return true;
+                            }
+
+                            if (fragmentClass != null) {
                                 try {
                                     fragment = (Fragment) fragmentClass.newInstance();
                                 } catch (Exception e) {
@@ -160,9 +185,9 @@ public class MainActivity extends AppCompatActivity{
                                 getSupportFragmentManager().beginTransaction()
                                         .replace(R.id.main_content, fragment)
                                         .commit();
+                                return false;
                             }
                         }
-
                         return false;
                     }
                 });
@@ -217,31 +242,7 @@ public class MainActivity extends AppCompatActivity{
                 });
     }
 
-    public boolean checkDrawOverlayPermission() {
-        //Check Overlays for Marshmellow version and after
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true;
-        }
 
-        if (!Settings.canDrawOverlays(this)) {
-            new AlertDialog.Builder(this)
-                    .setMessage(mOverlayPermissionRequest)
-                    .setNegativeButton(android.R.string.no, null)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                                    Uri.parse("package:" + getPackageName()));
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY
-                                    | Intent.FLAG_ACTIVITY_NEW_TASK
-                                    | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivityForResult(intent, ConstantVariables.REQUEST_CODE_PERMISSIONS_OVERLAY);
-                        }
-                    }).create().show();
-            return false;
-        } else {
-            return true;
-        }
-    }
 
     @Override
     protected void attachBaseContext(Context base) {

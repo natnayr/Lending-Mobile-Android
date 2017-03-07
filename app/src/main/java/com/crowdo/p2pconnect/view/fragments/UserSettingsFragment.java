@@ -225,13 +225,13 @@ public class UserSettingsFragment extends PreferenceFragmentCompat
 
                         @Override
                         public void onError(Throwable e) {
-                            idenCheck.onFailure(LOG_TAG, enteredEmail, e, getView());
+                            idenCheck.onFailure(LOG_TAG, enteredEmail, e);
                         }
 
                         @Override
                         public void onNext(RegisteredMemberCheck registeredMemberCheck) {
                             idenCheck.onResponseCode(LOG_TAG, enteredEmail,
-                                    registeredMemberCheck, getView());
+                                    registeredMemberCheck);
                         }
                     });
         }

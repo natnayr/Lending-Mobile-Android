@@ -20,7 +20,7 @@ import rx.Observable;
 
 public interface APIServices {
 
-    public static final String API_BASE_URL = "http://p2pid.crowdo.com/";
+    public static final String API_BASE_URL = "https://p2pid.crowdo.com/";
     public static final String STAGE = "internal_api/";
 
     @GET("loan_listing")

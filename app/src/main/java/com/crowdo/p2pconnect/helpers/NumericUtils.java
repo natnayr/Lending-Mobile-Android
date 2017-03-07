@@ -21,7 +21,6 @@ public class NumericUtils {
         String output = "";
         NumberFormat nf;
         DecimalFormatSymbols dfs = new DecimalFormatSymbols();
-
         switch(currencyStr){
             case IDR:
                 nf = NumberFormat.getCurrencyInstance(new Locale("in", "ID"));
@@ -54,7 +53,7 @@ public class NumericUtils {
         String billionTruncate;
         long number = Math.round(longNumber);
 
-        if(localeString.equals(ConstantVariables.APP_LANG_IN)) {
+        if(localeString.equals(ConstantVariables.APP_LANG_ID)) {
             //bahasa
             millionTruncate = ConstantVariables.IN_MILLIONS_TRUNCATE;
             billionTruncate = ConstantVariables.IN_BILLIONS_TRUNCATE;

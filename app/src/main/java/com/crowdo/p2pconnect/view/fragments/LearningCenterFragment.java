@@ -255,7 +255,7 @@ public class LearningCenterFragment extends Fragment{
                                     counterEn[csvIdx]++;
 
                                     LearningCenter idLearningCenter = realm.createObject(LearningCenter.class);
-                                    idLearningCenter.setLanguage(ConstantVariables.APP_LANG_IN);
+                                    idLearningCenter.setLanguage(ConstantVariables.APP_LANG_ID);
                                     idLearningCenter.setCategory(rec.get(0));
                                     idLearningCenter.setQuestion(rec.get(4));
                                     idLearningCenter.setAnswer(rec.get(5));

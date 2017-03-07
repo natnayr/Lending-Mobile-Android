@@ -76,8 +76,7 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
     @BindString(R.string.permissions_write_request) String mLabelExternalDriveRequest;
     @BindString(R.string.permissions_no_write_statement) String mLabelCannotWrite;
 
-    @InjectExtra public int id;
-    @InjectExtra public String url;
+    @InjectExtra public String mUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +96,7 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
         mWebView.setListener(WebViewActivity.this, WebViewActivity.this);
         mWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
-        mWebView.loadUrl(url);
+        mWebView.loadUrl(mUrl);
 
         mWebView.setWebChromeClient(new WebChromeClient(){
             @Override

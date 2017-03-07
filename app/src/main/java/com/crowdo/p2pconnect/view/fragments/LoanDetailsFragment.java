@@ -353,8 +353,7 @@ public class LoanDetailsFragment extends Fragment {
 
             Intent intent = Henson.with(getActivity())
                     .gotoWebViewActivity()
-                    .id(initLoanId)
-                    .url(webViewUrl)
+                    .mUrl(webViewUrl)
                     .build();
 
 
@@ -426,13 +425,13 @@ public class LoanDetailsFragment extends Fragment {
                                 @Override
                                 public void onError(Throwable e) {
                                     Log.d(LOG_TAG, "ERROR: onError");
-                                    idenCheck.onFailure(LOG_TAG, enteredEmail, e, getView());
+                                    idenCheck.onFailure(LOG_TAG, enteredEmail, e);
                                 }
 
                                 @Override
                                 public void onNext(RegisteredMemberCheck registeredMemberCheck) {
                                     Log.d(LOG_TAG, "APP: onNext return " + registeredMemberCheck.memberId);
-                                    if(idenCheck.onResponseCode(LOG_TAG, enteredEmail, registeredMemberCheck, getView())) {
+                                    if(idenCheck.onResponseCode(LOG_TAG, enteredEmail, registeredMemberCheck)) {
                                         addToCart();
                                     }
                                 }
@@ -452,5 +451,7 @@ public class LoanDetailsFragment extends Fragment {
             alertDialog.show();
         }
     }
+
+
 
 }

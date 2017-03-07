@@ -22,7 +22,7 @@ public class ConstantVariables {
 
     public static final String APP_LANG_DEFAULT = "en";
     public static final String APP_LANG_EN = "en";
-    public static final String APP_LANG_IN = "in";
+    public static final String APP_LANG_ID = "id";
 
     public static final String PDF_CONTENT_TYPE = "application/pdf";
 
