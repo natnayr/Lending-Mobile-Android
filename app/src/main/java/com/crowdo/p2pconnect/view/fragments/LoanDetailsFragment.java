@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.view.activities.Henson;
@@ -343,11 +344,13 @@ public class LoanDetailsFragment extends Fragment {
                 }).show();
                 return;
             }
+            String localeKey = LocaleHelper.getLanguage(getActivity());
 
             String webViewUrl = APIServices.API_BASE_URL+
                     "mobile/login_and_checkout_authenticate?" +
                     "email="+email+"&loan_id="+initLoanId +
-                    "&invest_amount="+biddingAmount+"&market=idr";
+                    "&invest_amount="+biddingAmount+
+                    "&market=idr&lang="+localeKey;
 
             Log.d(LOG_TAG, "APP: URL " + webViewUrl);
 
