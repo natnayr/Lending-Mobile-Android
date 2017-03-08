@@ -10,15 +10,15 @@ import com.crowdo.p2pconnect.view.fragments.WelcomeFragment;
 /**
  * Created by ryan on 19/10/16.
  */
-public class WelcomeActivity extends AppCompatActivity{
+public class LaunchActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
+        setContentView(R.layout.activity_launch);
 
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.welcome_content, new WelcomeFragment())
+                .add(R.id.launch_content, new WelcomeFragment())
                 .commit();
     }
 

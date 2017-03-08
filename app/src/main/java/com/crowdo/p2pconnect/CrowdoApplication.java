@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
-import com.crowdo.p2pconnect.view.activities.WelcomeActivity;
+import com.crowdo.p2pconnect.view.activities.LaunchActivity;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 
@@ -94,7 +94,7 @@ public class CrowdoApplication extends Application{
                 rx.printStackTrace();
             }
 
-            Intent intent = new Intent(this, WelcomeActivity.class);
+            Intent intent = new Intent(this, LaunchActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }

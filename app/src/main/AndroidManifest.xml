@@ -15,7 +15,7 @@
         android:logo="@drawable/ic_key_logo"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.crowdo.p2pconnect.view.activities.WelcomeActivity"
+            android:name="com.crowdo.p2pconnect.view.activities.LaunchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WelcomeTheme">
         </activity>

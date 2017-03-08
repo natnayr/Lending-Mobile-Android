@@ -23,10 +23,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.TypefaceUtils;
 import com.crowdo.p2pconnect.view.activities.MainActivity;
-import com.crowdo.p2pconnect.view.activities.WelcomeActivity;
 
 import java.io.IOException;
 import java.util.Timer;
@@ -129,7 +127,7 @@ public class WelcomeFragment extends Fragment implements MediaPlayer.OnPreparedL
                 mTimer.cancel();
 
                 getFragmentManager().beginTransaction()
-                        .add(R.id.welcome_content, new LoginFragment())
+                        .add(R.id.launch_content, new LoginFragment())
                         .commit();
 
             }
