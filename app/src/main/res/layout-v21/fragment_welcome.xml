@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -62,7 +62,19 @@
         android:orientation="horizontal"
         android:gravity="center_horizontal">
         <Button
+            android:id="@+id/welcome_login_btn"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/welcome_login_btn_label"
+            android:textSize="@dimen/welcome_btn_text_size"
+            android:textColor="@drawable/welcome_login_btn_text"
+            android:fontFamily="@string/font_family_regular"
+            android:textAllCaps="true"
+            android:background="@drawable/welcome_login_btn_layout" />
+        <Button
             android:id="@+id/welcome_get_started_btn"
+            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/welcome_btn_label"
@@ -72,5 +84,10 @@
             android:textAllCaps="true"
             android:background="@drawable/welcome_get_started_btn_layout" />
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/welcome_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>

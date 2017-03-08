@@ -79,7 +79,6 @@ public class LoanDetailsFragment extends Fragment {
     private AlertDialog alertDialog;
     private int initLoanId;
 
-
     public LoanDetailsFragment() {
     }
 
