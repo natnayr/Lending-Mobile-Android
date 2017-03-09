@@ -53,6 +53,7 @@ public class UserSettingsFragment extends PreferenceFragmentCompat
             pickPreferenceObject(getPreferenceScreen().getPreference(i));
         }
 
+
         Preference exitSessBtn = findPreference(ConstantVariables.PREF_KEY_USER_LOGOUT);
         exitSessBtn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override

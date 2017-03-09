@@ -2,6 +2,11 @@
     <string name="app_name" translatable="false">Crowdo Connect</string>
     <string name="app_name_welcome" translatable="false">connect</string>
 
+    <string name="activity_launch" translatable="false">Welcome</string>
+    <string name="activity_main" translatable="false">Main</string>
+    <string name="activity_webview" translatable="false">WebView</string>
+    <string name="activity_loan_details" translatable="false">Loan Details</string>
+
     <string name="navmenu_label_extras">Extras</string>
     <string name="navmenu_label_preferences">Preferences</string>
     <string name="navmenu_label_language">Language</string>
