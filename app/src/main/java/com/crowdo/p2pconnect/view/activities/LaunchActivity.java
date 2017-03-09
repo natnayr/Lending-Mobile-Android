@@ -155,7 +155,6 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
         }else{
             finishAffinity();
         }
-        super.onBackPressed();
     }
 
     @Override
