@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -195,14 +197,28 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setMessage(mPreExitQuestion)
-                .setNegativeButton(android.R.string.no, null)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        MainActivity.super.onBackPressed();
-                    }
-                }).create().show();
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
+            super.onBackPressed();
+        } else {
+            toBackStackOrParent();
+        }
+    }
+
+    private boolean toBackStackOrParent(){
+        Intent upIntent = NavUtils.getParentActivityIntent(this);
+        if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+            TaskStackBuilder.create(this)
+                    .addNextIntentWithParentStack(upIntent)
+                    .startActivities();
+            Log.d(LOG_TAG, "APP: TaskStackBuilder.create(this) has been called");
+        } else {
+            //If no backstack then navigate to logical main list view
+            NavUtils.navigateUpTo(this, upIntent);
+            Log.d(LOG_TAG, "APP: NavUtils.navigateUpTo(this, upIntent) has been called");
+        }
+        return true;
     }
 
     @Override

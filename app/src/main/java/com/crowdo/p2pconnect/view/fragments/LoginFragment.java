@@ -15,6 +15,8 @@ import com.crowdo.p2pconnect.R;
 
 public class LoginFragment extends Fragment{
 
+    public static final String TAG_LOGIN_FRAGMENT = "LOGIN_FRAGMENT_TAG";
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +27,8 @@ public class LoginFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
+
+
 
 
         return rootView;

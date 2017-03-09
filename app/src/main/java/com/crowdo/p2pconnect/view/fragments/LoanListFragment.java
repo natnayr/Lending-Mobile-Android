@@ -25,6 +25,7 @@ import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.view.activities.Henson;
 import com.crowdo.p2pconnect.model.LoanListItem;
 import com.crowdo.p2pconnect.data.LoanListClient;
+import com.crowdo.p2pconnect.view.adapters.LoanListAdapter;
 import com.crowdo.p2pconnect.viewholders.LoanListFilterViewHolder;
 
 import net.cachapa.expandablelayout.ExpandableLayout;

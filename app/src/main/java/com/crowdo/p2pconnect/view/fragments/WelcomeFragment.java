@@ -52,6 +52,7 @@ public class WelcomeFragment extends Fragment implements MediaPlayer.OnPreparedL
     private static final int TIMEFRAME = 13180;
 
     private static final String LOG_TAG = WelcomeFragment.class.getSimpleName();
+    public static final String TAG_WELCOME_FRAGMENT = "WELCOME_FRAGMENT_TAG";
     private int stopPosition;
     private MediaPlayer mPlayer;
     private SurfaceHolder mHolder;
@@ -127,7 +128,9 @@ public class WelcomeFragment extends Fragment implements MediaPlayer.OnPreparedL
                 mTimer.cancel();
 
                 getFragmentManager().beginTransaction()
-                        .add(R.id.launch_content, new LoginFragment())
+                        .setCustomAnimations(R.anim.slide_in_left, 0)
+                        .replace(R.id.launch_content, new LoginFragment())
+                        .addToBackStack(null)
                         .commit();
 
             }

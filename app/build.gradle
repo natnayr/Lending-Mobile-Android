@@ -82,7 +82,6 @@ dependencies {
     //Okio IO
     compile ('com.squareup.okio:okio:1.11.0')
 
-
     //Advanced Webview
     compile 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
 

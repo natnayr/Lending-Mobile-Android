@@ -11,6 +11,7 @@ import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.view.activities.LaunchActivity;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
+import com.crowdo.p2pconnect.view.activities.MainActivity;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -95,7 +96,8 @@ public class CrowdoApplication extends Application{
             }
 
             Intent intent = new Intent(this, LaunchActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK |
+                    Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(intent);
         }
     }

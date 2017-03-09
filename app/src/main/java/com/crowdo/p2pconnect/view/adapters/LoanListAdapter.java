@@ -1,4 +1,4 @@
-package com.crowdo.p2pconnect.view.fragments;
+package com.crowdo.p2pconnect.view.adapters;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

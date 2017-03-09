@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
-import com.crowdo.p2pconnect.view.fragments.LoanListAdapter;
+import com.crowdo.p2pconnect.view.adapters.LoanListAdapter;
 import com.github.zagum.switchicon.SwitchIconView;
 import com.hanks.library.AnimateCheckBox;
 

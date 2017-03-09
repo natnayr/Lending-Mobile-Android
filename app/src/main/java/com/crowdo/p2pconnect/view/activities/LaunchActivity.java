@@ -18,13 +18,18 @@ public class LaunchActivity extends AppCompatActivity{
         setContentView(R.layout.activity_launch);
 
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.launch_content, new WelcomeFragment())
+                .replace(R.id.launch_content, new WelcomeFragment(),
+                        WelcomeFragment.TAG_WELCOME_FRAGMENT)
                 .commit();
+
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            super.onBackPressed();
+        }
+        getSupportFragmentManager().popBackStack();
     }
 
     @Override
