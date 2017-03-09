@@ -150,10 +150,12 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
 
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-            super.onBackPressed();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            finishAndRemoveTask();
+        }else{
+            finishAffinity();
         }
-        getSupportFragmentManager().popBackStack();
+        super.onBackPressed();
     }
 
     @Override
