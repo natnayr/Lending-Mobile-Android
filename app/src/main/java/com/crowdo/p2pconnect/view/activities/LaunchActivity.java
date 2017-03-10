@@ -8,7 +8,9 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +26,7 @@ import android.widget.TextView;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.TypefaceUtils;
+import com.crowdo.p2pconnect.view.fragments.LoginFragment;
 
 import java.io.IOException;
 import java.util.Timer;
@@ -39,6 +42,7 @@ import butterknife.ButterKnife;
 public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener{
 
     @BindView(R.id.welcome_get_started_btn) Button mWelcomeGetStartedButton;
+    @BindView(R.id.welcome_login_btn) Button mWelcomeLoginButton;
     @BindView(R.id.welcome_pager) ViewPager mViewPager;
     @BindView(R.id.welcome_pager_tabdots) TabLayout mTabLayout;
     @BindString(R.string.pre_exit_question) String mPreExitQuestion;
@@ -112,6 +116,17 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
                         | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        mWelcomeLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = Henson.with(LaunchActivity.this)
+                        .gotoAuthActivity()
+                        .fragmentClass(LoginFragment.class.getName())
+                        .build();
+                startActivity(intent);
             }
         });
 
