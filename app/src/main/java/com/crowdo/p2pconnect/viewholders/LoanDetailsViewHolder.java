@@ -25,6 +25,8 @@ import com.crowdo.p2pconnect.model.LoanDetail;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.DateUtils;
 import com.crowdo.p2pconnect.helpers.NumericUtils;
+import com.mikepenz.community_material_typeface_library.CommunityMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -82,9 +84,9 @@ public class LoanDetailsViewHolder {
     @BindString(R.string.loan_detail_progress_description_tail_label) String mProgressDescriptionTail;
 
     // color
-    @BindColor(R.color.fa_icon_shield) int mShieldColor;
-    @BindColor(R.color.fa_icon_file_text) int mFileColor;
-    @BindColor(R.color.fa_icon_unlock_alt) int mLockOpenColor;
+    @BindColor(R.color.color_icon_shield) int mShieldColor;
+    @BindColor(R.color.color_icon_file_text) int mFileColor;
+    @BindColor(R.color.color_icon_unlock_alt) int mLockOpenColor;
     @BindColor(R.color.color_icons_text) int mIconTextColor; //white
     @BindColor(R.color.color_divider) int mDividerColor;
     
@@ -96,11 +98,6 @@ public class LoanDetailsViewHolder {
     @BindColor(R.color.grade_color_D) int mColorD;
     @BindColor(R.color.grade_color_E) int mColorE;
 
-    //drawables extras
-    @BindDrawable(R.drawable.ic_file_document_black_38dp) Drawable mFileIcon;
-    @BindDrawable(R.drawable.ic_lock_open_black_38dp) Drawable mLockOpenIcon;
-    @BindDrawable(R.drawable.ic_shield_outline_black_38dp) Drawable mShieldOutlineIcon;
-
     @BindDrawable(R.drawable.loan_detail_plus_bid_btn_enabled) Drawable mPlusEnabledDrawable;
     @BindDrawable(R.drawable.loan_detail_plus_bid_btn_pressed) Drawable mPlusPressedDrawable;
     @BindDrawable(R.drawable.loan_detail_minus_bid_btn_enabled) Drawable mMinusEnabledDrawable;
@@ -111,7 +108,6 @@ public class LoanDetailsViewHolder {
     }
 
     public void initView() {
-
         mAmountPlusBtn.setBackground(mPlusEnabledDrawable);
         mAmountMinusBtn.setBackground(mMinusEnabledDrawable);
 
@@ -209,13 +205,18 @@ public class LoanDetailsViewHolder {
 
     public void attachView(final LoanDetail loanDetail, final Context context) {
 
-        mLoanIdenTextView.setText(loanDetail.loanId);
-        mPercentageReturn.setText(Double.toString(loanDetail.interestRate));
-        mGrade.setText(loanDetail.grade);
+        if(!"".equals(loanDetail.getLoanId())) {
+            mLoanIdenTextView.setText(loanDetail.getLoanId());
+        }
+
+        mPercentageReturn.setText(Double.toString(loanDetail.getInterestRate()));
+
+        if(!"".equals(loanDetail.getGrade())) {
+            mGrade.setText(loanDetail.getGrade());
+        }
         
-        if(loanDetail.grade != null &&
-                !loanDetail.grade.equals("")) {
-            switch (loanDetail.grade) {
+        if(!"".equals(loanDetail.getGrade())) {
+            switch (loanDetail.getGrade()) {
                 case "A+":
                     mGrade.setTextColor(mColorAPlus);
                     break;
@@ -238,44 +239,49 @@ public class LoanDetailsViewHolder {
                     mGrade.setTextColor(mColorE);
                     break;
                 default:
-                    throw new IllegalArgumentException("Invalid grade " + loanDetail.grade);
             }
         }
 
-        if(loanDetail.security != null) {
-            switch (loanDetail.security) {
+        if(!"".equals(loanDetail.getSecurity())) {
+            switch (loanDetail.getSecurity()) {
                 case ConstantVariables.IN_SEC_COLLATERALIZED:
-                    mSecurityIcon.setImageDrawable(mShieldOutlineIcon);
+                    mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
+                            .icon(CommunityMaterial.Icon.cmd_shield_outline).sizeDp(38));
                     mSecurityIcon.setColorFilter(mShieldColor);
                     String collateralDesc = WordUtils.wrap(
-                            WordUtils.capitalize(loanDetail.collateral.replaceAll("_", " ")
+                            WordUtils.capitalize(loanDetail.getCollateral()
                                     + "\n" + ConstantVariables.IN_SEC_COLLATERALIZED), 25);
                     mSecurityDescription.setText(collateralDesc);
                     mSecurityIcon.setContentDescription(collateralDesc);
                     break;
                 case ConstantVariables.IN_SEC_UNCOLLATERALIZED:
-                    mSecurityIcon.setImageDrawable(mLockOpenIcon);
+                    mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
+                            .icon(CommunityMaterial.Icon.cmd_lock_open).sizeDp(38));
                     mSecurityIcon.setColorFilter(mLockOpenColor);
                     mSecurityDescription.setText(mOutSecUncollateralized);
                     mSecurityIcon.setContentDescription(mOutSecUncollateralized);
                     break;
                 case ConstantVariables.IN_SEC_INVOICE_OR_CHEQUE:
-                    mSecurityIcon.setImageDrawable(mFileIcon);
+                    mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
+                            .icon(CommunityMaterial.Icon.cmd_file_document).sizeDp(38));
                     mSecurityIcon.setColorFilter(mFileColor);
                     mSecurityDescription.setText(mOutSecInvoiceOrCheque);
                     mSecurityIcon.setContentDescription(mOutSecInvoiceOrCheque);
                     break;
+                default:
             }
         }
 
-        int progressNum = loanDetail.fundedPercentageCache;
+        int progressNum = loanDetail.getFundedPercentageCache();
         mProgressBar.setProgress(progressNum);
-        mProgressBar.setContentDescription(progressNum + mProgressDescriptionTail);
+        mProgressBar.setContentDescription(Integer.toString(progressNum)
+                + mProgressDescriptionTail);
         mProgressDescription.setText(progressNum + mProgressDescriptionTail);
-        mTenureDuration.setText(Integer.toString(loanDetail.tenure));
+        mTenureDuration.setText(Integer.toString(loanDetail.getTenure()));
 
-        if(loanDetail.fundingEndDate != null) {
-            int daysLeft = DateUtils.findDaysLeft(DATE_TIME_REGION, loanDetail.fundingEndDate);
+        if(!"".equals(loanDetail.getFundingEndDate())) {
+            int daysLeft = DateUtils.findDaysLeft(DATE_TIME_REGION,
+                    loanDetail.getFundingEndDate());
 
             if (daysLeft > 0) {
                 mNumDaysLeft.setText(Integer.toString(daysLeft));
@@ -285,27 +291,27 @@ public class LoanDetailsViewHolder {
         }
 
 
-        if(loanDetail.currency != null) {
-            mTargetAmount.setText(NumericUtils.truncateNumber(loanDetail.targetAmount,
+        if(!"".equals(loanDetail.getCurrency())) {
+            mTargetAmount.setText(NumericUtils.truncateNumber(loanDetail.getTargetAmount(),
                     LocaleHelper.getLanguage(context)));
             mTargetAmountDescription.setText(mTargetAmountPrincipalString +
-                    " (" + loanDetail.currency + ")");
+                    " (" + loanDetail.getCurrency() + ")");
         }
 
-        if(loanDetail.startDate != null)
+        if(!"".equals(loanDetail.getStartDate()))
             mScheduleStartDate.setText(DateUtils.dateTimeFormatter(
-                    ConstantVariables.OUT_DATE_TIME_FORMAT, loanDetail.startDate));
-        if(loanDetail.firstRepayment != null)
+                    ConstantVariables.OUT_DATE_TIME_FORMAT, loanDetail.getStartDate()));
+        if(!"".equals(loanDetail.getFirstRepayment()))
             mScheduleFirstRepaymentDate.setText(DateUtils.dateTimeFormatter(
-                    ConstantVariables.OUT_DATE_TIME_FORMAT, loanDetail.firstRepayment));
-        if(loanDetail.lastRepayment != null)
+                    ConstantVariables.OUT_DATE_TIME_FORMAT, loanDetail.getFirstRepayment()));
+        if(!"".equals(loanDetail.getLastRepayment()))
             mScheduleLastRepaymentDate.setText(DateUtils.dateTimeFormatter(
-                    ConstantVariables.OUT_DATE_TIME_FORMAT, loanDetail.lastRepayment));
+                    ConstantVariables.OUT_DATE_TIME_FORMAT, loanDetail.getLastRepayment()));
 
-        if(loanDetail.currency != null)
-            mAvalibleAmount.setText(NumericUtils.formatCurrency(loanDetail.currency,
-                    loanDetail.fundingAvalibleAmount, loanDetail.currency+" ", false) +
-                    " " + loanDetail.currency);
+        if(!"".equals(loanDetail.getCurrency()))
+            mAvalibleAmount.setText(NumericUtils.formatCurrency(loanDetail.getCurrency(),
+                    loanDetail.getFundingAmountToCompleteCache(), loanDetail.getCurrency()+" ", false) +
+                    " " + loanDetail.getCurrency());
 
         //Add textwatcher here cause of required currency
         mEnterAmount.addTextChangedListener(new TextWatcher() {

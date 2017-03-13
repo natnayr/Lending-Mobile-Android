@@ -1,7 +1,6 @@
 package com.crowdo.p2pconnect.viewholders;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,11 +11,12 @@ import com.crowdo.p2pconnect.model.LoanListItem;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.DateUtils;
 import com.crowdo.p2pconnect.helpers.NumericUtils;
+import com.mikepenz.community_material_typeface_library.CommunityMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 
 import org.apache.commons.lang3.text.WordUtils;
 
 import butterknife.BindColor;
-import butterknife.BindDrawable;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,7 +36,6 @@ public class LoanListViewHolder {
     @BindView(R.id.loan_item_amount) TextView mLoanAmount;
 
     @BindView(R.id.loan_item_collateral_icon_container) ImageView mSecurityIcon;
-
     @BindView(R.id.loan_item_credit_grade_layout) View mLoanGradeDrawable;
 
     @BindColor(R.color.grade_color_A_plus) int colorAPlus;
@@ -46,14 +45,12 @@ public class LoanListViewHolder {
     @BindColor(R.color.grade_colorC) int colorC;
     @BindColor(R.color.grade_color_D) int colorD;
     @BindColor(R.color.grade_color_E) int colorE;
+    @BindColor(R.color.color_accent) int colorAccent;
 
-    @BindColor(R.color.fa_icon_shield) int shieldColor;
-    @BindColor(R.color.fa_icon_file_text) int fileColor;
-    @BindColor(R.color.fa_icon_unlock_alt) int unlockAltColor;
-
-    @BindDrawable(R.drawable.ic_file_document_black_38dp) Drawable mFileIcon;
-    @BindDrawable(R.drawable.ic_lock_open_black_38dp) Drawable mLockOpenIcon;
-    @BindDrawable(R.drawable.ic_shield_outline_black_38dp) Drawable mShieldOutlineIcon;
+    @BindColor(R.color.color_icon_shield) int mShieldColor;
+    @BindColor(R.color.color_icon_file_text) int mFileColor;
+    @BindColor(R.color.color_icon_unlock_alt) int mLockOpenColor;
+    @BindColor(R.color.color_divider) int mDividerColor;
 
     @BindString(R.string.date_time_region) String DATE_TIME_REGION;
     @BindString(R.string.loan_list_bid_status_closed) String BID_STATUS_CLOSED;
@@ -62,17 +59,17 @@ public class LoanListViewHolder {
     @BindString(R.string.loan_list_out_sec_uncollateralized) String OUT_SEC_UNCOLLATERALIZED;
     @BindString(R.string.loan_list_out_sec_invoice_or_cheque) String OUT_SEC_INVOICE_OR_CHEQUE;
 
-
     public LoanListViewHolder(Context mContext, View view){
         ButterKnife.bind(this, view);
     }
 
     public void attachLoanItem(LoanListItem item, Context context){
-        mLoanId.setText(item.loanId);
-        mLoanGrade.setText(item.grade);
+        mLoanId.setText(item.getLoanId());
+        mLoanGrade.setText(item.getGrade());
 
         GradientDrawable mGradeShape = (GradientDrawable) mLoanGradeDrawable.getBackground();
-        switch (item.grade) {
+
+        switch (item.getGrade()) {
             case "A+": mGradeShape.setColor(colorAPlus);
                 break;
             case "A": mGradeShape.setColor(colorA);
@@ -87,52 +84,60 @@ public class LoanListViewHolder {
                 break;
             case "E": mGradeShape.setColor(colorE);
                 break;
+            default: mGradeShape.setColor(colorAccent);
+                break;
         }
 
-        int daysLeft = DateUtils.findDaysLeft(DATE_TIME_REGION, item.fundingEndDate);
+        int daysLeft = DateUtils.findDaysLeft(DATE_TIME_REGION, item.getFundingEndDate());
 
         if(daysLeft<0){
             mDaysLeftAndPercentage.setText(BID_STATUS_CLOSED +
-                    item.fundedPercentageCache +
+                    Integer.toString(item.getFundedPercentageCache()) +
                     PERCENTAGE_LABEL);
         }else{
             mDaysLeftAndPercentage.setText(daysLeft + BID_STATUS_OPEN_DAYS +
-                    item.fundedPercentageCache +
+                    Integer.toString(item.getFundedPercentageCache()) +
                     PERCENTAGE_LABEL);
         }
 
-        mPercentageReturn.setText(Double.toString(item.interestRate));
-        mTermAmount.setText(Integer.toString(item.tenure));
+        mPercentageReturn.setText(Double.toString(item.getInterestRate()));
+        mTermAmount.setText(Integer.toString(item.getTenure()));
 
 
-        switch(item.security){
+        switch(item.getSecurity()){
             case ConstantVariables.IN_SEC_COLLATERALIZED:
-                mSecurityIcon.setImageDrawable(mShieldOutlineIcon);
-                mSecurityIcon.setColorFilter(shieldColor);
+                mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
+                    .icon(CommunityMaterial.Icon.cmd_shield_outline).sizeDp(38));
+                mSecurityIcon.setColorFilter(mShieldColor);
                 String collateralDesc = WordUtils.wrap(
-                        WordUtils.capitalize(item.collateral.replaceAll("_", " ")), 15);
+                        WordUtils.capitalize(item.getCollateral()), 15);
                 mSecurityDescription.setText(collateralDesc);
                 mSecurityIcon.setContentDescription(collateralDesc);
                 break;
             case ConstantVariables.IN_SEC_UNCOLLATERALIZED:
-                mSecurityIcon.setImageDrawable(mLockOpenIcon);
-                mSecurityIcon.setColorFilter(unlockAltColor);
+                mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
+                    .icon(CommunityMaterial.Icon.cmd_lock_open).sizeDp(38));
+                mSecurityIcon.setColorFilter(mLockOpenColor);
                 mSecurityDescription.setText(
                         OUT_SEC_UNCOLLATERALIZED);
                 mSecurityIcon.setContentDescription(
                         OUT_SEC_UNCOLLATERALIZED);
                 break;
             case ConstantVariables.IN_SEC_INVOICE_OR_CHEQUE:
-                mSecurityIcon.setImageDrawable(mFileIcon);
-                mSecurityIcon.setColorFilter(fileColor);
+                mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
+                    .icon(CommunityMaterial.Icon.cmd_file_document).sizeDp(38));
+                mSecurityIcon.setColorFilter(mFileColor);
                 mSecurityDescription.setText(
                         OUT_SEC_INVOICE_OR_CHEQUE);
                 mSecurityIcon.setContentDescription(
                         OUT_SEC_INVOICE_OR_CHEQUE);
                 break;
+
+            default:
+
         }
 
-        mLoanAmount.setText(NumericUtils.formatCurrency(item.currency,
-                item.targetAmount, item.currency+" ", true));
+        mLoanAmount.setText(NumericUtils.formatCurrency(item.getCurrency(),
+                item.getTargetAmount(), item.getCurrency()+" ", true));
     }
 }

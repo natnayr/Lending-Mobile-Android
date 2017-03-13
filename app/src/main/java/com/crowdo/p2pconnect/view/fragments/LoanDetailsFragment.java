@@ -37,6 +37,7 @@ import com.crowdo.p2pconnect.helpers.PerformEmailIdentityCheckTemp;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.viewholders.LoanDetailsViewHolder;
+import com.f2prateek.dart.Dart;
 
 import java.io.File;
 
@@ -77,6 +78,7 @@ public class LoanDetailsFragment extends Fragment {
     private LoanDetailsViewHolder viewHolder;
     private LoanDetail mLoanDetail;
     private AlertDialog alertDialog;
+    public static final String BUNDLE_ID_KEY = "LOAN_DETAILS_FRAGMENTS_ID_KEY";
     private int initLoanId;
 
     public LoanDetailsFragment() {
@@ -86,12 +88,9 @@ public class LoanDetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getArguments() != null && getArguments()
-                .getInt(LoanDetailsActivity.BUNDLE_ID_KEY) >= 0 ) {
-            this.initLoanId = getArguments()
-                    .getInt(LoanDetailsActivity.BUNDLE_ID_KEY); //store
-        }
+        this.initLoanId = Dart.get(getArguments(), BUNDLE_ID_KEY);
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -134,7 +133,7 @@ public class LoanDetailsFragment extends Fragment {
                         if(loanDetail != null) {
                             mLoanDetail = loanDetail;
                             Log.d(LOG_TAG, "APP: Populated LoanDetails Rx onNext with loanId "
-                                    + loanDetail.loanId + " retreived.");
+                                    + loanDetail.getLoanId() + " retreived.");
                             viewHolder.attachView(loanDetail, getActivity());
                         }
                     }
@@ -330,7 +329,7 @@ public class LoanDetailsFragment extends Fragment {
                 .show();
                 return;
 
-            }else if(mLoanDetail.fundingAvalibleAmount < biddingAmount){
+            }else if(mLoanDetail.getFundingAmountToCompleteCache() < biddingAmount){
 
                 final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
                         mLabelBidTooHigh,
@@ -357,7 +356,6 @@ public class LoanDetailsFragment extends Fragment {
                     .gotoWebViewActivity()
                     .mUrl(webViewUrl)
                     .build();
-
 
             startActivity(intent);
         }

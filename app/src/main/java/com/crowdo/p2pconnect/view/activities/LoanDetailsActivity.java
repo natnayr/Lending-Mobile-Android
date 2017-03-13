@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 public class LoanDetailsActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = LoanDetailsActivity.class.getSimpleName();
-    public static final String BUNDLE_ID_KEY = "BundleDetailsFragmentIDKey";
+
     @InjectExtra public int id;
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
@@ -35,6 +35,7 @@ public class LoanDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loan_details);
         ButterKnife.bind(this);
+        Dart.inject(this);
 
         //mToolbar view
         setSupportActionBar(mToolbar);
@@ -45,10 +46,9 @@ public class LoanDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Dart.inject(this);
 
         Bundle args = new Bundle();
-        args.putInt(BUNDLE_ID_KEY, this.id);
+        args.putInt(LoanDetailsFragment.BUNDLE_ID_KEY, this.id);
 
         Fragment fragment = getSupportFragmentManager()
                 .findFragmentByTag(LoanDetailsFragment.TAG_LOAN_DETAILS_FRAGMENT);

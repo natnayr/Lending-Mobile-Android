@@ -9,10 +9,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
 import android.text.InputType;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -105,7 +107,7 @@ public class LoanListFragment extends Fragment {
                 LoanListItem item = (LoanListItem) adapterView.getItemAtPosition(position);
                 Intent intent = Henson.with(getActivity())
                         .gotoLoanDetailsActivity()
-                        .id(item.id)
+                        .id(item.getId())
                         .build();
                 startActivity(intent);
             }
@@ -128,6 +130,32 @@ public class LoanListFragment extends Fragment {
         });
 
         mLoanAdapter.setFilteringCountTextView(filteringCountLabel, filteringCountTail);
+
+        loanListSearchExpandableLayout.setOnExpansionUpdateListener(new ExpandableLayout.OnExpansionUpdateListener() {
+            @Override
+            public void onExpansionUpdate(float expansionFraction) {
+                //set alpha and enabled of ListView
+                mListView.setAlpha(1 - (expansionFraction * ((float) 0.8)));
+
+                if(expansionFraction == 0){
+                    mListView.setEnabled(true);
+                }else if(expansionFraction == 1){
+                    mListView.setEnabled(false);
+                }
+            }
+        });
+
+        mListView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (loanListSearchExpandableLayout.isExpanded()) {
+                        loanListSearchExpandableLayout.collapse();
+                    }
+                }
+                return false;
+            }
+        });
 
         return rootView;
     }

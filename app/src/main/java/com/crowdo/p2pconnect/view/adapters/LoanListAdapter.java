@@ -104,10 +104,6 @@ public class LoanListAdapter extends BaseAdapter{
         this.filteringCountTextViewTail = filteringCountTextViewTail;
     }
 
-    public String getSearchQuery() {
-        return searchQuery;
-    }
-
     public void setSearchQuery(String searchQuery) {
         this.searchQuery = searchQuery;
     }
@@ -116,24 +112,12 @@ public class LoanListAdapter extends BaseAdapter{
         return gradesToFilter;
     }
 
-    public void setGradesToFilter(List<String> gradesToFilter) {
-        this.gradesToFilter = gradesToFilter;
-    }
-
     public List<Integer> getTermsToFilter() {
         return termsToFilter;
     }
 
-    public void setTermsToFilter(List<Integer> termsToFilter) {
-        this.termsToFilter = termsToFilter;
-    }
-
     public List<String> getSecurityToFilter() {
         return securityToFilter;
-    }
-
-    public void setSecurityToFilter(List<String> securityToFilter) {
-        this.securityToFilter = securityToFilter;
     }
 
     public void searchLoans(){
@@ -159,28 +143,28 @@ public class LoanListAdapter extends BaseAdapter{
                 LoanListItem item = llit.next();
 
                 if(!"".contains(this.searchQuery)){
-                    if(!item.loanId.toLowerCase().trim().contains(this.searchQuery.toLowerCase().trim())) {
+                    if(!item.getLoanId().toLowerCase().trim().contains(this.searchQuery.toLowerCase().trim())) {
                         llit.remove();
                         continue;
                     }
                 }
 
                 if(!gradesToFilter.isEmpty()){
-                    if(!gradesToFilter.contains(item.grade)){
+                    if(!gradesToFilter.contains(item.getGrade())){
                         llit.remove();
                         continue;
                     }
                 }
 
                 if (!termsToFilter.isEmpty()){
-                    if(!termsToFilter.contains(item.tenure)){
+                    if(!termsToFilter.contains(item.getGrade())){
                         llit.remove();
                         continue;
                     }
                 }
 
                 if(!securityToFilter.isEmpty()){
-                    if(!securityToFilter.contains(item.security)){
+                    if(!securityToFilter.contains(item.getGrade())){
                         llit.remove();
                         continue;
                     }

@@ -4,13 +4,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:layout_width="wrap_content">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/loan_list_view_swipe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_icons_text"
+        tools:context=".view.fragments.LoanListFragment"
+        android:layout_alignParentTop="true">
+        <ListView
+            android:id="@+id/listview_loans"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/color_divider"
+            android:background="@color/color_background"
+            android:dividerHeight="1dp"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
     <net.cachapa.expandablelayout.ExpandableLayout
         android:id="@+id/loan_list_view_filtering_expandable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:el_expanded="false"
         app:el_duration="200"
-        app:el_parallax="0">
+        app:el_parallax="0"
+        android:layout_alignParentTop="true"
+        android:background="@color/color_transparent">
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -436,7 +455,7 @@
                                     app:si_disabled_alpha=".3"
                                     app:si_disabled_color="@color/color_divider_dark"
                                     app:si_enabled="true"
-                                    app:si_tint_color="@color/fa_icon_shield"
+                                    app:si_tint_color="@color/color_icon_shield"
                                     app:si_no_dash="true"
                                     app:srcCompat="@drawable/ic_shield_black_24dp" />
                                 <TextView
@@ -464,7 +483,7 @@
                                     app:si_disabled_alpha=".3"
                                     app:si_disabled_color="@color/color_divider_dark"
                                     app:si_enabled="true"
-                                    app:si_tint_color="@color/fa_icon_file_text"
+                                    app:si_tint_color="@color/color_icon_file_text"
                                     app:si_no_dash="true"
                                     app:srcCompat="@drawable/ic_file_document_black_24dp" />
                                 <TextView
@@ -498,7 +517,7 @@
                                     app:si_disabled_alpha=".3"
                                     app:si_disabled_color="@color/color_divider_dark"
                                     app:si_enabled="true"
-                                    app:si_tint_color="@color/fa_icon_unlock_alt"
+                                    app:si_tint_color="@color/color_icon_unlock_alt"
                                     app:si_no_dash="true"
                                     app:srcCompat="@drawable/ic_lock_open_black_24dp" />
                                 <TextView
@@ -605,24 +624,7 @@
                     </LinearLayout>
                 </RelativeLayout>
             </RelativeLayout>
-
-
         </android.support.v7.widget.CardView>
     </net.cachapa.expandablelayout.ExpandableLayout>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/loan_list_view_swipe"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/loan_list_view_filtering_expandable"
-        android:background="@color/color_icons_text"
-        tools:context=".view.fragments.LoanListFragment">
-        <ListView
-            android:id="@+id/listview_loans"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@color/color_divider"
-            android:background="@color/color_background"
-            android:dividerHeight="1dp"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

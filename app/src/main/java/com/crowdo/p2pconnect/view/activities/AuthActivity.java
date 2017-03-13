@@ -15,7 +15,7 @@ import com.f2prateek.dart.InjectExtra;
  */
 
 public class AuthActivity extends AccountAuthenticatorFragmentActivity {
-    
+
     private final static String LOG_TAG = AuthActivity.class.getSimpleName();
     public final static String ARG_ACCOUNT_TYPE = "ACCOUNT_TYPE";
     public final static String ARG_AUTH_TYPE = "AUTH_TYPE";

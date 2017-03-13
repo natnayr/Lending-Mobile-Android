@@ -40,9 +40,9 @@
     <color name="grade_color_E">#E64A19</color>
 
     <!-- icon colors -->
-    <color name="fa_icon_shield">#FFC107</color>
-    <color name="fa_icon_file_text">#4CAF50</color>
-    <color name="fa_icon_unlock_alt">#607D8B</color>
+    <color name="color_icon_shield">#FFC107</color>
+    <color name="color_icon_file_text">#4CAF50</color>
+    <color name="color_icon_unlock_alt">#607D8B</color>
 
     <color name="edittext_hint_color">#009688</color>
     <color name="edittext_error_color">#F44336</color>
