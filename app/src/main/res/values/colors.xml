@@ -19,8 +19,10 @@
     <color name="color_secondary_text_400">#BDBDBD</color>
     <color name="color_secondary_text_300">#E0E0E0</color>
     <color name="color_secondary_text_200">#EEEEEE</color>
-    <color name="color_icons_text">#FFFFFF</color>
+    <color name="color_background_100">#F5F5F5</color>
     <color name="color_background_50">#FAFAFA</color>
+    <color name="color_icons_text">#FFFFFF</color>
+
 
     <color name="color_background_dark">#222222</color>
     <color name="color_divider_dark">#949494</color>

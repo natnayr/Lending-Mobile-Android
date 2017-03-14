@@ -4,7 +4,7 @@
         android:color="@color/color_icons_text"/>
 
     <stroke
-        android:width="8dip"
+        android:width="4dip"
         android:color="@color/color_transparent"/>
 
     <corners
@@ -12,8 +12,6 @@
         android:topRightRadius="@dimen/auth_btn_corner_width"
         android:bottomRightRadius="@dimen/auth_btn_corner_width"
         android:bottomLeftRadius="@dimen/auth_btn_corner_width" />
-
-
 
     <padding
         android:top="@dimen/auth_btn_padding_top"

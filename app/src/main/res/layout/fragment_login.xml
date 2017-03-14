@@ -76,9 +76,9 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:text="Login"
-                android:textColor="@color/color_secondary_text"
+                android:textColor="@drawable/auth_btn_text_color"
                 android:textAllCaps="true"
-                android:gravity="center_horizontal"/>
+                android:gravity="center_horizontal" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
