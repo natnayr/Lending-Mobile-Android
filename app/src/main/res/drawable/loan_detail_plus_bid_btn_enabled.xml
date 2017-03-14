@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid
-        android:color="@color/color_background" />
+        android:color="@color/color_background_50" />
 
     <stroke
         android:width="@dimen/loan_detail_enter_amount_stroke_width"

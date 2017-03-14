@@ -21,25 +21,36 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="com.crowdo.p2pconnect.view.activities.LaunchActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:noHistory="true"
             android:theme="@style/WelcomeTheme">
         </activity>
 
         <activity
+            android:name="com.crowdo.p2pconnect.view.activities.AuthActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateVisible"
+            android:noHistory="true"
+            android:theme="@style/AuthTheme">
+        </activity>
+
+        <activity
             android:name="com.crowdo.p2pconnect.view.activities.MainActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
             android:name="com.crowdo.p2pconnect.view.activities.LoanDetailsActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
@@ -49,6 +60,7 @@
 
         <activity
             android:name="com.crowdo.p2pconnect.view.activities.WebViewActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
         </activity>

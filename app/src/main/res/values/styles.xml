@@ -10,7 +10,7 @@
         <item name="android:textColorSecondary">@color/color_secondary_text</item>
         <item name="android:textColorPrimaryInverse">@color/color_icons_text</item>
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
-        <item name="android:colorBackground">@color/color_background</item>
+        <item name="android:colorBackground">@color/color_background_50</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.DayNight.Dialog.Alert</item>
         <item name="android:windowTranslucentStatus">true</item>
@@ -25,7 +25,7 @@
     </style>
 
     <style name="PopupMenuTheme" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:background">@color/color_background</item>
+        <item name="android:background">@color/color_background_50</item>
         <item name="android:textColor">@color/color_primary_text</item>
     </style>
 
@@ -44,6 +44,24 @@
         <item name="android:textColorPrimary">@color/color_icons_text</item>
         <item name="android:textColorSecondary">@color/color_secondary_text</item>
         <item name="android:textColorPrimaryInverse">@color/color_icons_text</item>
+    </style>
+
+    <style name="AuthTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_700</item>
+        <item name="colorAccent">@color/color_icons_text</item>
+        <item name="android:textColorPrimary">@color/color_icons_text</item>
+        <item name="android:textColorSecondary">@color/color_secondary_text</item>
+        <item name="android:textColorPrimaryInverse">@color/color_icons_text</item>
+    </style>
+
+    <style name="AuthEditTextStyle" parent="TextAppearance.AppCompat">
+        <item name="colorControlNormal">@color/color_background_50</item>
+        <item name="colorControlActivated">@color/color_background_50</item>
+        <item name="colorControlHighlight">@color/color_primary_100</item>
+        <item name="colorAccent">@color/color_background_50</item>
+        <item name="android:textColorHint">@color/color_background_50</item>
+        <item name="android:fontFamily">@string/font_family_light</item>
     </style>
 
     <style name="RobotoTextViewStyle" parent="TextAppearance.AppCompat">

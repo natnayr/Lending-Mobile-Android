@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="color_primary">#F44336</color>
+    <color name="color_primary_900">#B71C1C</color>
+    <color name="color_primary_800">#C62828</color>
     <color name="color_primary_700">#D32F2F</color>
     <color name="color_primary_600">#E53935</color>
     <color name="color_primary_400">#EF5350</color>
     <color name="color_primary_300">#E57373</color>
+    <color name="color_primary_200">#EF9A9A</color>
     <color name="color_primary_100">#FFCDD2</color>
     <color name="color_accent">#536DFE</color>
-    <color name="color_accent_50">#E8EAF6</color>
+    <color name="color_accent_50">#8C9EFF</color>
     <color name="color_primary_text">#212121</color>
+    <color name="color_primary_text_800">#424242</color>
+    <color name="color_primary_text_700">#616161</color>
     <color name="color_secondary_text">#757575</color>
+    <color name="color_secondary_text_500">#9E9E9E</color>
+    <color name="color_secondary_text_400">#BDBDBD</color>
+    <color name="color_secondary_text_300">#E0E0E0</color>
+    <color name="color_secondary_text_200">#EEEEEE</color>
     <color name="color_icons_text">#FFFFFF</color>
-    <color name="color_icons_text_secondary">#e0e0e0</color>
-    <color name="color_background">#FAFAFA</color>
+    <color name="color_background_50">#FAFAFA</color>
+
     <color name="color_background_dark">#222222</color>
     <color name="color_divider_dark">#949494</color>
     <color name="color_divider">#BDBDBD</color>
@@ -43,9 +52,6 @@
     <color name="color_icon_shield">#FFC107</color>
     <color name="color_icon_file_text">#4CAF50</color>
     <color name="color_icon_unlock_alt">#607D8B</color>
-
-    <color name="edittext_hint_color">#009688</color>
-    <color name="edittext_error_color">#F44336</color>
 
 
 </resources>

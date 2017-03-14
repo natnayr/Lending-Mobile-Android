@@ -156,7 +156,6 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
                     if(page >= MAXPAGE) {
                         page = 0;
                     }
-
                     mViewPager.setCurrentItem(page++);
                 }
             });

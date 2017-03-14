@@ -13,7 +13,7 @@
     <item android:state_focused="true"
         android:state_enabled="true"
         android:state_pressed="true"
-        android:color="@color/color_icons_text"/>
+        android:color="@color/color_icons_text" />
 
     <item android:color="@color/color_primary_text"/>
 </selector>

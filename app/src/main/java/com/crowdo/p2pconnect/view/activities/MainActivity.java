@@ -65,8 +65,6 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        PermissionsUtils.checkDrawOverlayPermission(this, mOverlayPermissionRequest);
-
         mToolbar.setTitle(getString(R.string.toolbar_title_loan_list));
         setSupportActionBar(mToolbar);
 

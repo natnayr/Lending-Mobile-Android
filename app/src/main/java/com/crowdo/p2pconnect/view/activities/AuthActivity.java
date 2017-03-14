@@ -2,6 +2,7 @@ package com.crowdo.p2pconnect.view.activities;
 
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
+import android.content.Context;
 import android.os.Bundle;
 
 import com.crowdo.p2pconnect.R;
@@ -9,6 +10,7 @@ import com.crowdo.p2pconnect.oauth.AccountAuthenticatorFragmentActivity;
 import com.crowdo.p2pconnect.view.fragments.LoginFragment;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
+import com.mikepenz.iconics.context.IconicsContextWrapper;
 
 /**
  * Created by cwdsg05 on 10/3/17.
@@ -46,6 +48,8 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
 
     }
 
-
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(IconicsContextWrapper.wrap(newBase));
+    }
 }

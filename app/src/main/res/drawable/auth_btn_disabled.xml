@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid
+        android:color="@color/color_divider"/>
+    <stroke
+        android:width="0dip"
+        android:color="@color/color_transparent"/>
+    <corners
+        android:topLeftRadius="@dimen/auth_btn_corner_width"
+        android:topRightRadius="@dimen/auth_btn_corner_width"
+        android:bottomRightRadius="@dimen/auth_btn_corner_width"
+        android:bottomLeftRadius="@dimen/auth_btn_corner_width" />
+
+    <padding
+        android:top="@dimen/auth_btn_padding_top"
+        android:bottom="@dimen/auth_btn_padding_btm"
+        android:left="@dimen/auth_btn_padding_left"
+        android:right="@dimen/auth_btn_padding_right"/>
+</shape>

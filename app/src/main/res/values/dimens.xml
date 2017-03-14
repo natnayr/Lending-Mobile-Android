@@ -14,6 +14,12 @@
     <dimen name="welcome_tab_title_size">20sp</dimen>
     <dimen name="welcome_tab_body_size">15sp</dimen>
 
+    <dimen name="auth_btn_padding_top">6dip</dimen>
+    <dimen name="auth_btn_padding_btm">6dip</dimen>
+    <dimen name="auth_btn_padding_left">4dip</dimen>
+    <dimen name="auth_btn_padding_right">4dip</dimen>
+    <dimen name="auth_btn_corner_width">8dip</dimen>
+
     <dimen name="list_view_filtering_label_margin">4dp</dimen>
     <dimen name="list_view_filtering_checkbox_padding">4dp</dimen>
     <dimen name="list_view_filtering_checkbox_height">24dp</dimen>

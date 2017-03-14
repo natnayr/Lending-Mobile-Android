@@ -31,7 +31,6 @@ import com.crowdo.p2pconnect.view.adapters.LoanListAdapter;
 import com.crowdo.p2pconnect.viewholders.LoanListFilterViewHolder;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
-
 import java.util.List;
 
 import butterknife.BindString;
@@ -49,7 +48,6 @@ import rx.schedulers.Schedulers;
 public class LoanListFragment extends Fragment {
 
     private static final String LOG_TAG = LoanListFragment.class.getSimpleName();
-
     public static final String TAG_LOAN_LIST_FRAGMENT = "LOAN_LIST_FRAGMENT_TAG";
 
     @BindView(R.id.loan_list_view_filtering_expandable) ExpandableLayout loanListSearchExpandableLayout;
@@ -136,12 +134,6 @@ public class LoanListFragment extends Fragment {
             public void onExpansionUpdate(float expansionFraction) {
                 //set alpha and enabled of ListView
                 mListView.setAlpha(1 - (expansionFraction * ((float) 0.8)));
-
-                if(expansionFraction == 0){
-                    mListView.setEnabled(true);
-                }else if(expansionFraction == 1){
-                    mListView.setEnabled(false);
-                }
             }
         });
 
@@ -151,6 +143,7 @@ public class LoanListFragment extends Fragment {
                 if(event.getAction() == KeyEvent.ACTION_DOWN) {
                     if (loanListSearchExpandableLayout.isExpanded()) {
                         loanListSearchExpandableLayout.collapse();
+                        return true;
                     }
                 }
                 return false;

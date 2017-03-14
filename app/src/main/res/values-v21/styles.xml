@@ -21,5 +21,34 @@
         <item name="android:textColor">@color/color_primary_text</item>
     </style>
 
+    <style name="WelcomeTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_700</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="android:textColorPrimary">@color/color_icons_text</item>
+        <item name="android:textColorSecondary">@color/color_secondary_text</item>
+        <item name="android:textColorPrimaryInverse">@color/color_icons_text</item>
+    </style>
+
+    <style name="AuthTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_700</item>
+        <item name="colorAccent">@color/color_background_50</item>
+        <item name="android:textColorPrimary">@color/color_background_50</item>
+        <item name="android:textColorSecondary">@color/color_secondary_text</item>
+        <item name="android:textColorPrimaryInverse">@color/color_background_50</item>
+
+    </style>
+
+    <style name="AuthEditTextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:colorControlNormal">@color/color_icons_text</item>
+        <item name="android:colorControlActivated">@color/color_icons_text</item>
+        <item name="android:colorControlHighlight">@color/color_primary_100</item>
+        <item name="android:colorAccent">@color/color_icons_text</item>
+        <item name="android:textColorHint">@color/color_icons_text</item>
+        <item name="android:fontFamily">@string/font_family_light</item>
+    </style>
+
+
 </resources>
 
