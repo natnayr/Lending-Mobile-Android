@@ -20,11 +20,26 @@
             android:id="@+id/auth_login_role"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Login"
+            android:text="Register"
             android:fontFamily="@string/font_family_light"
             android:textSize="25sp"
             android:textColor="@color/color_icons_text"
             android:gravity="center_horizontal"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/auth_login_name_textinputlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/auth_login_name_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:hint="Name"
+                android:maxLines="1"/>
+        </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/auth_login_email_textinputlayout"
@@ -56,6 +71,20 @@
                 android:maxLines="1"/>
         </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/auth_login_confirm_password_textinputlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/auth_login_confirm_password_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="Confirm Password"
+                android:maxLines="1"/>
+        </android.support.design.widget.TextInputLayout>
         <LinearLayout
             android:id="@+id/auth_login_submit_btn"
             style="@style/Widget.AppCompat.Button.Colored"
@@ -68,7 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:text="Login"
+                android:text="Sign Up"
                 android:fontFamily="@string/font_family_regular"
                 android:textColor="@drawable/auth_btn_text_color"
                 android:textAllCaps="true"

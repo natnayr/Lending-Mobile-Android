@@ -23,7 +23,8 @@
     <string name="welcome_intro_2_head">Possibilities without Boundaries</string>
     <string name="welcome_intro_2_body">High quality fundraising from a global community of investors is just a few clicks away</string>
     <string name="welcome_btn_label">Get Started</string>
-    <string name="welcome_login_btn_label">LOG IN</string>
+    <string name="welcome_login_btn_label">Login</string>
+    <string name="welcome_register_btn_label">Register</string>
 
     <string name="gradeA" translatable="false">A</string>
     <string name="gradeA_plus" translatable="false">A+</string>

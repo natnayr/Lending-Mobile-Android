@@ -50,18 +50,25 @@
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_700</item>
         <item name="colorAccent">@color/color_icons_text</item>
+        <item name="colorControlNormal">@color/color_secondary_text_200</item>
+        <item name="colorControlActivated">@color/color_icons_text</item>
+        <item name="colorControlHighlight">@color/color_icons_text</item>
+        <item name="android:textColorHint">@color/color_secondary_text_400</item>
         <item name="android:textColorPrimary">@color/color_icons_text</item>
-        <item name="android:textColorSecondary">@color/color_secondary_text</item>
+        <item name="android:textColorSecondary">@color/color_icons_text</item>
         <item name="android:textColorPrimaryInverse">@color/color_icons_text</item>
     </style>
 
-    <style name="AuthEditTextStyle" parent="TextAppearance.AppCompat">
-        <item name="colorControlNormal">@color/color_background_50</item>
-        <item name="colorControlActivated">@color/color_background_50</item>
-        <item name="colorControlHighlight">@color/color_primary_100</item>
-        <item name="colorAccent">@color/color_background_50</item>
-        <item name="android:textColorHint">@color/color_background_50</item>
-        <item name="android:fontFamily">@string/font_family_light</item>
+    <style name="Widget.Design.TextInputLayout" parent="AppTheme">
+        <item name="android:textColorHint">@color/color_secondary_text_400</item>
+        <item name="hintTextAppearance">@style/AppTheme.TextFloatLabelAppearance</item>
+        <item name="counterTextAppearance">@style/TextAppearance.Design.Counter</item>
+        <item name="counterOverflowTextAppearance">@style/TextAppearance.Design.Counter.Overflow</item>
+    </style>
+
+    <style name="AppTheme.TextFloatLabelAppearance" parent="TextAppearance.Design.Hint">
+        <!-- Floating label appearance here -->
+        <item name="android:textColor">@color/color_icons_text</item>
     </style>
 
     <style name="RobotoTextViewStyle" parent="TextAppearance.AppCompat">

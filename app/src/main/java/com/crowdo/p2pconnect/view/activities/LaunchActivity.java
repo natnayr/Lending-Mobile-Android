@@ -47,7 +47,6 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
     @BindView(R.id.welcome_pager_tabdots) TabLayout mTabLayout;
     @BindString(R.string.pre_exit_question) String mPreExitQuestion;
     @BindView(R.id.welcome_logo_app_name) TextView mWelcomeAppNameView;
-    @BindView(R.id.welcome_surface_view) SurfaceView mSurfaceView;
 
     private static final String LOG_TAG = LaunchActivity.class.getSimpleName();
     private static final int MAXPAGE = 2;
@@ -58,6 +57,7 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
     private SurfaceHolder mHolder;
     private Uri videoUri;
     private Context mContext;
+    private SurfaceView mSurfaceView;
 
     private Timer mTimer;
     private int page;
@@ -75,6 +75,8 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
         mContext = this;
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mSurfaceView = (SurfaceView) findViewById(R.id.welcome_surface_view);
+
             if(mSurfaceView != null) {
                 mHolder = mSurfaceView.getHolder();
                 mHolder.addCallback(new SurfaceHolder.Callback() {
