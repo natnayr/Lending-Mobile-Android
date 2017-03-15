@@ -4,10 +4,13 @@ import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.oauth.AccountAuthenticatorFragmentActivity;
 import com.crowdo.p2pconnect.view.fragments.LoginFragment;
+import com.crowdo.p2pconnect.view.fragments.RegisterFragment;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.mikepenz.iconics.context.IconicsContextWrapper;
@@ -26,7 +29,7 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
     public final static String KEY_ERROR_MESSAGE = "ERR_MSG";
     public final static String PARAM_USER_PASS = "USER_PASS";
 
-    @InjectExtra public String fragmentClass;
+    @InjectExtra public Class fragmentClass;
     private AccountManager mAccountManager;
 
     @Override
@@ -37,14 +40,20 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
 
         mAccountManager = AccountManager.get(getBaseContext());
         if(fragmentClass != null) {
-            if (fragmentClass.equals(LoginFragment.class.getName())) {
+            Fragment fragment = null;
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+
+            }catch (Exception e) {
+                Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                e.printStackTrace();
+            }
+            if(fragment != null) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.auth_content, new LoginFragment())
+                        .replace(R.id.auth_content, fragment)
                         .commit();
             }
         }
-
-
 
     }
 

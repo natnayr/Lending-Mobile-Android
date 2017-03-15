@@ -126,7 +126,7 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
             public void onClick(View v) {
                 Intent intent = Henson.with(LaunchActivity.this)
                         .gotoAuthActivity()
-                        .fragmentClass(LoginFragment.class.getName())
+                        .fragmentClass(LoginFragment.class)
                         .build();
                 startActivity(intent);
             }

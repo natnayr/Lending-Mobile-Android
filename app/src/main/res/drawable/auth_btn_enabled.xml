@@ -13,8 +13,6 @@
         android:bottomRightRadius="@dimen/auth_btn_corner_width"
         android:bottomLeftRadius="@dimen/auth_btn_corner_width" />
 
-
-
     <padding
         android:top="@dimen/auth_btn_padding_top"
         android:bottom="@dimen/auth_btn_padding_btm"
