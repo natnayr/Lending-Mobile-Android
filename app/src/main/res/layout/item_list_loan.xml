@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerInParent="true"
-                android:tint="@color/fa_icon_shield"/>
+                android:tint="@color/color_icon_shield"/>
 
         </RelativeLayout>
 

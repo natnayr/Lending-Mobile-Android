@@ -79,12 +79,14 @@ public class LoanDetailsViewHolder {
 
     @BindString(R.string.loan_detail_out_sec_uncollateralized) String mOutSecUncollateralized;
     @BindString(R.string.loan_detail_out_sec_invoice_or_cheque) String mOutSecInvoiceOrCheque;
+    @BindString(R.string.loan_detail_out_sec_personal_guarantee) String mOutSecPersonalGuarantee;
     @BindString(R.string.loan_detail_progress_description_tail_label) String mProgressDescriptionTail;
 
     // color
-    @BindColor(R.color.fa_icon_shield) int mShieldColor;
-    @BindColor(R.color.fa_icon_file_text) int mFileColor;
-    @BindColor(R.color.fa_icon_unlock_alt) int mLockOpenColor;
+    @BindColor(R.color.color_icon_shield) int mShieldColor;
+    @BindColor(R.color.color_icon_file_text) int mFileColor;
+    @BindColor(R.color.color_icon_unlock_alt) int mLockOpenColor;
+    @BindColor(R.color.color_icon_decagram) int mDecagramColor;
     @BindColor(R.color.color_icons_text) int mIconTextColor; //white
     @BindColor(R.color.color_divider) int mDividerColor;
     
@@ -100,6 +102,7 @@ public class LoanDetailsViewHolder {
     @BindDrawable(R.drawable.ic_file_document_black_38dp) Drawable mFileIcon;
     @BindDrawable(R.drawable.ic_lock_open_black_38dp) Drawable mLockOpenIcon;
     @BindDrawable(R.drawable.ic_shield_outline_black_38dp) Drawable mShieldOutlineIcon;
+    @BindDrawable(R.drawable.ic_decagram_outline_black_38dp) Drawable mDecagramIcon;
 
     @BindDrawable(R.drawable.loan_detail_plus_bid_btn_enabled) Drawable mPlusEnabledDrawable;
     @BindDrawable(R.drawable.loan_detail_plus_bid_btn_pressed) Drawable mPlusPressedDrawable;
@@ -238,7 +241,6 @@ public class LoanDetailsViewHolder {
                     mGrade.setTextColor(mColorE);
                     break;
                 default:
-                    throw new IllegalArgumentException("Invalid grade " + loanDetail.grade);
             }
         }
 
@@ -253,18 +255,28 @@ public class LoanDetailsViewHolder {
                     mSecurityDescription.setText(collateralDesc);
                     mSecurityIcon.setContentDescription(collateralDesc);
                     break;
+
                 case ConstantVariables.IN_SEC_UNCOLLATERALIZED:
                     mSecurityIcon.setImageDrawable(mLockOpenIcon);
                     mSecurityIcon.setColorFilter(mLockOpenColor);
                     mSecurityDescription.setText(mOutSecUncollateralized);
                     mSecurityIcon.setContentDescription(mOutSecUncollateralized);
                     break;
+
                 case ConstantVariables.IN_SEC_INVOICE_OR_CHEQUE:
                     mSecurityIcon.setImageDrawable(mFileIcon);
                     mSecurityIcon.setColorFilter(mFileColor);
                     mSecurityDescription.setText(mOutSecInvoiceOrCheque);
                     mSecurityIcon.setContentDescription(mOutSecInvoiceOrCheque);
                     break;
+
+                case ConstantVariables.IN_SEC_PERSONAL_GUARANTEE:
+                    mSecurityIcon.setImageDrawable(mDecagramIcon);
+                    mSecurityIcon.setColorFilter(mDecagramColor);
+                    mSecurityDescription.setText(mOutSecPersonalGuarantee);
+                    mSecurityIcon.setContentDescription(mOutSecPersonalGuarantee);
+                    break;
+                default:
             }
         }
 

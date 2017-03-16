@@ -51,6 +51,7 @@
     <string name="loan_list_bid_percentage_label">% Funded</string>
     <string name="loan_list_out_sec_uncollateralized">Non-Collateral</string>
     <string name="loan_list_out_sec_invoice_or_cheque">Working Order/\nInvoice</string>
+    <string name="loan_list_out_sec_personal_guarantee">Personal\nGuarantee</string>
 
     <string name="loan_detail_percentage_return_label">Interest\nReturn</string>
     <string name="loan_detail_grade_label">Grade</string>
@@ -59,6 +60,7 @@
     <string name="loan_detail_target_amount_principal">Principal\nTarget</string>
     <string name="loan_detail_out_sec_uncollateralized">No Collateral</string>
     <string name="loan_detail_out_sec_invoice_or_cheque">Working Order/\nInvoice</string>
+    <string name="loan_detail_out_sec_personal_guarantee">Personal\nGuarantee</string>
     <string name="loan_detail_progress_description_tail_label">%\nFunded</string>
 
     <string name="loan_detail_schedule_header_string">Monthly</string>

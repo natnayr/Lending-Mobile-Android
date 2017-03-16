@@ -34,6 +34,8 @@ public class ConstantVariables {
     public static final String IN_SEC_COLLATERALIZED = "Collateral";
     public static final String IN_SEC_UNCOLLATERALIZED = "Uncollateralized";
     public static final String IN_SEC_INVOICE_OR_CHEQUE = "Working Order/Invoice";
+    public static final String IN_SEC_PERSONAL_GUARANTEE = "Personal Guarantee";
+
 
     public static final int IN_TERM_3 = 3;
     public static final int IN_TERM_4 = 4;

@@ -436,7 +436,7 @@
                                     app:si_disabled_alpha=".3"
                                     app:si_disabled_color="@color/color_divider_dark"
                                     app:si_enabled="true"
-                                    app:si_tint_color="@color/fa_icon_shield"
+                                    app:si_tint_color="@color/color_icon_shield"
                                     app:si_no_dash="true"
                                     app:srcCompat="@drawable/ic_shield_black_24dp" />
                                 <TextView
@@ -464,7 +464,7 @@
                                     app:si_disabled_alpha=".3"
                                     app:si_disabled_color="@color/color_divider_dark"
                                     app:si_enabled="true"
-                                    app:si_tint_color="@color/fa_icon_file_text"
+                                    app:si_tint_color="@color/color_icon_file_text"
                                     app:si_no_dash="true"
                                     app:srcCompat="@drawable/ic_file_document_black_24dp" />
                                 <TextView
@@ -498,7 +498,7 @@
                                     app:si_disabled_alpha=".3"
                                     app:si_disabled_color="@color/color_divider_dark"
                                     app:si_enabled="true"
-                                    app:si_tint_color="@color/fa_icon_unlock_alt"
+                                    app:si_tint_color="@color/color_icon_unlock_alt"
                                     app:si_no_dash="true"
                                     app:srcCompat="@drawable/ic_lock_open_black_24dp" />
                                 <TextView
