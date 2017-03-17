@@ -1,5 +1,6 @@
 package com.crowdo.p2pconnect.view.fragments;
 
+import android.accounts.AccountManager;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -31,6 +32,8 @@ public class LoginFragment extends Fragment{
     @BindView(R.id.auth_login_password_edittext) AppCompatEditText mLoginPasswdEditText;
 
     @BindDimen(R.dimen.auth_field_drawable_padding) int mDrawablePadding;
+
+    private AccountManager mAccountManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

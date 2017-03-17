@@ -126,10 +126,13 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
         mWelcomeLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = Henson.with(LaunchActivity.this)
-                        .gotoAuthActivity()
-                        .fragmentClass(LoginFragment.class)
-                        .build();
+//                Intent intent = Henson.with(LaunchActivity.this)
+//                        .gotoAuthActivity()
+//                        .fragmentClass(LoginFragment.class)
+//                        .build();
+
+                Intent intent = new Intent(LaunchActivity.this, AuthActivity.class);
+                intent.putExtra(AuthActivity.FRAGMENT_CLASS_CALL, LoginFragment.class);
                 startActivity(intent);
             }
         });

@@ -1,6 +1,7 @@
 package com.crowdo.p2pconnect.view.activities;
 
 import android.accounts.AccountManager;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,8 +26,8 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
     public final static String ARG_IS_ADDING_NEW_ACCOUNT = "IS_ADDING_ACCOUNT";
     public final static String KEY_ERROR_MESSAGE = "ERR_MSG";
     public final static String PARAM_USER_PASS = "USER_PASS";
+    public final static String FRAGMENT_CLASS_CALL = "FRAGMENT_CLASS";
 
-    @InjectExtra public Class fragmentClass;
     private AccountManager mAccountManager;
 
     @Override
@@ -36,6 +37,9 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
         Dart.inject(this);
 
         mAccountManager = AccountManager.get(getBaseContext());
+        Bundle extras = getIntent().getExtras();
+        Class fragmentClass = (Class<Activity>) extras.getSerializable(FRAGMENT_CLASS_CALL);
+
 
         if(fragmentClass != null) {
             Fragment fragment = null;
@@ -48,14 +52,12 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
 
             if(fragment != null) {
                 //fragment should be either Login or Register
+                fragment.setArguments(extras);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.auth_content, fragment)
                         .commit();
             }
         }
-
-
-
     }
 
     @Override
