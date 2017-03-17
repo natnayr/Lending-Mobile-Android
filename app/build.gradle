@@ -8,8 +8,8 @@ android {
         applicationId "com.crowdo.p2pconnect"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 8
-        versionName "0.1.1.8"
+        versionCode 11
+        versionName "0.1.1.11"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -105,5 +105,6 @@ dependencies {
     //MickePenz Icons & Fonts
     compile "com.mikepenz:iconics-core:2.8.2@aar"
     compile 'com.mikepenz:community-material-typeface:1.8.36.1@aar'
+    compile 'com.mikepenz:fontawesome-typeface:4.7.0.0@aar'
 
 }

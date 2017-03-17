@@ -122,7 +122,7 @@
             app:goalIndicatorHeight="16dp"
             app:goalIndicatorThickness="2dp"
             app:goalReachedColor="@color/color_accent"
-            app:unfilledSectionColor="@color/color_accent_50"
+            app:unfilledSectionColor="@color/color_secondary_text_400"
             app:barThickness="3dp"
             app:indicatorType="none"
             app:animateDuration="700"/>

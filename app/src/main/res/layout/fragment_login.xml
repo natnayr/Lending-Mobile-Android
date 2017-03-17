@@ -9,11 +9,9 @@
     <LinearLayout
         android:id="@+id/auth_login_input_group"
         android:layout_centerInParent="true"
-        android:layout_width="match_parent"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
         android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true">
         <TextView
@@ -22,7 +20,7 @@
             android:layout_height="wrap_content"
             android:text="Login"
             android:fontFamily="@string/font_family_light"
-            android:textSize="25sp"
+            android:textSize="@dimen/auth_logo_text_size"
             android:textColor="@color/color_icons_text"
             android:gravity="center_horizontal"/>
 
@@ -30,30 +28,34 @@
             android:id="@+id/auth_login_email_textinputlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginTop="@dimen/auth_field_margin_top"
+            android:layout_marginBottom="@dimen/auth_field_margin_btm">
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/auth_login_email_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:hint="Email"
-                android:maxLines="1"/>
+                android:hint="User Email"
+                android:textSize="@dimen/auth_field_text_size"
+                android:maxLines="1"
+                android:drawablePadding="@dimen/auth_field_drawable_padding"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/auth_login_password_textinputlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginTop="@dimen/auth_field_margin_top"
+            android:layout_marginBottom="@dimen/auth_field_margin_btm">
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/auth_login_password_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:hint="Password"
-                android:maxLines="1"/>
+                android:textSize="@dimen/auth_field_text_size"
+                android:maxLines="1"
+                android:drawablePadding="@dimen/auth_field_drawable_padding"/>
         </android.support.design.widget.TextInputLayout>
 
         <LinearLayout
@@ -63,13 +65,16 @@
             android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/auth_field_margin_top"
+            android:layout_marginBottom="@dimen/auth_field_margin_btm"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/auth_login_submit_btn_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="22sp"
                 android:text="Login"
-                android:fontFamily="@string/font_family_regular"
+                android:fontFamily="@string/font_family_condensed"
                 android:textColor="@drawable/auth_btn_text_color"
                 android:textAllCaps="true"
                 android:gravity="center_horizontal" />
@@ -77,7 +82,6 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/auth_login_logo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:foregroundGravity="center_horizontal"

@@ -27,6 +27,7 @@ import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.TypefaceUtils;
 import com.crowdo.p2pconnect.view.fragments.LoginFragment;
+import com.crowdo.p2pconnect.view.fragments.RegisterFragment;
 
 import java.io.IOException;
 import java.util.Timer;
@@ -43,6 +44,7 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
 
     @BindView(R.id.welcome_get_started_btn) Button mWelcomeGetStartedButton;
     @BindView(R.id.welcome_login_btn) Button mWelcomeLoginButton;
+    @BindView(R.id.welcome_register_btn) Button mWelcomeRegisterButton;
     @BindView(R.id.welcome_pager) ViewPager mViewPager;
     @BindView(R.id.welcome_pager_tabdots) TabLayout mTabLayout;
     @BindString(R.string.pre_exit_question) String mPreExitQuestion;
@@ -127,6 +129,17 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
                 Intent intent = Henson.with(LaunchActivity.this)
                         .gotoAuthActivity()
                         .fragmentClass(LoginFragment.class)
+                        .build();
+                startActivity(intent);
+            }
+        });
+
+        mWelcomeRegisterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = Henson.with(LaunchActivity.this)
+                        .gotoAuthActivity()
+                        .fragmentClass(RegisterFragment.class)
                         .build();
                 startActivity(intent);
             }

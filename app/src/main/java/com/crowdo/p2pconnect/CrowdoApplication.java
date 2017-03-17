@@ -39,7 +39,7 @@ public class CrowdoApplication extends Application{
 
         configureRealm(); //set configuration
 
-        redirectToWelcome(); //if need to redirect
+        redirectToMain(); //if need to redirect
     }
 
     private static CrowdoApplication get(Context context){
@@ -74,17 +74,21 @@ public class CrowdoApplication extends Application{
         this.scheduler = scheduler;
     }
 
-    private void redirectToWelcome(){
+    private void redirectToMain(){
         int userId = SharedPreferencesUtils.getSharedPrefInt(this,
                 ConstantVariables.PREF_KEY_USER_ID, -1);
 
         //if userId is less than 0, not registered & clean db
-        if(userId < 0){
-
+        if(userId > 0){
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }else{
             //destroy and recreate db
             if(realm.isClosed() == false){
                 realm.close();
             }
+
             try {
                 SharedPreferencesUtils.setSharePrefBool(this,
                         ConstantVariables.PREF_KEY_LOADED_LEARNINGCENTER_DB, false);
@@ -94,13 +98,6 @@ public class CrowdoApplication extends Application{
                 Log.d(LOG_TAG, "ERROR: "+rx.getMessage(), rx);
                 rx.printStackTrace();
             }
-
-            Intent intent = new Intent(this, LaunchActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                    Intent.FLAG_ACTIVITY_NEW_TASK |
-                    Intent.FLAG_ACTIVITY_NO_HISTORY);
-            intent.putExtra("EXIT", true);
-            startActivity(intent);
         }
     }
 

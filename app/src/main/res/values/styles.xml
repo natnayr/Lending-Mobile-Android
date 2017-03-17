@@ -53,7 +53,7 @@
         <item name="colorControlNormal">@color/color_secondary_text_200</item>
         <item name="colorControlActivated">@color/color_icons_text</item>
         <item name="colorControlHighlight">@color/color_icons_text</item>
-        <item name="android:textColorHint">@color/color_secondary_text_400</item>
+        <item name="android:textColorHint">@color/color_secondary_text</item>
         <item name="android:textColorPrimary">@color/color_icons_text</item>
         <item name="android:textColorSecondary">@color/color_icons_text</item>
         <item name="android:textColorPrimaryInverse">@color/color_icons_text</item>

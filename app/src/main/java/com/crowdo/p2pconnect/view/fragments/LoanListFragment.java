@@ -72,7 +72,7 @@ public class LoanListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mLoanAdapter = new LoanListAdapter(getActivity());
-        populateLoansList();
+
     }
 
     @Override
@@ -149,6 +149,8 @@ public class LoanListFragment extends Fragment {
                 return false;
             }
         });
+
+        populateLoansList();
 
         return rootView;
     }

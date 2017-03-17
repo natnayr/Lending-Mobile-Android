@@ -96,4 +96,8 @@
     <string name="learning_center_search_hint">Cari</string>
     <string name="perform_email_identity_check_exception_aft">&#160;di sistem kami</string>
     <string name="perform_email_identity_check_exception_bef">Tidak ada akun yang terkait dengan&#160;</string>
+    <string name="loan_list_out_sec_personal_guarantee">Jaminan\nPersonal</string>
+    <string name="loan_detail_out_sec_personal_guarantee">Jaminan\nPersonal</string>
+    <string name="welcome_login_btn_label">Login</string>
+    <string name="welcome_register_btn_label">Mendaftar</string>
 </resources>

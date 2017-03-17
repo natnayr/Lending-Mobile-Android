@@ -76,17 +76,18 @@ public class LoanDetailsViewHolder {
     @BindView(R.id.loan_detail_bid_enter_btn) public LinearLayout mBidEnterBtn; //LinearLayout act as button
 
     // String Bindings
-    @BindString(R.string.date_time_region) String DATE_TIME_REGION; //constant
     @BindString(R.string.loan_detail_target_amount_principal) String mTargetAmountPrincipalString;
 
     @BindString(R.string.loan_detail_out_sec_uncollateralized) String mOutSecUncollateralized;
     @BindString(R.string.loan_detail_out_sec_invoice_or_cheque) String mOutSecInvoiceOrCheque;
+    @BindString(R.string.loan_detail_out_sec_personal_guarantee) String mOutSecPersonalGuarantee;
     @BindString(R.string.loan_detail_progress_description_tail_label) String mProgressDescriptionTail;
 
     // color
     @BindColor(R.color.color_icon_shield) int mShieldColor;
     @BindColor(R.color.color_icon_file_text) int mFileColor;
     @BindColor(R.color.color_icon_unlock_alt) int mLockOpenColor;
+    @BindColor(R.color.color_icon_decagram) int mSealColor;
     @BindColor(R.color.color_icons_text) int mIconTextColor; //white
     @BindColor(R.color.color_divider) int mDividerColor;
     
@@ -246,7 +247,8 @@ public class LoanDetailsViewHolder {
             switch (loanDetail.getSecurity()) {
                 case ConstantVariables.IN_SEC_COLLATERALIZED:
                     mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
-                            .icon(CommunityMaterial.Icon.cmd_shield_outline).sizeDp(38));
+                            .icon(CommunityMaterial.Icon.cmd_shield_outline)
+                            .sizeRes(R.dimen.loan_detail_security_icon_size));
                     mSecurityIcon.setColorFilter(mShieldColor);
                     String collateralDesc = WordUtils.wrap(
                             WordUtils.capitalize(loanDetail.getCollateral()
@@ -256,17 +258,27 @@ public class LoanDetailsViewHolder {
                     break;
                 case ConstantVariables.IN_SEC_UNCOLLATERALIZED:
                     mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
-                            .icon(CommunityMaterial.Icon.cmd_lock_open).sizeDp(38));
+                            .icon(CommunityMaterial.Icon.cmd_lock_open)
+                            .sizeRes(R.dimen.loan_detail_security_icon_size));
                     mSecurityIcon.setColorFilter(mLockOpenColor);
                     mSecurityDescription.setText(mOutSecUncollateralized);
                     mSecurityIcon.setContentDescription(mOutSecUncollateralized);
                     break;
                 case ConstantVariables.IN_SEC_INVOICE_OR_CHEQUE:
                     mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
-                            .icon(CommunityMaterial.Icon.cmd_file_document).sizeDp(38));
+                            .icon(CommunityMaterial.Icon.cmd_file_document)
+                            .sizeRes(R.dimen.loan_detail_security_icon_size));
                     mSecurityIcon.setColorFilter(mFileColor);
                     mSecurityDescription.setText(mOutSecInvoiceOrCheque);
                     mSecurityIcon.setContentDescription(mOutSecInvoiceOrCheque);
+                    break;
+                case ConstantVariables.IN_SEC_PERSONAL_GUARANTEE:
+                    mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
+                            .icon(CommunityMaterial.Icon.cmd_seal)
+                            .sizeRes(R.dimen.loan_detail_security_icon_size));
+                    mSecurityIcon.setColorFilter(mSealColor);
+                    mSecurityDescription.setText(mOutSecPersonalGuarantee);
+                    mSecurityIcon.setContentDescription(mOutSecPersonalGuarantee);
                     break;
                 default:
             }
@@ -280,7 +292,7 @@ public class LoanDetailsViewHolder {
         mTenureDuration.setText(Integer.toString(loanDetail.getTenure()));
 
         if(!"".equals(loanDetail.getFundingEndDate())) {
-            int daysLeft = DateUtils.findDaysLeft(DATE_TIME_REGION,
+            int daysLeft = DateUtils.findDaysLeft(ConstantVariables.DATE_TIME_REGION,
                     loanDetail.getFundingEndDate());
 
             if (daysLeft > 0) {

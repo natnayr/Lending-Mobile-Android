@@ -23,14 +23,12 @@
     <color name="color_background_50">#FAFAFA</color>
     <color name="color_icons_text">#FFFFFF</color>
 
-
     <color name="color_background_dark">#222222</color>
     <color name="color_divider_dark">#949494</color>
     <color name="color_divider">#BDBDBD</color>
     <color name="color_divider_light">#EEEEEE</color>
 
     <!-- Branding Colors & Others -->
-    <color name="color_black_background">#27000000</color>
     <color name="color_transparent">#00000000</color>
     <color name="color_crowdo_red">#E60000</color>
 
@@ -54,6 +52,7 @@
     <color name="color_icon_shield">#FFC107</color>
     <color name="color_icon_file_text">#4CAF50</color>
     <color name="color_icon_unlock_alt">#607D8B</color>
+    <color name="color_icon_decagram">#2196F3</color>
 
 
 </resources>

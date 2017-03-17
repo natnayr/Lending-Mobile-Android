@@ -50,14 +50,15 @@ public class LoanListViewHolder {
     @BindColor(R.color.color_icon_shield) int mShieldColor;
     @BindColor(R.color.color_icon_file_text) int mFileColor;
     @BindColor(R.color.color_icon_unlock_alt) int mLockOpenColor;
+    @BindColor(R.color.color_icon_decagram) int mSealColor;
     @BindColor(R.color.color_divider) int mDividerColor;
 
-    @BindString(R.string.date_time_region) String DATE_TIME_REGION;
-    @BindString(R.string.loan_list_bid_status_closed) String BID_STATUS_CLOSED;
-    @BindString(R.string.loan_list_bid_status_open) String BID_STATUS_OPEN_DAYS;
-    @BindString(R.string.percent_label) String PERCENTAGE_LABEL;
-    @BindString(R.string.loan_list_out_sec_uncollateralized) String OUT_SEC_UNCOLLATERALIZED;
-    @BindString(R.string.loan_list_out_sec_invoice_or_cheque) String OUT_SEC_INVOICE_OR_CHEQUE;
+    @BindString(R.string.loan_list_bid_status_closed) String mBidStatusClosedLabel;
+    @BindString(R.string.loan_list_bid_status_open) String mBidStatusOpenDaysLabel;
+    @BindString(R.string.percent_label) String mPercentageLabel;
+    @BindString(R.string.loan_list_out_sec_uncollateralized) String mOutSecurityUncollateralizedLabel;
+    @BindString(R.string.loan_list_out_sec_invoice_or_cheque) String mOutSecurityInvoiceOrChequeLabel;
+    @BindString(R.string.loan_list_out_sec_personal_guarantee) String mOutSecurityPersonalGuarantee;
 
     public LoanListViewHolder(Context mContext, View view){
         ButterKnife.bind(this, view);
@@ -88,26 +89,26 @@ public class LoanListViewHolder {
                 break;
         }
 
-        int daysLeft = DateUtils.findDaysLeft(DATE_TIME_REGION, item.getFundingEndDate());
+        int daysLeft = DateUtils.findDaysLeft(ConstantVariables.DATE_TIME_REGION, item.getFundingEndDate());
 
         if(daysLeft<0){
-            mDaysLeftAndPercentage.setText(BID_STATUS_CLOSED +
+            mDaysLeftAndPercentage.setText(mBidStatusClosedLabel +
                     Integer.toString(item.getFundedPercentageCache()) +
-                    PERCENTAGE_LABEL);
+                    mPercentageLabel);
         }else{
-            mDaysLeftAndPercentage.setText(daysLeft + BID_STATUS_OPEN_DAYS +
+            mDaysLeftAndPercentage.setText(daysLeft + mBidStatusOpenDaysLabel +
                     Integer.toString(item.getFundedPercentageCache()) +
-                    PERCENTAGE_LABEL);
+                    mPercentageLabel);
         }
 
         mPercentageReturn.setText(Double.toString(item.getInterestRate()));
         mTermAmount.setText(Integer.toString(item.getTenure()));
 
-
         switch(item.getSecurity()){
             case ConstantVariables.IN_SEC_COLLATERALIZED:
                 mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
-                    .icon(CommunityMaterial.Icon.cmd_shield_outline).sizeDp(38));
+                        .icon(CommunityMaterial.Icon.cmd_shield_outline)
+                        .sizeRes(R.dimen.loan_detail_security_icon_size));
                 mSecurityIcon.setColorFilter(mShieldColor);
                 String collateralDesc = WordUtils.wrap(
                         WordUtils.capitalize(item.getCollateral()), 15);
@@ -116,25 +117,35 @@ public class LoanListViewHolder {
                 break;
             case ConstantVariables.IN_SEC_UNCOLLATERALIZED:
                 mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
-                    .icon(CommunityMaterial.Icon.cmd_lock_open).sizeDp(38));
+                        .icon(CommunityMaterial.Icon.cmd_lock_open)
+                        .sizeRes(R.dimen.loan_detail_security_icon_size));
                 mSecurityIcon.setColorFilter(mLockOpenColor);
                 mSecurityDescription.setText(
-                        OUT_SEC_UNCOLLATERALIZED);
+                        mOutSecurityUncollateralizedLabel);
                 mSecurityIcon.setContentDescription(
-                        OUT_SEC_UNCOLLATERALIZED);
+                        mOutSecurityUncollateralizedLabel);
                 break;
             case ConstantVariables.IN_SEC_INVOICE_OR_CHEQUE:
                 mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
-                    .icon(CommunityMaterial.Icon.cmd_file_document).sizeDp(38));
+                        .icon(CommunityMaterial.Icon.cmd_file_document)
+                        .sizeRes(R.dimen.loan_detail_security_icon_size));
                 mSecurityIcon.setColorFilter(mFileColor);
                 mSecurityDescription.setText(
-                        OUT_SEC_INVOICE_OR_CHEQUE);
+                        mOutSecurityInvoiceOrChequeLabel);
                 mSecurityIcon.setContentDescription(
-                        OUT_SEC_INVOICE_OR_CHEQUE);
+                        mOutSecurityInvoiceOrChequeLabel);
                 break;
-
+            case ConstantVariables.IN_SEC_PERSONAL_GUARANTEE:
+                mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
+                        .icon(CommunityMaterial.Icon.cmd_seal)
+                        .sizeRes(R.dimen.loan_detail_security_icon_size));
+                mSecurityIcon.setColorFilter(mSealColor);
+                mSecurityDescription.setText(
+                        mOutSecurityPersonalGuarantee);
+                mSecurityIcon.setContentDescription(
+                        mOutSecurityPersonalGuarantee);
+                break;
             default:
-
         }
 
         mLoanAmount.setText(NumericUtils.formatCurrency(item.getCurrency(),

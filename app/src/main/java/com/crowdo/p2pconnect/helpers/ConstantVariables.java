@@ -34,6 +34,7 @@ public class ConstantVariables {
     public static final String IN_SEC_COLLATERALIZED = "Collateral";
     public static final String IN_SEC_UNCOLLATERALIZED = "Uncollateralized";
     public static final String IN_SEC_INVOICE_OR_CHEQUE = "Working Order/Invoice";
+    public static final String IN_SEC_PERSONAL_GUARANTEE = "Personal Guarantee";
 
     public static final int IN_TERM_3 = 3;
     public static final int IN_TERM_4 = 4;
@@ -50,5 +51,6 @@ public class ConstantVariables {
     public static final String IN_BILLIONS_TRUNCATE = "M";
 
     public static final String OUT_DATE_TIME_FORMAT = "dd MMM yyyy";
+    public static final String DATE_TIME_REGION = "Asia/Singapore";
 
 }

@@ -1,6 +1,5 @@
 package com.crowdo.p2pconnect.view.activities;
 
-import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.os.Bundle;
@@ -8,12 +7,10 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.oauth.AccountAuthenticatorFragmentActivity;
-import com.crowdo.p2pconnect.view.fragments.LoginFragment;
-import com.crowdo.p2pconnect.view.fragments.RegisterFragment;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
-import com.mikepenz.iconics.context.IconicsContextWrapper;
 
 /**
  * Created by cwdsg05 on 10/3/17.
@@ -39,26 +36,30 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
         Dart.inject(this);
 
         mAccountManager = AccountManager.get(getBaseContext());
+
         if(fragmentClass != null) {
             Fragment fragment = null;
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
-
             }catch (Exception e) {
                 Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
                 e.printStackTrace();
             }
+
             if(fragment != null) {
+                //fragment should be either Login or Register
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.auth_content, fragment)
                         .commit();
             }
         }
 
+
+
     }
 
     @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(IconicsContextWrapper.wrap(newBase));
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 }
