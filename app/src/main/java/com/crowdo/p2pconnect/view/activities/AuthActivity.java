@@ -3,13 +3,18 @@ package com.crowdo.p2pconnect.view.activities;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.oauth.AccountAuthenticatorFragmentActivity;
+import com.crowdo.p2pconnect.view.fragments.LoanDetailsFragment;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 
@@ -28,6 +33,8 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
     public final static String PARAM_USER_PASS = "USER_PASS";
     public final static String FRAGMENT_CLASS_CALL = "FRAGMENT_CLASS";
 
+    @Nullable @InjectExtra Class fragmentClass;
+
     private AccountManager mAccountManager;
 
     @Override
@@ -37,9 +44,6 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
         Dart.inject(this);
 
         mAccountManager = AccountManager.get(getBaseContext());
-        Bundle extras = getIntent().getExtras();
-        Class fragmentClass = (Class<Activity>) extras.getSerializable(FRAGMENT_CLASS_CALL);
-
 
         if(fragmentClass != null) {
             Fragment fragment = null;
@@ -52,9 +56,8 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
 
             if(fragment != null) {
                 //fragment should be either Login or Register
-                fragment.setArguments(extras);
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.auth_content, fragment)
+                        .add(R.id.auth_content, fragment)
                         .commit();
             }
         }
@@ -64,4 +67,27 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base));
     }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    private boolean toBackStackOrParent(){
+        Intent upIntent = NavUtils.getParentActivityIntent(this);
+        if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+            TaskStackBuilder.create(this)
+                    .addNextIntentWithParentStack(upIntent)
+                    .startActivities();
+            Log.d(LOG_TAG, "APP: TaskStackBuilder.create(this) has been called");
+        } else {
+            //If no backstack then navigate to logical main list view
+            NavUtils.navigateUpTo(this, upIntent);
+            Log.d(LOG_TAG, "APP: NavUtils.navigateUpTo(this, upIntent) has been called:"
+                    + upIntent.getComponent().getClassName());
+        }
+        return true;
+    }
+
 }

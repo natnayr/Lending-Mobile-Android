@@ -52,10 +52,10 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 
     //Dart + Henson (Intent helpers)
-    compile 'com.f2prateek.dart:dart:2.0.1'
-    provided 'com.f2prateek.dart:dart-processor:2.0.1'
-    compile 'com.f2prateek.dart:henson:2.0.1'
-    provided 'com.f2prateek.dart:henson-processor:2.0.1'
+    compile 'com.f2prateek.dart:dart:2.0.2'
+    provided 'com.f2prateek.dart:dart-processor:2.0.2'
+    compile 'com.f2prateek.dart:henson:2.0.2'
+    provided 'com.f2prateek.dart:henson-processor:2.0.2'
 
     //Retrofit V2 (Async library)
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
@@ -105,6 +105,5 @@ dependencies {
     //MickePenz Icons & Fonts
     compile "com.mikepenz:iconics-core:2.8.2@aar"
     compile 'com.mikepenz:community-material-typeface:1.8.36.1@aar'
-    compile 'com.mikepenz:fontawesome-typeface:4.7.0.0@aar'
 
 }

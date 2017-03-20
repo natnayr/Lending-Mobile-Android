@@ -156,6 +156,11 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
     @Override
     public void onBackPressed() {
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
+            return;
+        }
+
         int count = getSupportFragmentManager()
                 .getBackStackEntryCount();
 

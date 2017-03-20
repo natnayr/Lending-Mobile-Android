@@ -19,8 +19,9 @@
         android:logo="@drawable/ic_key_logo"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.crowdo.p2pconnect.view.activities.LaunchActivity"
+            android:name=".view.activities.LaunchActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:noHistory="true"
             android:theme="@style/WelcomeTheme">
             <intent-filter>
@@ -30,31 +31,36 @@
         </activity>
 
         <activity
-            android:name="com.crowdo.p2pconnect.view.activities.AuthActivity"
+            android:name=".view.activities.AuthActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/AuthTheme">
+            android:theme="@style/AuthTheme"
+            android:launchMode="singleTop"
+            android:parentActivityName=".view.activities.LaunchActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.activities.LaunchActivity" />
         </activity>
 
         <activity
-            android:name="com.crowdo.p2pconnect.view.activities.MainActivity"
-            android:launchMode="singleTop"
+            android:name=".view.activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" >
         </activity>
 
         <activity
-            android:name="com.crowdo.p2pconnect.view.activities.LoanDetailsActivity"
+            android:name=".view.activities.LoanDetailsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:parentActivityName=".view.activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.crowdo.p2pconnect.view.activities.MainActivity" />
+                android:value=".view.activities.MainActivity" />
         </activity>
 
         <activity
-            android:name="com.crowdo.p2pconnect.view.activities.WebViewActivity"
+            android:name=".view.activities.WebViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan">

@@ -25,7 +25,8 @@
     <dimen name="auth_btn_padding_left">0dip</dimen>
     <dimen name="auth_btn_padding_right">0dip</dimen>
     <dimen name="auth_btn_corner_width">2dip</dimen>
-
+    <dimen name="auth_btn_drawable_close_icon_size">20dp</dimen>
+    <dimen name="auth_btn_drawable_padding">15dp</dimen>
 
     <dimen name="list_view_filtering_label_margin">4dp</dimen>
     <dimen name="list_view_filtering_checkbox_padding">4dp</dimen>

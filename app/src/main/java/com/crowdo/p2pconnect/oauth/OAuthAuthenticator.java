@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
+import com.crowdo.p2pconnect.view.activities.Henson;
 
 /**
  * Created by cwdsg05 on 9/3/17.

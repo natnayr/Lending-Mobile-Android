@@ -51,15 +51,15 @@ public class LoanDetailsActivity extends AppCompatActivity {
         args.putInt(LoanDetailsFragment.BUNDLE_ID_KEY, this.id);
 
         Fragment fragment = getSupportFragmentManager()
-                .findFragmentByTag(LoanDetailsFragment.TAG_LOAN_DETAILS_FRAGMENT);
+                .findFragmentByTag(LoanDetailsFragment.class.getCanonicalName());
 
         if(fragment == null) {
             LoanDetailsFragment loanDetailsFragment = new LoanDetailsFragment();
             loanDetailsFragment.setArguments(args);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.loan_details_content, loanDetailsFragment,
-                            LoanDetailsFragment.TAG_LOAN_DETAILS_FRAGMENT)
-                    .addToBackStack(LoanDetailsFragment.TAG_LOAN_DETAILS_FRAGMENT)
+                            LoanDetailsFragment.class.getCanonicalName())
+                    .addToBackStack(LoanDetailsFragment.class.getCanonicalName())
                     .commit();
         }
     }
@@ -77,7 +77,7 @@ public class LoanDetailsActivity extends AppCompatActivity {
 
     private boolean toBackStackOrParent(){
         Intent upIntent = NavUtils.getParentActivityIntent(this);
-        if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+        if (shouldUpRecreateTask(upIntent)) {
             TaskStackBuilder.create(this)
                     .addNextIntentWithParentStack(upIntent)
                     .startActivities();
@@ -85,7 +85,8 @@ public class LoanDetailsActivity extends AppCompatActivity {
         } else {
             //If no backstack then navigate to logical main list view
             NavUtils.navigateUpTo(this, upIntent);
-            Log.d(LOG_TAG, "APP: NavUtils.navigateUpTo(this, upIntent) has been called");
+            Log.d(LOG_TAG, "APP: NavUtils.navigateUpTo(this, upIntent) has been called:"
+                    + upIntent.getComponent().getClassName());
         }
         return true;
     }

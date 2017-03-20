@@ -6,6 +6,19 @@
     android:background="@color/color_background_dark"
     android:fitsSystemWindows="true">
 
+    <ImageButton
+        android:id="@+id/auth_register_exit_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:paddingTop="@dimen/auth_btn_drawable_padding"
+        android:paddingStart="@dimen/auth_btn_drawable_padding"
+        android:paddingRight="@dimen/auth_btn_drawable_padding"
+        android:paddingBottom="@dimen/auth_btn_drawable_padding"
+        android:background="@color/color_transparent"
+        android:tint="@color/auth_drawable_close_color"/>
+
     <LinearLayout
         android:id="@+id/auth_register_input_group"
         android:layout_centerInParent="true"

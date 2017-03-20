@@ -70,7 +70,6 @@ public class LoanDetailsFragment extends Fragment {
     @BindString(R.string.permissions_no_write_statement) String mLabelCannotWrite;
 
     private static final String LOG_TAG = LoanDetailsFragment.class.getSimpleName();
-    public static final String TAG_LOAN_DETAILS_FRAGMENT = "LOAN_DETAILS_FRAGMENT_TAG";
     Subscription detailsSubscription;
     Subscription factsheetSubscription;
     Subscription memberCheckSubscription;
