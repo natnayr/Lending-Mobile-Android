@@ -28,6 +28,9 @@
     <color name="color_divider">#BDBDBD</color>
     <color name="color_divider_light">#EEEEEE</color>
 
+    <!-- Instrument Colors -->
+    <color name="color_snackbar_teal_A200">#64FFDA</color>
+
     <!-- Branding Colors & Others -->
     <color name="color_transparent">#00000000</color>
     <color name="color_crowdo_red">#E60000</color>

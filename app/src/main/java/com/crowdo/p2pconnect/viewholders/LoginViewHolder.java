@@ -24,8 +24,8 @@ import butterknife.ButterKnife;
 
 public class LoginViewHolder {
 
-    @BindView(R.id.auth_login_email_edittext) AppCompatEditText mEmailEditText;
-    @BindView(R.id.auth_login_password_edittext) AppCompatEditText mPasswdEditText;
+    @BindView(R.id.auth_login_email_edittext) public AppCompatEditText mEmailEditText;
+    @BindView(R.id.auth_login_password_edittext) public AppCompatEditText mPasswdEditText;
     @BindView(R.id.auth_login_exit_btn) public ImageButton mExitImageButton;
     @BindView(R.id.auth_login_submit_btn) public LinearLayout mSubmitButton;
 
@@ -62,13 +62,6 @@ public class LoginViewHolder {
         mEmailEditText.addTextChangedListener(new SubmitEnablerTextWatcher(new EditText[]{mEmailEditText, mPasswdEditText}, mSubmitButton));
 
         mPasswdEditText.addTextChangedListener(new SubmitEnablerTextWatcher(new EditText[]{mEmailEditText, mPasswdEditText}, mSubmitButton));
-
-        mExitImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((FragmentActivity) mContext).finish();
-            }
-        });
 
     }
 

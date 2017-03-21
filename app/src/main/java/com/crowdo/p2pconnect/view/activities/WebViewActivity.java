@@ -64,7 +64,7 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
     @BindView(R.id.webview_progress_bar) ProgressBar mProgressBar;
     @BindView(R.id.webview_root) CoordinatorLayout rootView;
 
-    @BindColor(R.color.color_icons_text) int colorIconText;
+    @BindColor(R.color.color_snackbar_teal_A200) int colorSnackbarColorText;
 
     @BindString(R.string.downloading_label) String mLabelDownloading;
     @BindString(R.string.okay_label) String mLabelOkay;
@@ -233,7 +233,7 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
                         final Snackbar snackbar = SnackBarUtil
                                 .snackBarCreate(rootView, mLabelDownloadedTo + s,
-                                colorIconText, Snackbar.LENGTH_LONG);
+                                        colorSnackbarColorText, Snackbar.LENGTH_LONG);
 
 
                         snackbar.setAction(mLabelOpen, new View.OnClickListener() {
@@ -253,7 +253,7 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
                                     Log.e(LOG_TAG, "ERROR: " + ue.getMessage(), ue);
                                     final Snackbar snackbar = SnackBarUtil.snackBarCreate(rootView,
                                             mLabelErrorOpenFile,
-                                            colorIconText);
+                                            colorSnackbarColorText);
 
                                     snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                                         @Override
@@ -265,7 +265,7 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
                                     Log.e(LOG_TAG, "ERROR: " + anfe.getMessage(), anfe);
                                     final Snackbar snackbar = SnackBarUtil.snackBarCreate(rootView,
                                             mLabelErrorOpenFile,
-                                            colorIconText);
+                                            colorSnackbarColorText);
 
                                     snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                                         @Override

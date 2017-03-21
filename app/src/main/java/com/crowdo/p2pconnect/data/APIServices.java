@@ -2,6 +2,7 @@ package com.crowdo.p2pconnect.data;
 
 import com.crowdo.p2pconnect.model.LoanDetail;
 import com.crowdo.p2pconnect.model.LoanListItem;
+import com.crowdo.p2pconnect.model.Member;
 import com.crowdo.p2pconnect.model.RegisteredMemberCheck;
 
 import java.util.List;
@@ -39,5 +40,8 @@ public interface APIServices {
                                                         @Query("lang") String lang);
     @GET("member_by_email?")
     Observable<RegisteredMemberCheck> getUserCheck(@Query("email") String email);
+
+    @POST("register")
+    Observable<Member>
 
 }

@@ -24,7 +24,6 @@ import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.view.activities.Henson;
-import com.crowdo.p2pconnect.view.activities.LoanDetailsActivity;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.model.LoanDetail;
@@ -55,7 +54,7 @@ import rx.schedulers.Schedulers;
  */
 public class LoanDetailsFragment extends Fragment {
 
-    @BindColor(R.color.color_icons_text) int mColorIconText;
+    @BindColor(R.color.color_snackbar_teal_A200) int mColorSnackbarTealText;
 
     @BindString(R.string.downloading_label) String mLabelToastDownloading;
     @BindString(R.string.loan_detail_prog_snackbar_error_reading_pdf) String mLabelSnackPDFReadError;
@@ -234,7 +233,7 @@ public class LoanDetailsFragment extends Fragment {
                             public void onNext(final File file) {
                                 final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
                                         file.getName(),
-                                        mColorIconText, Snackbar.LENGTH_LONG);
+                                        mColorSnackbarTealText, Snackbar.LENGTH_LONG);
 
                                 snackbar.setAction(mLabelOpen, new View.OnClickListener() {
                                     @Override
@@ -253,7 +252,7 @@ public class LoanDetailsFragment extends Fragment {
 
                                             final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
                                                     mLabelSnackPDFReadError,
-                                                    mColorIconText, Snackbar.LENGTH_LONG);
+                                                    mColorSnackbarTealText, Snackbar.LENGTH_LONG);
                                             snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
@@ -302,7 +301,7 @@ public class LoanDetailsFragment extends Fragment {
             if(approvedToInvest == false){
                 final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
                         mLabelApprovedInvestorOnly,
-                        mColorIconText);
+                        mColorSnackbarTealText);
                 snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -317,7 +316,7 @@ public class LoanDetailsFragment extends Fragment {
             if(unitBidAmount <= 0 ) {
                 final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
                         mLabelBidTooLow,
-                        mColorIconText);
+                        mColorSnackbarTealText);
 
                 snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                     @Override
@@ -332,7 +331,7 @@ public class LoanDetailsFragment extends Fragment {
 
                 final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
                         mLabelBidTooHigh,
-                        mColorIconText);
+                        mColorSnackbarTealText);
                 snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

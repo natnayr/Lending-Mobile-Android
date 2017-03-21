@@ -14,8 +14,8 @@ public class SnackBarUtil {
         return snackBarCreate(view, msg, colorText, Snackbar.LENGTH_SHORT);
     }
 
-    public static Snackbar snackBarCreate(View view, String msg, int colorText, int snackBarLength) {
-        Snackbar snackbar = Snackbar.make(view, msg, snackBarLength);
+    public static Snackbar snackBarCreate(View view, String msg, int colorText, int snackBarDuration) {
+        Snackbar snackbar = Snackbar.make(view, msg, snackBarDuration);
 
         TextView snackTextView = (TextView) snackbar.getView()
                 .findViewById(android.support.design.R.id.snackbar_text);
