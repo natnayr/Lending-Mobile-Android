@@ -66,30 +66,13 @@ public class LoanDetailsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        int count = getSupportFragmentManager().getBackStackEntryCount();
-
-        if (count == 0) {
+        if (getSupportFragmentManager().getBackStackEntryCount() >  0) {
+            getSupportFragmentManager().popBackStackImmediate();
+        } else {
             super.onBackPressed();
-        } else {
-            toBackStackOrParent();
         }
     }
 
-    private boolean toBackStackOrParent(){
-        Intent upIntent = NavUtils.getParentActivityIntent(this);
-        if (shouldUpRecreateTask(upIntent)) {
-            TaskStackBuilder.create(this)
-                    .addNextIntentWithParentStack(upIntent)
-                    .startActivities();
-            Log.d(LOG_TAG, "APP: TaskStackBuilder.create(this) has been called");
-        } else {
-            //If no backstack then navigate to logical main list view
-            NavUtils.navigateUpTo(this, upIntent);
-            Log.d(LOG_TAG, "APP: NavUtils.navigateUpTo(this, upIntent) has been called:"
-                    + upIntent.getComponent().getClassName());
-        }
-        return true;
-    }
 
     @Override
     public void onSupportActionModeStarted(@NonNull android.support.v7.view.ActionMode mode) {

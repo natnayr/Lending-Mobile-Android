@@ -131,7 +131,7 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
                         .gotoAuthActivity()
                         .fragmentClass(LoginFragment.class)
                         .build();
-
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             }
         });
@@ -143,7 +143,7 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
                         .gotoAuthActivity()
                         .fragmentClass(RegisterFragment.class)
                         .build();
-
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             }
         });

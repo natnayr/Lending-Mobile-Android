@@ -7,12 +7,12 @@ import android.support.v7.widget.AppCompatEditText;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.crowdo.p2pconnect.R;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
-import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -27,13 +27,11 @@ public class RegisterFragment extends Fragment{
     @BindView(R.id.auth_register_email_edittext) AppCompatEditText mRegisterEmailEditText;
     @BindView(R.id.auth_register_password_edittext) AppCompatEditText mRegisterPasswordEmailText;
     @BindView(R.id.auth_register_confirm_password_edittext) AppCompatEditText mRegisterConfirmPasswdEditText;
-
-    @BindDimen(R.dimen.auth_field_drawable_padding) int mDrawablePadding;
+    @BindView(R.id.auth_register_exit_btn) ImageButton mExitImageButton;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Nullable
@@ -70,6 +68,18 @@ public class RegisterFragment extends Fragment{
                         .colorRes(R.color.color_secondary_text)
                         .sizeRes(R.dimen.auth_field_drawable_icon_size),
                 null, null, null);
+
+        mExitImageButton.setImageDrawable(
+                new IconicsDrawable(getActivity())
+                        .icon(CommunityMaterial.Icon.cmd_close)
+                        .sizeRes(R.dimen.auth_btn_drawable_close_icon_size));
+
+        mExitImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
 
         return rootView;
     }

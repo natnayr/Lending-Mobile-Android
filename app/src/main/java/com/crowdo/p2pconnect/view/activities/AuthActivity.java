@@ -74,20 +74,4 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
         super.onBackPressed();
     }
 
-    private boolean toBackStackOrParent(){
-        Intent upIntent = NavUtils.getParentActivityIntent(this);
-        if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-            TaskStackBuilder.create(this)
-                    .addNextIntentWithParentStack(upIntent)
-                    .startActivities();
-            Log.d(LOG_TAG, "APP: TaskStackBuilder.create(this) has been called");
-        } else {
-            //If no backstack then navigate to logical main list view
-            NavUtils.navigateUpTo(this, upIntent);
-            Log.d(LOG_TAG, "APP: NavUtils.navigateUpTo(this, upIntent) has been called:"
-                    + upIntent.getComponent().getClassName());
-        }
-        return true;
-    }
-
 }

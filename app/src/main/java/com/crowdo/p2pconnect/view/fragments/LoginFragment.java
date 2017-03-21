@@ -68,7 +68,7 @@ public class LoginFragment extends Fragment{
         mExitImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().onBackPressed();
+                getActivity().finish();
             }
         });
 
