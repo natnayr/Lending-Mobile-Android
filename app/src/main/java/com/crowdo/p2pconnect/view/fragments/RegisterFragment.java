@@ -4,12 +4,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatEditText;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.viewholders.RegisterViewHolder;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
@@ -23,11 +28,7 @@ import butterknife.ButterKnife;
 public class RegisterFragment extends Fragment{
 
     private static final String LOG_TAG = RegisterFragment.class.getSimpleName();
-    @BindView(R.id.auth_register_name_edittext) AppCompatEditText mRegisterNameEditText;
-    @BindView(R.id.auth_register_email_edittext) AppCompatEditText mRegisterEmailEditText;
-    @BindView(R.id.auth_register_password_edittext) AppCompatEditText mRegisterPasswordEmailText;
-    @BindView(R.id.auth_register_confirm_password_edittext) AppCompatEditText mRegisterConfirmPasswdEditText;
-    @BindView(R.id.auth_register_exit_btn) ImageButton mExitImageButton;
+    private RegisterViewHolder viewHolder;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,48 +40,24 @@ public class RegisterFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_register, container, false);
-        ButterKnife.bind(this, rootView);
+        viewHolder = new RegisterViewHolder(rootView, getActivity());
+        viewHolder.init();
 
-        mRegisterNameEditText.setCompoundDrawables(
-                new IconicsDrawable(getActivity())
-                        .icon(CommunityMaterial.Icon.cmd_account)
-                        .colorRes(R.color.color_secondary_text)
-                        .sizeRes(R.dimen.auth_field_drawable_icon_size),
-                null, null, null);
-
-        mRegisterEmailEditText.setCompoundDrawables(
-                new IconicsDrawable(getActivity())
-                        .icon(CommunityMaterial.Icon.cmd_email_outline)
-                        .colorRes(R.color.color_secondary_text)
-                        .sizeRes(R.dimen.auth_field_drawable_icon_size),
-                null, null, null);
-
-        mRegisterPasswordEmailText.setCompoundDrawables(
-                new IconicsDrawable(getActivity())
-                        .icon(CommunityMaterial.Icon.cmd_key)
-                        .colorRes(R.color.color_secondary_text)
-                        .sizeRes(R.dimen.auth_field_drawable_icon_size),
-                null, null, null);
-
-        mRegisterConfirmPasswdEditText.setCompoundDrawables(
-                new IconicsDrawable(getActivity())
-                        .icon(CommunityMaterial.Icon.cmd_key_plus)
-                        .colorRes(R.color.color_secondary_text)
-                        .sizeRes(R.dimen.auth_field_drawable_icon_size),
-                null, null, null);
-
-        mExitImageButton.setImageDrawable(
-                new IconicsDrawable(getActivity())
-                        .icon(CommunityMaterial.Icon.cmd_close)
-                        .sizeRes(R.dimen.auth_btn_drawable_close_icon_size));
-
-        mExitImageButton.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mExitImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().finish();
             }
         });
 
+        viewHolder.mSubmitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         return rootView;
     }
+
 }
