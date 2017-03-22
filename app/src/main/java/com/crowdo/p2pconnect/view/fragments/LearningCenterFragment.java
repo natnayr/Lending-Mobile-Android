@@ -28,7 +28,7 @@ import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
-import com.crowdo.p2pconnect.model.LearningCenter;
+import com.crowdo.p2pconnect.model.LearningItem;
 import com.crowdo.p2pconnect.view.adapters.LearningCenterAdapter;
 
 import org.apache.commons.csv.CSVFormat;
@@ -64,9 +64,9 @@ public class LearningCenterFragment extends Fragment{
     public static final String LOG_TAG = LearningCenterFragment.class.getSimpleName();
     private Realm realm;
     private String lang;
-    private RealmResults<LearningCenter> mGeneralResults;
-    private RealmResults<LearningCenter> mInvestorResults;
-    private RealmResults<LearningCenter> mBorrowerResults;
+    private RealmResults<LearningItem> mGeneralResults;
+    private RealmResults<LearningItem> mInvestorResults;
+    private RealmResults<LearningItem> mBorrowerResults;
     private LearningCenterAdapter mGeneralAdapter;
     private LearningCenterAdapter mInvestorAdapter;
     private LearningCenterAdapter mBorrowerAdapter;
@@ -247,7 +247,7 @@ public class LearningCenterFragment extends Fragment{
                                     && !rec.get(4).equals("") && !rec.get(5).equals("")) {
                                 if (csvCategories.contains(rec.get(0))) {
                                     int csvIdx = csvCategories.indexOf(rec.get(0));
-                                    LearningCenter enLearningCenter = realm.createObject(LearningCenter.class);
+                                    LearningItem enLearningCenter = realm.createObject(LearningItem.class);
                                     enLearningCenter.setLanguage(ConstantVariables.APP_LANG_EN);
                                     enLearningCenter.setCategory(rec.get(0));
                                     enLearningCenter.setQuestion(rec.get(1));
@@ -255,7 +255,7 @@ public class LearningCenterFragment extends Fragment{
                                     enLearningCenter.setIndex(Integer.toString(counterEn[csvIdx]) + ". ");
                                     counterEn[csvIdx]++;
 
-                                    LearningCenter idLearningCenter = realm.createObject(LearningCenter.class);
+                                    LearningItem idLearningCenter = realm.createObject(LearningItem.class);
                                     idLearningCenter.setLanguage(ConstantVariables.APP_LANG_ID);
                                     idLearningCenter.setCategory(rec.get(0));
                                     idLearningCenter.setQuestion(rec.get(4));
@@ -274,17 +274,17 @@ public class LearningCenterFragment extends Fragment{
                 Log.d(LOG_TAG, "APP: loadedLearningCenterDB SharePref Boolean = " + loadedLearningCenterDB);
 
                 //do realm call db transactions
-                mGeneralResults = realm.where(LearningCenter.class)
+                mGeneralResults = realm.where(LearningItem.class)
                         .equalTo("language", lang)
                         .equalTo("category", ConstantVariables.LEARNING_CENTER_DB_CATEGORY_KEY_GENERAL)
                         .findAll();
 
-                mInvestorResults = realm.where(LearningCenter.class)
+                mInvestorResults = realm.where(LearningItem.class)
                         .equalTo("language", lang)
                         .equalTo("category", ConstantVariables.LEARNING_CENTER_DB_CATEGORY_KEY_INVESTOR)
                         .findAll();
 
-                mBorrowerResults = realm.where(LearningCenter.class)
+                mBorrowerResults = realm.where(LearningItem.class)
                         .equalTo("language", lang)
                         .equalTo("category", ConstantVariables.LEARNING_CENTER_DB_CATEGORY_KEY_BORROWER)
                         .findAll();

@@ -9,6 +9,7 @@ import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -41,7 +42,10 @@ public interface APIServices {
     @GET("member_by_email?")
     Observable<RegisteredMemberCheck> getUserCheck(@Query("email") String email);
 
+    @POST("login")
+    Observable<Member> postLoginUser(@Body LoginClient.Data data);
+
     @POST("register")
-    Observable<Member>
+    Observable<Member> postRegisterUser(@Body RegisterClient.Data data);
 
 }

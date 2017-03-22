@@ -6,7 +6,7 @@ import io.realm.RealmObject;
  * Created by cwdsg05 on 9/2/17.
  */
 
-public class LearningCenter extends RealmObject{
+public class LearningItem extends RealmObject{
 
     private String index;
     private String category;

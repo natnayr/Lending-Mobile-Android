@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.databinding.ItemLearningCenterBinding;
-import com.crowdo.p2pconnect.model.LearningCenter;
+import com.crowdo.p2pconnect.model.LearningItem;
 import com.crowdo.p2pconnect.viewmodel.LearningCenterItemViewModel;
 
 import java.util.ArrayList;
@@ -22,14 +22,14 @@ import java.util.List;
 
 public class LearningCenterAdapter extends RecyclerView.Adapter<LearningCenterAdapter.ViewHolder>{
 
-    private List<LearningCenter> mCollection;
-    private List<LearningCenter> mFullList;
+    private List<LearningItem> mCollection;
+    private List<LearningItem> mFullList;
     private Context mContext;
 
     private static final String LOG_TAG = LearningCenterAdapter.class.getSimpleName();
 
 
-    public LearningCenterAdapter(Context context, List<LearningCenter> collection) {
+    public LearningCenterAdapter(Context context, List<LearningItem> collection) {
         this.mCollection = new ArrayList<>(collection);
         this.mFullList = new ArrayList<>(collection);
         this.mContext = context;
@@ -43,7 +43,7 @@ public class LearningCenterAdapter extends RecyclerView.Adapter<LearningCenterAd
             if (searchText.length() == 0) {
                 mCollection.addAll(mFullList);
             } else {
-                for (LearningCenter lcItem : mFullList) {
+                for (LearningItem lcItem : mFullList) {
                     if (lcItem.getQuestion().toLowerCase().contains(searchText) ||
                             lcItem.getAnswer().toLowerCase().contains(searchText)) {
                         mCollection.add(lcItem);
