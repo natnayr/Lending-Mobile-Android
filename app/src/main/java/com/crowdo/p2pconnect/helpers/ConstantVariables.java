@@ -1,5 +1,9 @@
 package com.crowdo.p2pconnect.helpers;
 
+import android.content.Context;
+import android.os.Build;
+import android.provider.Settings;
+
 /**
  * Created by cwdsg05 on 26/1/17.
  */
@@ -53,4 +57,8 @@ public class ConstantVariables {
     public static final String OUT_DATE_TIME_FORMAT = "dd MMM yyyy";
     public static final String DATE_TIME_REGION = "Asia/Singapore";
 
+    public static String getUniqueAndroidID(Context context){
+        return Build.SERIAL + Settings.Secure.getString(context.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+    }
 }

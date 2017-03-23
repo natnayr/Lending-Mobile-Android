@@ -1,4 +1,4 @@
-package com.crowdo.p2pconnect.data;
+package com.crowdo.p2pconnect.data.client;
 
 /**
  * Created by cwdsg05 on 22/3/17.
@@ -6,11 +6,11 @@ package com.crowdo.p2pconnect.data;
 
 public class RegisterClient {
 
-    class Data{
+    public class Input{
 
     }
 
     class Member{
-
+        
     }
 }

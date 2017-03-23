@@ -1,5 +1,6 @@
-package com.crowdo.p2pconnect.data;
+package com.crowdo.p2pconnect.data.client;
 
+import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.model.RegisteredMemberCheck;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

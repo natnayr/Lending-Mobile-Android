@@ -1,4 +1,4 @@
-package com.crowdo.p2pconnect.data;
+package com.crowdo.p2pconnect.data.client;
 
 import android.content.Context;
 import android.os.Environment;
@@ -6,7 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.helpers.ConstantVariables;
+import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.helpers.HardwareUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 

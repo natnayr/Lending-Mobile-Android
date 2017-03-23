@@ -1,5 +1,10 @@
 package com.crowdo.p2pconnect.data;
 
+import android.os.Build;
+
+import com.crowdo.p2pconnect.data.client.LoginClient;
+import com.crowdo.p2pconnect.data.client.RegisterClient;
+import com.crowdo.p2pconnect.data.response.AuthResponse;
 import com.crowdo.p2pconnect.model.LoanDetail;
 import com.crowdo.p2pconnect.model.LoanListItem;
 import com.crowdo.p2pconnect.model.Member;
@@ -11,6 +16,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -29,6 +35,7 @@ public interface APIServices {
     public static final String API_TEST_URL = "https://crowdo-api.herokuapp.com/";
     public static final String TEST_STAGE = "api/v1/";
 
+
     @GET("loan_listing")
     Observable<List<LoanListItem>> getLoansList();
 
@@ -42,10 +49,12 @@ public interface APIServices {
     @GET("member_by_email?")
     Observable<RegisteredMemberCheck> getUserCheck(@Query("email") String email);
 
+    @Headers({"Content-type: application/json"})
     @POST("login")
-    Observable<Member> postLoginUser(@Body LoginClient.Data data);
+    Observable<AuthResponse> postLoginUser(@Body LoginClient.Input data);
 
+    @Headers({"Content-type: application/json"})
     @POST("register")
-    Observable<Member> postRegisterUser(@Body RegisterClient.Data data);
+    Observable<AuthResponse> postRegisterUser(@Body RegisterClient.Input data);
 
 }

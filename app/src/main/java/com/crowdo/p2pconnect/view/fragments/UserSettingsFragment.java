@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.model.RegisteredMemberCheck;
-import com.crowdo.p2pconnect.data.RegisteredMemberCheckClient;
+import com.crowdo.p2pconnect.data.client.RegisteredMemberCheckClient;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.PerformEmailIdentityCheckTemp;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;

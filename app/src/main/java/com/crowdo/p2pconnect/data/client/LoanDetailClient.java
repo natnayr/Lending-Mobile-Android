@@ -1,10 +1,11 @@
-package com.crowdo.p2pconnect.data;
+package com.crowdo.p2pconnect.data.client;
 
-import com.crowdo.p2pconnect.model.LoanListItem;
+import android.util.Log;
+
+import com.crowdo.p2pconnect.data.APIServices;
+import com.crowdo.p2pconnect.model.LoanDetail;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import java.util.List;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -12,17 +13,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 
 /**
- * Created by cwdsg05 on 1/12/16.
+ * Created by cwdsg05 on 6/12/16.
  */
 
-public class LoanListClient {
+public class LoanDetailClient {
 
     private static final String LOG_TAG = LoanListClient.class.getSimpleName();
 
-    private static LoanListClient instance;
+    private static LoanDetailClient instance;
     private APIServices apiServices;
 
-    public LoanListClient(){
+    public LoanDetailClient(){
         final Gson gson = new GsonBuilder()
                 .create();
 
@@ -35,15 +36,17 @@ public class LoanListClient {
         this.apiServices = retrofit.create(APIServices.class);
     }
 
-    public static LoanListClient getInstance(){
+    public static LoanDetailClient getInstance(){
+
         if(instance == null)
-            instance = new LoanListClient();
+            instance = new LoanDetailClient();
 
         return instance;
     }
 
-    public Observable<List<LoanListItem>> getLiveLoans(){
-        return apiServices.getLoansList();
+    public Observable<LoanDetail> getLoanDetails(int id){
+        Log.d(LOG_TAG, "APP: passing to apiServices.getLoanDetail: " + id);
+        return apiServices.getLoanDetail(id);
     }
 
 }
