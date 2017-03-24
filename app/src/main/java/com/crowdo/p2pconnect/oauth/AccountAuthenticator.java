@@ -7,24 +7,23 @@ import android.accounts.AccountManager;
 import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Binder;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
-import com.crowdo.p2pconnect.view.activities.Henson;
 
 /**
  * Created by cwdsg05 on 9/3/17.
  */
 
-public class OAuthAuthenticator extends AbstractAccountAuthenticator {
+public class AccountAuthenticator extends AbstractAccountAuthenticator {
 
-    private static final String LOG_TAG = OAuthAuthenticator.class.getSimpleName();
+    private static final String LOG_TAG = AccountAuthenticator.class.getSimpleName();
     private String OAUTH_AUTHENTICATOR_TAG = "CROWDO_AUTHENTICATOR";
     private final Context mContext;
 
-    public OAuthAuthenticator(Context context) {
+    public AccountAuthenticator(Context context) {
         super(context);
         this.mContext = context;
     }
@@ -37,11 +36,7 @@ public class OAuthAuthenticator extends AbstractAccountAuthenticator {
     @Override
     public Bundle addAccount(AccountAuthenticatorResponse response, String accountType,
                              String authTokenType, String[] requiredFeatures, Bundle options) throws NetworkErrorException {
-        Log.v(LOG_TAG, "APP: addAccount >"
-                + ", response:" + response.toString()
-                + ", accountType:" + accountType
-                + ", authTokenType:" + authTokenType
-                + ", options:" + options.toString());
+        Log.v(LOG_TAG, "APP: addAccount()");
 
         final Intent intent = new Intent(mContext, AuthActivity.class);
         intent.putExtra(AuthActivity.ARG_ACCOUNT_TYPE, accountType);
@@ -56,6 +51,26 @@ public class OAuthAuthenticator extends AbstractAccountAuthenticator {
 
     @Override
     public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account, String authTokenType, Bundle options) throws NetworkErrorException {
+        Log.v(LOG_TAG, "APP: getAuthToken()");
+
+        if(!authTokenType.equals(AccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS){
+            final Bundle result = new Bundle();
+            result.putString(AccountManager.KEY_ERROR_MESSAGE, "invalid authTokenType");
+            return result;
+        }
+
+        //Extract username and password from AccountManager, and ask
+        //server for appropriate AuthToken
+        final AccountManager accountManager = AccountManager.get(mContext);
+        String authToken = accountManager.peekAuthToken(account, authTokenType);
+        Log.d(LOG_TAG, "APP: peekAuthToken returned - " + authToken);
+
+        //try to authenticate again
+        if(TextUtils.isEmpty(authToken)){
+            final String password =
+        }
+
+
         return null;
     }
 

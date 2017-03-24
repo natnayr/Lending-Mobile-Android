@@ -6,11 +6,15 @@ package com.crowdo.p2pconnect.data.client;
 
 public class RegisterClient {
 
-    public class Input{
+    public class Input {
+        String email;
+        String password;
+        String deviceId;
 
-    }
-
-    class Member{
-        
+        public Input(String email, String password, String deviceId) {
+            this.email = email;
+            this.password = password;
+            this.deviceId = deviceId;
+        }
     }
 }

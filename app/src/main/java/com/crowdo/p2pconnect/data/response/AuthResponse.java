@@ -24,7 +24,7 @@ public class AuthResponse {
 
     @SerializedName("status")
     @Expose
-    private long status;
+    private int status;
 
     public String getMessage() {
         return message;
@@ -50,19 +50,18 @@ public class AuthResponse {
         this.member = member;
     }
 
-    public long getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(long status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
     @Override
     public String toString() {
         return "message:" + getMessage()
-                + " status:"+getStatus()
-                + " authToken:" + getAuthToken()
-                + " memberName:" + getMember().getName();
+                + " status:"+ getStatus()
+                + " authToken:" + getAuthToken();
     }
 }

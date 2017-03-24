@@ -35,8 +35,7 @@
             android:name=".view.activities.AuthActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/AuthTheme"
-            android:parentActivityName=".view.activities.LaunchActivity">
+            android:theme="@style/AuthTheme">
         </activity>
 
         <activity

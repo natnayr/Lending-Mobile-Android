@@ -51,7 +51,7 @@ public interface APIServices {
 
     @Headers({"Content-type: application/json"})
     @POST("login")
-    Observable<AuthResponse> postLoginUser(@Body LoginClient.Input data);
+    Observable<Response<AuthResponse>> postLoginUser(@Body LoginClient.Input data);
 
     @Headers({"Content-type: application/json"})
     @POST("register")

@@ -1,20 +1,12 @@
 package com.crowdo.p2pconnect.data.client;
 
-import android.os.Build;
 import android.util.Log;
-
 import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.data.response.AuthResponse;
-import com.crowdo.p2pconnect.model.Member;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -32,6 +24,7 @@ public class LoginClient {
 
     public LoginClient(){
         final Gson gson = new GsonBuilder()
+                .serializeNulls()
                 .create();
 
         final Retrofit retrofit = new Retrofit.Builder()
@@ -50,8 +43,8 @@ public class LoginClient {
         return instance;
     }
 
-    public Observable<AuthResponse> loginUser(String email, String password, String deviceID){
-        Log.d(LOG_TAG, "APP: passing to apiServices.loginUser, email:" + email
+    public Observable<Response<AuthResponse>> loginUser(String email, String password, String deviceID){
+        Log.d(LOG_TAG, "APP: apiServices.loginUser execute  email:" + email
                 + " device_id:" + deviceID);
         return apiServices.postLoginUser(new Input(email, password, deviceID));
     }

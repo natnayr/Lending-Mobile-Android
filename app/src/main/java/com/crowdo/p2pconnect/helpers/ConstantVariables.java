@@ -10,7 +10,24 @@ import android.provider.Settings;
 
 public class ConstantVariables {
 
+    public static final long REALM_DB_VERSION = 0;
     public static final long IDR_BASE_UNIT = 1000000;
+
+    public static final int REQUEST_CODE_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 12312;
+    public static final int REQUEST_CODE_PERMISSIONS_OVERLAY = 10101;
+
+    public static final String APP_LANG_DEFAULT = "en";
+    public static final String APP_LANG_EN = "en";
+    public static final String APP_LANG_ID = "id";
+    public static final String PDF_CONTENT_TYPE = "application/pdf";
+
+    public static final String OUT_DATE_TIME_FORMAT = "dd MMM yyyy";
+    public static final String DATE_TIME_REGION = "Asia/Singapore";
+
+    public static String getUniqueAndroidID(Context context){
+        return Build.SERIAL + "-" + Settings.Secure.getString(context.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+    }
 
     public static final String PREF_KEY_USER_ID = "USER_ID";
     public static final String PREF_KEY_USER_IS_MEMBER = "USER_IS_MEMBER";
@@ -21,14 +38,6 @@ public class ConstantVariables {
     public static final String PREF_KEY_USER_LOGOUT = "USER_LOGOUT_KEY";
     public static final String PREF_KEY_LOADED_LEARNINGCENTER_DB = "LOADED_LEARNINGCENTER_DB_KEY";
     public static final String PREF_KEY_SELECTED_LANGUAGE = "LOCALE_HELPER_SELECTED_LANGUGAGE";
-
-    public static final long REALM_DB_VERSION = 0;
-
-    public static final String APP_LANG_DEFAULT = "en";
-    public static final String APP_LANG_EN = "en";
-    public static final String APP_LANG_ID = "id";
-
-    public static final String PDF_CONTENT_TYPE = "application/pdf";
 
     public static final String LEARNING_CENTER_CSV_FILE_LOCATION = "FAQ_template.csv";
     public static final String LEARNING_CENTER_DB_CATEGORY_KEY_GENERAL = "General";
@@ -46,19 +55,8 @@ public class ConstantVariables {
     public static final int IN_TERM_6 = 6;
     public static final int IN_TERM_9 = 9;
 
-    public static final int REQUEST_CODE_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 12312;
-    public static final int REQUEST_CODE_PERMISSIONS_OVERLAY = 10101;
-
     public static final String EN_MILLIONS_TRUNCATE = "M";
     public static final String EN_BILLIONS_TRUNCATE = "B";
     public static final String IN_MILLIONS_TRUNCATE = "JT";
     public static final String IN_BILLIONS_TRUNCATE = "M";
-
-    public static final String OUT_DATE_TIME_FORMAT = "dd MMM yyyy";
-    public static final String DATE_TIME_REGION = "Asia/Singapore";
-
-    public static String getUniqueAndroidID(Context context){
-        return Build.SERIAL + Settings.Secure.getString(context.getContentResolver(),
-                Settings.Secure.ANDROID_ID);
-    }
 }
