@@ -30,11 +30,11 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindColor;
 import butterknife.BindString;
 import butterknife.ButterKnife;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
-import rx.Observer;
-import rx.Subscription;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by cwdsg05 on 8/3/17.
@@ -53,7 +53,6 @@ public class LoginFragment extends Fragment{
     private String initAccountType;
     private String initAccountEmail;
     private LoginViewHolder viewHolder;
-    private Subscription loginSubscription;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,21 +114,15 @@ public class LoginFragment extends Fragment{
         }
 
         //do just http
-        loginSubscription = AuthClient.getInstance()
+        AuthClient.getInstance()
                 .loginUser(inputEmail, inputPassword,
                         ConstantVariables.getUniqueAndroidID(getActivity()))
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<AuthResponse>>() {
                     @Override
-                    public void onCompleted() {
-                        Log.d(LOG_TAG, "APP: onCompleted reached for AuthClient.loginUser()");
-                    }
+                    public void onSubscribe(Disposable d) {
 
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
                     }
 
                     @Override
@@ -139,6 +132,17 @@ public class LoginFragment extends Fragment{
                                 + ", http-body: {" + response.body().toString() + "}");
 
                         handleResult(response);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(LOG_TAG, "APP: onCompleted reached for AuthClient.loginUser()");
                     }
                 });
 

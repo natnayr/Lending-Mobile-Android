@@ -22,7 +22,8 @@ import okio.Okio;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import rx.functions.Func1;
+import io.reactivex.functions.Function;
+import rx.Subscriber;
 
 /**
  * Created by cwdsg05 on 15/12/16.
@@ -52,21 +53,20 @@ public class LoanFactSheetClient {
     }
 
     public Observable<File> getLoanFactSheet(){
-        return  apiServices.getLoanFactSheet(this.loanId,
-                LocaleHelper.getLanguage(mContext))
+        return  apiServices.getLoanFactSheet(this.loanId, LocaleHelper.getLanguage(mContext))
             .flatMap(processResponse())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread());
     }
 
-    private Func1<Response<ResponseBody>, Observable<File>> processResponse(){
-        return new Func1<Response<ResponseBody>, Observable<File>>() {
-            @Override
-            public Observable<File> call(Response<ResponseBody> responseBodyResponse) {
-                return saveFile(responseBodyResponse);
-            }
-        };
-    }
+    private Function<Response<ResponseBody>, Observable<File>> processResponse(){
+//        return new Func1<Response<ResponseBody>, Observable<File>>() {
+//            @Override
+//            public Observable<File> call(Response<ResponseBody> responseBodyResponse) {
+//                return saveFile(responseBodyResponse);
+//            }
+//        };
+    } //TODO: replace with RxDownload!!!
 
     private Observable<File> saveFile(final Response<ResponseBody> response) {
         return Observable.create(new Observable.OnSubscribe<File>() {

@@ -48,6 +48,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import im.delight.android.webview.AdvancedWebView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.Subscriber;
 
 /**
  * Created by cwdsg05 on 4/1/17.
@@ -214,7 +215,6 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
         RxDownloader.getInstance(this)
                 .download(url, fileName, mimeType)
-                .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {
                     @Override
                     public void onCompleted() {

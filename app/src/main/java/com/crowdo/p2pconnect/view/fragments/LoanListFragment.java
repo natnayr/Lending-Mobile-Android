@@ -36,11 +36,10 @@ import java.util.List;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import rx.Observer;
-import rx.Subscription;
-import io.reactivex.Scheduler;
-import rx.schedulers.Schedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by cwdsg05 on 8/11/16.
@@ -62,7 +61,6 @@ public class LoanListFragment extends Fragment {
     @BindString(R.string.loan_list_action_filter_item_count_tail) String filteringCountTail;
 
     private LoanListAdapter mLoanAdapter;
-    private Subscription loanListSubscription;
     private LoanListFilterViewHolder filteringViewHolder;
     private SearchView searchView;
 
@@ -165,10 +163,6 @@ public class LoanListFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        if (loanListSubscription != null &&
-                !loanListSubscription.isUnsubscribed()) {
-            loanListSubscription.unsubscribe();
-        }
         super.onDestroy();
     }
 
@@ -247,15 +241,20 @@ public class LoanListFragment extends Fragment {
     }
 
     private void populateLoansList() {
-        loanListSubscription = LoanListClient.getInstance()
+        LoanListClient.getInstance()
                 .getLiveLoans()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<LoanListItem>>() {
                     @Override
-                    public void onCompleted() {
-                        Log.d(LOG_TAG, "APP: populateLoansList Rx onComplete");
-                        swipeContainer.setRefreshing(false);
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(List<LoanListItem> loanListItems) {
+                        Log.d(LOG_TAG, "APP: populateLoansList Rx onNext with "
+                                + loanListItems.size() + " items retreived.");
+                        mLoanAdapter.setLoans(loanListItems);
                     }
 
                     @Override
@@ -266,10 +265,9 @@ public class LoanListFragment extends Fragment {
                     }
 
                     @Override
-                    public void onNext(List<LoanListItem> loanListItems) {
-                        Log.d(LOG_TAG, "APP: populateLoansList Rx onNext with "
-                                + loanListItems.size() + " items retreived.");
-                        mLoanAdapter.setLoans(loanListItems);
+                    public void onComplete() {
+                        Log.d(LOG_TAG, "APP: populateLoansList Rx onComplete");
+                        swipeContainer.setRefreshing(false);
                     }
                 });
     }

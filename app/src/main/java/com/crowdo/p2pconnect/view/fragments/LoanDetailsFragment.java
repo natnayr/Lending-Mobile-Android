@@ -45,10 +45,9 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import rx.Subscription;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -70,9 +69,6 @@ public class LoanDetailsFragment extends Fragment {
     @BindString(R.string.permissions_no_write_statement) String mLabelCannotWrite;
 
     private static final String LOG_TAG = LoanDetailsFragment.class.getSimpleName();
-    Subscription detailsSubscription;
-    Subscription factsheetSubscription;
-    Subscription memberCheckSubscription;
 
     private LoanDetailsViewHolder viewHolder;
     private LoanDetail mLoanDetail;
@@ -111,20 +107,14 @@ public class LoanDetailsFragment extends Fragment {
         //Init view first,
         viewHolder.initView();
 
-        detailsSubscription = LoanDetailClient.getInstance()
+        LoanDetailClient.getInstance()
                 .getLoanDetails(this.initLoanId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<LoanDetail>() {
                     @Override
-                    public void onCompleted() {
-                        Log.d(LOG_TAG, "APP: Populated LoanDetail Rx onComplete");
-                    }
+                    public void onSubscribe(Disposable d) {
 
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
                     }
 
                     @Override
@@ -135,6 +125,17 @@ public class LoanDetailsFragment extends Fragment {
                                     + loanDetail.getLoanId() + " retreived.");
                             viewHolder.attachView(loanDetail, getActivity());
                         }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(LOG_TAG, "APP: Populated LoanDetail Rx onComplete");
                     }
                 });
 
@@ -195,16 +196,6 @@ public class LoanDetailsFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        if(detailsSubscription != null && !detailsSubscription.isUnsubscribed()){
-            detailsSubscription.unsubscribe();
-        }
-        if(factsheetSubscription != null && !factsheetSubscription.isUnsubscribed()){
-            factsheetSubscription.unsubscribe();
-        }
-
-        if(memberCheckSubscription != null && !memberCheckSubscription.isUnsubscribed()){
-            memberCheckSubscription.unsubscribe();
-        }
         super.onDestroy();
     }
 
@@ -217,17 +208,12 @@ public class LoanDetailsFragment extends Fragment {
                 Toast.makeText(getActivity(),
                         mLabelToastDownloading, Toast.LENGTH_SHORT).show();
 
-                factsheetSubscription = LoanFactSheetClient.getInstance(getActivity(), initLoanId)
+                LoanFactSheetClient.getInstance(getActivity(), initLoanId)
                         .getLoanFactSheet()
                         .subscribe(new Observer<File>() {
                             @Override
-                            public void onCompleted() {
-                                Log.d(LOG_TAG, "APP: mFactSheetDownloadBtn complete");
-                            }
+                            public void onSubscribe(Disposable d) {
 
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.e(LOG_TAG, "ERROR: onError " + e.getMessage(), e);
                             }
 
                             @Override
@@ -265,6 +251,16 @@ public class LoanDetailsFragment extends Fragment {
                                     }
                                 });
                                 snackbar.show();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.e(LOG_TAG, "ERROR: onError " + e.getMessage(), e);
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                Log.d(LOG_TAG, "APP: mFactSheetDownloadBtn complete");
                             }
                         });
             }
@@ -411,20 +407,14 @@ public class LoanDetailsFragment extends Fragment {
                         final PerformEmailIdentityCheckTemp idenCheck =
                                 new PerformEmailIdentityCheckTemp(context);
 
-                        memberCheckSubscription = RegisteredMemberCheckClient.getInstance()
+                        RegisteredMemberCheckClient.getInstance()
                             .postUserCheck(enteredEmail)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Observer<RegisteredMemberCheck>() {
                                 @Override
-                                public void onCompleted() {
+                                public void onSubscribe(Disposable d) {
 
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-                                    Log.d(LOG_TAG, "ERROR: onError");
-                                    idenCheck.onFailure(LOG_TAG, enteredEmail, e);
                                 }
 
                                 @Override
@@ -434,7 +424,18 @@ public class LoanDetailsFragment extends Fragment {
                                         addToCart();
                                     }
                                 }
-                        });
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Log.d(LOG_TAG, "ERROR: onError");
+                                    idenCheck.onFailure(LOG_TAG, enteredEmail, e);
+                                }
+
+                                @Override
+                                public void onComplete() {
+
+                                }
+                            });
 
                         dialogInterface.dismiss();
 

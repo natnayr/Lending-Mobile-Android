@@ -25,10 +25,10 @@ import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 
 import java.util.Map;
 
-import rx.Observer;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by cwdsg05 on 29/12/16.
@@ -40,7 +40,6 @@ public class UserSettingsFragment extends PreferenceFragmentCompat
     //SharedPreference object uses default provided from PreferenceManager
     SharedPreferences sharedPreferences;
     private static final String LOG_TAG = UserSettingsFragment.class.getSimpleName();
-    private Subscription memberCheckSubscription;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -154,9 +153,7 @@ public class UserSettingsFragment extends PreferenceFragmentCompat
 
     @Override
     public void onDestroy() {
-        if(memberCheckSubscription != null && !memberCheckSubscription.isUnsubscribed()){
-            memberCheckSubscription.unsubscribe();
-        }
+
         super.onDestroy();
     }
 
@@ -215,13 +212,20 @@ public class UserSettingsFragment extends PreferenceFragmentCompat
             final PerformEmailIdentityCheckTemp idenCheck =
                     new PerformEmailIdentityCheckTemp(getActivity());
 
-            memberCheckSubscription = RegisteredMemberCheckClient.getInstance()
+            RegisteredMemberCheckClient.getInstance()
                     .postUserCheck(enteredEmail)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<RegisteredMemberCheck>() {
                         @Override
-                        public void onCompleted() {
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(RegisteredMemberCheck registeredMemberCheck) {
+                            idenCheck.onResponseCode(LOG_TAG, enteredEmail,
+                                    registeredMemberCheck);
                         }
 
                         @Override
@@ -230,9 +234,8 @@ public class UserSettingsFragment extends PreferenceFragmentCompat
                         }
 
                         @Override
-                        public void onNext(RegisteredMemberCheck registeredMemberCheck) {
-                            idenCheck.onResponseCode(LOG_TAG, enteredEmail,
-                                    registeredMemberCheck);
+                        public void onComplete() {
+
                         }
                     });
         }
