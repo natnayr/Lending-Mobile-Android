@@ -12,7 +12,6 @@ import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.oauth.AccountAuthenticatorFragmentActivity;
 import com.crowdo.p2pconnect.oauth.AccountGeneral;
-import com.crowdo.p2pconnect.view.fragments.LoanDetailsFragment;
 import com.crowdo.p2pconnect.view.fragments.LoginFragment;
 import com.crowdo.p2pconnect.view.fragments.RegisterFragment;
 
@@ -24,9 +23,9 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
 
     private final static String LOG_TAG = AuthActivity.class.getSimpleName();
 
+    public final static String ARG_ACCOUNT_EMAIL = "ACCOUNT_EMAIL";
     public final static String ARG_ACCOUNT_TYPE = "ACCOUNT_TYPE";
     public final static String ARG_AUTH_TOKEN_TYPE = "AUTH_TOKEN_TYPE";
-    public final static String ARG_ACCOUNT_NAME = "ACCOUNT_NAME";
     public final static String ARG_IS_ADDING_NEW_ACCOUNT = "IS_ADDING_ACCOUNT";
 
     public final static String ARG_KEY_MESSAGE_ERROR = "MSG_ERR";
@@ -47,7 +46,7 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
         mAccountManager = AccountManager.get(getBaseContext());
         Bundle extras = getIntent().getExtras();
 
-        mAccountName = extras.getString(ARG_ACCOUNT_NAME);
+        mAccountName = extras.getString(ARG_ACCOUNT_EMAIL);
         mAccountType = extras.getString(ARG_ACCOUNT_TYPE);
         mAuthTokenType = extras.getString(ARG_AUTH_TOKEN_TYPE);
         mIsNewAccountRequested = extras.getBoolean(ARG_IS_ADDING_NEW_ACCOUNT);
@@ -70,7 +69,7 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
                 Bundle args = new Bundle();
                 //append if not null
                 if(mAccountName != null) {
-                    args.putString(AuthActivity.ARG_ACCOUNT_NAME, mAccountName);
+                    args.putString(AuthActivity.ARG_ACCOUNT_EMAIL, mAccountName);
                 }
 
                 args.putString(AuthActivity.ARG_ACCOUNT_TYPE, mAccountType);

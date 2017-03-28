@@ -1,5 +1,6 @@
 package com.crowdo.p2pconnect.view.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -54,11 +56,31 @@ public class RegisterFragment extends Fragment{
         viewHolder.mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Check if no view has focus:
+                View view = getActivity().getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager) getActivity()
+                            .getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
 
+                submit();
             }
         });
 
         return rootView;
     }
+
+    private void submit(){
+        final String inputEmail = viewHolder.mRegisterEmailEditText.getText().toString().toLowerCase().trim();
+        final String inputName = viewHolder.mRegisterNameEditText.getText().toString().trim();
+        final String inputPassword = viewHolder.mRegisterPasswordEmailText.getText().toString();
+        final String inputConfirmPassword = viewHolder.mRegisterConfirmPasswdEditText.getText().toString();
+        //fix emailbox for user
+        if(!inputEmail.equals(viewHolder.mRegisterEmailEditText.getText().toString())){
+            viewHolder.mRegisterEmailEditText.setText(inputEmail);
+        }
+    }
+
 
 }

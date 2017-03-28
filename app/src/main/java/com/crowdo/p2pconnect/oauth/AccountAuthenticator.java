@@ -8,7 +8,6 @@ import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -23,14 +22,12 @@ import com.crowdo.p2pconnect.view.fragments.LoginFragment;
 public class AccountAuthenticator extends AbstractAccountAuthenticator {
 
     private static final String LOG_TAG = AccountAuthenticator.class.getSimpleName();
-    private String OAUTH_AUTHENTICATOR_TAG = "CROWDO_AUTHENTICATOR";
     private final Context mContext;
 
     public AccountAuthenticator(Context context) {
         super(context);
         this.mContext = context;
     }
-
 
     @Override
     public Bundle addAccount(AccountAuthenticatorResponse response, String accountType,
@@ -50,7 +47,8 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
     }
 
     @Override
-    public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account, String authTokenType, Bundle options) throws NetworkErrorException {
+    public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account,
+                               String authTokenType, Bundle options) throws NetworkErrorException {
         Log.v(LOG_TAG, "APP: getAuthToken()");
 
         //Check token Auth Type
@@ -65,7 +63,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
         Log.d(LOG_TAG, "APP: peekAuthToken returned - " + authToken);
 
         //if not empty authtoken
-        if(TextUtils.isEmpty(authToken)){
+        if(!TextUtils.isEmpty(authToken)){
             final Bundle bundle = new Bundle();
             bundle.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
             bundle.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
@@ -76,7 +74,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
         //else call login intent
         final Intent intent = new Intent(mContext, AuthActivity.class);
         intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
-        intent.putExtra(AuthActivity.ARG_ACCOUNT_NAME, account.name);
+        intent.putExtra(AuthActivity.ARG_ACCOUNT_EMAIL, account.name);
         intent.putExtra(AuthActivity.ARG_ACCOUNT_TYPE, account.type);
         intent.putExtra(AuthActivity.ARG_AUTH_TOKEN_TYPE, authTokenType);
 

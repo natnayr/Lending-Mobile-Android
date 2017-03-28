@@ -3,13 +3,16 @@ package com.crowdo.p2pconnect.data;
 import com.crowdo.p2pconnect.data.client.AuthClient;
 import com.crowdo.p2pconnect.data.request.LoginRequest;
 import com.crowdo.p2pconnect.data.request.RegisterRequest;
+import com.crowdo.p2pconnect.data.request.TokenCheckRequest;
 import com.crowdo.p2pconnect.data.response.AuthResponse;
+import com.crowdo.p2pconnect.data.response.ShortResponse;
 import com.crowdo.p2pconnect.model.LoanDetail;
 import com.crowdo.p2pconnect.model.LoanListItem;
 import com.crowdo.p2pconnect.model.RegisteredMemberCheck;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -19,7 +22,6 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Streaming;
-import rx.Observable;
 
 /**
  * Created by cwdsg05 on 9/11/16.
@@ -54,5 +56,10 @@ public interface APIServices {
     @Headers({"Content-type: application/json"})
     @POST("register")
     Observable<Response<AuthResponse>> postRegisterUser(@Body RegisterRequest data);
+
+    //not used for now...
+    @Headers({"Content-type: application/json"})
+    @POST("token_check")
+    Observable<Response<ShortResponse>> postTokenCheck(@Body TokenCheckRequest data);
 
 }

@@ -21,10 +21,10 @@ import butterknife.ButterKnife;
  */
 public class RegisterViewHolder {
 
-    @BindView(R.id.auth_register_name_edittext) AppCompatEditText mRegisterNameEditText;
-    @BindView(R.id.auth_register_email_edittext) AppCompatEditText mRegisterEmailEditText;
-    @BindView(R.id.auth_register_password_edittext) AppCompatEditText mRegisterPasswordEmailText;
-    @BindView(R.id.auth_register_confirm_password_edittext) AppCompatEditText mRegisterConfirmPasswdEditText;
+    @BindView(R.id.auth_register_name_edittext) public AppCompatEditText mRegisterNameEditText;
+    @BindView(R.id.auth_register_email_edittext) public AppCompatEditText mRegisterEmailEditText;
+    @BindView(R.id.auth_register_password_edittext) public AppCompatEditText mRegisterPasswordEmailText;
+    @BindView(R.id.auth_register_confirm_password_edittext) public AppCompatEditText mRegisterConfirmPasswdEditText;
     @BindView(R.id.auth_register_exit_btn) public ImageButton mExitImageButton;
     @BindView(R.id.auth_register_submit_btn) public LinearLayout mSubmitButton;
 

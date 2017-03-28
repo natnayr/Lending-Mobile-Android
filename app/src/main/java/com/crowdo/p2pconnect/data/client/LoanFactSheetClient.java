@@ -13,17 +13,16 @@ import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import java.io.File;
 import java.io.IOException;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 import okio.BufferedSink;
 import okio.Okio;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by cwdsg05 on 15/12/16.
@@ -41,7 +40,7 @@ public class LoanFactSheetClient {
         this.loanId = loanId;
 
         final Retrofit retrofit = new Retrofit.Builder()
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(APIServices.API_BASE_URL)
                 .build();
 

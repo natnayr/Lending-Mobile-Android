@@ -1,23 +1,21 @@
 package com.crowdo.p2pconnect.data.client;
 
-import android.util.Log;
 import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.data.request.LoginRequest;
 import com.crowdo.p2pconnect.data.request.RegisterRequest;
+import com.crowdo.p2pconnect.data.request.TokenCheckRequest;
 import com.crowdo.p2pconnect.data.response.AuthResponse;
-import com.crowdo.p2pconnect.model.Member;
+import com.crowdo.p2pconnect.data.response.ShortResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
+import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Observable;
 
 /**
  * Created by cwdsg05 on 22/3/17.
@@ -41,9 +39,8 @@ public class AuthClient {
                 .addInterceptor(loggingInterceptor)
                 .build();
 
-
         final Retrofit retrofit = new Retrofit.Builder()
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(httpClient)
                 .baseUrl(APIServices.API_TEST_URL + APIServices.TEST_STAGE)
@@ -69,7 +66,9 @@ public class AuthClient {
                 passwordConfirmation, localePreference, deviceId));
     }
 
-
+    public Observable<Response<ShortResponse>> checkToken(String authToken){
+        return apiServices.postTokenCheck(new TokenCheckRequest(authToken));
+    }
 
 
 }

@@ -21,19 +21,19 @@ import com.crowdo.p2pconnect.helpers.HashingUtils;
 import com.crowdo.p2pconnect.helpers.RegexValidationUtil;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.helpers.HTTPStatusCodeUtil;
-import com.crowdo.p2pconnect.model.Member;
-import com.crowdo.p2pconnect.oauth.AccountGeneral;
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.viewholders.LoginViewHolder;
 import com.f2prateek.dart.Dart;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindColor;
 import butterknife.BindString;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Response;
 import rx.Observer;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
@@ -51,7 +51,7 @@ public class LoginFragment extends Fragment{
     public static final String LOGIN_FRAGMENT_TAG = "LOGIN_FRAGMENT_TAG";
 
     private String initAccountType;
-    private String initAccountName;
+    private String initAccountEmail;
     private LoginViewHolder viewHolder;
     private Subscription loginSubscription;
 
@@ -59,7 +59,7 @@ public class LoginFragment extends Fragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.initAccountType = Dart.get(getArguments(), AuthActivity.ARG_ACCOUNT_TYPE);
-        this.initAccountName = Dart.get(getArguments(), AuthActivity.ARG_ACCOUNT_NAME);
+        this.initAccountEmail = Dart.get(getArguments(), AuthActivity.ARG_ACCOUNT_EMAIL);
     }
 
     @Nullable
@@ -100,6 +100,11 @@ public class LoginFragment extends Fragment{
         final String inputEmail = viewHolder.mEmailEditText.getText().toString().toLowerCase().trim();
         final String inputPassword = viewHolder.mPasswdEditText.getText().toString();
 
+        //fix emailbox for user
+        if(!inputEmail.equals(viewHolder.mEmailEditText.getText().toString())){
+            viewHolder.mEmailEditText.setText(inputEmail);
+        }
+
         //local incorrect email check
         if(!RegexValidationUtil.isValidEmailID(inputEmail)){
             final Snackbar snack = SnackBarUtil.snackBarForAuthCreate(getView(),
@@ -114,7 +119,7 @@ public class LoginFragment extends Fragment{
                 .loginUser(inputEmail, inputPassword,
                         ConstantVariables.getUniqueAndroidID(getActivity()))
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread()AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<AuthResponse>>() {
                     @Override
                     public void onCompleted() {
@@ -137,10 +142,10 @@ public class LoginFragment extends Fragment{
                     }
                 });
 
-
     }
 
     private void handleResult(Response<AuthResponse> response){
+        final String email = viewHolder.mEmailEditText.getText().toString().toLowerCase().trim();
         final String passwordToHashKeep = viewHolder.mPasswdEditText.getText().toString();
         final Bundle data = new Bundle();
         final Intent res = new Intent();
@@ -164,6 +169,14 @@ public class LoginFragment extends Fragment{
                     authResponse.getMessage(),
                     Snackbar.LENGTH_SHORT,
                     mColorIconText, mColorAccent).show();
+
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+
+            getActivity().finish();
             return;
         }
 
@@ -175,10 +188,8 @@ public class LoginFragment extends Fragment{
                     Snackbar.LENGTH_SHORT,
                     mColorIconText, mColorAccent).show();
 
-            //Encapsulate results
-            Member memberInfo = authResponse.getMember();
             try {
-                data.putString(AccountManager.KEY_ACCOUNT_NAME, memberInfo.getName());
+                data.putString(AccountManager.KEY_ACCOUNT_NAME, email);
                 data.putString(AccountManager.KEY_ACCOUNT_TYPE, initAccountType);
                 data.putString(AccountManager.KEY_AUTHTOKEN, authResponse.getAuthToken());
                 data.putString(AccountManager.KEY_PASSWORD, HashingUtils.hashSHA256(passwordToHashKeep));
