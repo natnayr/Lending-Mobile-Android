@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
  * Created by cwdsg05 on 24/3/17.
  */
 
-public class AccountAuthenticatorService extends Service{
+public class CrowdoAuthService extends Service{
 
     @Nullable
     @Override

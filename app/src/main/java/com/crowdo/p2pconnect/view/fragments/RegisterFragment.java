@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 public class RegisterFragment extends Fragment{
 
     private static final String LOG_TAG = RegisterFragment.class.getSimpleName();
+    public static final String REGISTER_FRAGMENT_TAG = "REGISTER_FRAGMENT_TAG";
     private RegisterViewHolder viewHolder;
 
     @Override

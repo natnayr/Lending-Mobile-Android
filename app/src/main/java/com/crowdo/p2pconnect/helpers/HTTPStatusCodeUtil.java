@@ -4,7 +4,7 @@ package com.crowdo.p2pconnect.helpers;
  * Created by cwdsg05 on 24/3/17.
  */
 
-public class StatusCodeAPIUtil {
+public class HTTPStatusCodeUtil {
 
     public static final int HTTP_STATUS_CODE_200_SUCCESS = 200;
     public static final int HTTP_STATUS_CODE_401_SESSION_ERROR = 401;

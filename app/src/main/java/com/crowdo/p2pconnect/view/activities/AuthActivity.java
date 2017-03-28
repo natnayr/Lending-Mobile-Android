@@ -5,7 +5,6 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
@@ -13,8 +12,9 @@ import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.oauth.AccountAuthenticatorFragmentActivity;
 import com.crowdo.p2pconnect.oauth.AccountGeneral;
-import com.f2prateek.dart.Dart;
-import com.f2prateek.dart.InjectExtra;
+import com.crowdo.p2pconnect.view.fragments.LoanDetailsFragment;
+import com.crowdo.p2pconnect.view.fragments.LoginFragment;
+import com.crowdo.p2pconnect.view.fragments.RegisterFragment;
 
 /**
  * Created by cwdsg05 on 10/3/17.
@@ -25,48 +25,57 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
     private final static String LOG_TAG = AuthActivity.class.getSimpleName();
 
     public final static String ARG_ACCOUNT_TYPE = "ACCOUNT_TYPE";
-    public final static String ARG_AUTH_TYPE = "AUTH_TYPE";
+    public final static String ARG_AUTH_TOKEN_TYPE = "AUTH_TOKEN_TYPE";
     public final static String ARG_ACCOUNT_NAME = "ACCOUNT_NAME";
     public final static String ARG_IS_ADDING_NEW_ACCOUNT = "IS_ADDING_ACCOUNT";
 
-    public final static String KEY_ERROR_MESSAGE = "ERR_MSG";
+    public final static String ARG_KEY_MESSAGE_ERROR = "MSG_ERR";
+    public final static String FRAGMENT_CLASS_TAG_CALL = "FRAGMENT_CLASS";
 
-    public final static String PARAM_USER_PASS = "USER_PASS";
-
-    public final static String FRAGMENT_CLASS_CALL = "FRAGMENT_CLASS";
-    private final int REQ_SIGNUP = 1;
-
-    @Nullable @InjectExtra Class fragmentClass;
 
     private AccountManager mAccountManager;
+    private String mAccountName;
+    private String mAccountType;
     private String mAuthTokenType;
+    private boolean mIsNewAccountRequested;
 
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.activity_auth);
-        Dart.inject(this);
 
         mAccountManager = AccountManager.get(getBaseContext());
+        Bundle extras = getIntent().getExtras();
 
-        String accountName = getIntent().getStringExtra(ARG_ACCOUNT_NAME);
-        mAuthTokenType = getIntent().getStringExtra(ARG_AUTH_TYPE);
+        mAccountName = extras.getString(ARG_ACCOUNT_NAME);
+        mAccountType = extras.getString(ARG_ACCOUNT_TYPE);
+        mAuthTokenType = extras.getString(ARG_AUTH_TOKEN_TYPE);
+        mIsNewAccountRequested = extras.getBoolean(ARG_IS_ADDING_NEW_ACCOUNT);
 
         if(mAuthTokenType == null){
             mAuthTokenType = AccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS;
         }
 
 
-        if(fragmentClass != null) {
+        String fragmentTag = extras.getString(FRAGMENT_CLASS_TAG_CALL);
+        if(fragmentTag != null) {
             Fragment fragment = null;
-            try {
-                fragment = (Fragment) fragmentClass.newInstance();
-            }catch (Exception e) {
-                Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-                e.printStackTrace();
+            if(fragmentTag.equals(LoginFragment.LOGIN_FRAGMENT_TAG)){
+                fragment = new LoginFragment();
+            }else if(fragmentTag.equals(RegisterFragment.REGISTER_FRAGMENT_TAG)){
+                fragment = new RegisterFragment();
             }
 
             if(fragment != null) {
+                Bundle args = new Bundle();
+                //append if not null
+                if(mAccountName != null) {
+                    args.putString(AuthActivity.ARG_ACCOUNT_NAME, mAccountName);
+                }
+
+                args.putString(AuthActivity.ARG_ACCOUNT_TYPE, mAccountType);
+                fragment.setArguments(args);
+
                 //fragment should be either Login or Register
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.auth_content, fragment)
@@ -80,44 +89,43 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
         super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 
+    public void finishAuth(Intent intent){
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
+        Log.d(LOG_TAG, "APP: finishAuth()");
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQ_SIGNUP && resultCode == RESULT_OK) {
-            finishLogin(data);
-        }else{
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
+        Bundle extras = intent.getExtras();
+        Log.d(LOG_TAG, "APP: extras AccountManager.KEY_ACCOUNT_NAME -> " + extras.getString(AccountManager.KEY_ACCOUNT_NAME));
+        Log.d(LOG_TAG, "APP: extras AccountManager.KEY_ACCOUNT_TYPE -> " + extras.getString(AccountManager.KEY_ACCOUNT_TYPE));
+        Log.d(LOG_TAG, "APP: extras AccountManager.KEY_PASSWORD -> " + extras.getString(AccountManager.KEY_PASSWORD));
+        Log.d(LOG_TAG, "APP: extras AccountManager.KEY_AUTHTOKEN -> " + extras.getString(AccountManager.KEY_AUTHTOKEN));
 
-    private void finishLogin(Intent intent){
-        Log.d(LOG_TAG, "APP: finishLogin()");
-        String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-        String accountPassword = intent.getStringExtra(PARAM_USER_PASS);
-        final Account account = new Account(accountName, intent.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE));
+        String accountName = extras.getString(AccountManager.KEY_ACCOUNT_NAME);
 
-        if(getIntent().getBooleanExtra(ARG_IS_ADDING_NEW_ACCOUNT, false)){
-            Log.d(LOG_TAG, "APP: finishLogin() > addAccountExplicitly");
-            String authToken = intent.getStringExtra(AccountManager.KEY_AUTHTOKEN);
+        //Hash Password before storing,
+        final Account account = new Account(accountName, extras.getString(AccountManager.KEY_ACCOUNT_TYPE));
+        String accountPasswordHash = extras.getString(AccountManager.KEY_PASSWORD);
+        if(extras.getBoolean(ARG_IS_ADDING_NEW_ACCOUNT, true)){
+            Log.d(LOG_TAG, "APP: finishAuth() > addAccountExplicitly");
+            String authToken = extras.getString(AccountManager.KEY_AUTHTOKEN);
             String authTokeType = mAuthTokenType;
 
             // Creating the account on the device and setting the auth token we got
             // (Not setting the auth token will cause another call to the server to authenticate the user)
-            mAccountManager.addAccountExplicitly(account, accountPassword, null);
+            mAccountManager.addAccountExplicitly(account, accountPasswordHash, null);
             mAccountManager.setAuthToken(account, authTokeType, authToken);
         } else {
-            Log.d(LOG_TAG, "APP: finishLogin() > setPassword");
-            mAccountManager.setPassword(account, accountPassword);
+            Log.d(LOG_TAG, "APP: finishAuth() > setPassword");
+            mAccountManager.setPassword(account, accountPasswordHash);
         }
 
-        setAccountAuthenticatorResult(intent.getExtras());
+        setAccountAuthenticatorResult(extras);
         setResult(RESULT_OK, intent);
-        finish();
+        finish(); //carry on with either AccountManager or In-App Login
     }
 
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_CANCELED);
+        super.onBackPressed();
+    }
 }

@@ -1,13 +1,11 @@
 package com.crowdo.p2pconnect.data;
 
-import android.os.Build;
-
-import com.crowdo.p2pconnect.data.client.LoginClient;
-import com.crowdo.p2pconnect.data.client.RegisterClient;
+import com.crowdo.p2pconnect.data.client.AuthClient;
+import com.crowdo.p2pconnect.data.request.LoginRequest;
+import com.crowdo.p2pconnect.data.request.RegisterRequest;
 import com.crowdo.p2pconnect.data.response.AuthResponse;
 import com.crowdo.p2pconnect.model.LoanDetail;
 import com.crowdo.p2pconnect.model.LoanListItem;
-import com.crowdo.p2pconnect.model.Member;
 import com.crowdo.p2pconnect.model.RegisteredMemberCheck;
 
 import java.util.List;
@@ -51,10 +49,10 @@ public interface APIServices {
 
     @Headers({"Content-type: application/json"})
     @POST("login")
-    Observable<Response<AuthResponse>> postLoginUser(@Body LoginClient.Input data);
+    Observable<Response<AuthResponse>> postLoginUser(@Body LoginRequest data);
 
     @Headers({"Content-type: application/json"})
     @POST("register")
-    Observable<AuthResponse> postRegisterUser(@Body RegisterClient.Input data);
+    Observable<Response<AuthResponse>> postRegisterUser(@Body RegisterRequest data);
 
 }

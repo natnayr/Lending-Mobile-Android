@@ -48,7 +48,7 @@ import rx.schedulers.Schedulers;
 public class LoanListFragment extends Fragment {
 
     private static final String LOG_TAG = LoanListFragment.class.getSimpleName();
-    public static final String TAG_LOAN_LIST_FRAGMENT = "LOAN_LIST_FRAGMENT_TAG";
+    public static final String LOAN_LIST_FRAGMENT_TAG = "LOAN_LIST_FRAGMENT_TAG";
 
     @BindView(R.id.loan_list_view_filtering_expandable) ExpandableLayout loanListSearchExpandableLayout;
     @BindView(R.id.listview_loans) ListView mListView;

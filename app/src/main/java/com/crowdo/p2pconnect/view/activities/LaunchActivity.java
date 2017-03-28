@@ -127,10 +127,9 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
         mWelcomeLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = Henson.with(LaunchActivity.this)
-                        .gotoAuthActivity()
-                        .fragmentClass(LoginFragment.class)
-                        .build();
+
+                Intent intent = new Intent(LaunchActivity.this, AuthActivity.class);
+                intent.putExtra(AuthActivity.FRAGMENT_CLASS_TAG_CALL, LoginFragment.LOGIN_FRAGMENT_TAG);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             }
@@ -139,10 +138,12 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
         mWelcomeRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = Henson.with(LaunchActivity.this)
-                        .gotoAuthActivity()
-                        .fragmentClass(RegisterFragment.class)
-                        .build();
+//                Intent intent = Henson.with(LaunchActivity.this)
+//                        .gotoAuthActivity()
+//                        .fragmentClass(RegisterFragment.class)
+//                        .build();
+                Intent intent = new Intent(LaunchActivity.this, AuthActivity.class);
+                intent.putExtra(AuthActivity.FRAGMENT_CLASS_TAG_CALL, RegisterFragment.REGISTER_FRAGMENT_TAG);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             }

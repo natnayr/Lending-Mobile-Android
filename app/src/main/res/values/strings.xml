@@ -150,4 +150,10 @@
     <string name="pref_user_session_clear_label">Cleared</string>
     <string name="loan_detail_enter_amount_hint_error_positive">Non-Negative Values only please</string>
 
+    <!-- Authentication Messages -->
+    <string name="auth_invalid_token">Invalid token detected</string>
+    <string name="auth_http_error_message">Sorry, Unexpected server error occurred</string>
+    <string name="auth_http_handling_message">Sorry, Unexpected handling error occurred</string>
+    <string name="auth_account_preferences">Account Preferences</string>
+    <string name="auth_account_type">com.crowdo.p2pconnect</string>
 </resources>
