@@ -2,7 +2,7 @@
     <string name="app_name" translatable="false">Crowdo Connect</string>
     <string name="app_name_welcome" translatable="false">connect</string>
 
-    <string name="navmenu_label_extras">Extras</string>
+    <string name="navmenu_label_links">Links</string>
     <string name="navmenu_label_preferences">Preferences</string>
     <string name="navmenu_label_language">Language</string>
 
@@ -13,6 +13,7 @@
     <string name="toolbar_title_top_up_wallet">Top Up</string>
     <string name="toolbar_title_apply_investor">Apply As Investor</string>
     <string name="toolbar_title_factsheet">Fact-Sheet View (PDF)</string>
+    <string name="toolbar_title_logout">Log Out</string>
 
     <string name="language_english_label" translatable="false">English</string>
     <string name="language_bahasa_label" translatable="false">Bahasa Indonesia</string>
@@ -101,15 +102,14 @@
     <string name="learning_center_categories_item_count_label">&#160;item(s)</string>
     <string name="learning_center_msg_fees">Please contact <a href="mailto:enquiry.p2p@crowdo.com" target="_top">enquiry.p2p@crowdo.com</a> for fee-related enquiries</string>
 
-    <string name="webview_unable_open_file">Error, unable to open file</string>
-    <string name="webview_download_to">Downloaded to&#160;</string>
-
     <string name="perform_email_identity_check_exception_bef">No accounts associated with&#160;</string>
     <string name="perform_email_identity_check_exception_aft">&#160;in our system.</string>
 
     <!-- Globals -->
     <string name="pre_exit_question">Are you sure you want to exit?</string>
     <string name="downloading_label">Downloading, Please tap OPEN to access file</string>
+    <string name="downloaded_to_label">Downloaded to&#160;</string>
+    <string name="unable_open_file_label">Error, unable to open file</string>
     <string name="okay_label">OK</string>
     <string name="open_label">OPEN</string>
     <string name="sign_up_label">Sign Up</string>
@@ -154,6 +154,12 @@
     <string name="auth_invalid_token">Invalid token detected</string>
     <string name="auth_http_error_message">Sorry, Unexpected server error occurred</string>
     <string name="auth_http_handling_message">Sorry, Unexpected handling error occurred</string>
-    <string name="auth_account_preferences">Account Preferences</string>
-    <string name="auth_account_type">com.crowdo.p2pconnect</string>
+    <string name="auth_account_preferences">Settings</string>
+    <string name="auth_account_type" translatable="false">com.crowdo.p2pconnect</string>
+    <string name="auth_one_account_allowed">Sorry, there is already an account attached</string>
+
+    <string name="auth_pref_remove_accounts_key" translatable="false">APP_PREF_REMOVE_ACCOUNTS</string>
+    <string name="auth_pref_remove_accounts_title">Clear Account Session</string>
+    <string name="auth_pref_remove_accounts_summary">Note: We do not store your sensitive credentials on this App</string>
+
 </resources>

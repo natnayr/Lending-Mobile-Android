@@ -1,5 +1,11 @@
 package com.crowdo.p2pconnect.view.activities;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
@@ -15,21 +21,25 @@ import android.view.View;
 import android.widget.TextView;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.APIServices;
+import com.crowdo.p2pconnect.helpers.AccountManagerUtils;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
-import com.crowdo.p2pconnect.helpers.PermissionsUtils;
 import com.crowdo.p2pconnect.helpers.TypefaceUtils;
+import com.crowdo.p2pconnect.oauth.AccountGeneral;
 import com.crowdo.p2pconnect.view.fragments.LearningCenterFragment;
 import com.crowdo.p2pconnect.view.fragments.LoanListFragment;
 import com.crowdo.p2pconnect.view.fragments.UserSettingsFragment;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.ExpandableDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+
+import java.io.IOException;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -58,12 +68,19 @@ public class MainActivity extends AppCompatActivity{
     private static final int DRAWER_SELECT_LANGUAGE_IN = 501;
     private static final int DRAWER_SELECT_TOP_UP_WALLET = 104;
     private static final int DRAWER_SELECT_APPLY_AS_INVESTOR = 105;
+    private static final int DRAWER_SELECT_LOGOUT = 106;
+
+    private AccountManager mAccountManager;
+    private String mAuthToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        mAccountManager = AccountManager.get(this);
+        getExisitingAccountAuthTokenOrAuth();
 
         mToolbar.setTitle(getString(R.string.toolbar_title_loan_list));
         setSupportActionBar(mToolbar);
@@ -94,23 +111,45 @@ public class MainActivity extends AppCompatActivity{
                 .withFullscreen(true)
                 .withCloseOnClick(true)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_LOAN_LIST_FRAGMENT).withName(R.string.toolbar_title_loan_list).withIcon(CommunityMaterial.Icon.cmd_gavel)
-                                .withSetSelected(true).withSelectedTextColorRes(R.color.color_primary_700).withSelectedIconColorRes(R.color.color_primary_700),
-                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_USER_SETTINGS_FRAGMENT).withName(R.string.toolbar_title_user_settings).withIcon(CommunityMaterial.Icon.cmd_settings)
-                                .withSelectedTextColorRes(R.color.color_primary_700).withSelectedIconColorRes(R.color.color_primary_700),
-                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_LEARNING_CENTER_FRAGMENT).withName(R.string.toolbar_title_learning_center).withIcon(CommunityMaterial.Icon.cmd_book_open_page_variant)
-                                .withSelectedTextColorRes(R.color.color_primary_700).withSelectedIconColorRes(R.color.color_primary_700),
+                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_LOAN_LIST_FRAGMENT)
+                                .withName(R.string.toolbar_title_loan_list).withIcon(CommunityMaterial.Icon.cmd_gavel)
+                                .withSetSelected(true).withSelectedTextColorRes(R.color.color_primary_700)
+                                .withSelectedIconColorRes(R.color.color_primary_700),
+                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_USER_SETTINGS_FRAGMENT)
+                                .withName(R.string.toolbar_title_user_settings).withIcon(CommunityMaterial.Icon.cmd_settings)
+                                .withSelectedTextColorRes(R.color.color_primary_700)
+                                .withSelectedIconColorRes(R.color.color_primary_700),
+                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_LEARNING_CENTER_FRAGMENT)
+                                .withName(R.string.toolbar_title_learning_center).withIcon(CommunityMaterial.Icon.cmd_book_open_page_variant)
+                                .withSelectedTextColorRes(R.color.color_primary_700)
+                                .withSelectedIconColorRes(R.color.color_primary_700),
                         new SectionDrawerItem().withName(R.string.navmenu_label_preferences),
-                        new ExpandableDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_CHANGE).withName(R.string.navmenu_label_language).withIcon(CommunityMaterial.Icon.cmd_translate)
-                                .withSelectable(false).withSubItems(
-                                    new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_EN).withName(R.string.language_english_label).withLevel(2).withSelectable(false),
-                                    new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_IN).withName(R.string.language_bahasa_label).withLevel(2).withSelectable(false)
+                        new ExpandableDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_CHANGE)
+                                .withName(R.string.navmenu_label_language)
+                                .withIcon(CommunityMaterial.Icon.cmd_translate)
+                                .withSelectable(false)
+                                .withSubItems(
+                                    new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_EN)
+                                            .withName(R.string.language_english_label).withLevel(2)
+                                            .withSelectable(false),
+                                    new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_IN)
+                                            .withName(R.string.language_bahasa_label).withLevel(2)
+                                            .withSelectable(false)
                                 ),
-                        new SectionDrawerItem().withName(R.string.navmenu_label_extras),
-                        new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_TOP_UP_WALLET).withName(R.string.toolbar_title_top_up_wallet)
-                                .withSelectable(false).withIcon(CommunityMaterial.Icon.cmd_wallet),
-                        new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_APPLY_AS_INVESTOR).withName(R.string.toolbar_title_apply_investor)
-                                .withSelectable(false).withIcon(CommunityMaterial.Icon.cmd_account_star_variant)
+                        new SectionDrawerItem().withName(R.string.navmenu_label_links),
+                        new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_TOP_UP_WALLET)
+                                .withName(R.string.toolbar_title_top_up_wallet)
+                                .withIcon(CommunityMaterial.Icon.cmd_wallet)
+                                .withSelectable(false),
+                        new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_APPLY_AS_INVESTOR)
+                                .withName(R.string.toolbar_title_apply_investor)
+                                .withIcon(CommunityMaterial.Icon.cmd_account_star_variant)
+                                .withSelectable(false),
+                        new DividerDrawerItem(),
+                        new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_LOGOUT)
+                                .withName(R.string.toolbar_title_logout)
+                                .withIcon(CommunityMaterial.Icon.cmd_logout_variant)
+                                .withSelectable(false)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -152,6 +191,9 @@ public class MainActivity extends AppCompatActivity{
                                 case DRAWER_SELECT_APPLY_AS_INVESTOR:
                                     action = "register_as_investor";
                                     webCall = true;
+                                    break;
+
+                                case DRAWER_SELECT_LOGOUT:
                                     break;
                                 default:
                                     return false; //default close
@@ -255,6 +297,49 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base));
+    }
+
+    private void getExisitingAccountAuthTokenOrAuth(){
+        Log.d(LOG_TAG, "APP: getExisitingAccountAuthTokenOrAuth()");
+        Account[] accounts = mAccountManager.getAccountsByType(AccountGeneral.getACCOUNT_TYPE(this));
+        Log.d(LOG_TAG, "APP: getExisitingAccountAuthTokenOrAuth() > accounts size = " + accounts.length);
+        if(accounts.length > 0){
+            final AccountManagerFuture<Bundle> future = mAccountManager.getAuthToken(accounts[0],
+                    AccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS, null, this,
+                    new AccountManagerCallback<Bundle>() {
+                        @Override
+                        public void run(AccountManagerFuture<Bundle> future) {
+                            try {
+                                Bundle bundle = future.getResult();
+                                mAuthToken = bundle.getString(AccountManager.KEY_AUTHTOKEN);
+                                Log.d(LOG_TAG, "APP: getExisitingAccountAuthTokenOrAuth > authToken = "
+                                        + mAuthToken);
+                            }catch (OperationCanceledException oce){
+                                Log.e(LOG_TAG, "ERROR: " + oce.getMessage(), oce);
+                                oce.printStackTrace();
+                            }catch (IOException ioe){
+                                Log.e(LOG_TAG, "ERROR: " + ioe.getMessage(), ioe);
+                                ioe.printStackTrace();
+                            }catch (AuthenticatorException ae){
+                                Log.e(LOG_TAG, "ERROR: " + ae.getMessage(), ae);
+                                ae.printStackTrace();
+                            }
+                        }
+                    }, null);
+        }else{
+            //Call LaunchActivity to Welcome & Authenticate
+            Intent intent = new Intent(this, LaunchActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                    | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    private void actionLogout(){
+        Log.d(LOG_TAG, "APP: actionLogout()");
+        AccountManagerUtils.removeAccounts(this);
+        getExisitingAccountAuthTokenOrAuth();
     }
 
 }

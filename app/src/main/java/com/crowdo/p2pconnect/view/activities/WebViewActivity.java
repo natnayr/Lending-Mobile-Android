@@ -47,7 +47,6 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import im.delight.android.webview.AdvancedWebView;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import rx.Subscriber;
 
 /**
@@ -71,8 +70,8 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
     @BindString(R.string.cancel_label) String mLabelCancel;
     @BindString(R.string.open_label) String mLabelOpen;
     @BindString(R.string.intent_file_chooser) String mLabelIntentFile;
-    @BindString(R.string.webview_unable_open_file) String mLabelErrorOpenFile;
-    @BindString(R.string.webview_download_to) String mLabelDownloadedTo;
+    @BindString(R.string.unable_open_file_label) String mLabelErrorOpenFile;
+    @BindString(R.string.downloaded_to_label) String mLabelDownloadedTo;
     @BindString(R.string.permissions_write_request) String mLabelExternalDriveRequest;
     @BindString(R.string.permissions_no_write_statement) String mLabelCannotWrite;
 

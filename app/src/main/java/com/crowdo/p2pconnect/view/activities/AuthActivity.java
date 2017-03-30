@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.helpers.AccountManagerUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.oauth.AccountAuthenticatorFragmentActivity;
 import com.crowdo.p2pconnect.oauth.AccountGeneral;
@@ -30,7 +32,6 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
 
     public final static String ARG_KEY_MESSAGE_ERROR = "MSG_ERR";
     public final static String FRAGMENT_CLASS_TAG_CALL = "FRAGMENT_CLASS";
-
 
     private AccountManager mAccountManager;
     private String mAccountName;
@@ -55,6 +56,12 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
             mAuthTokenType = AccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS;
         }
 
+        if(mAccountType == null){
+            mAccountType = AccountGeneral.getACCOUNT_TYPE(this);
+        }
+
+        //check if there are accounts before, if so terminate
+        ifAccountExistsThenExit();
 
         String fragmentTag = extras.getString(FRAGMENT_CLASS_TAG_CALL);
         if(fragmentTag != null) {
@@ -92,16 +99,26 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
 
         Log.d(LOG_TAG, "APP: finishAuth()");
 
+        //remove all other accounts
+        AccountManagerUtils.removeAccounts(this);
+
         Bundle extras = intent.getExtras();
+
+        //if not set by activity
+        String accountType = extras.getString(AccountManager.KEY_ACCOUNT_TYPE);
+        if(accountType == null){
+            accountType = AccountGeneral.getACCOUNT_TYPE(this);
+        }
+
         Log.d(LOG_TAG, "APP: extras AccountManager.KEY_ACCOUNT_NAME -> " + extras.getString(AccountManager.KEY_ACCOUNT_NAME));
-        Log.d(LOG_TAG, "APP: extras AccountManager.KEY_ACCOUNT_TYPE -> " + extras.getString(AccountManager.KEY_ACCOUNT_TYPE));
+        Log.d(LOG_TAG, "APP: extras AccountManager.KEY_ACCOUNT_TYPE -> " + accountType);
         Log.d(LOG_TAG, "APP: extras AccountManager.KEY_PASSWORD -> " + extras.getString(AccountManager.KEY_PASSWORD));
         Log.d(LOG_TAG, "APP: extras AccountManager.KEY_AUTHTOKEN -> " + extras.getString(AccountManager.KEY_AUTHTOKEN));
 
         String accountName = extras.getString(AccountManager.KEY_ACCOUNT_NAME);
 
         //Hash Password before storing,
-        final Account account = new Account(accountName, extras.getString(AccountManager.KEY_ACCOUNT_TYPE));
+        final Account account = new Account(accountName, accountType);
         String accountPasswordHash = extras.getString(AccountManager.KEY_PASSWORD);
         if(extras.getBoolean(ARG_IS_ADDING_NEW_ACCOUNT, true)){
             Log.d(LOG_TAG, "APP: finishAuth() > addAccountExplicitly");
@@ -126,5 +143,13 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
     public void onBackPressed() {
         setResult(RESULT_CANCELED);
         super.onBackPressed();
+    }
+
+    private void ifAccountExistsThenExit(){
+        Account[] accounts = mAccountManager.getAccountsByType(mAccountType);
+        if(accounts.length > 0){
+            Toast.makeText(this, R.string.auth_one_account_allowed, Toast.LENGTH_LONG).show();
+            finish();
+        }
     }
 }

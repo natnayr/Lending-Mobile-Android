@@ -35,6 +35,8 @@ public interface APIServices {
     public static final String API_TEST_URL = "https://crowdo-api.herokuapp.com/";
     public static final String TEST_STAGE = "api/v1/";
 
+    public static final String FACTSHEET_URL = "download_factsheet/";
+    public static final String FACTSHEET_LANGUAGE_PARAM = "lang=";
 
     @GET("loan_listing")
     Observable<List<LoanListItem>> getLoansList();
@@ -42,10 +44,6 @@ public interface APIServices {
     @GET("loan_details/{id}")
     Observable<LoanDetail> getLoanDetail(@Path("id") int id);
 
-    @Streaming
-    @GET("download_factsheet/{id}")
-    Observable<Response<ResponseBody>> getLoanFactSheet(@Path("id") int id,
-                                                        @Query("lang") String lang);
     @GET("member_by_email?")
     Observable<RegisteredMemberCheck> getUserCheck(@Query("email") String email);
 

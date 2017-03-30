@@ -8,12 +8,16 @@ import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.helpers.AccountManagerUtils;
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.view.fragments.LoginFragment;
+
 
 /**
  * Created by cwdsg05 on 9/3/17.
@@ -23,6 +27,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
 
     private static final String LOG_TAG = AccountAuthenticator.class.getSimpleName();
     private final Context mContext;
+    public static final int ERROR_CODE_ONE_ACCOUNT_ALLOWED = 89876;
 
     public AccountAuthenticator(Context context) {
         super(context);
@@ -34,6 +39,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
                              String authTokenType, String[] requiredFeatures, Bundle options) throws NetworkErrorException {
         Log.v(LOG_TAG, "APP: addAccount()");
 
+        //get default first account
         final Intent intent = new Intent(mContext, AuthActivity.class);
         intent.putExtra(AuthActivity.FRAGMENT_CLASS_TAG_CALL, LoginFragment.LOGIN_FRAGMENT_TAG);
         intent.putExtra(AuthActivity.ARG_ACCOUNT_TYPE, accountType);

@@ -59,7 +59,6 @@ public class LearningCenterAdapter extends RecyclerView.Adapter<LearningCenterAd
         ItemLearningCenterBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()),
                 R.layout.item_learning_center, parent, false);
-
         return new ViewHolder(binding);
     }
 

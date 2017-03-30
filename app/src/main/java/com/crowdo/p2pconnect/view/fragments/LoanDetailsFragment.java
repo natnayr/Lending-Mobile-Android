@@ -28,7 +28,6 @@ import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.model.LoanDetail;
 import com.crowdo.p2pconnect.data.client.LoanDetailClient;
-import com.crowdo.p2pconnect.data.client.LoanFactSheetClient;
 import com.crowdo.p2pconnect.model.RegisteredMemberCheck;
 import com.crowdo.p2pconnect.data.client.RegisteredMemberCheckClient;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
@@ -36,9 +35,12 @@ import com.crowdo.p2pconnect.helpers.PerformEmailIdentityCheckTemp;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.viewholders.LoanDetailsViewHolder;
+import com.esafirm.rxdownloader.RxDownloader;
 import com.f2prateek.dart.Dart;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import butterknife.BindColor;
 import butterknife.BindString;
@@ -48,6 +50,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import rx.Subscriber;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -57,8 +60,10 @@ public class LoanDetailsFragment extends Fragment {
     @BindColor(R.color.color_snackbar_teal_A200) int mColorSnackbarTealText;
 
     @BindString(R.string.downloading_label) String mLabelToastDownloading;
+    @BindString(R.string.downloaded_to_label) String mLabelDownloadedTo;
     @BindString(R.string.loan_detail_prog_snackbar_error_reading_pdf) String mLabelSnackPDFReadError;
     @BindString(R.string.intent_file_chooser) String mLabelIntentChooser;
+    @BindString(R.string.unable_open_file_label) String mLabelErrorOpenFile;
     @BindString(R.string.loan_detail_prog_snackbar_bid_too_low_label) String mLabelBidTooLow;
     @BindString(R.string.loan_detail_prog_snackbar_bid_too_high_label) String mLabelBidTooHigh;
     @BindString(R.string.loan_detail_prog_snackbar_approved_investor_only) String mLabelApprovedInvestorOnly;
@@ -201,38 +206,51 @@ public class LoanDetailsFragment extends Fragment {
 
     private void downloadFactSheet(){
 
-        if(PermissionsUtils.checkPermissionOnly(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                && PermissionsUtils.checkPermissionOnly(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
+        if(PermissionsUtils.checkPermissionOnly(getActivity(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                && PermissionsUtils.checkPermissionOnly(getActivity(),
+                Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
             if (initLoanId >= 0) {
-                Toast.makeText(getActivity(),
-                        mLabelToastDownloading, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), mLabelToastDownloading, Toast.LENGTH_SHORT).show();
 
-                LoanFactSheetClient.getInstance(getActivity(), initLoanId)
-                        .getLoanFactSheet()
-                        .subscribe(new Observer<File>() {
+                final String url = APIServices.API_BASE_URL + APIServices.FACTSHEET_URL + initLoanId +
+                        "/?" + APIServices.FACTSHEET_LANGUAGE_PARAM + LocaleHelper.getLanguage(getActivity());
+                final String toFileName = initLoanId + "_factsheet.pdf";
+                Log.d(LOG_TAG, "APP: downloadFactSheet() called [" + url + "] for " + toFileName);
+
+                RxDownloader.getInstance(getActivity())
+                        .download(url, toFileName, ConstantVariables.PDF_CONTENT_TYPE)
+                        .subscribe(new Subscriber<String>() {
                             @Override
-                            public void onSubscribe(Disposable d) {
-
+                            public void onCompleted() {
                             }
 
                             @Override
-                            public void onNext(final File file) {
+                            public void onError(Throwable e) {
+                                Log.e(LOG_TAG, "ERROR: onError " + e.getMessage(), e);
+                            }
+
+                            @Override
+                            public void onNext(final String s) {
+
                                 final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
-                                        file.getName(),
-                                        mColorSnackbarTealText, Snackbar.LENGTH_LONG);
+                                mLabelDownloadedTo + s, mColorSnackbarTealText,
+                                Snackbar.LENGTH_LONG);
 
                                 snackbar.setAction(mLabelOpen, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                                        intent.setDataAndType(Uri.fromFile(file), ConstantVariables.PDF_CONTENT_TYPE);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY
-                                                | Intent.FLAG_ACTIVITY_NEW_TASK
-                                                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        Intent chooserIntent = Intent.createChooser(intent, mLabelIntentChooser);
-
                                         try {
+                                            File downloadedFactsheet = new File(new URI(s));
+
+                                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                                            intent.setDataAndType(Uri.fromFile(downloadedFactsheet),
+                                                    ConstantVariables.PDF_CONTENT_TYPE);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            Intent chooserIntent = Intent.createChooser(intent,
+                                                    mLabelIntentChooser);
+
                                             startActivity(chooserIntent);
                                         } catch (ActivityNotFoundException e) {
                                             Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
@@ -247,20 +265,22 @@ public class LoanDetailsFragment extends Fragment {
                                                 }
                                             });
                                             snackbar.show();
+                                        } catch (URISyntaxException ue){
+                                            Log.e(LOG_TAG, "ERROR: " + ue.getMessage(), ue);
+                                            final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
+                                                    mLabelErrorOpenFile,
+                                                    mColorSnackbarTealText);
+
+                                            snackbar.setAction(mLabelOkay, new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    snackbar.dismiss();
+                                                }
+                                            });
                                         }
                                     }
                                 });
                                 snackbar.show();
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.e(LOG_TAG, "ERROR: onError " + e.getMessage(), e);
-                            }
-
-                            @Override
-                            public void onComplete() {
-                                Log.d(LOG_TAG, "APP: mFactSheetDownloadBtn complete");
                             }
                         });
             }

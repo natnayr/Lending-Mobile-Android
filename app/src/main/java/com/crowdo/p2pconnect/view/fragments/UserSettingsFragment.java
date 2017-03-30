@@ -44,7 +44,7 @@ public class UserSettingsFragment extends PreferenceFragmentCompat
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.preferences);
+        addPreferencesFromResource(R.xml.setting_preferences);
         sharedPreferences = SharedPreferencesUtils.getSharedPref(getActivity());
 
         //load preference on Create
@@ -53,7 +53,8 @@ public class UserSettingsFragment extends PreferenceFragmentCompat
         }
 
 
-        Preference exitSessBtn = findPreference(ConstantVariables.PREF_KEY_USER_LOGOUT);
+        Preference exitSessBtn = findPreference(getActivity()
+                .getString(R.string.pref_user_logout_key));
         exitSessBtn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -112,7 +113,7 @@ public class UserSettingsFragment extends PreferenceFragmentCompat
                 EditTextPreference editTextPreference = (EditTextPreference) pref;
                 pref.setSummary(editTextPreference.getText());
             } else {
-                //for static display preferences
+                //for static display setting_preferences
                 try {
                     Map<String, ?> keys = sharedPreferences.getAll();
                     if(keys.get(pref.getKey()) != null) {

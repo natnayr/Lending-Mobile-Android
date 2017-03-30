@@ -49,9 +49,9 @@
     <string name="pref_user_session_clear_label">Beres</string>
     <string name="proceed_label">Lanjutkan</string>
     <string name="sign_up_label">Daftar</string>
-    <string name="webview_download_to">Unduh ke&#160;</string>
+    <string name="downloaded_to_label">Unduh ke&#160;</string>
     <string name="permissions_no_write_statement">Tidak bisa di masukkan ke drive external</string>
-    <string name="webview_unable_open_file">Error, tidak dapat membuka file</string>
+    <string name="unable_open_file_label">Error, tidak dapat membuka file</string>
     <string name="welcome_btn_label">Mari Mulai</string>
     <string name="welcome_intro_1_body">Personalisasi Investasi Di Gengaman Anda</string>
     <string name="welcome_intro_1_head">Dapatkan Keuntungan Yang Kompetitif</string>
@@ -85,7 +85,7 @@
     <string name="navmenu_label_language">Bahasa</string>
     <string name="pref_label_account">Akun Saya</string>
     <string name="navmenu_label_preferences">Personalisasi</string>
-    <string name="navmenu_label_extras">Ekstra</string>
+    <string name="navmenu_label_links">Ekstra</string>
     <string name="loan_list_action_filter_grades_label">Level&#58;</string>
     <string name="loan_list_action_filter_sec_uncollateralized">Tanpa\nJaminan</string>
     <string name="loan_list_action_filter_term_label">Jangka\nWaktu&#58;</string>

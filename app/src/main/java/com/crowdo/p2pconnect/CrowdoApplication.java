@@ -8,7 +8,6 @@ import android.util.Log;
 
 import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
-import com.crowdo.p2pconnect.view.activities.LaunchActivity;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.view.activities.MainActivity;
@@ -35,7 +34,7 @@ public class CrowdoApplication extends Application{
     public void onCreate() {
         super.onCreate();
         //first thing to do
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        PreferenceManager.setDefaultValues(this, R.xml.setting_preferences, false);
 
         configureRealm(); //set configuration
 

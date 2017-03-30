@@ -43,7 +43,6 @@ import butterknife.ButterKnife;
  */
 public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener{
 
-    @BindView(R.id.welcome_get_started_btn) Button mWelcomeGetStartedButton;
     @BindView(R.id.welcome_login_btn) Button mWelcomeLoginButton;
     @BindView(R.id.welcome_register_btn) Button mWelcomeRegisterButton;
     @BindView(R.id.welcome_pager) ViewPager mViewPager;
@@ -112,17 +111,6 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
             }
         }
 
-        mWelcomeGetStartedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //action
-                Intent intent = new Intent(LaunchActivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                        | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
-            }
-        });
 
         mWelcomeLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,10 +126,6 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
         mWelcomeRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = Henson.with(LaunchActivity.this)
-//                        .gotoAuthActivity()
-//                        .fragmentClass(RegisterFragment.class)
-//                        .build();
                 Intent intent = new Intent(LaunchActivity.this, AuthActivity.class);
                 intent.putExtra(AuthActivity.FRAGMENT_CLASS_TAG_CALL, RegisterFragment.REGISTER_FRAGMENT_TAG);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

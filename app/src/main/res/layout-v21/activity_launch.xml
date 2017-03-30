@@ -54,24 +54,7 @@
         app:tabGravity="center"
         app:tabIndicatorHeight="0dp"/>
 
-    <LinearLayout
-        android:id="@+id/welcome_btn_group_org"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/welcome_btn_group"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
-        <Button
-            android:id="@+id/welcome_get_started_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/welcome_btn_label"
-            android:textSize="@dimen/welcome_btn_text_size"
-            android:textColor="@drawable/welcome_get_started_btn_text_color"
-            android:fontFamily="@string/font_family_regular"
-            android:textAllCaps="true"
-            android:background="@drawable/welcome_get_started_btn_layout" />
-    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/welcome_btn_group"

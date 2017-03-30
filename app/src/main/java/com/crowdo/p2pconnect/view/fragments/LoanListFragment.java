@@ -1,5 +1,10 @@
 package com.crowdo.p2pconnect.view.fragments;
 
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
@@ -23,7 +28,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.helpers.AccountManagerUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
+import com.crowdo.p2pconnect.oauth.AccountGeneral;
 import com.crowdo.p2pconnect.view.activities.Henson;
 import com.crowdo.p2pconnect.model.LoanListItem;
 import com.crowdo.p2pconnect.data.client.LoanListClient;
@@ -31,6 +38,8 @@ import com.crowdo.p2pconnect.view.adapters.LoanListAdapter;
 import com.crowdo.p2pconnect.viewholders.LoanListFilterViewHolder;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
+
+import java.io.IOException;
 import java.util.List;
 
 import butterknife.BindString;
@@ -169,7 +178,6 @@ public class LoanListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        Log.d(LOG_TAG, "APP: inflating SearchView");
         menu.clear();
 
         inflater.inflate(R.menu.menu_search, menu);
@@ -241,6 +249,8 @@ public class LoanListFragment extends Fragment {
     }
 
     private void populateLoansList() {
+        Log.d(LOG_TAG, "APP: populateLoansList()");
+
         LoanListClient.getInstance()
                 .getLiveLoans()
                 .subscribeOn(Schedulers.io())
@@ -270,6 +280,8 @@ public class LoanListFragment extends Fragment {
                         swipeContainer.setRefreshing(false);
                     }
                 });
+
+
     }
 
     private void setSearchExpandedLayoutCollapse(){

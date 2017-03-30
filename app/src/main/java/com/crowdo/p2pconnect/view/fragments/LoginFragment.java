@@ -4,6 +4,7 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -57,8 +58,8 @@ public class LoginFragment extends Fragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.initAccountType = Dart.get(getArguments(), AuthActivity.ARG_ACCOUNT_TYPE);
-        this.initAccountEmail = Dart.get(getArguments(), AuthActivity.ARG_ACCOUNT_EMAIL);
+        this.initAccountType = getArguments().getString(AuthActivity.ARG_ACCOUNT_TYPE);
+        this.initAccountEmail = getArguments().getString(AuthActivity.ARG_ACCOUNT_EMAIL);
     }
 
     @Nullable
@@ -81,16 +82,16 @@ public class LoginFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 // Check if no view has focus:
-                View view = getActivity().getCurrentFocus();
-                if (view != null) {
-                    InputMethodManager imm = (InputMethodManager) getActivity()
-                            .getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
-
                 submit();
             }
         });
+
+        //fill email if passed through
+        if(initAccountEmail != null){
+            if(initAccountEmail.length() > 0){
+                viewHolder.mEmailEditText.setText(initAccountEmail);
+            }
+        }
 
         return rootView;
     }
@@ -180,7 +181,6 @@ public class LoginFragment extends Fragment{
                 Thread.currentThread().interrupt();
             }
 
-            getActivity().finish();
             return;
         }
 
@@ -193,7 +193,7 @@ public class LoginFragment extends Fragment{
                     mColorIconText, mColorAccent).show();
 
             try {
-                data.putString(AccountManager.KEY_ACCOUNT_NAME, email);
+                data.putString(AccountManager.KEY_ACCOUNT_NAME, authResponse.getMember().getEmail());
                 data.putString(AccountManager.KEY_ACCOUNT_TYPE, initAccountType);
                 data.putString(AccountManager.KEY_AUTHTOKEN, authResponse.getAuthToken());
                 data.putString(AccountManager.KEY_PASSWORD, HashingUtils.hashSHA256(passwordToHashKeep));
@@ -208,10 +208,16 @@ public class LoginFragment extends Fragment{
                 return;
             }
 
-            res.putExtras(data);
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    res.putExtras(data);
+                    //finalise auth
+                    ((AuthActivity) getActivity()).finishAuth(res);
+                }
+            }, 1000);
 
-            //finalise auth
-            ((AuthActivity) getActivity()).finishAuth(res);
+
         }
     }
 }
