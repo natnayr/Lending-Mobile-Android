@@ -49,11 +49,10 @@
         android:id="@+id/welcome_pager_tabdots"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/welcome_btn_group_org"
+        android:layout_above="@+id/welcome_btn_group"
         app:tabBackground="@drawable/welcome_pager_tab_selector"
         app:tabGravity="center"
         app:tabIndicatorHeight="0dp"/>
-
 
 
     <LinearLayout

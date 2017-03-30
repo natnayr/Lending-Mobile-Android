@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.AccountManagerUtils;
+import com.crowdo.p2pconnect.helpers.CallBackInterface;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.oauth.AccountAuthenticatorFragmentActivity;
 import com.crowdo.p2pconnect.oauth.AccountGeneral;
@@ -95,48 +96,57 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
         super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 
-    public void finishAuth(Intent intent){
+    public void finishAuth(final Intent intent){
 
         Log.d(LOG_TAG, "APP: finishAuth()");
 
         //remove all other accounts
-        AccountManagerUtils.removeAccounts(this);
+        AccountManagerUtils.removeAccounts(this, new CallBackInterface() {
+            @Override
+            public void eventCallBack() {
+                Bundle extras = intent.getExtras();
 
-        Bundle extras = intent.getExtras();
+                //if not set by activity
+                String accountType = extras.getString(AccountManager.KEY_ACCOUNT_TYPE);
+                if(accountType == null){
+                    accountType = AccountGeneral.getACCOUNT_TYPE(AuthActivity.this);
+                }
 
-        //if not set by activity
-        String accountType = extras.getString(AccountManager.KEY_ACCOUNT_TYPE);
-        if(accountType == null){
-            accountType = AccountGeneral.getACCOUNT_TYPE(this);
-        }
+                Log.d(LOG_TAG, "APP: extras AccountManager.KEY_ACCOUNT_NAME -> " + extras.getString(AccountManager.KEY_ACCOUNT_NAME));
+                Log.d(LOG_TAG, "APP: extras AccountManager.KEY_ACCOUNT_TYPE -> " + accountType);
+                Log.d(LOG_TAG, "APP: extras AccountManager.KEY_PASSWORD -> " + extras.getString(AccountManager.KEY_PASSWORD));
+                Log.d(LOG_TAG, "APP: extras AccountManager.KEY_AUTHTOKEN -> " + extras.getString(AccountManager.KEY_AUTHTOKEN));
 
-        Log.d(LOG_TAG, "APP: extras AccountManager.KEY_ACCOUNT_NAME -> " + extras.getString(AccountManager.KEY_ACCOUNT_NAME));
-        Log.d(LOG_TAG, "APP: extras AccountManager.KEY_ACCOUNT_TYPE -> " + accountType);
-        Log.d(LOG_TAG, "APP: extras AccountManager.KEY_PASSWORD -> " + extras.getString(AccountManager.KEY_PASSWORD));
-        Log.d(LOG_TAG, "APP: extras AccountManager.KEY_AUTHTOKEN -> " + extras.getString(AccountManager.KEY_AUTHTOKEN));
+                String accountName = extras.getString(AccountManager.KEY_ACCOUNT_NAME);
 
-        String accountName = extras.getString(AccountManager.KEY_ACCOUNT_NAME);
+                //Hash Password before storing,
+                final Account account = new Account(accountName, accountType);
+                String accountPasswordHash = extras.getString(AccountManager.KEY_PASSWORD);
+                if(extras.getBoolean(ARG_IS_ADDING_NEW_ACCOUNT, true)){
+                    Log.d(LOG_TAG, "APP: finishAuth() > addAccountExplicitly");
+                    String authToken = extras.getString(AccountManager.KEY_AUTHTOKEN);
+                    String authTokeType = mAuthTokenType;
 
-        //Hash Password before storing,
-        final Account account = new Account(accountName, accountType);
-        String accountPasswordHash = extras.getString(AccountManager.KEY_PASSWORD);
-        if(extras.getBoolean(ARG_IS_ADDING_NEW_ACCOUNT, true)){
-            Log.d(LOG_TAG, "APP: finishAuth() > addAccountExplicitly");
-            String authToken = extras.getString(AccountManager.KEY_AUTHTOKEN);
-            String authTokeType = mAuthTokenType;
+                    // Creating the account on the device and setting the auth token we got
+                    // (Not setting the auth token will cause another call to the server to authenticate the user)
+                    mAccountManager.addAccountExplicitly(account, accountPasswordHash, null);
+                    mAccountManager.setAuthToken(account, authTokeType, authToken);
+                } else {
+                    Log.d(LOG_TAG, "APP: finishAuth() > setPassword");
+                    mAccountManager.setPassword(account, accountPasswordHash);
+                }
 
-            // Creating the account on the device and setting the auth token we got
-            // (Not setting the auth token will cause another call to the server to authenticate the user)
-            mAccountManager.addAccountExplicitly(account, accountPasswordHash, null);
-            mAccountManager.setAuthToken(account, authTokeType, authToken);
-        } else {
-            Log.d(LOG_TAG, "APP: finishAuth() > setPassword");
-            mAccountManager.setPassword(account, accountPasswordHash);
-        }
+                setAccountAuthenticatorResult(extras);
+                setResult(RESULT_OK, intent);
 
-        setAccountAuthenticatorResult(extras);
-        setResult(RESULT_OK, intent);
-        finish(); //carry on with either AccountManager or In-App Login
+                Intent resetIntent = new Intent(AuthActivity.this, MainActivity.class);
+                resetIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(resetIntent);
+                AuthActivity.this.finish(); //carry on with either AccountManager or In-App Login
+            }
+        });
+
+
     }
 
     @Override

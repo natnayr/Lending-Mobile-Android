@@ -81,7 +81,6 @@ public class LoginFragment extends Fragment{
         viewHolder.mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Check if no view has focus:
                 submit();
             }
         });
@@ -99,6 +98,14 @@ public class LoginFragment extends Fragment{
     private void submit(){
         final String inputEmail = viewHolder.mEmailEditText.getText().toString().toLowerCase().trim();
         final String inputPassword = viewHolder.mPasswdEditText.getText().toString();
+
+        //hide keyboard
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
 
         //fix emailbox for user
         if(!inputEmail.equals(viewHolder.mEmailEditText.getText().toString())){

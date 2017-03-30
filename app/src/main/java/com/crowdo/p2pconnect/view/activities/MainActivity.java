@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.helpers.AccountManagerUtils;
+import com.crowdo.p2pconnect.helpers.CallBackInterface;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.TypefaceUtils;
@@ -194,6 +195,7 @@ public class MainActivity extends AppCompatActivity{
                                     break;
 
                                 case DRAWER_SELECT_LOGOUT:
+                                    actionLogout();
                                     break;
                                 default:
                                     return false; //default close
@@ -327,19 +329,29 @@ public class MainActivity extends AppCompatActivity{
                         }
                     }, null);
         }else{
-            //Call LaunchActivity to Welcome & Authenticate
-            Intent intent = new Intent(this, LaunchActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                    | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
+            goToMainActivity();
         }
+    }
+
+    private void goToMainActivity(){
+        //Call LaunchActivity to Welcome & Authenticate
+        Intent intent = new Intent(this, LaunchActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
     private void actionLogout(){
         Log.d(LOG_TAG, "APP: actionLogout()");
-        AccountManagerUtils.removeAccounts(this);
-        getExisitingAccountAuthTokenOrAuth();
+
+        AccountManagerUtils.removeAccounts(this, new CallBackInterface(){
+            @Override
+            public void eventCallBack() {
+                goToMainActivity();
+            }
+        });
     }
+
 
 }

@@ -15,18 +15,18 @@ public class AccountManagerUtils {
 
     public static final String LOG_TAG = AccountManagerUtils.class.getSimpleName();
 
-    public static void removeAccounts(Activity activity){
+    public static void removeAccounts(Activity activity, final CallBackInterface callBackUtil){
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
             AccountManager am = AccountManager.get(activity);
             Account[] accounts = am.getAccountsByType(AccountGeneral.getACCOUNT_TYPE(activity));
 
-            if (accounts.length == 0) return;
-
             for (Account acc : accounts) {
                 am.removeAccount(acc, activity, null, null);
             }
         }
+
+        callBackUtil.eventCallBack();
     }
 
 }
