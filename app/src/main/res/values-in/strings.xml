@@ -85,7 +85,6 @@
     <string name="navmenu_label_language">Bahasa</string>
     <string name="pref_label_account">Akun Saya</string>
     <string name="navmenu_label_preferences">Personalisasi</string>
-    <string name="navmenu_label_links">Ekstra</string>
     <string name="loan_list_action_filter_grades_label">Level&#58;</string>
     <string name="loan_list_action_filter_sec_uncollateralized">Tanpa\nJaminan</string>
     <string name="loan_list_action_filter_term_label">Jangka\nWaktu&#58;</string>

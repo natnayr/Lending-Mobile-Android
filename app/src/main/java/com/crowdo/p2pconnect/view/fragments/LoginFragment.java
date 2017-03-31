@@ -1,7 +1,6 @@
 package com.crowdo.p2pconnect.view.fragments;
 
 import android.accounts.AccountManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.client.AuthClient;
@@ -21,11 +19,12 @@ import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HashingUtils;
 import com.crowdo.p2pconnect.helpers.RegexValidationUtil;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
-import com.crowdo.p2pconnect.helpers.HTTPStatusCodeUtil;
+import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
+import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.viewholders.LoginViewHolder;
-import com.f2prateek.dart.Dart;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindColor;
@@ -45,15 +44,17 @@ public class LoginFragment extends Fragment{
 
     @BindString(R.string.auth_http_error_message) String mHttpErrorServerMessage;
     @BindString(R.string.auth_http_handling_message) String mHttpErrorHandlingMessage;
+    @BindString(R.string.auth_email_incorrect_format) String mEmailIncorrectFormatMessage;
+    @BindString(R.string.auth_email_not_valid) String mEmailInvalidPrompt;
     @BindColor(R.color.color_accent) int mColorAccent;
     @BindColor(R.color.color_icons_text) int mColorIconText;
     @BindColor(R.color.color_primary_700) int mColorPrimaryDark;
     private static final String LOG_TAG = LoginFragment.class.getSimpleName();
     public static final String LOGIN_FRAGMENT_TAG = "LOGIN_FRAGMENT_TAG";
+    private LoginViewHolder viewHolder;
 
     private String initAccountType;
     private String initAccountEmail;
-    private LoginViewHolder viewHolder;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,14 +72,14 @@ public class LoginFragment extends Fragment{
         viewHolder = new LoginViewHolder(rootView, getActivity());
         viewHolder.initView();
 
-        viewHolder.mExitImageButton.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mLoginExitImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().finish();
             }
         });
 
-        viewHolder.mSubmitButton.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mLoginSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 submit();
@@ -88,7 +89,7 @@ public class LoginFragment extends Fragment{
         //fill email if passed through
         if(initAccountEmail != null){
             if(initAccountEmail.length() > 0){
-                viewHolder.mEmailEditText.setText(initAccountEmail);
+                viewHolder.mLoginEmailEditText.setText(initAccountEmail);
             }
         }
 
@@ -96,28 +97,24 @@ public class LoginFragment extends Fragment{
     }
 
     private void submit(){
-        final String inputEmail = viewHolder.mEmailEditText.getText().toString().toLowerCase().trim();
-        final String inputPassword = viewHolder.mPasswdEditText.getText().toString();
+        final String inputEmail = viewHolder.mLoginEmailEditText.getText().toString().toLowerCase().trim();
+        final String inputPassword = viewHolder.mLoginPasswdEditText.getText().toString();
 
         //hide keyboard
-        View view = getActivity().getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getActivity()
-                    .getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
+        SoftInputHelper.hideSoftKeyboard(getActivity());
 
         //fix emailbox for user
-        if(!inputEmail.equals(viewHolder.mEmailEditText.getText().toString())){
-            viewHolder.mEmailEditText.setText(inputEmail);
+        if(!inputEmail.equals(viewHolder.mLoginEmailEditText.getText().toString())){
+            viewHolder.mLoginEmailEditText.setText(inputEmail);
         }
 
         //local incorrect email check
-        if(!RegexValidationUtil.isValidEmailID(inputEmail)){
+        if(!RegexValidationUtil.isValidEmailFormat(inputEmail)){
             final Snackbar snack = SnackBarUtil.snackBarForAuthCreate(getView(),
-                    "Email in Incorrect Format", Snackbar.LENGTH_SHORT,
+                    mEmailIncorrectFormatMessage, Snackbar.LENGTH_SHORT,
                     mColorIconText, mColorPrimaryDark);
             snack.show();
+            viewHolder.mLoginEmailEditText.setError(mEmailInvalidPrompt);
             return;
         }
 
@@ -146,6 +143,10 @@ public class LoginFragment extends Fragment{
                     public void onError(Throwable e) {
                         e.printStackTrace();
                         Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                        SnackBarUtil.snackBarForAuthCreate(getView(),
+                                "error: " + e.getMessage(),
+                                Snackbar.LENGTH_SHORT,
+                                mColorIconText, mColorPrimaryDark).show();
                     }
 
                     @Override
@@ -157,18 +158,25 @@ public class LoginFragment extends Fragment{
     }
 
     private void handleResult(Response<AuthResponse> response){
-        final String email = viewHolder.mEmailEditText.getText().toString().toLowerCase().trim();
-        final String passwordToHashKeep = viewHolder.mPasswdEditText.getText().toString();
+        final String email = viewHolder.mLoginEmailEditText.getText().toString().toLowerCase().trim();
+        final String passwordToHashKeep = viewHolder.mLoginPasswdEditText.getText().toString();
         final Bundle data = new Bundle();
         final Intent res = new Intent();
 
         //check response
         if(!response.isSuccessful()){
-            final Snackbar snack = SnackBarUtil.snackBarForAuthCreate(getView(),
-                    "Error: " + response.errorBody(),
+            String errorBody = "error: http response error";
+            try {
+                errorBody = "error: " + response.errorBody().string();
+            }catch (IOException e){
+                e.printStackTrace();
+                Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+            }
+            SnackBarUtil.snackBarForAuthCreate(getView(),
+                    errorBody,
                     Snackbar.LENGTH_SHORT,
-                    mColorIconText, mColorPrimaryDark);
-            snack.show();
+                    mColorIconText, mColorPrimaryDark).show();
+            Log.e(LOG_TAG, "ERROR: " + response.errorBody().toString());
             //TODO: do more error handling in future..
             return;
         }
@@ -176,7 +184,7 @@ public class LoginFragment extends Fragment{
         AuthResponse authResponse = response.body();
 
         //failed login response from server
-        if(HTTPStatusCodeUtil.check4xxClientError(authResponse.getStatus())){
+        if(HTTPResponseUtils.check4xxClientError(authResponse.getStatus())){
             SnackBarUtil.snackBarForAuthCreate(getView(),
                     authResponse.getMessage(),
                     Snackbar.LENGTH_SHORT,
@@ -192,7 +200,7 @@ public class LoginFragment extends Fragment{
         }
 
         //success login
-        if(HTTPStatusCodeUtil.check2xxSuccess(authResponse.getStatus())){
+        if(HTTPResponseUtils.check2xxSuccess(authResponse.getStatus())){
             //show success
             SnackBarUtil.snackBarForAuthCreate(getView(),
                     authResponse.getMessage(),

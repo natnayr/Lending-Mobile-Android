@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -21,6 +20,7 @@ import android.widget.TextView;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.custom_ui.GoalProgressBar;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
+import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.model.LoanDetail;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.DateUtils;
@@ -162,17 +162,14 @@ public class LoanDetailsViewHolder {
         //toClear focus of editext
         mLoanDetailRelativeLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public boolean onTouch(View view, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     //map touch to edittext
                     if (mEnterAmount.isFocused()) {
                         Rect outRect = new Rect();
                         mEnterAmount.getGlobalVisibleRect(outRect);
                         if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
-                            mEnterAmount.clearFocus();
-                            InputMethodManager imm = (InputMethodManager)
-                                    v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                            SoftInputHelper.hideSoftKeyboardOfView(mEnterAmount, view);
                         }
                     }
                 }
@@ -183,16 +180,13 @@ public class LoanDetailsViewHolder {
         //toClear focus when press keypad enter
         mEnterAmount.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public boolean onKey(View v, int key, KeyEvent event) {
+            public boolean onKey(View view, int key, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     switch (key) {
                         case KeyEvent.KEYCODE_DPAD_CENTER:
                         case KeyEvent.KEYCODE_ENTER:
                         case KeyEvent.KEYCODE_NUMPAD_ENTER:
-                            mEnterAmount.clearFocus();
-                            InputMethodManager imm = (InputMethodManager)
-                                    v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                            SoftInputHelper.hideSoftKeyboardOfView(mEnterAmount, view);
                         default:
                             break;
                     }

@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:hint="Choose Name"
+                android:hint="Name"
                 android:textSize="@dimen/auth_field_text_size"
                 android:maxLines="1"
                 android:drawablePadding="@dimen/auth_field_drawable_padding"/>

@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity{
                                             .withName(R.string.language_bahasa_label).withLevel(2)
                                             .withSelectable(false)
                                 ),
-                        new SectionDrawerItem().withName(R.string.navmenu_label_links),
+                        new SectionDrawerItem().withName(R.string.navmenu_label_actions),
                         new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_TOP_UP_WALLET)
                                 .withName(R.string.toolbar_title_top_up_wallet)
                                 .withIcon(CommunityMaterial.Icon.cmd_wallet)

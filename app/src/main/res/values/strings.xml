@@ -2,7 +2,7 @@
     <string name="app_name" translatable="false">Crowdo Connect</string>
     <string name="app_name_welcome" translatable="false">connect</string>
 
-    <string name="navmenu_label_links">Links</string>
+    <string name="navmenu_label_actions">Actions</string>
     <string name="navmenu_label_preferences">Preferences</string>
     <string name="navmenu_label_language">Language</string>
 
@@ -151,6 +151,14 @@
     <string name="loan_detail_enter_amount_hint_error_positive">Non-Negative Values only please</string>
 
     <!-- Authentication Messages -->
+    <string name="auth_email_incorrect_format">Email in Incorrect Format</string>
+    <string name="auth_email_not_valid">You have specified an invalid email address</string>
+    <string name="auth_password_incorrect_format">Password in Incorrect Format</string>
+    <string name="auth_password_too_short">Password must be at least 8 characters long</string>
+    <string name="auth_password_incorrect_match">Passwords do not match</string>
+    <string name="auth_password_do_not_match">doesn\'t match Password</string>
+
+
     <string name="auth_invalid_token">Invalid token detected</string>
     <string name="auth_http_error_message">Sorry, Unexpected server error occurred</string>
     <string name="auth_http_handling_message">Sorry, Unexpected handling error occurred</string>

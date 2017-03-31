@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -176,16 +175,13 @@ public class LearningCenterFragment extends Fragment{
 
         mSearchInput.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public boolean onKey(View v, int key, KeyEvent event) {
+            public boolean onKey(View view, int key, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     switch (key) {
                         case KeyEvent.KEYCODE_DPAD_CENTER:
                         case KeyEvent.KEYCODE_ENTER:
                         case KeyEvent.KEYCODE_NUMPAD_ENTER:
-                            mSearchInput.clearFocus();
-                            InputMethodManager imm = (InputMethodManager)
-                                    v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                            SoftInputHelper.hideSoftKeyboardOfView(view,view);
                         default:
                             break;
                     }

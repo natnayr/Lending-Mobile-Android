@@ -1,6 +1,7 @@
 package com.crowdo.p2pconnect.helpers;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,13 @@ public class SoftInputHelper {
             inputMethodManager.hideSoftInputFromWindow(
                     activity.getCurrentFocus().getWindowToken(), 0);
         }
+    }
+
+    public static void hideSoftKeyboardOfView(View toClear, View view){
+        toClear.clearFocus();
+        InputMethodManager imm = (InputMethodManager)
+                view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     public static void setupUI(View view, final Activity activity, final EditText[] editTextToDefocus) {

@@ -61,7 +61,8 @@ public class AuthClient {
     }
 
     public Observable<Response<AuthResponse>> registerUser(String email, String name, String password,
-                                                           String passwordConfirmation, String localePreference, String deviceId) {
+                                                           String passwordConfirmation, String localePreference,
+                                                           String deviceId) {
         return apiServices.postRegisterUser(new RegisterRequest(name, email, password,
                 passwordConfirmation, localePreference, deviceId));
     }

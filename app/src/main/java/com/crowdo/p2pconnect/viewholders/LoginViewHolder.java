@@ -1,7 +1,6 @@
 package com.crowdo.p2pconnect.viewholders;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,7 +10,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.view.fragments.LoginFragment;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
@@ -24,10 +22,10 @@ import butterknife.ButterKnife;
 
 public class LoginViewHolder {
 
-    @BindView(R.id.auth_login_email_edittext) public AppCompatEditText mEmailEditText;
-    @BindView(R.id.auth_login_password_edittext) public AppCompatEditText mPasswdEditText;
-    @BindView(R.id.auth_login_exit_btn) public ImageButton mExitImageButton;
-    @BindView(R.id.auth_login_submit_btn) public LinearLayout mSubmitButton;
+    @BindView(R.id.auth_login_email_edittext) public AppCompatEditText mLoginEmailEditText;
+    @BindView(R.id.auth_login_password_edittext) public AppCompatEditText mLoginPasswdEditText;
+    @BindView(R.id.auth_login_exit_btn) public ImageButton mLoginExitImageButton;
+    @BindView(R.id.auth_login_submit_btn) public LinearLayout mLoginSubmitButton;
 
     private static final String LOG_TAG = LoginViewHolder.class.getSimpleName();
     private Context mContext;
@@ -38,30 +36,30 @@ public class LoginViewHolder {
     }
 
     public void initView(){
-        mSubmitButton.setEnabled(false); //init
+        mLoginSubmitButton.setEnabled(false); //init
 
-        mEmailEditText.setCompoundDrawables(
+        mLoginEmailEditText.setCompoundDrawables(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_account)
                         .colorRes(R.color.color_secondary_text)
                         .sizeRes(R.dimen.auth_field_drawable_icon_size),
                 null, null, null);
 
-        mPasswdEditText.setCompoundDrawables(
+        mLoginPasswdEditText.setCompoundDrawables(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_lock)
                         .colorRes(R.color.color_secondary_text)
                         .sizeRes(R.dimen.auth_field_drawable_icon_size),
                 null, null, null);
 
-        mExitImageButton.setImageDrawable(
+        mLoginExitImageButton.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_close)
                         .sizeRes(R.dimen.auth_btn_drawable_close_icon_size));
 
-        mEmailEditText.addTextChangedListener(new SubmitEnablerTextWatcher(new EditText[]{mEmailEditText, mPasswdEditText}, mSubmitButton));
+        mLoginEmailEditText.addTextChangedListener(new SubmitEnablerTextWatcher(new EditText[]{mLoginEmailEditText, mLoginPasswdEditText}, mLoginSubmitButton));
 
-        mPasswdEditText.addTextChangedListener(new SubmitEnablerTextWatcher(new EditText[]{mEmailEditText, mPasswdEditText}, mSubmitButton));
+        mLoginPasswdEditText.addTextChangedListener(new SubmitEnablerTextWatcher(new EditText[]{mLoginEmailEditText, mLoginPasswdEditText}, mLoginSubmitButton));
 
     }
 
