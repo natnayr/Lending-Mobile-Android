@@ -1,6 +1,9 @@
 package com.crowdo.p2pconnect.view.fragments;
 
+import android.accounts.AccountManager;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -13,12 +16,17 @@ import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.client.AuthClient;
 import com.crowdo.p2pconnect.data.response.AuthResponse;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
+import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
+import com.crowdo.p2pconnect.helpers.HashingUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.RegexValidationUtil;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.viewholders.RegisterViewHolder;
+
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindColor;
 import butterknife.BindString;
@@ -51,23 +59,18 @@ public class RegisterFragment extends Fragment{
 
     private static final String LOG_TAG = RegisterFragment.class.getSimpleName();
     public static final String REGISTER_FRAGMENT_TAG = "REGISTER_FRAGMENT_TAG";
+    private static final int TIME_DELAY_FOR_SUCESS_TRANSFER = 1000;
+
     private RegisterViewHolder viewHolder;
     private Disposable disposableRegisterUser;
     private String initAccountType;
+    private String mPasswordHash;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.initAccountType = getArguments().getString(AuthActivity.ARG_ACCOUNT_TYPE);
-
-    }
-
-    @Override
-    public void onDestroy() {
-        if(!disposableRegisterUser.isDisposed()) {
-            disposableRegisterUser.dispose();
-        }
-        super.onDestroy();
     }
 
     @Nullable
@@ -100,6 +103,16 @@ public class RegisterFragment extends Fragment{
         return rootView;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(disposableRegisterUser != null){
+            if(!disposableRegisterUser.isDisposed()) {
+                disposableRegisterUser.dispose();
+            }
+        }
+    }
+
     private void submit() {
         final String inputEmail = viewHolder.mRegisterEmailEditText.getText().toString().toLowerCase().trim();
         final String inputName = viewHolder.mRegisterNameEditText.getText().toString().trim();
@@ -130,13 +143,16 @@ public class RegisterFragment extends Fragment{
         }
 
         //check if they match each other
-        if (inputPassword.equals(inputConfirmPassword)){
+        if (!inputPassword.equals(inputConfirmPassword)){
             SnackBarUtil.snackBarForAuthCreate(getView(),
                     mPasswordIncorrectMatchMessage, Snackbar.LENGTH_SHORT,
                     mColorIconText, mColorPrimaryDark).show();
             viewHolder.mRegisterConfirmPasswdEditText.setError(mPasswordDoNotMatchPrompt);
             return;
         }
+
+        //store password
+        mPasswordHash = HashingUtils.hashSHA256(inputPassword);
 
         AuthClient.getInstance()
                 .registerUser(inputEmail, inputName, inputPassword, inputConfirmPassword,
@@ -147,7 +163,7 @@ public class RegisterFragment extends Fragment{
                 .subscribe(new Observer<Response<AuthResponse>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-                        RegisterFragment.this.disposableRegisterUser = d;
+                        disposableRegisterUser = d;
                     }
 
                     @Override
@@ -156,6 +172,7 @@ public class RegisterFragment extends Fragment{
                                 + " http-code:" + response.code()
                                 + ", http-body: {" + response.body().toString() + "}");
 
+                        handleResult(response);
                     }
 
                     @Override
@@ -171,11 +188,85 @@ public class RegisterFragment extends Fragment{
                     @Override
                     public void onComplete() {
                         Log.d(LOG_TAG, "APP: onCompleted reached for AuthClient.registerUser()");
+
                     }
                 });
 
-
     }
 
+    private void handleResult(Response<AuthResponse> response){
+        final Bundle data = new Bundle();
+        final Intent res = new Intent();
 
+        //check response
+        if(!response.isSuccessful()){
+            String errorBody = "error: http response error";
+            try {
+                errorBody = "error: " + response.errorBody().string();
+            }catch (IOException e){
+                e.printStackTrace();
+                Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+            }
+            SnackBarUtil.snackBarForAuthCreate(getView(),
+                    errorBody,
+                    Snackbar.LENGTH_SHORT,
+                    mColorIconText, mColorPrimaryDark).show();
+            Log.e(LOG_TAG, "ERROR: " + response.errorBody().toString());
+            //TODO: do more error handling in future..
+            return;
+        }
+
+        AuthResponse authResponse = response.body();
+
+        //failed login response from server
+        if(HTTPResponseUtils.check4xxClientError(authResponse.getStatus())){
+            SnackBarUtil.snackBarForAuthCreate(getView(),
+                    authResponse.getMessage(),
+                    Snackbar.LENGTH_SHORT,
+                    mColorIconText, mColorAccent).show();
+
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+
+            return;
+        }
+
+        //success register
+        if(HTTPResponseUtils.check2xxSuccess(authResponse.getStatus())){
+            //show success
+            SnackBarUtil.snackBarForAuthCreate(getView(),
+                    authResponse.getMessage(),
+                    Snackbar.LENGTH_SHORT,
+                    mColorIconText, mColorAccent).show();
+
+            try {
+                data.putString(AccountManager.KEY_ACCOUNT_NAME, authResponse.getMember().getEmail());
+                data.putString(AccountManager.KEY_ACCOUNT_TYPE, initAccountType);
+                data.putString(AccountManager.KEY_AUTHTOKEN, authResponse.getAuthToken());
+                data.putString(AccountManager.KEY_PASSWORD, mPasswordHash);
+
+            }catch(Exception e){
+                SnackBarUtil.snackBarForAuthCreate(getView(),
+                        mHttpErrorHandlingMessage + "\n" + e.getMessage(),
+                        Snackbar.LENGTH_SHORT,
+                        mColorIconText, mColorPrimaryDark).show();
+                e.printStackTrace();
+                Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                return;
+            }
+
+            //wait to end, and pass to finishAuth to end
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    res.putExtras(data);
+                    //finalise auth
+                    ((AuthActivity) getActivity()).finishAuth(res);
+                }
+            }, TIME_DELAY_FOR_SUCESS_TRANSFER);
+        }
+    }
 }

@@ -151,12 +151,12 @@
     <string name="loan_detail_enter_amount_hint_error_positive">Non-Negative Values only please</string>
 
     <!-- Authentication Messages -->
-    <string name="auth_email_incorrect_format">Email in Incorrect Format</string>
+    <string name="auth_email_incorrect_format">Email in incorrect format</string>
     <string name="auth_email_not_valid">You have specified an invalid email address</string>
-    <string name="auth_password_incorrect_format">Password in Incorrect Format</string>
+    <string name="auth_password_incorrect_format">Password is too short</string>
     <string name="auth_password_too_short">Password must be at least 8 characters long</string>
     <string name="auth_password_incorrect_match">Passwords do not match</string>
-    <string name="auth_password_do_not_match">doesn\'t match Password</string>
+    <string name="auth_password_do_not_match">Doesn\'t match Password</string>
 
 
     <string name="auth_invalid_token">Invalid token detected</string>

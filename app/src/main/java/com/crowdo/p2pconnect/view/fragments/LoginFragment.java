@@ -49,12 +49,16 @@ public class LoginFragment extends Fragment{
     @BindColor(R.color.color_accent) int mColorAccent;
     @BindColor(R.color.color_icons_text) int mColorIconText;
     @BindColor(R.color.color_primary_700) int mColorPrimaryDark;
+
     private static final String LOG_TAG = LoginFragment.class.getSimpleName();
     public static final String LOGIN_FRAGMENT_TAG = "LOGIN_FRAGMENT_TAG";
-    private LoginViewHolder viewHolder;
+    private static final int TIME_DELAY_FOR_SUCESS_TRANSFER = 1000;
 
+    private LoginViewHolder viewHolder;
+    private Disposable disposableLoginUser;
     private String initAccountType;
     private String initAccountEmail;
+    private String mPasswordHash;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,6 +100,16 @@ public class LoginFragment extends Fragment{
         return rootView;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(disposableLoginUser != null){
+            if(!disposableLoginUser.isDisposed()) {
+                disposableLoginUser.dispose();
+            }
+        }
+    }
+
     private void submit(){
         final String inputEmail = viewHolder.mLoginEmailEditText.getText().toString().toLowerCase().trim();
         final String inputPassword = viewHolder.mLoginPasswdEditText.getText().toString();
@@ -118,6 +132,9 @@ public class LoginFragment extends Fragment{
             return;
         }
 
+        //store password
+        mPasswordHash = HashingUtils.hashSHA256(inputPassword);
+
         //do just http
         AuthClient.getInstance()
                 .loginUser(inputEmail, inputPassword,
@@ -127,7 +144,7 @@ public class LoginFragment extends Fragment{
                 .subscribe(new Observer<Response<AuthResponse>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        disposableLoginUser = d;
                     }
 
                     @Override
@@ -158,7 +175,6 @@ public class LoginFragment extends Fragment{
     }
 
     private void handleResult(Response<AuthResponse> response){
-        final String email = viewHolder.mLoginEmailEditText.getText().toString().toLowerCase().trim();
         final String passwordToHashKeep = viewHolder.mLoginPasswdEditText.getText().toString();
         final Bundle data = new Bundle();
         final Intent res = new Intent();
@@ -223,6 +239,7 @@ public class LoginFragment extends Fragment{
                 return;
             }
 
+            //wait to end, and pass to finishAuth to end
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 public void run() {
@@ -230,7 +247,7 @@ public class LoginFragment extends Fragment{
                     //finalise auth
                     ((AuthActivity) getActivity()).finishAuth(res);
                 }
-            }, 1000);
+            }, TIME_DELAY_FOR_SUCESS_TRANSFER);
 
 
         }

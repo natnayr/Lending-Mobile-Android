@@ -83,6 +83,8 @@ public class LoanDetailsViewHolder {
     @BindString(R.string.loan_detail_out_sec_personal_guarantee) String mOutSecPersonalGuarantee;
     @BindString(R.string.loan_detail_progress_description_tail_label) String mProgressDescriptionTail;
 
+    @BindDrawable(R.drawable.ic_decagram_outline_black_38dp) Drawable mDecagramDrawable;
+
     // color
     @BindColor(R.color.color_icon_shield) int mShieldColor;
     @BindColor(R.color.color_icon_file_text) int mFileColor;
@@ -260,16 +262,14 @@ public class LoanDetailsViewHolder {
                     break;
                 case ConstantVariables.IN_SEC_INVOICE_OR_CHEQUE:
                     mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
-                            .icon(CommunityMaterial.Icon.cmd_file_document)
+                            .icon(CommunityMaterial.Icon.cmd_file_outline)
                             .sizeRes(R.dimen.loan_detail_security_icon_size));
                     mSecurityIcon.setColorFilter(mFileColor);
                     mSecurityDescription.setText(mOutSecInvoiceOrCheque);
                     mSecurityIcon.setContentDescription(mOutSecInvoiceOrCheque);
                     break;
                 case ConstantVariables.IN_SEC_PERSONAL_GUARANTEE:
-                    mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
-                            .icon(CommunityMaterial.Icon.cmd_seal)
-                            .sizeRes(R.dimen.loan_detail_security_icon_size));
+                    mSecurityIcon.setImageDrawable(mDecagramDrawable);
                     mSecurityIcon.setColorFilter(mSealColor);
                     mSecurityDescription.setText(mOutSecPersonalGuarantee);
                     mSecurityIcon.setContentDescription(mOutSecPersonalGuarantee);

@@ -1,6 +1,7 @@
 package com.crowdo.p2pconnect.viewholders;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ import com.mikepenz.iconics.IconicsDrawable;
 import org.apache.commons.lang3.text.WordUtils;
 
 import butterknife.BindColor;
+import butterknife.BindDrawable;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,6 +54,8 @@ public class LoanListViewHolder {
     @BindColor(R.color.color_icon_unlock_alt) int mLockOpenColor;
     @BindColor(R.color.color_icon_decagram) int mSealColor;
     @BindColor(R.color.color_divider) int mDividerColor;
+
+    @BindDrawable(R.drawable.ic_decagram_outline_black_38dp) Drawable mDecagramDrawable;
 
     @BindString(R.string.loan_list_bid_status_closed) String mBidStatusClosedLabel;
     @BindString(R.string.loan_list_bid_status_open) String mBidStatusOpenDaysLabel;
@@ -127,7 +131,7 @@ public class LoanListViewHolder {
                 break;
             case ConstantVariables.IN_SEC_INVOICE_OR_CHEQUE:
                 mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
-                        .icon(CommunityMaterial.Icon.cmd_file_document)
+                        .icon(CommunityMaterial.Icon.cmd_file_outline)
                         .sizeRes(R.dimen.loan_detail_security_icon_size));
                 mSecurityIcon.setColorFilter(mFileColor);
                 mSecurityDescription.setText(
@@ -136,9 +140,7 @@ public class LoanListViewHolder {
                         mOutSecurityInvoiceOrChequeLabel);
                 break;
             case ConstantVariables.IN_SEC_PERSONAL_GUARANTEE:
-                mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
-                        .icon(CommunityMaterial.Icon.cmd_seal)
-                        .sizeRes(R.dimen.loan_detail_security_icon_size));
+                mSecurityIcon.setImageDrawable(mDecagramDrawable);
                 mSecurityIcon.setColorFilter(mSealColor);
                 mSecurityDescription.setText(
                         mOutSecurityPersonalGuarantee);
