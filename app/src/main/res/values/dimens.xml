@@ -3,10 +3,10 @@
     <dimen name="activity_horizontal_padding">8dp</dimen>
     <dimen name="activity_vertical_padding">8dp</dimen>
 
-    <dimen name="welcome_btn_radius_corner_width">0dip</dimen>
-    <dimen name="welcome_btn_stoke_width">2dip</dimen>
-    <dimen name="welcome_btn_padding">12dip</dimen>
-    <dimen name="welcome_btn_btm_margin">40dip</dimen>
+    <dimen name="welcome_btn_radius_corner_width">0dp</dimen>
+    <dimen name="welcome_btn_stoke_width">2dp</dimen>
+    <dimen name="welcome_btn_padding">12dp</dimen>
+    <dimen name="welcome_btn_btm_margin">40dp</dimen>
     <dimen name="welcome_btn_text_size">20sp</dimen>
 
     <dimen name="welcome_tab_horizontal_margin">24dp</dimen>
@@ -20,11 +20,11 @@
     <dimen name="auth_field_text_size">14sp</dimen>
     <dimen name="auth_field_drawable_padding">8dp</dimen>
     <dimen name="auth_field_drawable_icon_size">16dp</dimen>
-    <dimen name="auth_btn_padding_top">2dip</dimen>
-    <dimen name="auth_btn_padding_btm">2dip</dimen>
-    <dimen name="auth_btn_padding_left">0dip</dimen>
-    <dimen name="auth_btn_padding_right">0dip</dimen>
-    <dimen name="auth_btn_corner_width">2dip</dimen>
+    <dimen name="auth_btn_padding_top">2dp</dimen>
+    <dimen name="auth_btn_padding_btm">2dp</dimen>
+    <dimen name="auth_btn_padding_left">0dp</dimen>
+    <dimen name="auth_btn_padding_right">0dp</dimen>
+    <dimen name="auth_btn_corner_width">2dp</dimen>
     <dimen name="auth_btn_drawable_close_icon_size">16dp</dimen>
     <dimen name="auth_btn_drawable_padding">15dp</dimen>
 
@@ -66,20 +66,19 @@
     <dimen name="loan_detail_progress_margin_end">8dp</dimen>
     <dimen name="loan_detail_duration_spacing">10dp</dimen>
     <dimen name="loan_detail_duration_word_spacing">10dp</dimen>
-    <dimen name="loan_detail_btn_padding_top">6dip</dimen>
-    <dimen name="loan_detail_btn_padding_btm">6dip</dimen>
-    <dimen name="loan_detail_btn_padding_left">4dip</dimen>
-    <dimen name="loan_detail_btn_padding_right">4dip</dimen>
-    <dimen name="loan_detail_enter_amount_stroke_width">1dip</dimen>
-    <dimen name="loan_detail_enter_amount_radius_round_width">7dip</dimen>
-    <dimen name="loan_detail_enter_amount_radius_corner_width">0dip</dimen>
-    <dimen name="loan_detail_enter_amount_padding">0dip</dimen>
+    <dimen name="loan_detail_btn_padding_top">6dp</dimen>
+    <dimen name="loan_detail_btn_padding_btm">6dp</dimen>
+    <dimen name="loan_detail_btn_padding_left">4dp</dimen>
+    <dimen name="loan_detail_btn_padding_right">4dp</dimen>
+    <dimen name="loan_detail_enter_amount_stroke_width">1dp</dimen>
+    <dimen name="loan_detail_enter_amount_radius_round_width">7dp</dimen>
+    <dimen name="loan_detail_enter_amount_radius_corner_width">0dp</dimen>
+    <dimen name="loan_detail_enter_amount_padding">0dp</dimen>
     <dimen name="loan_detail_schedule_margin_left">7dp</dimen>
-    <dimen name="loan_detail_schedule_radius_round_width">5dip</dimen>
-    <dimen name="loan_detail_schedule_radius_corner_width">0dip</dimen>
+    <dimen name="loan_detail_schedule_radius_round_width">5dp</dimen>
+    <dimen name="loan_detail_schedule_radius_corner_width">0dp</dimen>
     <dimen name="loan_detail_schedule_box_vertical_padding">4dp</dimen>
     <dimen name="loan_detail_schedule_box_horizontal_padding">4dp</dimen>
-
     <dimen name="loan_detail_avalible_amount_margin_left">10dp</dimen>
 
     <dimen name="learning_center_categories_margin">5dp</dimen>

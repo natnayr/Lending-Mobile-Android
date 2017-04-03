@@ -1,4 +1,4 @@
-package com.crowdo.p2pconnect.data.response;
+package com.crowdo.p2pconnect.data.response_model;
 
 import com.crowdo.p2pconnect.model.Member;
 import com.google.gson.annotations.Expose;

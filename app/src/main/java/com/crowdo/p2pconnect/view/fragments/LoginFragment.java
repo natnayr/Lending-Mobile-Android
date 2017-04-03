@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.client.AuthClient;
-import com.crowdo.p2pconnect.data.response.AuthResponse;
+import com.crowdo.p2pconnect.data.response_model.AuthResponse;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HashingUtils;
 import com.crowdo.p2pconnect.helpers.RegexValidationUtil;

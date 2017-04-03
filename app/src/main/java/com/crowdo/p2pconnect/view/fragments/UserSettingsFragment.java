@@ -53,40 +53,40 @@ public class UserSettingsFragment extends PreferenceFragmentCompat
         }
 
 
-        Preference exitSessBtn = findPreference(getActivity()
-                .getString(R.string.pref_user_logout_key));
-        exitSessBtn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-
-                Log.d(LOG_TAG, "APP: Session Cleared");
-                Toast.makeText(getContext(), getString(R.string.pref_user_session_clear_label),
-                        Toast.LENGTH_SHORT).show();
-
-                UserSettingsFragment.resetUserAccountSharedPreferences(getActivity());
-
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-                    CookieManager cookieManager = CookieManager.getInstance();
-                    cookieManager.removeSessionCookies(new ValueCallback<Boolean>() {
-                        @Override
-                        public void onReceiveValue(Boolean value) {
-                            Log.d(LOG_TAG, "APP: CookieManager.removeSessionCookies onReceiveValue " + value);
-                        }
-                    });
-                    cookieManager.flush();
-                }else{
-                    CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(getActivity());
-                    cookieSyncManager.startSync();
-                    CookieManager cookieManager = CookieManager.getInstance();
-                    cookieManager.removeAllCookie();
-                    cookieManager.removeSessionCookie();
-                    cookieSyncManager.stopSync();
-                    cookieSyncManager.sync();
-                }
-
-                return true;
-            }
-        });
+//        Preference exitSessBtn = findPreference(getActivity()
+//                .getString(R.string.pref_user_logout_key));
+//        exitSessBtn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+//            @Override
+//            public boolean onPreferenceClick(Preference preference) {
+//
+//                Log.d(LOG_TAG, "APP: Session Cleared");
+//                Toast.makeText(getContext(), getString(R.string.pref_user_session_clear_label),
+//                        Toast.LENGTH_SHORT).show();
+//
+//                UserSettingsFragment.resetUserAccountSharedPreferences(getActivity());
+//
+//                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+//                    CookieManager cookieManager = CookieManager.getInstance();
+//                    cookieManager.removeSessionCookies(new ValueCallback<Boolean>() {
+//                        @Override
+//                        public void onReceiveValue(Boolean value) {
+//                            Log.d(LOG_TAG, "APP: CookieManager.removeSessionCookies onReceiveValue " + value);
+//                        }
+//                    });
+//                    cookieManager.flush();
+//                }else{
+//                    CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(getActivity());
+//                    cookieSyncManager.startSync();
+//                    CookieManager cookieManager = CookieManager.getInstance();
+//                    cookieManager.removeAllCookie();
+//                    cookieManager.removeSessionCookie();
+//                    cookieSyncManager.stopSync();
+//                    cookieSyncManager.sync();
+//                }
+//
+//                return true;
+//            }
+//        });
 
     }
 
@@ -240,26 +240,5 @@ public class UserSettingsFragment extends PreferenceFragmentCompat
                         }
                     });
         }
-    }
-
-    public static void resetUserAccountSharedPreferences(Context context){
-        SharedPreferencesUtils.setSharePrefInt(context,
-                ConstantVariables.PREF_KEY_USER_ID,
-                -1);
-        SharedPreferencesUtils.setSharePrefBool(context,
-                ConstantVariables.PREF_KEY_USER_IS_MEMBER,
-                false);
-        SharedPreferencesUtils.setSharePrefString(context,
-                ConstantVariables.PREF_KEY_USER_EMAIL,
-                "");
-        SharedPreferencesUtils.setSharePrefString(context,
-                ConstantVariables.PREF_KEY_USER_NAME,
-                "");
-        SharedPreferencesUtils.setSharePrefBool(context,
-                ConstantVariables.PREF_KEY_USER_INVESTOR_APPROVAL_SGD,
-                false);
-        SharedPreferencesUtils.setSharePrefBool(context,
-                ConstantVariables.PREF_KEY_USER_INVESTOR_APPROVAL_IDR,
-                false);
     }
 }

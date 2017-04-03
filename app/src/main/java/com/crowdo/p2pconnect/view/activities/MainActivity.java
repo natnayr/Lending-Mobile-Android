@@ -9,6 +9,7 @@ import android.accounts.OperationCanceledException;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.webkit.ValueCallback;
 import android.widget.TextView;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.APIServices;
@@ -329,17 +333,9 @@ public class MainActivity extends AppCompatActivity{
                         }
                     }, null);
         }else{
-            goToMainActivity();
+            //getAuthTokenFailure
+            goToLaunchActivity();
         }
-    }
-
-    private void goToMainActivity(){
-        //Call LaunchActivity to Welcome & Authenticate
-        Intent intent = new Intent(this, LaunchActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
     }
 
     private void actionLogout(){
@@ -348,10 +344,36 @@ public class MainActivity extends AppCompatActivity{
         AccountManagerUtils.removeAccounts(this, new CallBackInterface(){
             @Override
             public void eventCallBack() {
-                goToMainActivity();
+                goToLaunchActivity();
             }
         });
+
+        //clear cookie cache
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            CookieManager cookieManager = CookieManager.getInstance();
+            cookieManager.removeSessionCookies(new ValueCallback<Boolean>() {
+                @Override
+                public void onReceiveValue(Boolean value) {
+                    Log.d(LOG_TAG, "APP: CookieManager.removeSessionCookies onReceiveValue " + value);
+                }
+            });
+            cookieManager.flush();
+        }else{
+            CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(this);
+            cookieSyncManager.startSync();
+            CookieManager cookieManager = CookieManager.getInstance();
+            cookieManager.removeAllCookie();
+            cookieManager.removeSessionCookie();
+            cookieSyncManager.stopSync();
+            cookieSyncManager.sync();
+        }
     }
 
-
+    private void goToLaunchActivity(){
+        //Call LaunchActivity to Welcome & Authenticate
+        Intent intent = new Intent(this, LaunchActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
 }

@@ -1,11 +1,9 @@
 package com.crowdo.p2pconnect.data.client;
 
 import com.crowdo.p2pconnect.data.APIServices;
-import com.crowdo.p2pconnect.data.request.LoginRequest;
-import com.crowdo.p2pconnect.data.request.RegisterRequest;
-import com.crowdo.p2pconnect.data.request.TokenCheckRequest;
-import com.crowdo.p2pconnect.data.response.AuthResponse;
-import com.crowdo.p2pconnect.data.response.ShortResponse;
+import com.crowdo.p2pconnect.data.request_model.LoginRequest;
+import com.crowdo.p2pconnect.data.request_model.RegisterRequest;
+import com.crowdo.p2pconnect.data.response_model.AuthResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -65,10 +63,6 @@ public class AuthClient {
                                                            String deviceId) {
         return apiServices.postRegisterUser(new RegisterRequest(name, email, password,
                 passwordConfirmation, localePreference, deviceId));
-    }
-
-    public Observable<Response<ShortResponse>> checkToken(String authToken){
-        return apiServices.postTokenCheck(new TokenCheckRequest(authToken));
     }
 
 

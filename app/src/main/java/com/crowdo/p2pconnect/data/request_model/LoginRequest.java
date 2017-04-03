@@ -1,4 +1,4 @@
-package com.crowdo.p2pconnect.data.request;
+package com.crowdo.p2pconnect.data.request_model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

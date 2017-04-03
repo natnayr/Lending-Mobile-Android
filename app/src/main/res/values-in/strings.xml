@@ -46,7 +46,6 @@
     <string name="pref_user_investor_approval_status_summary">Status Persetujuan Investor</string>
     <string name="pref_user_name_summary">Nama Terdaftar Anda</string>
     <string name="pref_user_name_title">Nama</string>
-    <string name="pref_user_session_clear_label">Beres</string>
     <string name="proceed_label">Lanjutkan</string>
     <string name="sign_up_label">Daftar</string>
     <string name="downloaded_to_label">Unduh ke&#160;</string>
@@ -62,8 +61,6 @@
     <string name="welcome_intro_2_body">Penggalangan Dana Yang Berkualitas Dari Komunitas Investor Global Dalam Genggaman Anda</string>
     <string name="welcome_intro_2_head">Kemungkinan Tanpa Batasan</string>
     <string name="loan_detail_enter_amount_hint_error_positive">Mohon hanya nilai Non Negatif</string>
-    <string name="pref_user_exit_session_summary">Hapus rincian yang anda simpan</string>
-    <string name="pref_user_exit_session_title">Keluar Sesi</string>
     <string name="toolbar_title_learning_center">Pusat Informasi</string>
     <string name="learning_center_categories_label_general">Pertanyaan Umum</string>
     <string name="learning_center_categories_label_borrower">Peminjam</string>

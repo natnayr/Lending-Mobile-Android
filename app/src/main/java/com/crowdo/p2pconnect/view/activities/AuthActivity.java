@@ -112,11 +112,6 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
                     accountType = AccountGeneral.getACCOUNT_TYPE(AuthActivity.this);
                 }
 
-                Log.d(LOG_TAG, "APP: extras AccountManager.KEY_ACCOUNT_NAME -> " + extras.getString(AccountManager.KEY_ACCOUNT_NAME));
-                Log.d(LOG_TAG, "APP: extras AccountManager.KEY_ACCOUNT_TYPE -> " + accountType);
-                Log.d(LOG_TAG, "APP: extras AccountManager.KEY_PASSWORD -> " + extras.getString(AccountManager.KEY_PASSWORD));
-                Log.d(LOG_TAG, "APP: extras AccountManager.KEY_AUTHTOKEN -> " + extras.getString(AccountManager.KEY_AUTHTOKEN));
-
                 String accountName = extras.getString(AccountManager.KEY_ACCOUNT_NAME);
 
                 //Hash Password before storing,

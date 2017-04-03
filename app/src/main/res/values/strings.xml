@@ -137,12 +137,10 @@
     <string name="pref_label_account">My Account</string>
     <string name="pref_user_email_title">Email Address</string>
     <string name="pref_user_name_title">Name</string>
-    <string name="pref_user_exit_session_title">Exit Session</string>
 
     <string name="pref_user_email_summary">Your Registered Email Address</string>
     <string name="pref_user_name_summary">Your Stored Name</string>
     <string name="pref_user_investor_approval_status_summary">Investor Approval Status</string>
-    <string name="pref_user_exit_session_summary">Clear your stored details</string>
 
     <string name="pref_user_name_default_value" translatable="false">e.g John Doe</string>
     <string name="pref_user_email_default_value" translatable="false">e.g. john.doe@email.com</string>
