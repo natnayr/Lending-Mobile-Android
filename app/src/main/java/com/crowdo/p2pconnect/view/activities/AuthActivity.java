@@ -96,8 +96,7 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
         super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 
-    public void finishAuth(final Intent intent){
-
+    public void finishAuth(final Intent intent, Bundle userData){
         Log.d(LOG_TAG, "APP: finishAuth()");
 
         //remove all other accounts
@@ -126,6 +125,7 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
                     // (Not setting the auth token will cause another call to the server to authenticate the user)
                     mAccountManager.addAccountExplicitly(account, accountPasswordHash, null);
                     mAccountManager.setAuthToken(account, authTokeType, authToken);
+
                 } else {
                     Log.d(LOG_TAG, "APP: finishAuth() > setPassword");
                     mAccountManager.setPassword(account, accountPasswordHash);

@@ -6,8 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,8 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
@@ -28,10 +24,7 @@ import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.model.LoanDetail;
 import com.crowdo.p2pconnect.data.client.LoanDetailClient;
-import com.crowdo.p2pconnect.model.RegisteredMemberCheck;
-import com.crowdo.p2pconnect.data.client.RegisteredMemberCheckClient;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
-import com.crowdo.p2pconnect.helpers.PerformEmailIdentityCheckTemp;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.viewholders.LoanDetailsViewHolder;
@@ -44,7 +37,6 @@ import java.net.URISyntaxException;
 
 import butterknife.BindColor;
 import butterknife.BindString;
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -176,16 +168,7 @@ public class LoanDetailsFragment extends Fragment {
             viewHolder.mBidEnterBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    int acctMemberId = SharedPreferencesUtils.getSharedPrefInt(getActivity(),
-                            ConstantVariables.PREF_KEY_USER_ID, -1);
-
-                    if(acctMemberId == -1) {
-                        DialogHolder dh = new DialogHolder();
-                        dh.dialogEmailPrompt(getActivity());
-                    }else {
-                        addToCart();
-                    }
+                    addToCart();
                 }
             });
         }
@@ -374,104 +357,6 @@ public class LoanDetailsFragment extends Fragment {
 
             startActivity(intent);
         }
-
     }
-
-
-    class DialogHolder{
-        /*
-            Temp Dialog to identify user
-         */
-        @BindView(android.R.id.message) TextView memberCheckEmailTextView;
-        @BindView(android.R.id.edit) EditText memberCheckEmailEditText;
-
-        @BindString(R.string.member_check_email_dialog_label) String mMemberCheckEmailDialogLabel;
-        @BindString(R.string.pref_user_email_default_value) String mMemberCheckEmailDialogDefaultValue;
-        @BindString(R.string.sign_up_label) String mSignUpLabel;
-        @BindString(R.string.proceed_label) String mProceedLabel;
-        @BindString(R.string.cancel_label) String mCancelLabel;
-
-        public void dialogEmailPrompt(final Context context){
-
-            Log.d(LOG_TAG, "APP: Email Dialog Triggered");
-            LayoutInflater inflater = LayoutInflater.from(context);
-            View dialogView = inflater.inflate(R.layout.pref_dialog_email_edittext_fix, null);
-            ButterKnife.bind(this, dialogView);
-
-            // setting dialog layout
-            memberCheckEmailTextView.setText(mMemberCheckEmailDialogLabel);
-
-            AlertDialog.Builder alertDialogBuilderInput = new AlertDialog.Builder(context);
-            alertDialogBuilderInput.setView(dialogView);
-
-            alertDialogBuilderInput
-                    .setCancelable(true)
-                    .setNegativeButton(mSignUpLabel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                                    Uri.parse(APIServices.API_BASE_URL+"mobile/sign_up"));
-
-                            startActivity(browserIntent);
-                        }
-                    })
-                    .setPositiveButton(mProceedLabel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int id) {
-
-                        final String enteredEmail = memberCheckEmailEditText.getText()
-                                .toString().toLowerCase().trim();
-
-                        Log.d(LOG_TAG, "APP: enteredEmail is " + enteredEmail);
-
-                        final PerformEmailIdentityCheckTemp idenCheck =
-                                new PerformEmailIdentityCheckTemp(context);
-
-                        RegisteredMemberCheckClient.getInstance()
-                            .postUserCheck(enteredEmail)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Observer<RegisteredMemberCheck>() {
-                                @Override
-                                public void onSubscribe(Disposable d) {
-
-                                }
-
-                                @Override
-                                public void onNext(RegisteredMemberCheck registeredMemberCheck) {
-                                    Log.d(LOG_TAG, "APP: onNext return " + registeredMemberCheck.memberId);
-                                    if(idenCheck.onResponseCode(LOG_TAG, enteredEmail, registeredMemberCheck)) {
-                                        addToCart();
-                                    }
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-                                    Log.d(LOG_TAG, "ERROR: onError");
-                                    idenCheck.onFailure(LOG_TAG, enteredEmail, e);
-                                }
-
-                                @Override
-                                public void onComplete() {
-
-                                }
-                            });
-
-                        dialogInterface.dismiss();
-
-                        }
-                    }).setNeutralButton(mCancelLabel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int id) {
-                            dialogInterface.cancel();
-                        }
-                    });
-
-            alertDialog = alertDialogBuilderInput.create();
-            alertDialog.show();
-        }
-    }
-
-
 
 }

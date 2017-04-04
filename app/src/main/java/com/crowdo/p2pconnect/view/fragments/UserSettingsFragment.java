@@ -1,8 +1,6 @@
 package com.crowdo.p2pconnect.view.fragments;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.preference.EditTextPreference;
@@ -10,17 +8,12 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
-import android.webkit.ValueCallback;
-import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.model.RegisteredMemberCheck;
 import com.crowdo.p2pconnect.data.client.RegisteredMemberCheckClient;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
-import com.crowdo.p2pconnect.helpers.PerformEmailIdentityCheckTemp;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 
 import java.util.Map;
@@ -189,56 +182,6 @@ public class UserSettingsFragment extends PreferenceFragmentCompat
                     Log.e(LOG_TAG, "ERROR: " + npe.getMessage(), npe);
                 }
             }
-
-            //perform identify user
-            if (key.equals(ConstantVariables.PREF_KEY_USER_EMAIL)) {
-                performEmailIdentify(sharedPreferences);
-            }
-        }
-    }
-
-    //Temp to update user in settings
-    private void performEmailIdentify(SharedPreferences sharedPreferences) {
-
-        final String enteredEmail = sharedPreferences
-                .getString(ConstantVariables.PREF_KEY_USER_EMAIL, null)
-                .toLowerCase().trim();
-
-        if (enteredEmail == null || enteredEmail.equals("")){
-            return;
-        }else {
-
-            Log.d(LOG_TAG, "APP: enteredEmail is " + enteredEmail);
-
-            final PerformEmailIdentityCheckTemp idenCheck =
-                    new PerformEmailIdentityCheckTemp(getActivity());
-
-            RegisteredMemberCheckClient.getInstance()
-                    .postUserCheck(enteredEmail)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<RegisteredMemberCheck>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(RegisteredMemberCheck registeredMemberCheck) {
-                            idenCheck.onResponseCode(LOG_TAG, enteredEmail,
-                                    registeredMemberCheck);
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            idenCheck.onFailure(LOG_TAG, enteredEmail, e);
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
         }
     }
 }

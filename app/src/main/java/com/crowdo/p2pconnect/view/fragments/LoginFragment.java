@@ -245,7 +245,7 @@ public class LoginFragment extends Fragment{
                 public void run() {
                     res.putExtras(data);
                     //finalise auth
-                    ((AuthActivity) getActivity()).finishAuth(res);
+                    ((AuthActivity) getActivity()).finishAuth(res, null);
                 }
             }, TIME_DELAY_FOR_SUCESS_TRANSFER);
 
