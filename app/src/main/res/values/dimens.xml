@@ -17,7 +17,7 @@
     <dimen name="auth_logo_text_size">20sp</dimen>
     <dimen name="auth_field_margin_top">8dp</dimen>
     <dimen name="auth_field_margin_btm">8dp</dimen>
-    <dimen name="auth_field_text_size">14sp</dimen>
+    <dimen name="auth_field_text_size">20sp</dimen>
     <dimen name="auth_field_drawable_padding">8dp</dimen>
     <dimen name="auth_field_drawable_icon_size">16dp</dimen>
     <dimen name="auth_btn_padding_top">2dp</dimen>

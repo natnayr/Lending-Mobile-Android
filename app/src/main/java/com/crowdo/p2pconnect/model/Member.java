@@ -1,5 +1,8 @@
 package com.crowdo.p2pconnect.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -7,47 +10,134 @@ import com.google.gson.annotations.SerializedName;
  * Created by cwdsg05 on 21/3/17.
  */
 
-public class Member {
+public class Member implements Parcelable {
 
     @SerializedName("id")
     @Expose
-    private long id;
-
-    @SerializedName("email")
+    private Integer id;
+    @SerializedName("legacy_p2p_id")
     @Expose
-    private String email;
-
-    @SerializedName("registered_indonesia")
+    private Object legacyP2pId;
+    @SerializedName("salt")
     @Expose
-    private boolean registeredIndonesia;
-
-    @SerializedName("registered_malaysia")
+    private String salt;
+    @SerializedName("reset_password_token")
     @Expose
-    private boolean registeredMalaysia;
-
-    @SerializedName("registered_singapore")
+    private Object resetPasswordToken;
+    @SerializedName("reset_password_token_expires_at")
     @Expose
-    private boolean registeredSingapore;
-
-    @SerializedName("locale_preference")
+    private Object resetPasswordTokenExpiresAt;
+    @SerializedName("reset_password_email_sent_at")
     @Expose
-    private String localePreference;
-
-    @SerializedName("created_at")
+    private Object resetPasswordEmailSentAt;
+    @SerializedName("last_login_at")
     @Expose
-    private String createdAt;
-
-    @SerializedName("updated_at")
+    private String lastLoginAt;
+    @SerializedName("last_logout_at")
     @Expose
-    private String updatedAt;
-
-    @SerializedName("name")
-    @Expose
-    private String name;
-
+    private String lastLogoutAt;
     @SerializedName("last_activity_at")
     @Expose
     private String lastActivityAt;
+    @SerializedName("last_login_from_ip_address")
+    @Expose
+    private String lastLoginFromIpAddress;
+    @SerializedName("email")
+    @Expose
+    private String email;
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("phone_number")
+    @Expose
+    private Object phoneNumber;
+    @SerializedName("id_number")
+    @Expose
+    private Object idNumber;
+    @SerializedName("nationality")
+    @Expose
+    private Object nationality;
+    @SerializedName("date_of_birth")
+    @Expose
+    private Object dateOfBirth;
+    @SerializedName("address1")
+    @Expose
+    private Object address1;
+    @SerializedName("address2")
+    @Expose
+    private Object address2;
+    @SerializedName("city")
+    @Expose
+    private Object city;
+    @SerializedName("postal_code")
+    @Expose
+    private Object postalCode;
+    @SerializedName("country_of_residence")
+    @Expose
+    private Object countryOfResidence;
+    @SerializedName("id_document")
+    @Expose
+    private Object idDocument;
+    @SerializedName("id_document_additional")
+    @Expose
+    private Object idDocumentAdditional;
+    @SerializedName("proof_of_residence")
+    @Expose
+    private Object proofOfResidence;
+    @SerializedName("locale_preference")
+    @Expose
+    private String localePreference;
+    @SerializedName("session_country")
+    @Expose
+    private String sessionCountry;
+    @SerializedName("is_admin")
+    @Expose
+    private Boolean isAdmin;
+    @SerializedName("is_banned")
+    @Expose
+    private Boolean isBanned;
+    @SerializedName("created_at")
+    @Expose
+    private String createdAt;
+    @SerializedName("updated_at")
+    @Expose
+    private String updatedAt;
+    @SerializedName("legacy_ecf_id")
+    @Expose
+    private Object legacyEcfId;
+    @SerializedName("registered_p2p")
+    @Expose
+    private Boolean registeredP2p;
+    @SerializedName("registered_ecf")
+    @Expose
+    private Boolean registeredEcf;
+    @SerializedName("agree_singapore_tnc")
+    @Expose
+    private Boolean agreeSingaporeTnc;
+    @SerializedName("agree_indonesia_tnc")
+    @Expose
+    private Boolean agreeIndonesiaTnc;
+    @SerializedName("agree_malaysia_tnc")
+    @Expose
+    private Boolean agreeMalaysiaTnc;
+    @SerializedName("referral_code")
+    @Expose
+    private Object referralCode;
+
+    public Member() {
+
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+    }
+
 
     public long getId() {
         return id;
@@ -128,5 +218,6 @@ public class Member {
     public void setLastActivityAt(String lastActivityAt) {
         this.lastActivityAt = lastActivityAt;
     }
+
 
 }

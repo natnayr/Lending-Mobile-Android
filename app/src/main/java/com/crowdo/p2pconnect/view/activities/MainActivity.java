@@ -348,7 +348,7 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-        //clear cookie cache
+        //clear cookie cache fro webview
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             CookieManager cookieManager = CookieManager.getInstance();
             cookieManager.removeSessionCookies(new ValueCallback<Boolean>() {

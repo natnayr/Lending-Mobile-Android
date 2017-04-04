@@ -45,42 +45,6 @@ public class UserSettingsFragment extends PreferenceFragmentCompat
             pickPreferenceObject(getPreferenceScreen().getPreference(i));
         }
 
-
-//        Preference exitSessBtn = findPreference(getActivity()
-//                .getString(R.string.pref_user_logout_key));
-//        exitSessBtn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-//            @Override
-//            public boolean onPreferenceClick(Preference preference) {
-//
-//                Log.d(LOG_TAG, "APP: Session Cleared");
-//                Toast.makeText(getContext(), getString(R.string.pref_user_session_clear_label),
-//                        Toast.LENGTH_SHORT).show();
-//
-//                UserSettingsFragment.resetUserAccountSharedPreferences(getActivity());
-//
-//                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-//                    CookieManager cookieManager = CookieManager.getInstance();
-//                    cookieManager.removeSessionCookies(new ValueCallback<Boolean>() {
-//                        @Override
-//                        public void onReceiveValue(Boolean value) {
-//                            Log.d(LOG_TAG, "APP: CookieManager.removeSessionCookies onReceiveValue " + value);
-//                        }
-//                    });
-//                    cookieManager.flush();
-//                }else{
-//                    CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(getActivity());
-//                    cookieSyncManager.startSync();
-//                    CookieManager cookieManager = CookieManager.getInstance();
-//                    cookieManager.removeAllCookie();
-//                    cookieManager.removeSessionCookie();
-//                    cookieSyncManager.stopSync();
-//                    cookieSyncManager.sync();
-//                }
-//
-//                return true;
-//            }
-//        });
-
     }
 
     @Override
