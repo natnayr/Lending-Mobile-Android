@@ -30,7 +30,7 @@ public class LoanDetailClient {
         final Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(APIServices.API_BASE_URL + APIServices.STAGE)
+                .baseUrl(APIServices.API_OLD_BASE_URL + APIServices.OLD_STAGE)
                 .build();
 
         this.apiServices = retrofit.create(APIServices.class);

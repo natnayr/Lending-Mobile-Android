@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_background_dark">
+    android:background="@color/color_icons_text">
 
     <ImageButton
         android:id="@+id/auth_register_exit_btn"
@@ -33,15 +33,15 @@
             android:text="Register"
             android:fontFamily="@string/font_family_light"
             android:textSize="@dimen/auth_logo_text_size"
-            android:textColor="@color/color_icons_text"
+            android:textColor="@color/color_secondary_text"
             android:gravity="center_horizontal"/>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/auth_register_name_textinputlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginTop="@dimen/auth_field_margin_top"
+            android:layout_marginBottom="@dimen/auth_field_margin_btm">
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/auth_register_name_edittext"
                 android:layout_width="match_parent"
@@ -57,8 +57,8 @@
             android:id="@+id/auth_register_email_textinputlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginTop="@dimen/auth_field_margin_top"
+            android:layout_marginBottom="@dimen/auth_field_margin_btm">
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/auth_register_email_edittext"
                 android:layout_width="match_parent"
@@ -74,8 +74,8 @@
             android:id="@+id/auth_register_password_textinputlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginTop="@dimen/auth_field_margin_top"
+            android:layout_marginBottom="@dimen/auth_field_margin_btm">
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/auth_register_password_edittext"
                 android:layout_width="match_parent"
@@ -110,11 +110,14 @@
             android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/auth_field_margin_top"
+            android:layout_marginBottom="@dimen/auth_field_margin_btm"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/auth_register_submit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="22sp"
                 android:text="Sign Up"
                 android:fontFamily="@string/font_family_condensed"
                 android:textColor="@color/auth_btn_text_color"

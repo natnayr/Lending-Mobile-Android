@@ -52,11 +52,11 @@
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_700</item>
         <item name="colorAccent">@color/color_accent</item>
-        <item name="colorControlNormal">@color/color_secondary_text_200</item>
-        <item name="colorControlActivated">@color/color_icons_text</item>
-        <item name="colorControlHighlight">@color/color_icons_text</item>
+        <item name="colorControlNormal">@color/color_secondary_text</item>
+        <item name="colorControlActivated">@color/color_secondary_text</item>
+        <item name="colorControlHighlight">@color/color_primary_300</item>
         <item name="android:textColorHint">@color/color_secondary_text</item>
-        <item name="android:textColorPrimary">@color/color_secondary_text</item>
+        <item name="android:textColorPrimary">@color/color_primary_text</item>
         <item name="android:textColorSecondary">@color/color_secondary_text</item>
         <item name="android:textColorPrimaryInverse">@color/color_secondary_text</item>
     </style>

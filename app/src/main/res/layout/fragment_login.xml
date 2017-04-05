@@ -33,7 +33,7 @@
             android:text="Login"
             android:fontFamily="@string/font_family_light"
             android:textSize="@dimen/auth_logo_text_size"
-            android:textColor="@color/color_icons_text"
+            android:textColor="@color/color_secondary_text"
             android:gravity="center_horizontal"/>
 
         <android.support.design.widget.TextInputLayout

@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by cwdsg05 on 23/3/17.
  */
 
-public class AuthResponse {
+public class OAuthResponse {
 
     @SerializedName("message")
     @Expose

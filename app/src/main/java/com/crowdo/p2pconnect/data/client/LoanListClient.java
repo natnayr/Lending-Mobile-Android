@@ -1,7 +1,5 @@
 package com.crowdo.p2pconnect.data.client;
 
-import android.accounts.AccountManager;
-
 import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.model.LoanListItem;
 import com.google.gson.Gson;
@@ -32,7 +30,7 @@ public class LoanListClient {
         final Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(APIServices.API_BASE_URL + APIServices.STAGE)
+                .baseUrl(APIServices.API_OLD_BASE_URL + APIServices.OLD_STAGE)
                 .build();
 
         this.apiServices = retrofit.create(APIServices.class);

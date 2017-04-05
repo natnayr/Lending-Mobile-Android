@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
@@ -26,6 +27,7 @@ public class LoginViewHolder {
     @BindView(R.id.auth_login_password_edittext) public AppCompatEditText mLoginPasswdEditText;
     @BindView(R.id.auth_login_exit_btn) public ImageButton mLoginExitImageButton;
     @BindView(R.id.auth_login_submit_btn) public LinearLayout mLoginSubmitButton;
+    @BindView(R.id.auth_login_submit_btn_text) public TextView mLoginSubmitTextView;
 
     private static final String LOG_TAG = LoginViewHolder.class.getSimpleName();
     private Context mContext;
@@ -37,7 +39,7 @@ public class LoginViewHolder {
 
     public void initView(){
         mLoginSubmitButton.setEnabled(false); //init
-
+        mLoginSubmitTextView.setEnabled(false);
         mLoginEmailEditText.setCompoundDrawables(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_account)
@@ -57,18 +59,23 @@ public class LoginViewHolder {
                         .icon(CommunityMaterial.Icon.cmd_close)
                         .sizeRes(R.dimen.auth_btn_drawable_close_icon_size));
 
-        mLoginEmailEditText.addTextChangedListener(new SubmitEnablerTextWatcher(new EditText[]{mLoginEmailEditText, mLoginPasswdEditText}, mLoginSubmitButton));
+        mLoginEmailEditText.addTextChangedListener(
+                new SubmitEnablerTextWatcher(
+                        new EditText[]{mLoginEmailEditText, mLoginPasswdEditText},
+                        new View[]{mLoginSubmitButton, mLoginSubmitTextView}));
 
-        mLoginPasswdEditText.addTextChangedListener(new SubmitEnablerTextWatcher(new EditText[]{mLoginEmailEditText, mLoginPasswdEditText}, mLoginSubmitButton));
-
+        mLoginPasswdEditText.addTextChangedListener(
+                new SubmitEnablerTextWatcher(
+                        new EditText[]{mLoginEmailEditText, mLoginPasswdEditText},
+                        new View[]{mLoginSubmitButton, mLoginSubmitTextView}));
     }
 
-    class SubmitEnablerTextWatcher implements TextWatcher {
-        View view;
+    private class SubmitEnablerTextWatcher implements TextWatcher {
+        View[] viewsToEnable;
         EditText[] editTextList;
 
-        public SubmitEnablerTextWatcher(EditText[] editTextList, View view) {
-            this.view = view;
+        public SubmitEnablerTextWatcher(EditText[] editTextList, View[] viewsToEnable) {
+            this.viewsToEnable = viewsToEnable;
             this.editTextList = editTextList;
         }
 
@@ -80,11 +87,16 @@ public class LoginViewHolder {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             for(EditText editText : editTextList){
                 if(editText.getText().length() <= 0 ){
-                    view.setEnabled(false);
+                    for(View view : viewsToEnable){
+                        view.setEnabled(false);
+                    }
                     return;
                 }
             }
-            view.setEnabled(true); //all pass
+            for(View view : viewsToEnable){
+                //all pass
+                view.setEnabled(true);
+            }
         }
 
         @Override

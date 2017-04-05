@@ -11,17 +11,9 @@ import android.util.Log;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
-import com.crowdo.p2pconnect.model.RegisteredMemberCheck;
-import com.crowdo.p2pconnect.data.client.RegisteredMemberCheckClient;
-import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 
 import java.util.Map;
-
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by cwdsg05 on 29/12/16.

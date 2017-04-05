@@ -1,149 +1,131 @@
 package com.crowdo.p2pconnect.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
 /**
  * Created by cwdsg05 on 21/3/17.
  */
-
-public class Member implements Parcelable {
+@Parcel
+public class Member {
 
     @SerializedName("id")
     @Expose
-    private Integer id;
-    @SerializedName("legacy_p2p_id")
-    @Expose
-    private Object legacyP2pId;
-    @SerializedName("salt")
-    @Expose
-    private String salt;
-    @SerializedName("reset_password_token")
-    @Expose
-    private Object resetPasswordToken;
-    @SerializedName("reset_password_token_expires_at")
-    @Expose
-    private Object resetPasswordTokenExpiresAt;
-    @SerializedName("reset_password_email_sent_at")
-    @Expose
-    private Object resetPasswordEmailSentAt;
-    @SerializedName("last_login_at")
-    @Expose
-    private String lastLoginAt;
-    @SerializedName("last_logout_at")
-    @Expose
-    private String lastLogoutAt;
-    @SerializedName("last_activity_at")
-    @Expose
-    private String lastActivityAt;
-    @SerializedName("last_login_from_ip_address")
-    @Expose
-    private String lastLoginFromIpAddress;
+    Integer id;
+
     @SerializedName("email")
     @Expose
-    private String email;
+    String email;
+
     @SerializedName("name")
     @Expose
-    private String name;
+    String name;
+
     @SerializedName("phone_number")
     @Expose
-    private Object phoneNumber;
-    @SerializedName("id_number")
-    @Expose
-    private Object idNumber;
+    String phoneNumber;
+
     @SerializedName("nationality")
     @Expose
-    private Object nationality;
+    String nationality;
+
     @SerializedName("date_of_birth")
     @Expose
-    private Object dateOfBirth;
+    String dateOfBirth;
+
     @SerializedName("address1")
     @Expose
-    private Object address1;
+    String address1;
+
     @SerializedName("address2")
     @Expose
-    private Object address2;
+    String address2;
+
     @SerializedName("city")
     @Expose
-    private Object city;
+    String city;
+
     @SerializedName("postal_code")
     @Expose
-    private Object postalCode;
+    String postalCode;
+
     @SerializedName("country_of_residence")
     @Expose
-    private Object countryOfResidence;
-    @SerializedName("id_document")
-    @Expose
-    private Object idDocument;
-    @SerializedName("id_document_additional")
-    @Expose
-    private Object idDocumentAdditional;
-    @SerializedName("proof_of_residence")
-    @Expose
-    private Object proofOfResidence;
+    String countryOfResidence;
+
     @SerializedName("locale_preference")
     @Expose
-    private String localePreference;
+    String localePreference;
+
     @SerializedName("session_country")
     @Expose
-    private String sessionCountry;
-    @SerializedName("is_admin")
-    @Expose
-    private Boolean isAdmin;
+    String sessionCountry;
+
     @SerializedName("is_banned")
     @Expose
-    private Boolean isBanned;
-    @SerializedName("created_at")
-    @Expose
-    private String createdAt;
-    @SerializedName("updated_at")
-    @Expose
-    private String updatedAt;
-    @SerializedName("legacy_ecf_id")
-    @Expose
-    private Object legacyEcfId;
+    Boolean isBanned;
+
     @SerializedName("registered_p2p")
     @Expose
-    private Boolean registeredP2p;
+    Boolean registeredP2p;
+
     @SerializedName("registered_ecf")
     @Expose
-    private Boolean registeredEcf;
+    Boolean registeredEcf;
+
     @SerializedName("agree_singapore_tnc")
     @Expose
-    private Boolean agreeSingaporeTnc;
+    Boolean agreeSingaporeTnc;
+
     @SerializedName("agree_indonesia_tnc")
     @Expose
-    private Boolean agreeIndonesiaTnc;
+    Boolean agreeIndonesiaTnc;
+
     @SerializedName("agree_malaysia_tnc")
     @Expose
-    private Boolean agreeMalaysiaTnc;
+    Boolean agreeMalaysiaTnc;
+
     @SerializedName("referral_code")
     @Expose
-    private Object referralCode;
+    String referralCode;
 
-    public Member() {
+    public Member(){ };
 
+    public Member(Integer id, String email, String name, String phoneNumber, String nationality,
+                  String dateOfBirth, String address1, String address2, String city, String postalCode,
+                  String countryOfResidence, String localePreference, String sessionCountry,
+                  Boolean isBanned, Boolean registeredP2p, Boolean registeredEcf, Boolean agreeSingaporeTnc,
+                  Boolean agreeIndonesiaTnc, Boolean agreeMalaysiaTnc, String referralCode) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.nationality = nationality;
+        this.dateOfBirth = dateOfBirth;
+        this.address1 = address1;
+        this.address2 = address2;
+        this.city = city;
+        this.postalCode = postalCode;
+        this.countryOfResidence = countryOfResidence;
+        this.localePreference = localePreference;
+        this.sessionCountry = sessionCountry;
+        this.isBanned = isBanned;
+        this.registeredP2p = registeredP2p;
+        this.registeredEcf = registeredEcf;
+        this.agreeSingaporeTnc = agreeSingaporeTnc;
+        this.agreeIndonesiaTnc = agreeIndonesiaTnc;
+        this.agreeMalaysiaTnc = agreeMalaysiaTnc;
+        this.referralCode = referralCode;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-    }
-
-
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -155,28 +137,76 @@ public class Member implements Parcelable {
         this.email = email;
     }
 
-    public boolean isRegisteredIndonesia() {
-        return registeredIndonesia;
+    public String getName() {
+        return name;
     }
 
-    public void setRegisteredIndonesia(boolean registeredIndonesia) {
-        this.registeredIndonesia = registeredIndonesia;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public boolean isRegisteredMalaysia() {
-        return registeredMalaysia;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setRegisteredMalaysia(boolean registeredMalaysia) {
-        this.registeredMalaysia = registeredMalaysia;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public boolean isRegisteredSingapore() {
-        return registeredSingapore;
+    public String getNationality() {
+        return nationality;
     }
 
-    public void setRegisteredSingapore(boolean registeredSingapore) {
-        this.registeredSingapore = registeredSingapore;
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getAddress1() {
+        return address1;
+    }
+
+    public void setAddress1(String address1) {
+        this.address1 = address1;
+    }
+
+    public String getAddress2() {
+        return address2;
+    }
+
+    public void setAddress2(String address2) {
+        this.address2 = address2;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getCountryOfResidence() {
+        return countryOfResidence;
+    }
+
+    public void setCountryOfResidence(String countryOfResidence) {
+        this.countryOfResidence = countryOfResidence;
     }
 
     public String getLocalePreference() {
@@ -187,37 +217,68 @@ public class Member implements Parcelable {
         this.localePreference = localePreference;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public String getSessionCountry() {
+        return sessionCountry;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public void setSessionCountry(String sessionCountry) {
+        this.sessionCountry = sessionCountry;
     }
 
-    public String getUpdatedAt() {
-        return updatedAt;
+    public Boolean getIsBanned() {
+        return isBanned;
     }
 
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setIsBanned(Boolean isBanned) {
+        this.isBanned = isBanned;
     }
 
-    public String getName() {
-        return name;
+    public Boolean getRegisteredP2p() {
+        return registeredP2p;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRegisteredP2p(Boolean registeredP2p) {
+        this.registeredP2p = registeredP2p;
     }
 
-    public String getLastActivityAt() {
-        return lastActivityAt;
+    public Boolean getRegisteredEcf() {
+        return registeredEcf;
     }
 
-    public void setLastActivityAt(String lastActivityAt) {
-        this.lastActivityAt = lastActivityAt;
+    public void setRegisteredEcf(Boolean registeredEcf) {
+        this.registeredEcf = registeredEcf;
     }
 
+    public Boolean getAgreeSingaporeTnc() {
+        return agreeSingaporeTnc;
+    }
+
+    public void setAgreeSingaporeTnc(Boolean agreeSingaporeTnc) {
+        this.agreeSingaporeTnc = agreeSingaporeTnc;
+    }
+
+    public Boolean getAgreeIndonesiaTnc() {
+        return agreeIndonesiaTnc;
+    }
+
+    public void setAgreeIndonesiaTnc(Boolean agreeIndonesiaTnc) {
+        this.agreeIndonesiaTnc = agreeIndonesiaTnc;
+    }
+
+    public Boolean getAgreeMalaysiaTnc() {
+        return agreeMalaysiaTnc;
+    }
+
+    public void setAgreeMalaysiaTnc(Boolean agreeMalaysiaTnc) {
+        this.agreeMalaysiaTnc = agreeMalaysiaTnc;
+    }
+
+    public String getReferralCode() {
+        return referralCode;
+    }
+
+    public void setReferralCode(String referralCode) {
+        this.referralCode = referralCode;
+    }
 
 }

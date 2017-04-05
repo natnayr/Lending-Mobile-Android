@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity{
 
                             if(webCall == true && action != null) {
                                 final String locale = LocaleHelper.getLanguage(MainActivity.this);
-                                String webViewUrl = APIServices.API_BASE_URL +
+                                String webViewUrl = APIServices.API_OLD_BASE_URL +
                                         "mobile/" + action +
                                         "?lang=" + locale;
 

@@ -11,10 +11,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.client.AuthClient;
-import com.crowdo.p2pconnect.data.response_model.AuthResponse;
+import com.crowdo.p2pconnect.data.response_model.OAuthResponse;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HashingUtils;
 import com.crowdo.p2pconnect.helpers.RegexValidationUtil;
@@ -86,6 +87,9 @@ public class LoginFragment extends Fragment{
         viewHolder.mLoginSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Clear keyboard
+                SoftInputHelper.hideSoftKeyboard(getActivity());
+
                 submit();
             }
         });
@@ -96,6 +100,9 @@ public class LoginFragment extends Fragment{
                 viewHolder.mLoginEmailEditText.setText(initAccountEmail);
             }
         }
+
+        SoftInputHelper.setupUI(rootView, getActivity(), new EditText[]{
+                viewHolder.mLoginEmailEditText, viewHolder.mLoginPasswdEditText});
 
         return rootView;
     }
@@ -141,14 +148,14 @@ public class LoginFragment extends Fragment{
                         ConstantVariables.getUniqueAndroidID(getActivity()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<AuthResponse>>() {
+                .subscribe(new Observer<Response<OAuthResponse>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         disposableLoginUser = d;
                     }
 
                     @Override
-                    public void onNext(Response<AuthResponse> response) {
+                    public void onNext(Response<OAuthResponse> response) {
                         Log.d(LOG_TAG, "APP: http-message:" + response.message()
                                 + " http-code:" + response.code()
                                 + ", http-body: {" + response.body().toString() + "}");
@@ -174,7 +181,7 @@ public class LoginFragment extends Fragment{
 
     }
 
-    private void handleResult(Response<AuthResponse> response){
+    private void handleResult(Response<OAuthResponse> response){
         final String passwordToHashKeep = viewHolder.mLoginPasswdEditText.getText().toString();
         final Bundle data = new Bundle();
         final Intent res = new Intent();
@@ -197,12 +204,12 @@ public class LoginFragment extends Fragment{
             return;
         }
 
-        AuthResponse authResponse = response.body();
+        OAuthResponse OAuthResponse = response.body();
 
         //failed login response from server
-        if(HTTPResponseUtils.check4xxClientError(authResponse.getStatus())){
+        if(HTTPResponseUtils.check4xxClientError(OAuthResponse.getStatus())){
             SnackBarUtil.snackBarForAuthCreate(getView(),
-                    authResponse.getMessage(),
+                    OAuthResponse.getMessage(),
                     Snackbar.LENGTH_SHORT,
                     mColorIconText, mColorAccent).show();
 
@@ -216,17 +223,17 @@ public class LoginFragment extends Fragment{
         }
 
         //success login
-        if(HTTPResponseUtils.check2xxSuccess(authResponse.getStatus())){
+        if(HTTPResponseUtils.check2xxSuccess(OAuthResponse.getStatus())){
             //show success
             SnackBarUtil.snackBarForAuthCreate(getView(),
-                    authResponse.getMessage(),
+                    OAuthResponse.getMessage(),
                     Snackbar.LENGTH_SHORT,
                     mColorIconText, mColorAccent).show();
 
             try {
-                data.putString(AccountManager.KEY_ACCOUNT_NAME, authResponse.getMember().getEmail());
+                data.putString(AccountManager.KEY_ACCOUNT_NAME, OAuthResponse.getMember().getEmail());
                 data.putString(AccountManager.KEY_ACCOUNT_TYPE, initAccountType);
-                data.putString(AccountManager.KEY_AUTHTOKEN, authResponse.getAuthToken());
+                data.putString(AccountManager.KEY_AUTHTOKEN, OAuthResponse.getAuthToken());
                 data.putString(AccountManager.KEY_PASSWORD, HashingUtils.hashSHA256(passwordToHashKeep));
 
             }catch(Exception e){

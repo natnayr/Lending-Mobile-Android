@@ -197,7 +197,7 @@ public class LoanDetailsFragment extends Fragment {
             if (initLoanId >= 0) {
                 Toast.makeText(getActivity(), mLabelToastDownloading, Toast.LENGTH_SHORT).show();
 
-                final String url = APIServices.API_BASE_URL + APIServices.FACTSHEET_URL + initLoanId +
+                final String url = APIServices.API_OLD_BASE_URL + APIServices.FACTSHEET_URL + initLoanId +
                         "/?" + APIServices.FACTSHEET_LANGUAGE_PARAM + LocaleHelper.getLanguage(getActivity());
                 final String toFileName = initLoanId + "_factsheet.pdf";
                 Log.d(LOG_TAG, "APP: downloadFactSheet() called [" + url + "] for " + toFileName);
@@ -342,7 +342,7 @@ public class LoanDetailsFragment extends Fragment {
             }
             String localeKey = LocaleHelper.getLanguage(getActivity());
 
-            String webViewUrl = APIServices.API_BASE_URL+
+            String webViewUrl = APIServices.API_OLD_BASE_URL +
                     "mobile/login_and_checkout_authenticate?" +
                     "email="+email+"&loan_id="+initLoanId +
                     "&invest_amount="+biddingAmount+

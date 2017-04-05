@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
@@ -25,8 +26,9 @@ public class RegisterViewHolder {
     @BindView(R.id.auth_register_email_edittext) public AppCompatEditText mRegisterEmailEditText;
     @BindView(R.id.auth_register_password_edittext) public AppCompatEditText mRegisterPasswordEmailText;
     @BindView(R.id.auth_register_confirm_password_edittext) public AppCompatEditText mRegisterConfirmPasswdEditText;
-    @BindView(R.id.auth_register_exit_btn) public ImageButton mExitImageButton;
-    @BindView(R.id.auth_register_submit_btn) public LinearLayout mSubmitButton;
+    @BindView(R.id.auth_register_exit_btn) public ImageButton mRegisterExitImageButton;
+    @BindView(R.id.auth_register_submit_btn) public LinearLayout mRegisterSubmitButton;
+    @BindView(R.id.auth_register_submit_text) public TextView mRegisterSubmitTextView;
 
     private Context mContext;
     private static final String LOG_TAG = RegisterViewHolder.class.getSimpleName();
@@ -37,7 +39,7 @@ public class RegisterViewHolder {
     }
 
     public void init(){
-        mSubmitButton.setEnabled(false);
+        mRegisterSubmitButton.setEnabled(false);
 
         //To set icons
         mRegisterNameEditText.setCompoundDrawables(
@@ -73,36 +75,36 @@ public class RegisterViewHolder {
         mRegisterNameEditText.addTextChangedListener(new SubmitEnablerTextWatcher(
                 new EditText[]{mRegisterNameEditText, mRegisterEmailEditText,
                         mRegisterPasswordEmailText, mRegisterConfirmPasswdEditText},
-                mSubmitButton));
+                new View[]{mRegisterSubmitButton, mRegisterSubmitTextView}));
 
         mRegisterEmailEditText.addTextChangedListener(new SubmitEnablerTextWatcher(
                 new EditText[]{mRegisterNameEditText, mRegisterEmailEditText,
                         mRegisterPasswordEmailText, mRegisterConfirmPasswdEditText},
-                mSubmitButton));
+                new View[]{mRegisterSubmitButton, mRegisterSubmitTextView}));
 
         mRegisterPasswordEmailText.addTextChangedListener(new SubmitEnablerTextWatcher(
                 new EditText[]{mRegisterNameEditText, mRegisterEmailEditText,
                         mRegisterPasswordEmailText, mRegisterConfirmPasswdEditText},
-                mSubmitButton));
+                new View[]{mRegisterSubmitButton, mRegisterSubmitTextView}));
 
         mRegisterConfirmPasswdEditText.addTextChangedListener(new SubmitEnablerTextWatcher(
                 new EditText[]{mRegisterNameEditText, mRegisterEmailEditText,
                         mRegisterPasswordEmailText, mRegisterConfirmPasswdEditText},
-                mSubmitButton));
+                new View[]{mRegisterSubmitButton, mRegisterSubmitTextView}));
 
-        mExitImageButton.setImageDrawable(
+        mRegisterExitImageButton.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_close)
                         .sizeRes(R.dimen.auth_btn_drawable_close_icon_size));
     }
 
 
-    class SubmitEnablerTextWatcher implements TextWatcher {
-        View view;
+    private class SubmitEnablerTextWatcher implements TextWatcher {
+        View[] viewsToEnable;
         EditText[] editTextList;
 
-        public SubmitEnablerTextWatcher(EditText[] editTextList, View view) {
-            this.view = view;
+        public SubmitEnablerTextWatcher(EditText[] editTextList, View[] viewsToEnable) {
+            this.viewsToEnable = viewsToEnable;
             this.editTextList = editTextList;
         }
 
@@ -114,11 +116,16 @@ public class RegisterViewHolder {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             for(EditText editText : editTextList){
                 if(editText.getText().length() <= 0 ){
-                    view.setEnabled(false);
+                    for(View view : viewsToEnable){
+                        view.setEnabled(false);
+                    }
                     return;
                 }
             }
-            view.setEnabled(true); //all pass
+            for(View view : viewsToEnable){
+                //all pass
+                view.setEnabled(true);
+            }
         }
 
         @Override
