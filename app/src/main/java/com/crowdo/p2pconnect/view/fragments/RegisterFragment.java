@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.client.AuthClient;
@@ -22,8 +23,12 @@ import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.RegexValidationUtil;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
+import com.crowdo.p2pconnect.model.Member;
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.viewholders.RegisterViewHolder;
+
+import org.parceler.Parcel;
+import org.parceler.Parcels;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -59,7 +64,6 @@ public class RegisterFragment extends Fragment{
 
     private static final String LOG_TAG = RegisterFragment.class.getSimpleName();
     public static final String REGISTER_FRAGMENT_TAG = "REGISTER_FRAGMENT_TAG";
-    private static final int TIME_DELAY_FOR_SUCESS_TRANSFER = 1000;
 
     private RegisterViewHolder viewHolder;
     private Disposable disposableRegisterUser;
@@ -93,14 +97,13 @@ public class RegisterFragment extends Fragment{
         viewHolder.mRegisterSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Clear keyboard
-                SoftInputHelper.hideSoftKeyboard(getActivity());
-
                 submit();
             }
         });
 
-
+        SoftInputHelper.setupUI(rootView, getActivity(), new EditText[]{
+                viewHolder.mRegisterEmailEditText, viewHolder.mRegisterNameEditText,
+                viewHolder.mRegisterPasswordEmailText, viewHolder.mRegisterPasswordEmailText});
 
         return rootView;
     }
@@ -120,6 +123,9 @@ public class RegisterFragment extends Fragment{
         final String inputName = viewHolder.mRegisterNameEditText.getText().toString().trim();
         final String inputPassword = viewHolder.mRegisterPasswordEmailText.getText().toString();
         final String inputConfirmPassword = viewHolder.mRegisterConfirmPasswdEditText.getText().toString();
+
+        //hide keyboard
+        SoftInputHelper.hideSoftKeyboard(getActivity());
 
         //fix emailbox for user
         if (!inputEmail.equals(viewHolder.mRegisterEmailEditText.getText().toString())) {
@@ -218,12 +224,12 @@ public class RegisterFragment extends Fragment{
             return;
         }
 
-        OAuthResponse OAuthResponse = response.body();
+        OAuthResponse oauth = response.body();
 
         //failed login response from server
-        if(HTTPResponseUtils.check4xxClientError(OAuthResponse.getStatus())){
+        if(HTTPResponseUtils.check4xxClientError(oauth.getStatus())){
             SnackBarUtil.snackBarForAuthCreate(getView(),
-                    OAuthResponse.getMessage(),
+                    oauth.getMessage(),
                     Snackbar.LENGTH_SHORT,
                     mColorIconText, mColorAccent).show();
 
@@ -237,17 +243,17 @@ public class RegisterFragment extends Fragment{
         }
 
         //success register
-        if(HTTPResponseUtils.check2xxSuccess(OAuthResponse.getStatus())){
+        if(HTTPResponseUtils.check2xxSuccess(oauth.getStatus())){
             //show success
             SnackBarUtil.snackBarForAuthCreate(getView(),
-                    OAuthResponse.getMessage(),
+                    oauth.getMessage(),
                     Snackbar.LENGTH_SHORT,
                     mColorIconText, mColorAccent).show();
 
             try {
-                data.putString(AccountManager.KEY_ACCOUNT_NAME, OAuthResponse.getMember().getEmail());
+                data.putString(AccountManager.KEY_ACCOUNT_NAME, oauth.getMember().getEmail());
                 data.putString(AccountManager.KEY_ACCOUNT_TYPE, initAccountType);
-                data.putString(AccountManager.KEY_AUTHTOKEN, OAuthResponse.getAuthToken());
+                data.putString(AccountManager.KEY_AUTHTOKEN, oauth.getAuthToken());
                 data.putString(AccountManager.KEY_PASSWORD, mPasswordHash);
 
             }catch(Exception e){
@@ -260,15 +266,16 @@ public class RegisterFragment extends Fragment{
                 return;
             }
 
-            //wait to end, and pass to finishAuth to end
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    res.putExtras(data);
-                    //finalise auth
-                    ((AuthActivity) getActivity()).finishAuth(res, null);
-                }
-            }, TIME_DELAY_FOR_SUCESS_TRANSFER);
+            final Member member = oauth.getMember();
+            final Bundle userData = new Bundle();
+            userData.putString(AuthActivity.POST_AUTH_MEMBER_ID, member.getId().toString());
+            userData.putString(AuthActivity.POST_AUTH_MEMBER_EMAIL, member.getEmail());
+            userData.putString(AuthActivity.POST_AUTH_MEMBER_NAME, member.getName());
+            userData.putString(AuthActivity.POST_AUTH_MEMBER_LOCALE, member.getLocalePreference());
+
+            res.putExtras(data);
+            //finalise auth
+            ((AuthActivity) getActivity()).finishAuth(res, userData);
         }
     }
 }

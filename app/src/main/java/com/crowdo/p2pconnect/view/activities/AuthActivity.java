@@ -5,14 +5,17 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.data.response_model.OAuthResponse;
 import com.crowdo.p2pconnect.helpers.AccountManagerUtils;
 import com.crowdo.p2pconnect.helpers.CallBackInterface;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
+import com.crowdo.p2pconnect.model.Member;
 import com.crowdo.p2pconnect.oauth.AccountAuthenticatorFragmentActivity;
 import com.crowdo.p2pconnect.oauth.AccountGeneral;
 import com.crowdo.p2pconnect.view.fragments.LoginFragment;
@@ -31,6 +34,11 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
     public final static String ARG_AUTH_TOKEN_TYPE = "AUTH_TOKEN_TYPE";
     public final static String ARG_IS_ADDING_NEW_ACCOUNT = "IS_ADDING_ACCOUNT";
 
+    public final static String POST_AUTH_MEMBER_ID = "AUTH_MEMBER_KEY_ID";
+    public final static String POST_AUTH_MEMBER_EMAIL = "AUTH_MEMBER_KEY_EMAIL";
+    public final static String POST_AUTH_MEMBER_NAME = "AUTH_MEMBER_KEY_NAME";
+    public final static String POST_AUTH_MEMBER_LOCALE = "AUTH_MEMBER_KEY_LOCALE";
+
     public final static String ARG_KEY_MESSAGE_ERROR = "MSG_ERR";
     public final static String FRAGMENT_CLASS_TAG_CALL = "FRAGMENT_CLASS";
 
@@ -39,6 +47,8 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
     private String mAccountType;
     private String mAuthTokenType;
     private boolean mIsNewAccountRequested;
+
+    private static final int TIME_DELAY_FOR_SUCESS_TRANSFER = 1000;
 
     @Override
     protected void onCreate(Bundle icicle) {
@@ -52,6 +62,7 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
         mAccountType = extras.getString(ARG_ACCOUNT_TYPE);
         mAuthTokenType = extras.getString(ARG_AUTH_TOKEN_TYPE);
         mIsNewAccountRequested = extras.getBoolean(ARG_IS_ADDING_NEW_ACCOUNT);
+
 
         if(mAuthTokenType == null){
             mAuthTokenType = AccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS;
@@ -96,7 +107,7 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
         super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 
-    public void finishAuth(final Intent intent, Bundle userData){
+    public void finishAuth(final Intent intent, final Bundle userData){
         Log.d(LOG_TAG, "APP: finishAuth()");
 
         //remove all other accounts
@@ -123,9 +134,8 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
 
                     // Creating the account on the device and setting the auth token we got
                     // (Not setting the auth token will cause another call to the server to authenticate the user)
-                    mAccountManager.addAccountExplicitly(account, accountPasswordHash, null);
+                    mAccountManager.addAccountExplicitly(account, accountPasswordHash, userData);
                     mAccountManager.setAuthToken(account, authTokeType, authToken);
-
                 } else {
                     Log.d(LOG_TAG, "APP: finishAuth() > setPassword");
                     mAccountManager.setPassword(account, accountPasswordHash);
@@ -134,10 +144,16 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
                 setAccountAuthenticatorResult(extras);
                 setResult(RESULT_OK, intent);
 
-                Intent resetIntent = new Intent(AuthActivity.this, MainActivity.class);
-                resetIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(resetIntent);
-                AuthActivity.this.finish(); //carry on with either AccountManager or In-App Login
+                //SUCCESS!!!
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        Intent resetIntent = new Intent(AuthActivity.this, MainActivity.class);
+                        resetIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(resetIntent);
+                        AuthActivity.this.finish(); //carry on with either AccountManager or In-App Login
+                    }
+                }, TIME_DELAY_FOR_SUCESS_TRANSFER);
             }
         });
 

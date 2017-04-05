@@ -4,12 +4,9 @@ package com.crowdo.p2pconnect.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import org.parceler.Parcel;
-
 /**
  * Created by cwdsg05 on 21/3/17.
  */
-@Parcel
 public class Member {
 
     @SerializedName("id")

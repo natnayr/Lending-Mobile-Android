@@ -53,12 +53,13 @@
         <item name="colorPrimaryDark">@color/color_primary_700</item>
         <item name="colorAccent">@color/color_accent</item>
         <item name="colorControlNormal">@color/color_secondary_text</item>
-        <item name="colorControlActivated">@color/color_secondary_text</item>
+        <item name="colorControlActivated">@color/color_accent</item>
         <item name="colorControlHighlight">@color/color_primary_300</item>
         <item name="android:textColorHint">@color/color_secondary_text</item>
         <item name="android:textColorPrimary">@color/color_primary_text</item>
         <item name="android:textColorSecondary">@color/color_secondary_text</item>
         <item name="android:textColorPrimaryInverse">@color/color_secondary_text</item>
+
     </style>
 
     <style name="Widget.Design.TextInputLayout" parent="AppTheme">
@@ -70,7 +71,7 @@
 
     <style name="AppTheme.TextFloatLabelAppearance" parent="TextAppearance.Design.Hint">
         <!-- Floating label appearance here -->
-        <item name="android:textColor">@color/color_icons_text</item>
+        <item name="android:textColor">@color/color_secondary_text</item>
     </style>
 
     <style name="RobotoTextViewStyle" parent="TextAppearance.AppCompat">

@@ -22,8 +22,11 @@ import com.crowdo.p2pconnect.helpers.RegexValidationUtil;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
+import com.crowdo.p2pconnect.model.Member;
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.viewholders.LoginViewHolder;
+
+import org.parceler.Parcels;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -53,7 +56,6 @@ public class LoginFragment extends Fragment{
 
     private static final String LOG_TAG = LoginFragment.class.getSimpleName();
     public static final String LOGIN_FRAGMENT_TAG = "LOGIN_FRAGMENT_TAG";
-    private static final int TIME_DELAY_FOR_SUCESS_TRANSFER = 1000;
 
     private LoginViewHolder viewHolder;
     private Disposable disposableLoginUser;
@@ -204,12 +206,12 @@ public class LoginFragment extends Fragment{
             return;
         }
 
-        OAuthResponse OAuthResponse = response.body();
+        OAuthResponse oauth = response.body();
 
         //failed login response from server
-        if(HTTPResponseUtils.check4xxClientError(OAuthResponse.getStatus())){
+        if(HTTPResponseUtils.check4xxClientError(oauth.getStatus())){
             SnackBarUtil.snackBarForAuthCreate(getView(),
-                    OAuthResponse.getMessage(),
+                    oauth.getMessage(),
                     Snackbar.LENGTH_SHORT,
                     mColorIconText, mColorAccent).show();
 
@@ -223,17 +225,17 @@ public class LoginFragment extends Fragment{
         }
 
         //success login
-        if(HTTPResponseUtils.check2xxSuccess(OAuthResponse.getStatus())){
+        if(HTTPResponseUtils.check2xxSuccess(oauth.getStatus())){
             //show success
             SnackBarUtil.snackBarForAuthCreate(getView(),
-                    OAuthResponse.getMessage(),
+                    oauth.getMessage(),
                     Snackbar.LENGTH_SHORT,
                     mColorIconText, mColorAccent).show();
 
             try {
-                data.putString(AccountManager.KEY_ACCOUNT_NAME, OAuthResponse.getMember().getEmail());
+                data.putString(AccountManager.KEY_ACCOUNT_NAME, oauth.getMember().getEmail());
                 data.putString(AccountManager.KEY_ACCOUNT_TYPE, initAccountType);
-                data.putString(AccountManager.KEY_AUTHTOKEN, OAuthResponse.getAuthToken());
+                data.putString(AccountManager.KEY_AUTHTOKEN, oauth.getAuthToken());
                 data.putString(AccountManager.KEY_PASSWORD, HashingUtils.hashSHA256(passwordToHashKeep));
 
             }catch(Exception e){
@@ -246,17 +248,17 @@ public class LoginFragment extends Fragment{
                 return;
             }
 
-            //wait to end, and pass to finishAuth to end
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    res.putExtras(data);
-                    //finalise auth
-                    ((AuthActivity) getActivity()).finishAuth(res, null);
-                }
-            }, TIME_DELAY_FOR_SUCESS_TRANSFER);
+            final Member member = oauth.getMember();
+            final Bundle userData = new Bundle();
+            userData.putString(AuthActivity.POST_AUTH_MEMBER_ID, member.getId().toString());
+            userData.putString(AuthActivity.POST_AUTH_MEMBER_EMAIL, member.getEmail());
+            userData.putString(AuthActivity.POST_AUTH_MEMBER_NAME, member.getName());
+            userData.putString(AuthActivity.POST_AUTH_MEMBER_LOCALE, member.getLocalePreference());
 
 
+            res.putExtras(data);
+            //finalise auth
+            ((AuthActivity) getActivity()).finishAuth(res, userData);
         }
     }
 }

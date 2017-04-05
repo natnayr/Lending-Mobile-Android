@@ -45,6 +45,7 @@ import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -320,6 +321,7 @@ public class MainActivity extends AppCompatActivity{
                                 mAuthToken = bundle.getString(AccountManager.KEY_AUTHTOKEN);
                                 Log.d(LOG_TAG, "APP: getExisitingAccountAuthTokenOrAuth > authToken = "
                                         + mAuthToken);
+
                             }catch (OperationCanceledException oce){
                                 Log.e(LOG_TAG, "ERROR: " + oce.getMessage(), oce);
                                 oce.printStackTrace();
@@ -332,6 +334,16 @@ public class MainActivity extends AppCompatActivity{
                             }
                         }
                     }, null);
+
+            Log.d(LOG_TAG, "APP: POST_AUTH_MEMBER_ID => " + mAccountManager.getUserData(accounts[0],
+                    AuthActivity.POST_AUTH_MEMBER_ID));
+            Log.d(LOG_TAG, "APP: POST_AUTH_MEMBER_EMAIL => " + mAccountManager.getUserData(accounts[0],
+                    AuthActivity.POST_AUTH_MEMBER_EMAIL));
+            Log.d(LOG_TAG, "APP: POST_AUTH_MEMBER_NAME => " + mAccountManager.getUserData(accounts[0],
+                    AuthActivity.POST_AUTH_MEMBER_NAME));
+            Log.d(LOG_TAG, "APP: POST_AUTH_MEMBER_LOCALE => " + mAccountManager.getUserData(accounts[0],
+                    AuthActivity.POST_AUTH_MEMBER_LOCALE));
+
         }else{
             //getAuthTokenFailure
             goToLaunchActivity();
