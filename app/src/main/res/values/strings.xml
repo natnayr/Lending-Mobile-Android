@@ -44,7 +44,8 @@
     <string name="loan_list_action_filter_security_label">Securities&#58;</string>
     <string name="loan_list_action_filter_sec_collateralized">Collateral</string>
     <string name="loan_list_action_filter_sec_uncollateralized">Non-\nCollateral</string>
-    <string name="loan_list_action_filter_sec_invoice_or_cheque">Working Order/\nInvoice</string>
+    <string name="loan_list_action_filter_sec_invoice_or_cheque">Working\nOrder/Invoice</string>
+    <string name="loan_list_action_filter_sec_personal_guarantee">Personal\nGuarantee</string>
 
     <string name="loan_list_percentage_return_label">Return</string>
     <string name="loan_list_tenure_label">Months</string>

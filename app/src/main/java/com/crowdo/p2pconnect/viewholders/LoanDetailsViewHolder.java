@@ -254,7 +254,7 @@ public class LoanDetailsViewHolder {
                     break;
                 case ConstantVariables.IN_SEC_UNCOLLATERALIZED:
                     mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
-                            .icon(CommunityMaterial.Icon.cmd_lock_open)
+                            .icon(CommunityMaterial.Icon.cmd_lock_open_outline)
                             .sizeRes(R.dimen.loan_detail_security_icon_size));
                     mSecurityIcon.setColorFilter(mLockOpenColor);
                     mSecurityDescription.setText(mOutSecUncollateralized);

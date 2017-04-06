@@ -25,7 +25,7 @@
         android:id="@+id/loan_list_view_filtering_expandable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:el_expanded="false"
+        app:el_expanded="true"
         app:el_duration="200"
         app:el_parallax="0"
         android:layout_alignParentTop="true"
@@ -445,7 +445,7 @@
                                 android:layout_height="match_parent"
                                 android:padding="@dimen/list_view_filtering_switch_view_icon_padding"
                                 android:orientation="horizontal"
-                                android:gravity="center"
+                                android:gravity="left"
                                 android:layout_weight="1">
                                 <com.github.zagum.switchicon.SwitchIconView
                                     android:id="@+id/loan_list_view_filtering_security_collateralized_switch"
@@ -473,7 +473,7 @@
                                 android:layout_height="match_parent"
                                 android:padding="@dimen/list_view_filtering_switch_view_icon_padding"
                                 android:orientation="horizontal"
-                                android:gravity="center"
+                                android:gravity="left"
                                 android:layout_weight="1">
                                 <com.github.zagum.switchicon.SwitchIconView
                                     android:id="@+id/loan_list_view_filtering_security_work_order_invoice_switch"
@@ -485,7 +485,7 @@
                                     app:si_enabled="true"
                                     app:si_tint_color="@color/color_icon_file_text"
                                     app:si_no_dash="true"
-                                    app:srcCompat="@drawable/ic_file_document_black_24dp" />
+                                    app:srcCompat="@drawable/ic_file_black_24dp" />
                                 <TextView
                                     android:id="@+id/loan_list_view_filtering_security_work_order_invoice_label"
                                     android:layout_width="wrap_content"
@@ -505,10 +505,8 @@
                                 android:layout_height="match_parent"
                                 android:padding="@dimen/list_view_filtering_switch_view_icon_padding"
                                 android:orientation="horizontal"
-                                android:layout_alignParentRight="true"
-                                android:gravity="center"
-                                android:layout_weight="1"
-                                android:layout_column="0">
+                                android:gravity="left"
+                                android:layout_weight="1">
                                 <com.github.zagum.switchicon.SwitchIconView
                                     android:id="@+id/loan_list_view_filtering_security_uncollateralized_switch"
                                     android:layout_height="wrap_content"
@@ -529,15 +527,34 @@
                                     android:maxLines="2"
                                     android:textColor="@color/color_divider_dark"/>
                             </LinearLayout>
-
                             <LinearLayout
+                                android:id="@+id/loan_list_view_filtering_security_personal_guarantee_button"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:padding="@dimen/list_view_filtering_switch_view_icon_padding"
                                 android:orientation="horizontal"
-                                android:gravity="center"
-                                android:layout_weight="1"
-                                android:layout_column="1"/>
+                                android:gravity="left"
+                                android:layout_weight="1">
+                                <com.github.zagum.switchicon.SwitchIconView
+                                    android:id="@+id/loan_list_view_filtering_security_personal_guarantee_switch"
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="wrap_content"
+                                    app:si_animation_duration="200"
+                                    app:si_disabled_alpha=".3"
+                                    app:si_disabled_color="@color/color_divider_dark"
+                                    app:si_enabled="true"
+                                    app:si_tint_color="@color/color_icon_decagram"
+                                    app:si_no_dash="true"
+                                    app:srcCompat="@drawable/ic_decagram_black_24dp" />
+                                <TextView
+                                    android:id="@+id/loan_list_view_filtering_security_personal_guarantee_label"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/loan_list_action_filter_sec_personal_guarantee"
+                                    android:textSize="@dimen/list_small_text_size"
+                                    android:maxLines="2"
+                                    android:textColor="@color/color_divider_dark"/>
+                            </LinearLayout>
                         </TableRow>
                     </TableLayout>
                 </RelativeLayout>

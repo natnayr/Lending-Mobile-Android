@@ -51,12 +51,15 @@ public class LoanListFilterViewHolder {
     @BindView(R.id.loan_list_view_filtering_security_collateralized_button) LinearLayout securityCollaterialisedButton;
     @BindView(R.id.loan_list_view_filtering_security_uncollateralized_button) LinearLayout securityUncollaterialisedButton;
     @BindView(R.id.loan_list_view_filtering_security_work_order_invoice_button) LinearLayout securityWorkOrderInvoiceButton;
+    @BindView(R.id.loan_list_view_filtering_security_personal_guarantee_button) LinearLayout securityPersonalGuaranteeButton;
     @BindView(R.id.loan_list_view_filtering_security_collateralized_switch) SwitchIconView securityCollaterialisedSwitch;
     @BindView(R.id.loan_list_view_filtering_security_uncollateralized_switch) SwitchIconView securityUncollaterialisedSwitch;
     @BindView(R.id.loan_list_view_filtering_security_work_order_invoice_switch) SwitchIconView securityWorkOrderInvoiceSwitch;
+    @BindView(R.id.loan_list_view_filtering_security_personal_guarantee_switch) SwitchIconView securityPersonalGuaranteeSwitch;
     @BindView(R.id.loan_list_view_filtering_security_collateralized_label) TextView securityCollaterialisedLabel;
     @BindView(R.id.loan_list_view_filtering_security_uncollateralized_label) TextView securityUncollaterialisedLabel;
     @BindView(R.id.loan_list_view_filtering_security_work_order_invoice_label) TextView securityWorkOrderInvoiceLabel;
+    @BindView(R.id.loan_list_view_filtering_security_personal_guarantee_label) TextView securityPersonalGuaranteeLabel;
 
     @BindString(R.string.gradeA_plus) String gradeAPlus;
     @BindString(R.string.gradeA) String gradeA;
@@ -110,6 +113,8 @@ public class LoanListFilterViewHolder {
         securityWorkOrderInvoiceButton.setOnClickListener(new FilteringSecurityButtonClickListener(
                 securityWorkOrderInvoiceSwitch, securityWorkOrderInvoiceLabel, ConstantVariables.IN_SEC_INVOICE_OR_CHEQUE));
 
+        securityPersonalGuaranteeButton.setOnClickListener(new FilteringSecurityButtonClickListener(
+                securityPersonalGuaranteeSwitch, securityPersonalGuaranteeLabel, ConstantVariables.IN_SEC_PERSONAL_GUARANTEE));
     }
 
     public void clearFiltering(){
@@ -137,13 +142,15 @@ public class LoanListFilterViewHolder {
         securityCollaterialisedSwitch.setIconEnabled(false);
         securityUncollaterialisedSwitch.setIconEnabled(false);
         securityWorkOrderInvoiceSwitch.setIconEnabled(false);
+        securityPersonalGuaranteeSwitch.setIconEnabled(false);
         securityCollaterialisedLabel.setTextColor(colorDividerDark);
         securityUncollaterialisedLabel.setTextColor(colorDividerDark);
         securityWorkOrderInvoiceLabel.setTextColor(colorDividerDark);
+        securityPersonalGuaranteeLabel.setTextColor(colorDividerDark);
     }
 
 
-
+    //class to apply for button switching of grade
     class FilteringGradeButtonClickListener implements View.OnClickListener{
         private AnimateCheckBox animateCheckBox;
         private String grade;
@@ -167,6 +174,7 @@ public class LoanListFilterViewHolder {
         }
     }
 
+    //class to apply for button switching of term
     class FilteringTermButtonClickListener implements View.OnClickListener{
         private SwitchIconView switchIconView;
         private int termPeriod;
@@ -191,6 +199,7 @@ public class LoanListFilterViewHolder {
         }
     }
 
+    //class to apply for button switching of security
     class FilteringSecurityButtonClickListener implements View.OnClickListener{
         private SwitchIconView switchIconView;
         private TextView securityLabel;
