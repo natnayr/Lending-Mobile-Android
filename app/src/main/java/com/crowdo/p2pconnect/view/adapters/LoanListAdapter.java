@@ -2,6 +2,7 @@ package com.crowdo.p2pconnect.view.adapters;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -143,7 +144,10 @@ public class LoanListAdapter extends BaseAdapter{
                 LoanListItem item = llit.next();
 
                 if(!"".contains(this.searchQuery)){
-                    if(!item.getLoanId().toLowerCase().trim().contains(this.searchQuery.toLowerCase().trim())) {
+                    if(!item.getLoanId().toLowerCase().trim()
+                            .contains(this.searchQuery.toLowerCase().trim())) {
+                        Log.d(LOG_TAG, "APP: filtering by search = "
+                                + item.getLoanId().toLowerCase().trim());
                         llit.remove();
                         continue;
                     }
@@ -151,20 +155,26 @@ public class LoanListAdapter extends BaseAdapter{
 
                 if(!gradesToFilter.isEmpty()){
                     if(!gradesToFilter.contains(item.getGrade())){
+                        Log.d(LOG_TAG, "APP: filtering by grade = "
+                                + item.getGrade());
                         llit.remove();
                         continue;
                     }
                 }
 
                 if (!termsToFilter.isEmpty()){
-                    if(!termsToFilter.contains(item.getGrade())){
+                    if(!termsToFilter.contains(item.getTenure())){
+                        Log.d(LOG_TAG, "APP: filtering by term = "
+                                + item.getTenure());
                         llit.remove();
                         continue;
                     }
                 }
 
                 if(!securityToFilter.isEmpty()){
-                    if(!securityToFilter.contains(item.getGrade())){
+                    if(!securityToFilter.contains(item.getSecurity())){
+                        Log.d(LOG_TAG, "APP: filtering by security = "
+                                + item.getSecurity());
                         llit.remove();
                         continue;
                     }
