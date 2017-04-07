@@ -78,7 +78,7 @@ public class LoanListAdapter extends BaseAdapter{
 
     private View createView(ViewGroup parent){
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        final View view = inflater.inflate(R.layout.item_list_loan, parent, false);
+        final View view = inflater.inflate(R.layout.item_loan_list, parent, false);
         final LoanListViewHolder loanListViewHolder = new LoanListViewHolder(mContext, view);
         view.setTag(loanListViewHolder);
         return view;

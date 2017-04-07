@@ -3,7 +3,6 @@ package com.crowdo.p2pconnect.view.fragments;
 import android.accounts.AccountManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -26,9 +25,6 @@ import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.model.Member;
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.viewholders.RegisterViewHolder;
-
-import org.parceler.Parcel;
-import org.parceler.Parcels;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -87,7 +83,7 @@ public class RegisterFragment extends Fragment{
         viewHolder = new RegisterViewHolder(rootView, getActivity());
         viewHolder.init();
 
-        viewHolder.mRegisterExitImageButton.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mRegisterExitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().finish();

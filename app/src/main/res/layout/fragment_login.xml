@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/color_background_50">
 
-    <ImageButton
+    <LinearLayout
         android:id="@+id/auth_login_exit_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,8 +15,14 @@
         android:paddingStart="@dimen/auth_btn_drawable_padding"
         android:paddingRight="@dimen/auth_btn_drawable_padding"
         android:paddingBottom="@dimen/auth_btn_drawable_padding"
-        android:background="@color/color_transparent"
-        android:tint="@color/auth_drawable_close_color"/>
+        android:clickable="true">
+        <ImageView
+            android:id="@+id/auth_login_exit_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/color_transparent"
+            android:backgroundTint="@color/auth_drawable_close_color"/>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/auth_login_input_group"
@@ -91,14 +97,13 @@
                 android:textAllCaps="true"
                 android:gravity="center_horizontal" />
         </LinearLayout>
-    </LinearLayout>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:foregroundGravity="center_horizontal"
-        android:layout_marginTop="18dp"
-        android:layout_marginBottom="9dp"
-        android:src="@drawable/crowdo_key"
-        android:layout_above="@+id/auth_login_input_group"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>

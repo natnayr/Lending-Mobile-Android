@@ -72,14 +72,14 @@ public class LoginFragment extends Fragment{
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_login, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_login, parent, false);
         ButterKnife.bind(this, rootView);
 
         viewHolder = new LoginViewHolder(rootView, getActivity());
         viewHolder.initView();
 
-        viewHolder.mLoginExitImageButton.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mLoginExitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().finish();

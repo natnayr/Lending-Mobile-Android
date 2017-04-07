@@ -5,8 +5,10 @@ import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,9 +27,10 @@ public class LoginViewHolder {
 
     @BindView(R.id.auth_login_email_edittext) public AppCompatEditText mLoginEmailEditText;
     @BindView(R.id.auth_login_password_edittext) public AppCompatEditText mLoginPasswdEditText;
-    @BindView(R.id.auth_login_exit_btn) public ImageButton mLoginExitImageButton;
+    @BindView(R.id.auth_login_exit_btn) public LinearLayout mLoginExitButton;
+    @BindView(R.id.auth_login_exit_image_view) ImageView mLoginExitImageView;
     @BindView(R.id.auth_login_submit_btn) public LinearLayout mLoginSubmitButton;
-    @BindView(R.id.auth_login_submit_btn_text) public TextView mLoginSubmitTextView;
+    @BindView(R.id.auth_login_submit_btn_text) TextView mLoginSubmitTextView;
 
     private static final String LOG_TAG = LoginViewHolder.class.getSimpleName();
     private Context mContext;
@@ -54,7 +57,7 @@ public class LoginViewHolder {
                         .sizeRes(R.dimen.auth_field_drawable_icon_size),
                 null, null, null);
 
-        mLoginExitImageButton.setImageDrawable(
+        mLoginExitImageView.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_close)
                         .sizeRes(R.dimen.auth_btn_drawable_close_icon_size));

@@ -17,12 +17,19 @@ public class AccountManagerUtils {
 
     public static void removeAccounts(Activity activity, final CallBackInterface callBackUtil){
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            AccountManager am = AccountManager.get(activity);
-            Account[] accounts = am.getAccountsByType(AccountGeneral.getACCOUNT_TYPE(activity));
-
-            for (Account acc : accounts) {
-                am.removeAccount(acc, activity, null, null);
+        AccountManager am = AccountManager.get(activity);
+        Account[] accounts = am.getAccountsByType(AccountGeneral.getACCOUNT_TYPE(activity));
+        if(accounts.length != 0) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                for (Account acc : accounts) {
+                    am.clearPassword(acc);
+                    am.removeAccountExplicitly(acc);
+                }
+            } else {
+                for (Account acc : accounts) {
+                    am.clearPassword(acc);
+                    am.removeAccount(acc, null, null);
+                }
             }
         }
 

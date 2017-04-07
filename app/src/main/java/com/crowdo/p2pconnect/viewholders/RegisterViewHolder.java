@@ -6,7 +6,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,7 +26,8 @@ public class RegisterViewHolder {
     @BindView(R.id.auth_register_email_edittext) public AppCompatEditText mRegisterEmailEditText;
     @BindView(R.id.auth_register_password_edittext) public AppCompatEditText mRegisterPasswordEmailText;
     @BindView(R.id.auth_register_confirm_password_edittext) public AppCompatEditText mRegisterConfirmPasswdEditText;
-    @BindView(R.id.auth_register_exit_btn) public ImageButton mRegisterExitImageButton;
+    @BindView(R.id.auth_register_exit_btn) public LinearLayout mRegisterExitButton;
+    @BindView(R.id.auth_register_exit_image_view) ImageView mRegisterExitImageView;
     @BindView(R.id.auth_register_submit_btn) public LinearLayout mRegisterSubmitButton;
     @BindView(R.id.auth_register_submit_text) public TextView mRegisterSubmitTextView;
 
@@ -92,7 +93,7 @@ public class RegisterViewHolder {
                         mRegisterPasswordEmailText, mRegisterConfirmPasswdEditText},
                 new View[]{mRegisterSubmitButton, mRegisterSubmitTextView}));
 
-        mRegisterExitImageButton.setImageDrawable(
+        mRegisterExitImageView.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_close)
                         .sizeRes(R.dimen.auth_btn_drawable_close_icon_size));
