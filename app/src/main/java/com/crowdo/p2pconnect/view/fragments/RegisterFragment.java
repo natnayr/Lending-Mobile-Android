@@ -101,6 +101,19 @@ public class RegisterFragment extends Fragment{
                 viewHolder.mRegisterEmailEditText, viewHolder.mRegisterNameEditText,
                 viewHolder.mRegisterPasswordEmailText, viewHolder.mRegisterPasswordEmailText});
 
+        viewHolder.mRegisterRedirectToLoginTextView
+                .setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginFragment loginFragment = new LoginFragment();
+                loginFragment.setArguments(getArguments());
+
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.auth_content, loginFragment)
+                        .commit();
+            }
+        });
+
         return rootView;
     }
 

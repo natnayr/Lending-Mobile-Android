@@ -100,10 +100,28 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/auth_information_margin_top"
+            android:orientation="horizontal"
+            android:gravity="center">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_secondary_text"
+                android:text="Not a member yet?"
+                android:fontFamily="@string/font_family_light"
+                android:textSize="@dimen/auth_information_text_size" />
 
-
+            <TextView
+                android:id="@+id/auth_login_redirect_to_register_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:textColor="@color/color_accent"
+                android:text="Register here"
+                android:fontFamily="@string/font_family_light"
+                android:textSize="@dimen/auth_information_text_size" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

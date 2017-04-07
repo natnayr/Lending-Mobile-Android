@@ -30,6 +30,7 @@ public class RegisterViewHolder {
     @BindView(R.id.auth_register_exit_image_view) ImageView mRegisterExitImageView;
     @BindView(R.id.auth_register_submit_btn) public LinearLayout mRegisterSubmitButton;
     @BindView(R.id.auth_register_submit_text) public TextView mRegisterSubmitTextView;
+    @BindView(R.id.auth_register_redirect_to_login_link) public TextView mRegisterRedirectToLoginTextView;
 
     private Context mContext;
     private static final String LOG_TAG = RegisterViewHolder.class.getSimpleName();

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.client.AuthClient;
@@ -33,6 +34,7 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindColor;
 import butterknife.BindString;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -105,6 +107,18 @@ public class LoginFragment extends Fragment{
 
         SoftInputHelper.setupUI(rootView, getActivity(), new EditText[]{
                 viewHolder.mLoginEmailEditText, viewHolder.mLoginPasswdEditText});
+
+        viewHolder.mLoginRedirectToRegisterTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RegisterFragment registerFragment = new RegisterFragment();
+                registerFragment.setArguments(getArguments());
+
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.auth_content, registerFragment)
+                        .commit();
+            }
+        });
 
         return rootView;
     }

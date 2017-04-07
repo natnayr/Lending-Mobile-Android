@@ -31,6 +31,7 @@ public class LoginViewHolder {
     @BindView(R.id.auth_login_exit_image_view) ImageView mLoginExitImageView;
     @BindView(R.id.auth_login_submit_btn) public LinearLayout mLoginSubmitButton;
     @BindView(R.id.auth_login_submit_btn_text) TextView mLoginSubmitTextView;
+    @BindView(R.id.auth_login_redirect_to_register_link) public TextView mLoginRedirectToRegisterTextView;
 
     private static final String LOG_TAG = LoginViewHolder.class.getSimpleName();
     private Context mContext;
