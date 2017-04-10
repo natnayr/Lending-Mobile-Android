@@ -1,10 +1,6 @@
 package com.crowdo.p2pconnect.view.fragments;
 
 import android.accounts.AccountManager;
-import android.accounts.AccountManagerCallback;
-import android.accounts.AccountManagerFuture;
-import android.accounts.AuthenticatorException;
-import android.accounts.OperationCanceledException;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
@@ -28,18 +24,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.helpers.AccountManagerUtils;
+import com.crowdo.p2pconnect.helpers.ConstantVariables;
+import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
+import com.crowdo.p2pconnect.helpers.OAuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
-import com.crowdo.p2pconnect.oauth.AccountGeneral;
 import com.crowdo.p2pconnect.view.activities.Henson;
 import com.crowdo.p2pconnect.model.LoanListItem;
 import com.crowdo.p2pconnect.data.client.LoanListClient;
+import com.crowdo.p2pconnect.view.activities.MainActivity;
 import com.crowdo.p2pconnect.view.adapters.LoanListAdapter;
 import com.crowdo.p2pconnect.viewholders.LoanListFilterViewHolder;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
-import java.io.IOException;
 import java.util.List;
 
 import butterknife.BindString;
@@ -49,6 +46,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Response;
 
 /**
  * Created by cwdsg05 on 8/11/16.
@@ -72,6 +70,7 @@ public class LoanListFragment extends Fragment {
     private LoanListAdapter mLoanAdapter;
     private LoanListFilterViewHolder filteringViewHolder;
     private SearchView searchView;
+    private Disposable disposableGetLiveLoans;
 
     public LoanListFragment() {
     }
@@ -173,6 +172,11 @@ public class LoanListFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if(disposableGetLiveLoans != null){
+            if(!disposableGetLiveLoans.isDisposed()) {
+                disposableGetLiveLoans.dispose();
+            }
+        }
     }
 
     @Override
@@ -256,16 +260,28 @@ public class LoanListFragment extends Fragment {
                 .getLiveLoans()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<LoanListItem>>() {
+
+                .subscribe(new Observer<Response<List<LoanListItem>>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
+                        disposableGetLiveLoans = d;
                     }
 
                     @Override
-                    public void onNext(List<LoanListItem> loanListItems) {
-                        Log.d(LOG_TAG, "APP: populateLoansList Rx onNext with "
-                                + loanListItems.size() + " items retreived.");
-                        mLoanAdapter.setLoans(loanListItems);
+                    public void onNext(Response<List<LoanListItem>> response) {
+                        if(response.isSuccessful()){
+                            List<LoanListItem> loanListItems = response.body();
+                            Log.d(LOG_TAG, "APP: populateLoansList Rx onNext with "
+                                    + loanListItems.size() + " items retreived.");
+                            mLoanAdapter.setLoans(loanListItems);
+                        }else{
+                            if(HTTPResponseUtils.check4xxClientError(response.code())){
+                                if(ConstantVariables.HTTP_UNAUTHORISED == response.code()){
+                                    OAuthAccountUtils.actionLogout(AccountManager.get(getActivity()),
+                                            getActivity());
+                                }
+                            }
+                        }
                     }
 
                     @Override
@@ -281,8 +297,6 @@ public class LoanListFragment extends Fragment {
                         swipeContainer.setRefreshing(false);
                     }
                 });
-
-
     }
 
     private void setSearchExpandedLayoutCollapse(){

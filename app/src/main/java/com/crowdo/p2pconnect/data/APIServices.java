@@ -22,8 +22,8 @@ import retrofit2.http.Path;
 
 public interface APIServices {
 
-    public static final String API_OLD_BASE_URL = "https://p2pid.crowdo.com/";
-    public static final String OLD_STAGE = "internal_api/";
+    public static final String API_OLD_BASE_URL_DOWN = "https://p2pid.crowdo.com/";
+    public static final String OLD_STAGE_DOWN = "internal_api/";
 
     public static final String API_LIVE_BASE_URL = "https://api.crowdo.com/";
     public static final String LIVE_STAGE = "api/v1/";
@@ -31,11 +31,18 @@ public interface APIServices {
     public static final String FACTSHEET_URL = "download_factsheet/";
     public static final String FACTSHEET_LANGUAGE_PARAM = "lang=";
 
-    @GET("loan_listing")
-    Observable<List<LoanListItem>> getLoansList();
+    public static final String API_OLD_BASE_URL = "http://192.168.1.3:3000/";
+    public static final String OLD_STAGE = "internal_api/";
 
-    @GET("loan_details/{id}")
-    Observable<LoanDetail> getLoanDetail(@Path("id") int id);
+    public static final String PRASANTH_API_URL = "http://192.168.1.3:3004/";
+    public static final String PRASANTH_API_STAGE = "api/v1/";
+
+
+    @GET("loans/loan_listing")
+    Observable<Response<List<LoanListItem>>> getLoansList();
+
+    @GET("loans/loan_details/{id}")
+    Observable<Response<LoanDetail>> getLoanDetail(@Path("id") int id);
 
     @POST("oauth/login")
     @Headers({"Content-type: application/json"})

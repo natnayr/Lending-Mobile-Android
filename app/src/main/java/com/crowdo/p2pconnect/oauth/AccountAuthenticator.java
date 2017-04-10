@@ -8,13 +8,10 @@ import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.helpers.AccountManagerUtils;
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.view.fragments.LoginFragment;
 

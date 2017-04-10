@@ -35,7 +35,7 @@ public class ConstantVariables {
     public static final String PREF_KEY_LOADED_LEARNINGCENTER_DB = "LOADED_LEARNINGCENTER_DB_KEY";
     public static final String PREF_KEY_SELECTED_LANGUAGE = "LOCALE_HELPER_SELECTED_LANGUGAGE";
 
-    public static final String LEARNING_CENTER_CSV_FILE_LOCATION = "FAQ_template.csv";
+    public static final String LEARNING_CENTER_CSV_FILE_LOCATION = "FAQ_template_2017.csv";
     public static final String LEARNING_CENTER_DB_CATEGORY_KEY_GENERAL = "General";
     public static final String LEARNING_CENTER_DB_CATEGORY_KEY_INVESTOR = "Investor";
     public static final String LEARNING_CENTER_DB_CATEGORY_KEY_BORROWER = "Borrower";
@@ -55,4 +55,8 @@ public class ConstantVariables {
     public static final String EN_BILLIONS_TRUNCATE = "B";
     public static final String IN_MILLIONS_TRUNCATE = "JT";
     public static final String IN_BILLIONS_TRUNCATE = "M";
+
+    public static final int HTTP_UNAUTHORISED = 401;
+    public static final int HTTP_NOT_FOUND = 404;
+    public static final int HTTP_UNPROCESSABLE_ENTITY = 422;
 }

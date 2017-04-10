@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import java.util.List;
 
 import io.reactivex.Observable;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -30,7 +31,7 @@ public class LoanListClient {
         final Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(APIServices.API_OLD_BASE_URL + APIServices.OLD_STAGE)
+                .baseUrl(APIServices.PRASANTH_API_URL + APIServices.PRASANTH_API_STAGE)
                 .build();
 
         this.apiServices = retrofit.create(APIServices.class);
@@ -43,7 +44,7 @@ public class LoanListClient {
         return instance;
     }
 
-    public Observable<List<LoanListItem>> getLiveLoans(){
+    public Observable<Response<List<LoanListItem>>> getLiveLoans(){
         return apiServices.getLoansList();
     }
 

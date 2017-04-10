@@ -1,6 +1,7 @@
 package com.crowdo.p2pconnect.view.fragments;
 
 import android.Manifest;
+import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,7 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
+import com.crowdo.p2pconnect.helpers.OAuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.view.activities.Henson;
@@ -41,6 +44,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Response;
 import rx.Subscriber;
 
 /**
@@ -106,19 +110,30 @@ public class LoanDetailsFragment extends Fragment {
                 .getLoanDetails(this.initLoanId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<LoanDetail>() {
+                .subscribe(new Observer<Response<LoanDetail>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(LoanDetail loanDetail) {
-                        if(loanDetail != null) {
-                            mLoanDetail = loanDetail;
-                            Log.d(LOG_TAG, "APP: Populated LoanDetails Rx onNext with loanId "
-                                    + loanDetail.getLoanId() + " retreived.");
-                            viewHolder.attachView(loanDetail, getActivity());
+                    public void onNext(Response<LoanDetail> response) {
+                        if(response.isSuccessful()){
+                            LoanDetail loanDetail = response.body();
+
+                            if(loanDetail != null) {
+                                mLoanDetail = loanDetail;
+                                Log.d(LOG_TAG, "APP: Populated LoanDetails Rx onNext with loanId "
+                                        + loanDetail.getLoanId() + " retreived.");
+                                viewHolder.attachView(loanDetail, getActivity());
+                            }
+                        }else{
+                            if(HTTPResponseUtils.check4xxClientError(response.code())){
+                                if(ConstantVariables.HTTP_UNAUTHORISED == response.code()){
+                                    OAuthAccountUtils.actionLogout(AccountManager.get(getActivity()),
+                                            getActivity());
+                                }
+                            }
                         }
                     }
 
@@ -317,7 +332,8 @@ public class LoanDetailsFragment extends Fragment {
                     "mobile/login_and_checkout_authenticate?" +
                     "loan_id="+initLoanId +
                     "&invest_amount="+biddingAmount+
-                    "&market=idr&lang="+localeKey;
+                    "&market=idr&lang="+localeKey+
+                    "&device_id="+ConstantVariables.getUniqueAndroidID(getActivity());
 
             Log.d(LOG_TAG, "APP: URL " + webViewUrl);
 

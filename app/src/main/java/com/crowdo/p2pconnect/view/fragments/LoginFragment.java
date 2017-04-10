@@ -93,7 +93,6 @@ public class LoginFragment extends Fragment{
             public void onClick(View v) {
                 // Clear keyboard
                 SoftInputHelper.hideSoftKeyboard(getActivity());
-
                 submit();
             }
         });
@@ -181,6 +180,7 @@ public class LoginFragment extends Fragment{
 
                     @Override
                     public void onError(Throwable e) {
+                        viewHolder.mLoginPasswdEditText.setText("");
                         e.printStackTrace();
                         Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
                         SnackBarUtil.snackBarForAuthCreate(getView(),
@@ -205,6 +205,7 @@ public class LoginFragment extends Fragment{
         //check response
         if(!response.isSuccessful()){
             String errorBody = "error: http response error";
+            viewHolder.mLoginPasswdEditText.setText("");
             try {
                 errorBody = "error: " + response.errorBody().string();
             }catch (IOException e){
@@ -224,6 +225,7 @@ public class LoginFragment extends Fragment{
 
         //failed login response from server
         if(HTTPResponseUtils.check4xxClientError(oauth.getStatus())){
+            viewHolder.mLoginPasswdEditText.setText(""); //clear password
             SnackBarUtil.snackBarForAuthCreate(getView(),
                     oauth.getMessage(),
                     Snackbar.LENGTH_SHORT,

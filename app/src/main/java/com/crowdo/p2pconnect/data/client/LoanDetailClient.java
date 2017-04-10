@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import io.reactivex.Observable;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -30,7 +31,7 @@ public class LoanDetailClient {
         final Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(APIServices.API_OLD_BASE_URL + APIServices.OLD_STAGE)
+                .baseUrl(APIServices.PRASANTH_API_URL + APIServices.PRASANTH_API_STAGE)
                 .build();
 
         this.apiServices = retrofit.create(APIServices.class);
@@ -44,7 +45,7 @@ public class LoanDetailClient {
         return instance;
     }
 
-    public Observable<LoanDetail> getLoanDetails(int id){
+    public Observable<Response<LoanDetail>> getLoanDetails(int id){
         Log.d(LOG_TAG, "APP: passing to apiServices.getLoanDetail: " + id);
         return apiServices.getLoanDetail(id);
     }
