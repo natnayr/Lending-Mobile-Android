@@ -33,7 +33,6 @@ import com.crowdo.p2pconnect.helpers.TypefaceUtils;
 import com.crowdo.p2pconnect.oauth.AccountGeneral;
 import com.crowdo.p2pconnect.view.fragments.LearningCenterFragment;
 import com.crowdo.p2pconnect.view.fragments.LoanListFragment;
-import com.crowdo.p2pconnect.view.fragments.UserSettingsFragment;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -45,7 +44,6 @@ import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.io.IOException;
-import java.util.Iterator;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -67,14 +65,13 @@ public class MainActivity extends AppCompatActivity{
     private Drawer navDrawer;
 
     private static final int DRAWER_SELECT_LOAN_LIST_FRAGMENT = 100;
-    private static final int DRAWER_SELECT_USER_SETTINGS_FRAGMENT = 101;
-    private static final int DRAWER_SELECT_LEARNING_CENTER_FRAGMENT = 102;
-    private static final int DRAWER_SELECT_LANGUAGE_CHANGE = 103;
+    private static final int DRAWER_SELECT_LEARNING_CENTER_FRAGMENT = 101;
+    private static final int DRAWER_SELECT_LANGUAGE_CHANGE = 102;
     private static final int DRAWER_SELECT_LANGUAGE_EN = 500;
     private static final int DRAWER_SELECT_LANGUAGE_IN = 501;
-    private static final int DRAWER_SELECT_TOP_UP_WALLET = 104;
-    private static final int DRAWER_SELECT_APPLY_AS_INVESTOR = 105;
-    private static final int DRAWER_SELECT_LOGOUT = 106;
+    private static final int DRAWER_SELECT_TOP_UP_WALLET = 103;
+    private static final int DRAWER_SELECT_APPLY_AS_INVESTOR = 104;
+    private static final int DRAWER_SELECT_LOGOUT = 105;
 
     private AccountManager mAccountManager;
     private String mAuthToken;
@@ -121,10 +118,6 @@ public class MainActivity extends AppCompatActivity{
                                 .withName(R.string.toolbar_title_loan_list).withIcon(CommunityMaterial.Icon.cmd_gavel)
                                 .withSetSelected(true).withSelectedTextColorRes(R.color.color_primary_700)
                                 .withSelectedIconColorRes(R.color.color_primary_700),
-                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_USER_SETTINGS_FRAGMENT)
-                                .withName(R.string.toolbar_title_user_settings).withIcon(CommunityMaterial.Icon.cmd_settings)
-                                .withSelectedTextColorRes(R.color.color_primary_700)
-                                .withSelectedIconColorRes(R.color.color_primary_700),
                         new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_LEARNING_CENTER_FRAGMENT)
                                 .withName(R.string.toolbar_title_learning_center).withIcon(CommunityMaterial.Icon.cmd_book_open_page_variant)
                                 .withSelectedTextColorRes(R.color.color_primary_700)
@@ -170,10 +163,6 @@ public class MainActivity extends AppCompatActivity{
                                 case DRAWER_SELECT_LOAN_LIST_FRAGMENT:
                                     fragmentClass = LoanListFragment.class;
                                     mToolbar.setTitle(R.string.toolbar_title_loan_list);
-                                    break;
-                                case DRAWER_SELECT_USER_SETTINGS_FRAGMENT:
-                                    fragmentClass = UserSettingsFragment.class;
-                                    mToolbar.setTitle(R.string.toolbar_title_user_settings);
                                     break;
                                 case DRAWER_SELECT_LEARNING_CENTER_FRAGMENT:
                                     fragmentClass = LearningCenterFragment.class;

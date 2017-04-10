@@ -58,7 +58,6 @@ public class LoanDetailsFragment extends Fragment {
     @BindString(R.string.unable_open_file_label) String mLabelErrorOpenFile;
     @BindString(R.string.loan_detail_prog_snackbar_bid_too_low_label) String mLabelBidTooLow;
     @BindString(R.string.loan_detail_prog_snackbar_bid_too_high_label) String mLabelBidTooHigh;
-    @BindString(R.string.loan_detail_prog_snackbar_approved_investor_only) String mLabelApprovedInvestorOnly;
     @BindString(R.string.permissions_write_request) String mLabelPermissionRequest;
     @BindString(R.string.cancel_label) String mLabelCancel;
     @BindString(R.string.okay_label) String mLabelOkay;
@@ -276,18 +275,6 @@ public class LoanDetailsFragment extends Fragment {
         if(viewHolder != null){
             int unitBidAmount;
 
-            String email = SharedPreferencesUtils
-                    .getSharedPrefString(getActivity(),
-                    ConstantVariables.PREF_KEY_USER_EMAIL, null);
-
-            boolean approvedToInvest = SharedPreferencesUtils
-                    .getSharedPrefBool(getActivity(),
-                            ConstantVariables.PREF_KEY_USER_INVESTOR_APPROVAL_IDR, false);
-
-
-            if(email == null)
-                return;
-
             try {
                 String inputUnitAmount = viewHolder.mEnterAmount.getText().toString().trim().replaceAll("[^\\d.]", "");
                 unitBidAmount = (inputUnitAmount.equals("")) ? 0 : Integer.parseInt(inputUnitAmount);
@@ -297,21 +284,6 @@ public class LoanDetailsFragment extends Fragment {
             }
 
             long biddingAmount = unitBidAmount * ConstantVariables.IDR_BASE_UNIT;
-
-            if(approvedToInvest == false){
-                final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
-                        mLabelApprovedInvestorOnly,
-                        mColorSnackbarTealText);
-                snackbar.setAction(mLabelOkay, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        snackbar.dismiss();
-                    }
-                })
-                .show();
-                return;
-            }
-
 
             if(unitBidAmount <= 0 ) {
                 final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
@@ -344,7 +316,7 @@ public class LoanDetailsFragment extends Fragment {
 
             String webViewUrl = APIServices.API_OLD_BASE_URL +
                     "mobile/login_and_checkout_authenticate?" +
-                    "email="+email+"&loan_id="+initLoanId +
+                    "loan_id="+initLoanId +
                     "&invest_amount="+biddingAmount+
                     "&market=idr&lang="+localeKey;
 
