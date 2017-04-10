@@ -25,7 +25,6 @@ import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.model.LoanDetail;
 import com.crowdo.p2pconnect.data.client.LoanDetailClient;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
-import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.viewholders.LoanDetailsViewHolder;
 import com.esafirm.rxdownloader.RxDownloader;
@@ -49,7 +48,7 @@ import rx.Subscriber;
  */
 public class LoanDetailsFragment extends Fragment {
 
-    @BindColor(R.color.color_snackbar_teal_A200) int mColorSnackbarTealText;
+    @BindColor(R.color.color_icons_text) int mColorIconText;
 
     @BindString(R.string.downloading_label) String mLabelToastDownloading;
     @BindString(R.string.downloaded_to_label) String mLabelDownloadedTo;
@@ -198,7 +197,7 @@ public class LoanDetailsFragment extends Fragment {
 
                 final String url = APIServices.API_OLD_BASE_URL + APIServices.FACTSHEET_URL + initLoanId +
                         "/?" + APIServices.FACTSHEET_LANGUAGE_PARAM + LocaleHelper.getLanguage(getActivity());
-                final String toFileName = initLoanId + "_factsheet.pdf";
+                final String toFileName = "loan_" + initLoanId + "_factsheet.pdf";
                 Log.d(LOG_TAG, "APP: downloadFactSheet() called [" + url + "] for " + toFileName);
 
                 RxDownloader.getInstance(getActivity())
@@ -217,7 +216,7 @@ public class LoanDetailsFragment extends Fragment {
                             public void onNext(final String s) {
 
                                 final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
-                                mLabelDownloadedTo + s, mColorSnackbarTealText,
+                                mLabelDownloadedTo + s, mColorIconText,
                                 Snackbar.LENGTH_LONG);
 
                                 snackbar.setAction(mLabelOpen, new View.OnClickListener() {
@@ -239,7 +238,7 @@ public class LoanDetailsFragment extends Fragment {
 
                                             final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
                                                     mLabelSnackPDFReadError,
-                                                    mColorSnackbarTealText, Snackbar.LENGTH_LONG);
+                                                    mColorIconText, Snackbar.LENGTH_LONG);
                                             snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
@@ -251,7 +250,7 @@ public class LoanDetailsFragment extends Fragment {
                                             Log.e(LOG_TAG, "ERROR: " + ue.getMessage(), ue);
                                             final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
                                                     mLabelErrorOpenFile,
-                                                    mColorSnackbarTealText);
+                                                    mColorIconText);
 
                                             snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                                                 @Override
@@ -288,7 +287,7 @@ public class LoanDetailsFragment extends Fragment {
             if(unitBidAmount <= 0 ) {
                 final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
                         mLabelBidTooLow,
-                        mColorSnackbarTealText);
+                        mColorIconText);
 
                 snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                     @Override
@@ -303,7 +302,7 @@ public class LoanDetailsFragment extends Fragment {
 
                 final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
                         mLabelBidTooHigh,
-                        mColorSnackbarTealText);
+                        mColorIconText);
                 snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
