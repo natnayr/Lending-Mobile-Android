@@ -21,7 +21,9 @@ import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
+import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
+import com.crowdo.p2pconnect.oauth.AccountGeneral;
 import com.crowdo.p2pconnect.view.activities.Henson;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.APIServices;
@@ -45,6 +47,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
+import rx.Observable;
 import rx.Subscriber;
 
 /**
@@ -107,8 +110,11 @@ public class LoanDetailsFragment extends Fragment {
         //Init view first,
         viewHolder.initView();
 
+        String authToken = SharedPreferencesUtils.getSharedPrefString(getActivity(),
+                AccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
+
         LoanDetailClient.getInstance(getActivity())
-                .getLoanDetails(this.initLoanId,
+                .getLoanDetails(authToken, LoanDetailsFragment.this.initLoanId,
                         ConstantVariables.getUniqueAndroidID(getActivity()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

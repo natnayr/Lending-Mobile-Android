@@ -207,7 +207,9 @@ public class MainActivity extends AppCompatActivity{
                                 final String locale = LocaleHelper.getLanguage(MainActivity.this);
                                 String webViewUrl = APIServices.API_OLD_BASE_URL +
                                         "mobile/" + action +
-                                        "?lang=" + locale;
+                                        "?lang=" + locale +
+                                        "&device_id=" +
+                                        ConstantVariables.getUniqueAndroidID(MainActivity.this);
 
                                 Intent intent = Henson.with(MainActivity.this)
                                         .gotoWebViewActivity()

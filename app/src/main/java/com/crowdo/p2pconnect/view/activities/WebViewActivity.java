@@ -33,7 +33,9 @@ import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
+import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
+import com.crowdo.p2pconnect.oauth.AccountGeneral;
 import com.esafirm.rxdownloader.RxDownloader;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
@@ -41,6 +43,8 @@ import com.f2prateek.dart.InjectExtra;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindColor;
 import butterknife.BindString;
@@ -95,7 +99,15 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
         mWebView.setListener(WebViewActivity.this, WebViewActivity.this);
         mWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
-        mWebView.loadUrl(mUrl);
+        Map<String, String> headerMap = new HashMap<>();
+        //if able to get authToken
+        String authToken = SharedPreferencesUtils.getSharedPrefString(this,
+                AccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
+        if(authToken != null){
+            headerMap.put("Authorization", authToken);
+        }
+        headerMap.put("Content-Type", "application/json");
+        mWebView.loadUrl(mUrl, headerMap);
 
         mWebView.setWebChromeClient(new WebChromeClient(){
             @Override

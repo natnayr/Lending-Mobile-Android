@@ -51,7 +51,6 @@ import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
-import rx.functions.Action1;
 
 /**
  * Created by cwdsg05 on 8/11/16.
