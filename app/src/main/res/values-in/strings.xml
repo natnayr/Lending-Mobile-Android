@@ -17,7 +17,6 @@
     <string name="loan_detail_out_sec_invoice_or_cheque">Perintah Kerja/\nTagihan</string>
     <string name="loan_detail_out_sec_uncollateralized">Tanpa Jaminan</string>
     <string name="loan_detail_percentage_return_label">Bunga\nPengembalian</string>
-    <string name="loan_detail_prog_snackbar_approved_investor_only">Hanya investor yang disetujui yang dapat berinvestasi di Crowdo</string>
     <string name="loan_detail_prog_snackbar_bid_too_high_label">Maaf, Jumlah penawaran terlalu tinggi</string>
     <string name="loan_detail_prog_snackbar_bid_too_low_label">Mohon masukkan jumlah BID lebih besar dari 0</string>
     <string name="loan_detail_prog_snackbar_error_reading_pdf">PDF reader tidak bisa dibuka, mohon install lagi</string>
@@ -36,7 +35,6 @@
     <string name="loan_list_out_sec_uncollateralized">Tidak Memiliki Jaminan</string>
     <string name="loan_list_percentage_return_label">Tingkat Pengembalian</string>
     <string name="loan_list_tenure_label">Bulan</string>
-    <string name="member_check_email_dialog_label">Apakah anda sudah menjadi anggota CROWDO? Tolong masukan email anda</string>
     <string name="nav_drawer_close">Kotak Navigasi Tutup</string>
     <string name="nav_drawer_open">Kotak Navigasi Buka</string>
     <string name="okay_label">OK</string>
@@ -46,8 +44,6 @@
     <string name="pref_user_investor_approval_status_summary">Status Persetujuan Investor</string>
     <string name="pref_user_name_summary">Nama Terdaftar Anda</string>
     <string name="pref_user_name_title">Nama</string>
-    <string name="proceed_label">Lanjutkan</string>
-    <string name="sign_up_label">Daftar</string>
     <string name="downloaded_to_label">Unduh ke&#160;</string>
     <string name="permissions_no_write_statement">Tidak bisa di masukkan ke drive external</string>
     <string name="unable_open_file_label">Error, tidak dapat membuka file</string>
@@ -90,8 +86,6 @@
     <string name="loan_list_action_filter_sec_collateralized">Jaminan</string>
     <string name="loan_list_action_filter_title">Saring</string>
     <string name="learning_center_search_hint">Cari</string>
-    <string name="perform_email_identity_check_exception_aft">&#160;di sistem kami</string>
-    <string name="perform_email_identity_check_exception_bef">Tidak ada akun yang terkait dengan&#160;</string>
     <string name="loan_list_out_sec_personal_guarantee">Jaminan\nPersonal</string>
     <string name="loan_detail_out_sec_personal_guarantee">Jaminan\nPersonal</string>
     <string name="welcome_login_btn_label">Login</string>

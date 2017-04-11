@@ -25,11 +25,11 @@ import java.io.IOException;
  * Created by cwdsg05 on 29/3/17.
  */
 
-public class OAuthAccountUtils {
+public class AuthAccountUtils {
 
-    public static final String LOG_TAG = OAuthAccountUtils.class.getSimpleName();
+    public static final String LOG_TAG = AuthAccountUtils.class.getSimpleName();
 
-    public static void removeAccounts(Activity activity, final CallBackInterface callBackUtil){
+    public static void removeAccounts(Activity activity, final CallBackUtil<Object> callBackUtil){
 
         AccountManager am = AccountManager.get(activity);
         Account[] accounts = am.getAccountsByType(AccountGeneral.getACCOUNT_TYPE(activity));
@@ -47,46 +47,77 @@ public class OAuthAccountUtils {
             }
         }
 
-        callBackUtil.eventCallBack();
+        callBackUtil.eventCallBack(null);
     }
 
-    public static void invalidateAuthToken(AccountManager accountManager){
-        accountManager.invalidateAuthToken(getOnlyAccount(accountManager).type,
-                getExisitingAuthToken(accountManager));
+    public static void invalidateAuthToken(AccountManager accountManager, String authToken){
+        Account account = getOnlyAccount(accountManager);
+
+        if(account != null) {
+            accountManager.invalidateAuthToken(account.type, authToken);
+        }
     }
 
 
     public static Account getOnlyAccount(AccountManager accountManager){
         Account[] accounts = accountManager.getAccounts();
-        if(accounts.length == 1){
+        if(accounts.length > 0){
             return accounts[0];
         }
         return null;
     }
 
-    public static String getExisitingAuthToken(AccountManager accountManager){
+    public static void getExisitingAuthToken(Activity activity, AccountManager accountManager,
+                                             final CallBackUtil<String> callback){
 
         Log.d(LOG_TAG, "APP: getExisitingAuthToken()");
 
-        String mAuthToken = accountManager.peekAuthToken(OAuthAccountUtils.getOnlyAccount(accountManager),
-                AccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS);
+        Account account = AuthAccountUtils.getOnlyAccount(accountManager);
+        if(account == null) {
+            callback.eventCallBack(null); //return back to callback a null string
+            return;
+        }
 
-        Log.d(LOG_TAG, "APP: AccountManager mAuthToken is " + mAuthToken);
+        Log.d(LOG_TAG, "APP: getExisitingAuthToken() > account.name " + account.name);
+
+
+        accountManager.getAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS, null,
+                activity, new AccountManagerCallback<Bundle>() {
+                    @Override
+                    public void run(AccountManagerFuture<Bundle> future) {
+                        try{
+                            Bundle bundle = future.getResult();
+                            String authToken = bundle.getString(AccountManager.KEY_AUTHTOKEN);
+                            Log.d(LOG_TAG, "APP: getExisitingAuthToken > authToken = "
+                                    + authToken);
+
+                            callback.eventCallBack(authToken);
+
+                        }catch (OperationCanceledException oce){
+                            Log.e(LOG_TAG, "ERROR: " + oce.getMessage(), oce);
+                            oce.printStackTrace();
+                        }catch (IOException ioe){
+                            Log.e(LOG_TAG, "ERROR: " + ioe.getMessage(), ioe);
+                            ioe.printStackTrace();
+                        }catch (AuthenticatorException ae){
+                            Log.e(LOG_TAG, "ERROR: " + ae.getMessage(), ae);
+                            ae.printStackTrace();
+                        }
+                    }
+                }, null);
 
         Log.d(LOG_TAG, "APP: POST_AUTH_MEMBER_ID => " + accountManager.getUserData(
-                OAuthAccountUtils.getOnlyAccount(accountManager),
+                AuthAccountUtils.getOnlyAccount(accountManager),
                 AuthActivity.POST_AUTH_MEMBER_ID));
         Log.d(LOG_TAG, "APP: POST_AUTH_MEMBER_EMAIL => " + accountManager.getUserData(
-                OAuthAccountUtils.getOnlyAccount(accountManager),
+                AuthAccountUtils.getOnlyAccount(accountManager),
                 AuthActivity.POST_AUTH_MEMBER_EMAIL));
         Log.d(LOG_TAG, "APP: POST_AUTH_MEMBER_NAME => " + accountManager.getUserData(
-                OAuthAccountUtils.getOnlyAccount(accountManager),
+                AuthAccountUtils.getOnlyAccount(accountManager),
                 AuthActivity.POST_AUTH_MEMBER_NAME));
         Log.d(LOG_TAG, "APP: POST_AUTH_MEMBER_LOCALE => " + accountManager.getUserData(
-                OAuthAccountUtils.getOnlyAccount(accountManager),
+                AuthAccountUtils.getOnlyAccount(accountManager),
                 AuthActivity.POST_AUTH_MEMBER_LOCALE));
-
-        return mAuthToken;
 
     }
 
@@ -94,10 +125,9 @@ public class OAuthAccountUtils {
         Log.d(LOG_TAG, "APP: actionLogout()");
 
         //invalidate only account and remove accounts
-        OAuthAccountUtils.invalidateAuthToken(accountManager);
-        OAuthAccountUtils.removeAccounts(activity, new CallBackInterface(){
+        AuthAccountUtils.removeAccounts(activity, new CallBackUtil(){
             @Override
-            public void eventCallBack() {
+            public void eventCallBack(Object o) {
                 //Call LaunchActivity to Welcome & Authenticate
                 Intent intent = new Intent(activity, LaunchActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

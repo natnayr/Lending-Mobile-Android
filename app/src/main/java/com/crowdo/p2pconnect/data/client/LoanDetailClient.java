@@ -38,16 +38,14 @@ public class LoanDetailClient {
     }
 
     public static LoanDetailClient getInstance(){
-
         if(instance == null)
             instance = new LoanDetailClient();
-
         return instance;
     }
 
-    public Observable<Response<LoanDetail>> getLoanDetails(int id){
+    public Observable<Response<LoanDetail>> getLoanDetails(int id, String deviceId){
         Log.d(LOG_TAG, "APP: passing to apiServices.getLoanDetail: " + id);
-        return apiServices.getLoanDetail(id);
+        return apiServices.getLoanDetail(id, deviceId);
     }
 
 }

@@ -6,8 +6,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observable;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -28,9 +31,17 @@ public class LoanListClient {
         final Gson gson = new GsonBuilder()
                 .create();
 
+        //Http Inteceptor
+        final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .build();
+
         final Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(httpClient)
                 .baseUrl(APIServices.PRASANTH_API_URL + APIServices.PRASANTH_API_STAGE)
                 .build();
 
@@ -44,8 +55,8 @@ public class LoanListClient {
         return instance;
     }
 
-    public Observable<Response<List<LoanListItem>>> getLiveLoans(){
-        return apiServices.getLoansList();
+    public Observable<Response<List<LoanListItem>>> getLiveLoans(String token, String deviceId){
+        return apiServices.getLoansList(token, deviceId);
     }
 
 }

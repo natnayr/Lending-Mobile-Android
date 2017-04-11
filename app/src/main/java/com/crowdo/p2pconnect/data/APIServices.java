@@ -7,14 +7,18 @@ import com.crowdo.p2pconnect.model.LoanDetail;
 import com.crowdo.p2pconnect.model.LoanListItem;
 
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.HeaderMap;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by cwdsg05 on 9/11/16.
@@ -39,10 +43,11 @@ public interface APIServices {
 
 
     @GET("loans/loan_listing")
-    Observable<Response<List<LoanListItem>>> getLoansList();
+    Observable<Response<List<LoanListItem>>> getLoansList(@Header("Authorization") String token,
+                                                          @Query("device_id") String deviceId);
 
     @GET("loans/loan_details/{id}")
-    Observable<Response<LoanDetail>> getLoanDetail(@Path("id") int id);
+    Observable<Response<LoanDetail>> getLoanDetail(@Path("id") int id, @Query("device_id") String deviceId);
 
     @POST("oauth/login")
     @Headers({"Content-type: application/json"})

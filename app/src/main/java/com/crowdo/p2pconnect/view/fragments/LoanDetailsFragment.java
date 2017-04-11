@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
-import com.crowdo.p2pconnect.helpers.OAuthAccountUtils;
+import com.crowdo.p2pconnect.helpers.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.view.activities.Henson;
@@ -74,6 +74,7 @@ public class LoanDetailsFragment extends Fragment {
     private AlertDialog alertDialog;
     public static final String BUNDLE_ID_KEY = "LOAN_DETAILS_FRAGMENTS_ID_KEY";
     private int initLoanId;
+    private Disposable disposableGetLoanDetails;
 
     public LoanDetailsFragment() {
     }
@@ -107,13 +108,14 @@ public class LoanDetailsFragment extends Fragment {
         viewHolder.initView();
 
         LoanDetailClient.getInstance()
-                .getLoanDetails(this.initLoanId)
+                .getLoanDetails(this.initLoanId,
+                        ConstantVariables.getUniqueAndroidID(getActivity()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<LoanDetail>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        disposableGetLoanDetails = d;
                     }
 
                     @Override
@@ -130,7 +132,7 @@ public class LoanDetailsFragment extends Fragment {
                         }else{
                             if(HTTPResponseUtils.check4xxClientError(response.code())){
                                 if(ConstantVariables.HTTP_UNAUTHORISED == response.code()){
-                                    OAuthAccountUtils.actionLogout(AccountManager.get(getActivity()),
+                                    AuthAccountUtils.actionLogout(AccountManager.get(getActivity()),
                                             getActivity());
                                 }
                             }
@@ -198,6 +200,11 @@ public class LoanDetailsFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if(disposableGetLoanDetails != null){
+            if(!disposableGetLoanDetails.isDisposed()) {
+                disposableGetLoanDetails.dispose();
+            }
+        }
     }
 
     private void downloadFactSheet(){

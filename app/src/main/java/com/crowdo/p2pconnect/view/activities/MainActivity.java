@@ -16,7 +16,7 @@ import android.view.View;
 import android.widget.TextView;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.APIServices;
-import com.crowdo.p2pconnect.helpers.OAuthAccountUtils;
+import com.crowdo.p2pconnect.helpers.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.TypefaceUtils;
@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity{
     private static final int DRAWER_SELECT_LOGOUT = 105;
 
     private AccountManager mAccountManager;
-    private String mAuthToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +69,6 @@ public class MainActivity extends AppCompatActivity{
         ButterKnife.bind(this);
 
         mAccountManager = AccountManager.get(this);
-        mAuthToken = OAuthAccountUtils.getExisitingAuthToken(mAccountManager);
-
-        if(mAuthToken == null){
-            OAuthAccountUtils.actionLogout(mAccountManager, this);
-        }
 
         mToolbar.setTitle(getString(R.string.toolbar_title_loan_list));
         setSupportActionBar(mToolbar);
@@ -180,7 +174,7 @@ public class MainActivity extends AppCompatActivity{
                                     break;
 
                                 case DRAWER_SELECT_LOGOUT:
-                                    OAuthAccountUtils.actionLogout(mAccountManager, MainActivity.this);
+                                    AuthAccountUtils.actionLogout(mAccountManager, MainActivity.this);
                                     break;
                                 default:
                                     return false; //default close

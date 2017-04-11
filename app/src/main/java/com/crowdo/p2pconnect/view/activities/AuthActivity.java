@@ -11,8 +11,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.helpers.OAuthAccountUtils;
-import com.crowdo.p2pconnect.helpers.CallBackInterface;
+import com.crowdo.p2pconnect.helpers.CallBackUtil;
+import com.crowdo.p2pconnect.helpers.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.oauth.AccountAuthenticatorFragmentActivity;
 import com.crowdo.p2pconnect.oauth.AccountGeneral;
@@ -109,10 +109,10 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
         Log.d(LOG_TAG, "APP: finishAuth()");
 
         //remove all other accounts
-        OAuthAccountUtils.invalidateAuthToken(mAccountManager);
-        OAuthAccountUtils.removeAccounts(this, new CallBackInterface() {
+        AuthAccountUtils.removeAccounts(this, new CallBackUtil<Object>() {
+
             @Override
-            public void eventCallBack() {
+            public void eventCallBack(Object o) {
                 Bundle extras = intent.getExtras();
 
                 //if not set by activity

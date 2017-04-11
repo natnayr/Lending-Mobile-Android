@@ -25,7 +25,7 @@ public class ConstantVariables {
     public static final String DATE_TIME_REGION = "Asia/Singapore";
 
     public static String getUniqueAndroidID(Context context){
-        return Build.SERIAL + "-" + Settings.Secure.getString(context.getContentResolver(),
+        return Build.SERIAL + Settings.Secure.getString(context.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
     }
 
