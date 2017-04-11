@@ -48,7 +48,7 @@ public class AuthClient {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(httpClient)
-                .baseUrl(APIServices.PRASANTH_API_URL + APIServices.PRASANTH_API_STAGE)
+                .baseUrl(APIServices.API_LIVE_BASE_URL + APIServices.LIVE_STAGE)
                 .build();
 
         this.apiServices = retrofit.create(APIServices.class);

@@ -47,7 +47,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
-import rx.Observable;
 import rx.Subscriber;
 
 /**
@@ -222,7 +221,7 @@ public class LoanDetailsFragment extends Fragment {
             if (initLoanId >= 0) {
                 Toast.makeText(getActivity(), mLabelToastDownloading, Toast.LENGTH_SHORT).show();
 
-                final String url = APIServices.API_OLD_BASE_URL + APIServices.FACTSHEET_URL + initLoanId +
+                final String url = APIServices.P2P_BASE_URL + APIServices.FACTSHEET_STAGE + initLoanId +
                         "/?" + APIServices.FACTSHEET_LANGUAGE_PARAM + LocaleHelper.getLanguage(getActivity());
                 final String toFileName = "loan_" + initLoanId + "_factsheet.pdf";
                 Log.d(LOG_TAG, "APP downloadFactSheet() called [" + url + "] for " + toFileName);
@@ -340,7 +339,7 @@ public class LoanDetailsFragment extends Fragment {
             }
             String localeKey = LocaleHelper.getLanguage(getActivity());
 
-            String webViewUrl = APIServices.API_OLD_BASE_URL +
+            String webViewUrl = APIServices.P2P_BASE_URL +
                     "mobile/login_and_checkout_authenticate?" +
                     "loan_id="+initLoanId +
                     "&invest_amount="+biddingAmount+

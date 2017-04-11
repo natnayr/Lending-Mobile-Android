@@ -12,13 +12,9 @@ import com.crowdo.p2pconnect.oauth.AuthenticationInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import io.reactivex.Observable;
-import okhttp3.Credentials;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Response;
@@ -54,7 +50,7 @@ public class LoanListClient {
         builder = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(APIServices.PRASANTH_API_URL + APIServices.PRASANTH_API_STAGE);
+                .baseUrl(APIServices.API_LIVE_BASE_URL + APIServices.LIVE_STAGE);
     }
 
     public static LoanListClient getInstance(Context context){

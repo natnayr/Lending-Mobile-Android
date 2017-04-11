@@ -38,7 +38,6 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Observable;
 
 /**
  * Created by cwdsg05 on 3/2/17.
@@ -205,7 +204,7 @@ public class MainActivity extends AppCompatActivity{
 
                             if(webCall == true && action != null) {
                                 final String locale = LocaleHelper.getLanguage(MainActivity.this);
-                                String webViewUrl = APIServices.API_OLD_BASE_URL +
+                                String webViewUrl = APIServices.P2P_BASE_URL +
                                         "mobile/" + action +
                                         "?lang=" + locale +
                                         "&device_id=" +

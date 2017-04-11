@@ -49,7 +49,7 @@ public class LoanDetailClient {
         builder = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(APIServices.PRASANTH_API_URL + APIServices.PRASANTH_API_STAGE);
+                .baseUrl(APIServices.API_LIVE_BASE_URL + APIServices.LIVE_STAGE);
 
     }
 
