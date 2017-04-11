@@ -65,37 +65,13 @@ public class Member {
     @Expose
     Boolean isBanned;
 
-    @SerializedName("registered_p2p")
-    @Expose
-    Boolean registeredP2p;
-
-    @SerializedName("registered_ecf")
-    @Expose
-    Boolean registeredEcf;
-
-    @SerializedName("agree_singapore_tnc")
-    @Expose
-    Boolean agreeSingaporeTnc;
-
-    @SerializedName("agree_indonesia_tnc")
-    @Expose
-    Boolean agreeIndonesiaTnc;
-
-    @SerializedName("agree_malaysia_tnc")
-    @Expose
-    Boolean agreeMalaysiaTnc;
-
-    @SerializedName("referral_code")
-    @Expose
-    String referralCode;
 
     public Member(){ };
 
     public Member(Integer id, String email, String name, String phoneNumber, String nationality,
                   String dateOfBirth, String address1, String address2, String city, String postalCode,
                   String countryOfResidence, String localePreference, String sessionCountry,
-                  Boolean isBanned, Boolean registeredP2p, Boolean registeredEcf, Boolean agreeSingaporeTnc,
-                  Boolean agreeIndonesiaTnc, Boolean agreeMalaysiaTnc, String referralCode) {
+                  Boolean isBanned) {
         this.id = id;
         this.email = email;
         this.name = name;
@@ -110,12 +86,6 @@ public class Member {
         this.localePreference = localePreference;
         this.sessionCountry = sessionCountry;
         this.isBanned = isBanned;
-        this.registeredP2p = registeredP2p;
-        this.registeredEcf = registeredEcf;
-        this.agreeSingaporeTnc = agreeSingaporeTnc;
-        this.agreeIndonesiaTnc = agreeIndonesiaTnc;
-        this.agreeMalaysiaTnc = agreeMalaysiaTnc;
-        this.referralCode = referralCode;
     }
 
     public Integer getId() {
@@ -229,53 +199,4 @@ public class Member {
     public void setIsBanned(Boolean isBanned) {
         this.isBanned = isBanned;
     }
-
-    public Boolean getRegisteredP2p() {
-        return registeredP2p;
-    }
-
-    public void setRegisteredP2p(Boolean registeredP2p) {
-        this.registeredP2p = registeredP2p;
-    }
-
-    public Boolean getRegisteredEcf() {
-        return registeredEcf;
-    }
-
-    public void setRegisteredEcf(Boolean registeredEcf) {
-        this.registeredEcf = registeredEcf;
-    }
-
-    public Boolean getAgreeSingaporeTnc() {
-        return agreeSingaporeTnc;
-    }
-
-    public void setAgreeSingaporeTnc(Boolean agreeSingaporeTnc) {
-        this.agreeSingaporeTnc = agreeSingaporeTnc;
-    }
-
-    public Boolean getAgreeIndonesiaTnc() {
-        return agreeIndonesiaTnc;
-    }
-
-    public void setAgreeIndonesiaTnc(Boolean agreeIndonesiaTnc) {
-        this.agreeIndonesiaTnc = agreeIndonesiaTnc;
-    }
-
-    public Boolean getAgreeMalaysiaTnc() {
-        return agreeMalaysiaTnc;
-    }
-
-    public void setAgreeMalaysiaTnc(Boolean agreeMalaysiaTnc) {
-        this.agreeMalaysiaTnc = agreeMalaysiaTnc;
-    }
-
-    public String getReferralCode() {
-        return referralCode;
-    }
-
-    public void setReferralCode(String referralCode) {
-        this.referralCode = referralCode;
-    }
-
 }

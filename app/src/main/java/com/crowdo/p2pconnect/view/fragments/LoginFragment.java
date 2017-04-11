@@ -3,7 +3,6 @@ package com.crowdo.p2pconnect.view.fragments;
 import android.accounts.AccountManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -12,11 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.client.AuthClient;
-import com.crowdo.p2pconnect.data.response_model.OAuthResponse;
+import com.crowdo.p2pconnect.data.response_model.AuthResponse;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HashingUtils;
 import com.crowdo.p2pconnect.helpers.RegexValidationUtil;
@@ -27,14 +25,11 @@ import com.crowdo.p2pconnect.model.Member;
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.viewholders.LoginViewHolder;
 
-import org.parceler.Parcels;
-
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindColor;
 import butterknife.BindString;
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -163,14 +158,14 @@ public class LoginFragment extends Fragment{
                         ConstantVariables.getUniqueAndroidID(getActivity()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<OAuthResponse>>() {
+                .subscribe(new Observer<Response<AuthResponse>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         disposableLoginUser = d;
                     }
 
                     @Override
-                    public void onNext(Response<OAuthResponse> response) {
+                    public void onNext(Response<AuthResponse> response) {
                         Log.d(LOG_TAG, "APP http-message:" + response.message()
                                 + " http-code:" + response.code()
                                 + ", http-body: {" + response.body().toString() + "}");
@@ -197,7 +192,7 @@ public class LoginFragment extends Fragment{
 
     }
 
-    private void handleResult(Response<OAuthResponse> response){
+    private void handleResult(Response<AuthResponse> response){
         final String passwordToHashKeep = viewHolder.mLoginPasswdEditText.getText().toString();
         final Bundle data = new Bundle();
         final Intent res = new Intent();
@@ -221,7 +216,7 @@ public class LoginFragment extends Fragment{
             return;
         }
 
-        OAuthResponse oauth = response.body();
+        AuthResponse oauth = response.body();
 
         //failed login response from server
         if(HTTPResponseUtils.check4xxClientError(oauth.getStatus())){

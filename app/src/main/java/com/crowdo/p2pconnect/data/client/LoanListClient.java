@@ -65,7 +65,6 @@ public class LoanListClient {
     }
 
     public Retrofit createTokenService(final String authToken){
-        Log.d(LOG_TAG, "APP createTokenService authToken: " + authToken);
         if(!TextUtils.isEmpty(authToken)){
             final AuthenticationInterceptor interceptor = new AuthenticationInterceptor(authToken);
             if(!httpClient.interceptors().contains(interceptor)){

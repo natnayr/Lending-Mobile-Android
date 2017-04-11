@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity{
                 .withSavedInstance(savedInstanceState)
                 .build();
 
-        navDrawer.setSelection(100);
+        navDrawer.setSelection(DRAWER_SELECT_LOAN_LIST_FRAGMENT);
 
         TextView mNavDrawerAppLogo = (TextView) navDrawer.getHeader().findViewById(R.id.nav_header_app_title);
         //set typeface
@@ -196,8 +196,8 @@ public class MainActivity extends AppCompatActivity{
                                     break;
 
                                 case DRAWER_SELECT_LOGOUT:
-                                    //immediate invalidate of token
-                                    AuthAccountUtils.invalidateAuthToken(mAccountManager, mAuthToken);
+                                    //immediate invalidate of token & logout
+                                    AuthAccountUtils.actionLogout(mAccountManager, MainActivity.this);
                                     break;
                                 default:
                                     return false; //default close

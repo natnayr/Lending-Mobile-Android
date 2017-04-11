@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by cwdsg05 on 23/3/17.
  */
 
-public class OAuthResponse {
+public class AuthResponse {
 
     @SerializedName("message")
     @Expose
@@ -18,7 +18,7 @@ public class OAuthResponse {
     @Expose
     private String authToken;
 
-    @SerializedName("user")
+    @SerializedName("auth_summary")
     @Expose
     private Member member;
 
@@ -56,12 +56,5 @@ public class OAuthResponse {
 
     public void setStatus(int status) {
         this.status = status;
-    }
-
-    @Override
-    public String toString() {
-        return "message:" + getMessage()
-                + " status:"+ getStatus()
-                + " authToken:" + getAuthToken();
     }
 }

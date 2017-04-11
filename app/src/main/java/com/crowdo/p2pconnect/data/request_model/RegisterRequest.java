@@ -33,8 +33,12 @@ public class RegisterRequest {
 
     private class RegisterMember {
 
+        @SerializedName("name")
+        @Expose
         public String name;
 
+        @SerializedName("email")
+        @Expose
         public String email;
 
         @SerializedName("password")

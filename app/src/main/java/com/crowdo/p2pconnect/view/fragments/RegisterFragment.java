@@ -14,8 +14,10 @@ import android.widget.EditText;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.client.AuthClient;
-import com.crowdo.p2pconnect.data.response_model.OAuthResponse;
+import com.crowdo.p2pconnect.data.response_model.APIErrorResponse;
+import com.crowdo.p2pconnect.data.response_model.AuthResponse;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
+import com.crowdo.p2pconnect.helpers.ErrorUtils;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.HashingUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
@@ -26,7 +28,6 @@ import com.crowdo.p2pconnect.model.Member;
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.viewholders.RegisterViewHolder;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindColor;
@@ -177,17 +178,16 @@ public class RegisterFragment extends Fragment{
                         ConstantVariables.getUniqueAndroidID(getActivity()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<OAuthResponse>>() {
+                .subscribe(new Observer<Response<AuthResponse>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         disposableRegisterUser = d;
                     }
 
                     @Override
-                    public void onNext(Response<OAuthResponse> response) {
+                    public void onNext(Response<AuthResponse> response) {
                         Log.d(LOG_TAG, "APP http-message:" + response.message()
-                                + " http-code:" + response.code()
-                                + ", http-body: {" + response.body().toString() + "}");
+                                + " status:" + response.code() );
 
                         handleResult(response);
                     }
@@ -208,24 +208,22 @@ public class RegisterFragment extends Fragment{
 
                     }
                 });
-
     }
 
-    private void handleResult(Response<OAuthResponse> response){
+    private void handleResult(Response<AuthResponse> response){
         final Bundle data = new Bundle();
         final Intent res = new Intent();
 
         //check response
         if(!response.isSuccessful()){
-            String errorBody = "error: http response error";
-            try {
-                errorBody = "error: " + response.errorBody().string();
-            }catch (IOException e){
-                e.printStackTrace();
-                Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+            String errorMessage = "Error: Registration not successful";
+
+            if(response.errorBody() != null) {
+                APIErrorResponse responseAPI = ErrorUtils.parseError(response.errorBody());
+                errorMessage = responseAPI.getMessage() + " Status:" + responseAPI.getStatus();
             }
             SnackBarUtil.snackBarForAuthCreate(getView(),
-                    errorBody,
+                    errorMessage,
                     Snackbar.LENGTH_SHORT,
                     mColorIconText, mColorPrimaryDark).show();
             Log.e(LOG_TAG, "ERROR: " + response.errorBody().toString());
@@ -233,7 +231,7 @@ public class RegisterFragment extends Fragment{
             return;
         }
 
-        OAuthResponse oauth = response.body();
+        AuthResponse oauth = response.body();
 
         //failed login response from server
         if(HTTPResponseUtils.check4xxClientError(oauth.getStatus())){

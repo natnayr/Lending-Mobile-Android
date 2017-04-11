@@ -123,15 +123,21 @@ public class AuthAccountUtils {
     public static void actionLogout(AccountManager accountManager, final Activity activity){
         Log.d(LOG_TAG, "APP actionLogout()");
 
+        //invalidate authKey if avalible
+        String authToken = SharedPreferencesUtils.getSharedPrefString(activity,
+                AccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
+        if(authToken != null){
+            AuthAccountUtils.invalidateAuthToken(accountManager, authToken);
+        }
+
         //invalidate only account and remove accounts
         AuthAccountUtils.removeAccounts(activity, new CallBackUtil(){
             @Override
             public void eventCallBack(Object o) {
                 //Call LaunchActivity to Welcome & Authenticate
                 Intent intent = new Intent(activity, LaunchActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 activity.startActivity(intent);
-                activity.finish();
             }
         });
 

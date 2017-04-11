@@ -7,7 +7,7 @@ import com.crowdo.p2pconnect.data.AddCookiesInterceptor;
 import com.crowdo.p2pconnect.data.ReceivedCookiesInterceptor;
 import com.crowdo.p2pconnect.data.request_model.LoginRequest;
 import com.crowdo.p2pconnect.data.request_model.RegisterRequest;
-import com.crowdo.p2pconnect.data.response_model.OAuthResponse;
+import com.crowdo.p2pconnect.data.response_model.AuthResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -61,13 +61,13 @@ public class AuthClient {
         return instance;
     }
 
-    public Observable<Response<OAuthResponse>> loginUser(String email, String password, String deviceID) {
+    public Observable<Response<AuthResponse>> loginUser(String email, String password, String deviceID) {
         return apiServices.postLoginUser(new LoginRequest(email, password, deviceID));
     }
 
-    public Observable<Response<OAuthResponse>> registerUser(String email, String name, String password,
-                                                            String passwordConfirmation, String localePreference,
-                                                            String deviceId) {
+    public Observable<Response<AuthResponse>> registerUser(String email, String name, String password,
+                                                           String passwordConfirmation, String localePreference,
+                                                           String deviceId) {
         return apiServices.postRegisterUser(new RegisterRequest(name, email, password,
                 passwordConfirmation, localePreference, deviceId));
     }

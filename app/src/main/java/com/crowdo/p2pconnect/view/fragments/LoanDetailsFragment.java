@@ -178,7 +178,6 @@ public class LoanDetailsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if(viewHolder != null) {
-
             //needs to refresh and check user state
             viewHolder.mBidEnterBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

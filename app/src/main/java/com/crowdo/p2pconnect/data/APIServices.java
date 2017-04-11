@@ -2,19 +2,16 @@ package com.crowdo.p2pconnect.data;
 
 import com.crowdo.p2pconnect.data.request_model.LoginRequest;
 import com.crowdo.p2pconnect.data.request_model.RegisterRequest;
-import com.crowdo.p2pconnect.data.response_model.OAuthResponse;
+import com.crowdo.p2pconnect.data.response_model.AuthResponse;
 import com.crowdo.p2pconnect.model.LoanDetail;
 import com.crowdo.p2pconnect.model.LoanListItem;
 
 import java.util.List;
-import java.util.Map;
 
 import io.reactivex.Observable;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.HeaderMap;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -50,9 +47,9 @@ public interface APIServices {
 
     @POST("oauth/login")
     @Headers({"Content-type: application/json"})
-    Observable<Response<OAuthResponse>> postLoginUser(@Body LoginRequest data);
+    Observable<Response<AuthResponse>> postLoginUser(@Body LoginRequest data);
 
     @POST("oauth/register")
     @Headers({"Content-type: application/json"})
-    Observable<Response<OAuthResponse>> postRegisterUser(@Body RegisterRequest data);
+    Observable<Response<AuthResponse>> postRegisterUser(@Body RegisterRequest data);
 }
