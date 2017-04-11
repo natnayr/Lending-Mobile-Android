@@ -171,7 +171,7 @@ public class RegisterFragment extends Fragment{
         //store password
         mPasswordHash = HashingUtils.hashSHA256(inputPassword);
 
-        AuthClient.getInstance()
+        AuthClient.getInstance(getActivity())
                 .registerUser(inputEmail, inputName, inputPassword, inputConfirmPassword,
                         LocaleHelper.getLanguage(getActivity()),
                         ConstantVariables.getUniqueAndroidID(getActivity()))
@@ -185,7 +185,7 @@ public class RegisterFragment extends Fragment{
 
                     @Override
                     public void onNext(Response<OAuthResponse> response) {
-                        Log.d(LOG_TAG, "APP: http-message:" + response.message()
+                        Log.d(LOG_TAG, "APP http-message:" + response.message()
                                 + " http-code:" + response.code()
                                 + ", http-body: {" + response.body().toString() + "}");
 
@@ -204,7 +204,7 @@ public class RegisterFragment extends Fragment{
 
                     @Override
                     public void onComplete() {
-                        Log.d(LOG_TAG, "APP: onCompleted reached for AuthClient.registerUser()");
+                        Log.d(LOG_TAG, "APP onCompleted reached for AuthClient.registerUser()");
 
                     }
                 });

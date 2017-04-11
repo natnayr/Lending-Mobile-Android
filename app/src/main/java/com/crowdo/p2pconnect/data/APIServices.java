@@ -43,8 +43,7 @@ public interface APIServices {
 
 
     @GET("loans/loan_listing")
-    Observable<Response<List<LoanListItem>>> getLoansList(@Header("Authorization") String token,
-                                                          @Query("device_id") String deviceId);
+    Observable<Response<List<LoanListItem>>> getLoansList(@Query("device_id") String deviceId);
 
     @GET("loans/loan_details/{id}")
     Observable<Response<LoanDetail>> getLoanDetail(@Path("id") int id, @Query("device_id") String deviceId);

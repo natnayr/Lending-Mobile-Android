@@ -1,5 +1,6 @@
 package com.crowdo.p2pconnect.data.client;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.crowdo.p2pconnect.data.APIServices;
@@ -24,7 +25,7 @@ public class LoanDetailClient {
     private static LoanDetailClient instance;
     private APIServices apiServices;
 
-    public LoanDetailClient(){
+    public LoanDetailClient(Context context){
         final Gson gson = new GsonBuilder()
                 .create();
 
@@ -37,14 +38,14 @@ public class LoanDetailClient {
         this.apiServices = retrofit.create(APIServices.class);
     }
 
-    public static LoanDetailClient getInstance(){
+    public static LoanDetailClient getInstance(Context context){
         if(instance == null)
-            instance = new LoanDetailClient();
+            instance = new LoanDetailClient(context);
         return instance;
     }
 
     public Observable<Response<LoanDetail>> getLoanDetails(int id, String deviceId){
-        Log.d(LOG_TAG, "APP: passing to apiServices.getLoanDetail: " + id);
+        Log.d(LOG_TAG, "APP passing to apiServices.getLoanDetail: " + id);
         return apiServices.getLoanDetail(id, deviceId);
     }
 

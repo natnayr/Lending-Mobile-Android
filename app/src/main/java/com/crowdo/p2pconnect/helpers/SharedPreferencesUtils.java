@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.preference.PreferenceManager;
 
+import java.util.Set;
+import java.util.prefs.Preferences;
+
 /**
  * Created by cwdsg05 on 29/12/16.
  */
@@ -41,6 +44,17 @@ public class SharedPreferencesUtils {
     public static void setSharePrefBool(Context context, String key, boolean value){
         SharedPreferences.Editor editor = getSharedPref(context).edit();
         editor.putBoolean(key, value);
+        editor.commit();
+
+    }
+
+    public static Set<String> getSharedPrefStringSet(Context context, String key, Set<String> defaultValue){
+        return getSharedPref(context).getStringSet(key, defaultValue); //null default
+    }
+
+    public static void setSharedPrefStringSet(Context context, String key, Set<String> value){
+        SharedPreferences.Editor editor = getSharedPref(context).edit();
+        editor.putStringSet(key, value);
         editor.commit();
     }
 }

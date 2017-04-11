@@ -89,7 +89,7 @@ public class LoanDetailsFragment extends Fragment {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        Log.d(LOG_TAG, "APP: onRequestPermissionsResult post requestCode="+requestCode);
+        Log.d(LOG_TAG, "APP onRequestPermissionsResult post requestCode="+requestCode);
         if(requestCode == ConstantVariables.REQUEST_CODE_PERMISSIONS_WRITE_EXTERNAL_STORAGE){
             downloadFactSheet();
         }
@@ -107,7 +107,7 @@ public class LoanDetailsFragment extends Fragment {
         //Init view first,
         viewHolder.initView();
 
-        LoanDetailClient.getInstance()
+        LoanDetailClient.getInstance(getActivity())
                 .getLoanDetails(this.initLoanId,
                         ConstantVariables.getUniqueAndroidID(getActivity()))
                 .subscribeOn(Schedulers.io())
@@ -125,7 +125,7 @@ public class LoanDetailsFragment extends Fragment {
 
                             if(loanDetail != null) {
                                 mLoanDetail = loanDetail;
-                                Log.d(LOG_TAG, "APP: Populated LoanDetails Rx onNext with loanId "
+                                Log.d(LOG_TAG, "APP Populated LoanDetails Rx onNext with loanId "
                                         + loanDetail.getLoanId() + " retreived.");
                                 viewHolder.attachView(loanDetail, getActivity());
                             }
@@ -147,7 +147,7 @@ public class LoanDetailsFragment extends Fragment {
 
                     @Override
                     public void onComplete() {
-                        Log.d(LOG_TAG, "APP: Populated LoanDetail Rx onComplete");
+                        Log.d(LOG_TAG, "APP Populated LoanDetail Rx onComplete");
                     }
                 });
 
@@ -220,7 +220,7 @@ public class LoanDetailsFragment extends Fragment {
                 final String url = APIServices.API_OLD_BASE_URL + APIServices.FACTSHEET_URL + initLoanId +
                         "/?" + APIServices.FACTSHEET_LANGUAGE_PARAM + LocaleHelper.getLanguage(getActivity());
                 final String toFileName = "loan_" + initLoanId + "_factsheet.pdf";
-                Log.d(LOG_TAG, "APP: downloadFactSheet() called [" + url + "] for " + toFileName);
+                Log.d(LOG_TAG, "APP downloadFactSheet() called [" + url + "] for " + toFileName);
 
                 RxDownloader.getInstance(getActivity())
                         .download(url, toFileName, ConstantVariables.PDF_CONTENT_TYPE)
@@ -342,7 +342,7 @@ public class LoanDetailsFragment extends Fragment {
                     "&market=idr&lang="+localeKey+
                     "&device_id="+ConstantVariables.getUniqueAndroidID(getActivity());
 
-            Log.d(LOG_TAG, "APP: URL " + webViewUrl);
+            Log.d(LOG_TAG, "APP URL " + webViewUrl);
 
             Intent intent = Henson.with(getActivity())
                     .gotoWebViewActivity()

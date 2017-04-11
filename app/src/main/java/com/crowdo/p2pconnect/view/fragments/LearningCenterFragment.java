@@ -267,7 +267,7 @@ public class LearningCenterFragment extends Fragment{
                     }
                 }
 
-                Log.d(LOG_TAG, "APP: loadedLearningCenterDB SharePref Boolean = " + loadedLearningCenterDB);
+                Log.d(LOG_TAG, "APP loadedLearningCenterDB SharePref Boolean = " + loadedLearningCenterDB);
 
                 //do realm call db transactions
                 mGeneralResults = realm.where(LearningItem.class)
@@ -297,7 +297,7 @@ public class LearningCenterFragment extends Fragment{
 
                 progress.dismiss();
 
-                Log.d(LOG_TAG, "APP: Realm database is done processing from CSV");
+                Log.d(LOG_TAG, "APP Realm database is done processing from CSV");
                 if(getActivity() != null) {
                     SharedPreferencesUtils.setSharePrefBool(getActivity(),
                             ConstantVariables.PREF_KEY_LOADED_LEARNINGCENTER_DB, true);

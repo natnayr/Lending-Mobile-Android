@@ -1,6 +1,10 @@
 package com.crowdo.p2pconnect.data.client;
 
+import android.content.Context;
+
 import com.crowdo.p2pconnect.data.APIServices;
+import com.crowdo.p2pconnect.data.AddCookiesInterceptor;
+import com.crowdo.p2pconnect.data.ReceivedCookiesInterceptor;
 import com.crowdo.p2pconnect.data.request_model.LoginRequest;
 import com.crowdo.p2pconnect.data.request_model.RegisterRequest;
 import com.crowdo.p2pconnect.data.response_model.OAuthResponse;
@@ -25,7 +29,7 @@ public class AuthClient {
     private static AuthClient instance;
     private APIServices apiServices;
 
-    public AuthClient() {
+    public AuthClient(Context context) {
         final Gson gson = new GsonBuilder()
                 .serializeNulls()
                 .create();
@@ -35,7 +39,10 @@ public class AuthClient {
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient httpClient = new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
+                .addInterceptor(new AddCookiesInterceptor(context))
+                .addInterceptor(new ReceivedCookiesInterceptor(context))
                 .build();
+
 
         final Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -47,9 +54,9 @@ public class AuthClient {
         this.apiServices = retrofit.create(APIServices.class);
     }
 
-    public static AuthClient getInstance() {
+    public static AuthClient getInstance(Context context) {
         if (instance == null) {
-            instance = new AuthClient();
+            instance = new AuthClient(context);
         }
         return instance;
     }

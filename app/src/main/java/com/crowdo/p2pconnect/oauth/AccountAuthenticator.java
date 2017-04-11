@@ -34,7 +34,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
     @Override
     public Bundle addAccount(AccountAuthenticatorResponse response, String accountType,
                              String authTokenType, String[] requiredFeatures, Bundle options) throws NetworkErrorException {
-        Log.v(LOG_TAG, "APP: addAccount()");
+        Log.v(LOG_TAG, "APP addAccount()");
 
         //get default first account
         final Intent intent = new Intent(mContext, AuthActivity.class);
@@ -52,7 +52,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
     @Override
     public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account,
                                String authTokenType, Bundle options) throws NetworkErrorException {
-        Log.v(LOG_TAG, "APP: getAuthToken()");
+        Log.v(LOG_TAG, "APP getAuthToken()");
 
         //Check token Auth Type
         if(!AccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS.equals(authTokenType)){
@@ -63,7 +63,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
 
         final AccountManager accountManager = AccountManager.get(mContext);
         String authToken = accountManager.peekAuthToken(account, authTokenType);
-        Log.d(LOG_TAG, "APP: peekAuthToken returned - " + authToken);
+        Log.d(LOG_TAG, "APP peekAuthToken returned - " + authToken);
 
         //if not empty authtoken
         if(!TextUtils.isEmpty(authToken)){

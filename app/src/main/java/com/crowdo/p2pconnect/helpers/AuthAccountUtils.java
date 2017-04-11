@@ -70,7 +70,7 @@ public class AuthAccountUtils {
     public static void getExisitingAuthToken(Activity activity, AccountManager accountManager,
                                              final CallBackUtil<String> callback){
 
-        Log.d(LOG_TAG, "APP: getExisitingAuthToken()");
+        Log.d(LOG_TAG, "APP getExisitingAuthToken()");
 
         Account account = AuthAccountUtils.getOnlyAccount(accountManager);
         if(account == null) {
@@ -78,8 +78,7 @@ public class AuthAccountUtils {
             return;
         }
 
-        Log.d(LOG_TAG, "APP: getExisitingAuthToken() > account.name " + account.name);
-
+        Log.d(LOG_TAG, "APP getExisitingAuthToken() > account.name " + account.name);
 
         accountManager.getAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS, null,
                 activity, new AccountManagerCallback<Bundle>() {
@@ -88,7 +87,7 @@ public class AuthAccountUtils {
                         try{
                             Bundle bundle = future.getResult();
                             String authToken = bundle.getString(AccountManager.KEY_AUTHTOKEN);
-                            Log.d(LOG_TAG, "APP: getExisitingAuthToken > authToken = "
+                            Log.d(LOG_TAG, "APP getExisitingAuthToken > authToken = "
                                     + authToken);
 
                             callback.eventCallBack(authToken);
@@ -106,23 +105,23 @@ public class AuthAccountUtils {
                     }
                 }, null);
 
-        Log.d(LOG_TAG, "APP: POST_AUTH_MEMBER_ID => " + accountManager.getUserData(
+        Log.d(LOG_TAG, "APP POST_AUTH_MEMBER_ID => " + accountManager.getUserData(
                 AuthAccountUtils.getOnlyAccount(accountManager),
                 AuthActivity.POST_AUTH_MEMBER_ID));
-        Log.d(LOG_TAG, "APP: POST_AUTH_MEMBER_EMAIL => " + accountManager.getUserData(
+        Log.d(LOG_TAG, "APP POST_AUTH_MEMBER_EMAIL => " + accountManager.getUserData(
                 AuthAccountUtils.getOnlyAccount(accountManager),
                 AuthActivity.POST_AUTH_MEMBER_EMAIL));
-        Log.d(LOG_TAG, "APP: POST_AUTH_MEMBER_NAME => " + accountManager.getUserData(
+        Log.d(LOG_TAG, "APP POST_AUTH_MEMBER_NAME => " + accountManager.getUserData(
                 AuthAccountUtils.getOnlyAccount(accountManager),
                 AuthActivity.POST_AUTH_MEMBER_NAME));
-        Log.d(LOG_TAG, "APP: POST_AUTH_MEMBER_LOCALE => " + accountManager.getUserData(
+        Log.d(LOG_TAG, "APP POST_AUTH_MEMBER_LOCALE => " + accountManager.getUserData(
                 AuthAccountUtils.getOnlyAccount(accountManager),
                 AuthActivity.POST_AUTH_MEMBER_LOCALE));
 
     }
 
     public static void actionLogout(AccountManager accountManager, final Activity activity){
-        Log.d(LOG_TAG, "APP: actionLogout()");
+        Log.d(LOG_TAG, "APP actionLogout()");
 
         //invalidate only account and remove accounts
         AuthAccountUtils.removeAccounts(activity, new CallBackUtil(){
@@ -142,7 +141,7 @@ public class AuthAccountUtils {
             cookieManager.removeSessionCookies(new ValueCallback<Boolean>() {
                 @Override
                 public void onReceiveValue(Boolean value) {
-                    Log.d(LOG_TAG, "APP: CookieManager.removeSessionCookies onReceiveValue " + value);
+                    Log.d(LOG_TAG, "APP CookieManager.removeSessionCookies onReceiveValue " + value);
                 }
             });
             cookieManager.flush();

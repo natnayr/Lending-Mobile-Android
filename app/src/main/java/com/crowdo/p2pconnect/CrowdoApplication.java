@@ -66,7 +66,7 @@ public class CrowdoApplication extends Application{
 
         Realm.setDefaultConfiguration(realmConfig);
         realm = Realm.getDefaultInstance();
-        Log.d(LOG_TAG, "APP: Realm DB configured to revision " + realm.getVersion());
+        Log.d(LOG_TAG, "APP Realm DB configured to revision " + realm.getVersion());
     }
 
     public void setScheduler(Scheduler scheduler){

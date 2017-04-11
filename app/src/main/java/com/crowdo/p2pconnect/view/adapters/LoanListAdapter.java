@@ -146,7 +146,7 @@ public class LoanListAdapter extends BaseAdapter{
                 if(!"".contains(this.searchQuery)){
                     if(!item.getLoanId().toLowerCase().trim()
                             .contains(this.searchQuery.toLowerCase().trim())) {
-                        Log.d(LOG_TAG, "APP: filtering by search = "
+                        Log.d(LOG_TAG, "APP filtering by search = "
                                 + item.getLoanId().toLowerCase().trim());
                         llit.remove();
                         continue;
@@ -155,7 +155,7 @@ public class LoanListAdapter extends BaseAdapter{
 
                 if(!gradesToFilter.isEmpty()){
                     if(!gradesToFilter.contains(item.getGrade())){
-                        Log.d(LOG_TAG, "APP: filtering by grade = "
+                        Log.d(LOG_TAG, "APP filtering by grade = "
                                 + item.getGrade());
                         llit.remove();
                         continue;
@@ -164,7 +164,7 @@ public class LoanListAdapter extends BaseAdapter{
 
                 if (!termsToFilter.isEmpty()){
                     if(!termsToFilter.contains(item.getTenure())){
-                        Log.d(LOG_TAG, "APP: filtering by term = "
+                        Log.d(LOG_TAG, "APP filtering by term = "
                                 + item.getTenure());
                         llit.remove();
                         continue;
@@ -173,7 +173,7 @@ public class LoanListAdapter extends BaseAdapter{
 
                 if(!securityToFilter.isEmpty()){
                     if(!securityToFilter.contains(item.getSecurity())){
-                        Log.d(LOG_TAG, "APP: filtering by security = "
+                        Log.d(LOG_TAG, "APP filtering by security = "
                                 + item.getSecurity());
                         llit.remove();
                         continue;

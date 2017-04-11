@@ -34,6 +34,7 @@ public class ConstantVariables {
     public static final String PREF_KEY_USER_INVESTOR_APPROVAL_IDR = "USER_INVESTOR_APPROVAL_IDR";
     public static final String PREF_KEY_LOADED_LEARNINGCENTER_DB = "LOADED_LEARNINGCENTER_DB_KEY";
     public static final String PREF_KEY_SELECTED_LANGUAGE = "LOCALE_HELPER_SELECTED_LANGUGAGE";
+    public static final String PREF_KEY_COOKIES = "C_IS_FOR_COOKIE_KEY";
 
     public static final String LEARNING_CENTER_CSV_FILE_LOCATION = "FAQ_template_2017.csv";
     public static final String LEARNING_CENTER_DB_CATEGORY_KEY_GENERAL = "General";

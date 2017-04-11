@@ -25,11 +25,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.AuthAccountUtils;
+import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
+import com.crowdo.p2pconnect.oauth.AccountGeneral;
 import com.crowdo.p2pconnect.view.activities.Henson;
 import com.crowdo.p2pconnect.model.LoanListItem;
 import com.crowdo.p2pconnect.data.client.LoanListClient;
@@ -48,6 +49,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
+import rx.Observable;
+import rx.Subscriber;
+import rx.functions.Action1;
 
 /**
  * Created by cwdsg05 on 8/11/16.
@@ -167,6 +171,7 @@ public class LoanListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
         populateLoansList();
     }
 
@@ -262,23 +267,31 @@ public class LoanListFragment extends Fragment {
     }
 
     private void populateLoansList() {
-        Log.d(LOG_TAG, "APP: populateLoansList()");
+        Log.d(LOG_TAG, "APP populateLoansList()");
 
         //check authentication
-        final AccountManager mAccountManager = AccountManager.get(mContext);
         final String uniqueAndroidID = ConstantVariables.getUniqueAndroidID(mContext);
 
-        AuthAccountUtils.getExisitingAuthToken(getActivity(), mAccountManager,
-                new CallBackUtil<String>() {
-            @Override
-            public void eventCallBack(String token) {
-                if(token == null){
-                    Log.d(LOG_TAG, "APP: authToken is null, proceeding to actionLogout()");
-                    AuthAccountUtils.actionLogout(mAccountManager, getActivity());
-                }
+        Observable<String> tokenObservable = Observable.just(SharedPreferencesUtils.getSharedPrefString(getActivity(),
+                AccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null));
 
-                LoanListClient.getInstance()
-                        .getLiveLoans(token, uniqueAndroidID)
+
+        Subscriber<String> tokenSubscribe = new Subscriber<String>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(String authToken) {
+                LoanListClient.getInstance(getActivity())
+                        .getLiveLoans(authToken, uniqueAndroidID)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Observer<Response<List<LoanListItem>>>() {
@@ -291,11 +304,11 @@ public class LoanListFragment extends Fragment {
                             public void onNext(Response<List<LoanListItem>> response) {
                                 if(response.isSuccessful()){
                                     List<LoanListItem> loanListItems = response.body();
-                                    Log.d(LOG_TAG, "APP: populateLoansList Rx onNext with "
+                                    Log.d(LOG_TAG, "APP populateLoansList Rx onNext with "
                                             + loanListItems.size() + " items retreived.");
                                     mLoanAdapter.setLoans(loanListItems);
                                 }else{
-                                    Log.d(LOG_TAG, "APP: getLiveLoans onNext() status > "
+                                    Log.d(LOG_TAG, "APP getLiveLoans onNext() status > "
                                             + response.code());
                                     if(HTTPResponseUtils.check4xxClientError(response.code())){
                                         if(ConstantVariables.HTTP_UNAUTHORISED == response.code()){
@@ -316,23 +329,20 @@ public class LoanListFragment extends Fragment {
 
                             @Override
                             public void onComplete() {
-                                Log.d(LOG_TAG, "APP: populateLoansList Rx onComplete");
+                                Log.d(LOG_TAG, "APP populateLoansList Rx onComplete");
                                 swipeContainer.setRefreshing(false);
                             }
                         });
-
             }
-        });
+        };
 
-
-
-
+        tokenObservable.subscribe(tokenSubscribe);
     }
 
     private void setSearchExpandedLayoutCollapse(){
         if(loanListSearchExpandableLayout != null){
             if(loanListSearchExpandableLayout.isExpanded()){
-                Log.d(LOG_TAG, "APP: loanListSearchExpandableLayout is collapsing.");
+                Log.d(LOG_TAG, "APP loanListSearchExpandableLayout is collapsing.");
                 loanListSearchExpandableLayout.collapse();
             }
         }
@@ -341,7 +351,7 @@ public class LoanListFragment extends Fragment {
     private void setSearchExpandedLayoutExpand(){
         if(loanListSearchExpandableLayout != null){
             if(!loanListSearchExpandableLayout.isExpanded()){
-                Log.d(LOG_TAG, "APP: loanListSearchExpandableLayout is expanding.");
+                Log.d(LOG_TAG, "APP loanListSearchExpandableLayout is expanding.");
                 loanListSearchExpandableLayout.expand();
             }
         }

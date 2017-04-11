@@ -106,7 +106,7 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
     }
 
     public void finishAuth(final Intent intent, final Bundle userData){
-        Log.d(LOG_TAG, "APP: finishAuth()");
+        Log.d(LOG_TAG, "APP finishAuth()");
 
         //remove all other accounts
         AuthAccountUtils.removeAccounts(this, new CallBackUtil<Object>() {
@@ -127,7 +127,7 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
                 final Account account = new Account(accountName, accountType);
                 String accountPasswordHash = extras.getString(AccountManager.KEY_PASSWORD);
                 if(extras.getBoolean(ARG_IS_ADDING_NEW_ACCOUNT, true)){
-                    Log.d(LOG_TAG, "APP: finishAuth() > addAccountExplicitly");
+                    Log.d(LOG_TAG, "APP finishAuth() > addAccountExplicitly");
                     String authToken = extras.getString(AccountManager.KEY_AUTHTOKEN);
                     String authTokeType = mAuthTokenType;
 
@@ -136,7 +136,7 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
                     mAccountManager.addAccountExplicitly(account, accountPasswordHash, userData);
                     mAccountManager.setAuthToken(account, authTokeType, authToken);
                 } else {
-                    Log.d(LOG_TAG, "APP: finishAuth() > setPassword");
+                    Log.d(LOG_TAG, "APP finishAuth() > setPassword");
                     mAccountManager.setPassword(account, accountPasswordHash);
                 }
 

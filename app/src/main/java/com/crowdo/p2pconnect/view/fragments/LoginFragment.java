@@ -158,7 +158,7 @@ public class LoginFragment extends Fragment{
         mPasswordHash = HashingUtils.hashSHA256(inputPassword);
 
         //do just http
-        AuthClient.getInstance()
+        AuthClient.getInstance(getActivity())
                 .loginUser(inputEmail, inputPassword,
                         ConstantVariables.getUniqueAndroidID(getActivity()))
                 .subscribeOn(Schedulers.io())
@@ -171,7 +171,7 @@ public class LoginFragment extends Fragment{
 
                     @Override
                     public void onNext(Response<OAuthResponse> response) {
-                        Log.d(LOG_TAG, "APP: http-message:" + response.message()
+                        Log.d(LOG_TAG, "APP http-message:" + response.message()
                                 + " http-code:" + response.code()
                                 + ", http-body: {" + response.body().toString() + "}");
 
@@ -191,7 +191,7 @@ public class LoginFragment extends Fragment{
 
                     @Override
                     public void onComplete() {
-                        Log.d(LOG_TAG, "APP: onCompleted reached for AuthClient.loginUser()");
+                        Log.d(LOG_TAG, "APP onCompleted reached for AuthClient.loginUser()");
                     }
                 });
 

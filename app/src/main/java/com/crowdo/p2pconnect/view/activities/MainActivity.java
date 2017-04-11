@@ -17,9 +17,12 @@ import android.widget.TextView;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.helpers.AuthAccountUtils;
+import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
+import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.TypefaceUtils;
+import com.crowdo.p2pconnect.oauth.AccountGeneral;
 import com.crowdo.p2pconnect.view.fragments.LearningCenterFragment;
 import com.crowdo.p2pconnect.view.fragments.LoanListFragment;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
@@ -35,6 +38,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
 
 /**
  * Created by cwdsg05 on 3/2/17.
@@ -61,6 +65,7 @@ public class MainActivity extends AppCompatActivity{
     private static final int DRAWER_SELECT_LOGOUT = 105;
 
     private AccountManager mAccountManager;
+    private String mAuthToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +74,23 @@ public class MainActivity extends AppCompatActivity{
         ButterKnife.bind(this);
 
         mAccountManager = AccountManager.get(this);
+
+        //get auth token from Account Manager
+        AuthAccountUtils.getExisitingAuthToken(this, mAccountManager, new CallBackUtil<String>() {
+            @Override
+            public void eventCallBack(String token) {
+                if(token == null) {
+                    //else logout
+                    AuthAccountUtils.actionLogout(mAccountManager, MainActivity.this);
+                }
+                mAuthToken = token;
+
+                //Store in Prefs
+                SharedPreferencesUtils.setSharePrefString(MainActivity.this,
+                        AccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, mAuthToken);
+            }
+        });
+
 
         mToolbar.setTitle(getString(R.string.toolbar_title_loan_list));
         setSupportActionBar(mToolbar);
@@ -174,7 +196,8 @@ public class MainActivity extends AppCompatActivity{
                                     break;
 
                                 case DRAWER_SELECT_LOGOUT:
-                                    AuthAccountUtils.actionLogout(mAccountManager, MainActivity.this);
+                                    //immediate invalidate of token
+                                    AuthAccountUtils.invalidateAuthToken(mAccountManager, mAuthToken);
                                     break;
                                 default:
                                     return false; //default close
@@ -191,7 +214,7 @@ public class MainActivity extends AppCompatActivity{
                                         .mUrl(webViewUrl)
                                         .build();
                                 startActivity(intent);
-                                Log.d(LOG_TAG, "APP: webview launched to " + webViewUrl);
+                                Log.d(LOG_TAG, "APP webview launched to " + webViewUrl);
                                 return true;
                             }
 
@@ -229,11 +252,11 @@ public class MainActivity extends AppCompatActivity{
             TaskStackBuilder.create(this)
                     .addNextIntentWithParentStack(upIntent)
                     .startActivities();
-            Log.d(LOG_TAG, "APP: TaskStackBuilder.create(this) has been called");
+            Log.d(LOG_TAG, "APP TaskStackBuilder.create(this) has been called");
         } else {
             //If no backstack then navigate to logical main list view
             NavUtils.navigateUpTo(this, upIntent);
-            Log.d(LOG_TAG, "APP: NavUtils.navigateUpTo(this, upIntent) has been called");
+            Log.d(LOG_TAG, "APP NavUtils.navigateUpTo(this, upIntent) has been called");
         }
         return true;
     }

@@ -106,7 +106,7 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
             @Override
             public void onPermissionRequest(PermissionRequest request) {
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    Log.d(LOG_TAG, "APP: Permission Requested");
+                    Log.d(LOG_TAG, "APP Permission Requested");
                     request.grant(request.getResources());
                 }
             }
@@ -217,7 +217,7 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
                 .subscribe(new Subscriber<String>() {
                     @Override
                     public void onCompleted() {
-                        Log.d(LOG_TAG, "APP: Completed WebView Download");
+                        Log.d(LOG_TAG, "APP Completed WebView Download");
                     }
 
                     @Override
@@ -227,7 +227,7 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
                     @Override
                     public void onNext(final String s) {
-                        Log.d(LOG_TAG, "APP: file is now in " + s);
+                        Log.d(LOG_TAG, "APP file is now in " + s);
 
                         final Snackbar snackbar = SnackBarUtil
                                 .snackBarCreate(rootView, mLabelDownloadedTo + s,
@@ -315,7 +315,7 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
         @JavascriptInterface
         public void goBack(){
-            Log.d(LOG_TAG, "APP: JavaScriptInterface goBack() called");
+            Log.d(LOG_TAG, "APP JavaScriptInterface goBack() called");
             finish();
         }
     }
