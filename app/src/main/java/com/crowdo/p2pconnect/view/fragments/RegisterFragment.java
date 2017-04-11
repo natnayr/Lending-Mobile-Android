@@ -28,6 +28,7 @@ import com.crowdo.p2pconnect.model.Member;
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.viewholders.RegisterViewHolder;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindColor;
@@ -222,6 +223,7 @@ public class RegisterFragment extends Fragment{
                 APIErrorResponse responseAPI = ErrorUtils.parseError(response.errorBody());
                 errorMessage = responseAPI.getMessage() + " Status:" + responseAPI.getStatus();
             }
+
             SnackBarUtil.snackBarForAuthCreate(getView(),
                     errorMessage,
                     Snackbar.LENGTH_SHORT,
