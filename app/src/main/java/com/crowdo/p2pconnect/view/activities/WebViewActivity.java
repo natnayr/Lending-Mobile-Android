@@ -298,6 +298,11 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
+                if(mWebView.canGoBack()){
+                    //cut off and go to prev activity
+                    super.onBackPressed();
+                    return true;
+                }
                 onBackPressed();
                 return true;
         }
@@ -328,6 +333,15 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
         @JavascriptInterface
         public void goBack(){
             Log.d(LOG_TAG, "APP JavaScriptInterface goBack() called");
+            finish();
+        }
+
+        @JavascriptInterface
+        public void goToListing(){
+            Log.d(LOG_TAG, "APP JavaScriptInterface goBackToListing() called");
+            Intent intent = new Intent(WebViewActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
             finish();
         }
     }

@@ -126,17 +126,6 @@
     <string name="pref_user_email_key" translatable="false">USER_EMAIL</string>
     <string name="pref_user_name_key" translatable="false">USER_NAME</string>
 
-    <string name="pref_label_account">My Account</string>
-    <string name="pref_user_email_title">Email Address</string>
-    <string name="pref_user_name_title">Name</string>
-
-    <string name="pref_user_email_summary">Your Registered Email Address</string>
-    <string name="pref_user_name_summary">Your Stored Name</string>
-    <string name="pref_user_investor_approval_status_summary">Investor Approval Status</string>
-
-    <string name="pref_user_name_default_value" translatable="false">e.g John Doe</string>
-
-    <string name="pref_user_session_clear_label">Cleared</string>
     <string name="loan_detail_enter_amount_hint_error_positive">Non-Negative Values only please</string>
 
     <!-- Authentication Messages -->
@@ -146,19 +135,27 @@
     <string name="auth_password_too_short">Password must be at least 8 characters long</string>
     <string name="auth_password_incorrect_match">Passwords do not match</string>
     <string name="auth_password_do_not_match">Doesn\'t match Password</string>
-    <string name="auth_please_wait">Please wait...</string>
+    <string name="auth_please_wait">Please wait&#46;&#46;&#46;</string>
 
-
-    <string name="auth_invalid_token">Invalid token detected</string>
+    <string name="auth_invalid_token" translatable="false">Invalid token detected</string>
     <string name="auth_http_error_message">Sorry, Unexpected server error occurred</string>
     <string name="auth_http_handling_message">Sorry, Unexpected handling error occurred</string>
-    <string name="auth_account_preferences">Settings</string>
     <string name="auth_account_type" translatable="false">com.crowdo.p2pconnect</string>
-    <string name="auth_one_account_allowed">Sorry, there is already an account attached</string>
     <string name="auth_account_creation_failed">Sorry, Account creation failed, please try uninstalling and re-installing the app.</string>
 
-    <string name="auth_pref_remove_accounts_key" translatable="false">APP_PREF_REMOVE_ACCOUNTS</string>
-    <string name="auth_pref_remove_accounts_title">Clear Account Session</string>
-    <string name="auth_pref_remove_accounts_summary">Note: We do not store your sensitive credentials on this App</string>
+    <string name="auth_login_title_label">Login</string>
+    <string name="auth_login_user_email_label">User Email</string>
+    <string name="auth_login_user_password_label">Password</string>
+    <string name="auth_login_submit_label">Login</string>
+    <string name="auth_login_membership_query_label">Not a member yet?</string>
+    <string name="auth_login_membership_click_on_label">Register here</string>
 
+    <string name="auth_register_title_label">Register</string>
+    <string name="auth_register_user_email_label">Email Address</string>
+    <string name="auth_register_user_name_label">Name</string>
+    <string name="auth_register_user_password_label">Password</string>
+    <string name="auth_register_user_confirm_password_label">Confirm Password</string>
+    <string name="auth_register_submit_label">Sign Up</string>
+    <string name="auth_register_membership_query_label">Already a member?</string>
+    <string name="auth_register_membership_click_on_label">Login here</string>
 </resources>

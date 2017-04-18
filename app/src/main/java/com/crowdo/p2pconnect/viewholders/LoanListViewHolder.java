@@ -69,31 +69,46 @@ public class LoanListViewHolder {
     }
 
     public void attachLoanItem(LoanListItem item, Context context){
-        mLoanId.setText(item.getLoanId());
-        mLoanGrade.setText(item.getGrade());
+        if(!"".equals(item.getLoanId().trim())) {
+            mLoanId.setText(item.getLoanId().trim());
+        }
+
+        if(!"".equals(item.getGrade().trim())) {
+            mLoanGrade.setText(item.getGrade().trim());
+        }
 
         GradientDrawable mGradeShape = (GradientDrawable) mLoanGradeDrawable.getBackground();
 
-        switch (item.getGrade()) {
-            case "A+": mGradeShape.setColor(colorAPlus);
-                break;
-            case "A": mGradeShape.setColor(colorA);
-                break;
-            case "B+": mGradeShape.setColor(colorBPlus);
-                break;
-            case "B": mGradeShape.setColor(colorB);
-                break;
-            case "C": mGradeShape.setColor(colorC);
-                break;
-            case "D": mGradeShape.setColor(colorD);
-                break;
-            case "E": mGradeShape.setColor(colorE);
-                break;
-            default: mGradeShape.setColor(colorAccent);
-                break;
+        if(!"".equals(item.getGrade().trim())) {
+            switch (item.getGrade().trim()) {
+                case "A+":
+                    mGradeShape.setColor(colorAPlus);
+                    break;
+                case "A":
+                    mGradeShape.setColor(colorA);
+                    break;
+                case "B+":
+                    mGradeShape.setColor(colorBPlus);
+                    break;
+                case "B":
+                    mGradeShape.setColor(colorB);
+                    break;
+                case "C":
+                    mGradeShape.setColor(colorC);
+                    break;
+                case "D":
+                    mGradeShape.setColor(colorD);
+                    break;
+                case "E":
+                    mGradeShape.setColor(colorE);
+                    break;
+                default:
+                    mGradeShape.setColor(colorAccent);
+                    break;
+            }
         }
 
-        int daysLeft = DateUtils.findDaysLeft(ConstantVariables.DATE_TIME_REGION, item.getFundingEndDate());
+        int daysLeft = DateUtils.findDaysLeft(ConstantVariables.DATE_TIME_REGION, item.getFundingEndDate().trim());
 
         if(daysLeft<0){
             mDaysLeftAndPercentage.setText(mBidStatusClosedLabel +
@@ -108,49 +123,51 @@ public class LoanListViewHolder {
         mPercentageReturn.setText(Double.toString(item.getInterestRate()));
         mTermAmount.setText(Integer.toString(item.getTenure()));
 
-        switch(item.getSecurity()){
-            case ConstantVariables.IN_SEC_COLLATERALIZED:
-                mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
-                        .icon(CommunityMaterial.Icon.cmd_shield_outline)
-                        .sizeRes(R.dimen.loan_detail_security_icon_size));
-                mSecurityIcon.setColorFilter(mShieldColor);
-                String collateralDesc = WordUtils.wrap(
-                        WordUtils.capitalize(item.getCollateral()), 15);
-                mSecurityDescription.setText(collateralDesc);
-                mSecurityIcon.setContentDescription(collateralDesc);
-                break;
-            case ConstantVariables.IN_SEC_UNCOLLATERALIZED:
-                mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
-                        .icon(CommunityMaterial.Icon.cmd_lock_open_outline)
-                        .sizeRes(R.dimen.loan_detail_security_icon_size));
-                mSecurityIcon.setColorFilter(mLockOpenColor);
-                mSecurityDescription.setText(
-                        mOutSecurityUncollateralizedLabel);
-                mSecurityIcon.setContentDescription(
-                        mOutSecurityUncollateralizedLabel);
-                break;
-            case ConstantVariables.IN_SEC_INVOICE_OR_CHEQUE:
-                mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
-                        .icon(CommunityMaterial.Icon.cmd_file_outline)
-                        .sizeRes(R.dimen.loan_detail_security_icon_size));
-                mSecurityIcon.setColorFilter(mFileColor);
-                mSecurityDescription.setText(
-                        mOutSecurityInvoiceOrChequeLabel);
-                mSecurityIcon.setContentDescription(
-                        mOutSecurityInvoiceOrChequeLabel);
-                break;
-            case ConstantVariables.IN_SEC_PERSONAL_GUARANTEE:
-                mSecurityIcon.setImageDrawable(mDecagramDrawable);
-                mSecurityIcon.setColorFilter(mSealColor);
-                mSecurityDescription.setText(
-                        mOutSecurityPersonalGuarantee);
-                mSecurityIcon.setContentDescription(
-                        mOutSecurityPersonalGuarantee);
-                break;
-            default:
+        if(!"".equals(item.getSecurity().trim())) {
+            switch (item.getSecurity().trim()) {
+                case ConstantVariables.IN_SEC_COLLATERALIZED:
+                    mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
+                            .icon(CommunityMaterial.Icon.cmd_shield_outline)
+                            .sizeRes(R.dimen.loan_detail_security_icon_size));
+                    mSecurityIcon.setColorFilter(mShieldColor);
+                    String collateralDesc = WordUtils.wrap(
+                            WordUtils.capitalize(item.getCollateral().trim()), 15);
+                    mSecurityDescription.setText(collateralDesc);
+                    mSecurityIcon.setContentDescription(collateralDesc);
+                    break;
+                case ConstantVariables.IN_SEC_UNCOLLATERALIZED:
+                    mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
+                            .icon(CommunityMaterial.Icon.cmd_lock_open_outline)
+                            .sizeRes(R.dimen.loan_detail_security_icon_size));
+                    mSecurityIcon.setColorFilter(mLockOpenColor);
+                    mSecurityDescription.setText(
+                            mOutSecurityUncollateralizedLabel);
+                    mSecurityIcon.setContentDescription(
+                            mOutSecurityUncollateralizedLabel);
+                    break;
+                case ConstantVariables.IN_SEC_INVOICE_OR_CHEQUE:
+                    mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
+                            .icon(CommunityMaterial.Icon.cmd_file_outline)
+                            .sizeRes(R.dimen.loan_detail_security_icon_size));
+                    mSecurityIcon.setColorFilter(mFileColor);
+                    mSecurityDescription.setText(
+                            mOutSecurityInvoiceOrChequeLabel);
+                    mSecurityIcon.setContentDescription(
+                            mOutSecurityInvoiceOrChequeLabel);
+                    break;
+                case ConstantVariables.IN_SEC_PERSONAL_GUARANTEE:
+                    mSecurityIcon.setImageDrawable(mDecagramDrawable);
+                    mSecurityIcon.setColorFilter(mSealColor);
+                    mSecurityDescription.setText(
+                            mOutSecurityPersonalGuarantee);
+                    mSecurityIcon.setContentDescription(
+                            mOutSecurityPersonalGuarantee);
+                    break;
+                default:
+            }
         }
 
-        mLoanAmount.setText(NumericUtils.formatCurrency(item.getCurrency(),
-                item.getTargetAmount(), item.getCurrency()+" ", true));
+        mLoanAmount.setText(NumericUtils.formatCurrency(item.getCurrency().trim(),
+                item.getTargetAmount(), item.getCurrency().trim()+" ", true));
     }
 }

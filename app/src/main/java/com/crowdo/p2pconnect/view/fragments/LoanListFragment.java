@@ -271,7 +271,8 @@ public class LoanListFragment extends Fragment {
         //check authentication
         final String uniqueAndroidID = ConstantVariables.getUniqueAndroidID(mContext);
 
-        Observable<String> tokenObservable = Observable.just(SharedPreferencesUtils.getSharedPrefString(getActivity(),
+        Observable<String> tokenObservable = Observable.just(
+                SharedPreferencesUtils.getSharedPrefString(getActivity(),
                 AccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null));
 
 

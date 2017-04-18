@@ -59,10 +59,16 @@ public class AuthAccountUtils {
     }
 
 
-    public static void invalidateAuthToken(Activity activity, final AccountManager accountManager, String authToken){
+    public static void invalidateAuthToken(final Activity activity, final AccountManager accountManager, String authToken){
+
+        //invalidate SharedPref
+        SharedPreferencesUtils.setSharePrefString(activity,
+                AccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
+
         final Account account = getOneAndOnlyOneAccount(accountManager);
         if(account != null) {
-            final AccountManagerFuture<Bundle> future = accountManager.getAuthToken(account, authToken, null, activity, null, null);
+            final AccountManagerFuture<Bundle> future = accountManager.getAuthToken(account,
+                    authToken, null, activity, null, null);
             new Thread(new Runnable() {
                 @Override
                 public void run() {

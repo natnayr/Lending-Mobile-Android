@@ -202,18 +202,18 @@ public class LoanDetailsViewHolder {
 
     public void attachView(final LoanDetail loanDetail, final Context context) {
 
-        if(!"".equals(loanDetail.getLoanId())) {
+        if(!"".equals(loanDetail.getLoanId().trim())) {
             mLoanIdenTextView.setText(loanDetail.getLoanId());
         }
 
         mPercentageReturn.setText(Double.toString(loanDetail.getInterestRate()));
 
-        if(!"".equals(loanDetail.getGrade())) {
-            mGrade.setText(loanDetail.getGrade());
+        if(!"".equals(loanDetail.getGrade().trim())) {
+            mGrade.setText(loanDetail.getGrade().trim());
         }
         
-        if(!"".equals(loanDetail.getGrade())) {
-            switch (loanDetail.getGrade()) {
+        if(!"".equals(loanDetail.getGrade().trim())) {
+            switch (loanDetail.getGrade().trim()) {
                 case "A+":
                     mGrade.setTextColor(mColorAPlus);
                     break;
@@ -239,15 +239,15 @@ public class LoanDetailsViewHolder {
             }
         }
 
-        if(!"".equals(loanDetail.getSecurity())) {
-            switch (loanDetail.getSecurity()) {
+        if(!"".equals(loanDetail.getSecurity().trim())) {
+            switch (loanDetail.getSecurity().trim()) {
                 case ConstantVariables.IN_SEC_COLLATERALIZED:
                     mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
                             .icon(CommunityMaterial.Icon.cmd_shield_outline)
                             .sizeRes(R.dimen.loan_detail_security_icon_size));
                     mSecurityIcon.setColorFilter(mShieldColor);
                     String collateralDesc = WordUtils.wrap(
-                            WordUtils.capitalize(loanDetail.getCollateral()
+                            WordUtils.capitalize(loanDetail.getCollateral().trim()
                                     + "\n" + ConstantVariables.IN_SEC_COLLATERALIZED), 25);
                     mSecurityDescription.setText(collateralDesc);
                     mSecurityIcon.setContentDescription(collateralDesc);
@@ -285,9 +285,9 @@ public class LoanDetailsViewHolder {
         mProgressDescription.setText(progressNum + mProgressDescriptionTail);
         mTenureDuration.setText(Integer.toString(loanDetail.getTenure()));
 
-        if(!"".equals(loanDetail.getFundingEndDate())) {
+        if(!"".equals(loanDetail.getFundingEndDate().trim())) {
             int daysLeft = DateUtils.findDaysLeft(ConstantVariables.DATE_TIME_REGION,
-                    loanDetail.getFundingEndDate());
+                    loanDetail.getFundingEndDate().trim());
 
             if (daysLeft > 0) {
                 mNumDaysLeft.setText(Integer.toString(daysLeft));
@@ -297,27 +297,27 @@ public class LoanDetailsViewHolder {
         }
 
 
-        if(!"".equals(loanDetail.getCurrency())) {
+        if(!"".equals(loanDetail.getCurrency().trim())) {
             mTargetAmount.setText(NumericUtils.truncateNumber(loanDetail.getTargetAmount(),
                     LocaleHelper.getLanguage(context)));
             mTargetAmountDescription.setText(mTargetAmountPrincipalString +
                     " (" + loanDetail.getCurrency() + ")");
         }
 
-        if(!"".equals(loanDetail.getStartDate()))
+        if(!"".equals(loanDetail.getStartDate().trim()))
             mScheduleStartDate.setText(DateUtils.dateTimeFormatter(
-                    ConstantVariables.OUT_DATE_TIME_FORMAT, loanDetail.getStartDate()));
-        if(!"".equals(loanDetail.getFirstRepayment()))
+                    ConstantVariables.OUT_DATE_TIME_FORMAT, loanDetail.getStartDate().trim()));
+        if(!"".equals(loanDetail.getFirstRepayment().trim()))
             mScheduleFirstRepaymentDate.setText(DateUtils.dateTimeFormatter(
-                    ConstantVariables.OUT_DATE_TIME_FORMAT, loanDetail.getFirstRepayment()));
-        if(!"".equals(loanDetail.getLastRepayment()))
+                    ConstantVariables.OUT_DATE_TIME_FORMAT, loanDetail.getFirstRepayment().trim()));
+        if(!"".equals(loanDetail.getLastRepayment().trim()))
             mScheduleLastRepaymentDate.setText(DateUtils.dateTimeFormatter(
-                    ConstantVariables.OUT_DATE_TIME_FORMAT, loanDetail.getLastRepayment()));
+                    ConstantVariables.OUT_DATE_TIME_FORMAT, loanDetail.getLastRepayment().trim()));
 
-        if(!"".equals(loanDetail.getCurrency()))
-            mAvalibleAmount.setText(NumericUtils.formatCurrency(loanDetail.getCurrency(),
-                    loanDetail.getFundingAmountToCompleteCache(), loanDetail.getCurrency()+" ", false) +
-                    " " + loanDetail.getCurrency());
+        if(!"".equals(loanDetail.getCurrency().trim()))
+            mAvalibleAmount.setText(NumericUtils.formatCurrency(loanDetail.getCurrency().trim(),
+                    loanDetail.getFundingAmountToCompleteCache(), loanDetail.getCurrency().trim()+" ", false) +
+                    " " + loanDetail.getCurrency().trim());
 
         //Add textwatcher here cause of required currency
         mEnterAmount.addTextChangedListener(new TextWatcher() {

@@ -2,7 +2,6 @@ package com.crowdo.p2pconnect;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
@@ -10,7 +9,7 @@ import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
-import com.crowdo.p2pconnect.view.activities.MainActivity;
+import com.crowdo.p2pconnect.oauth.AccountGeneral;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -33,12 +32,10 @@ public class CrowdoApplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
-        //first thing to do
-        PreferenceManager.setDefaultValues(this, R.xml.setting_preferences, false);
 
         configureRealm(); //set configuration
 
-        redirectToMain(); //if need to redirect
+        initApp(); //if need to redirect
     }
 
     private static CrowdoApplication get(Context context){
@@ -73,16 +70,13 @@ public class CrowdoApplication extends Application{
         this.scheduler = scheduler;
     }
 
-    private void redirectToMain(){
-        int userId = SharedPreferencesUtils.getSharedPrefInt(this,
-                ConstantVariables.PREF_KEY_USER_ID, -1);
+    private void initApp(){
+        //check with authToken
+        String authToken = SharedPreferencesUtils.getSharedPrefString(this,
+                AccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
 
         //if userId is less than 0, not registered & clean db
-        if(userId > 0){
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        }else{
+        if(authToken == null){
             //destroy and recreate db
             if(realm.isClosed() == false){
                 realm.close();
