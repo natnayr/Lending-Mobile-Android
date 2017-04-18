@@ -2,7 +2,8 @@
 
 <!--android:windowSoftInputMode="adjustResize|stateVisible"-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.crowdo.p2pconnect">
+    package="com.crowdo.p2pconnect"
+    android:installLocation="internalOnly">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -22,6 +23,7 @@
         <activity
             android:name=".view.activities.LaunchActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:theme="@style/WelcomeTheme">
         </activity>
 
@@ -30,6 +32,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/AuthTheme"
+            android:launchMode="singleTop"
             android:parentActivityName=".view.activities.LaunchActivity">
         </activity>
 
@@ -49,6 +52,7 @@
             android:name=".view.activities.LoanDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
+            android:launchMode="singleTop"
             android:parentActivityName=".view.activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

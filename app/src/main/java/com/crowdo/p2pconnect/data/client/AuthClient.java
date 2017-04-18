@@ -28,6 +28,7 @@ public class AuthClient {
     private static final String LOG_TAG = AuthClient.class.getSimpleName();
     private static AuthClient instance;
     private APIServices apiServices;
+    private Retrofit retrofit;
 
     public AuthClient(Context context) {
         final Gson gson = new GsonBuilder()
@@ -44,7 +45,7 @@ public class AuthClient {
                 .build();
 
 
-        final Retrofit retrofit = new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(httpClient)
@@ -59,6 +60,10 @@ public class AuthClient {
             instance = new AuthClient(context);
         }
         return instance;
+    }
+
+    public Retrofit getRetrofit() {
+        return retrofit;
     }
 
     public Observable<Response<AuthResponse>> loginUser(String email, String password, String deviceID) {

@@ -14,10 +14,9 @@ import android.widget.EditText;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.client.AuthClient;
-import com.crowdo.p2pconnect.data.response_model.APIErrorResponse;
 import com.crowdo.p2pconnect.data.response_model.AuthResponse;
+import com.crowdo.p2pconnect.data.response_model.ErrorResponse;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
-import com.crowdo.p2pconnect.helpers.ErrorUtils;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.HashingUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
@@ -29,6 +28,7 @@ import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.viewholders.RegisterViewHolder;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindColor;
@@ -38,6 +38,8 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
+import retrofit2.Converter;
 import retrofit2.Response;
 
 /**
@@ -63,6 +65,7 @@ public class RegisterFragment extends Fragment{
     private static final String LOG_TAG = RegisterFragment.class.getSimpleName();
     public static final String REGISTER_FRAGMENT_TAG = "REGISTER_FRAGMENT_TAG";
 
+    private AuthClient mAuthClient;
     private RegisterViewHolder viewHolder;
     private Disposable disposableRegisterUser;
     private String initAccountType;
@@ -173,8 +176,8 @@ public class RegisterFragment extends Fragment{
         //store password
         mPasswordHash = HashingUtils.hashSHA256(inputPassword);
 
-        AuthClient.getInstance(getActivity())
-                .registerUser(inputEmail, inputName, inputPassword, inputConfirmPassword,
+        mAuthClient = AuthClient.getInstance(getActivity());
+        mAuthClient.registerUser(inputEmail, inputName, inputPassword, inputConfirmPassword,
                         LocaleHelper.getLanguage(getActivity()),
                         ConstantVariables.getUniqueAndroidID(getActivity()))
                 .subscribeOn(Schedulers.io())
@@ -215,76 +218,89 @@ public class RegisterFragment extends Fragment{
         final Bundle data = new Bundle();
         final Intent res = new Intent();
 
-        //check response
-        if(!response.isSuccessful()){
-            String errorMessage = "Error: Registration not successful";
+        if(response.isSuccessful()) {
+            Log.d(LOG_TAG, "APP: handleResult > response.isSuccessful()");
+            AuthResponse oauth = response.body();
 
-            if(response.errorBody() != null) {
-                APIErrorResponse responseAPI = ErrorUtils.parseError(response.errorBody());
-                errorMessage = responseAPI.getMessage() + " Status:" + responseAPI.getStatus();
+            //success register
+            if (HTTPResponseUtils.check2xxSuccess(oauth.getStatus())) {
+                //show success
+                SnackBarUtil.snackBarForAuthCreate(getView(),
+                        oauth.getMessage(),
+                        Snackbar.LENGTH_SHORT,
+                        mColorIconText, mColorAccent).show();
+
+                try {
+                    data.putString(AccountManager.KEY_ACCOUNT_NAME, oauth.getMember().getEmail());
+                    data.putString(AccountManager.KEY_ACCOUNT_TYPE, initAccountType);
+                    data.putString(AccountManager.KEY_AUTHTOKEN, oauth.getAuthToken());
+                    data.putString(AccountManager.KEY_PASSWORD, mPasswordHash);
+
+                } catch (Exception e) {
+                    SnackBarUtil.snackBarForAuthCreate(getView(),
+                            mHttpErrorHandlingMessage + "\n" + e.getMessage(),
+                            Snackbar.LENGTH_SHORT,
+                            mColorIconText, mColorPrimaryDark).show();
+                    e.printStackTrace();
+                    Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                    return;
+                }
+
+                final Member member = oauth.getMember();
+                final Bundle userData = new Bundle();
+                userData.putString(AuthActivity.POST_AUTH_MEMBER_ID, member.getId().toString());
+                userData.putString(AuthActivity.POST_AUTH_MEMBER_EMAIL, member.getEmail());
+                userData.putString(AuthActivity.POST_AUTH_MEMBER_NAME, member.getName());
+                userData.putString(AuthActivity.POST_AUTH_MEMBER_LOCALE, member.getLocalePreference());
+
+                res.putExtras(data);
+                //finalise auth
+                ((AuthActivity) getActivity()).finishAuth(res, userData);
+                return;
             }
-
-            SnackBarUtil.snackBarForAuthCreate(getView(),
-                    errorMessage,
-                    Snackbar.LENGTH_SHORT,
-                    mColorIconText, mColorPrimaryDark).show();
-            Log.e(LOG_TAG, "ERROR: " + response.errorBody().toString());
-            //TODO: do more error handling in future..
-            return;
         }
 
-        AuthResponse oauth = response.body();
+        //failed register response from server, 4xx error
+        if(HTTPResponseUtils.check4xxClientError(response.code())) {
+            String serverErrorMsg = "Error: Registration not successful";
 
-        //failed login response from server
-        if(HTTPResponseUtils.check4xxClientError(oauth.getStatus())){
+            if (response.errorBody() != null) {
+                Converter<ResponseBody, ErrorResponse> errorConverter =
+                        mAuthClient.getRetrofit().responseBodyConverter(
+                                ErrorResponse.class, new Annotation[0]);
+                try {
+                    ErrorResponse errorResponse = errorConverter.convert(response.errorBody());
+                    serverErrorMsg = errorResponse.getMessage();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                }
+            }
+            viewHolder.mRegisterPasswordEmailText.setText(""); //clear passwords
+            viewHolder.mRegisterConfirmPasswdEditText.setText(""); //clear confirm passwords
+            //Error Snackbar
             SnackBarUtil.snackBarForAuthCreate(getView(),
-                    oauth.getMessage(),
+                    serverErrorMsg,
                     Snackbar.LENGTH_SHORT,
-                    mColorIconText, mColorAccent).show();
-
+                    mColorIconText, mColorPrimaryDark).show();
             try {
-                TimeUnit.SECONDS.sleep(2);
+                TimeUnit.SECONDS.sleep(1);
             } catch(InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
-
             return;
         }
 
-        //success register
-        if(HTTPResponseUtils.check2xxSuccess(oauth.getStatus())){
-            //show success
-            SnackBarUtil.snackBarForAuthCreate(getView(),
-                    oauth.getMessage(),
-                    Snackbar.LENGTH_SHORT,
-                    mColorIconText, mColorAccent).show();
+        viewHolder.mRegisterPasswordEmailText.setText(""); //clear passwords
+        viewHolder.mRegisterConfirmPasswdEditText.setText(""); //clear confirm passwords
+        String errorBody = response.code() + " Error: " + response.message();
 
-            try {
-                data.putString(AccountManager.KEY_ACCOUNT_NAME, oauth.getMember().getEmail());
-                data.putString(AccountManager.KEY_ACCOUNT_TYPE, initAccountType);
-                data.putString(AccountManager.KEY_AUTHTOKEN, oauth.getAuthToken());
-                data.putString(AccountManager.KEY_PASSWORD, mPasswordHash);
-
-            }catch(Exception e){
-                SnackBarUtil.snackBarForAuthCreate(getView(),
-                        mHttpErrorHandlingMessage + "\n" + e.getMessage(),
-                        Snackbar.LENGTH_SHORT,
-                        mColorIconText, mColorPrimaryDark).show();
-                e.printStackTrace();
-                Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-                return;
-            }
-
-            final Member member = oauth.getMember();
-            final Bundle userData = new Bundle();
-            userData.putString(AuthActivity.POST_AUTH_MEMBER_ID, member.getId().toString());
-            userData.putString(AuthActivity.POST_AUTH_MEMBER_EMAIL, member.getEmail());
-            userData.putString(AuthActivity.POST_AUTH_MEMBER_NAME, member.getName());
-            userData.putString(AuthActivity.POST_AUTH_MEMBER_LOCALE, member.getLocalePreference());
-
-            res.putExtras(data);
-            //finalise auth
-            ((AuthActivity) getActivity()).finishAuth(res, userData);
-        }
+        SnackBarUtil.snackBarForAuthCreate(getView(),
+                errorBody,
+            Snackbar.LENGTH_SHORT,
+            mColorIconText, mColorPrimaryDark).show();
+        Log.e(LOG_TAG, "ERROR: " + response.errorBody().toString());
+        //TODO: do more error handling in future..
+        return;
     }
 }

@@ -11,9 +11,11 @@ public class LoginRequest {
     @SerializedName("email")
     @Expose
     public String email;
+
     @SerializedName("password")
     @Expose
     public String password;
+
     @SerializedName("device_id")
     @Expose
     public String deviceId;

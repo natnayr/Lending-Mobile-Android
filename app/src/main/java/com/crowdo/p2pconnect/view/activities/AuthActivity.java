@@ -4,6 +4,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -19,8 +20,6 @@ import com.crowdo.p2pconnect.oauth.AccountGeneral;
 import com.crowdo.p2pconnect.view.fragments.LoginFragment;
 import com.crowdo.p2pconnect.view.fragments.RegisterFragment;
 
-import rx.Observable;
-import rx.functions.Action1;
 
 /**
  * Created by cwdsg05 on 10/3/17.
@@ -49,8 +48,6 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
     private String mAuthTokenType;
     private boolean mIsNewAccountRequested;
 
-    private static final int TIME_DELAY_FOR_SUCESS_TRANSFER = 3000;
-
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
@@ -72,9 +69,6 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
         if(mAccountType == null){
             mAccountType = AccountGeneral.getACCOUNT_TYPE(this);
         }
-
-        //check if there are accounts before, if so terminate
-        ifAccountExistsThenExit();
 
         String fragmentTag = extras.getString(FRAGMENT_CLASS_TAG_CALL);
         if(fragmentTag != null) {
@@ -130,32 +124,41 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
                 final Account account = new Account(accountName, accountType);
                 String accountPasswordHash = extras.getString(AccountManager.KEY_PASSWORD);
                 if(extras.getBoolean(ARG_IS_ADDING_NEW_ACCOUNT, true)){
+
                     Log.d(LOG_TAG, "APP finishAuth() > addAccountExplicitly");
                     final String authToken = extras.getString(AccountManager.KEY_AUTHTOKEN);
                     final String authTokeType = mAuthTokenType;
 
-                    // Creating the account on the device and setting the auth token we got
-                    // (Not setting the auth token will cause another call to the server to authenticate the user
-                    Observable.just(mAccountManager.addAccountExplicitly(account, accountPasswordHash, userData))
-                            .subscribe(new Action1<Boolean>() {
-                                @Override
-                                public void call(Boolean aBoolean) {
-                                    mAccountManager.setAuthToken(account, authTokeType, authToken);
-                                    setAccountAuthenticatorResult(extras);
-                                    setResult(RESULT_OK, intent);
+                    boolean accountSuccess = mAccountManager.addAccountExplicitly(account, accountPasswordHash, userData);
+                    if(accountSuccess) {
+                        Log.d(LOG_TAG, "APP finishAuth() > account created");
+                        mAccountManager.setAuthToken(account, authTokeType, authToken);
 
-                                    //SUCCESS!!!
-                                    Handler handler = new Handler();
-                                    handler.postDelayed(new Runnable() {
-                                        public void run() {
-                                            Intent resetIntent = new Intent(AuthActivity.this, MainActivity.class);
-                                            resetIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            startActivity(resetIntent);
-                                            AuthActivity.this.finish(); //carry on with either AccountManager or In-App Login
-                                        }
-                                    }, TIME_DELAY_FOR_SUCESS_TRANSFER);
-                                }
-                            });
+                        //Alert other apps
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            mAccountManager.notifyAccountAuthenticated(account);
+                        }
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                setAccountAuthenticatorResult(extras);
+                                setResult(RESULT_OK, intent);
+
+                                Intent resetIntent = new Intent(AuthActivity.this, MainActivity.class);
+                                resetIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                        Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(resetIntent);
+                                AuthActivity.this.finish(); //carry on with either AccountManager or In-App Login
+                            }
+                        }).start();
+
+                    }else{
+                        Log.d(LOG_TAG, "APP finishAuth() > account creation failed");
+                        Toast.makeText(AuthActivity.this, R.string.auth_account_creation_failed,
+                                Toast.LENGTH_SHORT).show();
+                    }
+
                 } else {
                     Log.d(LOG_TAG, "APP finishAuth() > setPassword");
                     mAccountManager.setPassword(account, accountPasswordHash);
@@ -173,11 +176,4 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
         super.onBackPressed();
     }
 
-    private void ifAccountExistsThenExit(){
-        Account[] accounts = mAccountManager.getAccountsByType(mAccountType);
-        if(accounts.length > 0){
-            Toast.makeText(this, R.string.auth_one_account_allowed, Toast.LENGTH_LONG).show();
-            finish();
-        }
-    }
 }

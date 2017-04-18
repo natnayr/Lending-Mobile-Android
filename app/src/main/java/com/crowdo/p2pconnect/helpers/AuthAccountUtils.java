@@ -2,10 +2,7 @@ package com.crowdo.p2pconnect.helpers;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
-import android.accounts.AuthenticatorException;
-import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
@@ -19,7 +16,6 @@ import com.crowdo.p2pconnect.oauth.AccountGeneral;
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.view.activities.LaunchActivity;
 
-import java.io.IOException;
 
 /**
  * Created by cwdsg05 on 29/3/17.
@@ -29,37 +25,32 @@ public class AuthAccountUtils {
 
     public static final String LOG_TAG = AuthAccountUtils.class.getSimpleName();
 
-    public static void removeAccounts(Activity activity, final CallBackUtil<Object> callBackUtil){
+    public static void removeAccounts(final Activity activity, final CallBackUtil<Object> callBackUtil){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                AccountManager am = AccountManager.get(activity);
+                Account[] accounts = am.getAccountsByType(AccountGeneral.getACCOUNT_TYPE(activity));
+                if(accounts.length != 0) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                        for (Account acc : accounts) {
+                            am.clearPassword(acc);
+                            am.removeAccountExplicitly(acc);
+                        }
+                    } else {
+                        for (Account acc : accounts) {
+                            am.clearPassword(acc);
+                            am.removeAccount(acc, null, null);
+                        }
+                    }
+                }
 
-        AccountManager am = AccountManager.get(activity);
-        Account[] accounts = am.getAccountsByType(AccountGeneral.getACCOUNT_TYPE(activity));
-        if(accounts.length != 0) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                for (Account acc : accounts) {
-                    am.clearPassword(acc);
-                    am.removeAccountExplicitly(acc);
-                }
-            } else {
-                for (Account acc : accounts) {
-                    am.clearPassword(acc);
-                    am.removeAccount(acc, null, null);
-                }
+                callBackUtil.eventCallBack(null);
             }
-        }
-
-        callBackUtil.eventCallBack(null);
+        }).start();
     }
 
-    public static void invalidateAuthToken(AccountManager accountManager, String authToken){
-        Account account = getOnlyAccount(accountManager);
-
-        if(account != null) {
-            accountManager.invalidateAuthToken(account.type, authToken);
-        }
-    }
-
-
-    public static Account getOnlyAccount(AccountManager accountManager){
+    public static Account getOneAndOnlyOneAccount(AccountManager accountManager){
         Account[] accounts = accountManager.getAccounts();
         if(accounts.length > 0){
             return accounts[0];
@@ -67,12 +58,33 @@ public class AuthAccountUtils {
         return null;
     }
 
-    public static void getExisitingAuthToken(Activity activity, AccountManager accountManager,
+
+    public static void invalidateAuthToken(Activity activity, final AccountManager accountManager, String authToken){
+        final Account account = getOneAndOnlyOneAccount(accountManager);
+        if(account != null) {
+            final AccountManagerFuture<Bundle> future = accountManager.getAuthToken(account, authToken, null, activity, null, null);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Bundle bnd = future.getResult();
+                        final String authToken = bnd.getString(AccountManager.KEY_AUTHTOKEN);
+                        accountManager.invalidateAuthToken(account.type, authToken);
+                    } catch (Exception e) {
+                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }
+    }
+
+    public static void getExisitingAuthToken(final Activity activity, AccountManager accountManager,
                                              final CallBackUtil<String> callback){
 
         Log.d(LOG_TAG, "APP getExisitingAuthToken()");
 
-        Account account = AuthAccountUtils.getOnlyAccount(accountManager);
+        Account account = AuthAccountUtils.getOneAndOnlyOneAccount(accountManager);
         if(account == null) {
             callback.eventCallBack(null); //return back to callback a null string
             return;
@@ -80,66 +92,41 @@ public class AuthAccountUtils {
 
         Log.d(LOG_TAG, "APP getExisitingAuthToken() > account.name " + account.name);
 
-        accountManager.getAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS, null,
-                activity, new AccountManagerCallback<Bundle>() {
-                    @Override
-                    public void run(AccountManagerFuture<Bundle> future) {
-                        try{
-                            Bundle bundle = future.getResult();
-                            String authToken = bundle.getString(AccountManager.KEY_AUTHTOKEN);
-                            Log.d(LOG_TAG, "APP getExisitingAuthToken > authToken = "
-                                    + authToken);
+        final AccountManagerFuture<Bundle> future = accountManager.getAuthToken(account,
+                AccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS, null, activity, null, null);
 
-                            callback.eventCallBack(authToken);
-
-                        }catch (OperationCanceledException oce){
-                            Log.e(LOG_TAG, "ERROR: " + oce.getMessage(), oce);
-                            oce.printStackTrace();
-                        }catch (IOException ioe){
-                            Log.e(LOG_TAG, "ERROR: " + ioe.getMessage(), ioe);
-                            ioe.printStackTrace();
-                        }catch (AuthenticatorException ae){
-                            Log.e(LOG_TAG, "ERROR: " + ae.getMessage(), ae);
-                            ae.printStackTrace();
-                        }
-                    }
-                }, null);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    Bundle bundle = future.getResult();
+                    String authToken = bundle.getString(AccountManager.KEY_AUTHTOKEN);
+                    Log.d(LOG_TAG, "APP getExisitingAuthToken > authToken = " + authToken);
+                    callback.eventCallBack(authToken);
+                }catch (Exception e){
+                    Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                    e.printStackTrace();
+                }
+            }
+        }).start();
 
         Log.d(LOG_TAG, "APP POST_AUTH_MEMBER_ID => " + accountManager.getUserData(
-                AuthAccountUtils.getOnlyAccount(accountManager),
+                AuthAccountUtils.getOneAndOnlyOneAccount(accountManager),
                 AuthActivity.POST_AUTH_MEMBER_ID));
         Log.d(LOG_TAG, "APP POST_AUTH_MEMBER_EMAIL => " + accountManager.getUserData(
-                AuthAccountUtils.getOnlyAccount(accountManager),
+                AuthAccountUtils.getOneAndOnlyOneAccount(accountManager),
                 AuthActivity.POST_AUTH_MEMBER_EMAIL));
         Log.d(LOG_TAG, "APP POST_AUTH_MEMBER_NAME => " + accountManager.getUserData(
-                AuthAccountUtils.getOnlyAccount(accountManager),
+                AuthAccountUtils.getOneAndOnlyOneAccount(accountManager),
                 AuthActivity.POST_AUTH_MEMBER_NAME));
         Log.d(LOG_TAG, "APP POST_AUTH_MEMBER_LOCALE => " + accountManager.getUserData(
-                AuthAccountUtils.getOnlyAccount(accountManager),
+                AuthAccountUtils.getOneAndOnlyOneAccount(accountManager),
                 AuthActivity.POST_AUTH_MEMBER_LOCALE));
 
     }
 
     public static void actionLogout(AccountManager accountManager, final Activity activity){
         Log.d(LOG_TAG, "APP actionLogout()");
-
-        //invalidate authKey if avalible
-        String authToken = SharedPreferencesUtils.getSharedPrefString(activity,
-                AccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
-        if(authToken != null){
-            AuthAccountUtils.invalidateAuthToken(accountManager, authToken);
-        }
-
-        //invalidate only account and remove accounts
-        AuthAccountUtils.removeAccounts(activity, new CallBackUtil(){
-            @Override
-            public void eventCallBack(Object o) {
-                //Call LaunchActivity to Welcome & Authenticate
-                Intent intent = new Intent(activity, LaunchActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                activity.startActivity(intent);
-            }
-        });
 
         //clear cookie cache fro webview
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
@@ -160,5 +147,23 @@ public class AuthAccountUtils {
             cookieSyncManager.stopSync();
             cookieSyncManager.sync();
         }
+
+        //invalidate authKey if avalible
+        String authToken = SharedPreferencesUtils.getSharedPrefString(activity,
+                AccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
+        if(authToken != null){
+            AuthAccountUtils.invalidateAuthToken(activity, accountManager, authToken);
+        }
+
+        //invalidate only account and remove accounts
+        AuthAccountUtils.removeAccounts(activity, new CallBackUtil(){
+            @Override
+            public void eventCallBack(Object o) {
+                //Call LaunchActivity to Welcome & Authenticate
+                Intent intent = new Intent(activity, LaunchActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                activity.startActivity(intent);
+            }
+        });
     }
 }

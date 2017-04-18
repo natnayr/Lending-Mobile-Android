@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by cwdsg05 on 11/4/17.
  */
 
-public class APIErrorResponse {
+public class ErrorResponse {
 
     @SerializedName("message")
     @Expose
@@ -18,10 +18,10 @@ public class APIErrorResponse {
     private int status;
 
 
-    public APIErrorResponse() {
+    public ErrorResponse() {
     }
 
-    public APIErrorResponse(String message, int status) {
+    public ErrorResponse(String message, int status) {
         super();
         this.message = message;
         this.status = status;
