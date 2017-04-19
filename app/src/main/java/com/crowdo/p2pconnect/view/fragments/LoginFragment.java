@@ -1,7 +1,5 @@
 package com.crowdo.p2pconnect.view.fragments;
 
-import android.accounts.AccountManager;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -45,7 +43,7 @@ import retrofit2.Response;
  * Created by cwdsg05 on 8/3/17.
  */
 
-public class LoginFragment extends Fragment{
+public class LoginFragment extends Fragment implements Observer<Response<AuthResponse>>{
 
     @BindString(R.string.auth_http_error_message) String mHttpErrorServerMessage;
     @BindString(R.string.auth_http_handling_message) String mHttpErrorHandlingMessage;
@@ -58,12 +56,13 @@ public class LoginFragment extends Fragment{
     private static final String LOG_TAG = LoginFragment.class.getSimpleName();
     public static final String LOGIN_FRAGMENT_TAG = "LOGIN_FRAGMENT_TAG";
 
-    private AuthClient mAuthClient;
+    private AuthClient authClient;
     private LoginViewHolder viewHolder;
     private Disposable disposableLoginUser;
     private String initAccountType;
     private String initAccountEmail;
     private String mPasswordHash;
+    private AuthResponse authResponse;
 
 
     @Override
@@ -133,7 +132,7 @@ public class LoginFragment extends Fragment{
         }
     }
 
-    private void submit(){
+    private void submit() {
         final String inputEmail = viewHolder.mLoginEmailEditText.getText().toString().toLowerCase().trim();
         final String inputPassword = viewHolder.mLoginPasswdEditText.getText().toString();
 
@@ -141,12 +140,12 @@ public class LoginFragment extends Fragment{
         SoftInputHelper.hideSoftKeyboard(getActivity());
 
         //fix emailbox for user
-        if(!inputEmail.equals(viewHolder.mLoginEmailEditText.getText().toString())){
+        if (!inputEmail.equals(viewHolder.mLoginEmailEditText.getText().toString())) {
             viewHolder.mLoginEmailEditText.setText(inputEmail);
         }
 
         //local incorrect email check
-        if(!RegexValidationUtil.isValidEmailFormat(inputEmail)){
+        if (!RegexValidationUtil.isValidEmailFormat(inputEmail)) {
             final Snackbar snack = SnackBarUtil.snackBarForAuthCreate(getView(),
                     mEmailIncorrectFormatMessage, Snackbar.LENGTH_SHORT,
                     mColorIconText, mColorPrimaryDark);
@@ -158,132 +157,151 @@ public class LoginFragment extends Fragment{
         //store password
         mPasswordHash = HashingUtils.hashSHA256(inputPassword);
 
-        //do just http
-        mAuthClient = AuthClient.getInstance(getActivity());
-        mAuthClient.loginUser(inputEmail, inputPassword,
-                        ConstantVariables.getUniqueAndroidID(getActivity()))
+        //do http call
+        authClient = AuthClient.getInstance(getActivity());
+        authClient.loginUser(inputEmail, inputPassword,
+                ConstantVariables.getUniqueAndroidID(getActivity()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<AuthResponse>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        disposableLoginUser = d;
-                    }
-
-                    @Override
-                    public void onNext(Response<AuthResponse> response) {
-                        Log.d(LOG_TAG, "APP http-message:" + response.message()
-                                + " http-code:" + response.code() );
-
-                        handleResult(response);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        viewHolder.mLoginPasswdEditText.setText("");
-                        e.printStackTrace();
-                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-                        SnackBarUtil.snackBarForAuthCreate(getView(),
-                                "error: " + e.getMessage(),
-                                Snackbar.LENGTH_SHORT,
-                                mColorIconText, mColorPrimaryDark).show();
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Log.d(LOG_TAG, "APP onCompleted reached for AuthClient.loginUser()");
-                    }
-                });
-
+                .subscribe(this);
     }
 
-    private void handleResult(Response<AuthResponse> response){
-        final Bundle data = new Bundle();
-        final Intent res = new Intent();
+
+    @Override
+    public void onSubscribe(Disposable d) {
+        disposableLoginUser = d;
+    }
+
+    @Override
+    public void onNext(Response<AuthResponse> response) {
+        Log.d(LOG_TAG, "APP onNext HTTP raw:" + response.raw());
 
         if(response.isSuccessful()) {
-            Log.d(LOG_TAG, "APP: handleResult > response.isSuccessful()");
-            AuthResponse oauth = response.body();
+            authResponse = response.body();
+        }else {
+            Log.d(LOG_TAG, "APP HTTP code:" + response.code());
+            //failed login response from server, 4xx error
+            if (HTTPResponseUtils.check4xxClientError(response.code())) {
+                String serverErrorMsg = "Error: Login not successful";
 
-            //success login
-            if (HTTPResponseUtils.check2xxSuccess(oauth.getStatus())) {
-                //show success
-                SnackBarUtil.snackBarForAuthCreate(getView(),
-                        oauth.getMessage(),
-                        Snackbar.LENGTH_SHORT,
-                        mColorIconText, mColorAccent).show();
-
-                try {
-                    data.putString(AccountManager.KEY_ACCOUNT_NAME, oauth.getMember().getEmail());
-                    data.putString(AccountManager.KEY_ACCOUNT_TYPE, initAccountType);
-                    data.putString(AccountManager.KEY_AUTHTOKEN, oauth.getAuthToken());
-                    data.putString(AccountManager.KEY_PASSWORD, mPasswordHash);
-
-                } catch (Exception e) {
-                    SnackBarUtil.snackBarForAuthCreate(getView(),
-                            mHttpErrorHandlingMessage + "\n" + e.getMessage(),
-                            Snackbar.LENGTH_SHORT,
-                            mColorIconText, mColorPrimaryDark).show();
-                    e.printStackTrace();
-                    Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-                    return;
+                if (response.errorBody() != null) {
+                    Converter<ResponseBody, ErrorResponse> errorConverter =
+                            authClient.getRetrofit().responseBodyConverter(
+                                    ErrorResponse.class, new Annotation[0]);
+                    try {
+                        ErrorResponse errorResponse = errorConverter.convert(response.errorBody());
+                        serverErrorMsg = errorResponse.getMessage();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                    }
                 }
 
-                final Member member = oauth.getMember();
-                final Bundle userData = new Bundle();
-                userData.putString(AuthActivity.POST_AUTH_MEMBER_ID, member.getId().toString());
-                userData.putString(AuthActivity.POST_AUTH_MEMBER_EMAIL, member.getEmail());
-                userData.putString(AuthActivity.POST_AUTH_MEMBER_NAME, member.getName());
-                userData.putString(AuthActivity.POST_AUTH_MEMBER_LOCALE, member.getLocalePreference());
-
-                res.putExtras(data);
-                //finalise auth
-                ((AuthActivity) getActivity()).finishAuth(res, userData);
+                viewHolder.mLoginPasswdEditText.setText(""); //clear password
+                //Error Snackbar
+                SnackBarUtil.snackBarForAuthCreate(getView(),
+                        serverErrorMsg,
+                        Snackbar.LENGTH_SHORT,
+                        mColorIconText, mColorPrimaryDark).show();
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
                 return;
             }
-        }
 
-        //failed login response from server, 4xx error
-        if(HTTPResponseUtils.check4xxClientError(response.code())){
-            String serverErrorMsg = "Error: Login not successful";
+            //other errors, just throw
+            viewHolder.mLoginPasswdEditText.setText("");
+            String errorBody = response.code() + " Error: " + response.message();
 
-            if(response.errorBody() != null) {
-                Converter<ResponseBody, ErrorResponse> errorConverter =
-                        mAuthClient.getRetrofit().responseBodyConverter(
-                                ErrorResponse.class, new Annotation[0]);
-                try{
-                    ErrorResponse errorResponse = errorConverter.convert(response.errorBody());
-                    serverErrorMsg = errorResponse.getMessage();
-                }catch (IOException e){
-                    e.printStackTrace();
-                    Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-                }
-            }
-
-            viewHolder.mLoginPasswdEditText.setText(""); //clear password
-            //Error Snackbar
             SnackBarUtil.snackBarForAuthCreate(getView(),
-                    serverErrorMsg,
+                    errorBody,
                     Snackbar.LENGTH_SHORT,
                     mColorIconText, mColorPrimaryDark).show();
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch(InterruptedException ex) {
-                Thread.currentThread().interrupt();
-            }
-            return;
+            Log.e(LOG_TAG, "ERROR: " + errorBody);
         }
+    }
 
-        //other errors
+    @Override
+    public void onError(Throwable e) {
+        //HTTP ERROR Handling
         viewHolder.mLoginPasswdEditText.setText("");
-        String errorBody = response.code() + " Error: " + response.message();
-
+        e.printStackTrace();
+        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
         SnackBarUtil.snackBarForAuthCreate(getView(),
-                errorBody,
+                mHttpErrorHandlingMessage,
                 Snackbar.LENGTH_SHORT,
                 mColorIconText, mColorPrimaryDark).show();
-        Log.e(LOG_TAG, "ERROR: " + errorBody);
-        //TODO: do more error handling in future..
-        return;
+    }
+
+    @Override
+    public void onComplete() {
+        Log.d(LOG_TAG, "APP onCompleted");
+
+        if(authResponse != null){
+            if (HTTPResponseUtils.check2xxSuccess(authResponse.getStatus())) {
+                Log.d(LOG_TAG, "APP: onComplete > response.isSuccessful TRUE");
+
+                if (HTTPResponseUtils.check2xxSuccess(authResponse.getStatus())) {
+                    //show success
+                    SnackBarUtil.snackBarForAuthCreate(getView(),
+                            authResponse.getMessage(),
+                            Snackbar.LENGTH_SHORT,
+                            mColorIconText, mColorAccent).show();
+                }
+            }
+        }
+    }
+
+    private void handleResult(){
+
+//        if(response.isSuccessful()) {
+//            Log.d(LOG_TAG, "APP: handleResult > response.isSuccessful()");
+//            AuthResponse oauth = response.body();
+
+            //success login
+//            if (HTTPResponseUtils.check2xxSuccess(oauth.getStatus())) {
+//                //show success
+//                SnackBarUtil.snackBarForAuthCreate(getView(),
+//                        oauth.getMessage(),
+//                        Snackbar.LENGTH_SHORT,
+//                        mColorIconText, mColorAccent).show();
+
+//                try {
+//                    data.putString(AccountManager.KEY_ACCOUNT_NAME, oauth.getMember().getEmail());
+//                    data.putString(AccountManager.KEY_ACCOUNT_TYPE, initAccountType);
+//                    data.putString(AccountManager.KEY_AUTHTOKEN, oauth.getAuthToken());
+//                    data.putString(AccountManager.KEY_PASSWORD, mPasswordHash);
+//
+//                } catch (NullPointerException ne) {
+//                    SnackBarUtil.snackBarForAuthCreate(getView(),
+//                            mHttpErrorHandlingMessage ,
+//                            Snackbar.LENGTH_SHORT,
+//                            mColorIconText, mColorPrimaryDark).show();
+//                    ne.printStackTrace();
+//                    Log.e(LOG_TAG, "ERROR: " + ne.getMessage(), ne);
+//                    return;
+//                }
+//                String email = oauth.getMember().getEmail();
+//                String authToken = oauth.getAuthToken();
+//                String passwordHash = mPasswordHash;
+//
+//                final Member member = oauth.getMember();
+//
+//                final Bundle userData = new Bundle();
+//                userData.putString(AuthActivity.POST_AUTH_MEMBER_ID, member.getId().toString());
+//                userData.putString(AuthActivity.POST_AUTH_MEMBER_EMAIL, member.getEmail());
+//                userData.putString(AuthActivity.POST_AUTH_MEMBER_NAME, member.getName());
+//                userData.putString(AuthActivity.POST_AUTH_MEMBER_LOCALE, member.getLocalePreference());
+
+                //finalise auth
+//                ((AuthActivity) getActivity()).finishAuth(res, userData);
+//                ((AuthActivity) getActivity()).finishAuth(email, authToken, passwordHash, userData);
+//                return;
+//            }
+//        }
+
+
     }
 }

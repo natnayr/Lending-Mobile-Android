@@ -4,7 +4,7 @@ package com.crowdo.p2pconnect.oauth;
  * Created by cwdsg05 on 24/3/17.
  */
 
-public class AccountGeneral {
+public class CrowdoAccountGeneral {
 
     public static final String ACCOUNT_TYPE = "com.crowdo.p2pconnect";
 

@@ -30,7 +30,7 @@ import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
-import com.crowdo.p2pconnect.oauth.AccountGeneral;
+import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.activities.Henson;
 import com.crowdo.p2pconnect.model.LoanListItem;
 import com.crowdo.p2pconnect.data.client.LoanListClient;
@@ -273,7 +273,7 @@ public class LoanListFragment extends Fragment {
 
         Observable<String> tokenObservable = Observable.just(
                 SharedPreferencesUtils.getSharedPrefString(getActivity(),
-                AccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null));
+                CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null));
 
 
         Subscriber<String> tokenSubscribe = new Subscriber<String>() {

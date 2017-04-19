@@ -22,7 +22,7 @@ import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.TypefaceUtils;
-import com.crowdo.p2pconnect.oauth.AccountGeneral;
+import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.fragments.LearningCenterFragment;
 import com.crowdo.p2pconnect.view.fragments.LoanListFragment;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity{
 
                 //Store in Prefs
                 SharedPreferencesUtils.setSharePrefString(MainActivity.this,
-                        AccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, mAuthToken);
+                        CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, mAuthToken);
             }
         });
 

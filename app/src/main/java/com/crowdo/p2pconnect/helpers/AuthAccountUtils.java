@@ -12,8 +12,7 @@ import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.ValueCallback;
 
-import com.crowdo.p2pconnect.oauth.AccountGeneral;
-import com.crowdo.p2pconnect.view.activities.AuthActivity;
+import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.activities.LaunchActivity;
 
 
@@ -26,28 +25,25 @@ public class AuthAccountUtils {
     public static final String LOG_TAG = AuthAccountUtils.class.getSimpleName();
 
     public static void removeAccounts(final Activity activity, final CallBackUtil<Object> callBackUtil){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                AccountManager am = AccountManager.get(activity);
-                Account[] accounts = am.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
-                if(accounts.length != 0) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                        for (Account acc : accounts) {
-                            am.clearPassword(acc);
-                            am.removeAccountExplicitly(acc);
-                        }
-                    } else {
-                        for (Account acc : accounts) {
-                            am.clearPassword(acc);
-                            am.removeAccount(acc, null, null);
-                        }
-                    }
-                }
 
-                callBackUtil.eventCallBack(null);
+        AccountManager am = AccountManager.get(activity);
+        Account[] accounts = am.getAccountsByType(CrowdoAccountGeneral.ACCOUNT_TYPE);
+        if(accounts.length != 0) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                for (Account acc : accounts) {
+                    am.clearPassword(acc);
+                    am.removeAccountExplicitly(acc);
+                }
+            } else {
+                for (Account acc : accounts) {
+                    am.clearPassword(acc);
+                    am.removeAccount(acc, null, null);
+                }
             }
-        }).start();
+        }
+
+        callBackUtil.eventCallBack(null);
+
     }
 
     public static Account getOneAndOnlyOneAccount(AccountManager accountManager){
@@ -63,7 +59,7 @@ public class AuthAccountUtils {
 
         //invalidate SharedPref
         SharedPreferencesUtils.setSharePrefString(activity,
-                AccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
+                CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
 
         final Account account = getOneAndOnlyOneAccount(accountManager);
         if(account != null) {
@@ -99,7 +95,7 @@ public class AuthAccountUtils {
         Log.d(LOG_TAG, "APP getExisitingAuthToken() > account.name " + account.name);
 
         final AccountManagerFuture<Bundle> future = accountManager.getAuthToken(account,
-                AccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS, null, activity, null, null);
+                CrowdoAccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS, null, activity, null, null);
 
         new Thread(new Runnable() {
             @Override
@@ -142,7 +138,7 @@ public class AuthAccountUtils {
 
         //invalidate authKey if avalible
         String authToken = SharedPreferencesUtils.getSharedPrefString(activity,
-                AccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
+                CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
         if(authToken != null){
             AuthAccountUtils.invalidateAuthToken(activity, accountManager, authToken);
         }

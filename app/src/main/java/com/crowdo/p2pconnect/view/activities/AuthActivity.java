@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.Toast;
@@ -16,7 +15,7 @@ import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.oauth.AccountAuthenticatorFragmentActivity;
-import com.crowdo.p2pconnect.oauth.AccountGeneral;
+import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.fragments.LoginFragment;
 import com.crowdo.p2pconnect.view.fragments.RegisterFragment;
 
@@ -63,11 +62,11 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
 
 
         if(mAuthTokenType == null){
-            mAuthTokenType = AccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS;
+            mAuthTokenType = CrowdoAccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS;
         }
 
         if(mAccountType == null){
-            mAccountType = AccountGeneral.ACCOUNT_TYPE;
+            mAccountType = CrowdoAccountGeneral.ACCOUNT_TYPE;
         }
 
         String fragmentTag = extras.getString(FRAGMENT_CLASS_TAG_CALL);
@@ -115,7 +114,7 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
                 //if not set by activity
                 String accountType = extras.getString(AccountManager.KEY_ACCOUNT_TYPE);
                 if(accountType == null){
-                    accountType = AccountGeneral.ACCOUNT_TYPE;
+                    accountType = CrowdoAccountGeneral.ACCOUNT_TYPE;
                 }
 
                 String accountName = extras.getString(AccountManager.KEY_ACCOUNT_NAME);

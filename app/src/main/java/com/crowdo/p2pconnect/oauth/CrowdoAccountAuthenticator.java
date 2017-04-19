@@ -20,13 +20,13 @@ import com.crowdo.p2pconnect.view.fragments.LoginFragment;
  * Created by cwdsg05 on 9/3/17.
  */
 
-public class AccountAuthenticator extends AbstractAccountAuthenticator {
+public class CrowdoAccountAuthenticator extends AbstractAccountAuthenticator {
 
-    private static final String LOG_TAG = AccountAuthenticator.class.getSimpleName();
+    private static final String LOG_TAG = CrowdoAccountAuthenticator.class.getSimpleName();
     private final Context mContext;
     public static final int ERROR_CODE_ONE_ACCOUNT_ALLOWED = 89876;
 
-    public AccountAuthenticator(Context context) {
+    public CrowdoAccountAuthenticator(Context context) {
         super(context);
         this.mContext = context;
     }
@@ -55,7 +55,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
         Log.v(LOG_TAG, "APP getAuthToken()");
 
         //Check token Auth Type
-        if(!AccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS.equals(authTokenType)){
+        if(!CrowdoAccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS.equals(authTokenType)){
             final Bundle result = new Bundle();
             result.putString(AccountManager.KEY_ERROR_MESSAGE, mContext.getString(R.string.auth_invalid_token));
             return result;
@@ -91,8 +91,8 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
     @Override
     public String getAuthTokenLabel(String authTokenType) {
 
-        if(AccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS.equals(authTokenType)) {
-            return AccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS_LABEL;
+        if(CrowdoAccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS.equals(authTokenType)) {
+            return CrowdoAccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS_LABEL;
         }else{
             return authTokenType + " (Label)";
         }

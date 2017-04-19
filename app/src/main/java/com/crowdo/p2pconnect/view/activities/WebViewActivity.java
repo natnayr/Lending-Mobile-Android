@@ -35,7 +35,7 @@ import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
-import com.crowdo.p2pconnect.oauth.AccountGeneral;
+import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.esafirm.rxdownloader.RxDownloader;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
@@ -102,7 +102,7 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
         Map<String, String> headerMap = new HashMap<>();
         //if able to get authToken
         String authToken = SharedPreferencesUtils.getSharedPrefString(this,
-                AccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
+                CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
         if(authToken != null){
             headerMap.put("Authorization", authToken);
         }

@@ -23,7 +23,7 @@ import com.crowdo.p2pconnect.helpers.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
-import com.crowdo.p2pconnect.oauth.AccountGeneral;
+import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.activities.Henson;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.APIServices;
@@ -110,7 +110,7 @@ public class LoanDetailsFragment extends Fragment {
         viewHolder.initView();
 
         String authToken = SharedPreferencesUtils.getSharedPrefString(getActivity(),
-                AccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
+                CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
 
         LoanDetailClient.getInstance(getActivity())
                 .getLoanDetails(authToken, LoanDetailsFragment.this.initLoanId,
