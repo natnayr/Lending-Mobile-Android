@@ -67,7 +67,7 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
         }
 
         if(mAccountType == null){
-            mAccountType = AccountGeneral.getACCOUNT_TYPE(this);
+            mAccountType = AccountGeneral.ACCOUNT_TYPE;
         }
 
         String fragmentTag = extras.getString(FRAGMENT_CLASS_TAG_CALL);
@@ -115,7 +115,7 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
                 //if not set by activity
                 String accountType = extras.getString(AccountManager.KEY_ACCOUNT_TYPE);
                 if(accountType == null){
-                    accountType = AccountGeneral.getACCOUNT_TYPE(AuthActivity.this);
+                    accountType = AccountGeneral.ACCOUNT_TYPE;
                 }
 
                 String accountName = extras.getString(AccountManager.KEY_ACCOUNT_NAME);

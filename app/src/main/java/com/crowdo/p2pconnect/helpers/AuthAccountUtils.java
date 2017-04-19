@@ -30,7 +30,7 @@ public class AuthAccountUtils {
             @Override
             public void run() {
                 AccountManager am = AccountManager.get(activity);
-                Account[] accounts = am.getAccountsByType(AccountGeneral.getACCOUNT_TYPE(activity));
+                Account[] accounts = am.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
                 if(accounts.length != 0) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
                         for (Account acc : accounts) {
@@ -115,20 +115,6 @@ public class AuthAccountUtils {
                 }
             }
         }).start();
-
-        Log.d(LOG_TAG, "APP POST_AUTH_MEMBER_ID => " + accountManager.getUserData(
-                AuthAccountUtils.getOneAndOnlyOneAccount(accountManager),
-                AuthActivity.POST_AUTH_MEMBER_ID));
-        Log.d(LOG_TAG, "APP POST_AUTH_MEMBER_EMAIL => " + accountManager.getUserData(
-                AuthAccountUtils.getOneAndOnlyOneAccount(accountManager),
-                AuthActivity.POST_AUTH_MEMBER_EMAIL));
-        Log.d(LOG_TAG, "APP POST_AUTH_MEMBER_NAME => " + accountManager.getUserData(
-                AuthAccountUtils.getOneAndOnlyOneAccount(accountManager),
-                AuthActivity.POST_AUTH_MEMBER_NAME));
-        Log.d(LOG_TAG, "APP POST_AUTH_MEMBER_LOCALE => " + accountManager.getUserData(
-                AuthAccountUtils.getOneAndOnlyOneAccount(accountManager),
-                AuthActivity.POST_AUTH_MEMBER_LOCALE));
-
     }
 
     public static void actionLogout(AccountManager accountManager, final Activity activity){
