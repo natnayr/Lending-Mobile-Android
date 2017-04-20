@@ -144,18 +144,13 @@ public class AuthAccountUtils {
             AuthAccountUtils.invalidateAuthToken(activity, accountManager, authToken);
         }
 
-        //nullify sharedpref auth token
-        SharedPreferencesUtils.setSharePrefString(activity,
-                CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
-
         //remove accounts
         AuthAccountUtils.removeAccounts(activity);
 
-        Toast.makeText(activity, R.string.auth_logout_session_expire, Toast.LENGTH_SHORT).show();
-
         Intent intent = new Intent(activity, LaunchActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         activity.startActivity(intent);
+        activity.finish(); //close activity
     }
 }

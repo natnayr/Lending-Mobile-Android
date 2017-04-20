@@ -70,12 +70,10 @@ public class LoanDetailClient {
     }
 
 
-    public Observable<Response<LoanDetail>> getLoanDetails(String token, int id, String deviceId){
-        Log.d(LOG_TAG, "APP passing to apiServices.getLoanDetail: " + id);
-
+    public Observable<Response<LoanDetail>> getLoanDetails(String token, int loanId, String deviceId){
         return authTokenDecorator(token)
                 .create(APIServices.class)
-                .getLoanDetail(id, deviceId);
+                .getLoanDetail(loanId, deviceId);
     }
 
 }

@@ -92,8 +92,6 @@ public class MainActivity extends AppCompatActivity{
         TextView mNavDrawerAppLogo = (TextView) navDrawer.getHeader().findViewById(R.id.nav_header_app_title);
         //set typeface
         mNavDrawerAppLogo.setTypeface(TypefaceUtils.getNothingYouCouldDoTypeFace(this));
-
-
     }
 
     private DrawerBuilder buildNavigationDrawer(){
@@ -289,4 +287,6 @@ public class MainActivity extends AppCompatActivity{
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base));
     }
+
+
 }

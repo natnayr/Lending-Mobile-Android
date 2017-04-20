@@ -111,6 +111,9 @@ public class LoanDetailsFragment extends Fragment {
 
         String authToken = SharedPreferencesUtils.getSharedPrefString(getActivity(),
                 CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
+        if(authToken == null){
+            AuthAccountUtils.actionLogout(AccountManager.get(getActivity()), getActivity());
+        }
 
         LoanDetailClient.getInstance(getActivity())
                 .getLoanDetails(authToken, LoanDetailsFragment.this.initLoanId,

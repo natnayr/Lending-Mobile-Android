@@ -241,6 +241,7 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
     public void onComplete() {
         Log.d(LOG_TAG, "APP onCompleted");
 
+        //success login
         if(authResponse != null){
             if (HTTPResponseUtils.check2xxSuccess(authResponse.getStatus())) {
                 Log.d(LOG_TAG, "APP: onComplete > response.isSuccessful TRUE");

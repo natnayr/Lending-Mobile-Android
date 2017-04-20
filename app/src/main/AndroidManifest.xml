@@ -75,6 +75,7 @@
         </service>
         
         <service android:name=".oauth.CrowdoSessionCheckService"
+            android:enabled="true"
             android:exported="false"/>
 
     </application>

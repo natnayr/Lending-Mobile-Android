@@ -37,7 +37,7 @@ public class CrowdoApplication extends Application{
 
         initApp(); //if need to redirect
 
-        sessionCheckingInit();
+        sessionCheckingStart();
     }
 
     private static CrowdoApplication get(Context context){
@@ -87,19 +87,6 @@ public class CrowdoApplication extends Application{
         }
     }
 
-    private void sessionCheckingInit(){
-        Intent checkSessionIntent = new Intent(this, CrowdoSessionCheckService.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,  0, checkSessionIntent, 0);
-
-        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.add(Calendar.SECOND, 60); // first time
-        long frequency= 30 * 1000; // in ms, 2minutes
-        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
-                frequency, pendingIntent);
-    }
-
     @Override
     public void onTerminate() {
         realm.close();
@@ -109,5 +96,18 @@ public class CrowdoApplication extends Application{
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base, ConstantVariables.APP_LANG_DEFAULT));
+    }
+
+    private void sessionCheckingStart(){
+        Intent checkSessionIntent = new Intent(this, CrowdoSessionCheckService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(this,  0, checkSessionIntent, 0);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.add(Calendar.SECOND, 120); // first time
+        long frequency= 120 * 1000; // in ms
+        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
+                frequency, pendingIntent);
     }
 }

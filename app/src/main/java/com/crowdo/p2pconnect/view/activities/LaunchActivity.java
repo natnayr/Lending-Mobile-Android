@@ -155,13 +155,8 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
         if(requestCode == ConstantVariables.REQUEST_CODE_AUTHENTICATION){
             if(resultCode == AuthActivity.RESULT_OK){
                 Log.d(LOG_TAG, "APP: onActivityResult > SUCCESS");
-                Toast.makeText(mContext, "LOGIN/REGISTER LIAO " +
-                                res.getStringExtra(AccountManager.KEY_ACCOUNT_NAME) + " TOKEN:" +
-                        res.getStringExtra(AccountManager.KEY_AUTHTOKEN),
-                        Toast.LENGTH_SHORT).show();
-
                 Intent intent = new Intent(this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
 
             }else if(resultCode == AuthActivity.RESULT_CANCELED){

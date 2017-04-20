@@ -61,7 +61,6 @@ public class LoanListClient {
     }
 
     public Retrofit authTokenDecorator(final String authToken){
-        Log.d(LOG_TAG, "APP authTokenDecorator authToken: " + authToken);
         if(!TextUtils.isEmpty(authToken)){
             final AuthenticationHTTPInterceptor interceptor = new AuthenticationHTTPInterceptor(authToken);
             if(!httpClient.interceptors().contains(interceptor)){
