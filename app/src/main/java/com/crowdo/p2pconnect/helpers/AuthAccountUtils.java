@@ -24,11 +24,11 @@ public class AuthAccountUtils {
 
     public static final String LOG_TAG = AuthAccountUtils.class.getSimpleName();
 
-    public static void removeAccounts(final Activity activity, final CallBackUtil<Object> callBackUtil){
+    public static void removeAccounts(final Activity activity){
 
         AccountManager am = AccountManager.get(activity);
         Account[] accounts = am.getAccountsByType(CrowdoAccountGeneral.ACCOUNT_TYPE);
-        if(accounts.length != 0) {
+        if(accounts.length > 0) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
                 for (Account acc : accounts) {
                     am.clearPassword(acc);
@@ -41,9 +41,6 @@ public class AuthAccountUtils {
                 }
             }
         }
-
-        callBackUtil.eventCallBack(null);
-
     }
 
     public static Account getOneAndOnlyOneAccount(AccountManager accountManager){
@@ -144,14 +141,11 @@ public class AuthAccountUtils {
         }
 
         //invalidate only account and remove accounts
-        AuthAccountUtils.removeAccounts(activity, new CallBackUtil(){
-            @Override
-            public void eventCallBack(Object o) {
-                //Call LaunchActivity to Welcome & Authenticate
-                Intent intent = new Intent(activity, LaunchActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                activity.startActivity(intent);
-            }
-        });
+        AuthAccountUtils.removeAccounts(activity);
+
+        Intent intent = new Intent(activity, LaunchActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        activity.startActivity(intent);
     }
 }

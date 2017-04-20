@@ -74,23 +74,6 @@ public class MainActivity extends AppCompatActivity{
 
         mAccountManager = AccountManager.get(this);
 
-        //get auth token from Account Manager
-        AuthAccountUtils.getExisitingAuthToken(this, mAccountManager, new CallBackUtil<String>() {
-            @Override
-            public void eventCallBack(String token) {
-                if(token == null) {
-                    //else logout
-                    AuthAccountUtils.actionLogout(mAccountManager, MainActivity.this);
-                }
-                mAuthToken = token;
-
-                //Store in Prefs
-                SharedPreferencesUtils.setSharePrefString(MainActivity.this,
-                        CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, mAuthToken);
-            }
-        });
-
-
         mToolbar.setTitle(getString(R.string.toolbar_title_loan_list));
         setSupportActionBar(mToolbar);
 
@@ -108,6 +91,28 @@ public class MainActivity extends AppCompatActivity{
         TextView mNavDrawerAppLogo = (TextView) navDrawer.getHeader().findViewById(R.id.nav_header_app_title);
         //set typeface
         mNavDrawerAppLogo.setTypeface(TypefaceUtils.getNothingYouCouldDoTypeFace(this));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //get auth token from AccountManager and store in pref
+        AuthAccountUtils.getExisitingAuthToken(this, mAccountManager, new CallBackUtil<String>() {
+            @Override
+            public void eventCallBack(String token) {
+                if(token == null) {
+                    //else logout
+                    AuthAccountUtils.actionLogout(mAccountManager, MainActivity.this);
+                    return;
+                }
+                mAuthToken = token;
+
+                //Store in Prefs
+                SharedPreferencesUtils.setSharePrefString(MainActivity.this,
+                        CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, mAuthToken);
+            }
+        });
     }
 
     private DrawerBuilder buildNavigationDrawer(){

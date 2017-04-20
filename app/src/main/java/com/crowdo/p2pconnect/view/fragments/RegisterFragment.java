@@ -255,7 +255,7 @@ public class RegisterFragment extends Fragment{
 
                 res.putExtras(data);
                 //finalise auth
-                ((AuthActivity) getActivity()).finishAuth(res, userData);
+//                ((AuthActivity) getActivity()).finishAuth(res, userData);
                 return;
             }
         }

@@ -1,5 +1,7 @@
 package com.crowdo.p2pconnect.view.fragments;
 
+import android.accounts.AccountManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -21,6 +23,7 @@ import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.model.Member;
+import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.viewholders.LoginViewHolder;
 
@@ -179,7 +182,6 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
         if(response.isSuccessful()) {
             authResponse = response.body();
         }else {
-            Log.d(LOG_TAG, "APP HTTP code:" + response.code());
             //failed login response from server, 4xx error
             if (HTTPResponseUtils.check4xxClientError(response.code())) {
                 String serverErrorMsg = "Error: Login not successful";
@@ -244,64 +246,38 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
                 Log.d(LOG_TAG, "APP: onComplete > response.isSuccessful TRUE");
 
                 if (HTTPResponseUtils.check2xxSuccess(authResponse.getStatus())) {
-                    //show success
+                    //show http success
                     SnackBarUtil.snackBarForAuthCreate(getView(),
                             authResponse.getMessage(),
                             Snackbar.LENGTH_SHORT,
                             mColorIconText, mColorAccent).show();
+
+
+                    final String email = authResponse.getMember().getEmail();
+                    final String authToken = authResponse.getAuthToken();
+                    final String passwordHash = mPasswordHash;
+                    final Member member = authResponse.getMember();
+
+                    final Bundle userData = new Bundle();
+                    userData.putString(AuthActivity.POST_AUTH_MEMBER_ID, member.getId().toString());
+                    userData.putString(AuthActivity.POST_AUTH_MEMBER_EMAIL, member.getEmail());
+                    userData.putString(AuthActivity.POST_AUTH_MEMBER_NAME, member.getName());
+                    userData.putString(AuthActivity.POST_AUTH_MEMBER_LOCALE, member.getLocalePreference());
+
+                    //return back to authenticator result handling
+                    Bundle data = new Bundle();
+                    data.putString(AccountManager.KEY_ACCOUNT_NAME, email);
+                    data.putString(AccountManager.KEY_ACCOUNT_TYPE, CrowdoAccountGeneral.ACCOUNT_TYPE);
+                    data.putString(AccountManager.KEY_AUTHTOKEN, authToken);
+                    data.putString(AuthActivity.PARAM_USER_PASS_HASH, passwordHash);
+
+                    final Intent res = new Intent();
+                    res.putExtras(data);
+
+                    //go back to AuthActivity to create account
+                    ((AuthActivity) getActivity()).finishAuth(res, userData);
                 }
             }
         }
-    }
-
-    private void handleResult(){
-
-//        if(response.isSuccessful()) {
-//            Log.d(LOG_TAG, "APP: handleResult > response.isSuccessful()");
-//            AuthResponse oauth = response.body();
-
-            //success login
-//            if (HTTPResponseUtils.check2xxSuccess(oauth.getStatus())) {
-//                //show success
-//                SnackBarUtil.snackBarForAuthCreate(getView(),
-//                        oauth.getMessage(),
-//                        Snackbar.LENGTH_SHORT,
-//                        mColorIconText, mColorAccent).show();
-
-//                try {
-//                    data.putString(AccountManager.KEY_ACCOUNT_NAME, oauth.getMember().getEmail());
-//                    data.putString(AccountManager.KEY_ACCOUNT_TYPE, initAccountType);
-//                    data.putString(AccountManager.KEY_AUTHTOKEN, oauth.getAuthToken());
-//                    data.putString(AccountManager.KEY_PASSWORD, mPasswordHash);
-//
-//                } catch (NullPointerException ne) {
-//                    SnackBarUtil.snackBarForAuthCreate(getView(),
-//                            mHttpErrorHandlingMessage ,
-//                            Snackbar.LENGTH_SHORT,
-//                            mColorIconText, mColorPrimaryDark).show();
-//                    ne.printStackTrace();
-//                    Log.e(LOG_TAG, "ERROR: " + ne.getMessage(), ne);
-//                    return;
-//                }
-//                String email = oauth.getMember().getEmail();
-//                String authToken = oauth.getAuthToken();
-//                String passwordHash = mPasswordHash;
-//
-//                final Member member = oauth.getMember();
-//
-//                final Bundle userData = new Bundle();
-//                userData.putString(AuthActivity.POST_AUTH_MEMBER_ID, member.getId().toString());
-//                userData.putString(AuthActivity.POST_AUTH_MEMBER_EMAIL, member.getEmail());
-//                userData.putString(AuthActivity.POST_AUTH_MEMBER_NAME, member.getName());
-//                userData.putString(AuthActivity.POST_AUTH_MEMBER_LOCALE, member.getLocalePreference());
-
-                //finalise auth
-//                ((AuthActivity) getActivity()).finishAuth(res, userData);
-//                ((AuthActivity) getActivity()).finishAuth(email, authToken, passwordHash, userData);
-//                return;
-//            }
-//        }
-
-
     }
 }

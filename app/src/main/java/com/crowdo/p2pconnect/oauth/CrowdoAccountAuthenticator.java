@@ -90,7 +90,6 @@ public class CrowdoAccountAuthenticator extends AbstractAccountAuthenticator {
 
     @Override
     public String getAuthTokenLabel(String authTokenType) {
-
         if(CrowdoAccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS.equals(authTokenType)) {
             return CrowdoAccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS_LABEL;
         }else{

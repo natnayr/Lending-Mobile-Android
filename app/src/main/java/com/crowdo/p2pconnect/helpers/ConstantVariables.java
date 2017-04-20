@@ -15,6 +15,7 @@ public class ConstantVariables {
 
     public static final int REQUEST_CODE_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 12312;
     public static final int REQUEST_CODE_PERMISSIONS_OVERLAY = 10101;
+    public static final int REQUEST_CODE_AUTHENTICATION = 20202;
 
     public static final String APP_LANG_DEFAULT = "en";
     public static final String APP_LANG_EN = "en";
@@ -29,9 +30,6 @@ public class ConstantVariables {
                 Settings.Secure.ANDROID_ID);
     }
 
-    public static final String PREF_KEY_USER_ID = "USER_ID";
-    public static final String PREF_KEY_USER_EMAIL = "USER_EMAIL";
-    public static final String PREF_KEY_USER_INVESTOR_APPROVAL_IDR = "USER_INVESTOR_APPROVAL_IDR";
     public static final String PREF_KEY_LOADED_LEARNINGCENTER_DB = "LOADED_LEARNINGCENTER_DB_KEY";
     public static final String PREF_KEY_SELECTED_LANGUAGE = "LOCALE_HELPER_SELECTED_LANGUGAGE";
     public static final String PREF_KEY_COOKIES = "C_IS_FOR_COOKIE_KEY";

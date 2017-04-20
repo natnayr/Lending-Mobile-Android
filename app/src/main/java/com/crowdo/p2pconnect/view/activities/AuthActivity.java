@@ -28,6 +28,7 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
 
     private final static String LOG_TAG = AuthActivity.class.getSimpleName();
 
+    public final static String PARAM_USER_PASS_HASH = "USER_PASS_HASH";
     public final static String ARG_ACCOUNT_EMAIL = "ACCOUNT_EMAIL";
     public final static String ARG_ACCOUNT_TYPE = "ACCOUNT_TYPE";
     public final static String ARG_AUTH_TOKEN_TYPE = "AUTH_TOKEN_TYPE";
@@ -60,10 +61,6 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
         mAuthTokenType = extras.getString(ARG_AUTH_TOKEN_TYPE);
         mIsNewAccountRequested = extras.getBoolean(ARG_IS_ADDING_NEW_ACCOUNT);
 
-
-        if(mAuthTokenType == null){
-            mAuthTokenType = CrowdoAccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS;
-        }
 
         if(mAccountType == null){
             mAccountType = CrowdoAccountGeneral.ACCOUNT_TYPE;
@@ -102,70 +99,46 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
     }
 
     public void finishAuth(final Intent intent, final Bundle userData){
-        Log.d(LOG_TAG, "APP finishAuth()");
 
+        Log.d(LOG_TAG, "APP finishAuth");
+
+        String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+        String accountPasswordHash = intent.getStringExtra(AuthActivity.PARAM_USER_PASS_HASH);
+        String authToken = intent.getStringExtra(AccountManager.KEY_AUTHTOKEN);
         //remove all other accounts
-        AuthAccountUtils.removeAccounts(this, new CallBackUtil<Object>() {
+        AuthAccountUtils.removeAccounts(this);
 
-            @Override
-            public void eventCallBack(Object o) {
-                final Bundle extras = intent.getExtras();
+        //Create Account
+        final Account account = new Account(accountName, CrowdoAccountGeneral.ACCOUNT_TYPE);
 
-                //if not set by activity
-                String accountType = extras.getString(AccountManager.KEY_ACCOUNT_TYPE);
-                if(accountType == null){
-                    accountType = CrowdoAccountGeneral.ACCOUNT_TYPE;
-                }
+        Log.d(LOG_TAG, "APP finishAuth() > addAccountExplicitly");
+        boolean accountSuccess = mAccountManager.addAccountExplicitly(account, accountPasswordHash, userData);
 
-                String accountName = extras.getString(AccountManager.KEY_ACCOUNT_NAME);
-
-                //Hash Password before storing,
-                final Account account = new Account(accountName, accountType);
-                String accountPasswordHash = extras.getString(AccountManager.KEY_PASSWORD);
-                if(extras.getBoolean(ARG_IS_ADDING_NEW_ACCOUNT, true)){
-
-                    Log.d(LOG_TAG, "APP finishAuth() > addAccountExplicitly");
-                    final String authToken = extras.getString(AccountManager.KEY_AUTHTOKEN);
-                    final String authTokeType = mAuthTokenType;
-
-                    boolean accountSuccess = mAccountManager.addAccountExplicitly(account, accountPasswordHash, userData);
-                    if(accountSuccess) {
-                        Log.d(LOG_TAG, "APP finishAuth() > account created");
-                        mAccountManager.setAuthToken(account, authTokeType, authToken);
-
-                        //Alert other apps
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            mAccountManager.notifyAccountAuthenticated(account);
-                        }
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                setAccountAuthenticatorResult(extras);
-                                setResult(RESULT_OK, intent);
-
-                                Intent resetIntent = new Intent(AuthActivity.this, MainActivity.class);
-                                resetIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                                        Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(resetIntent);
-                                AuthActivity.this.finish(); //carry on with either AccountManager or In-App Login
-                            }
-                        }).start();
-
-                    }else{
-                        Log.d(LOG_TAG, "APP finishAuth() > account creation failed");
-                        Toast.makeText(AuthActivity.this, R.string.auth_account_creation_failed,
-                                Toast.LENGTH_SHORT).show();
-                    }
-
-                } else {
-                    Log.d(LOG_TAG, "APP finishAuth() > setPassword");
-                    mAccountManager.setPassword(account, accountPasswordHash);
-                }
-
+        if(accountSuccess) {
+            Log.d(LOG_TAG, "APP finishAuth() > account created");
+            if(mAuthTokenType == null){
+                mAuthTokenType = CrowdoAccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS;
             }
-        });
 
+            //set AuthToken
+            mAccountManager.setAuthToken(account, mAuthTokenType, authToken);
+
+            //Alert other apps
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                mAccountManager.notifyAccountAuthenticated(account);
+            }
+
+            setAccountAuthenticatorResult(intent.getExtras());
+            setResult(RESULT_OK, intent);
+            finish(); //carry on with either AccountManager or In-App Login
+
+        }else{
+            Log.d(LOG_TAG, "APP finishAuth() > account creation failed");
+            Toast.makeText(AuthActivity.this, R.string.auth_account_creation_failed,
+                    Toast.LENGTH_SHORT).show();
+
+            //TODO: Possible setResult(RESULT_FAILED) handler here
+        }
 
     }
 

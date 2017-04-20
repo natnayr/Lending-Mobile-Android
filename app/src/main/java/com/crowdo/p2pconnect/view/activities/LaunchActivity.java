@@ -23,8 +23,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.TypefaceUtils;
 import com.crowdo.p2pconnect.view.fragments.LoginFragment;
@@ -119,7 +121,7 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
                 Intent intent = new Intent(LaunchActivity.this, AuthActivity.class);
                 intent.putExtra(AuthActivity.FRAGMENT_CLASS_TAG_CALL, LoginFragment.LOGIN_FRAGMENT_TAG);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
+                startActivityForResult(intent, ConstantVariables.REQUEST_CODE_AUTHENTICATION);
             }
         });
 
@@ -147,7 +149,14 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == ConstantVariables.REQUEST_CODE_AUTHENTICATION){
+            if(resultCode == AuthActivity.RESULT_OK){
+                Toast.makeText(mContext, "LOGIN/REGISTER LIAO " +
+                                data.getStringExtra(AuthActivity.POST_AUTH_MEMBER_ID) + " " +
+                        data.getStringExtra(AuthActivity.POST_AUTH_MEMBER_EMAIL),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void pageSwitcher(int timeframeEach){

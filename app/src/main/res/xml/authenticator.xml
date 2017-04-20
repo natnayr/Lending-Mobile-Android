@@ -3,5 +3,5 @@
     android:accountType="com.crowdo.p2pconnect"
     android:icon="@drawable/ic_launcher"
     android:smallIcon="@drawable/ic_launcher"
-    android:label="Crowdo Connect"
+    android:label="@string/app_name"
     android:accountPreferences="@xml/auth_preferences"/>
