@@ -87,7 +87,6 @@
     <string name="toolbar_title_logout">Keluar</string>
     <string name="navmenu_label_actions">Tindakan</string>
     <string name="loan_list_action_filter_sec_personal_guarantee">Jaminan\nPersonal</string>
-    <string name="auth_account_creation_failed">Maaf, pembuatan akun gagal, mohon uninstall dan install kembali aplikasi Anda</string>
     <string name="auth_email_incorrect_format">Format email salah</string>
     <string name="auth_register_submit_label">Mendaftar</string>
     <string name="auth_register_user_password_label">Sandi</string>
@@ -107,8 +106,9 @@
     <string name="auth_login_user_email_label">Email Pengguna</string>
     <string name="auth_password_do_not_match">Tidak cocok Sandi</string>
     <string name="auth_password_too_short">Sandi setidaknya harus mempunyai 8 karakter</string>
-    <string name="auth_please_wait">Mohon menunggu&#46;&#46;&#46;</string>
     <string name="auth_password_incorrect_format">Sandi terlalu pendek</string>
     <string name="auth_password_incorrect_match">Sandi tidak cocok</string>
     <string name="auth_register_title_label">Daftar</string>
+    <string name="auth_account_creation_failed">Maaf, Pembuatan akun android gagal. Mohon verifikasi bahwa ijin aplikasi Anda diberikan</string>
+    <string name="auth_logout_session_expire">Keluar / Sesi Kadaluarsa</string>
 </resources>

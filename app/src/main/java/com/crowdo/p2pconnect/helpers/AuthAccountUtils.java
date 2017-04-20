@@ -7,11 +7,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.ValueCallback;
+import android.widget.Toast;
 
+import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.activities.LaunchActivity;
 
@@ -78,7 +81,7 @@ public class AuthAccountUtils {
         }
     }
 
-    public static void getExisitingAuthToken(final Activity activity, AccountManager accountManager,
+    public static void getExisitingAuthToken(final AccountManager accountManager,
                                              final CallBackUtil<String> callback){
 
         Log.d(LOG_TAG, "APP getExisitingAuthToken()");
@@ -90,9 +93,10 @@ public class AuthAccountUtils {
         }
 
         Log.d(LOG_TAG, "APP getExisitingAuthToken() > account.name " + account.name);
-
-        final AccountManagerFuture<Bundle> future = accountManager.getAuthToken(account,
-                CrowdoAccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS, null, activity, null, null);
+        final AccountManagerFuture<Bundle> future =
+                accountManager.getAuthToken(account,
+                        CrowdoAccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS,
+                        null, false, null, null);
 
         new Thread(new Runnable() {
             @Override
@@ -140,8 +144,14 @@ public class AuthAccountUtils {
             AuthAccountUtils.invalidateAuthToken(activity, accountManager, authToken);
         }
 
-        //invalidate only account and remove accounts
+        //nullify sharedpref auth token
+        SharedPreferencesUtils.setSharePrefString(activity,
+                CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
+
+        //remove accounts
         AuthAccountUtils.removeAccounts(activity);
+
+        Toast.makeText(activity, R.string.auth_logout_session_expire, Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(activity, LaunchActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |

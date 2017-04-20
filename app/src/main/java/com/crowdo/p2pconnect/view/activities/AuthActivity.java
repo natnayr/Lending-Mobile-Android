@@ -14,6 +14,7 @@ import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
+import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.oauth.AccountAuthenticatorFragmentActivity;
 import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.fragments.LoginFragment;
@@ -61,7 +62,6 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
         mAuthTokenType = extras.getString(ARG_AUTH_TOKEN_TYPE);
         mIsNewAccountRequested = extras.getBoolean(ARG_IS_ADDING_NEW_ACCOUNT);
 
-
         if(mAccountType == null){
             mAccountType = CrowdoAccountGeneral.ACCOUNT_TYPE;
         }
@@ -105,6 +105,7 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
         String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
         String accountPasswordHash = intent.getStringExtra(AuthActivity.PARAM_USER_PASS_HASH);
         String authToken = intent.getStringExtra(AccountManager.KEY_AUTHTOKEN);
+        
         //remove all other accounts
         AuthAccountUtils.removeAccounts(this);
 
@@ -127,6 +128,10 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 mAccountManager.notifyAccountAuthenticated(account);
             }
+
+            //Auth Token Store in Shared Pref for easy access
+            SharedPreferencesUtils.setSharePrefString(this,
+                    CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, authToken);
 
             setAccountAuthenticatorResult(intent.getExtras());
             setResult(RESULT_OK, intent);

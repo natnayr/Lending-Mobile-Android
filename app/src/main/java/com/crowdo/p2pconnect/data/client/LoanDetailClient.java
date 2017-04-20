@@ -8,7 +8,7 @@ import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.data.AddCookiesInterceptor;
 import com.crowdo.p2pconnect.data.ReceivedCookiesInterceptor;
 import com.crowdo.p2pconnect.model.LoanDetail;
-import com.crowdo.p2pconnect.oauth.AuthenticationInterceptor;
+import com.crowdo.p2pconnect.oauth.AuthenticationHTTPInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -59,9 +59,9 @@ public class LoanDetailClient {
         return instance;
     }
 
-    public Retrofit createTokenService(final String authToken){
+    public Retrofit authTokenDecorator(final String authToken){
         if(!TextUtils.isEmpty(authToken)){
-            final AuthenticationInterceptor interceptor = new AuthenticationInterceptor(authToken);
+            final AuthenticationHTTPInterceptor interceptor = new AuthenticationHTTPInterceptor(authToken);
             if(!httpClient.interceptors().contains(interceptor)){
                 httpClient.addInterceptor(interceptor);
             }
@@ -73,7 +73,7 @@ public class LoanDetailClient {
     public Observable<Response<LoanDetail>> getLoanDetails(String token, int id, String deviceId){
         Log.d(LOG_TAG, "APP passing to apiServices.getLoanDetail: " + id);
 
-        return createTokenService(token)
+        return authTokenDecorator(token)
                 .create(APIServices.class)
                 .getLoanDetail(id, deviceId);
     }

@@ -252,7 +252,6 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
                             Snackbar.LENGTH_SHORT,
                             mColorIconText, mColorAccent).show();
 
-
                     final String email = authResponse.getMember().getEmail();
                     final String authToken = authResponse.getAuthToken();
                     final String passwordHash = mPasswordHash;

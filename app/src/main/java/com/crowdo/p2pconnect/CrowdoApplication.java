@@ -1,20 +1,23 @@
 package com.crowdo.p2pconnect;
 
+import android.app.AlarmManager;
 import android.app.Application;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
-import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
+import com.crowdo.p2pconnect.oauth.CrowdoSessionCheckService;
+
+import java.util.Calendar;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.exceptions.RealmException;
-import rx.Scheduler;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by cwdsg05 on 6/1/17.
@@ -22,8 +25,6 @@ import rx.schedulers.Schedulers;
 
 public class CrowdoApplication extends Application{
 
-    private APIServices apiServices;
-    private Scheduler scheduler;
     private Realm realm;
     private RealmConfiguration realmConfig;
     private static final String LOG_TAG = CrowdoApplication.class.getSimpleName();
@@ -35,6 +36,8 @@ public class CrowdoApplication extends Application{
         configureRealm(); //set configuration
 
         initApp(); //if need to redirect
+
+        sessionCheckingInit();
     }
 
     private static CrowdoApplication get(Context context){
@@ -43,12 +46,6 @@ public class CrowdoApplication extends Application{
 
     public static CrowdoApplication create(Context context){
         return CrowdoApplication.get(context);
-    }
-
-    public Scheduler subscribeScheduler(){
-        if(scheduler == null)
-            scheduler = Schedulers.io();
-        return scheduler;
     }
 
     private void configureRealm(){
@@ -65,9 +62,6 @@ public class CrowdoApplication extends Application{
         Log.d(LOG_TAG, "APP Realm DB configured to revision " + realm.getVersion());
     }
 
-    public void setScheduler(Scheduler scheduler){
-        this.scheduler = scheduler;
-    }
 
     private void initApp(){
         //check with authToken
@@ -91,6 +85,19 @@ public class CrowdoApplication extends Application{
                 rx.printStackTrace();
             }
         }
+    }
+
+    private void sessionCheckingInit(){
+        Intent checkSessionIntent = new Intent(this, CrowdoSessionCheckService.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,  0, checkSessionIntent, 0);
+
+        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.add(Calendar.SECOND, 60); // first time
+        long frequency= 30 * 1000; // in ms, 2minutes
+        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
+                frequency, pendingIntent);
     }
 
     @Override

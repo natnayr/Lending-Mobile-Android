@@ -1,5 +1,6 @@
 package com.crowdo.p2pconnect.view.activities;
 
+import android.accounts.AccountManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -131,7 +132,7 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
                 Intent intent = new Intent(LaunchActivity.this, AuthActivity.class);
                 intent.putExtra(AuthActivity.FRAGMENT_CLASS_TAG_CALL, RegisterFragment.REGISTER_FRAGMENT_TAG);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
+                startActivityForResult(intent, ConstantVariables.REQUEST_CODE_AUTHENTICATION);
             }
         });
 
@@ -148,13 +149,24 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent res) {
+        //DING DING DING Aauth is done!! CHECK RESULTS
+        Log.d(LOG_TAG, "APP: onActivityResult");
         if(requestCode == ConstantVariables.REQUEST_CODE_AUTHENTICATION){
             if(resultCode == AuthActivity.RESULT_OK){
+                Log.d(LOG_TAG, "APP: onActivityResult > SUCCESS");
                 Toast.makeText(mContext, "LOGIN/REGISTER LIAO " +
-                                data.getStringExtra(AuthActivity.POST_AUTH_MEMBER_ID) + " " +
-                        data.getStringExtra(AuthActivity.POST_AUTH_MEMBER_EMAIL),
+                                res.getStringExtra(AccountManager.KEY_ACCOUNT_NAME) + " TOKEN:" +
+                        res.getStringExtra(AccountManager.KEY_AUTHTOKEN),
                         Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+            }else if(resultCode == AuthActivity.RESULT_CANCELED){
+                Log.d(LOG_TAG, "APP: onActivityResult > CANCELLED");
+                //TODO: SOMETHING HERE TO INFORM USER of FAILURE
             }
         }
     }
