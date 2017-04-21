@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.crowdo.p2pconnect.helpers.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 
@@ -17,6 +16,7 @@ import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 public class CrowdoSessionCheckService extends IntentService{
 
     public static final String LOG_TAG = CrowdoSessionCheckService.class.getSimpleName();
+    public AccountManager mAccountManager;
 
     public CrowdoSessionCheckService(){
         super("CrowdoSessionCheckService");
@@ -29,14 +29,16 @@ public class CrowdoSessionCheckService extends IntentService{
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         Log.d(LOG_TAG, "APP CrowdoSessionCheckService onHandleIntent");
-        AccountManager accountManager = AccountManager.get(this);
+        mAccountManager = AccountManager.get(getApplicationContext());
+
 
         //remove SharedPref authToken if not in-sync with AccountManager
-        AuthAccountUtils.getExisitingAuthToken(accountManager, new CallBackUtil<String>() {
+        AuthAccountUtils.getExisitingAuthToken(mAccountManager, new CallBackUtil<String>() {
             @Override
             public void eventCallBack(String authToken) {
-                Log.d(LOG_TAG, "APP CrowdoSessionCheckService onHandleIntent > getExisitingAuthToken token updated " + authToken);
-                SharedPreferencesUtils.setSharePrefString(CrowdoSessionCheckService.this,
+                Log.d(LOG_TAG, "APP CrowdoSessionCheckService onHandleIntent > " +
+                        "getExisitingAuthToken token updated " + authToken);
+                SharedPreferencesUtils.setSharePrefString(getApplicationContext(),
                         CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, authToken);
             }
         });

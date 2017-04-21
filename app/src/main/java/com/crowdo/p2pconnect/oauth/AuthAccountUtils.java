@@ -1,4 +1,4 @@
-package com.crowdo.p2pconnect.helpers;
+package com.crowdo.p2pconnect.oauth;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -7,15 +7,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.ValueCallback;
-import android.widget.Toast;
 
-import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
+import com.crowdo.p2pconnect.helpers.CallBackUtil;
+import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.view.activities.LaunchActivity;
 
 
@@ -26,6 +24,19 @@ import com.crowdo.p2pconnect.view.activities.LaunchActivity;
 public class AuthAccountUtils {
 
     public static final String LOG_TAG = AuthAccountUtils.class.getSimpleName();
+
+    private static Account getOnlyAccount(AccountManager accountManager){
+
+
+        Account[] accounts = accountManager.getAccountsByType(CrowdoAccountGeneral.ACCOUNT_TYPE);
+        for(Account acc : accounts) {
+            Log.d(LOG_TAG, "APP getOnlyAccount > accounts.name = " + acc.name + " , accounts.type = " + acc.type);
+        }
+        if(accounts.length > 0){
+            return accounts[0];
+        }
+        return null;
+    }
 
     public static void removeAccounts(final Activity activity){
 
@@ -46,14 +57,6 @@ public class AuthAccountUtils {
         }
     }
 
-    public static Account getOneAndOnlyOneAccount(AccountManager accountManager){
-        Account[] accounts = accountManager.getAccounts();
-        if(accounts.length > 0){
-            return accounts[0];
-        }
-        return null;
-    }
-
 
     public static void invalidateAuthToken(final Activity activity, final AccountManager accountManager, String authToken){
 
@@ -61,7 +64,7 @@ public class AuthAccountUtils {
         SharedPreferencesUtils.setSharePrefString(activity,
                 CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
 
-        final Account account = getOneAndOnlyOneAccount(accountManager);
+        final Account account = getOnlyAccount(accountManager);
         if(account != null) {
             final AccountManagerFuture<Bundle> future = accountManager.getAuthToken(account,
                     authToken, null, activity, null, null);
@@ -86,13 +89,13 @@ public class AuthAccountUtils {
 
         Log.d(LOG_TAG, "APP getExisitingAuthToken()");
 
-        Account account = AuthAccountUtils.getOneAndOnlyOneAccount(accountManager);
+        Account account = AuthAccountUtils.getOnlyAccount(accountManager);
         if(account == null) {
             callback.eventCallBack(null); //return back to callback a null string
             return;
         }
 
-        Log.d(LOG_TAG, "APP getExisitingAuthToken() > account.name " + account.name);
+        Log.d(LOG_TAG, "APP getExisitingAuthToken() > account.name:" + account.name);
         final AccountManagerFuture<Bundle> future =
                 accountManager.getAuthToken(account,
                         CrowdoAccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS,

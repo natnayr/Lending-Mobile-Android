@@ -11,8 +11,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.helpers.CallBackUtil;
-import com.crowdo.p2pconnect.helpers.AuthAccountUtils;
+import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.oauth.AccountAuthenticatorFragmentActivity;

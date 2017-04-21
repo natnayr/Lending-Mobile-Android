@@ -51,6 +51,8 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import im.delight.android.webview.AdvancedWebView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import rx.Subscriber;
 
 /**
@@ -205,6 +207,8 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
     public void onDownloadRequested(final String url, final String fileName,
                                     final String downloadMimeType, long contentLength,
                                     String contentDisposition, String userAgent) {
+
+        Log.d(LOG_TAG, "APP onDownloadRequested Triggered");
 
         //check permissions
         if(PermissionsUtils.checkPermissionAndRequestActivity(this, Manifest.permission.WRITE_EXTERNAL_STORAGE,

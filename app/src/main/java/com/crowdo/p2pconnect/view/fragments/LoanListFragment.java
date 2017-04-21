@@ -27,7 +27,7 @@ import android.widget.TextView;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
-import com.crowdo.p2pconnect.helpers.AuthAccountUtils;
+import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
@@ -49,8 +49,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
-import rx.Observable;
-import rx.Subscriber;
 
 /**
  * Created by cwdsg05 on 8/11/16.

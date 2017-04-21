@@ -26,16 +26,18 @@ public interface APIServices {
     public static final String FACTSHEET_STAGE = "download_factsheet/";
     public static final String FACTSHEET_LANGUAGE_PARAM = "lang=";
 
-    public static final String P2P_BASE_URL = "https://p2pid.crowdo.com/";
+    public static final String P2P_BASE_URL = "https://crowdo.co.id/";
 
     public static final String API_LIVE_BASE_URL = "https://api.crowdo.com/";
     public static final String LIVE_STAGE = "api/v1/";
 
 
     @GET("loans/loan_listing")
+    @Headers({"Content-type: application/json"})
     Observable<Response<List<LoanListItem>>> getLoansList(@Query("device_id") String deviceId);
 
     @GET("loans/loan_details/{id}")
+    @Headers({"Content-type: application/json"})
     Observable<Response<LoanDetail>> getLoanDetail(@Path("id") int id, @Query("device_id") String deviceId);
 
     @POST("oauth/login")

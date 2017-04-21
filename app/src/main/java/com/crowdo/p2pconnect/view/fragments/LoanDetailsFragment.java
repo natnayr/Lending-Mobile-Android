@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
-import com.crowdo.p2pconnect.helpers.AuthAccountUtils;
+import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
@@ -343,10 +343,10 @@ public class LoanDetailsFragment extends Fragment {
             String localeKey = LocaleHelper.getLanguage(getActivity());
 
             String webViewUrl = APIServices.P2P_BASE_URL +
-                    "mobile/login_and_checkout_authenticate?" +
+                    "mobile2/checkout?" +
                     "loan_id="+initLoanId +
                     "&invest_amount="+biddingAmount+
-                    "&market=idr&lang="+localeKey+
+                    "&lang="+localeKey+
                     "&device_id="+ConstantVariables.getUniqueAndroidID(getActivity());
 
             Log.d(LOG_TAG, "APP URL " + webViewUrl);

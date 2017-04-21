@@ -2,8 +2,6 @@ package com.crowdo.p2pconnect.view.activities;
 
 import android.accounts.AccountManager;
 import android.animation.Animator;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,11 +16,10 @@ import android.view.View;
 import android.widget.TextView;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.APIServices;
-import com.crowdo.p2pconnect.helpers.AuthAccountUtils;
+import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.TypefaceUtils;
-import com.crowdo.p2pconnect.oauth.CrowdoSessionCheckService;
 import com.crowdo.p2pconnect.view.fragments.LearningCenterFragment;
 import com.crowdo.p2pconnect.view.fragments.LoanListFragment;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
@@ -34,8 +31,6 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-
-import java.util.Calendar;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -189,7 +184,7 @@ public class MainActivity extends AppCompatActivity{
                             if(webCall == true && action != null) {
                                 final String locale = LocaleHelper.getLanguage(MainActivity.this);
                                 String webViewUrl = APIServices.P2P_BASE_URL +
-                                        "mobile/" + action +
+                                        "mobile2/" + action +
                                         "?lang=" + locale +
                                         "&device_id=" +
                                         ConstantVariables.getUniqueAndroidID(MainActivity.this);
