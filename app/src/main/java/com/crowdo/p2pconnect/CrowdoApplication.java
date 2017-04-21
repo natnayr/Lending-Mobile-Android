@@ -105,8 +105,8 @@ public class CrowdoApplication extends Application{
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.add(Calendar.SECOND, 120); // first time
-        long frequency= 120 * 1000; // in ms
+        calendar.add(Calendar.SECOND, 20); // first time
+        long frequency= 20 * 1000; // 20seconds repeat
         alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
                 frequency, pendingIntent);
     }

@@ -109,6 +109,66 @@ public class LoanDetailsFragment extends Fragment {
         //Init view first,
         viewHolder.initView();
 
+
+
+        //set file download button here..
+        viewHolder.mFactsheetDownloadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                PermissionsUtils.checkPermisssionAndRequestStorageFragment(getActivity(),
+                        LoanDetailsFragment.this, mLabelPermissionRequest, mLabelOkay,
+                        mLabelCancel);
+
+                downloadFactSheet();
+            }
+        });
+
+        rootView.setTag(viewHolder);
+        return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        SoftInputHelper.hideSoftKeyboard(getActivity());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(viewHolder != null) {
+            //needs to refresh and check user state
+            viewHolder.mBidEnterBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addToCart();
+                }
+            });
+        }
+
+        populateLoanDetails();
+    }
+
+    @Override
+    public void onStop() {
+        if(alertDialog != null && alertDialog.isShowing())
+            alertDialog.dismiss();
+
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(disposableGetLoanDetails != null){
+            if(!disposableGetLoanDetails.isDisposed()) {
+                disposableGetLoanDetails.dispose();
+            }
+        }
+    }
+
+    private void populateLoanDetails(){
         String authToken = SharedPreferencesUtils.getSharedPrefString(getActivity(),
                 CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
         if(authToken == null){
@@ -158,60 +218,6 @@ public class LoanDetailsFragment extends Fragment {
                         Log.d(LOG_TAG, "APP Populated LoanDetail Rx onComplete");
                     }
                 });
-
-        //set file download button here..
-        viewHolder.mFactsheetDownloadBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                PermissionsUtils.checkPermisssionAndRequestStorageFragment(getActivity(),
-                        LoanDetailsFragment.this, mLabelPermissionRequest, mLabelOkay,
-                        mLabelCancel);
-
-                downloadFactSheet();
-            }
-        });
-
-        rootView.setTag(viewHolder);
-        return rootView;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        SoftInputHelper.hideSoftKeyboard(getActivity());
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(viewHolder != null) {
-            //needs to refresh and check user state
-            viewHolder.mBidEnterBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    addToCart();
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onStop() {
-        if(alertDialog != null && alertDialog.isShowing())
-            alertDialog.dismiss();
-
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if(disposableGetLoanDetails != null){
-            if(!disposableGetLoanDetails.isDisposed()) {
-                disposableGetLoanDetails.dispose();
-            }
-        }
     }
 
     private void downloadFactSheet(){

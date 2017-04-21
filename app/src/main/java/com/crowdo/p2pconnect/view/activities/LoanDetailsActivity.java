@@ -64,13 +64,30 @@ public class LoanDetailsActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() >  0) {
-            getSupportFragmentManager().popBackStackImmediate();
-        } else {
+        int count = getSupportFragmentManager()
+                .getBackStackEntryCount();
+
+        if (count == 0) {
             super.onBackPressed();
+        } else {
+            toBackStackOrParent();
         }
+    }
+
+    private boolean toBackStackOrParent(){
+        Intent upIntent = NavUtils.getParentActivityIntent(this);
+        if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+            TaskStackBuilder.create(this)
+                    .addNextIntentWithParentStack(upIntent)
+                    .startActivities();
+        } else {
+            //If no backstack then navigate to logical main list view
+            NavUtils.navigateUpTo(this, upIntent);
+        }
+        return true;
     }
 
 

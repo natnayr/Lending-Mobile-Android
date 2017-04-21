@@ -184,6 +184,18 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
         }
     }
 
+    private boolean toBackStackOrParent(){
+        Intent upIntent = NavUtils.getParentActivityIntent(this);
+        if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+            TaskStackBuilder.create(this)
+                    .addNextIntentWithParentStack(upIntent)
+                    .startActivities();
+        } else {
+            //If no backstack then navigate to logical main list view
+            NavUtils.navigateUpTo(this, upIntent);
+        }
+        return true;
+    }
 
     @Override
     public void onPageStarted(String url, Bitmap favicon) {
@@ -312,19 +324,6 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private boolean toBackStackOrParent(){
-        Intent upIntent = NavUtils.getParentActivityIntent(this);
-        if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-            TaskStackBuilder.create(this)
-                    .addNextIntentWithParentStack(upIntent)
-                    .startActivities();
-        } else {
-            //If no backstack then navigate to logical main list view
-            NavUtils.navigateUpTo(this, upIntent);
-        }
-        return true;
     }
 
     public class WebAppInterface {
