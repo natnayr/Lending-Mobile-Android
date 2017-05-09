@@ -57,12 +57,14 @@ public class MainActivity extends AppCompatActivity{
 
     private static final int DRAWER_SELECT_LOAN_LIST_FRAGMENT = 100;
     private static final int DRAWER_SELECT_LEARNING_CENTER_FRAGMENT = 101;
-    private static final int DRAWER_SELECT_LANGUAGE_CHANGE = 102;
+    private static final int DRAWER_SELECT_ACCOUNT_TOP_UP = 102;
+    private static final int DRAWER_SELECT_ACCOUNT_WITHDRAW = 103;
+    private static final int DRAWER_SELECT_LANGUAGE_CHANGE = 104;
     private static final int DRAWER_SELECT_LANGUAGE_EN = 500;
     private static final int DRAWER_SELECT_LANGUAGE_IN = 501;
-    private static final int DRAWER_SELECT_TOP_UP_WALLET = 103;
-    private static final int DRAWER_SELECT_APPLY_AS_INVESTOR = 104;
-    private static final int DRAWER_SELECT_LOGOUT = 105;
+    private static final int DRAWER_SELECT_TOP_UP_WALLET = 105;
+    private static final int DRAWER_SELECT_APPLY_AS_INVESTOR = 106;
+    private static final int DRAWER_SELECT_LOGOUT = 107;
 
     private AccountManager mAccountManager;
 
@@ -114,11 +116,21 @@ public class MainActivity extends AppCompatActivity{
                                 .withName(R.string.toolbar_title_learning_center).withIcon(CommunityMaterial.Icon.cmd_book_open_page_variant)
                                 .withSelectedTextColorRes(R.color.color_primary_700)
                                 .withSelectedIconColorRes(R.color.color_primary_700),
+                        new SectionDrawerItem().withName("Account"),
+                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_ACCOUNT_TOP_UP)
+                                .withName("Top Up").withIcon(CommunityMaterial.Icon.cmd_wallet)
+                                .withSelectedTextColorRes(R.color.color_primary_700)
+                                .withSelectedIconColorRes(R.color.color_primary_700),
+                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_ACCOUNT_WITHDRAW)
+                                .withName("Withdraw").withIcon(CommunityMaterial.Icon.cmd_square_inc_cash)
+                                .withSelectedTextColorRes(R.color.color_primary_700)
+                                .withSelectedIconColorRes(R.color.color_primary_700),
                         new SectionDrawerItem().withName(R.string.navmenu_label_preferences),
                         new ExpandableDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_CHANGE)
                                 .withName(R.string.navmenu_label_language)
                                 .withIcon(CommunityMaterial.Icon.cmd_translate)
                                 .withSelectable(false)
+                                .withTextColorRes(R.color.color_secondary_text)
                                 .withSubItems(
                                     new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_EN)
                                             .withName(R.string.language_english_label).withLevel(2)
@@ -134,7 +146,7 @@ public class MainActivity extends AppCompatActivity{
                                 .withSelectable(false),
                         new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_APPLY_AS_INVESTOR)
                                 .withName(R.string.toolbar_title_apply_investor)
-                                .withIcon(CommunityMaterial.Icon.cmd_account_star_variant)
+                                .withIcon(CommunityMaterial.Icon.cmd_account_star)
                                 .withSelectable(false),
                         new DividerDrawerItem(),
                         new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_LOGOUT)
@@ -159,6 +171,10 @@ public class MainActivity extends AppCompatActivity{
                                 case DRAWER_SELECT_LEARNING_CENTER_FRAGMENT:
                                     fragmentClass = LearningCenterFragment.class;
                                     mToolbar.setTitle(R.string.toolbar_title_learning_center);
+                                    break;
+                                case DRAWER_SELECT_ACCOUNT_TOP_UP:
+                                    break;
+                                case DRAWER_SELECT_ACCOUNT_WITHDRAW:
                                     break;
                                 case DRAWER_SELECT_LANGUAGE_EN:
                                     LocaleHelper.setLocale(MainActivity.this, ConstantVariables.APP_LANG_EN);
