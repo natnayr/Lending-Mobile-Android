@@ -107,7 +107,7 @@ public class AuthAccountUtils {
                 try{
                     Bundle bundle = future.getResult();
                     String authToken = bundle.getString(AccountManager.KEY_AUTHTOKEN);
-                    Log.d(LOG_TAG, "APP getExisitingAuthToken > authToken = " + authToken);
+                    Log.d(LOG_TAG, "APP getExisitingAuthToken > authToken");
                     callback.eventCallBack(authToken);
                 }catch (Exception e){
                     Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);

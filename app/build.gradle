@@ -8,9 +8,10 @@ android {
         applicationId "com.crowdo.p2pconnect"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 20
-        versionName "0.1.1.20"
+        versionCode 21
+        versionName "0.1.1.21"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [HOCKEYAPP_APP_ID: "26edfa1f4e314714a244f6d7b972b529"]
     }
     buildTypes {
         debug {
@@ -114,4 +115,6 @@ dependencies {
     compile "com.mikepenz:iconics-core:2.8.2@aar"
     compile 'com.mikepenz:community-material-typeface:1.8.36.1@aar'
 
+    //HockeyApp
+    compile 'net.hockeyapp.android:HockeySDK:4.1.4'
 }

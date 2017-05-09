@@ -16,7 +16,6 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -38,12 +37,12 @@ public class LoanListClient {
         final Gson gson = new GsonBuilder()
                 .create();
 
-        //Http Inteceptor
-        final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//        //Http Inteceptor
+//        final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+//        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
 
         httpClient = new OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
+//                .addInterceptor(loggingInterceptor)
                 .addInterceptor(new AddCookiesInterceptor(context))
                 .addInterceptor(new ReceivedCookiesInterceptor(context));
 

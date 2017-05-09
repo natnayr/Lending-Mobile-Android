@@ -37,7 +37,7 @@ public class CrowdoSessionCheckService extends IntentService{
             @Override
             public void eventCallBack(String authToken) {
                 Log.d(LOG_TAG, "APP CrowdoSessionCheckService onHandleIntent > " +
-                        "getExisitingAuthToken token updated " + authToken);
+                        "getExisitingAuthToken token updated ");
                 SharedPreferencesUtils.setSharePrefString(getApplicationContext(),
                         CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, authToken);
             }

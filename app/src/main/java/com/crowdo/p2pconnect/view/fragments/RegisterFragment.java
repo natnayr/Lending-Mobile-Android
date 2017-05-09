@@ -135,18 +135,13 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
     }
 
     private void submit() {
-        final String inputEmail = viewHolder.mRegisterEmailEditText.getText().toString().toLowerCase().trim();
+        final String inputEmail = viewHolder.mRegisterEmailEditText.getText().toString().trim();
         final String inputName = viewHolder.mRegisterNameEditText.getText().toString().trim();
         final String inputPassword = viewHolder.mRegisterPasswordEmailText.getText().toString();
         final String inputConfirmPassword = viewHolder.mRegisterConfirmPasswdEditText.getText().toString();
 
         //hide keyboard
         SoftInputHelper.hideSoftKeyboard(getActivity());
-
-        //fix emailbox for user
-        if (!inputEmail.equals(viewHolder.mRegisterEmailEditText.getText().toString())) {
-            viewHolder.mRegisterEmailEditText.setText(inputEmail);
-        }
 
         //local incorrect email check
         if (!RegexValidationUtil.isValidEmailFormat(inputEmail)) {

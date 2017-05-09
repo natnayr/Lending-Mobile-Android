@@ -1,6 +1,7 @@
 package com.crowdo.p2pconnect.view.fragments;
 
 import android.accounts.AccountManager;
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -249,7 +250,10 @@ public class LoanListFragment extends Fragment {
                 }
             });
 
-            searchView.setQueryHint(getString(R.string.loan_list_action_search));
+            Activity activity = getActivity();
+            if(activity != null && isAdded()) {
+                searchView.setQueryHint(getString(R.string.loan_list_action_search));
+            }
         }
     }
 

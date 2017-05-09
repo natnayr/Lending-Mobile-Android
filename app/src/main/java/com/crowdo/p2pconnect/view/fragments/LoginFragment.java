@@ -136,16 +136,11 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
     }
 
     private void submit() {
-        final String inputEmail = viewHolder.mLoginEmailEditText.getText().toString().toLowerCase().trim();
-        final String inputPassword = viewHolder.mLoginPasswdEditText.getText().toString();
+        final String inputEmail = viewHolder.mLoginEmailEditText.getText().toString().trim();
+        final String inputPassword = viewHolder.mLoginPasswdEditText.getText().toString().trim();
 
         //hide keyboard
         SoftInputHelper.hideSoftKeyboard(getActivity());
-
-        //fix emailbox for user
-        if (!inputEmail.equals(viewHolder.mLoginEmailEditText.getText().toString())) {
-            viewHolder.mLoginEmailEditText.setText(inputEmail);
-        }
 
         //local incorrect email check
         if (!RegexValidationUtil.isValidEmailFormat(inputEmail)) {
