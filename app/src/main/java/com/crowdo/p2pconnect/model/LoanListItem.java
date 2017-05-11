@@ -45,41 +45,41 @@ public class LoanListItem {
     @Expose
     private String security;
 
-    @SerializedName("loan_id")
+    @SerializedName("loan_id_out")
     @Expose
     private String loanId;
 
-    @SerializedName("currency")
+    @SerializedName("currency_out")
     @Expose
     private String currency;
 
-    @SerializedName("interest_rate")
+    @SerializedName("interest_rate_out")
     @Expose
     private String interestRate;
 
-    @SerializedName("target_amount")
+    @SerializedName("target_amount_out")
     @Expose
     private String targetAmount;
 
-    @SerializedName("tenure")
+    @SerializedName("tenure_out")
     @Expose
     private int tenure;
 
-    @SerializedName("frequency")
+    @SerializedName("frequency_out")
     @Expose
     private String frequency;
 
     @SerializedName("master_agreement")
     @Expose
-    private MasterAgreement masterAgreement;
+    private String masterAgreement;
 
     @SerializedName("underlying_agreement")
     @Expose
-    private UnderlyingAgreement underlyingAgreement;
+    private String underlyingAgreement;
 
     @SerializedName("disbursed_proof")
     @Expose
-    private DisbursedProof disbursedProof;
+    private String disbursedProof;
 
     public Integer getId() {
         return id;
@@ -209,74 +209,27 @@ public class LoanListItem {
         this.frequency = frequency.trim();
     }
 
-    public MasterAgreement getMasterAgreement() {
+    public String getMasterAgreement() {
         return masterAgreement;
     }
 
-    public void setMasterAgreement(MasterAgreement masterAgreement) {
+    public void setMasterAgreement(String masterAgreement) {
         this.masterAgreement = masterAgreement;
     }
 
-    public UnderlyingAgreement getUnderlyingAgreement() {
+    public String getUnderlyingAgreement() {
         return underlyingAgreement;
     }
 
-    public void setUnderlyingAgreement(UnderlyingAgreement underlyingAgreement) {
+    public void setUnderlyingAgreement(String underlyingAgreement) {
         this.underlyingAgreement = underlyingAgreement;
     }
 
-    public DisbursedProof getDisbursedProof() {
+    public String getDisbursedProof() {
         return disbursedProof;
     }
 
-    public void setDisbursedProof(DisbursedProof disbursedProof) {
+    public void setDisbursedProof(String disbursedProof) {
         this.disbursedProof = disbursedProof;
-    }
-
-
-    class MasterAgreement {
-
-        @SerializedName("url")
-        @Expose
-        private String url;
-
-        public String getUrl() {
-            return url.trim();
-        }
-
-        public void setUrl(String url) {
-            this.url = url.trim();
-        }
-    }
-
-    class UnderlyingAgreement {
-
-        @SerializedName("url")
-        @Expose
-        private String url;
-
-        public String getUrl() {
-            return url.trim();
-        }
-
-        public void setUrl(String url) {
-            this.url = url.trim();
-        }
-
-    }
-
-    class DisbursedProof {
-
-        @SerializedName("url")
-        @Expose
-        private String url;
-
-        public String getUrl() {
-            return url.trim();
-        }
-
-        public void setUrl(String url) {
-            this.url = url.trim();
-        }
     }
 }
