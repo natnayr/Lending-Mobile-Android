@@ -99,15 +99,15 @@ public class LoanDetail {
 
     @SerializedName("master_agreement")
     @Expose
-    private MasterAgreement masterAgreement;
+    private String masterAgreement;
 
     @SerializedName("underlying_agreement")
     @Expose
-    private UnderlyingAgreement underlyingAgreement;
+    private String underlyingAgreement;
 
     @SerializedName("disbursed_proof")
     @Expose
-    private DisbursedProof disbursedProof;
+    private String disbursedProof;
 
     public int getId() {
         return id;
@@ -285,73 +285,27 @@ public class LoanDetail {
         this.lastRepayment = lastRepayment.trim();
     }
 
-    public MasterAgreement getMasterAgreement() {
+    public String getMasterAgreement() {
         return masterAgreement;
     }
 
-    public void setMasterAgreement(MasterAgreement masterAgreement) {
+    public void setMasterAgreement(String masterAgreement) {
         this.masterAgreement = masterAgreement;
     }
 
-    public UnderlyingAgreement getUnderlyingAgreement() {
+    public String getUnderlyingAgreement() {
         return underlyingAgreement;
     }
 
-    public void setUnderlyingAgreement(UnderlyingAgreement underlyingAgreement) {
+    public void setUnderlyingAgreement(String underlyingAgreement) {
         this.underlyingAgreement = underlyingAgreement;
     }
 
-    public DisbursedProof getDisbursedProof() {
+    public String getDisbursedProof() {
         return disbursedProof;
     }
 
-    public void setDisbursedProof(DisbursedProof disbursedProof) {
+    public void setDisbursedProof(String disbursedProof) {
         this.disbursedProof = disbursedProof;
-    }
-    
-    class MasterAgreement {
-
-        @SerializedName("url")
-        @Expose
-        private String url;
-
-        public String getUrl() {
-            return url.trim();
-        }
-
-        public void setUrl(String url) {
-            this.url = url.trim();
-        }
-    }
-
-    class UnderlyingAgreement {
-
-        @SerializedName("url")
-        @Expose
-        private String url;
-
-        public String getUrl() {
-            return url.trim();
-        }
-
-        public void setUrl(String url) {
-            this.url = url.trim();
-        }
-
-    }
-
-    class DisbursedProof {
-
-        @SerializedName("url")
-        @Expose
-        private String url;
-
-        public String getUrl() {
-            return url.trim();
-        }
-
-        public void setUrl(String url) {
-            this.url = url.trim();
-        }
     }
 }
