@@ -4,6 +4,7 @@ import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -77,6 +78,9 @@ public class MainActivity extends AppCompatActivity{
         mAccountManager = AccountManager.get(this);
 
         mToolbar.setTitle(getString(R.string.toolbar_title_loan_list));
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            mToolbar.setElevation(0); //only 5.0 onwards
+        }
         setSupportActionBar(mToolbar);
 
         //finally load fragment
