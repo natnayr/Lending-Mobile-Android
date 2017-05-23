@@ -60,7 +60,7 @@ public class LoginViewHolder {
 
         mLoginExitImageView.setImageDrawable(
                 new IconicsDrawable(mContext)
-                        .icon(CommunityMaterial.Icon.cmd_close)
+                        .icon(CommunityMaterial.Icon.cmd_window_close)
                         .sizeRes(R.dimen.auth_btn_drawable_close_icon_size));
 
         mLoginEmailEditText.addTextChangedListener(

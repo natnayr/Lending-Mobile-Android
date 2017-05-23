@@ -77,7 +77,8 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent,
+                             @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_login, parent, false);
         ButterKnife.bind(this, rootView);
 

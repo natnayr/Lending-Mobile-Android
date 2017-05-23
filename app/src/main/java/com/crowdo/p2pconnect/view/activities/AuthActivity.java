@@ -16,6 +16,7 @@ import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.oauth.AccountAuthenticatorFragmentActivity;
 import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
+import com.crowdo.p2pconnect.view.fragments.CheckoutSummaryFragment;
 import com.crowdo.p2pconnect.view.fragments.LoginFragment;
 import com.crowdo.p2pconnect.view.fragments.RegisterFragment;
 
@@ -69,7 +70,8 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
         if(fragmentTag != null) {
             Fragment fragment = null;
             if(fragmentTag.equals(LoginFragment.LOGIN_FRAGMENT_TAG)){
-                fragment = new LoginFragment();
+//                fragment = new LoginFragment();
+                fragment = new CheckoutSummaryFragment();
             }else if(fragmentTag.equals(RegisterFragment.REGISTER_FRAGMENT_TAG)){
                 fragment = new RegisterFragment();
             }

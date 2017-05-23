@@ -144,7 +144,7 @@ public class LoanListFragment extends Fragment {
 
         loanListSearchExpandableLayout.setOnExpansionUpdateListener(new ExpandableLayout.OnExpansionUpdateListener() {
             @Override
-            public void onExpansionUpdate(float expansionFraction) {
+            public void onExpansionUpdate(float expansionFraction, int state) {
                 //set alpha and enabled of ListView
                 mListView.setAlpha(1 - (expansionFraction * ((float) 0.8)));
             }

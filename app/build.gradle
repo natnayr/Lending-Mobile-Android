@@ -95,7 +95,7 @@ dependencies {
     compile 'com.github.esafirm:RxDownloader:1.0.1'
 
     //Expandable Layout
-    compile 'net.cachapa.expandablelayout:expandablelayout:2.8'
+    compile 'net.cachapa.expandablelayout:expandablelayout:2.9.1'
 
     // SwitchIcon
     compile 'com.github.zagum:Android-SwitchIcon:1.3.2'

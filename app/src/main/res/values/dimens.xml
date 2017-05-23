@@ -83,6 +83,18 @@
     <dimen name="loan_detail_schedule_box_horizontal_padding">4dp</dimen>
     <dimen name="loan_detail_avalible_amount_margin_left">10dp</dimen>
 
+    <dimen name="checkout_summary_expand_large_font_size">18sp</dimen>
+    <dimen name="checkout_summary_expand_small_font_size">12sp</dimen>
+    <dimen name="checkout_summary_expand_icon_size">10dp</dimen>
+    <dimen name="checkout_summary_expand_margin">6dp</dimen>
+    <dimen name="checkout_summary_action_icon_size">16dp</dimen>
+    <dimen name="checkout_summary_action_padding">15dp</dimen>
+    <dimen name="checkout_summary_description_verticle_margin">14dp</dimen>
+    <dimen name="checkout_summary_description_horizontal_margin">10dp</dimen>
+    <dimen name="checkout_summary_description_icon_size">24dp</dimen>
+    <dimen name="checkout_summary_description_icon_padding">10dp</dimen>
+
+
     <dimen name="learning_center_categories_margin">5dp</dimen>
     <dimen name="learning_center_categories_title_size">18sp</dimen>
     <dimen name="learning_center_categories_count_size">12sp</dimen>
