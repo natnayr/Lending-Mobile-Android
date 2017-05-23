@@ -7,8 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.viewholders.CheckoutSummaryViewHolder;
 
 import butterknife.ButterKnife;
 
@@ -19,12 +19,12 @@ import butterknife.ButterKnife;
 public class CheckoutSummaryFragment extends Fragment{
 
     private static final String LOG_TAG = CheckoutSummaryFragment.class.getSimpleName();
+    private CheckoutSummaryViewHolder viewHolder;
     private Context mContext;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Nullable
@@ -33,6 +33,8 @@ public class CheckoutSummaryFragment extends Fragment{
 
         View rootView = inflater.inflate(R.layout.fragment_checkout_summary, container, false);
         ButterKnife.bind(this, rootView);
+
+        viewHolder = new CheckoutSummaryViewHolder(rootView);
 
         mContext = getActivity();
 

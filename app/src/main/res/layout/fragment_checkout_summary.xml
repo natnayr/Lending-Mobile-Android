@@ -6,8 +6,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <RelativeLayout
+        android:id="@+id/checkout_summary_container"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:gravity="center">
+        <LinearLayout
+            android:id="@+id/checkout_summary_expand_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_centerInParent="true">
+            <TextView
+                android:id="@+id/checkout_summary_expand_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Checkout Summary"
+                android:textSize="16sp"
+                android:textColor="@color/color_secondary_text"
+                android:padding="6dp" />
+            <ImageView
+                android:id="@+id/checkout_summary_expand_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tint="@color/color_secondary_text"
+                android:src="@drawable/ic_chevron_down_black_18dp" />
+        </LinearLayout>
+    </RelativeLayout>
 
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_divider"
+        android:layout_below="@+id/checkout_summary_container"/>
 
 
 </RelativeLayout>

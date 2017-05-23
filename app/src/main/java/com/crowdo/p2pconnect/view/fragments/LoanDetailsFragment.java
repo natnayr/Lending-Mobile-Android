@@ -105,11 +105,7 @@ public class LoanDetailsFragment extends Fragment {
         ButterKnife.bind(this, rootView);
 
         viewHolder = new LoanDetailsViewHolder(rootView);
-
-        //Init view first,
         viewHolder.initView();
-
-
 
         //set file download button here..
         viewHolder.mFactsheetDownloadBtn.setOnClickListener(new View.OnClickListener() {

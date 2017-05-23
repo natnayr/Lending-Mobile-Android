@@ -21,6 +21,7 @@ import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.TypefaceUtils;
+import com.crowdo.p2pconnect.view.fragments.CheckoutSummaryFragment;
 import com.crowdo.p2pconnect.view.fragments.LearningCenterFragment;
 import com.crowdo.p2pconnect.view.fragments.LoanListFragment;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity{
     private static final int DRAWER_SELECT_TOP_UP_WALLET = 105;
     private static final int DRAWER_SELECT_APPLY_AS_INVESTOR = 106;
     private static final int DRAWER_SELECT_LOGOUT = 107;
+    private static final int DRAWER_SELECT_SHOPPING_CART = 999;
 
     private AccountManager mAccountManager;
 
@@ -118,6 +120,10 @@ public class MainActivity extends AppCompatActivity{
                                 .withSelectedIconColorRes(R.color.color_primary_700),
                         new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_LEARNING_CENTER_FRAGMENT)
                                 .withName(R.string.toolbar_title_learning_center).withIcon(CommunityMaterial.Icon.cmd_book_open_page_variant)
+                                .withSelectedTextColorRes(R.color.color_primary_700)
+                                .withSelectedIconColorRes(R.color.color_primary_700),
+                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_SHOPPING_CART)
+                                .withName("Checkout").withIcon(CommunityMaterial.Icon.cmd_cart_outline)
                                 .withSelectedTextColorRes(R.color.color_primary_700)
                                 .withSelectedIconColorRes(R.color.color_primary_700),
                         new SectionDrawerItem().withName("Account"),
@@ -175,6 +181,10 @@ public class MainActivity extends AppCompatActivity{
                                 case DRAWER_SELECT_LEARNING_CENTER_FRAGMENT:
                                     fragmentClass = LearningCenterFragment.class;
                                     mToolbar.setTitle(R.string.toolbar_title_learning_center);
+                                    break;
+                                case DRAWER_SELECT_SHOPPING_CART:
+                                    fragmentClass = CheckoutSummaryFragment.class;
+                                    mToolbar.setTitle("Checkout");
                                     break;
                                 case DRAWER_SELECT_ACCOUNT_TOP_UP:
                                     break;
