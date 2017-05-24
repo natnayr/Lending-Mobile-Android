@@ -70,10 +70,10 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
         if(fragmentTag != null) {
             Fragment fragment = null;
             if(fragmentTag.equals(LoginFragment.LOGIN_FRAGMENT_TAG)){
-//                fragment = new LoginFragment();
-                fragment = new CheckoutSummaryFragment();
+                fragment = new LoginFragment();
             }else if(fragmentTag.equals(RegisterFragment.REGISTER_FRAGMENT_TAG)){
-                fragment = new RegisterFragment();
+//                fragment = new RegisterFragment();
+                fragment = new CheckoutSummaryFragment();
             }
 
             if(fragment != null) {

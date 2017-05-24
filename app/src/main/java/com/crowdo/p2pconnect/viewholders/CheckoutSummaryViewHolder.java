@@ -9,6 +9,8 @@ import com.crowdo.p2pconnect.R;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
+import net.cachapa.expandablelayout.ExpandableLayout;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -24,9 +26,13 @@ public class CheckoutSummaryViewHolder {
     @BindView(R.id.checkout_summary_refresh_icon) ImageView mSummaryRefreshIcon;
     @BindView(R.id.checkout_summary_close_btn) LinearLayout mSummaryCloseBtn;
     @BindView(R.id.checkout_summary_close_icon) ImageView mSummaryCloseIcon;
+    @BindView(R.id.checkout_summary_expandable) ExpandableLayout mSummaryExpandableLayout;
+
     @BindView(R.id.checkout_summary_description_pending_bids_icon) ImageView mSummaryPendingBidsIcon;
-    @BindView(R.id.checkout_summary_description_avalible_balance_icon) ImageView mSummaryAvalibleBalanceIcon;
-    @BindView(R.id.checkout_summary_description_amt_top_up_icon) ImageView mSummaryAmtToTopUpIcon;
+    @BindView(R.id.checkout_summary_description_avalible_balance_icon_main) ImageView mSummaryAvalibleBalanceIconMain;
+    @BindView(R.id.checkout_summary_description_avalible_balance_icon_float) ImageView getmSummaryAvalibleBalanceIconFloat;
+    @BindView(R.id.checkout_summary_description_amt_top_up_icon_main) ImageView mSummaryAmtTopUpIconMain;
+    @BindView(R.id.checkout_summary_description_amt_top_up_icon_float) ImageView mSummaryAmtTopUpIconFloat;
 
 
     private static final String LOG_TAG = CheckoutSummaryViewHolder.class.getSimpleName();
@@ -38,11 +44,17 @@ public class CheckoutSummaryViewHolder {
     }
 
     public void initView(){
-        mSummaryExpandIcon.setImageDrawable(
-                new IconicsDrawable(mContext)
-                        .icon(CommunityMaterial.Icon.cmd_chevron_down)
-                        .colorRes(R.color.color_secondary_text)
-                        .sizeRes(R.dimen.checkout_summary_expand_icon_size));
+        final IconicsDrawable chevronUpIcon = new IconicsDrawable(mContext)
+                .icon(CommunityMaterial.Icon.cmd_chevron_up)
+                .colorRes(R.color.color_secondary_text)
+                .sizeRes(R.dimen.checkout_summary_expand_icon_size);
+
+        final IconicsDrawable chevronDownIcon = new IconicsDrawable(mContext)
+                .icon(CommunityMaterial.Icon.cmd_chevron_down)
+                .colorRes(R.color.color_secondary_text)
+                .sizeRes(R.dimen.checkout_summary_expand_icon_size);
+
+        mSummaryExpandIcon.setImageDrawable(chevronDownIcon);
 
         mSummaryRefreshIcon.setImageDrawable(
                 new IconicsDrawable(mContext)
@@ -62,16 +74,47 @@ public class CheckoutSummaryViewHolder {
                         .colorRes(R.color.color_accent)
                         .sizeRes(R.dimen.checkout_summary_description_icon_size));
 
-        mSummaryAvalibleBalanceIcon.setImageDrawable(
+        mSummaryAvalibleBalanceIconMain.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_cash)
                         .colorRes(R.color.color_accent)
-                        .sizeRes(R.dimen.checkout_summary_description_icon_size));
+                        .sizeRes(R.dimen.checkout_summary_description_icon_main_size));
 
-        mSummaryAmtToTopUpIcon.setImageDrawable(
+        getmSummaryAvalibleBalanceIconFloat.setImageDrawable(
+                new IconicsDrawable(mContext)
+                        .icon(CommunityMaterial.Icon.cmd_alert_circle)
+                        .backgroundColorRes(R.color.color_icons_text)
+                        .roundedCornersDp(6)
+                        .colorRes(R.color.color_primary)
+                        .sizeRes(R.dimen.checkout_summary_description_icon_float_size));
+
+        mSummaryAmtTopUpIconMain.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_wallet)
                         .colorRes(R.color.color_accent)
-                        .sizeRes(R.dimen.checkout_summary_description_icon_size));
+                        .sizeRes(R.dimen.checkout_summary_description_icon_main_size));
+
+        mSummaryAmtTopUpIconFloat.setImageDrawable(
+                new IconicsDrawable(mContext)
+                        .icon(CommunityMaterial.Icon.cmd_plus_circle)
+                        .backgroundColorRes(R.color.color_icons_text)
+                        .roundedCornersDp(6)
+                        .colorRes(R.color.color_accent)
+                        .sizeRes(R.dimen.checkout_summary_description_icon_float_size));
+
+        mSummaryExpandBtn.setOnClickListener(new View.OnClickListener() {
+                                                 @Override
+                                                 public void onClick(View v) {
+                                                     if(mSummaryExpandableLayout.isExpanded()){
+                                                         mSummaryExpandableLayout.collapse();
+                                                         mSummaryExpandIcon.setImageDrawable(chevronDownIcon);
+                                                     }else{
+                                                         mSummaryExpandableLayout.expand();
+                                                         mSummaryExpandIcon.setImageDrawable(chevronUpIcon);
+                                                     }
+                                                 }
+                                             }
+        );
+
     }
 }

@@ -33,7 +33,7 @@
                 android:id="@+id/checkout_summary_expand_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/checkout_summary_expand_margin"
+                android:layout_marginStart="@dimen/checkout_summary_expand_margin"
                 android:background="@color/color_transparent"/>
         </LinearLayout>
 
@@ -81,108 +81,173 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/checkout_summary_description_horizontal_margin"
+            android:layout_marginStart="@dimen/checkout_summary_description_horizontal_margin">
+
+            <RelativeLayout
+                android:id="@+id/checkout_summary_description_avalible_balance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true">
+
+                <FrameLayout
+                    android:id="@+id/checkout_summary_description_avalible_balance_icon"
+                    android:layout_width="@dimen/checkout_summary_description_icon_size"
+                    android:layout_height="@dimen/checkout_summary_description_icon_size"
+                    android:layout_alignParentStart="true"
+                    android:layout_margin="@dimen/checkout_summary_description_icon_padding">
+
+                    <ImageView
+                        android:id="@+id/checkout_summary_description_avalible_balance_icon_main"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|left" />
+
+                    <ImageView
+                        android:id="@+id/checkout_summary_description_avalible_balance_icon_float"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|right" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/checkout_summary_description_avalible_balance_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/checkout_summary_description_avalible_balance_icon"
+                    android:fontFamily="@string/font_family_light"
+                    android:text="Avalible\nBalance (Insufficient)"
+                    android:textColor="@color/color_secondary_text"
+                    android:textSize="@dimen/checkout_summary_expand_small_font_size" />
+
+                <TextView
+                    android:id="@+id/checkout_summary_description_avalible_balance_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@string/font_family_regular"
+                    android:text="IDR 3,000,000"
+                    android:textColor="@color/color_primary"
+                    android:textSize="@dimen/checkout_summary_expand_large_font_size" />
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/checkout_summary_description_pending_bids"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="@dimen/checkout_summary_description_horizontal_margin"
-                android:layout_marginRight="@dimen/checkout_summary_description_horizontal_margin"
-                android:layout_marginStart="@dimen/checkout_summary_description_verticle_margin"
-                android:layout_marginEnd="@dimen/checkout_summary_description_verticle_margin">
+                android:layout_below="@+id/checkout_summary_description_avalible_balance">
+
                 <ImageView
                     android:id="@+id/checkout_summary_description_pending_bids_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:padding="@dimen/checkout_summary_description_icon_padding"/>
+                    android:padding="@dimen/checkout_summary_description_icon_padding" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/checkout_summary_description_pending_bids_icon"
+                    android:fontFamily="@string/font_family_light"
                     android:text="Total Pending Bids"
-                    android:textSize="@dimen/checkout_summary_expand_small_font_size"
                     android:textColor="@color/color_secondary_text"
-                    android:fontFamily="@string/font_family_light"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/checkout_summary_description_pending_bids_icon"/>
+                    android:textSize="@dimen/checkout_summary_expand_small_font_size" />
 
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/checkout_summary_description_avalible_balance"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/checkout_summary_description_pending_bids"
-                android:layout_marginLeft="@dimen/checkout_summary_description_horizontal_margin"
-                android:layout_marginRight="@dimen/checkout_summary_description_horizontal_margin"
-                android:layout_marginStart="@dimen/checkout_summary_description_verticle_margin"
-                android:layout_marginEnd="@dimen/checkout_summary_description_verticle_margin">
-                <ImageView
-                    android:id="@+id/checkout_summary_description_avalible_balance_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:padding="@dimen/checkout_summary_description_icon_padding"/>
                 <TextView
+                    android:id="@+id/checkout_summary_description_pending_bids_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Avalible\nBalance(Insufficient)"
-                    android:textSize="@dimen/checkout_summary_expand_small_font_size"
-                    android:textColor="@color/color_secondary_text"
-                    android:fontFamily="@string/font_family_light"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/checkout_summary_description_avalible_balance_icon"/>
-
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/checkout_summary_description_avalible_balance"
-                android:layout_marginLeft="@dimen/checkout_summary_description_horizontal_margin"
-                android:layout_marginRight="@dimen/checkout_summary_description_horizontal_margin"
-                android:layout_marginStart="@dimen/checkout_summary_description_verticle_margin"
-                android:layout_marginEnd="@dimen/checkout_summary_description_verticle_margin">
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/checkout_summary_description_icon_padding">
-                    <ImageView
-                        android:id="@+id/checkout_summary_description_amt_to_top_up_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_email_outline_grey_24dp" />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:scaleX="0.5"
-                        android:scaleY="0.5"
-                        android:src="@drawable/ic_information_outline_black_24dp"
-                        />
-                </RelativeLayout>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Required Amount to\nTop Up"
-                    android:textSize="@dimen/checkout_summary_expand_small_font_size"
-                    android:textColor="@color/color_secondary_text"
-                    android:fontFamily="@string/font_family_light"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="60dp" />
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@string/font_family_regular"
+                    android:text="IDR 45,000,000"
+                    android:textColor="@color/color_orange_500"
+                    android:textSize="@dimen/checkout_summary_expand_large_font_size" />
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/checkout_summary_description_calculate_line"
+                android:layout_width="120dp"
+                android:layout_height="0.5dp"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/checkout_summary_description_pending_bids"
+                android:background="@color/color_divider" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/checkout_summary_description_calculate_line">
+                <FrameLayout
+                    android:id="@+id/checkout_summary_description_amt_top_up_icon"
+                    android:layout_width="@dimen/checkout_summary_description_icon_size"
+                    android:layout_height="@dimen/checkout_summary_description_icon_size"
+                    android:layout_alignParentStart="true"
+                    android:layout_margin="@dimen/checkout_summary_description_icon_padding">
+
+                    <ImageView
+                        android:id="@+id/checkout_summary_description_amt_top_up_icon_main"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|left" />
+
+                    <ImageView
+                        android:id="@+id/checkout_summary_description_amt_top_up_icon_float"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|right" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/checkout_summary_description_amt_top_up_icon"
+                    android:fontFamily="@string/font_family_light"
+                    android:text="Required Amount to\nTop Up"
+                    android:textColor="@color/color_secondary_text"
+                    android:textSize="@dimen/checkout_summary_expand_small_font_size" />
+
+                <TextView
+                    android:id="@+id/checkout_summary_description_amt_top_up_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@string/font_family_regular"
+                    android:text="IDR 42,000,000"
+                    android:textColor="@color/color_accent"
+                    android:textSize="@dimen/checkout_summary_expand_large_font_size" />
 
             </RelativeLayout>
         </RelativeLayout>
 
     </net.cachapa.expandablelayout.ExpandableLayout>
     <View
+        android:id="@+id/checkout_summary_expandable_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/color_divider"
         android:layout_below="@+id/checkout_summary_expandable"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/checkout_summary_no_of_loans_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    </RelativeLayout>
+    
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/checkout_summary_expandable_divider"/>
 
 </RelativeLayout>
