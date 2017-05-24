@@ -7,6 +7,7 @@ import android.util.Log;
 import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.data.AddCookiesInterceptor;
 import com.crowdo.p2pconnect.data.ReceivedCookiesInterceptor;
+import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.model.LoanDetail;
 import com.crowdo.p2pconnect.oauth.AuthenticationHTTPInterceptor;
 import com.google.gson.Gson;
@@ -71,7 +72,7 @@ public class LoanDetailClient {
     public Observable<Response<LoanDetail>> getLoanDetails(String token, int loanId, String deviceId){
         return authTokenDecorator(token)
                 .create(APIServices.class)
-                .getLoanDetail(loanId, deviceId);
+                .getLoanDetail(loanId, deviceId, ConstantVariables.API_CURRENCY_OUT_IDR);
     }
 
 }

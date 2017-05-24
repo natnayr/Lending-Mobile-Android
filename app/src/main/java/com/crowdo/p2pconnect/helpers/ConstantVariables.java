@@ -25,6 +25,9 @@ public class ConstantVariables {
     public static final String OUT_DATE_TIME_FORMAT = "dd MMM yyyy";
     public static final String DATE_TIME_REGION = "Asia/Singapore";
 
+    public static final String API_CURRENCY_OUT_SGD = "SGD";
+    public static final String API_CURRENCY_OUT_IDR = "IDR";
+
     public static String getUniqueAndroidID(Context context){
         return Build.SERIAL + Settings.Secure.getString(context.getContentResolver(),
                 Settings.Secure.ANDROID_ID);

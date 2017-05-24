@@ -1,6 +1,7 @@
 package com.crowdo.p2pconnect.viewholders;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,11 +29,15 @@ public class CheckoutSummaryViewHolder {
     @BindView(R.id.checkout_summary_close_icon) ImageView mSummaryCloseIcon;
     @BindView(R.id.checkout_summary_expandable) ExpandableLayout mSummaryExpandableLayout;
 
-    @BindView(R.id.checkout_summary_description_pending_bids_icon) ImageView mSummaryPendingBidsIcon;
+    @BindView(R.id.checkout_summary_description_pending_bids_icon_main) ImageView mSummaryPendingBidsIconMain;
     @BindView(R.id.checkout_summary_description_avalible_balance_icon_main) ImageView mSummaryAvalibleBalanceIconMain;
     @BindView(R.id.checkout_summary_description_avalible_balance_icon_float) ImageView getmSummaryAvalibleBalanceIconFloat;
     @BindView(R.id.checkout_summary_description_amt_top_up_icon_main) ImageView mSummaryAmtTopUpIconMain;
     @BindView(R.id.checkout_summary_description_amt_top_up_icon_float) ImageView mSummaryAmtTopUpIconFloat;
+
+    @BindView(R.id.checkout_summary_no_of_loans_icon) ImageView mSummaryCartTotalsIcon;
+
+    @BindView(R.id.checkout_summary_recycler_view) RecyclerView mSummaryCartRecycleView;
 
 
     private static final String LOG_TAG = CheckoutSummaryViewHolder.class.getSimpleName();
@@ -68,11 +73,11 @@ public class CheckoutSummaryViewHolder {
                         .colorRes(R.color.color_secondary_text)
                         .sizeRes(R.dimen.checkout_summary_action_icon_size));
 
-        mSummaryPendingBidsIcon.setImageDrawable(
+        mSummaryPendingBidsIconMain.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_format_list_bulleted_type)
                         .colorRes(R.color.color_accent)
-                        .sizeRes(R.dimen.checkout_summary_description_icon_size));
+                        .sizeRes(R.dimen.checkout_summary_description_icon_main_size));
 
         mSummaryAvalibleBalanceIconMain.setImageDrawable(
                 new IconicsDrawable(mContext)
@@ -114,6 +119,13 @@ public class CheckoutSummaryViewHolder {
                                                      }
                                                  }
                                              }
+        );
+
+        mSummaryCartTotalsIcon.setImageDrawable(
+                new IconicsDrawable(mContext)
+                        .icon(CommunityMaterial.Icon.cmd_cash_multiple)
+                        .colorRes(R.color.color_secondary_text)
+                        .sizeRes(R.dimen.checkout_summary_cart_icon_size)
         );
 
     }

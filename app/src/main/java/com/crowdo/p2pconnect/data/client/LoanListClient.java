@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.data.AddCookiesInterceptor;
 import com.crowdo.p2pconnect.data.ReceivedCookiesInterceptor;
+import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.model.LoanListItem;
 import com.crowdo.p2pconnect.oauth.AuthenticationHTTPInterceptor;
 import com.google.gson.Gson;
@@ -70,7 +71,7 @@ public class LoanListClient {
     public Observable<Response<List<LoanListItem>>> getLiveLoans(String token, String deviceId){
         return authTokenDecorator(token)
                 .create(APIServices.class)
-                .getLoansList(deviceId);
+                .getLoansList(deviceId, ConstantVariables.API_CURRENCY_OUT_IDR);
     }
 
 }

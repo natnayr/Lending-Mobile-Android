@@ -34,11 +34,11 @@ public interface APIServices {
 
     @GET("loans/loan_listing")
     @Headers({"Content-type: application/json"})
-    Observable<Response<List<LoanListItem>>> getLoansList(@Query("device_id") String deviceId);
+    Observable<Response<List<LoanListItem>>> getLoansList(@Query("device_id") String deviceId, @Query("currency_out") String currencyOut);
 
     @GET("loans/loan_details/{id}")
     @Headers({"Content-type: application/json"})
-    Observable<Response<LoanDetail>> getLoanDetail(@Path("id") int id, @Query("device_id") String deviceId);
+    Observable<Response<LoanDetail>> getLoanDetail(@Path("id") int id, @Query("device_id") String deviceId, @Query("currency_out") String currencyOut);
 
     @POST("oauth/login")
     @Headers({"Content-type: application/json"})

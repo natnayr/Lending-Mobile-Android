@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity{
                                 .withSelectedTextColorRes(R.color.color_primary_700)
                                 .withSelectedIconColorRes(R.color.color_primary_700),
                         new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_SHOPPING_CART)
-                                .withName("Checkout").withIcon(CommunityMaterial.Icon.cmd_cart_outline)
+                                .withName("Checkout").withIcon(CommunityMaterial.Icon.cmd_cart)
                                 .withSelectedTextColorRes(R.color.color_primary_700)
                                 .withSelectedIconColorRes(R.color.color_primary_700),
                         new SectionDrawerItem().withName("Account"),
