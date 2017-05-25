@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.databinding.ItemLearningCenterBinding;
-import com.crowdo.p2pconnect.model.LearningItem;
+import com.crowdo.p2pconnect.model.others.LearningItem;
 import com.crowdo.p2pconnect.viewmodel.LearningCenterItemViewModel;
 
 import java.util.ArrayList;

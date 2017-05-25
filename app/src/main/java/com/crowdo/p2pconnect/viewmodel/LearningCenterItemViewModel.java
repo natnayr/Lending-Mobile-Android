@@ -4,7 +4,7 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.annotation.NonNull;
-import com.crowdo.p2pconnect.model.LearningItem;
+import com.crowdo.p2pconnect.model.others.LearningItem;
 
 /**
  * Created by cwdsg05 on 9/2/17.

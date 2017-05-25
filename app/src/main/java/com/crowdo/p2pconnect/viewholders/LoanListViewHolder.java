@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.model.LoanListItem;
+import com.crowdo.p2pconnect.model.response.LoanListItemResponse;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.DateUtils;
 import com.crowdo.p2pconnect.helpers.NumericUtils;
@@ -68,7 +68,7 @@ public class LoanListViewHolder {
         ButterKnife.bind(this, view);
     }
 
-    public void attachLoanItem(LoanListItem item, Context context){
+    public void attachLoanItem(LoanListItemResponse item, Context context){
         if(!"".equals(item.getLoanId().trim())) {
             mLoanId.setText(item.getLoanId().trim());
         }

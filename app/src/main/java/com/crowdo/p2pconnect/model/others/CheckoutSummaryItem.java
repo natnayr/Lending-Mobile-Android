@@ -1,4 +1,4 @@
-package com.crowdo.p2pconnect.model;
+package com.crowdo.p2pconnect.model.others;
 
 /**
  * Created by cwdsg05 on 25/5/17.
@@ -7,9 +7,10 @@ package com.crowdo.p2pconnect.model;
 public class CheckoutSummaryItem {
 
     private String loan_id;
-    private int tenure;
+    private int tenure_out;
     private String grade;
-    private double interest_rate;
-    
+    private double interest_rate_out;
+
+
 
 }

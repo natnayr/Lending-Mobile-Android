@@ -33,7 +33,7 @@ import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.activities.Henson;
-import com.crowdo.p2pconnect.model.LoanListItem;
+import com.crowdo.p2pconnect.model.response.LoanListItemResponse;
 import com.crowdo.p2pconnect.data.client.LoanListClient;
 import com.crowdo.p2pconnect.view.adapters.LoanListAdapter;
 import com.crowdo.p2pconnect.viewholders.LoanListFilterViewHolder;
@@ -115,7 +115,7 @@ public class LoanListFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView,
                                     View view, int position, long l) {
 
-                LoanListItem item = (LoanListItem) adapterView.getItemAtPosition(position);
+                LoanListItemResponse item = (LoanListItemResponse) adapterView.getItemAtPosition(position);
                 Intent intent = Henson.with(getActivity())
                         .gotoLoanDetailsActivity()
                         .id(item.getId())
@@ -283,19 +283,19 @@ public class LoanListFragment extends Fragment {
                 .getLiveLoans(authToken, uniqueAndroidID)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<LoanListItem>>>() {
+                .subscribe(new Observer<Response<List<LoanListItemResponse>>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         disposableGetLiveLoans = d;
                     }
 
                     @Override
-                    public void onNext(Response<List<LoanListItem>> response) {
+                    public void onNext(Response<List<LoanListItemResponse>> response) {
                         if(response.isSuccessful()){
-                            List<LoanListItem> loanListItems = response.body();
+                            List<LoanListItemResponse> loanListItemResponses = response.body();
                             Log.d(LOG_TAG, "APP populateLoansList Rx onNext with "
-                                    + loanListItems.size() + " items retreived.");
-                            mLoanAdapter.setLoans(loanListItems);
+                                    + loanListItemResponses.size() + " items retreived.");
+                            mLoanAdapter.setLoans(loanListItemResponses);
                         }else{
                             Log.d(LOG_TAG, "APP getLiveLoans onNext() status > "
                                     + response.code());

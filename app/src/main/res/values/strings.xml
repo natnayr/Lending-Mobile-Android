@@ -145,7 +145,7 @@
     <string name="auth_login_user_email_label">User Email</string>
     <string name="auth_login_user_password_label">Password</string>
     <string name="auth_login_submit_label">Login</string>
-    <string name="auth_login_membership_query_label">Not a member yet?</string>
+    <string name="auth_login_membership_query_label">Not a memberResponse yet?</string>
     <string name="auth_login_membership_click_on_label">Register here</string>
 
     <string name="auth_register_title_label">Register</string>
@@ -154,6 +154,6 @@
     <string name="auth_register_user_password_label">Password</string>
     <string name="auth_register_user_confirm_password_label">Confirm Password</string>
     <string name="auth_register_submit_label">Sign Up</string>
-    <string name="auth_register_membership_query_label">Already a member?</string>
+    <string name="auth_register_membership_query_label">Already a memberResponse?</string>
     <string name="auth_register_membership_click_on_label">Login here</string>
 </resources>

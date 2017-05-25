@@ -1,4 +1,4 @@
-package com.crowdo.p2pconnect.model;
+package com.crowdo.p2pconnect.model.others;
 
 import io.realm.RealmObject;
 

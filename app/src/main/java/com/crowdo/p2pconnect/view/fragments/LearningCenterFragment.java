@@ -2,7 +2,6 @@ package com.crowdo.p2pconnect.view.fragments;
 
 import android.animation.ObjectAnimator;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,7 +26,7 @@ import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
-import com.crowdo.p2pconnect.model.LearningItem;
+import com.crowdo.p2pconnect.model.others.LearningItem;
 import com.crowdo.p2pconnect.view.adapters.LearningCenterAdapter;
 
 import org.apache.commons.csv.CSVFormat;

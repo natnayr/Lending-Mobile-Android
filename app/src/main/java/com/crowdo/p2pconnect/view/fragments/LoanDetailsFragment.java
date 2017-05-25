@@ -27,7 +27,7 @@ import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.activities.Henson;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.APIServices;
-import com.crowdo.p2pconnect.model.LoanDetail;
+import com.crowdo.p2pconnect.model.response.LoanDetailResponse;
 import com.crowdo.p2pconnect.data.client.LoanDetailClient;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
@@ -72,7 +72,7 @@ public class LoanDetailsFragment extends Fragment {
     private static final String LOG_TAG = LoanDetailsFragment.class.getSimpleName();
 
     private LoanDetailsViewHolder viewHolder;
-    private LoanDetail mLoanDetail;
+    private LoanDetailResponse mLoanDetailResponse;
     private AlertDialog alertDialog;
     public static final String BUNDLE_ID_KEY = "LOAN_DETAILS_FRAGMENTS_ID_KEY";
     private int initLoanId;
@@ -176,22 +176,22 @@ public class LoanDetailsFragment extends Fragment {
                         ConstantVariables.getUniqueAndroidID(getActivity()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<LoanDetail>>() {
+                .subscribe(new Observer<Response<LoanDetailResponse>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         disposableGetLoanDetails = d;
                     }
 
                     @Override
-                    public void onNext(Response<LoanDetail> response) {
+                    public void onNext(Response<LoanDetailResponse> response) {
                         if(response.isSuccessful()){
-                            LoanDetail loanDetail = response.body();
+                            LoanDetailResponse loanDetailResponse = response.body();
 
-                            if(loanDetail != null) {
-                                mLoanDetail = loanDetail;
+                            if(loanDetailResponse != null) {
+                                mLoanDetailResponse = loanDetailResponse;
                                 Log.d(LOG_TAG, "APP Populated LoanDetails Rx onNext with loanId "
-                                        + loanDetail.getLoanId() + " retreived.");
-                                viewHolder.attachView(loanDetail, getActivity());
+                                        + loanDetailResponse.getLoanId() + " retreived.");
+                                viewHolder.attachView(loanDetailResponse, getActivity());
                             }
                         }else{
                             if(HTTPResponseUtils.check4xxClientError(response.code())){
@@ -329,7 +329,7 @@ public class LoanDetailsFragment extends Fragment {
                 .show();
                 return;
 
-            }else if(mLoanDetail.getFundingAmountToCompleteCache() < biddingAmount){
+            }else if(mLoanDetailResponse.getFundingAmountToCompleteCache() < biddingAmount){
 
                 final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
                         mLabelBidTooHigh,

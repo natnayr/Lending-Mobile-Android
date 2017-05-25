@@ -1,10 +1,10 @@
 package com.crowdo.p2pconnect.data;
 
-import com.crowdo.p2pconnect.data.request_model.LoginRequest;
-import com.crowdo.p2pconnect.data.request_model.RegisterRequest;
-import com.crowdo.p2pconnect.data.response_model.AuthResponse;
-import com.crowdo.p2pconnect.model.LoanDetail;
-import com.crowdo.p2pconnect.model.LoanListItem;
+import com.crowdo.p2pconnect.model.request.LoginRequest;
+import com.crowdo.p2pconnect.model.request.RegisterRequest;
+import com.crowdo.p2pconnect.model.response.AuthResponse;
+import com.crowdo.p2pconnect.model.response.LoanDetailResponse;
+import com.crowdo.p2pconnect.model.response.LoanListItemResponse;
 
 import java.util.List;
 
@@ -34,11 +34,11 @@ public interface APIServices {
 
     @GET("loans/loan_listing")
     @Headers({"Content-type: application/json"})
-    Observable<Response<List<LoanListItem>>> getLoansList(@Query("device_id") String deviceId, @Query("currency_out") String currencyOut);
+    Observable<Response<List<LoanListItemResponse>>> getLoansList(@Query("device_id") String deviceId, @Query("currency_out") String currencyOut);
 
     @GET("loans/loan_details/{id}")
     @Headers({"Content-type: application/json"})
-    Observable<Response<LoanDetail>> getLoanDetail(@Path("id") int id, @Query("device_id") String deviceId, @Query("currency_out") String currencyOut);
+    Observable<Response<LoanDetailResponse>> getLoanDetail(@Path("id") int id, @Query("device_id") String deviceId, @Query("currency_out") String currencyOut);
 
     @POST("oauth/login")
     @Headers({"Content-type: application/json"})

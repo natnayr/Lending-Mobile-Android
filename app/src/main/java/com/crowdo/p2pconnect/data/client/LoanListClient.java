@@ -7,7 +7,7 @@ import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.data.AddCookiesInterceptor;
 import com.crowdo.p2pconnect.data.ReceivedCookiesInterceptor;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
-import com.crowdo.p2pconnect.model.LoanListItem;
+import com.crowdo.p2pconnect.model.response.LoanListItemResponse;
 import com.crowdo.p2pconnect.oauth.AuthenticationHTTPInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -68,7 +68,7 @@ public class LoanListClient {
         return builder.client(httpClient.build()).build();
     }
 
-    public Observable<Response<List<LoanListItem>>> getLiveLoans(String token, String deviceId){
+    public Observable<Response<List<LoanListItemResponse>>> getLiveLoans(String token, String deviceId){
         return authTokenDecorator(token)
                 .create(APIServices.class)
                 .getLoansList(deviceId, ConstantVariables.API_CURRENCY_OUT_IDR);

@@ -5,15 +5,14 @@ import android.content.Context;
 import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.data.AddCookiesInterceptor;
 import com.crowdo.p2pconnect.data.ReceivedCookiesInterceptor;
-import com.crowdo.p2pconnect.data.request_model.LoginRequest;
-import com.crowdo.p2pconnect.data.request_model.RegisterRequest;
-import com.crowdo.p2pconnect.data.response_model.AuthResponse;
+import com.crowdo.p2pconnect.model.request.LoginRequest;
+import com.crowdo.p2pconnect.model.request.RegisterRequest;
+import com.crowdo.p2pconnect.model.response.AuthResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
