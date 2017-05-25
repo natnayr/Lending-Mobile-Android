@@ -95,10 +95,15 @@
     <dimen name="checkout_summary_description_icon_main_size">24dp</dimen>
     <dimen name="checkout_summary_description_icon_float_size">12dp</dimen>
     <dimen name="checkout_summary_description_icon_padding">10dp</dimen>
-    <dimen name="checkout_summary_cart_vertical_margin">10dp</dimen>
+    <dimen name="checkout_summary_cart_vertical_margin">8dp</dimen>
     <dimen name="checkout_summary_cart_horizontal_margin">10dp</dimen>
-    <dimen name="checkout_summary_cart_total_margin">10dp</dimen>
+    <dimen name="checkout_summary_cart_header_margin">10dp</dimen>
+    <dimen name="checkout_summary_cart_card_horizontal_margin">4dp</dimen>
+    <dimen name="checkout_summary_cart_card_vertical_margin">3dp</dimen>
+    <dimen name="checkout_summary_cart_card_elevation">2dp</dimen>
+    <dimen name="checkout_summary_cart_card_corner_radius">4dp</dimen>
     <dimen name="checkout_summary_cart_icon_size">18dp</dimen>
+    <dimen name="checkout_summary_cart_item_margin">8dp</dimen>
 
 
     <dimen name="learning_center_categories_margin">5dp</dimen>

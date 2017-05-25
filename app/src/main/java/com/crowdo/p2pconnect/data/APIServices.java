@@ -47,4 +47,6 @@ public interface APIServices {
     @POST("oauth/register")
     @Headers({"Content-type: application/json"})
     Observable<Response<AuthResponse>> postRegisterUser(@Body RegisterRequest data);
+
+
 }

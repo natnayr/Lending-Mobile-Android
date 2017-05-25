@@ -10,14 +10,6 @@ import android.view.ViewGroup;
 
 public class CheckoutSummaryAdapter extends RecyclerView.Adapter<CheckoutSummaryAdapter.ViewHolder>{
 
-
-
-    public static class ViewHolder extends RecyclerView.ViewHolder{
-        public ViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return null;
@@ -31,5 +23,11 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<CheckoutSummary
     @Override
     public int getItemCount() {
         return 0;
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder{
+        public ViewHolder(View itemView) {
+            super(itemView);
+        }
     }
 }

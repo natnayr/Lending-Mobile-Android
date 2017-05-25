@@ -39,7 +39,6 @@ public class CheckoutSummaryViewHolder {
 
     @BindView(R.id.checkout_summary_recycler_view) RecyclerView mSummaryCartRecycleView;
 
-
     private static final String LOG_TAG = CheckoutSummaryViewHolder.class.getSimpleName();
     private Context mContext;
 
