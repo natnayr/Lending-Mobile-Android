@@ -71,7 +71,7 @@ public class LoanDetailClient {
     public Observable<Response<LoanDetailResponse>> getLoanDetails(String token, int loanId, String deviceId){
         return authTokenDecorator(token)
                 .create(APIServices.class)
-                .getLoanDetail(loanId, deviceId, ConstantVariables.API_CURRENCY_OUT_IDR);
+                .getLoanDetail(loanId, deviceId, ConstantVariables.API_SITE_CONFIG_ID);
     }
 
 }

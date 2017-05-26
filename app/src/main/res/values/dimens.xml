@@ -87,7 +87,8 @@
     <dimen name="checkout_summary_expand_small_font_size">12sp</dimen>
     <dimen name="checkout_summary_expand_icon_size">10dp</dimen>
     <dimen name="checkout_summary_expand_margin">6dp</dimen>
-    <dimen name="checkout_summary_action_icon_size">16dp</dimen>
+    <dimen name="checkout_summary_action_icon_size">24dp</dimen>
+    <dimen name="checkout_summary_action_close_icon_size">16dp</dimen>
     <dimen name="checkout_summary_action_padding">15dp</dimen>
     <dimen name="checkout_summary_description_vertical_margin">8dp</dimen>
     <dimen name="checkout_summary_description_horizontal_margin">10dp</dimen>

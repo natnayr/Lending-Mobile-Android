@@ -1,7 +1,6 @@
 package com.crowdo.p2pconnect.viewholders;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,7 +23,7 @@ public class CheckoutSummaryViewHolder {
     @BindView(R.id.checkout_summary_expand_btn) LinearLayout mSummaryExpandBtn;
     @BindView(R.id.checkout_summary_expand_icon) ImageView mSummaryExpandIcon;
     @BindView(R.id.checkout_summary_refresh_btn) LinearLayout mSummaryRefreshBtn;
-    @BindView(R.id.checkout_summary_refresh_icon) ImageView mSummaryRefreshIcon;
+    @BindView(R.id.checkout_summary_refresh_icon) ImageView mSummarySyncIcon;
     @BindView(R.id.checkout_summary_close_btn) LinearLayout mSummaryCloseBtn;
     @BindView(R.id.checkout_summary_close_icon) ImageView mSummaryCloseIcon;
     @BindView(R.id.checkout_summary_expandable) ExpandableLayout mSummaryExpandableLayout;
@@ -58,7 +57,7 @@ public class CheckoutSummaryViewHolder {
 
         mSummaryExpandIcon.setImageDrawable(chevronDownIcon);
 
-        mSummaryRefreshIcon.setImageDrawable(
+        mSummarySyncIcon.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_refresh)
                         .colorRes(R.color.color_secondary_text)
@@ -68,7 +67,7 @@ public class CheckoutSummaryViewHolder {
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_window_close)
                         .colorRes(R.color.color_secondary_text)
-                        .sizeRes(R.dimen.checkout_summary_action_icon_size));
+                        .sizeRes(R.dimen.checkout_summary_action_close_icon_size));
 
         mSummaryPendingBidsIconMain.setImageDrawable(
                 new IconicsDrawable(mContext)

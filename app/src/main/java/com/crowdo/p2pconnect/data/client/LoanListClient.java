@@ -71,7 +71,7 @@ public class LoanListClient {
     public Observable<Response<List<LoanListItemResponse>>> getLiveLoans(String token, String deviceId){
         return authTokenDecorator(token)
                 .create(APIServices.class)
-                .getLoansList(deviceId, ConstantVariables.API_CURRENCY_OUT_IDR);
+                .getLoansList(deviceId, ConstantVariables.API_SITE_CONFIG_ID);
     }
 
 }
