@@ -37,8 +37,6 @@ public class CheckoutSummaryViewHolder {
 
     @BindView(R.id.checkout_summary_no_of_loans_icon) ImageView mSummaryCartTotalsIcon;
 
-    @BindView(R.id.checkout_summary_recycler_view) RecyclerView mSummaryCartRecycleView;
-
     private static final String LOG_TAG = CheckoutSummaryViewHolder.class.getSimpleName();
     private Context mContext;
 
@@ -106,18 +104,19 @@ public class CheckoutSummaryViewHolder {
                         .colorRes(R.color.color_accent)
                         .sizeRes(R.dimen.checkout_summary_description_icon_float_size));
 
-        mSummaryExpandBtn.setOnClickListener(new View.OnClickListener() {
-                                                 @Override
-                                                 public void onClick(View v) {
-                                                     if(mSummaryExpandableLayout.isExpanded()){
-                                                         mSummaryExpandableLayout.collapse();
-                                                         mSummaryExpandIcon.setImageDrawable(chevronDownIcon);
-                                                     }else{
-                                                         mSummaryExpandableLayout.expand();
-                                                         mSummaryExpandIcon.setImageDrawable(chevronUpIcon);
-                                                     }
-                                                 }
-                                             }
+        mSummaryExpandBtn.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(mSummaryExpandableLayout.isExpanded()){
+                            mSummaryExpandableLayout.collapse();
+                            mSummaryExpandIcon.setImageDrawable(chevronDownIcon);
+                        }else{
+                            mSummaryExpandableLayout.expand();
+                            mSummaryExpandIcon.setImageDrawable(chevronUpIcon);
+                        }
+                    }
+                }
         );
 
         mSummaryCartTotalsIcon.setImageDrawable(
