@@ -11,7 +11,7 @@ import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.DateUtils;
 import com.crowdo.p2pconnect.helpers.NumericUtils;
-import com.crowdo.p2pconnect.model.response.LoanResponse;
+import com.crowdo.p2pconnect.model.core.Loan;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
@@ -68,7 +68,7 @@ public class LoanListViewHolder {
         ButterKnife.bind(this, view);
     }
 
-    public void attachLoanItem(LoanResponse item, Context context){
+    public void attachLoanItem(Loan item, Context context){
         if(!"".equals(item.getLoanId().trim())) {
             mLoanId.setText(item.getLoanId().trim());
         }

@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.crowdo.p2pconnect.data.client.LoanClient;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
@@ -28,7 +29,6 @@ import com.crowdo.p2pconnect.view.activities.Henson;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.model.response.LoanDetailResponse;
-import com.crowdo.p2pconnect.data.client.LoanDetailClient;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.viewholders.LoanDetailsViewHolder;
@@ -171,7 +171,7 @@ public class LoanDetailsFragment extends Fragment {
             AuthAccountUtils.actionLogout(AccountManager.get(getActivity()), getActivity());
         }
 
-        LoanDetailClient.getInstance(getActivity())
+        LoanClient.getInstance(getActivity())
                 .getLoanDetails(authToken, LoanDetailsFragment.this.initLoanId,
                         ConstantVariables.getUniqueAndroidID(getActivity()))
                 .subscribeOn(Schedulers.io())
@@ -190,7 +190,7 @@ public class LoanDetailsFragment extends Fragment {
                             if(loanDetailResponse != null) {
                                 mLoanDetailResponse = loanDetailResponse;
                                 Log.d(LOG_TAG, "APP Populated LoanDetails Rx onNext with loanId "
-                                        + loanDetailResponse.getLoanResponse().getLoanId() + " retreived.");
+                                        + loanDetailResponse.getLoan().getLoanId() + " retreived.");
                                 viewHolder.attachView(loanDetailResponse, getActivity());
                             }
                         }else{
@@ -329,7 +329,7 @@ public class LoanDetailsFragment extends Fragment {
                 .show();
                 return;
 
-            }else if(mLoanDetailResponse.getLoanResponse().getFundingAmountToCompleteCache() < biddingAmount){
+            }else if(mLoanDetailResponse.getLoan().getFundingAmountToCompleteCache() < biddingAmount){
 
                 final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
                         mLabelBidTooHigh,

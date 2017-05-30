@@ -23,7 +23,7 @@ import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.RegexValidationUtil;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
-import com.crowdo.p2pconnect.model.response.MemberResponse;
+import com.crowdo.p2pconnect.model.core.Member;
 import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.viewholders.RegisterViewHolder;
@@ -280,16 +280,16 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
                         Snackbar.LENGTH_SHORT,
                         mColorIconText, mColorAccent).show();
 
-                final String email = authResponse.getMemberResponse().getEmail();
+                final String email = authResponse.getMember().getEmail();
                 final String authToken = authResponse.getAuthToken();
                 final String passwordHash = mPasswordHash;
-                final MemberResponse memberResponse = authResponse.getMemberResponse();
+                final Member member = authResponse.getMember();
 
                 final Bundle userData = new Bundle();
-                userData.putString(AuthActivity.POST_AUTH_MEMBER_ID, memberResponse.getId().toString());
-                userData.putString(AuthActivity.POST_AUTH_MEMBER_EMAIL, memberResponse.getEmail());
-                userData.putString(AuthActivity.POST_AUTH_MEMBER_NAME, memberResponse.getName());
-                userData.putString(AuthActivity.POST_AUTH_MEMBER_LOCALE, memberResponse.getLocalePreference());
+                userData.putString(AuthActivity.POST_AUTH_MEMBER_ID, member.getId().toString());
+                userData.putString(AuthActivity.POST_AUTH_MEMBER_EMAIL, member.getEmail());
+                userData.putString(AuthActivity.POST_AUTH_MEMBER_NAME, member.getName());
+                userData.putString(AuthActivity.POST_AUTH_MEMBER_LOCALE, member.getLocalePreference());
 
                 //return back to authenticator result handling
                 Bundle data = new Bundle();

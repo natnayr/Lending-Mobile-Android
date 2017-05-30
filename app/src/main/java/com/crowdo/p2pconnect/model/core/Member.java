@@ -1,4 +1,4 @@
-package com.crowdo.p2pconnect.model.response;
+package com.crowdo.p2pconnect.model.core;
 
 
 import com.google.gson.annotations.Expose;
@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by cwdsg05 on 21/3/17.
  */
-public class MemberResponse {
+public class Member {
 
     @SerializedName("id")
     @Expose
@@ -65,12 +65,12 @@ public class MemberResponse {
     @Expose
     Boolean isBanned;
 
-    public MemberResponse(){ };
+    public Member(){ };
 
-    public MemberResponse(Integer id, String email, String name, String phoneNumber,
-                          String nationality, String dateOfBirth, String address1, String address2,
-                          String city, String postalCode, String countryOfResidence,
-                          String localePreference, String sessionCountry, Boolean isBanned) {
+    public Member(Integer id, String email, String name, String phoneNumber,
+                  String nationality, String dateOfBirth, String address1, String address2,
+                  String city, String postalCode, String countryOfResidence,
+                  String localePreference, String sessionCountry, Boolean isBanned) {
         this.id = id;
         this.email = email;
         this.name = name;

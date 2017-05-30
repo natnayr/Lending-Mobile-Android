@@ -5,7 +5,8 @@ import com.crowdo.p2pconnect.model.request.RegisterRequest;
 import com.crowdo.p2pconnect.model.response.AuthResponse;
 import com.crowdo.p2pconnect.model.response.CheckoutSummaryResponse;
 import com.crowdo.p2pconnect.model.response.LoanDetailResponse;
-import com.crowdo.p2pconnect.model.response.LoanResponse;
+import com.crowdo.p2pconnect.model.core.Loan;
+import com.crowdo.p2pconnect.model.response.LoanListResponse;
 
 import java.util.List;
 
@@ -42,7 +43,7 @@ public interface APIServices {
 
     @GET("loans/loan_listing")
     @Headers({"Content-type: application/json"})
-    Observable<Response<List<LoanResponse>>> getLoansList(@Query("device_id") String deviceId, @Query("site_config") String siteOut);
+    Observable<Response<LoanListResponse>> getLoansList(@Query("device_id") String deviceId, @Query("site_config") String siteOut);
 
     @GET("loans/loan_details/{id}")
     @Headers({"Content-type: application/json"})

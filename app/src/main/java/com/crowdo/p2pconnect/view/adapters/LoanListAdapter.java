@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.model.response.LoanResponse;
+import com.crowdo.p2pconnect.model.core.Loan;
 import com.crowdo.p2pconnect.viewholders.LoanListViewHolder;
 
 import java.util.ArrayList;
@@ -27,8 +27,8 @@ public class LoanListAdapter extends BaseAdapter{
     private final String LOG_TAG = LoanListAdapter.class.getSimpleName();
 
     private Context mContext;
-    private List<LoanResponse> mLoanList;
-    private List<LoanResponse> mFilteredList;
+    private List<Loan> mLoanList;
+    private List<Loan> mFilteredList;
 
     private String searchQuery;
     private List<String> gradesToFilter;
@@ -45,8 +45,8 @@ public class LoanListAdapter extends BaseAdapter{
         this.gradesToFilter = new ArrayList<String>();
         this.termsToFilter = new ArrayList<Integer>();
         this.securityToFilter = new ArrayList<String>();
-        this.mFilteredList = new ArrayList<LoanResponse>();
-        this.mLoanList = new ArrayList<LoanResponse>();
+        this.mFilteredList = new ArrayList<Loan>();
+        this.mLoanList = new ArrayList<Loan>();
     }
 
     @Override
@@ -55,7 +55,7 @@ public class LoanListAdapter extends BaseAdapter{
     }
 
     @Override
-    public LoanResponse getItem(int position) {
+    public Loan getItem(int position) {
         if(position < 0 || position >= mFilteredList.size()){
             return null;
         }else{
@@ -84,7 +84,7 @@ public class LoanListAdapter extends BaseAdapter{
         return view;
     }
 
-    public void setLoans(@Nullable List<LoanResponse> retreivedLoans){
+    public void setLoans(@Nullable List<Loan> retreivedLoans){
         if(retreivedLoans == null){
             return;
         }
@@ -137,11 +137,11 @@ public class LoanListAdapter extends BaseAdapter{
         }else{
             mFilteredList.clear();
             mFilteredList.addAll(mLoanList);
-            Iterator<LoanResponse> llit = mFilteredList.iterator();
+            Iterator<Loan> llit = mFilteredList.iterator();
             //fill and pick-off method
 
             while(llit.hasNext()){
-                LoanResponse item = llit.next();
+                Loan item = llit.next();
 
                 if(!"".contains(this.searchQuery)){
                     if(!item.getLoanId().toLowerCase().trim()

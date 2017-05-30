@@ -1,4 +1,4 @@
-package com.crowdo.p2pconnect.model.response;
+package com.crowdo.p2pconnect.model.core;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by cwdsg05 on 30/5/17.
  */
 
-public class LoanResponse {
+public class Loan {
     @SerializedName("id")
     @Expose
     private int id;

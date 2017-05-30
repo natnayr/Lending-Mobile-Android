@@ -28,13 +28,14 @@ import android.widget.TextView;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
-import com.crowdo.p2pconnect.model.response.LoanResponse;
+import com.crowdo.p2pconnect.model.core.Loan;
+import com.crowdo.p2pconnect.model.response.LoanListResponse;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.activities.Henson;
-import com.crowdo.p2pconnect.data.client.LoanListClient;
+import com.crowdo.p2pconnect.data.client.LoanClient;
 import com.crowdo.p2pconnect.view.adapters.LoanListAdapter;
 import com.crowdo.p2pconnect.viewholders.LoanListFilterViewHolder;
 
@@ -63,10 +64,8 @@ public class LoanListFragment extends Fragment {
     @BindView(R.id.loan_list_view_filtering_expandable) ExpandableLayout loanListSearchExpandableLayout;
     @BindView(R.id.listview_loans) ListView mListView;
     @BindView(R.id.loan_list_view_swipe) SwipeRefreshLayout swipeContainer;
-
     @BindView(R.id.loan_list_view_filtering_hide_button) LinearLayout filteringHideButton;
     @BindView(R.id.loan_list_view_filtering_clear_button) LinearLayout filteringClearButton;
-
     @BindView(R.id.loan_list_view_filtering_count) TextView filteringCountLabel;
     @BindString(R.string.loan_list_action_filter_item_count_tail) String filteringCountTail;
 
@@ -115,7 +114,7 @@ public class LoanListFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView,
                                     View view, int position, long l) {
 
-                LoanResponse item = (LoanResponse) adapterView.getItemAtPosition(position);
+                Loan item = (Loan) adapterView.getItemAtPosition(position);
                 Intent intent = Henson.with(getActivity())
                         .gotoLoanDetailsActivity()
                         .id(item.getId())
@@ -279,20 +278,20 @@ public class LoanListFragment extends Fragment {
             return;
         }
 
-        LoanListClient.getInstance(getActivity())
+        LoanClient.getInstance(getActivity())
                 .getLiveLoans(authToken, uniqueAndroidID)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<LoanResponse>>>() {
+                .subscribe(new Observer<Response<LoanListResponse>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         disposableGetLiveLoans = d;
                     }
 
                     @Override
-                    public void onNext(Response<List<LoanResponse>> response) {
+                    public void onNext(Response<LoanListResponse> response) {
                         if(response.isSuccessful()){
-                            List<LoanResponse> loanListResponses = response.body();
+                            List<Loan> loanListResponses = response.body().loans;
                             Log.d(LOG_TAG, "APP populateLoansList Rx onNext with "
                                     + loanListResponses.size() + " items retreived.");
                             mLoanAdapter.setLoans(loanListResponses);
