@@ -65,13 +65,12 @@ public class MemberResponse {
     @Expose
     Boolean isBanned;
 
-
     public MemberResponse(){ };
 
-    public MemberResponse(Integer id, String email, String name, String phoneNumber, String nationality,
-                          String dateOfBirth, String address1, String address2, String city, String postalCode,
-                          String countryOfResidence, String localePreference, String sessionCountry,
-                          Boolean isBanned) {
+    public MemberResponse(Integer id, String email, String name, String phoneNumber,
+                          String nationality, String dateOfBirth, String address1, String address2,
+                          String city, String postalCode, String countryOfResidence,
+                          String localePreference, String sessionCountry, Boolean isBanned) {
         this.id = id;
         this.email = email;
         this.name = name;

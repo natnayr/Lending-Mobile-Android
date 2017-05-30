@@ -323,7 +323,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        checkForCrashes();
+//        checkForCrashes();
     }
 
     private void checkForCrashes() {

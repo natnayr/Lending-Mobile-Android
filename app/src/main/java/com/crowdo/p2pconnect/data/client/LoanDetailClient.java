@@ -1,11 +1,10 @@
 package com.crowdo.p2pconnect.data.client;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.crowdo.p2pconnect.data.APIServices;
-import com.crowdo.p2pconnect.data.AddCookiesInterceptor;
-import com.crowdo.p2pconnect.data.ReceivedCookiesInterceptor;
+import com.crowdo.p2pconnect.data.SendingCookiesInterceptor;
+import com.crowdo.p2pconnect.data.ReceivingCookiesInterceptor;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.model.response.LoanDetailResponse;
 import com.crowdo.p2pconnect.oauth.AuthenticationHTTPInterceptor;
@@ -27,7 +26,7 @@ public class LoanDetailClient {
     private static final String LOG_TAG = LoanListClient.class.getSimpleName();
 
     private Retrofit.Builder builder;
-    private OkHttpClient.Builder httpClient;
+    private OkHttpClient.Builder httpClientBuilder;
 
     private static LoanDetailClient instance;
 
@@ -39,10 +38,10 @@ public class LoanDetailClient {
 //        final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
 //        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        httpClient = new OkHttpClient.Builder()
+        httpClientBuilder = new OkHttpClient.Builder()
 //                .addInterceptor(loggingInterceptor)
-                .addInterceptor(new AddCookiesInterceptor(context))
-                .addInterceptor(new ReceivedCookiesInterceptor(context));
+                .addInterceptor(new SendingCookiesInterceptor(context))
+                .addInterceptor(new ReceivingCookiesInterceptor(context));
 
         builder = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -57,19 +56,15 @@ public class LoanDetailClient {
         return instance;
     }
 
-    public Retrofit authTokenDecorator(final String authToken){
-        if(!TextUtils.isEmpty(authToken)){
-            final AuthenticationHTTPInterceptor interceptor = new AuthenticationHTTPInterceptor(authToken);
-            if(!httpClient.interceptors().contains(interceptor)){
-                httpClient.addInterceptor(interceptor);
-            }
-        }
-        return builder.client(httpClient.build()).build();
-    }
 
+    public Observable<Response<LoanDetailResponse>> getLoanDetails(String token, int loanId,
+                                                                   String deviceId){
+        OkHttpClient httpClient = AuthenticationHTTPInterceptor
+                .authTokenDecorator(token, httpClientBuilder).build();
 
-    public Observable<Response<LoanDetailResponse>> getLoanDetails(String token, int loanId, String deviceId){
-        return authTokenDecorator(token)
+        return builder
+                .client(httpClient)
+                .build()
                 .create(APIServices.class)
                 .getLoanDetail(loanId, deviceId, ConstantVariables.API_SITE_CONFIG_ID);
     }

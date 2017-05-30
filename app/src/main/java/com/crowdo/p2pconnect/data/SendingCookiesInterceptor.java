@@ -17,13 +17,13 @@ import okhttp3.Response;
  * Created by cwdsg05 on 11/4/17.
  */
 
-public class AddCookiesInterceptor implements Interceptor{
+public class SendingCookiesInterceptor implements Interceptor{
 
-    private static final String LOG_TAG = AddCookiesInterceptor.class.getSimpleName();
+    private static final String LOG_TAG = SendingCookiesInterceptor.class.getSimpleName();
 
     private Context mContext;
 
-    public AddCookiesInterceptor(Context context){
+    public SendingCookiesInterceptor(Context context){
         this.mContext = context;
     }
 

@@ -31,15 +31,6 @@ public interface APIServices {
     public static final String API_LIVE_BASE_URL = "http://192.168.1.4:3000/";
     public static final String LIVE_STAGE = "api/v2/";
 
-
-    @GET("loans/loan_listing")
-    @Headers({"Content-type: application/json"})
-    Observable<Response<List<LoanListItemResponse>>> getLoansList(@Query("device_id") String deviceId, @Query("site_config") String currencyOut);
-
-    @GET("loans/loan_details/{id}")
-    @Headers({"Content-type: application/json"})
-    Observable<Response<LoanDetailResponse>> getLoanDetail(@Path("id") int id, @Query("device_id") String deviceId, @Query("site_config") String currencyOut);
-
     @POST("oauth/login")
     @Headers({"Content-type: application/json"})
     Observable<Response<AuthResponse>> postLoginUser(@Body LoginRequest data);
@@ -48,5 +39,16 @@ public interface APIServices {
     @Headers({"Content-type: application/json"})
     Observable<Response<AuthResponse>> postRegisterUser(@Body RegisterRequest data);
 
+    @GET("loans/loan_listing")
+    @Headers({"Content-type: application/json"})
+    Observable<Response<List<LoanListItemResponse>>> getLoansList(@Query("device_id") String deviceId, @Query("site_config") String siteOut);
+
+    @GET("loans/loan_details/{id}")
+    @Headers({"Content-type: application/json"})
+    Observable<Response<LoanDetailResponse>> getLoanDetail(@Path("id") int id, @Query("device_id") String deviceId, @Query("site_config") String siteOut);
+
+    @GET("invest/checkout/summary")
+    @Headers({"Content-type: application/json"})
+    Observable<Response<AuthResponse>> getCheckoutSummary(@Query("device_id") String deviceId, @Query("site_config") String siteOut);
 
 }
