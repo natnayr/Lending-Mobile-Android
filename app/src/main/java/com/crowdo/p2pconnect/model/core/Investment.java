@@ -1,4 +1,4 @@
-package com.crowdo.p2pconnect.model.response;
+package com.crowdo.p2pconnect.model.core;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by cwdsg05 on 30/5/17.
  */
 
-public class InvestmentResponse {
+public class Investment {
 
     @SerializedName("id")
     @Expose
@@ -35,15 +35,15 @@ public class InvestmentResponse {
 
     @SerializedName("participation_agreement")
     @Expose
-    private Object participationAgreement;
+    private String participationAgreement;
 
     @SerializedName("e_signature_ip_address")
     @Expose
-    private Object eSignatureIpAddress;
+    private String eSignatureIpAddress;
 
     @SerializedName("e_signature_timestamp")
     @Expose
-    private Object eSignatureTimestamp;
+    private String eSignatureTimestamp;
 
     @SerializedName("expected_principal_return")
     @Expose
@@ -133,7 +133,7 @@ public class InvestmentResponse {
         return participationAgreement;
     }
 
-    public void setParticipationAgreement(Object participationAgreement) {
+    public void setParticipationAgreement(String participationAgreement) {
         this.participationAgreement = participationAgreement;
     }
 
@@ -141,7 +141,7 @@ public class InvestmentResponse {
         return eSignatureIpAddress;
     }
 
-    public void setESignatureIpAddress(Object eSignatureIpAddress) {
+    public void setESignatureIpAddress(String eSignatureIpAddress) {
         this.eSignatureIpAddress = eSignatureIpAddress;
     }
 
@@ -149,7 +149,7 @@ public class InvestmentResponse {
         return eSignatureTimestamp;
     }
 
-    public void setESignatureTimestamp(Object eSignatureTimestamp) {
+    public void setESignatureTimestamp(String eSignatureTimestamp) {
         this.eSignatureTimestamp = eSignatureTimestamp;
     }
 

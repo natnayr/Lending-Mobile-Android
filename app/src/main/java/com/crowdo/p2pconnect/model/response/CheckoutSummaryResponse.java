@@ -1,6 +1,7 @@
 package com.crowdo.p2pconnect.model.response;
 
-import com.crowdo.p2pconnect.model.core.ServerReply;
+import com.crowdo.p2pconnect.model.core.Investment;
+import com.crowdo.p2pconnect.model.core.Server;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -14,37 +15,62 @@ public class CheckoutSummaryResponse {
 
     @SerializedName("server")
     @Expose
-    private ServerReply serverReply;
+    public Server server;
 
-    @SerializedName("investments")
+    @SerializedName("total_pending_bids")
     @Expose
-    private List<InvestmentResponse> investments;
+    public long totalPendingBids;
 
-    @SerializedName("status")
+    @SerializedName("available_cash_balance")
     @Expose
-    private int status;
+    public long availableCashBalance;
 
-    public ServerReply getServerReply(){
-        return serverReply;
+    @SerializedName("required_amount")
+    @Expose
+    public String requiredAmount;
+
+    @SerializedName("bids")
+    @Expose
+    public List<Investment> bids;
+
+    public Server getServer() {
+        return server;
     }
 
-    public void setServerReply(ServerReply serverReply){
-        this.serverReply = serverReply;
+    public void setServer(Server server) {
+        this.server = server;
     }
 
-    public List<InvestmentResponse> getInvestments() {
-        return investments;
+    public long getTotalPendingBids() {
+        return totalPendingBids;
     }
 
-    public void setInvestments(List<InvestmentResponse> investments) {
-        this.investments = investments;
+    public void setTotalPendingBids(long totalPendingBids) {
+        this.totalPendingBids = totalPendingBids;
     }
 
-    public int getStatus() {
-        return status;
+    public long getAvailableCashBalance() {
+        return availableCashBalance;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setAvailableCashBalance(long availableCashBalance) {
+        this.availableCashBalance = availableCashBalance;
     }
+
+    public String getRequiredAmount() {
+        return requiredAmount;
+    }
+
+    public void setRequiredAmount(String requiredAmount) {
+        this.requiredAmount = requiredAmount;
+    }
+
+    public List<Investment> getBids() {
+        return bids;
+    }
+
+    public void setBids(List<Investment> bids) {
+        this.bids = bids;
+    }
+
 }

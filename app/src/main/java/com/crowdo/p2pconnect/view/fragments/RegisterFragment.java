@@ -271,12 +271,12 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
 
         //success register
         if(authResponse != null) {
-            if (HTTPResponseUtils.check2xxSuccess(authResponse.getStatus())) {
+            if (HTTPResponseUtils.check2xxSuccess(authResponse.getServer().getStatus())) {
                 Log.d(LOG_TAG, "APP: onComplete > response.isSuccessful TRUE");
 
                 //show success
                 SnackBarUtil.snackBarForAuthCreate(getView(),
-                        authResponse.getMessage(),
+                        authResponse.getServer().getMessage(),
                         Snackbar.LENGTH_SHORT,
                         mColorIconText, mColorAccent).show();
 

@@ -1,6 +1,7 @@
 package com.crowdo.p2pconnect.model.response;
 
 import com.crowdo.p2pconnect.model.core.Member;
+import com.crowdo.p2pconnect.model.core.Server;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -10,9 +11,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class AuthResponse {
 
-    @SerializedName("message")
+    @SerializedName("server")
     @Expose
-    private String message;
+    public Server server;
 
     @SerializedName("auth_token")
     @Expose
@@ -22,17 +23,9 @@ public class AuthResponse {
     @Expose
     private Member member;
 
-    @SerializedName("status")
-    @Expose
-    private int status;
+    public Server getServer(){ return server; }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
+    public void setServer(Server server){ this.server = server; }
 
     public String getAuthToken() {
         return authToken;
@@ -50,11 +43,4 @@ public class AuthResponse {
         this.member = member;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
 }
