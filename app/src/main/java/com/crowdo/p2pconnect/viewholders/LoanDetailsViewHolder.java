@@ -25,6 +25,7 @@ import com.crowdo.p2pconnect.model.response.LoanDetailResponse;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.DateUtils;
 import com.crowdo.p2pconnect.helpers.NumericUtils;
+import com.crowdo.p2pconnect.model.response.LoanResponse;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
@@ -202,18 +203,20 @@ public class LoanDetailsViewHolder {
 
     public void attachView(final LoanDetailResponse loanDetailResponse, final Context context) {
 
-        if(!"".equals(loanDetailResponse.getLoanId().trim())) {
-            mLoanIdenTextView.setText(loanDetailResponse.getLoanId());
+        LoanResponse loan = loanDetailResponse.getLoanResponse();
+
+        if(!"".equals(loan.getLoanId().trim())) {
+            mLoanIdenTextView.setText(loan.getLoanId());
         }
 
-        mPercentageReturn.setText(Double.toString(loanDetailResponse.getInterestRate()));
+        mPercentageReturn.setText(Double.toString(loan.getInterestRate()));
 
-        if(!"".equals(loanDetailResponse.getGrade().trim())) {
-            mGrade.setText(loanDetailResponse.getGrade().trim());
+        if(!"".equals(loan.getGrade().trim())) {
+            mGrade.setText(loan.getGrade().trim());
         }
         
-        if(!"".equals(loanDetailResponse.getGrade().trim())) {
-            switch (loanDetailResponse.getGrade().trim()) {
+        if(!"".equals(loan.getGrade().trim())) {
+            switch (loan.getGrade().trim()) {
                 case "A+":
                     mGrade.setTextColor(mColorAPlus);
                     break;
@@ -239,15 +242,15 @@ public class LoanDetailsViewHolder {
             }
         }
 
-        if(!"".equals(loanDetailResponse.getSecurity().trim())) {
-            switch (loanDetailResponse.getSecurity().trim()) {
+        if(!"".equals(loan.getSecurity().trim())) {
+            switch (loan.getSecurity().trim()) {
                 case ConstantVariables.IN_SEC_COLLATERALIZED:
                     mSecurityIcon.setImageDrawable(new IconicsDrawable(context)
                             .icon(CommunityMaterial.Icon.cmd_shield_outline)
                             .sizeRes(R.dimen.loan_detail_security_icon_size));
                     mSecurityIcon.setColorFilter(mShieldColor);
                     String collateralDesc = WordUtils.wrap(
-                            WordUtils.capitalize(loanDetailResponse.getCollateral().trim()
+                            WordUtils.capitalize(loan.getCollateral().trim()
                                     + "\n" + ConstantVariables.IN_SEC_COLLATERALIZED), 25);
                     mSecurityDescription.setText(collateralDesc);
                     mSecurityIcon.setContentDescription(collateralDesc);
@@ -278,16 +281,16 @@ public class LoanDetailsViewHolder {
             }
         }
 
-        int progressNum = loanDetailResponse.getFundedPercentageCache();
+        int progressNum = loan.getFundedPercentageCache();
         mProgressBar.setProgress(progressNum);
         mProgressBar.setContentDescription(Integer.toString(progressNum)
                 + mProgressDescriptionTail);
         mProgressDescription.setText(progressNum + mProgressDescriptionTail);
-        mTenureDuration.setText(Integer.toString(loanDetailResponse.getTenure()));
+        mTenureDuration.setText(Integer.toString(loan.getTenure()));
 
-        if(!"".equals(loanDetailResponse.getFundingEndDate().trim())) {
+        if(!"".equals(loan.getFundingEndDate().trim())) {
             int daysLeft = DateUtils.findDaysLeft(ConstantVariables.DATE_TIME_REGION,
-                    loanDetailResponse.getFundingEndDate().trim());
+                    loan.getFundingEndDate().trim());
 
             if (daysLeft > 0) {
                 mNumDaysLeft.setText(Integer.toString(daysLeft));
@@ -297,16 +300,16 @@ public class LoanDetailsViewHolder {
         }
 
 
-        if(!"".equals(loanDetailResponse.getCurrency().trim())) {
-            mTargetAmount.setText(NumericUtils.truncateNumber(loanDetailResponse.getTargetAmount(),
+        if(!"".equals(loan.getCurrency().trim())) {
+            mTargetAmount.setText(NumericUtils.truncateNumber(loan.getTargetAmount(),
                     LocaleHelper.getLanguage(context)));
             mTargetAmountDescription.setText(mTargetAmountPrincipalString +
-                    " (" + loanDetailResponse.getCurrency() + ")");
+                    " (" + loan.getCurrency() + ")");
         }
 
-        if(!"".equals(loanDetailResponse.getStartDate().trim()))
+        if(!"".equals(loan.getStartDate().trim()))
             mScheduleStartDate.setText(DateUtils.dateTimeFormatter(
-                    ConstantVariables.OUT_DATE_TIME_FORMAT, loanDetailResponse.getStartDate().trim()));
+                    ConstantVariables.OUT_DATE_TIME_FORMAT, loan.getStartDate().trim()));
         if(!"".equals(loanDetailResponse.getFirstRepayment().trim()))
             mScheduleFirstRepaymentDate.setText(DateUtils.dateTimeFormatter(
                     ConstantVariables.OUT_DATE_TIME_FORMAT, loanDetailResponse.getFirstRepayment().trim()));
@@ -314,10 +317,10 @@ public class LoanDetailsViewHolder {
             mScheduleLastRepaymentDate.setText(DateUtils.dateTimeFormatter(
                     ConstantVariables.OUT_DATE_TIME_FORMAT, loanDetailResponse.getLastRepayment().trim()));
 
-        if(!"".equals(loanDetailResponse.getCurrency().trim()))
-            mAvalibleAmount.setText(NumericUtils.formatCurrency(loanDetailResponse.getCurrency().trim(),
-                    loanDetailResponse.getFundingAmountToCompleteCache(), loanDetailResponse.getCurrency().trim()+" ", false) +
-                    " " + loanDetailResponse.getCurrency().trim());
+        if(!"".equals(loan.getCurrency().trim()))
+            mAvalibleAmount.setText(NumericUtils.formatCurrency(loan.getCurrency().trim(),
+                    loan.getFundingAmountToCompleteCache(), loan.getCurrency().trim()+" ", false) +
+                    " " + loan.getCurrency().trim());
 
         //Add textwatcher here cause of required currency
         mEnterAmount.addTextChangedListener(new TextWatcher() {

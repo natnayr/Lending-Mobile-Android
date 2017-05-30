@@ -190,7 +190,7 @@ public class LoanDetailsFragment extends Fragment {
                             if(loanDetailResponse != null) {
                                 mLoanDetailResponse = loanDetailResponse;
                                 Log.d(LOG_TAG, "APP Populated LoanDetails Rx onNext with loanId "
-                                        + loanDetailResponse.getLoanId() + " retreived.");
+                                        + loanDetailResponse.getLoanResponse().getLoanId() + " retreived.");
                                 viewHolder.attachView(loanDetailResponse, getActivity());
                             }
                         }else{
@@ -329,7 +329,7 @@ public class LoanDetailsFragment extends Fragment {
                 .show();
                 return;
 
-            }else if(mLoanDetailResponse.getFundingAmountToCompleteCache() < biddingAmount){
+            }else if(mLoanDetailResponse.getLoanResponse().getFundingAmountToCompleteCache() < biddingAmount){
 
                 final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
                         mLabelBidTooHigh,

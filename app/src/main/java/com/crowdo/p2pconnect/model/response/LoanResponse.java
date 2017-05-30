@@ -3,8 +3,11 @@ package com.crowdo.p2pconnect.model.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class LoanListItemResponse {
+/**
+ * Created by cwdsg05 on 30/5/17.
+ */
 
+public class LoanResponse {
     @SerializedName("id")
     @Expose
     private int id;
@@ -63,7 +66,7 @@ public class LoanListItemResponse {
 
     @SerializedName("total_interest_out")
     @Expose
-    private double totalInterest;
+    private double totalInterestOut;
 
     @SerializedName("num_of_on_time_payments")
     @Expose
@@ -87,7 +90,7 @@ public class LoanListItemResponse {
 
     @SerializedName("frequency_out")
     @Expose
-    private String frequency;
+    private String frequencyOut;
 
     @SerializedName("start_date_out")
     @Expose
@@ -186,7 +189,7 @@ public class LoanListItemResponse {
     private String disbursedProof;
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -194,7 +197,7 @@ public class LoanListItemResponse {
     }
 
     public int getPartnerId() {
-        return partnerId;
+        return this.partnerId;
     }
 
     public void setPartnerId(int partnerId) {
@@ -202,7 +205,7 @@ public class LoanListItemResponse {
     }
 
     public int getPartnerPortfolioId() {
-        return partnerPortfolioId;
+        return this.partnerPortfolioId;
     }
 
     public void setPartnerPortfolioId(int partnerPortfolioId) {
@@ -210,7 +213,7 @@ public class LoanListItemResponse {
     }
 
     public int getBorrowerId() {
-        return borrowerId;
+        return this.borrowerId;
     }
 
     public void setBorrowerId(int borrowerId) {
@@ -218,15 +221,15 @@ public class LoanListItemResponse {
     }
 
     public String getCurrency() {
-        return currency;
+        return this.currency;
     }
 
-    public void setCurrency(String currency) {
+    public void setCurrencyOut(String currency) {
         this.currency = currency;
     }
 
     public String getLoanStatus() {
-        return loanStatus;
+        return this.loanStatus;
     }
 
     public void setLoanStatus(String loanStatus) {
@@ -234,7 +237,7 @@ public class LoanListItemResponse {
     }
 
     public String getCustomerId() {
-        return customerId;
+        return this.customerId;
     }
 
     public void setCustomerId(String customerId) {
@@ -242,15 +245,15 @@ public class LoanListItemResponse {
     }
 
     public String getLoanId() {
-        return loanId;
+        return this.loanId;
     }
 
     public void setLoanId(String loanId) {
-        this.loanId = loanId;
+        this.loanId = loanId.trim().toUpperCase();
     }
 
     public String getLoanType() {
-        return loanType;
+        return this.loanType;
     }
 
     public void setLoanType(String loanType) {
@@ -258,7 +261,7 @@ public class LoanListItemResponse {
     }
 
     public String getCollateral() {
-        return collateral;
+        return this.collateral;
     }
 
     public void setCollateral(String collateral) {
@@ -266,7 +269,7 @@ public class LoanListItemResponse {
     }
 
     public String getCollateralDescription() {
-        return collateralDescription;
+        return this.collateralDescription;
     }
 
     public void setCollateralDescription(String collateralDescription) {
@@ -274,7 +277,7 @@ public class LoanListItemResponse {
     }
 
     public double getTargetAmount() {
-        return targetAmount;
+        return this.targetAmount;
     }
 
     public void setTargetAmount(double targetAmount) {
@@ -282,31 +285,31 @@ public class LoanListItemResponse {
     }
 
     public double getInterestRate() {
-        return interestRate;
+        return this.interestRate;
     }
 
-    public void setInterestRateOut(double interestRate) {
+    public void setInterestRate(double interestRate) {
         this.interestRate = interestRate;
     }
 
     public double getPmt() {
-        return pmt;
+        return this.pmt;
     }
 
-    public void setPmt(double pmtOut) {
+    public void setPmt(double pmt) {
         this.pmt = pmt;
     }
 
-    public double getTotalInterest() {
-        return totalInterest;
+    public double getTotalInterestOut() {
+        return this.totalInterestOut;
     }
 
     public void setTotalInterestOut(double totalInterestOut) {
-        this.totalInterest = totalInterestOut;
+        this.totalInterestOut = totalInterestOut;
     }
 
     public int getNumOfOnTimePayments() {
-        return numOfOnTimePayments;
+        return this.numOfOnTimePayments;
     }
 
     public void setNumOfOnTimePayments(int numOfOnTimePayments) {
@@ -314,7 +317,7 @@ public class LoanListItemResponse {
     }
 
     public int getNumOfDelayedPayments() {
-        return numOfDelayedPayments;
+        return this.numOfDelayedPayments;
     }
 
     public void setNumOfDelayedPayments(int numOfDelayedPayments) {
@@ -322,7 +325,7 @@ public class LoanListItemResponse {
     }
 
     public int getNumOfDefaultPayments() {
-        return numOfDefaultPayments;
+        return this.numOfDefaultPayments;
     }
 
     public void setNumOfDefaultPayments(int numOfDefaultPayments) {
@@ -330,7 +333,7 @@ public class LoanListItemResponse {
     }
 
     public int getOriginalTenure() {
-        return originalTenure;
+        return this.originalTenure;
     }
 
     public void setOriginalTenure(int originalTenure) {
@@ -338,23 +341,23 @@ public class LoanListItemResponse {
     }
 
     public int getTenure() {
-        return tenure;
+        return this.tenure;
     }
 
-    public void setTenureOut(int tenure) {
+    public void setTenure(int tenure) {
         this.tenure = tenure;
     }
 
-    public String getFrequency() {
-        return frequency;
+    public String getFrequencyOut() {
+        return this.frequencyOut;
     }
 
-    public void setFrequency(String frequency) {
-        this.frequency = frequency;
+    public void setFrequencyOut(String frequencyOut) {
+        this.frequencyOut = frequencyOut;
     }
 
     public String getStartDate() {
-        return startDate;
+        return this.startDate;
     }
 
     public void setStartDate(String startDate) {
@@ -362,7 +365,7 @@ public class LoanListItemResponse {
     }
 
     public int getFundingDuration() {
-        return fundingDuration;
+        return this.fundingDuration;
     }
 
     public void setFundingDuration(int fundingDuration) {
@@ -370,7 +373,7 @@ public class LoanListItemResponse {
     }
 
     public String getFundingStartDate() {
-        return fundingStartDate;
+        return this.fundingStartDate;
     }
 
     public void setFundingStartDate(String fundingStartDate) {
@@ -378,7 +381,7 @@ public class LoanListItemResponse {
     }
 
     public String getFundingEndDate() {
-        return fundingEndDate;
+        return this.fundingEndDate;
     }
 
     public void setFundingEndDate(String fundingEndDate) {
@@ -386,7 +389,7 @@ public class LoanListItemResponse {
     }
 
     public int getInvestmentsCount() {
-        return investmentsCount;
+        return this.investmentsCount;
     }
 
     public void setInvestmentsCount(int investmentsCount) {
@@ -394,7 +397,7 @@ public class LoanListItemResponse {
     }
 
     public String getGrade() {
-        return grade;
+        return this.grade;
     }
 
     public void setGrade(String grade) {
@@ -402,7 +405,7 @@ public class LoanListItemResponse {
     }
 
     public String getCreatedAt() {
-        return createdAt;
+        return this.createdAt;
     }
 
     public void setCreatedAt(String createdAt) {
@@ -410,7 +413,7 @@ public class LoanListItemResponse {
     }
 
     public String getUpdatedAt() {
-        return updatedAt;
+        return this.updatedAt;
     }
 
     public void setUpdatedAt(String updatedAt) {
@@ -418,7 +421,7 @@ public class LoanListItemResponse {
     }
 
     public String getUnderlyingAgreement() {
-        return underlyingAgreement;
+        return this.underlyingAgreement;
     }
 
     public void setUnderlyingAgreement(String underlyingAgreement) {
@@ -426,7 +429,7 @@ public class LoanListItemResponse {
     }
 
     public String getMasterAgreement() {
-        return masterAgreement;
+        return this.masterAgreement;
     }
 
     public void setMasterAgreement(String masterAgreement) {
@@ -434,7 +437,7 @@ public class LoanListItemResponse {
     }
 
     public double getFundedAmountCache() {
-        return fundedAmountCache;
+        return this.fundedAmountCache;
     }
 
     public void setFundedAmountCache(double fundedAmountCache) {
@@ -442,7 +445,7 @@ public class LoanListItemResponse {
     }
 
     public boolean isOnePercentPromotion() {
-        return onePercentPromotion;
+        return this.onePercentPromotion;
     }
 
     public void setOnePercentPromotion(boolean onePercentPromotion) {
@@ -450,7 +453,7 @@ public class LoanListItemResponse {
     }
 
     public int getLoanToValue() {
-        return loanToValue;
+        return this.loanToValue;
     }
 
     public void setLoanToValue(int loanToValue) {
@@ -458,7 +461,7 @@ public class LoanListItemResponse {
     }
 
     public int getBorrowerAge() {
-        return borrowerAge;
+        return this.borrowerAge;
     }
 
     public void setBorrowerAge(int borrowerAge) {
@@ -466,7 +469,7 @@ public class LoanListItemResponse {
     }
 
     public String getBorrowerGender() {
-        return borrowerGender;
+        return this.borrowerGender;
     }
 
     public void setBorrowerGender(String borrowerGender) {
@@ -474,7 +477,7 @@ public class LoanListItemResponse {
     }
 
     public int getFundedPercentageCache() {
-        return fundedPercentageCache;
+        return this.fundedPercentageCache;
     }
 
     public void setFundedPercentageCache(int fundedPercentageCache) {
@@ -482,7 +485,7 @@ public class LoanListItemResponse {
     }
 
     public double getFundingAmountToCompleteCache() {
-        return fundingAmountToCompleteCache;
+        return this.fundingAmountToCompleteCache;
     }
 
     public void setFundingAmountToCompleteCache(double fundingAmountToCompleteCache) {
@@ -490,7 +493,7 @@ public class LoanListItemResponse {
     }
 
     public boolean isUnderlyingApproved() {
-        return underlyingApproved;
+        return this.underlyingApproved;
     }
 
     public void setUnderlyingApproved(boolean underlyingApproved) {
@@ -498,7 +501,7 @@ public class LoanListItemResponse {
     }
 
     public String getUnderlyingApprovedAt() {
-        return underlyingApprovedAt;
+        return this.underlyingApprovedAt;
     }
 
     public void setUnderlyingApprovedAt(String underlyingApprovedAt) {
@@ -506,7 +509,7 @@ public class LoanListItemResponse {
     }
 
     public int getSortWeight() {
-        return sortWeight;
+        return this.sortWeight;
     }
 
     public void setSortWeight(int sortWeight) {
@@ -514,7 +517,7 @@ public class LoanListItemResponse {
     }
 
     public String getRejectReason() {
-        return rejectReason;
+        return this.rejectReason;
     }
 
     public void setRejectReason(String rejectReason) {
@@ -522,23 +525,23 @@ public class LoanListItemResponse {
     }
 
     public String getSecurity() {
-        return security;
+        return this.security;
     }
 
     public void setSecurity(String security) {
         this.security = security;
     }
 
-    public Object getLiquidationFlag() {
-        return liquidationFlag;
+    public String getLiquidationFlag() {
+        return this.liquidationFlag;
     }
 
     public void setLiquidationFlag(String liquidationFlag) {
         this.liquidationFlag = liquidationFlag;
     }
 
-    public Object getDisbursedProof() {
-        return disbursedProof;
+    public String getDisbursedProof() {
+        return this.disbursedProof;
     }
 
     public void setDisbursedProof(String disbursedProof) {
