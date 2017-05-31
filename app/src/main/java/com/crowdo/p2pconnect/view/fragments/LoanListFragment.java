@@ -168,7 +168,6 @@ public class LoanListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         populateLoansList();
     }
 
@@ -180,8 +179,8 @@ public class LoanListFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onPause() {
+        super.onPause();
         if(disposableGetLiveLoans != null){
             if(!disposableGetLiveLoans.isDisposed()) {
                 disposableGetLiveLoans.dispose();

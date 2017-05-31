@@ -1,4 +1,4 @@
-package com.crowdo.p2pconnect.model.core;
+package com.crowdo.p2pconnect.model.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by cwdsg05 on 30/5/17.
  */
 
-public class Server {
+public class ServerResponse {
 
     @SerializedName("message")
     @Expose
@@ -16,6 +16,11 @@ public class Server {
     @SerializedName("status")
     @Expose
     private int status;
+
+    public ServerResponse(String message, int status){
+        this.message = message;
+        this.status = status;
+    }
 
     public String getMessage() {
         return message;

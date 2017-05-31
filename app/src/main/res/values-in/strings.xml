@@ -98,7 +98,7 @@
     <string name="auth_register_membership_click_on_label">Login disini</string>
     <string name="auth_login_user_password_label">Sandi</string>
     <string name="auth_login_title_label">Login</string>
-    <string name="auth_http_error_message">Maaf, Terjadi kesalahan server</string>
+    <string name="auth_http_error_message">Maaf, Terjadi kesalahan serverResponse</string>
     <string name="auth_login_submit_label">Login</string>
     <string name="auth_http_handling_message">Maaf, Terjadi kesalahan penanganan tak terduga</string>
     <string name="auth_login_membership_click_on_label">Daftar Disini</string>

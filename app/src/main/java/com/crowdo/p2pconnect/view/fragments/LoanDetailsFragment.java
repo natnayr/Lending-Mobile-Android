@@ -146,22 +146,23 @@ public class LoanDetailsFragment extends Fragment {
         populateLoanDetails();
     }
 
+
     @Override
-    public void onStop() {
-        if(alertDialog != null && alertDialog.isShowing())
+    public void onPause() {
+        if (alertDialog != null && alertDialog.isShowing()){
             alertDialog.dismiss();
-
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
+        }
         if(disposableGetLoanDetails != null){
             if(!disposableGetLoanDetails.isDisposed()) {
                 disposableGetLoanDetails.dispose();
             }
         }
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
     private void populateLoanDetails(){

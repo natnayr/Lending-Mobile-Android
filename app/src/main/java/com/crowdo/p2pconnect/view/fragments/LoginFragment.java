@@ -127,13 +127,13 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onPause() {
         if(disposableLoginUser != null){
             if(!disposableLoginUser.isDisposed()) {
                 disposableLoginUser.dispose();
             }
         }
+        super.onPause();
     }
 
     private void submit() {
@@ -178,7 +178,7 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
         if(response.isSuccessful()) {
             authResponse = response.body();
         }else {
-            //failed login response from server, 4xx error
+            //failed login response from serverResponse, 4xx error
             if (HTTPResponseUtils.check4xxClientError(response.code())) {
                 String serverErrorMsg = "Error: Login not successful";
 
@@ -188,7 +188,7 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
                                     ErrorResponse.class, new Annotation[0]);
                     try {
                         ErrorResponse errorResponse = errorConverter.convert(response.errorBody());
-                        serverErrorMsg = errorResponse.getMessage();
+                        serverErrorMsg = errorResponse.getServerResponse().getMessage();
                     } catch (IOException e) {
                         e.printStackTrace();
                         Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
@@ -239,13 +239,13 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
 
         //success login
         if(authResponse != null){
-            if (HTTPResponseUtils.check2xxSuccess(authResponse.getServer().getStatus())) {
+            if (HTTPResponseUtils.check2xxSuccess(authResponse.getServerResponse().getStatus())) {
                 Log.d(LOG_TAG, "APP: onComplete > response.isSuccessful TRUE");
 
-                if (HTTPResponseUtils.check2xxSuccess(authResponse.getServer().getStatus())) {
+                if (HTTPResponseUtils.check2xxSuccess(authResponse.getServerResponse().getStatus())) {
                     //show http success
                     SnackBarUtil.snackBarForAuthCreate(getView(),
-                            authResponse.getServer().getMessage(),
+                            authResponse.getServerResponse().getMessage(),
                             Snackbar.LENGTH_SHORT,
                             mColorIconText, mColorAccent).show();
 

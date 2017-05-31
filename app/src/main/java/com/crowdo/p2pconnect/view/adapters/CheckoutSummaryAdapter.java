@@ -7,21 +7,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.model.others.CheckoutSummaryBid;
+import com.crowdo.p2pconnect.model.core.Investment;
+import com.crowdo.p2pconnect.model.core.Loan;
 import com.crowdo.p2pconnect.viewholders.ItemCheckoutSummaryViewHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CheckoutSummaryAdapter extends RecyclerView.Adapter<ItemCheckoutSummaryViewHolder>{
     private static final String LOG_TAG = CheckoutSummaryAdapter.class.getSimpleName();
-    private final List<CheckoutSummaryBid> summaryList;
+    private List<Investment> biddingInvestmentList;
+    private List<Loan> biddingLoanList;
+    private Context mContext;
 
-    public CheckoutSummaryAdapter(List<CheckoutSummaryBid> list) {
-        this.summaryList = list;
+    public CheckoutSummaryAdapter(Context context) {
+        this.mContext = context;
+        this.biddingInvestmentList = new ArrayList<Investment>();
+        this.biddingLoanList = new ArrayList<Loan>();
     }
 
     @Override
@@ -34,19 +38,35 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<ItemCheckoutSum
     @Override
     public void onBindViewHolder(ItemCheckoutSummaryViewHolder holder, int position) {
 
-        CheckoutSummaryBid bidItem = summaryList.get(position);
+        Investment bidInvestmentItem = biddingInvestmentList.get(position);
+        Loan bidLoanItem = biddingLoanList.get(position);
+        Log.d(LOG_TAG, "APP bidItem.getLoanId(): " + bidInvestmentItem.getLoanId());
 
-        Log.d(LOG_TAG, "APP bidItem.getLoanId(): " + bidItem.getLoanId());
-
-        holder.mItemCheckoutSummaryLoanId.setText(bidItem.getLoanId());
-        holder.mItemCheckoutSummaryTenure.setText(String.valueOf(bidItem.getTenureOut()));
-        holder.mItemCheckoutSummaryGrade.setText(bidItem.getGrade());
-        holder.mItemCheckoutSummaryInterestRate.setText(String.valueOf(bidItem.getInterestRateOut()));
+        holder.mItemCheckoutSummaryLoanId.setText(bidLoanItem.getLoanId());
+        holder.mItemCheckoutSummaryTenure.setText(Integer.toString(bidLoanItem.getTenure()));
+        holder.mItemCheckoutSummaryGrade.setText(bidLoanItem.getGrade());
+        holder.mItemCheckoutSummaryInterestRate.setText(Double.toString(bidLoanItem.getInterestRate()));
     }
 
     @Override
     public int getItemCount() {
-        return summaryList.size();
+        //investment list should be equal to loan list
+        return biddingInvestmentList.size();
+    }
+
+    public void setBiddingInvestmentsAndLoans(@Nullable List<Investment> investments,
+                                              @Nullable List<Loan> loans){
+        if(investments == null || loans == null){
+            return; //must not be null
+        }else if(investments.size() != loans.size()){
+            return; //must be equal in size
+        }
+
+        biddingInvestmentList.clear();
+        biddingLoanList.clear();
+        biddingInvestmentList.addAll(investments);
+        biddingLoanList.addAll(loans);
+        notifyDataSetChanged();
     }
 
 }

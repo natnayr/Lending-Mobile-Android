@@ -1,16 +1,27 @@
 package com.crowdo.p2pconnect.view.fragments;
 
+import android.accounts.AccountManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.model.others.CheckoutSummaryBid;
+import com.crowdo.p2pconnect.data.client.CheckoutClient;
+import com.crowdo.p2pconnect.helpers.ConstantVariables;
+import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
+import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
+import com.crowdo.p2pconnect.model.core.Investment;
+import com.crowdo.p2pconnect.model.core.Loan;
+import com.crowdo.p2pconnect.model.response.CheckoutSummaryResponse;
+import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
+import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.adapters.CheckoutSummaryAdapter;
 import com.crowdo.p2pconnect.viewholders.CheckoutSummaryViewHolder;
 
@@ -19,6 +30,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Response;
 
 /**
  * Created by cwdsg05 on 22/5/17.
@@ -29,14 +46,14 @@ public class CheckoutSummaryFragment extends Fragment{
     @BindView(R.id.checkout_summary_recycler_view) RecyclerView mCheckoutSummaryRecyclerView;
 
     private static final String LOG_TAG = CheckoutSummaryFragment.class.getSimpleName();
+    private Context mContext;
     private CheckoutSummaryViewHolder viewHolder;
-    private List<CheckoutSummaryBid> summaryList;
     private CheckoutSummaryAdapter checkoutSummaryAdapter;
+    private Disposable disposableGetCheckoutSummary;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.summaryList = new ArrayList<>();
     }
 
     @Nullable
@@ -47,30 +64,79 @@ public class CheckoutSummaryFragment extends Fragment{
         View rootView = inflater.inflate(R.layout.fragment_checkout_summary, container, false);
         ButterKnife.bind(this, rootView);
 
+        mContext = getActivity();
+
         viewHolder = new CheckoutSummaryViewHolder(rootView, getActivity());
         viewHolder.initView();
 
-        this.checkoutSummaryAdapter = new CheckoutSummaryAdapter(summaryList);
+        this.checkoutSummaryAdapter = new CheckoutSummaryAdapter(getActivity());
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         mCheckoutSummaryRecyclerView.setLayoutManager(mLayoutManager);
         mCheckoutSummaryRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mCheckoutSummaryRecyclerView.setAdapter(this.checkoutSummaryAdapter);
 
-        populateFakeData();
 
         return rootView;
     }
 
-    private void populateFakeData(){
+    @Override
+    public void onResume() {
+        super.onResume();
+        populateSummaryList();
+    }
 
-        CheckoutSummaryBid demoItem1 = new CheckoutSummaryBid("CWDO35870002", 9, "C", 27.0, 5000000);
-        CheckoutSummaryBid demoItem2 = new CheckoutSummaryBid("CWDO35873212", 6, "C+", 21.0, 17000000);
-        CheckoutSummaryBid demoItem3 = new CheckoutSummaryBid("CWDO32327824", 3, "A+", 14.0, 25000000);
-        summaryList.add(demoItem1);
-        summaryList.add(demoItem2);
-        summaryList.add(demoItem3);
+    private void populateSummaryList(){
 
-        this.checkoutSummaryAdapter.notifyDataSetChanged();
+        Log.d(LOG_TAG, "APP populateSummaryList()");
+        final String uniqueAndroidID = ConstantVariables.getUniqueAndroidID(mContext);
+
+        //check authentication
+        String authToken = SharedPreferencesUtils.getSharedPrefString(getActivity(),
+                CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
+        if(authToken == null){
+            AuthAccountUtils.actionLogout(AccountManager.get(getActivity()), getActivity());
+            return;
+        }
+
+        CheckoutClient.getInstance(getActivity())
+                .getCheckoutSummary(authToken, uniqueAndroidID)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<CheckoutSummaryResponse>>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                        disposableGetCheckoutSummary = d;
+                    }
+
+                    @Override
+                    public void onNext(@NonNull Response<CheckoutSummaryResponse> response) {
+                        if(response.isSuccessful()){
+                            CheckoutSummaryResponse body = response.body();
+                            List<Investment> investments = body.getBids();
+                            List<Loan> loans = body.getLoans();
+                            checkoutSummaryAdapter.setBiddingInvestmentsAndLoans(investments, loans);
+                        }else{
+                            Log.d(LOG_TAG, "APP getCheckoutSummary onNext() status > " + response.code());
+                            if(HTTPResponseUtils.check4xxClientError(response.code())){
+                                if(ConstantVariables.HTTP_UNAUTHORISED == response.code()){
+                                    AuthAccountUtils.actionLogout(AccountManager.get(mContext),
+                                            getActivity());
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
     }
 }

@@ -137,7 +137,7 @@
     <string name="auth_password_do_not_match">Doesn\'t match Password</string>
     <string name="auth_logout_session_expire">Log Out / Session Expired</string>
     <string name="auth_invalid_token" translatable="false">Invalid token detected</string>
-    <string name="auth_http_error_message">Sorry, Unexpected server error occurred</string>
+    <string name="auth_http_error_message">Sorry, Unexpected serverResponse error occurred</string>
     <string name="auth_http_handling_message">Sorry, Unexpected handling error occurred</string>
     <string name="auth_account_creation_failed">Sorry, Android Account creation failed. Please verify that your App Permissions are granted</string>
 

@@ -9,37 +9,24 @@ import com.google.gson.annotations.SerializedName;
 
 public class ErrorResponse {
 
-    @SerializedName("message")
+    @SerializedName("serverResponse")
     @Expose
-    private String message;
-
-    @SerializedName("status")
-    @Expose
-    private int status;
-
+    private ServerResponse serverResponse;
 
     public ErrorResponse() {
     }
 
     public ErrorResponse(String message, int status) {
         super();
-        this.message = message;
-        this.status = status;
+        this.serverResponse = new ServerResponse(message, status);
     }
 
-    public String getMessage() {
-        return message;
+
+    public ServerResponse getServerResponse() {
+        return serverResponse;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
+    public void setServerResponse(ServerResponse serverResponse) {
+        this.serverResponse = serverResponse;
     }
 }

@@ -72,13 +72,13 @@ public class CheckoutSummaryViewHolder {
         mSummaryPendingBidsIconMain.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_format_list_bulleted_type)
-                        .colorRes(R.color.color_accent)
+                        .colorRes(R.color.color_secondary_text)
                         .sizeRes(R.dimen.checkout_summary_description_icon_main_size));
 
         mSummaryAvalibleBalanceIconMain.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_cash)
-                        .colorRes(R.color.color_accent)
+                        .colorRes(R.color.color_secondary_text)
                         .sizeRes(R.dimen.checkout_summary_description_icon_main_size));
 
         getmSummaryAvalibleBalanceIconFloat.setImageDrawable(
@@ -92,7 +92,7 @@ public class CheckoutSummaryViewHolder {
         mSummaryAmtTopUpIconMain.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_wallet)
-                        .colorRes(R.color.color_accent)
+                        .colorRes(R.color.color_secondary_text)
                         .sizeRes(R.dimen.checkout_summary_description_icon_main_size));
 
         mSummaryAmtTopUpIconFloat.setImageDrawable(
@@ -100,7 +100,7 @@ public class CheckoutSummaryViewHolder {
                         .icon(CommunityMaterial.Icon.cmd_plus_circle)
                         .backgroundColorRes(R.color.color_icons_text)
                         .roundedCornersDp(6)
-                        .colorRes(R.color.color_accent)
+                        .colorRes(R.color.color_secondary_text)
                         .sizeRes(R.dimen.checkout_summary_description_icon_float_size));
 
         mSummaryExpandBtn.setOnClickListener(
@@ -124,6 +124,9 @@ public class CheckoutSummaryViewHolder {
                         .colorRes(R.color.color_secondary_text)
                         .sizeRes(R.dimen.checkout_summary_cart_icon_size)
         );
+    }
+
+    public void populateFigures(){
 
     }
 }

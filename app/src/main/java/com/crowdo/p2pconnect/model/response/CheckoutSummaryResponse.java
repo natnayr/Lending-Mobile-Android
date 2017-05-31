@@ -1,7 +1,7 @@
 package com.crowdo.p2pconnect.model.response;
 
 import com.crowdo.p2pconnect.model.core.Investment;
-import com.crowdo.p2pconnect.model.core.Server;
+import com.crowdo.p2pconnect.model.core.Loan;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -13,32 +13,36 @@ import java.util.List;
 
 public class CheckoutSummaryResponse {
 
-    @SerializedName("server")
+    @SerializedName("serverResponse")
     @Expose
-    public Server server;
+    private ServerResponse serverResponse;
 
     @SerializedName("total_pending_bids")
     @Expose
-    public long totalPendingBids;
+    private long totalPendingBids;
 
     @SerializedName("available_cash_balance")
     @Expose
-    public long availableCashBalance;
+    private long availableCashBalance;
 
     @SerializedName("required_amount")
     @Expose
-    public String requiredAmount;
+    private String requiredAmount;
 
     @SerializedName("bids")
     @Expose
-    public List<Investment> bids;
+    private List<Investment> bids;
 
-    public Server getServer() {
-        return server;
+    @SerializedName("loans")
+    @Expose
+    private List<Loan> loans;
+
+    public ServerResponse getServerResponse() {
+        return serverResponse;
     }
 
-    public void setServer(Server server) {
-        this.server = server;
+    public void setServerResponse(ServerResponse serverResponse) {
+        this.serverResponse = serverResponse;
     }
 
     public long getTotalPendingBids() {
@@ -73,4 +77,11 @@ public class CheckoutSummaryResponse {
         this.bids = bids;
     }
 
+    public List<Loan> getLoans() {
+        return loans;
+    }
+
+    public void setLoans(List<Loan> loans) {
+        this.loans = loans;
+    }
 }

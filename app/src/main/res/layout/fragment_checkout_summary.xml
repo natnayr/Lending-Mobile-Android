@@ -279,48 +279,6 @@
             android:layout_marginLeft="@dimen/checkout_summary_cart_header_margin"/>
     </RelativeLayout>
 
-    <!--<ScrollView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_below="@+id/checkout_summary_no_of_loans"-->
-        <!--android:scrollbars="none">-->
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:orientation="vertical"-->
-            <!--android:clipToPadding="false"-->
-            <!--android:elevation="2dp">-->
-            <!--<include layout="@layout/item_checkout_summary"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"/>-->
-            <!--<include layout="@layout/item_checkout_summary"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"/>-->
-            <!--<include layout="@layout/item_checkout_summary"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"/>-->
-            <!--<include layout="@layout/item_checkout_summary"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"/>-->
-            <!--<include layout="@layout/item_checkout_summary"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"/>-->
-            <!--<include layout="@layout/item_checkout_summary"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"/>-->
-            <!--<include layout="@layout/item_checkout_summary"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"/>-->
-            <!--<include layout="@layout/item_checkout_summary"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"/>-->
-            <!--<include layout="@layout/item_checkout_summary"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"/>-->
-        <!--</LinearLayout>-->
-    <!--</ScrollView>-->
-
-    
     <android.support.v7.widget.RecyclerView
         android:id="@+id/checkout_summary_recycler_view"
         android:layout_width="match_parent"

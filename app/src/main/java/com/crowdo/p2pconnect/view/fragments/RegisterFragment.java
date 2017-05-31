@@ -124,14 +124,15 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
         return rootView;
     }
 
+
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onPause() {
         if(disposableRegisterUser != null){
             if(!disposableRegisterUser.isDisposed()) {
                 disposableRegisterUser.dispose();
             }
         }
+        super.onPause();
     }
 
     private void submit() {
@@ -210,7 +211,7 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
         if(response.isSuccessful()) {
             authResponse = response.body();
         }else {
-            //failed register response from server, 4xx error
+            //failed register response from serverResponse, 4xx error
             if(HTTPResponseUtils.check4xxClientError(response.code())) {
                 String serverErrorMsg = "Error: Registration not successful";
 
@@ -220,7 +221,7 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
                                     ErrorResponse.class, new Annotation[0]);
                     try {
                         ErrorResponse errorResponse = errorConverter.convert(response.errorBody());
-                        serverErrorMsg = errorResponse.getMessage();
+                        serverErrorMsg = errorResponse.getServerResponse().getMessage();
                     } catch (IOException e) {
                         e.printStackTrace();
                         Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
@@ -271,12 +272,12 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
 
         //success register
         if(authResponse != null) {
-            if (HTTPResponseUtils.check2xxSuccess(authResponse.getServer().getStatus())) {
+            if (HTTPResponseUtils.check2xxSuccess(authResponse.getServerResponse().getStatus())) {
                 Log.d(LOG_TAG, "APP: onComplete > response.isSuccessful TRUE");
 
                 //show success
                 SnackBarUtil.snackBarForAuthCreate(getView(),
-                        authResponse.getServer().getMessage(),
+                        authResponse.getServerResponse().getMessage(),
                         Snackbar.LENGTH_SHORT,
                         mColorIconText, mColorAccent).show();
 
