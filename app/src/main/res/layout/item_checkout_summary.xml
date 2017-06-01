@@ -1,109 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/color_divider_light">
-
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="@dimen/checkout_summary_cart_card_horizontal_margin"
-        android:layout_marginEnd="@dimen/checkout_summary_cart_card_horizontal_margin"
-        android:layout_marginTop="@dimen/checkout_summary_cart_card_vertical_margin"
-        android:layout_marginBottom="@dimen/checkout_summary_cart_card_vertical_margin"
-        android:elevation="@dimen/checkout_summary_cart_card_elevation"
-        app:cardCornerRadius="@dimen/checkout_summary_cart_card_corner_radius"
-        android:background="@color/color_icons_text">
-        <RelativeLayout
+    android:layout_gravity="center"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true"
+    app:contentPaddingTop="@dimen/checkout_summary_cart_card_vertical_padding"
+    app:contentPaddingBottom="@dimen/checkout_summary_cart_card_vertical_padding"
+    app:contentPaddingLeft="@dimen/checkout_summary_cart_card_horizontal_padding"
+    app:contentPaddingRight="@dimen/checkout_summary_cart_card_horizontal_padding"
+    app:cardCornerRadius="@dimen/checkout_summary_cart_card_corner_radius"
+    app:cardBackgroundColor="@color/color_background_100">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/item_checkout_summary_info_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="3">
             <TextView
                 android:id="@+id/item_checkout_summary_loanid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="CWDO35870002"
-                android:textSize="@dimen/checkout_summary_expand_small_font_size"
-                android:fontFamily="@string/font_family_regular"
-                android:textColor="@color/color_accent"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_margin="@dimen/checkout_summary_cart_item_margin"/>
+                android:textSize="@dimen/checkout_summary_expand_large_font_size"
+                android:fontFamily="@string/font_family_light"
+                android:textColor="@color/color_primary_text"
+                android:gravity="center"
+                android:maxLines="1"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
             <TextView
                 android:id="@+id/item_checkout_summary_tenure"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
                 android:text="6 MONTHS"
-                android:textSize="@dimen/checkout_summary_expand_small_font_size"
-                android:fontFamily="@string/font_family_regular"
-                android:textColor="@color/color_accent"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@id/item_checkout_summary_loanid"
-                android:layout_margin="@dimen/checkout_summary_cart_item_margin"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_below="@id/item_checkout_summary_tenure"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-                <LinearLayout
-                    android:id="@+id/checkout_summary_item_grade"
-                    android:orientation="vertical"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="@dimen/checkout_summary_cart_item_margin"
-                    android:background="@drawable/item_checkout_summary_grade_box"
-                    android:backgroundTint="@color/grade_colorC"
-                    android:gravity="center">
-                    <TextView
-                        android:id="@+id/item_checkout_summary_grade_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="C"
-                        android:textColor="@color/color_icons_text"
-                        android:textSize="@dimen/checkout_summary_expand_large_font_size"/>
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/item_checkout_summary_item_interest_rate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="27.0%"
-                    android:textSize="@dimen/checkout_summary_expand_small_font_size"
-                    android:fontFamily="@string/font_family_regular"
-                    android:textColor="@color/color_accent"/>
-            </LinearLayout>
+                android:textSize="@dimen/checkout_summary_expand_large_font_size"
+                android:fontFamily="@string/font_family_light"
+                android:textColor="@color/color_primary_text"
+                android:gravity="center"/>
 
             <View
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
-                android:background="@color/color_divider_light"
-                android:layout_toRightOf="@+id/item_checkout_summary_loanid"/>
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
 
-            <LinearLayout
-                android:id="@+id/item_checkout_summary_bid_edit_container"
-                android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/item_checkout_summary_grade_value"
                 android:layout_width="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_alignParentRight="true">
+                android:layout_height="wrap_content"
+                android:text="C"
+                android:textColor="@color/grade_colorC"
+                android:textSize="@dimen/checkout_summary_expand_large_font_size"
+                android:fontFamily="@string/font_family_regular"
+                android:gravity="center"/>
 
-                <ImageButton
-                    android:id="@+id/item_checkout_summary_bid_edit_minus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_plus_black_24dp"
-                    android:background="@drawable/item_checkout_summary_edit_btn_layout"/>
-            </LinearLayout>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
 
-        </RelativeLayout>
+            <TextView
+                android:id="@+id/item_checkout_summary_item_interest_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="27.0%"
+                android:textSize="@dimen/checkout_summary_expand_large_font_size"
+                android:fontFamily="@string/font_family_regular"
+                android:textColor="@color/color_primary_text"
+                android:gravity="center"/>
+        </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+        <LinearLayout
+            android:id="@+id/item_checkout_summary_edit_container"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/item_checkout_summary_info_container">
 
+            <ImageButton
+                android:id="@+id/item_checkout_summary_bid_edit_minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_minus_black_24dp"
+                android:background="@drawable/item_checkout_summary_edit_qty_btn_layout"/>
+        </LinearLayout>
+    </RelativeLayout>
 
-</LinearLayout>
+</android.support.v7.widget.CardView>

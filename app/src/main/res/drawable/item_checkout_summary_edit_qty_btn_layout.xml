@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/item_checkout_summary_edit_btn_enabled"
+    <item android:drawable="@drawable/item_checkout_summary_edit_qty_btn_enabled"
         android:state_enabled="true"
         android:state_pressed="false"/>
 
-    <item android:drawable="@drawable/item_checkout_summary_edit_btn_pressed"
+    <item android:drawable="@drawable/item_checkout_summary_edit_qty_btn_pressed"
         android:state_enabled="true"
         android:state_pressed="true"/>
 

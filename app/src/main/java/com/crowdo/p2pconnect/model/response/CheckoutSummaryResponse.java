@@ -19,7 +19,7 @@ public class CheckoutSummaryResponse {
 
     @SerializedName("total_pending_bids")
     @Expose
-    private long totalPendingBids;
+    private int totalPendingBids;
 
     @SerializedName("available_cash_balance")
     @Expose
@@ -45,11 +45,11 @@ public class CheckoutSummaryResponse {
         this.serverResponse = serverResponse;
     }
 
-    public long getTotalPendingBids() {
+    public int getTotalPendingBids() {
         return totalPendingBids;
     }
 
-    public void setTotalPendingBids(long totalPendingBids) {
+    public void setTotalPendingBids(int totalPendingBids) {
         this.totalPendingBids = totalPendingBids;
     }
 

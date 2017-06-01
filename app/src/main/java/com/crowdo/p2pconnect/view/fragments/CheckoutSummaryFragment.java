@@ -115,7 +115,7 @@ public class CheckoutSummaryFragment extends Fragment{
                             CheckoutSummaryResponse body = response.body();
                             List<Investment> investments = body.getBids();
                             List<Loan> loans = body.getLoans();
-                            checkoutSummaryAdapter.setBiddingInvestmentsAndLoans(investments, loans);
+                            checkoutSummaryAdapter.setBiddingInvestmentsAndLoans(investments, loans, body.getTotalPendingBids());
                         }else{
                             Log.d(LOG_TAG, "APP getCheckoutSummary onNext() status > " + response.code());
                             if(HTTPResponseUtils.check4xxClientError(response.code())){

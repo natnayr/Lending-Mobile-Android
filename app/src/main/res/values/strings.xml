@@ -130,6 +130,9 @@
     <string name="checkout_summary_bidding_overall_available_balance_label">Available Balance</string>
     <string name="checkout_summary_bidding_overall_available_balance_label_insufficient">Available Balance\n(Insufficient)</string>
     <string name="checkout_summary_bidding_overall_amt_top_up_label">Required Top Up</string>
+    <string name="checkout_summary_item_tenure_label">&#160;MONTHS</string>
+    <string name="checkout_summary_item_interest_rate_label">%</string>
+
 
     <!-- Globals -->
     <string name="pre_exit_question">Are you sure you want to exit?</string>

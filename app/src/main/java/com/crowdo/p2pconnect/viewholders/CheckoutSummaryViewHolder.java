@@ -34,8 +34,6 @@ public class CheckoutSummaryViewHolder {
     @BindView(R.id.checkout_summary_bidding_overall_amt_top_up_icon_main) ImageView mSummaryAmtTopUpIconMain;
     @BindView(R.id.checkout_summary_bidding_overall_amt_top_up_icon_float) ImageView mSummaryAmtTopUpIconFloat;
 
-    @BindView(R.id.checkout_summary_no_of_loans_icon) ImageView mSummaryCartNoOfLoansIcon;
-
 
 
     private static final String LOG_TAG = CheckoutSummaryViewHolder.class.getSimpleName();
@@ -120,12 +118,6 @@ public class CheckoutSummaryViewHolder {
                 }
         );
 
-        mSummaryCartNoOfLoansIcon.setImageDrawable(
-                new IconicsDrawable(mContext)
-                        .icon(CommunityMaterial.Icon.cmd_cash_multiple)
-                        .colorRes(R.color.color_secondary_text)
-                        .sizeRes(R.dimen.checkout_summary_cart_icon_size)
-        );
     }
 
     public void populateFigures(){
