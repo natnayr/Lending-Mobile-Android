@@ -13,7 +13,7 @@ import java.util.List;
 
 public class CheckoutSummaryResponse {
 
-    @SerializedName("serverResponse")
+    @SerializedName("server")
     @Expose
     private ServerResponse serverResponse;
 

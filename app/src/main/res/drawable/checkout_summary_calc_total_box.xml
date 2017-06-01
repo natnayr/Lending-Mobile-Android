@@ -5,11 +5,11 @@
             <solid android:color="@color/color_transparent"/>
         </shape>
     </item>
-    <item android:left="-2dp" android:right="-2dp">
+    <item android:left="-3dp" android:right="-3dp">
         <shape>
             <solid android:color="@color/color_transparent"/>
-            <stroke android:width="0.5dp"
-                android:color="@color/color_secondary_text"/>
+            <stroke android:width="0.25dp"
+                android:color="@color/color_divider"/>
         </shape>
     </item>
 </layer-list>

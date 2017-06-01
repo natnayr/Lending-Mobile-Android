@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class AuthResponse {
 
-    @SerializedName("serverResponse")
+    @SerializedName("server")
     @Expose
     public ServerResponse serverResponse;
 

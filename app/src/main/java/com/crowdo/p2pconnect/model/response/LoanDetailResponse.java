@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class LoanDetailResponse {
 
-    @SerializedName("serverResponse")
+    @SerializedName("server")
     @Expose
     private ServerResponse serverResponse;
 

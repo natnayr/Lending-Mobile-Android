@@ -28,13 +28,15 @@ public class CheckoutSummaryViewHolder {
     @BindView(R.id.checkout_summary_close_icon) ImageView mSummaryCloseIcon;
     @BindView(R.id.checkout_summary_expandable) ExpandableLayout mSummaryExpandableLayout;
 
-    @BindView(R.id.checkout_summary_description_pending_bids_icon_main) ImageView mSummaryPendingBidsIconMain;
-    @BindView(R.id.checkout_summary_description_avalible_balance_icon_main) ImageView mSummaryAvalibleBalanceIconMain;
-    @BindView(R.id.checkout_summary_description_avalible_balance_icon_float) ImageView getmSummaryAvalibleBalanceIconFloat;
-    @BindView(R.id.checkout_summary_description_amt_top_up_icon_main) ImageView mSummaryAmtTopUpIconMain;
-    @BindView(R.id.checkout_summary_description_amt_top_up_icon_float) ImageView mSummaryAmtTopUpIconFloat;
+    @BindView(R.id.checkout_summary_bidding_overall_pending_bids_icon_main) ImageView mSummaryPendingBidsIconMain;
+    @BindView(R.id.checkout_summary_bidding_overall_available_balance_icon_main) ImageView mSummaryAvalibleBalanceIconMain;
+    @BindView(R.id.checkout_summary_bidding_overall_avalible_balance_icon_float) ImageView getmSummaryAvalibleBalanceIconFloat;
+    @BindView(R.id.checkout_summary_bidding_overall_amt_top_up_icon_main) ImageView mSummaryAmtTopUpIconMain;
+    @BindView(R.id.checkout_summary_bidding_overall_amt_top_up_icon_float) ImageView mSummaryAmtTopUpIconFloat;
 
-    @BindView(R.id.checkout_summary_no_of_loans_icon) ImageView mSummaryCartTotalsIcon;
+    @BindView(R.id.checkout_summary_no_of_loans_icon) ImageView mSummaryCartNoOfLoansIcon;
+
+
 
     private static final String LOG_TAG = CheckoutSummaryViewHolder.class.getSimpleName();
     private Context mContext;
@@ -55,31 +57,31 @@ public class CheckoutSummaryViewHolder {
                 .colorRes(R.color.color_secondary_text)
                 .sizeRes(R.dimen.checkout_summary_expand_icon_size);
 
-        mSummaryExpandIcon.setImageDrawable(chevronDownIcon);
+        mSummaryExpandIcon.setImageDrawable(chevronUpIcon);
 
         mSummarySyncIcon.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_refresh)
-                        .colorRes(R.color.color_secondary_text)
+                        .colorRes(R.color.color_primary_text)
                         .sizeRes(R.dimen.checkout_summary_action_icon_size));
 
         mSummaryCloseIcon.setImageDrawable(
                 new IconicsDrawable(mContext)
-                        .icon(CommunityMaterial.Icon.cmd_window_close)
-                        .colorRes(R.color.color_secondary_text)
+                        .icon(CommunityMaterial.Icon.cmd_close)
+                        .colorRes(R.color.color_primary_text)
                         .sizeRes(R.dimen.checkout_summary_action_close_icon_size));
 
         mSummaryPendingBidsIconMain.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_format_list_bulleted_type)
                         .colorRes(R.color.color_secondary_text)
-                        .sizeRes(R.dimen.checkout_summary_description_icon_main_size));
+                        .sizeRes(R.dimen.checkout_summary_bidding_overall_icon_main_size));
 
         mSummaryAvalibleBalanceIconMain.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_cash)
                         .colorRes(R.color.color_secondary_text)
-                        .sizeRes(R.dimen.checkout_summary_description_icon_main_size));
+                        .sizeRes(R.dimen.checkout_summary_bidding_overall_icon_main_size));
 
         getmSummaryAvalibleBalanceIconFloat.setImageDrawable(
                 new IconicsDrawable(mContext)
@@ -87,13 +89,13 @@ public class CheckoutSummaryViewHolder {
                         .backgroundColorRes(R.color.color_icons_text)
                         .roundedCornersDp(6)
                         .colorRes(R.color.color_primary)
-                        .sizeRes(R.dimen.checkout_summary_description_icon_float_size));
+                        .sizeRes(R.dimen.checkout_summary_bidding_overall_icon_float_size));
 
         mSummaryAmtTopUpIconMain.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_wallet)
                         .colorRes(R.color.color_secondary_text)
-                        .sizeRes(R.dimen.checkout_summary_description_icon_main_size));
+                        .sizeRes(R.dimen.checkout_summary_bidding_overall_icon_main_size));
 
         mSummaryAmtTopUpIconFloat.setImageDrawable(
                 new IconicsDrawable(mContext)
@@ -101,7 +103,7 @@ public class CheckoutSummaryViewHolder {
                         .backgroundColorRes(R.color.color_icons_text)
                         .roundedCornersDp(6)
                         .colorRes(R.color.color_secondary_text)
-                        .sizeRes(R.dimen.checkout_summary_description_icon_float_size));
+                        .sizeRes(R.dimen.checkout_summary_bidding_overall_icon_float_size));
 
         mSummaryExpandBtn.setOnClickListener(
                 new View.OnClickListener() {
@@ -118,7 +120,7 @@ public class CheckoutSummaryViewHolder {
                 }
         );
 
-        mSummaryCartTotalsIcon.setImageDrawable(
+        mSummaryCartNoOfLoansIcon.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_cash_multiple)
                         .colorRes(R.color.color_secondary_text)

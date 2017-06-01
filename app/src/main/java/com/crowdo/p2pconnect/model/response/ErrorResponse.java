@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class ErrorResponse {
 
-    @SerializedName("serverResponse")
+    @SerializedName("server")
     @Expose
     private ServerResponse serverResponse;
 
@@ -17,7 +17,6 @@ public class ErrorResponse {
     }
 
     public ErrorResponse(String message, int status) {
-        super();
         this.serverResponse = new ServerResponse(message, status);
     }
 

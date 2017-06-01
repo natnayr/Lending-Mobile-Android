@@ -12,7 +12,7 @@ import java.util.List;
 
 public class LoanListResponse {
 
-    @SerializedName("serverResponse")
+    @SerializedName("server")
     @Expose
     public ServerResponse serverResponse;
 
