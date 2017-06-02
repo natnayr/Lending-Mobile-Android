@@ -21,14 +21,10 @@ import com.mikepenz.iconics.IconicsDrawable;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-    @BindString(R.string.checkout_summary_item_tenure_label) String mCheckoutSummaryItemTenureLabel;
-    @BindString(R.string.checkout_summary_item_interest_rate_label) String mCheckoutSummaryItemInterestRateLabel;
-
 
     private static final String LOG_TAG = CheckoutSummaryAdapter.class.getSimpleName();
     private List<Investment> biddingInvestmentList;
@@ -56,7 +52,10 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_checkout_summary, parent, false);
 
-            return new ItemCheckoutSummaryViewHolder(view);
+            ItemCheckoutSummaryViewHolder viewHolder = new ItemCheckoutSummaryViewHolder(view, mContext);
+            viewHolder.initView();
+
+            return viewHolder;
         }
 
         return null;
@@ -79,10 +78,7 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             Loan bidLoanItem = biddingLoanList.get(position-1);
 
             Log.d(LOG_TAG, "APP bidItem.getLoanId(): " + bidInvestmentItem.getLoanId());
-            itemHolder.mItemCheckoutSummaryLoanId.setText(bidLoanItem.getLoanId());
-            itemHolder.mItemCheckoutSummaryTenure.setText(Integer.toString(bidLoanItem.getTenure()) + mCheckoutSummaryItemTenureLabel);
-            itemHolder.mItemCheckoutSummaryGrade.setText(bidLoanItem.getGrade());
-            itemHolder.mItemCheckoutSummaryInterestRate.setText(Double.toString(bidLoanItem.getInterestRate()) + mCheckoutSummaryItemInterestRateLabel);
+            itemHolder.populateItemDetails(bidInvestmentItem, bidLoanItem);
         }
     }
 

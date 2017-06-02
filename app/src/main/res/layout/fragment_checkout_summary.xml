@@ -118,11 +118,12 @@
                     android:id="@+id/checkout_summary_bidding_overall_pending_bids_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:minWidth="80dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:fontFamily="@string/font_family_regular"
-                    android:text="IDR 45,000,000"
-                    android:textColor="@color/color_orange_500"
+                    android:gravity="center"
+                    android:textColor="@color/color_primary_text"
                     android:textSize="@dimen/checkout_summary_expand_large_font_size" />
             </RelativeLayout>
 
@@ -167,11 +168,12 @@
                     android:id="@+id/checkout_summary_bidding_overall_available_balance_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:minWidth="80dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:fontFamily="@string/font_family_regular"
-                    android:text="IDR 3,000,000"
-                    android:textColor="@color/color_primary"
+                    android:gravity="center"
+                    android:textColor="@color/color_green_500"
                     android:textSize="@dimen/checkout_summary_expand_large_font_size" />
             </RelativeLayout>
 
@@ -215,14 +217,15 @@
                     android:id="@+id/checkout_summary_bidding_overall_amt_top_up_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:minWidth="80dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:fontFamily="@string/font_family_regular"
-                    android:text="IDR 42,000,000"
-                    android:textColor="@color/color_accent"
+                    android:gravity="center"
+                    android:text="-"
                     android:textSize="@dimen/checkout_summary_expand_large_font_size"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
+                    android:paddingTop="@dimen/checkout_summary_bidding_overall_amt_top_up_vertical_padding"
+                    android:paddingBottom="@dimen/checkout_summary_bidding_overall_amt_top_up_vertical_padding"
                     android:background="@drawable/checkout_summary_calc_total_box"/>
 
             </RelativeLayout>

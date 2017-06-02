@@ -274,8 +274,6 @@
             android:layout_marginEnd="-2dp"
             android:padding="4dp"
             android:theme="@style/LoanDetailEditTextStyle"
-            android:src="@drawable/ic_minus_black_24dp"
-            android:tint="@color/color_divider"
             android:contentDescription="@string/loan_detail_enter_amount_minus_content_description" />
         <LinearLayout
             android:layout_width="0dp"
@@ -326,8 +324,6 @@
             android:layout_marginStart="-2dp"
             android:padding="4dp"
             android:theme="@style/LoanDetailEditTextStyle"
-            android:src="@drawable/ic_plus_black_24dp"
-            android:tint="@color/color_divider"
             android:contentDescription="@string/loan_detail_enter_amount_plus_content_description"/>
     </LinearLayout>
 

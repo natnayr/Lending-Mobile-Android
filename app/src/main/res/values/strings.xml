@@ -130,8 +130,12 @@
     <string name="checkout_summary_bidding_overall_available_balance_label">Available Balance</string>
     <string name="checkout_summary_bidding_overall_available_balance_label_insufficient">Available Balance\n(Insufficient)</string>
     <string name="checkout_summary_bidding_overall_amt_top_up_label">Required Top Up</string>
-    <string name="checkout_summary_item_tenure_label">&#160;MONTHS</string>
-    <string name="checkout_summary_item_interest_rate_label">%</string>
+    <string name="checkout_summary_bidding_overall_idr_currency_symbol_label">IDR&#160;</string>
+    <string name="item_checkout_summary_tenure_label">&#160;MONTHS</string>
+    <string name="item_checkout_summary_interest_rate_label">%</string>
+    <string name="item_checkout_summary_enter_amount_currency_symbol_idr" translatable="false">Rp</string>
+    <string name="item_checkout_summary_enter_amount_unit_zeros_idr" translatable="false">,000,000</string>
+
 
 
     <!-- Globals -->

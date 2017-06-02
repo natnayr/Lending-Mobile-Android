@@ -104,7 +104,7 @@ public class LoanDetailsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_loan_details, parent, false);
         ButterKnife.bind(this, rootView);
 
-        viewHolder = new LoanDetailsViewHolder(rootView);
+        viewHolder = new LoanDetailsViewHolder(rootView, getActivity());
         viewHolder.initView();
 
         //set file download button here..

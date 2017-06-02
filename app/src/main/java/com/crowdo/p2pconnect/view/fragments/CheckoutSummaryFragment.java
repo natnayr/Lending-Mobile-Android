@@ -25,7 +25,6 @@ import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.adapters.CheckoutSummaryAdapter;
 import com.crowdo.p2pconnect.viewholders.CheckoutSummaryViewHolder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -76,7 +75,6 @@ public class CheckoutSummaryFragment extends Fragment{
         mCheckoutSummaryRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mCheckoutSummaryRecyclerView.setAdapter(this.checkoutSummaryAdapter);
 
-
         return rootView;
     }
 
@@ -115,7 +113,8 @@ public class CheckoutSummaryFragment extends Fragment{
                             CheckoutSummaryResponse body = response.body();
                             List<Investment> investments = body.getBids();
                             List<Loan> loans = body.getLoans();
-                            checkoutSummaryAdapter.setBiddingInvestmentsAndLoans(investments, loans, body.getTotalPendingBids());
+                            checkoutSummaryAdapter.setBiddingInvestmentsAndLoans(investments, loans, body.getNumOfPendingBids());
+                            viewHolder.populateSummaryDetails(body.getTotalPendingBids(), body.getAvailableCashBalance());
                         }else{
                             Log.d(LOG_TAG, "APP getCheckoutSummary onNext() status > " + response.code());
                             if(HTTPResponseUtils.check4xxClientError(response.code())){
@@ -134,7 +133,7 @@ public class CheckoutSummaryFragment extends Fragment{
 
                     @Override
                     public void onComplete() {
-
+                        Log.d(LOG_TAG, "APP getCheckoutSummary onComplete()");
                     }
                 });
 

@@ -76,6 +76,7 @@
     <dimen name="loan_detail_enter_amount_radius_round_width">7dp</dimen>
     <dimen name="loan_detail_enter_amount_radius_corner_width">0dp</dimen>
     <dimen name="loan_detail_enter_amount_padding">0dp</dimen>
+    <dimen name="loan_detail_enter_amount_icon_size">16dp</dimen>
     <dimen name="loan_detail_schedule_margin_left">7dp</dimen>
     <dimen name="loan_detail_schedule_radius_round_width">5dp</dimen>
     <dimen name="loan_detail_schedule_radius_corner_width">0dp</dimen>
@@ -91,20 +92,24 @@
     <dimen name="checkout_summary_action_close_icon_size">16dp</dimen>
     <dimen name="checkout_summary_action_padding">15dp</dimen>
     <dimen name="checkout_summary_bidding_overall_horizontal_margin">10dp</dimen>
-    <dimen name="checkout_summary_bidding_overall_icon_size">26dp</dimen>
+    <dimen name="checkout_summary_bidding_overall_icon_size">28dp</dimen>
     <dimen name="checkout_summary_bidding_overall_icon_main_size">22dp</dimen>
     <dimen name="checkout_summary_bidding_overall_icon_float_size">12dp</dimen>
     <dimen name="checkout_summary_bidding_overall_icon_padding">10dp</dimen>
+    <dimen name="checkout_summary_bidding_overall_amt_top_up_vertical_padding">8dp</dimen>
     <dimen name="checkout_summary_cart_vertical_margin">8dp</dimen>
     <dimen name="checkout_summary_cart_horizontal_margin">10dp</dimen>
     <dimen name="checkout_summary_cart_header_margin">10dp</dimen>
     <dimen name="checkout_summary_cart_card_horizontal_padding">4dp</dimen>
     <dimen name="checkout_summary_cart_card_vertical_padding">3dp</dimen>
     <dimen name="checkout_summary_cart_card_elevation">1dp</dimen>
-    <dimen name="checkout_summary_cart_card_corner_radius">4dp</dimen>
+    <dimen name="item_checkout_summary_cart_card_corner_radius">4dp</dimen>
     <dimen name="checkout_summary_cart_icon_size">18dp</dimen>
-    <dimen name="checkout_summary_cart_item_margin">8dp</dimen>
-
+    <dimen name="checkout_summary_cart_edit_container_vertical_margin">8dp</dimen>
+    <dimen name="item_checkout_summary_cart_info_horizontal_margin">8dp</dimen>
+    <dimen name="item_checkout_summary_cart_info_vertical_margin">8dp</dimen>
+    <dimen name="item_checkout_summary_cart_edit_stroke_width">0.5dp</dimen>
+    <dimen name="item_checkout_summary_cart_edit_icon_size">14dp</dimen>
 
     <dimen name="learning_center_categories_margin">5dp</dimen>
     <dimen name="learning_center_categories_title_size">18sp</dimen>

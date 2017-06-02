@@ -17,17 +17,17 @@ public class CheckoutSummaryResponse {
     @Expose
     private ServerResponse serverResponse;
 
+    @SerializedName("number_of_pending_bids")
+    @Expose
+    private int numOfPendingBids;
+
     @SerializedName("total_pending_bids")
     @Expose
-    private int totalPendingBids;
+    private long totalPendingBids;
 
     @SerializedName("available_cash_balance")
     @Expose
     private long availableCashBalance;
-
-    @SerializedName("required_amount")
-    @Expose
-    private String requiredAmount;
 
     @SerializedName("bids")
     @Expose
@@ -45,11 +45,19 @@ public class CheckoutSummaryResponse {
         this.serverResponse = serverResponse;
     }
 
-    public int getTotalPendingBids() {
+    public int getNumOfPendingBids() {
+        return numOfPendingBids;
+    }
+
+    public void setNumOfPendingBids(int numOfPendingBids) {
+        this.numOfPendingBids = numOfPendingBids;
+    }
+
+    public long getTotalPendingBids() {
         return totalPendingBids;
     }
 
-    public void setTotalPendingBids(int totalPendingBids) {
+    public void setTotalPendingBids(long totalPendingBids) {
         this.totalPendingBids = totalPendingBids;
     }
 
@@ -59,14 +67,6 @@ public class CheckoutSummaryResponse {
 
     public void setAvailableCashBalance(long availableCashBalance) {
         this.availableCashBalance = availableCashBalance;
-    }
-
-    public String getRequiredAmount() {
-        return requiredAmount;
-    }
-
-    public void setRequiredAmount(String requiredAmount) {
-        this.requiredAmount = requiredAmount;
     }
 
     public List<Investment> getBids() {

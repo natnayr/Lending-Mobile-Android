@@ -4,11 +4,14 @@
         android:color="@color/color_transparent" />
 
     <stroke
-        android:width="0.5dp"
-        android:color="@color/color_divider" />
+        android:width="@dimen/item_checkout_summary_cart_edit_stroke_width"
+        android:color="@color/color_icons_text" />
 
     <corners
-        android:radius="12dp"/>
+        android:topLeftRadius="0dp"
+        android:topRightRadius="0dp"
+        android:bottomRightRadius="@dimen/item_checkout_summary_cart_card_corner_radius"
+        android:bottomLeftRadius="0dp"/>
 
     <padding
         android:top="2dp"

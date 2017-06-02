@@ -23,7 +23,7 @@ public class Investment {
 
     @SerializedName("invest_amount")
     @Expose
-    private String investAmount;
+    private double investAmount;
 
     @SerializedName("created_at")
     @Expose
@@ -105,11 +105,11 @@ public class Investment {
         this.loanId = loanId;
     }
 
-    public String getInvestAmount() {
+    public double getInvestAmount() {
         return investAmount;
     }
 
-    public void setInvestAmount(String investAmount) {
+    public void setInvestAmount(double investAmount) {
         this.investAmount = investAmount;
     }
 

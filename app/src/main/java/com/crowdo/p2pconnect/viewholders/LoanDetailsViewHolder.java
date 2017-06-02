@@ -48,6 +48,8 @@ public class LoanDetailsViewHolder {
     private static final int AMOUNT_UNIT = 1;
     private static final int ENTER_AMOUNT_MAX_LENGTH = 4;
 
+    private Context mContext;
+
     // views
     @BindView(R.id.loan_details_content) RelativeLayout mLoanDetailRelativeLayout;
     @BindView(R.id.loan_detail_iden_no) TextView mLoanIdenTextView;
@@ -107,55 +109,69 @@ public class LoanDetailsViewHolder {
     @BindDrawable(R.drawable.loan_detail_minus_bid_btn_enabled) Drawable mMinusEnabledDrawable;
     @BindDrawable(R.drawable.loan_detail_minus_bid_btn_pressed) Drawable mMinusPressedDrawable;
 
-    public LoanDetailsViewHolder(View view) {
+    public LoanDetailsViewHolder(View view, Context context) {
+        this.mContext = context;
         ButterKnife.bind(this, view);
     }
 
     public void initView() {
-        mAmountPlusBtn.setBackground(mPlusEnabledDrawable);
-        mAmountMinusBtn.setBackground(mMinusEnabledDrawable);
+        final IconicsDrawable minusEnabled = new IconicsDrawable(mContext)
+                .icon(CommunityMaterial.Icon.cmd_minus)
+                .colorRes(R.color.color_divider)
+                .sizeRes(R.dimen.loan_detail_enter_amount_icon_size);
+        final IconicsDrawable minusPressed = new IconicsDrawable(mContext)
+                .icon(CommunityMaterial.Icon.cmd_minus)
+                .colorRes(R.color.color_icons_text)
+                .sizeRes(R.dimen.loan_detail_enter_amount_icon_size);
 
-        mAmountPlusBtn.setOnTouchListener(new View.OnTouchListener() {
+        final IconicsDrawable plusEnabled = new IconicsDrawable(mContext)
+                .icon(CommunityMaterial.Icon.cmd_plus)
+                .colorRes(R.color.color_divider)
+                .sizeRes(R.dimen.loan_detail_enter_amount_icon_size);
+        final IconicsDrawable plusPressed = new IconicsDrawable(mContext)
+                .icon(CommunityMaterial.Icon.cmd_plus)
+                .colorRes(R.color.color_icons_text)
+                .sizeRes(R.dimen.loan_detail_enter_amount_icon_size);
+
+        mAmountMinusBtn.setBackground(mMinusEnabledDrawable);
+        mAmountMinusBtn.setImageDrawable(minusEnabled);
+
+        mAmountPlusBtn.setBackground(mPlusEnabledDrawable);
+        mAmountPlusBtn.setImageDrawable(plusEnabled);
+
+        mAmountMinusBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
+            public boolean onTouch(View v, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        mAmountPlusBtn.setBackground(mPlusPressedDrawable);
-                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            mAmountPlusBtn.getDrawable().setTint(mIconTextColor);
-                        }
+                        mAmountMinusBtn.setBackground(mMinusPressedDrawable);
+                        mAmountMinusBtn.setImageDrawable(minusPressed);
                         //round & minus value
-                        addToEnterAmount(AMOUNT_UNIT);
-
+                        addToEnterAmount(-AMOUNT_UNIT);
                         return true;
                     case MotionEvent.ACTION_UP:
-                        mAmountPlusBtn.setBackground(mPlusEnabledDrawable);
-                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            mAmountPlusBtn.getDrawable().setTint(mDividerColor);
-                        }
+                        mAmountMinusBtn.setBackground(mMinusEnabledDrawable);
+                        mAmountMinusBtn.setImageDrawable(minusEnabled);
                         return true;
                 }
                 return false;
             }
         });
 
-        mAmountMinusBtn.setOnTouchListener(new View.OnTouchListener() {
+        mAmountPlusBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
+            public boolean onTouch(View v, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        mAmountMinusBtn.setBackground(mMinusPressedDrawable);
-                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            mAmountMinusBtn.getDrawable().setTint(mIconTextColor);
-                        }
+                        mAmountPlusBtn.setBackground(mPlusPressedDrawable);
+                        mAmountPlusBtn.setImageDrawable(plusPressed);
                         //round & minus value
-                        addToEnterAmount(-AMOUNT_UNIT);
+                        addToEnterAmount(AMOUNT_UNIT);
+
                         return true;
                     case MotionEvent.ACTION_UP:
-                        mAmountMinusBtn.setBackground(mMinusEnabledDrawable);
-                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            mAmountMinusBtn.getDrawable().setTint(mDividerColor);
-                        }
+                        mAmountPlusBtn.setBackground(mPlusEnabledDrawable);
+                        mAmountPlusBtn.setImageDrawable(plusEnabled);
                         return true;
                 }
                 return false;
@@ -212,10 +228,12 @@ public class LoanDetailsViewHolder {
         mPercentageReturn.setText(Double.toString(loan.getInterestRate()));
 
         if(!"".equals(loan.getGrade().trim())) {
-            mGrade.setText(loan.getGrade().trim());
+
         }
         
         if(!"".equals(loan.getGrade().trim())) {
+            mGrade.setText(loan.getGrade().trim());
+
             switch (loan.getGrade().trim()) {
                 case "A+":
                     mGrade.setTextColor(mColorAPlus);
@@ -366,7 +384,6 @@ public class LoanDetailsViewHolder {
             public void afterTextChanged(Editable s) {
             }
         });
-
     }
 
     private void addToEnterAmount(int byAmount) {
