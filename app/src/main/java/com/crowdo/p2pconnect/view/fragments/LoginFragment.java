@@ -145,9 +145,8 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
 
         //local incorrect email check
         if (!RegexValidationUtil.isValidEmailFormat(inputEmail)) {
-            final Snackbar snack = SnackBarUtil.snackBarForAuthCreate(getView(),
-                    mEmailIncorrectFormatMessage, Snackbar.LENGTH_SHORT,
-                    mColorIconText, mColorPrimaryDark);
+            final Snackbar snack = SnackBarUtil.snackBarForErrorCreate(getView(),
+                    mEmailIncorrectFormatMessage, Snackbar.LENGTH_SHORT);
             snack.show();
             viewHolder.mLoginEmailEditText.setError(mEmailInvalidPrompt);
             return;
@@ -197,10 +196,8 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
 
                 viewHolder.mLoginPasswdEditText.setText(""); //clear password
                 //Error Snackbar
-                SnackBarUtil.snackBarForAuthCreate(getView(),
-                        serverErrorMsg,
-                        Snackbar.LENGTH_SHORT,
-                        mColorIconText, mColorPrimaryDark).show();
+                SnackBarUtil.snackBarForErrorCreate(getView(),
+                        serverErrorMsg, Snackbar.LENGTH_SHORT).show();
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException ex) {
@@ -213,10 +210,9 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
             viewHolder.mLoginPasswdEditText.setText("");
             String errorBody = response.code() + " Error: " + response.message();
 
-            SnackBarUtil.snackBarForAuthCreate(getView(),
+            SnackBarUtil.snackBarForErrorCreate(getView(),
                     errorBody,
-                    Snackbar.LENGTH_SHORT,
-                    mColorIconText, mColorPrimaryDark).show();
+                    Snackbar.LENGTH_SHORT).show();
             Log.e(LOG_TAG, "ERROR: " + errorBody);
         }
     }
@@ -227,10 +223,9 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
         viewHolder.mLoginPasswdEditText.setText("");
         e.printStackTrace();
         Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-        SnackBarUtil.snackBarForAuthCreate(getView(),
+        SnackBarUtil.snackBarForErrorCreate(getView(),
                 mHttpErrorHandlingMessage,
-                Snackbar.LENGTH_SHORT,
-                mColorIconText, mColorPrimaryDark).show();
+                Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -244,10 +239,9 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
 
                 if (HTTPResponseUtils.check2xxSuccess(authResponse.getServerResponse().getStatus())) {
                     //show http success
-                    SnackBarUtil.snackBarForAuthCreate(getView(),
+                    SnackBarUtil.snackBarForErrorCreate(getView(),
                             authResponse.getServerResponse().getMessage(),
-                            Snackbar.LENGTH_SHORT,
-                            mColorIconText, mColorAccent).show();
+                            Snackbar.LENGTH_SHORT).show();
 
                     final String email = authResponse.getMember().getEmail();
                     final String authToken = authResponse.getAuthToken();

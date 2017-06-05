@@ -1,9 +1,12 @@
 package com.crowdo.p2pconnect.helpers;
 
+import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
+
+import com.crowdo.p2pconnect.R;
 
 /**
  * Created by cwdsg05 on 31/1/17.
@@ -24,16 +27,48 @@ public class SnackBarUtil {
         return snackbar;
     }
 
-    public static Snackbar snackBarForAuthCreate(View view, String msg, int colorText,
-                                                 int snackBarDuration, int colorBackground){
+    public static Snackbar snackBarForInfoCreate(View view, String msg, int snackBarDuration){
 
-        Snackbar snackbar = snackBarCreate(view, msg, colorText, snackBarDuration);
+        Snackbar snackbar = snackBarCreate(view, msg, getIconTextColor(view), snackBarDuration);
+
         View sbView = snackbar.getView();
-        sbView.setBackgroundColor(colorBackground);
+        sbView.setBackgroundResource(R.color.color_accent);
         TextView tv = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
         tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         tv.setGravity(Gravity.CENTER);
 
         return snackbar;
+    }
+
+    public static Snackbar snackBarForWarrningCreate(View view, String msg, int snackBarDuration){
+
+        Snackbar snackbar = snackBarCreate(view, msg, snackBarDuration);
+        View sbView = snackbar.getView();
+        sbView.setBackgroundResource(R.color.color_amber_500);
+        TextView tv = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        tv.setGravity(Gravity.CENTER);
+
+        return snackbar;
+    }
+
+    public static Snackbar snackBarForErrorCreate(View view, String msg, int snackBarDuration){
+
+        Snackbar snackbar = snackBarCreate(view, msg, getIconTextColor(view), snackBarDuration);
+        View sbView = snackbar.getView();
+        sbView.setBackgroundResource(R.color.color_primary_700);
+        TextView tv = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        tv.setGravity(Gravity.CENTER);
+
+        return snackbar;
+    }
+
+    private static int getIconTextColor(View view){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return view.getResources().getColor(R.color.color_icons_text, null);
+        }else{
+            return view.getResources().getColor(R.color.color_icons_text);
+        }
     }
 }

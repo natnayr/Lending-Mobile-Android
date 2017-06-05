@@ -4,13 +4,17 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
@@ -19,6 +23,11 @@ import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.fragments.CheckoutSummaryFragment;
 import com.crowdo.p2pconnect.view.fragments.LoginFragment;
 import com.crowdo.p2pconnect.view.fragments.RegisterFragment;
+
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 
 
 /**
@@ -152,6 +161,41 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
     public void onBackPressed() {
         setResult(RESULT_CANCELED);
         super.onBackPressed();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        isOnline();
+    }
+
+    private void isOnline() {
+        //checking device
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        boolean checkNetwork = netInfo != null && netInfo.isConnectedOrConnecting();
+
+        //try connecting to server (google dns)
+        boolean checkConnectToServer = true;
+        try {
+            int timeoutMs = 1500;
+            Socket sock = new Socket();
+            SocketAddress sockaddr = new InetSocketAddress("8.8.8.8", 53);
+
+            sock.connect(sockaddr, timeoutMs);
+            sock.close();
+        } catch (IOException e) {
+            checkConnectToServer = false;
+        }
+
+        if(checkNetwork && checkConnectToServer){
+            String badConnectionMsg = getString(R.string.network_connection_poor);
+            SnackBarUtil.snackBarForErrorCreate(this.findViewById(android.R.id.content),
+                    badConnectionMsg, Snackbar.LENGTH_LONG).show();
+        }
     }
 
 }

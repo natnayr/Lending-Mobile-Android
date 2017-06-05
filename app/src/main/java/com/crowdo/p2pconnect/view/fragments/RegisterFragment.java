@@ -146,27 +146,24 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
 
         //local incorrect email check
         if (!RegexValidationUtil.isValidEmailFormat(inputEmail)) {
-            SnackBarUtil.snackBarForAuthCreate(getView(),
-                    mEmailIncorrectFormatMessage, Snackbar.LENGTH_SHORT,
-                    mColorIconText, mColorPrimaryDark).show();
+            SnackBarUtil.snackBarForErrorCreate(getView(),
+                    mEmailIncorrectFormatMessage, Snackbar.LENGTH_SHORT).show();
             viewHolder.mRegisterEmailEditText.setError(mEmailInvalidPrompt);
             return;
         }
 
         //local incorrect password check
         if (!RegexValidationUtil.isValidPasswordLength(inputPassword)) {
-            SnackBarUtil.snackBarForAuthCreate(getView(),
-                    mPasswordIncorrectFormatMessage, Snackbar.LENGTH_SHORT,
-                    mColorIconText, mColorPrimaryDark).show();
+            SnackBarUtil.snackBarForErrorCreate(getView(),
+                    mPasswordIncorrectFormatMessage, Snackbar.LENGTH_SHORT).show();
             viewHolder.mRegisterPasswordEmailText.setError(mPasswordTooShortPrompt);
             return;
         }
 
         //check if they match each other
         if (!inputPassword.equals(inputConfirmPassword)){
-            SnackBarUtil.snackBarForAuthCreate(getView(),
-                    mPasswordIncorrectMatchMessage, Snackbar.LENGTH_SHORT,
-                    mColorIconText, mColorPrimaryDark).show();
+            SnackBarUtil.snackBarForErrorCreate(getView(),
+                    mPasswordIncorrectMatchMessage, Snackbar.LENGTH_SHORT).show();
             viewHolder.mRegisterConfirmPasswdEditText.setError(mPasswordDoNotMatchPrompt);
             return;
         }
@@ -230,10 +227,9 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
                 viewHolder.mRegisterPasswordEmailText.setText(""); //clear passwords
                 viewHolder.mRegisterConfirmPasswdEditText.setText(""); //clear confirm passwords
                 //Error Snackbar
-                SnackBarUtil.snackBarForAuthCreate(getView(),
+                SnackBarUtil.snackBarForErrorCreate(getView(),
                         serverErrorMsg,
-                        Snackbar.LENGTH_SHORT,
-                        mColorIconText, mColorPrimaryDark).show();
+                        Snackbar.LENGTH_SHORT).show();
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch(InterruptedException ex) {
@@ -246,10 +242,9 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
             viewHolder.mRegisterConfirmPasswdEditText.setText(""); //clear confirm passwords
             String errorBody = response.code() + " Error: " + response.message();
 
-            SnackBarUtil.snackBarForAuthCreate(getView(),
+            SnackBarUtil.snackBarForErrorCreate(getView(),
                     errorBody,
-                    Snackbar.LENGTH_SHORT,
-                    mColorIconText, mColorPrimaryDark).show();
+                    Snackbar.LENGTH_SHORT).show();
             Log.e(LOG_TAG, "ERROR: " + errorBody);
         }
     }
@@ -260,10 +255,9 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
         viewHolder.mRegisterConfirmPasswdEditText.setText(""); //clear confirm passwords
         e.printStackTrace();
         Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-        SnackBarUtil.snackBarForAuthCreate(getView(),
+        SnackBarUtil.snackBarForErrorCreate(getView(),
                 mHttpErrorHandlingMessage,
-                Snackbar.LENGTH_SHORT,
-                mColorIconText, mColorPrimaryDark).show();
+                Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -276,10 +270,9 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
                 Log.d(LOG_TAG, "APP: onComplete > response.isSuccessful TRUE");
 
                 //show success
-                SnackBarUtil.snackBarForAuthCreate(getView(),
+                SnackBarUtil.snackBarForInfoCreate(getView(),
                         authResponse.getServerResponse().getMessage(),
-                        Snackbar.LENGTH_SHORT,
-                        mColorIconText, mColorAccent).show();
+                        Snackbar.LENGTH_SHORT).show();
 
                 final String email = authResponse.getMember().getEmail();
                 final String authToken = authResponse.getAuthToken();

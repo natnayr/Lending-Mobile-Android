@@ -4,9 +4,12 @@ import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
@@ -15,8 +18,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.APIServices;
+import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
@@ -37,6 +43,11 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
 import net.hockeyapp.android.metrics.MetricsManager;
+
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -324,6 +335,8 @@ public class MainActivity extends AppCompatActivity{
     protected void onResume() {
         super.onResume();
 //        checkForCrashes();
+
+        isOnline();
     }
 
     private void checkForCrashes() {
@@ -335,5 +348,30 @@ public class MainActivity extends AppCompatActivity{
         });
     }
 
+    private void isOnline() {
+        //checking device
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        boolean checkNetwork = netInfo != null && netInfo.isConnectedOrConnecting();
 
+        //try connecting to server (google dns)
+        boolean checkConnectToServer = true;
+        try {
+            int timeoutMs = 1500;
+            Socket sock = new Socket();
+            SocketAddress sockaddr = new InetSocketAddress("8.8.8.8", 53);
+
+            sock.connect(sockaddr, timeoutMs);
+            sock.close();
+        } catch (IOException e) {
+            checkConnectToServer = false;
+        }
+
+        if(checkNetwork && checkConnectToServer){
+            String badConnectionMsg = getString(R.string.network_connection_poor);
+            SnackBarUtil.snackBarForErrorCreate(this.findViewById(android.R.id.content),
+                    badConnectionMsg, Snackbar.LENGTH_LONG).show();
+        }
+    }
 }

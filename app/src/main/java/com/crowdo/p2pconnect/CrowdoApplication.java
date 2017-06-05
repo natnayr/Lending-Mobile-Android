@@ -109,5 +109,6 @@ public class CrowdoApplication extends Application{
         long frequency= 20 * 1000; // 20seconds repeat
         alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
                 frequency, pendingIntent);
+
     }
 }
