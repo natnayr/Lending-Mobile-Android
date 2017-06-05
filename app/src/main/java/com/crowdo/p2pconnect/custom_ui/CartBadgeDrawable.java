@@ -7,9 +7,11 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,7 +29,6 @@ import butterknife.ButterKnife;
 public class CartBadgeDrawable extends Drawable{
 
     private Paint mBadgePaint;
-    private Paint mBadgePaint1;
     private Paint mTextPaint;
     private Rect mTxtRect = new Rect();
 
@@ -48,10 +49,6 @@ public class CartBadgeDrawable extends Drawable{
         mBadgePaint.setColor(mColorAccent);
         mBadgePaint.setAntiAlias(true);
         mBadgePaint.setStyle(Paint.Style.FILL);
-        mBadgePaint1 = new Paint();
-        mBadgePaint1.setColor(mColorIconText);
-        mBadgePaint1.setAntiAlias(true);
-        mBadgePaint1.setStyle(Paint.Style.FILL);
 
         mTextPaint = new Paint();
         mTextPaint.setColor(mColorIconText);
@@ -76,18 +73,15 @@ public class CartBadgeDrawable extends Drawable{
         //using Math.max rather than Math.min
 
         float radius = ((Math.max(width, height)/ 2)) / 2;
-        float centerX = (width - radius - 1) + 7;
-        float centerY = radius - 7;
+        float centerX = (width - radius - 1) + 8;
+        float centerY = radius - 8;
 
         if(mCount.length() <= 2){
             //draw badge circle
-            canvas.drawCircle(centerX, centerY, (int)(radius+6.5), mBadgePaint1);
-            canvas.drawCircle(centerX, centerY, (int)(radius+4.5), mBadgePaint);
+            canvas.drawCircle(centerX, centerY, (int)(radius+3.5), mBadgePaint);
         }else{
             //double digits
-            canvas.drawCircle(centerX, centerY, (int)(radius+7.5), mBadgePaint1);
-            canvas.drawCircle(centerX, centerY, (int)(radius+5.5), mBadgePaint);
-//            canvas.drawRoundRect(radius, radius, radius, radius, 10, 10, mBadgePaint);
+            canvas.drawCircle(centerX, centerY, (int) (radius + 6.5), mBadgePaint);
         }
 
         mTextPaint.getTextBounds(mCount, 0, mCount.length(), mTxtRect);

@@ -201,7 +201,7 @@ public class LoanListFragment extends Fragment {
 
         MenuItem itemCart = menu.findItem(R.id.action_cart);
         LayerDrawable icon = (LayerDrawable) itemCart.getIcon();
-        CartBadgeDrawable.setBadgeCount(getActivity(), icon, "123");
+        CartBadgeDrawable.setBadgeCount(getActivity(), icon, "126");
 
         if(menuSearch != null) {
             searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
