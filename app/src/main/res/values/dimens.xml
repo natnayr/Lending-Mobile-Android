@@ -1,7 +1,5 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_padding">8dp</dimen>
-    <dimen name="activity_vertical_padding">8dp</dimen>
+
 
     <dimen name="welcome_btn_radius_corner_width">0dp</dimen>
     <dimen name="welcome_btn_stoke_width">2dp</dimen>
@@ -130,7 +128,13 @@
     <!-- drawer width standard mobile increment (56dp) * 5 -->
     <dimen name="nav_drawer_padding">16dp</dimen>
 
-    <!-- Default screen margins, per the Android Design guidelines. -->
+    <!-- toolbar items -->
+    <dimen name="toolbar_badge_text_size">7sp</dimen>
+
+    <!-- default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_padding">8dp</dimen>
+    <dimen name="activity_vertical_padding">8dp</dimen>
+
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 

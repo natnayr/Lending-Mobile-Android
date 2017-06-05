@@ -3,6 +3,7 @@ package com.crowdo.p2pconnect.view.fragments;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.custom_ui.CartBadgeDrawable;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.model.core.Loan;
@@ -119,6 +121,7 @@ public class LoanListFragment extends Fragment {
                         .gotoLoanDetailsActivity()
                         .id(item.getId())
                         .build();
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             }
         });
@@ -193,10 +196,15 @@ public class LoanListFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
 
-        inflater.inflate(R.menu.menu_search, menu);
-        final MenuItem menuItem = menu.findItem(R.id.action_search_loans);
-        if(menuItem != null) {
-            searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+        inflater.inflate(R.menu.menu_search_loans, menu);
+        final MenuItem menuSearch = menu.findItem(R.id.action_search_loans);
+
+        MenuItem itemCart = menu.findItem(R.id.action_cart);
+        LayerDrawable icon = (LayerDrawable) itemCart.getIcon();
+        CartBadgeDrawable.setBadgeCount(getActivity(), icon, "123");
+
+        if(menuSearch != null) {
+            searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
 
             searchView.setInputType(InputType.TYPE_CLASS_NUMBER);
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -260,9 +268,11 @@ public class LoanListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_search_loans:
                 return true;
-            default:
-                return super.onOptionsItemSelected(item);
+            case R.id.action_cart:
+                Log.d(LOG_TAG, "APP onOptionsItemSelected action_cart called");
+                break;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void populateLoansList() {

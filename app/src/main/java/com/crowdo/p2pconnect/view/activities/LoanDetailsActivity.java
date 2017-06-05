@@ -11,6 +11,7 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.crowdo.p2pconnect.R;
@@ -67,29 +68,18 @@ public class LoanDetailsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        int count = getSupportFragmentManager()
-                .getBackStackEntryCount();
-
-        if (count == 0) {
-            super.onBackPressed();
-        } else {
-            toBackStackOrParent();
-        }
+        finish();
     }
 
-    private boolean toBackStackOrParent(){
-        Intent upIntent = NavUtils.getParentActivityIntent(this);
-        if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-            TaskStackBuilder.create(this)
-                    .addNextIntentWithParentStack(upIntent)
-                    .startActivities();
-        } else {
-            //If no backstack then navigate to logical main list view
-            NavUtils.navigateUpTo(this, upIntent);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(id == android.R.id.home){
+            finish();
+            return true;
         }
-        return true;
-    }
 
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onSupportActionModeStarted(@NonNull android.support.v7.view.ActionMode mode) {
@@ -126,5 +116,11 @@ public class LoanDetailsActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base));
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
