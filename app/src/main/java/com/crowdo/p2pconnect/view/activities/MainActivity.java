@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -349,29 +350,42 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void isOnline() {
-        //checking device
-        ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        boolean checkNetwork = netInfo != null && netInfo.isConnectedOrConnecting();
+        final View thisView = this.findViewById(android.R.id.content);
 
-        //try connecting to server (google dns)
-        boolean checkConnectToServer = true;
-        try {
-            int timeoutMs = 1500;
-            Socket sock = new Socket();
-            SocketAddress sockaddr = new InetSocketAddress("8.8.8.8", 53);
+        new AsyncTask<Void, Void, Boolean>(){
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                //checking device
+                ConnectivityManager cm =
+                        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo netInfo = cm.getActiveNetworkInfo();
+                boolean checkNetwork = netInfo != null && netInfo.isConnectedOrConnecting();
 
-            sock.connect(sockaddr, timeoutMs);
-            sock.close();
-        } catch (IOException e) {
-            checkConnectToServer = false;
-        }
+                //try connecting to server (google dns)
+                boolean checkConnectToServer = true;
+                try {
+                    int timeoutMs = 1500;
+                    Socket sock = new Socket();
+                    SocketAddress sockaddr = new InetSocketAddress("8.8.8.8", 53);
 
-        if(checkNetwork && checkConnectToServer){
-            String badConnectionMsg = getString(R.string.network_connection_poor);
-            SnackBarUtil.snackBarForErrorCreate(this.findViewById(android.R.id.content),
-                    badConnectionMsg, Snackbar.LENGTH_LONG).show();
-        }
+                    sock.connect(sockaddr, timeoutMs);
+                    sock.close();
+                } catch (IOException e) {
+                    checkConnectToServer = false;
+                }
+
+                return checkNetwork && checkConnectToServer;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean result) {
+                if(!result){
+                    String badConnectionMsg = getString(R.string.network_connection_poor);
+                    SnackBarUtil.snackBarForErrorCreate(thisView,
+                            badConnectionMsg, Snackbar.LENGTH_LONG).show();
+                }
+            }
+        }.execute();
+
     }
 }

@@ -239,7 +239,7 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
 
                 if (HTTPResponseUtils.check2xxSuccess(authResponse.getServerResponse().getStatus())) {
                     //show http success
-                    SnackBarUtil.snackBarForErrorCreate(getView(),
+                    SnackBarUtil.snackBarForInfoCreate(getView(),
                             authResponse.getServerResponse().getMessage(),
                             Snackbar.LENGTH_SHORT).show();
 
