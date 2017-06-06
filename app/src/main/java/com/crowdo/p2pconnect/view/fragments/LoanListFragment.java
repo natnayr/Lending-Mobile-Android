@@ -36,6 +36,7 @@ import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
+import com.crowdo.p2pconnect.view.activities.CheckoutActivity;
 import com.crowdo.p2pconnect.view.activities.Henson;
 import com.crowdo.p2pconnect.data.client.LoanClient;
 import com.crowdo.p2pconnect.view.adapters.LoanListAdapter;
@@ -117,12 +118,12 @@ public class LoanListFragment extends Fragment {
                                     View view, int position, long l) {
 
                 Loan item = (Loan) adapterView.getItemAtPosition(position);
-                Intent intent = Henson.with(getActivity())
+                Intent detailsIntent = Henson.with(getActivity())
                         .gotoLoanDetailsActivity()
                         .id(item.getId())
                         .build();
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
+                detailsIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(detailsIntent);
             }
         });
 
@@ -201,7 +202,7 @@ public class LoanListFragment extends Fragment {
 
         MenuItem itemCart = menu.findItem(R.id.action_cart);
         LayerDrawable icon = (LayerDrawable) itemCart.getIcon();
-        CartBadgeDrawable.setBadgeCount(getActivity(), icon, "126");
+        CartBadgeDrawable.setBadgeCount(getActivity(), icon, "50");
 
         if(menuSearch != null) {
             searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
@@ -270,7 +271,11 @@ public class LoanListFragment extends Fragment {
                 return true;
             case R.id.action_cart:
                 Log.d(LOG_TAG, "APP onOptionsItemSelected action_cart called");
-                break;
+
+                Intent checkoutIntent = new Intent(getActivity(), CheckoutActivity.class);
+                checkoutIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(checkoutIntent);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

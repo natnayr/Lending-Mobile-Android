@@ -70,31 +70,31 @@ public class CheckoutSummaryViewHolder {
         mSummarySyncIcon.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_refresh)
-                        .colorRes(R.color.color_primary_text)
+                        .colorRes(R.color.color_secondary_text)
                         .sizeRes(R.dimen.checkout_summary_action_icon_size));
 
         mSummaryCloseIcon.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_close)
-                        .colorRes(R.color.color_primary_text)
+                        .colorRes(R.color.color_secondary_text)
                         .sizeRes(R.dimen.checkout_summary_action_close_icon_size));
 
         mSummaryPendingBidsIconMain.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_format_list_bulleted_type)
-                        .colorRes(R.color.color_secondary_text)
+                        .colorRes(R.color.color_primary_text)
                         .sizeRes(R.dimen.checkout_summary_bidding_overall_icon_main_size));
 
         mSummaryAvalibleBalanceIconMain.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_cash)
-                        .colorRes(R.color.color_secondary_text)
+                        .colorRes(R.color.color_primary_text)
                         .sizeRes(R.dimen.checkout_summary_bidding_overall_icon_main_size));
 
         mSummaryAmtTopUpIconMain.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_wallet)
-                        .colorRes(R.color.color_secondary_text)
+                        .colorRes(R.color.color_primary_text)
                         .sizeRes(R.dimen.checkout_summary_bidding_overall_icon_main_size));
 
         mSummaryAmtTopUpIconFloat.setImageDrawable(
@@ -102,7 +102,7 @@ public class CheckoutSummaryViewHolder {
                         .icon(CommunityMaterial.Icon.cmd_plus_circle)
                         .backgroundColorRes(R.color.color_icons_text)
                         .roundedCornersDp(5)
-                        .colorRes(R.color.color_secondary_text)
+                        .colorRes(R.color.color_primary_text)
                         .sizeRes(R.dimen.checkout_summary_bidding_overall_icon_float_size));
 
         mSummaryExpandBtn.setOnClickListener(
@@ -127,7 +127,7 @@ public class CheckoutSummaryViewHolder {
     }
 
     public void populateSummaryDetails(long totalPendingBids, long availableBalance){
-        availableBalance = 10000000;
+        availableBalance = 50000;
         mSummaryPendingBidsValue.setText(mSummaryCurrencySymbol + Long.toString(totalPendingBids));
         mSummaryAvailableBalanceValue.setText(mSummaryCurrencySymbol + Long.toString(availableBalance));
 

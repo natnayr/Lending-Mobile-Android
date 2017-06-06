@@ -8,7 +8,7 @@
     <item android:left="-3dp" android:right="-3dp">
         <shape>
             <solid android:color="@color/color_transparent"/>
-            <stroke android:width="0.25dp"
+            <stroke android:width="0.50dp"
                 android:color="@color/color_divider"/>
         </shape>
     </item>

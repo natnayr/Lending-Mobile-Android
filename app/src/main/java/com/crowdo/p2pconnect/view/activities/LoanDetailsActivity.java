@@ -58,9 +58,7 @@ public class LoanDetailsActivity extends AppCompatActivity {
             LoanDetailsFragment loanDetailsFragment = new LoanDetailsFragment();
             loanDetailsFragment.setArguments(args);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.loan_details_content, loanDetailsFragment,
-                            LoanDetailsFragment.class.getCanonicalName())
-                    .addToBackStack(LoanDetailsFragment.class.getCanonicalName())
+                    .add(R.id.loan_details_content, loanDetailsFragment)
                     .commit();
         }
     }

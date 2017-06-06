@@ -22,8 +22,8 @@
         android:layout_height="wrap_content"
         android:text="No. of Bids:"
         android:textSize="@dimen/checkout_summary_expand_small_font_size"
-        android:textColor="@color/color_primary_text"
-        android:fontFamily="@string/font_family_light"
+        android:textColor="@color/color_secondary_text"
+        android:fontFamily="@string/font_family_regular"
         android:layout_toEndOf="@id/checkout_summary_no_of_loans_icon"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/checkout_summary_cart_header_margin"/>
