@@ -17,9 +17,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.crowdo.p2pconnect.data.client.BiddingClient;
 import com.crowdo.p2pconnect.data.client.LoanClient;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
+import com.crowdo.p2pconnect.model.response.CheckBidResponse;
+import com.crowdo.p2pconnect.model.response.MessageResponse;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
@@ -46,6 +49,8 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
+import retrofit2.Converter;
 import retrofit2.Response;
 import rx.Subscriber;
 
@@ -77,6 +82,8 @@ public class LoanDetailsFragment extends Fragment {
     public static final String BUNDLE_ID_KEY = "LOAN_DETAILS_FRAGMENTS_ID_KEY";
     private int initLoanId;
     private Disposable disposableGetLoanDetails;
+    private Disposable disposablePostCheckBid;
+    private Disposable disposablePostAcceptBid;
 
     public LoanDetailsFragment() {
     }
@@ -153,9 +160,10 @@ public class LoanDetailsFragment extends Fragment {
             alertDialog.dismiss();
         }
         if(disposableGetLoanDetails != null){
-            if(!disposableGetLoanDetails.isDisposed()) {
-                disposableGetLoanDetails.dispose();
-            }
+            disposableGetLoanDetails.dispose();
+        }
+        if(disposablePostCheckBid != null){
+            disposablePostCheckBid.dispose();
         }
         super.onPause();
     }
@@ -166,14 +174,9 @@ public class LoanDetailsFragment extends Fragment {
     }
 
     private void populateLoanDetails(){
-        String authToken = SharedPreferencesUtils.getSharedPrefString(getActivity(),
-                CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
-        if(authToken == null){
-            AuthAccountUtils.actionLogout(AccountManager.get(getActivity()), getActivity());
-        }
 
         LoanClient.getInstance(getActivity())
-                .getLoanDetails(authToken, LoanDetailsFragment.this.initLoanId,
+                .getLoanDetails(LoanDetailsFragment.this.initLoanId,
                         ConstantVariables.getUniqueAndroidID(getActivity()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -212,7 +215,7 @@ public class LoanDetailsFragment extends Fragment {
 
                     @Override
                     public void onComplete() {
-                        Log.d(LOG_TAG, "APP Populated LoanDetail Rx onComplete");
+                        Log.d(LOG_TAG, "APP getLoanDetails Rx onComplete");
                     }
                 });
     }
@@ -247,9 +250,8 @@ public class LoanDetailsFragment extends Fragment {
                             @Override
                             public void onNext(final String s) {
 
-                                final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
-                                mLabelDownloadedTo + s, mColorIconText,
-                                Snackbar.LENGTH_LONG);
+                                final Snackbar snackbar = SnackBarUtil.snackBarForInfoCreate(
+                                        getView(), mLabelDownloadedTo + s, Snackbar.LENGTH_LONG);
 
                                 snackbar.setAction(mLabelOpen, new View.OnClickListener() {
                                     @Override
@@ -268,9 +270,10 @@ public class LoanDetailsFragment extends Fragment {
                                         } catch (ActivityNotFoundException e) {
                                             Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
 
-                                            final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
-                                                    mLabelSnackPDFReadError,
-                                                    mColorIconText, Snackbar.LENGTH_LONG);
+                                            final Snackbar snackbar = SnackBarUtil
+                                                    .snackBarForErrorCreate(getView(),
+                                                            mLabelSnackPDFReadError,
+                                                            Snackbar.LENGTH_LONG);
                                             snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
@@ -280,9 +283,10 @@ public class LoanDetailsFragment extends Fragment {
                                             snackbar.show();
                                         } catch (URISyntaxException ue){
                                             Log.e(LOG_TAG, "ERROR: " + ue.getMessage(), ue);
-                                            final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
-                                                    mLabelErrorOpenFile,
-                                                    mColorIconText);
+                                            final Snackbar snackbar = SnackBarUtil
+                                                    .snackBarForErrorCreate(getView(),
+                                                            mLabelErrorOpenFile,
+                                                            Snackbar.LENGTH_LONG);
 
                                             snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                                                 @Override
@@ -297,6 +301,103 @@ public class LoanDetailsFragment extends Fragment {
                             }
                         });
             }
+        }
+    }
+
+    private void checkingBid(){
+        if(viewHolder != null){
+            int unitBidAmount;
+
+            try {
+                String inputUnitAmount = viewHolder.mEnterAmount.getText().toString().trim().replaceAll("[^\\d.]", "");
+                unitBidAmount = (inputUnitAmount.equals("")) ? 0 : Integer.parseInt(inputUnitAmount);
+            }catch (NumberFormatException nfe){
+                Log.d(LOG_TAG, nfe.getMessage(), nfe);
+                unitBidAmount = 0;
+            }
+
+
+            if(unitBidAmount <= 0 ) {
+                final Snackbar snackbar = SnackBarUtil.snackBarForWarrningCreate(getView(),
+                        mLabelBidTooLow, Snackbar.LENGTH_LONG);
+
+                snackbar.setAction(mLabelOkay, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        snackbar.dismiss();
+                    }
+                }).show();
+                return;
+            }
+
+            long biddingAmount = unitBidAmount * ConstantVariables.IDR_BASE_UNIT;
+
+            if(mLoanDetailResponse.getLoan().getFundingAmountToCompleteCache() < biddingAmount){
+
+                final Snackbar snackbar = SnackBarUtil.snackBarForWarrningCreate(getView(),
+                        mLabelBidTooHigh,
+                        Snackbar.LENGTH_LONG);
+                snackbar.setAction(mLabelOkay, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        snackbar.dismiss();
+                    }
+                }).show();
+                return;
+            }
+
+            //check bid
+            BiddingClient bidClient = BiddingClient.getInstance(getActivity());
+
+            bidClient.postCheckBid(biddingAmount, initLoanId,
+                            ConstantVariables.getUniqueAndroidID(getActivity()))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Response<CheckBidResponse>>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+                            disposablePostCheckBid = d;
+                        }
+
+                        @Override
+                        public void onNext(Response<CheckBidResponse> response) {
+                            if(response.isSuccessful()){
+                                CheckBidResponse checkBidResponse = response.body();
+                                if(checkBidResponse != null){
+//                                    if(){
+//
+//                                    }
+                                }
+                            }else{
+                                //Error Handling
+                                if(HTTPResponseUtils.check4xxClientError(response.code())){
+                                    if(ConstantVariables.HTTP_UNAUTHORISED == response.code()){
+                                        AuthAccountUtils.actionLogout(AccountManager.get(getActivity()),
+                                                getActivity());
+                                    }else if(ConstantVariables.HTTP_PRECONDITION_FAILED == response.code()){
+                                        if(response.errorBody() != null) {
+//                                            Converter<ResponseBody, MessageResponse> errorConverter =
+//                                                    bidClient
+//
+//                                            SnackBarUtil.snackBarForWarrningCreate(getView(),
+//                                                    response.errorBody())
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            e.printStackTrace();
+                            Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            Log.d(LOG_TAG, "APP checkBidAndAddToCart Rx onComplete");
+                        }
+                    });
         }
     }
 
@@ -317,24 +418,10 @@ public class LoanDetailsFragment extends Fragment {
             long biddingAmount = unitBidAmount * ConstantVariables.IDR_BASE_UNIT;
 
             if(unitBidAmount <= 0 ) {
-                final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
+                final Snackbar snackbar = SnackBarUtil.snackBarForWarrningCreate(getView(),
                         mLabelBidTooLow,
-                        mColorIconText);
+                        Snackbar.LENGTH_LONG);
 
-                snackbar.setAction(mLabelOkay, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        snackbar.dismiss();
-                    }
-                })
-                .show();
-                return;
-
-            }else if(mLoanDetailResponse.getLoan().getFundingAmountToCompleteCache() < biddingAmount){
-
-                final Snackbar snackbar = SnackBarUtil.snackBarCreate(getView(),
-                        mLabelBidTooHigh,
-                        mColorIconText);
                 snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -343,6 +430,21 @@ public class LoanDetailsFragment extends Fragment {
                 }).show();
                 return;
             }
+
+            if(mLoanDetailResponse.getLoan().getFundingAmountToCompleteCache() < biddingAmount){
+
+                final Snackbar snackbar = SnackBarUtil.snackBarForWarrningCreate(getView(),
+                        mLabelBidTooHigh,
+                        Snackbar.LENGTH_LONG);
+                snackbar.setAction(mLabelOkay, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        snackbar.dismiss();
+                    }
+                }).show();
+                return;
+            }
+
             String localeKey = LocaleHelper.getLanguage(getActivity());
 
             String webViewUrl = APIServices.P2P_BASE_URL +

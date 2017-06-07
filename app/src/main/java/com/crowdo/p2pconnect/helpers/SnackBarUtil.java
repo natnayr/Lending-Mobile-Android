@@ -19,7 +19,9 @@ public class SnackBarUtil {
     }
 
     public static Snackbar snackBarCreate(View view, String msg, int colorText, int snackBarDuration) {
-        Snackbar snackbar = Snackbar.make(view, msg, snackBarDuration);
+        Snackbar snackbar = Snackbar
+                .make(view, msg, snackBarDuration)
+                .setActionTextColor(getIconTextColor(view));
 
         TextView tv = (TextView) snackbar.getView()
                 .findViewById(android.support.design.R.id.snackbar_text);
@@ -33,21 +35,21 @@ public class SnackBarUtil {
 
         View sbView = snackbar.getView();
         sbView.setBackgroundResource(R.color.color_accent);
-        TextView tv = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        tv.setGravity(Gravity.CENTER);
+//        TextView tv = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+//        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+//        tv.setGravity(Gravity.CENTER);
 
         return snackbar;
     }
 
     public static Snackbar snackBarForWarrningCreate(View view, String msg, int snackBarDuration){
 
-        Snackbar snackbar = snackBarCreate(view, msg, snackBarDuration);
+        Snackbar snackbar = snackBarCreate(view, msg, getIconTextColor(view), snackBarDuration);
         View sbView = snackbar.getView();
         sbView.setBackgroundResource(R.color.color_amber_500);
-        TextView tv = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        tv.setGravity(Gravity.CENTER);
+//        TextView tv = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+//        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+//        tv.setGravity(Gravity.CENTER);
 
         return snackbar;
     }
@@ -57,9 +59,9 @@ public class SnackBarUtil {
         Snackbar snackbar = snackBarCreate(view, msg, getIconTextColor(view), snackBarDuration);
         View sbView = snackbar.getView();
         sbView.setBackgroundResource(R.color.color_primary_700);
-        TextView tv = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        tv.setGravity(Gravity.CENTER);
+//        TextView tv = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+//        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+//        tv.setGravity(Gravity.CENTER);
 
         return snackbar;
     }

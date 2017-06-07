@@ -16,12 +16,10 @@ import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.client.CheckoutClient;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
-import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.model.core.Investment;
 import com.crowdo.p2pconnect.model.core.Loan;
 import com.crowdo.p2pconnect.model.response.CheckoutSummaryResponse;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
-import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.adapters.CheckoutSummaryAdapter;
 import com.crowdo.p2pconnect.viewholders.CheckoutSummaryViewHolder;
 
@@ -90,15 +88,8 @@ public class CheckoutSummaryFragment extends Fragment{
         final String uniqueAndroidID = ConstantVariables.getUniqueAndroidID(mContext);
 
         //check authentication
-        String authToken = SharedPreferencesUtils.getSharedPrefString(getActivity(),
-                CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
-        if(authToken == null){
-            AuthAccountUtils.actionLogout(AccountManager.get(getActivity()), getActivity());
-            return;
-        }
-
         CheckoutClient.getInstance(getActivity())
-                .getCheckoutSummary(authToken, uniqueAndroidID)
+                .getCheckoutSummary(uniqueAndroidID)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<CheckoutSummaryResponse>>() {

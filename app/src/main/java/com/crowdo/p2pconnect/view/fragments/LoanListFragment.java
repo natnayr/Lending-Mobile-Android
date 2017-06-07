@@ -284,16 +284,8 @@ public class LoanListFragment extends Fragment {
         Log.d(LOG_TAG, "APP populateLoansList()");
         final String uniqueAndroidID = ConstantVariables.getUniqueAndroidID(mContext);
 
-        //check authentication
-        String authToken = SharedPreferencesUtils.getSharedPrefString(getActivity(),
-                CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
-        if(authToken == null){
-            AuthAccountUtils.actionLogout(AccountManager.get(getActivity()), getActivity());
-            return;
-        }
-
         LoanClient.getInstance(getActivity())
-                .getLiveLoans(authToken, uniqueAndroidID)
+                .getLiveLoans(uniqueAndroidID)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<LoanListResponse>>() {

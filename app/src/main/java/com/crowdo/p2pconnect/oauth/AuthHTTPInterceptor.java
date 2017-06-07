@@ -13,11 +13,11 @@ import okhttp3.Response;
  * Created by cwdsg05 on 11/4/17.
  */
 
-public class AuthenticationHTTPInterceptor implements Interceptor{
+public class AuthHTTPInterceptor implements Interceptor{
 
     private String authToken;
 
-    public AuthenticationHTTPInterceptor(String token){
+    public AuthHTTPInterceptor(String token){
         this.authToken = token;
     }
 
@@ -29,15 +29,5 @@ public class AuthenticationHTTPInterceptor implements Interceptor{
 
         Request request = builder.build();
         return chain.proceed(request);
-    }
-
-    public static OkHttpClient.Builder authTokenDecorator(final String authToken, OkHttpClient.Builder httpClient){
-        if(!TextUtils.isEmpty(authToken)){
-            final AuthenticationHTTPInterceptor interceptor = new AuthenticationHTTPInterceptor(authToken);
-            if(!httpClient.interceptors().contains(interceptor)){
-                httpClient.addInterceptor(interceptor);
-            }
-        }
-        return httpClient;
     }
 }

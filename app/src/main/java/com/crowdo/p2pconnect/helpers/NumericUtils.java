@@ -55,8 +55,8 @@ public class NumericUtils {
 
         if(localeString.equals(ConstantVariables.APP_LANG_ID)) {
             //bahasa
-            millionTruncate = ConstantVariables.IN_MILLIONS_TRUNCATE;
-            billionTruncate = ConstantVariables.IN_BILLIONS_TRUNCATE;
+            millionTruncate = ConstantVariables.ID_MILLIONS_TRUNCATE;
+            billionTruncate = ConstantVariables.ID_BILLIONS_TRUNCATE;
         }else{
             //default EN
             millionTruncate = ConstantVariables.EN_MILLIONS_TRUNCATE;

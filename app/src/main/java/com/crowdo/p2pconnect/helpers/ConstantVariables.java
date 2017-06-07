@@ -55,10 +55,13 @@ public class ConstantVariables {
 
     public static final String EN_MILLIONS_TRUNCATE = "M";
     public static final String EN_BILLIONS_TRUNCATE = "B";
-    public static final String IN_MILLIONS_TRUNCATE = "JT";
-    public static final String IN_BILLIONS_TRUNCATE = "M";
+    public static final String ID_MILLIONS_TRUNCATE = "JT";
+    public static final String ID_BILLIONS_TRUNCATE = "M";
+
+    public static final int HTTP_SUCCESS_OK = 200;
 
     public static final int HTTP_UNAUTHORISED = 401;
     public static final int HTTP_NOT_FOUND = 404;
+    public static final int HTTP_PRECONDITION_FAILED = 412;
     public static final int HTTP_UNPROCESSABLE_ENTITY = 422;
 }
