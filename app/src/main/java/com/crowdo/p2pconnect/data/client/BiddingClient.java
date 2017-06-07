@@ -36,7 +36,7 @@ public class BiddingClient {
     private APIServices apiServices;
 
     public BiddingClient(Context context){
-        final Gson gson = new GsonBuilder().create();
+        final Gson gson = new GsonBuilder().serializeNulls().create();
 
         final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

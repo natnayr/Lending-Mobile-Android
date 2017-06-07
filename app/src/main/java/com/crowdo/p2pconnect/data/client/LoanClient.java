@@ -34,7 +34,7 @@ public class LoanClient {
     private APIServices apiServices;
 
     public LoanClient(Context context){
-        final Gson gson = new GsonBuilder().create();
+        final Gson gson = new GsonBuilder().serializeNulls().create();
 
 //        //Http Inteceptor
 //        final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();

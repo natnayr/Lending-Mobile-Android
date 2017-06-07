@@ -34,7 +34,7 @@ public class CheckoutClient {
     private static CheckoutClient instance;
 
     public CheckoutClient(Context context){
-        final Gson gson = new GsonBuilder().create();
+        final Gson gson = new GsonBuilder().serializeNulls().create();
 
         //Http Interceptor
         final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();

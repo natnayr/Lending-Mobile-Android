@@ -258,8 +258,8 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
                         Log.d(LOG_TAG, "APP file is now in " + s);
 
                         final Snackbar snackbar = SnackBarUtil
-                                .snackBarCreate(rootView, mLabelDownloadedTo + s,
-                                        colorSnackbarColorText, Snackbar.LENGTH_LONG);
+                                .snackBarForInfoCreate(rootView, mLabelDownloadedTo + s,
+                                        Snackbar.LENGTH_LONG);
 
 
                         snackbar.setAction(mLabelOpen, new View.OnClickListener() {
@@ -277,9 +277,9 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
                                     startActivity(chooserIntent);
                                 }catch(URISyntaxException ue){
                                     Log.e(LOG_TAG, "ERROR: " + ue.getMessage(), ue);
-                                    final Snackbar snackbar = SnackBarUtil.snackBarCreate(rootView,
+                                    final Snackbar snackbar = SnackBarUtil.snackBarForErrorCreate(rootView,
                                             mLabelErrorOpenFile,
-                                            colorSnackbarColorText);
+                                            Snackbar.LENGTH_LONG);
 
                                     snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                                         @Override
@@ -289,9 +289,9 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
                                     });
                                 }catch (ActivityNotFoundException anfe){
                                     Log.e(LOG_TAG, "ERROR: " + anfe.getMessage(), anfe);
-                                    final Snackbar snackbar = SnackBarUtil.snackBarCreate(rootView,
-                                            mLabelErrorOpenFile,
-                                            colorSnackbarColorText);
+                                    final Snackbar snackbar = SnackBarUtil.snackBarForErrorCreate(
+                                            rootView, mLabelErrorOpenFile,
+                                            Snackbar.LENGTH_LONG);
 
                                     snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                                         @Override

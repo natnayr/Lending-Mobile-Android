@@ -364,9 +364,12 @@ public class LoanDetailsFragment extends Fragment {
                             if(response.isSuccessful()){
                                 CheckBidResponse checkBidResponse = response.body();
                                 if(checkBidResponse != null){
-//                                    if(){
-//
-//                                    }
+                                    long originalAmount = checkBidResponse.getOriginalInvestAmount();
+                                    long newAmount = checkBidResponse.getInvestAmount();
+                                    if(originalAmount != newAmount){
+                                        long newUnitAmount = newAmount / ConstantVariables.IDR_BASE_UNIT;
+                                        viewHolder.mEnterAmount.setText(Long.toString(newUnitAmount));
+                                    }
                                 }
                             }else{
                                 //Error Handling

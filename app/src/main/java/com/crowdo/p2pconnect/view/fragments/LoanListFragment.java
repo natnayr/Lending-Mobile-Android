@@ -186,9 +186,7 @@ public class LoanListFragment extends Fragment {
     public void onPause() {
         super.onPause();
         if(disposableGetLiveLoans != null){
-            if(!disposableGetLiveLoans.isDisposed()) {
-                disposableGetLiveLoans.dispose();
-            }
+            disposableGetLiveLoans.dispose();
         }
     }
 

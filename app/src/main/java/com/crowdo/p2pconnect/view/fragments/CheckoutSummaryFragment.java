@@ -82,6 +82,14 @@ public class CheckoutSummaryFragment extends Fragment{
         populateSummaryList();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(disposableGetCheckoutSummary != null){
+            disposableGetCheckoutSummary.dispose();
+        }
+    }
+
     private void populateSummaryList(){
 
         Log.d(LOG_TAG, "APP populateSummaryList()");
