@@ -3,44 +3,45 @@ package com.crowdo.p2pconnect.data.client;
 import android.content.Context;
 
 import com.crowdo.p2pconnect.data.APIServices;
-import com.crowdo.p2pconnect.data.SendingCookiesInterceptor;
 import com.crowdo.p2pconnect.data.ReceivingCookiesInterceptor;
+import com.crowdo.p2pconnect.data.SendingCookiesInterceptor;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
-import com.crowdo.p2pconnect.model.response.LoanDetailResponse;
-import com.crowdo.p2pconnect.model.response.LoanListResponse;
+import com.crowdo.p2pconnect.model.request.BidRequest;
+import com.crowdo.p2pconnect.model.response.AcceptBidResponse;
+import com.crowdo.p2pconnect.model.response.CheckBidResponse;
 import com.crowdo.p2pconnect.oauth.AuthenticationHTTPInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by cwdsg05 on 1/12/16.
+ * Created by cwdsg05 on 7/6/17.
  */
 
-public class LoanClient {
+public class BiddingClient {
 
-    private static final String LOG_TAG = LoanClient.class.getSimpleName();
+    private static final String LOG_TAG = BiddingClient.class.getSimpleName();
 
-    private static LoanClient instance;
     private Retrofit.Builder builder;
     private OkHttpClient.Builder httpClientBuilder;
 
-    public LoanClient(Context context){
-        final Gson gson = new GsonBuilder()
-                .create();
+    private static BiddingClient instance;
 
-//        //Http Inteceptor
-//        final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-//        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
+    public BiddingClient(Context context){
+        final Gson gson = new GsonBuilder().create();
+
+        final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         httpClientBuilder = new OkHttpClient.Builder()
-//                .addInterceptor(loggingInterceptor)
+                .addInterceptor(loggingInterceptor)
                 .addInterceptor(new SendingCookiesInterceptor(context))
                 .addInterceptor(new ReceivingCookiesInterceptor(context));
 
@@ -50,29 +51,14 @@ public class LoanClient {
                 .baseUrl(APIServices.API_LIVE_BASE_URL + APIServices.LIVE_STAGE);
     }
 
-    public static LoanClient getInstance(Context context){
+    public static BiddingClient getInstance(Context context){
         if(instance == null)
-            instance = new LoanClient(context);
-
+            instance = new BiddingClient(context);
         return instance;
     }
 
-
-    public Observable<Response<LoanListResponse>> getLiveLoans(String token, String deviceId){
-
-        OkHttpClient httpClient = AuthenticationHTTPInterceptor
-                .authTokenDecorator(token, httpClientBuilder)
-                .build();
-
-        return builder
-                .client(httpClient)
-                .build()
-                .create(APIServices.class)
-                .getLoansList(deviceId, ConstantVariables.API_SITE_CONFIG_ID);
-    }
-
-    public Observable<Response<LoanDetailResponse>> getLoanDetails(String token, int loanId,
-                                                                   String deviceId){
+    public Observable<Response<CheckBidResponse>> postCheckBid(String token, long investAmount,
+                                                               int loanId, String deviceId){
         OkHttpClient httpClient = AuthenticationHTTPInterceptor
                 .authTokenDecorator(token, httpClientBuilder).build();
 
@@ -80,7 +66,20 @@ public class LoanClient {
                 .client(httpClient)
                 .build()
                 .create(APIServices.class)
-                .getLoanDetail(loanId, deviceId, ConstantVariables.API_SITE_CONFIG_ID);
+                .postCheckBid(new BidRequest(investAmount, loanId,
+                        ConstantVariables.API_SITE_CONFIG_ID, deviceId));
     }
 
+    public Observable<Response<AcceptBidResponse>> postAcceptBid(String token, long investAmount,
+                                                                    int loanId, String deviceId){
+        OkHttpClient httpClient = AuthenticationHTTPInterceptor
+                .authTokenDecorator(token, httpClientBuilder).build();
+
+        return builder
+                .client(httpClient)
+                .build()
+                .create(APIServices.class)
+                .postAcceptBid(new BidRequest(investAmount, loanId,
+                        ConstantVariables.API_SITE_CONFIG_ID, deviceId));
+    }
 }

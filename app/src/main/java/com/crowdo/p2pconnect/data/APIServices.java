@@ -3,6 +3,7 @@ package com.crowdo.p2pconnect.data;
 import com.crowdo.p2pconnect.model.request.BidRequest;
 import com.crowdo.p2pconnect.model.request.LoginRequest;
 import com.crowdo.p2pconnect.model.request.RegisterRequest;
+import com.crowdo.p2pconnect.model.response.AcceptBidResponse;
 import com.crowdo.p2pconnect.model.response.AuthResponse;
 import com.crowdo.p2pconnect.model.response.CheckBidResponse;
 import com.crowdo.p2pconnect.model.response.CheckoutSummaryResponse;
@@ -52,7 +53,9 @@ public interface APIServices {
     @Headers({"Content-type: application/json"})
     Observable<Response<CheckBidResponse>> postCheckBid(@Body BidRequest data);
 
-
+    @POST("bid/accept_bid")
+    @Headers({"Content-type: application/json"})
+    Observable<Response<AcceptBidResponse>> postAcceptBid(@Body BidRequest data);
 
     @GET("invest/checkout/summary")
     @Headers({"Content-type: application/json"})

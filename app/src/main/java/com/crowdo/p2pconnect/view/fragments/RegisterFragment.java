@@ -15,7 +15,7 @@ import android.widget.EditText;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.client.AuthClient;
 import com.crowdo.p2pconnect.model.response.AuthResponse;
-import com.crowdo.p2pconnect.model.response.AcknowledgeResponse;
+import com.crowdo.p2pconnect.model.response.MessageResponse;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.HashingUtils;
@@ -213,11 +213,11 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
                 String serverErrorMsg = "Error: Registration not successful";
 
                 if (response.errorBody() != null) {
-                    Converter<ResponseBody, AcknowledgeResponse> errorConverter =
+                    Converter<ResponseBody, MessageResponse> errorConverter =
                             mAuthClient.getRetrofit().responseBodyConverter(
-                                    AcknowledgeResponse.class, new Annotation[0]);
+                                    MessageResponse.class, new Annotation[0]);
                     try {
-                        AcknowledgeResponse errorResponse = errorConverter.convert(response.errorBody());
+                        MessageResponse errorResponse = errorConverter.convert(response.errorBody());
                         serverErrorMsg = errorResponse.getServerResponse().getMessage();
                     } catch (IOException e) {
                         e.printStackTrace();

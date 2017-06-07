@@ -67,12 +67,17 @@ public class AuthClient {
     }
 
     public Observable<Response<AuthResponse>> loginUser(String email, String password, String deviceID) {
+
+        //no token needed thus Retrofit instance can be built at constructor
+
         return apiServices.postLoginUser(new LoginRequest(email, password, deviceID));
     }
 
     public Observable<Response<AuthResponse>> registerUser(String email, String name, String password,
                                                            String passwordConfirmation, String localePreference,
                                                            String deviceId) {
+        //no token needed thus Retrofit instance can be built at constructor
+
         return apiServices.postRegisterUser(new RegisterRequest(name, email, password,
                 passwordConfirmation, localePreference, deviceId));
     }

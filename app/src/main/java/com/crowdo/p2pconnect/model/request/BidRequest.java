@@ -21,6 +21,12 @@ public class BidRequest {
     @Expose
     private String deviceId;
 
+    public BidRequest(long investAmount, int loanId, String siteConfig, String deviceId){
+        this.siteConfig = siteConfig;
+        this.deviceId = deviceId;
+        bid = new Bid(investAmount, loanId);
+    }
+
     public Bid getBid() {
         return bid;
     }
@@ -48,25 +54,30 @@ public class BidRequest {
     private class Bid{
         @SerializedName("invest_amount")
         @Expose
-        private Integer investAmount;
+        private Long investAmount;
 
         @SerializedName("loan_id")
         @Expose
         private Integer loanId;
 
-        public Integer getInvestAmount() {
+        public Bid(long investAmount, int loanId) {
+            this.investAmount = investAmount;
+            this.loanId = loanId;
+        }
+
+        public long getInvestAmount() {
             return investAmount;
         }
 
-        public void setInvestAmount(Integer investAmount) {
+        public void setInvestAmount(long investAmount) {
             this.investAmount = investAmount;
         }
 
-        public Integer getLoanId() {
+        public int getLoanId() {
             return loanId;
         }
 
-        public void setLoanId(Integer loanId) {
+        public void setLoanId(int loanId) {
             this.loanId = loanId;
         }
     }
