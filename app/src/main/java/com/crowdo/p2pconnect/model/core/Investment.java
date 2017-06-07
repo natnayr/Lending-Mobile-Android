@@ -37,14 +37,6 @@ public class Investment {
     @Expose
     private String participationAgreement;
 
-    @SerializedName("e_signature_ip_address")
-    @Expose
-    private String eSignatureIpAddress;
-
-    @SerializedName("e_signature_timestamp")
-    @Expose
-    private String eSignatureTimestamp;
-
     @SerializedName("expected_principal_return")
     @Expose
     private String expectedPrincipalReturn;
@@ -76,10 +68,6 @@ public class Investment {
     @SerializedName("pending_bid_reminder_sent")
     @Expose
     private boolean pendingBidReminderSent;
-
-    @SerializedName("wallet_id")
-    @Expose
-    private int walletId;
 
     public int getId() {
         return id;
@@ -129,28 +117,12 @@ public class Investment {
         this.updatedAt = updatedAt;
     }
 
-    public Object getParticipationAgreement() {
+    public String getParticipationAgreement() {
         return participationAgreement;
     }
 
     public void setParticipationAgreement(String participationAgreement) {
         this.participationAgreement = participationAgreement;
-    }
-
-    public Object getESignatureIpAddress() {
-        return eSignatureIpAddress;
-    }
-
-    public void setESignatureIpAddress(String eSignatureIpAddress) {
-        this.eSignatureIpAddress = eSignatureIpAddress;
-    }
-
-    public Object getESignatureTimestamp() {
-        return eSignatureTimestamp;
-    }
-
-    public void setESignatureTimestamp(String eSignatureTimestamp) {
-        this.eSignatureTimestamp = eSignatureTimestamp;
     }
 
     public String getExpectedPrincipalReturn() {
@@ -215,13 +187,5 @@ public class Investment {
 
     public void setPendingBidReminderSent(boolean pendingBidReminderSent) {
         this.pendingBidReminderSent = pendingBidReminderSent;
-    }
-
-    public int getWalletId() {
-        return walletId;
-    }
-
-    public void setWalletId(int walletId) {
-        this.walletId = walletId;
     }
 }

@@ -105,10 +105,14 @@
     <dimen name="item_checkout_summary_cart_card_corner_radius">4dp</dimen>
     <dimen name="checkout_summary_cart_icon_size">18dp</dimen>
     <dimen name="checkout_summary_cart_edit_container_vertical_margin">8dp</dimen>
+    <dimen name="checkout_summary_action_bottom_icon_size">16dp</dimen>
+    <dimen name="checkout_summary_action_bottom_vertical_margin">12dp</dimen>
+    <dimen name="checkout_summary_action_button_margin_start">6dp</dimen>
     <dimen name="item_checkout_summary_cart_info_horizontal_margin">8dp</dimen>
     <dimen name="item_checkout_summary_cart_info_vertical_margin">8dp</dimen>
     <dimen name="item_checkout_summary_cart_edit_stroke_width">0.5dp</dimen>
     <dimen name="item_checkout_summary_cart_edit_icon_size">14dp</dimen>
+
 
     <dimen name="learning_center_categories_margin">5dp</dimen>
     <dimen name="learning_center_categories_title_size">18sp</dimen>

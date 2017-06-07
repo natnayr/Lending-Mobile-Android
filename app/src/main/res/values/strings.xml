@@ -135,6 +135,9 @@
     <string name="item_checkout_summary_interest_rate_label">%</string>
     <string name="item_checkout_summary_enter_amount_currency_symbol_idr" translatable="false">Rp</string>
     <string name="item_checkout_summary_enter_amount_unit_zeros_idr" translatable="false">,000,000</string>
+    <string name="checkout_summary_container_top_up_label">Top Up</string>
+    <string name="checkout_summary_container_update_label">Update</string>
+    <string name="checkout_summary_container_confirm_label">Confirm</string>
 
 
 

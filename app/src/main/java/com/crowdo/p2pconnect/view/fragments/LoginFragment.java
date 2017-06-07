@@ -14,7 +14,7 @@ import android.widget.EditText;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.client.AuthClient;
-import com.crowdo.p2pconnect.model.response.ErrorResponse;
+import com.crowdo.p2pconnect.model.response.AcknowledgeResponse;
 import com.crowdo.p2pconnect.model.response.AuthResponse;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HashingUtils;
@@ -182,11 +182,11 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
                 String serverErrorMsg = "Error: Login not successful";
 
                 if (response.errorBody() != null) {
-                    Converter<ResponseBody, ErrorResponse> errorConverter =
+                    Converter<ResponseBody, AcknowledgeResponse> errorConverter =
                             authClient.getRetrofit().responseBodyConverter(
-                                    ErrorResponse.class, new Annotation[0]);
+                                    AcknowledgeResponse.class, new Annotation[0]);
                     try {
-                        ErrorResponse errorResponse = errorConverter.convert(response.errorBody());
+                        AcknowledgeResponse errorResponse = errorConverter.convert(response.errorBody());
                         serverErrorMsg = errorResponse.getServerResponse().getMessage();
                     } catch (IOException e) {
                         e.printStackTrace();

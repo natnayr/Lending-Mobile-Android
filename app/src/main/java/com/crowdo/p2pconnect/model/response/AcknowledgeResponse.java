@@ -7,16 +7,16 @@ import com.google.gson.annotations.SerializedName;
  * Created by cwdsg05 on 11/4/17.
  */
 
-public class ErrorResponse {
+public class AcknowledgeResponse {
 
     @SerializedName("server")
     @Expose
     private ServerResponse serverResponse;
 
-    public ErrorResponse() {
+    public AcknowledgeResponse() {
     }
 
-    public ErrorResponse(String message, int status) {
+    public AcknowledgeResponse(String message, int status) {
         this.serverResponse = new ServerResponse(message, status);
     }
 

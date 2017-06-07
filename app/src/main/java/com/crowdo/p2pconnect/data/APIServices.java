@@ -1,14 +1,13 @@
 package com.crowdo.p2pconnect.data;
 
+import com.crowdo.p2pconnect.model.request.BidRequest;
 import com.crowdo.p2pconnect.model.request.LoginRequest;
 import com.crowdo.p2pconnect.model.request.RegisterRequest;
 import com.crowdo.p2pconnect.model.response.AuthResponse;
+import com.crowdo.p2pconnect.model.response.CheckBidResponse;
 import com.crowdo.p2pconnect.model.response.CheckoutSummaryResponse;
 import com.crowdo.p2pconnect.model.response.LoanDetailResponse;
-import com.crowdo.p2pconnect.model.core.Loan;
 import com.crowdo.p2pconnect.model.response.LoanListResponse;
-
-import java.util.List;
 
 import io.reactivex.Observable;
 import retrofit2.Response;
@@ -48,6 +47,12 @@ public interface APIServices {
     @GET("loans/loan_details/{id}")
     @Headers({"Content-type: application/json"})
     Observable<Response<LoanDetailResponse>> getLoanDetail(@Path("id") int id, @Query("device_id") String deviceId, @Query("site_config") String siteOut);
+
+    @POST("bid/check_bid")
+    @Headers({"Content-type: application/json"})
+    Observable<Response<CheckBidResponse>> postCheckBid(@Body BidRequest data);
+
+
 
     @GET("invest/checkout/summary")
     @Headers({"Content-type: application/json"})
