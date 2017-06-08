@@ -112,7 +112,7 @@
     <string name="loan_detail_bidding_btn_label">Bid</string>
     <string name="loan_detail_bidding_btn_content_description">Bid Here</string>
     <string name="loan_detail_prog_snackbar_error_reading_pdf">Error opening PDF reader, please install one</string>
-    <string name="loan_detail_prog_snackbar_bid_too_low_label">Please key in BID Amount greater than 0</string>
+    <string name="loan_detail_prog_snackbar_bid_too_low_label">Key in amount larger than 0</string>
     <string name="loan_detail_prog_snackbar_bid_too_high_label">Sorry, Bid amount entered is too high</string>
     <string name="loan_detail_factsheet_prog_toast_external_storage_miss">External storage is missing, downloading to Internal Downloads Folder</string>
 
@@ -139,9 +139,9 @@
     <string name="checkout_summary_container_update_label">Update</string>
     <string name="checkout_summary_container_confirm_label">Confirm</string>
 
-
-
     <!-- Globals -->
+    <string name="auth_session_end_and_logout">Session Ended, Logging Out</string>
+    <string name="auth_welcome">Welcome</string>
     <string name="network_connection_poor">Network Connection Unavailable</string>
     <string name="pre_exit_question">Are you sure you want to exit?</string>
     <string name="downloading_label">Downloading, Please tap OPEN to access file</string>

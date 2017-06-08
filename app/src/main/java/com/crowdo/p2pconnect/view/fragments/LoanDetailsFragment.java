@@ -39,6 +39,8 @@ import com.esafirm.rxdownloader.RxDownloader;
 import com.f2prateek.dart.Dart;
 
 import java.io.File;
+import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -200,8 +202,7 @@ public class LoanDetailsFragment extends Fragment {
                         }else{
                             if(HTTPResponseUtils.check4xxClientError(response.code())){
                                 if(ConstantVariables.HTTP_UNAUTHORISED == response.code()){
-                                    AuthAccountUtils.actionLogout(AccountManager.get(getActivity()),
-                                            getActivity());
+                                    AuthAccountUtils.actionLogout(getActivity());
                                 }
                             }
                         }
@@ -347,7 +348,7 @@ public class LoanDetailsFragment extends Fragment {
             }
 
             //check bid
-            BiddingClient bidClient = BiddingClient.getInstance(getActivity());
+            final BiddingClient bidClient = BiddingClient.getInstance(getActivity());
 
             bidClient.postCheckBid(biddingAmount, initLoanId,
                             ConstantVariables.getUniqueAndroidID(getActivity()))
@@ -374,16 +375,29 @@ public class LoanDetailsFragment extends Fragment {
                             }else{
                                 //Error Handling
                                 if(HTTPResponseUtils.check4xxClientError(response.code())){
+                                    String serverErrorMessage = "Error: Check Bid Not successful";
                                     if(ConstantVariables.HTTP_UNAUTHORISED == response.code()){
-                                        AuthAccountUtils.actionLogout(AccountManager.get(getActivity()),
-                                                getActivity());
+                                        AuthAccountUtils.actionLogout(getActivity());
                                     }else if(ConstantVariables.HTTP_PRECONDITION_FAILED == response.code()){
+                                        //Invalid Investment Amount (e.g. 0, -1, etc)
                                         if(response.errorBody() != null) {
-//                                            Converter<ResponseBody, MessageResponse> errorConverter =
-//                                                    bidClient
-//
-//                                            SnackBarUtil.snackBarForWarrningCreate(getView(),
-//                                                    response.errorBody())
+                                            Converter<ResponseBody, MessageResponse> errorConverter =
+                                                    bidClient.getRetrofit().responseBodyConverter(
+                                                            MessageResponse.class, new Annotation[0]);
+                                            try{
+                                                MessageResponse errorResponse = errorConverter
+                                                        .convert(response.errorBody());
+
+                                                serverErrorMessage = errorResponse
+                                                        .getServerResponse().getMessage();
+                                            }catch (IOException e){
+                                                e.printStackTrace();
+                                                Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                                            }
+
+                                            SnackBarUtil.snackBarForErrorCreate(getView(),
+                                                    serverErrorMessage, Snackbar.LENGTH_SHORT)
+                                                    .show();
                                         }
                                     }
                                 }

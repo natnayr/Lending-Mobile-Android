@@ -10,8 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_centerVertical="true"
-        android:elevation="5dp"
-        android:layout_alignParentTop="true">
+        android:elevation="1dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/color_background_100">
         <LinearLayout
             android:id="@+id/checkout_summary_expand_btn"
             android:layout_width="wrap_content"
@@ -78,18 +79,29 @@
         app:el_parallax="0"
         android:elevation="1dp"
         android:layout_below="@+id/checkout_summary_header">
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/checkout_summary_bidding_overall_horizontal_margin"
             android:layout_marginStart="@dimen/checkout_summary_bidding_overall_horizontal_margin">
 
+            <TextView
+                android:id="@+id/checkout_summary_bidding_overall_notification_label"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textColor="@color/color_accent"
+                android:textSize="@dimen/checkout_summary_expand_small_font_size"
+                android:text="Note: Click Update to Reflect Changes"
+                android:fontFamily="@string/font_family_light"
+                android:gravity="center"
+                android:layout_alignParentTop="true"
+                android:paddingBottom="4px"/>
+
             <RelativeLayout
                 android:id="@+id/checkout_summary_bidding_overall_pending_bids"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true">
+                android:layout_below="@+id/checkout_summary_bidding_overall_notification_label">
 
                 <FrameLayout
                     android:id="@+id/checkout_summary_bidding_overall_pending_bids_icon"
@@ -178,8 +190,6 @@
                     android:textSize="@dimen/checkout_summary_expand_large_font_size" />
             </RelativeLayout>
 
-
-
             <RelativeLayout
                 android:id="@+id/checkout_summary_bidding_overall_amt_top_up"
                 android:layout_width="match_parent"
@@ -231,17 +241,6 @@
                     android:background="@drawable/checkout_summary_calc_total_box"/>
 
             </RelativeLayout>
-            <TextView
-                android:id="@+id/checkout_summary_bidding_overall_notification_label"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:layout_below="@+id/checkout_summary_bidding_overall_amt_top_up"
-                android:textColor="@color/color_accent"
-                android:textSize="@dimen/checkout_summary_expand_small_font_size"
-                android:text="Update to Reflect Bidding Changes"
-                android:fontFamily="@string/font_family_light"
-                android:gravity="center"
-                android:paddingBottom="4px"/>
         </RelativeLayout>
 
     </net.cachapa.expandablelayout.ExpandableLayout>

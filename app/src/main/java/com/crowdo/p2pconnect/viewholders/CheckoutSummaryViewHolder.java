@@ -27,10 +27,11 @@ import butterknife.ButterKnife;
 public class CheckoutSummaryViewHolder {
 
     @BindView(R.id.checkout_summary_expand_btn) LinearLayout mSummaryExpandBtn;
+    @BindView(R.id.checkout_summary_close_btn) public LinearLayout mSummaryCloseBtn;
+    @BindView(R.id.checkout_summary_refresh_btn) public LinearLayout mSummaryRefreshBtn;
+
     @BindView(R.id.checkout_summary_expand_icon) ImageView mSummaryExpandIcon;
-    @BindView(R.id.checkout_summary_refresh_btn) LinearLayout mSummaryRefreshBtn;
     @BindView(R.id.checkout_summary_refresh_icon) ImageView mSummarySyncIcon;
-    @BindView(R.id.checkout_summary_close_btn) LinearLayout mSummaryCloseBtn;
     @BindView(R.id.checkout_summary_close_icon) ImageView mSummaryCloseIcon;
     @BindView(R.id.checkout_summary_expandable) ExpandableLayout mSummaryExpandableLayout;
     @BindView(R.id.checkout_summary_recycler_view) RecyclerView mSummaryRecycleView;
@@ -40,7 +41,6 @@ public class CheckoutSummaryViewHolder {
     @BindView(R.id.checkout_summary_bidding_overall_avalible_balance_icon_float) ImageView mSummaryAvalibleBalanceIconFloat;
     @BindView(R.id.checkout_summary_bidding_overall_amt_top_up_icon_main) ImageView mSummaryAmtTopUpIconMain;
     @BindView(R.id.checkout_summary_bidding_overall_amt_top_up_icon_float) ImageView mSummaryAmtTopUpIconFloat;
-
 
     @BindView(R.id.checkout_summary_bidding_overall_pending_bids_value) TextView mSummaryPendingBidsValue;
     @BindView(R.id.checkout_summary_bidding_overall_available_balance_value) TextView mSummaryAvailableBalanceValue;
@@ -84,9 +84,9 @@ public class CheckoutSummaryViewHolder {
 
         mSummarySyncIcon.setImageDrawable(
                 new IconicsDrawable(mContext)
-                        .icon(CommunityMaterial.Icon.cmd_refresh)
+                        .icon(CommunityMaterial.Icon.cmd_cloud_sync)
                         .colorRes(R.color.color_secondary_text)
-                        .sizeRes(R.dimen.checkout_summary_action_icon_size));
+                        .sizeRes(R.dimen.checkout_summary_action_refresh_icon_size));
 
         mSummaryCloseIcon.setImageDrawable(
                 new IconicsDrawable(mContext)

@@ -73,6 +73,20 @@ public class CheckoutSummaryFragment extends Fragment{
         mCheckoutSummaryRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mCheckoutSummaryRecyclerView.setAdapter(this.checkoutSummaryAdapter);
 
+        viewHolder.mSummaryCloseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+
+        viewHolder.mSummaryRefreshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                populateSummaryList();
+            }
+        });
+
         return rootView;
     }
 
@@ -118,8 +132,7 @@ public class CheckoutSummaryFragment extends Fragment{
                             Log.d(LOG_TAG, "APP getCheckoutSummary onNext() status > " + response.code());
                             if(HTTPResponseUtils.check4xxClientError(response.code())){
                                 if(ConstantVariables.HTTP_UNAUTHORISED == response.code()){
-                                    AuthAccountUtils.actionLogout(AccountManager.get(mContext),
-                                            getActivity());
+                                    AuthAccountUtils.actionLogout(getActivity());
                                 }
                             }
                         }

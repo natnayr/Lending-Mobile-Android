@@ -7,13 +7,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.ValueCallback;
 
+import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
+import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.view.activities.LaunchActivity;
 
 
@@ -117,8 +121,18 @@ public class AuthAccountUtils {
         }).start();
     }
 
-    public static void actionLogout(AccountManager accountManager, final Activity activity){
+    public static void actionLogout(final Activity activity){
+        //for signing out that have logged in.
+        actionLogout(activity, false);
+    }
+
+
+    public static void actionLogout(final Activity activity, boolean isNewSession){
         Log.d(LOG_TAG, "APP actionLogout()");
+
+
+        //begin process
+        AccountManager accountManager = AccountManager.get(activity);
 
         //clear cookie cache fro webview
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
@@ -150,6 +164,39 @@ public class AuthAccountUtils {
         //remove accounts
         AuthAccountUtils.removeAccounts(activity);
 
+        String authMessage;
+        if(isNewSession){
+            authMessage = activity.getResources().getString(R.string.auth_welcome);
+        }else{
+            authMessage = activity.getResources().getString(R.string.auth_session_end_and_logout);
+        }
+
+        //if activity has not attached itself to a view
+        View rootView = null;
+        try{
+            rootView = activity.getCurrentFocus().getRootView();
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+        }
+
+
+        if(rootView != null) {
+            //notify user of logout.
+            SnackBarUtil.snackBarForInfoCreate(rootView,
+                    authMessage, Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
+                @Override
+                public void onDismissed(Snackbar transientBottomBar, int event) {
+                    super.onDismissed(transientBottomBar, event);
+                    goToLaunchActivity(activity);
+                }
+            }).show();
+        }else{
+            goToLaunchActivity(activity);
+        }
+    }
+
+    private static void goToLaunchActivity(Activity activity){
         Intent intent = new Intent(activity, LaunchActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

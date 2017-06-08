@@ -16,6 +16,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -23,11 +24,13 @@ import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.APIServices;
+import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.TypefaceUtils;
+import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.fragments.CheckoutSummaryFragment;
 import com.crowdo.p2pconnect.view.fragments.LearningCenterFragment;
 import com.crowdo.p2pconnect.view.fragments.LoanListFragment;
@@ -82,6 +85,11 @@ public class MainActivity extends AppCompatActivity{
     private static final int DRAWER_SELECT_SHOPPING_CART = 999;
 
     private AccountManager mAccountManager;
+
+    @Override
+    public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
+        return super.onCreateView(parent, name, context, attrs);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -224,7 +232,7 @@ public class MainActivity extends AppCompatActivity{
 
                                 case DRAWER_SELECT_LOGOUT:
                                     //immediate invalidate of token & logout
-                                    AuthAccountUtils.actionLogout(mAccountManager, MainActivity.this);
+                                    AuthAccountUtils.actionLogout(MainActivity.this);
                                     break;
                                 default:
                                     return false; //default close

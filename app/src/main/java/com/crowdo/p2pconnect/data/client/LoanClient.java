@@ -16,6 +16,7 @@ import com.google.gson.GsonBuilder;
 
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -37,14 +38,14 @@ public class LoanClient {
         final Gson gson = new GsonBuilder().serializeNulls().create();
 
 //        //Http Inteceptor
-//        final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-//        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
+        final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         String authToken = SharedPreferencesUtils.getSharedPrefString(context,
                 CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
 
         OkHttpClient httpClient = new OkHttpClient.Builder()
-//                .addInterceptor(loggingInterceptor)
+                .addInterceptor(loggingInterceptor)
                 .addInterceptor(new SendingCookiesInterceptor(context))
                 .addInterceptor(new ReceivingCookiesInterceptor(context))
                 .addInterceptor(new AuthHTTPInterceptor(authToken))

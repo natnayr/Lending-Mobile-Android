@@ -1,10 +1,12 @@
 package com.crowdo.p2pconnect.view.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.view.fragments.CheckoutSummaryFragment;
 
 /**
@@ -26,5 +28,16 @@ public class CheckoutActivity extends AppCompatActivity {
                 .commit();
     }
 
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleHelper.onAttach(base));
+    }
 
 }
