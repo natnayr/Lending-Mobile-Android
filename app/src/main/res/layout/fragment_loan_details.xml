@@ -18,7 +18,6 @@
         android:gravity="center_horizontal"
         android:textColor="@color/color_secondary_text"
         android:textSize="@dimen/loan_detail_small_text_size"
-        android:fontFamily="@string/font_family_regular"
         android:layout_marginTop="@dimen/loan_detail_vertical_bracket_margin"
         android:textIsSelectable="true"/>
 
@@ -246,6 +245,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@string/font_family_regular"
             android:text="@string/loan_detail_avalible_amount_description"
             android:textSize="@dimen/loan_detail_small_text_size"/>
         <TextView
@@ -253,7 +253,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/loan_detail_avalible_amount_margin_left"
-            android:fontFamily="@string/font_family_regular"
+            android:fontFamily="@string/font_family_condensed"
             android:textSize="@dimen/loan_detail_small_text_size"/>
     </LinearLayout>
 
@@ -288,6 +288,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="@string/loan_detail_enter_amount_currency_symbol_idr"
+                android:fontFamily="@string/font_family_condensed"
                 android:gravity="center"
                 android:textSize="20sp"/>
             <EditText
@@ -313,6 +314,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="@string/loan_detail_enter_amount_unit_zeros_idr"
+                android:fontFamily="@string/font_family_condensed"
                 android:textSize="20sp"
                 android:gravity="start" />
         </LinearLayout>
@@ -374,7 +376,7 @@
                     android:textColor="@color/color_icons_text"
                     android:text="@string/loan_detail_factsheet_btn_description"
                     android:textSize="@dimen/loan_detail_small_text_size"
-                    android:fontFamily="@string/font_family_regular"/>
+                    android:fontFamily="@string/font_family_condensed"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -454,6 +456,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/loan_detail_small_text_size"
                 android:textColor="@color/color_secondary_text"
+                android:fontFamily="@string/font_family_condensed"
                 android:layout_below="@+id/loan_detail_schedule_start_description"
                 android:layout_toEndOf="@+id/loan_detail_schedule_start_flag_icon"/>
         </RelativeLayout>
@@ -501,6 +504,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/loan_detail_small_text_size"
                 android:textColor="@color/color_secondary_text"
+                android:fontFamily="@string/font_family_condensed"
                 android:layout_below="@+id/loan_detail_schedule_first_repayment_description"
                 android:layout_toEndOf="@+id/loan_detail_schedule_first_repayment_done_icon"/>
         </RelativeLayout>
@@ -547,6 +551,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/loan_detail_small_text_size"
+                android:fontFamily="@string/font_family_condensed"
                 android:textColor="@color/color_secondary_text"
                 android:layout_below="@+id/loan_detail_schedule_last_repayment_description"
                 android:layout_toEndOf="@+id/loan_detail_schedule_last_repayment_done_icon"/>

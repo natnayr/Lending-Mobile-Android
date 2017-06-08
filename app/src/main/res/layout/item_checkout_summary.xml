@@ -109,6 +109,7 @@
                     android:layout_weight="3"
                     android:layout_height="wrap_content"
                     android:text="@string/item_checkout_summary_enter_amount_currency_symbol_idr"
+                    android:fontFamily="@string/font_family_condensed"
                     android:gravity="center"
                     android:textSize="@dimen/checkout_summary_expand_large_font_size"/>
                 <EditText
@@ -132,6 +133,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/item_checkout_summary_enter_amount_unit_zeros_idr"
                     android:textSize="@dimen/checkout_summary_expand_large_font_size"
+                    android:fontFamily="@string/font_family_condensed"
                     android:gravity="start" />
             </LinearLayout>
 
