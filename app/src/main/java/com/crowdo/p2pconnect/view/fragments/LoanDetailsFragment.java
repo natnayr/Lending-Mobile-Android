@@ -1,7 +1,6 @@
 package com.crowdo.p2pconnect.view.fragments;
 
 import android.Manifest;
-import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,10 +24,7 @@ import com.crowdo.p2pconnect.model.response.CheckBidResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
-import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
-import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
-import com.crowdo.p2pconnect.view.activities.Henson;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.model.response.LoanDetailResponse;
@@ -65,10 +61,10 @@ public class LoanDetailsFragment extends Fragment {
 
     @BindString(R.string.downloading_label) String mLabelToastDownloading;
     @BindString(R.string.downloaded_to_label) String mLabelDownloadedTo;
-    @BindString(R.string.loan_detail_prog_snackbar_error_reading_pdf) String mLabelSnackPDFReadError;
+    @BindString(R.string.loan_detail_error_reading_pdf) String mLabelSnackPDFReadError;
     @BindString(R.string.intent_file_chooser) String mLabelIntentChooser;
     @BindString(R.string.unable_open_file_label) String mLabelErrorOpenFile;
-    @BindString(R.string.loan_detail_prog_snackbar_bid_too_low_label) String mLabelBidTooLow;
+    @BindString(R.string.loan_detail_prog_snackbar_bid_too_low) String mLabelBidTooLow;
     @BindString(R.string.loan_detail_prog_snackbar_bid_too_high_label) String mLabelBidTooHigh;
     @BindString(R.string.permissions_write_request) String mLabelPermissionRequest;
     @BindString(R.string.cancel_label) String mLabelCancel;
@@ -147,7 +143,8 @@ public class LoanDetailsFragment extends Fragment {
             viewHolder.mBidEnterBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    addToCart();
+//                    addToCart();
+                    checkingBid();
                 }
             });
         }
@@ -363,11 +360,17 @@ public class LoanDetailsFragment extends Fragment {
                         @Override
                         public void onNext(Response<CheckBidResponse> response) {
                             if(response.isSuccessful()){
+                                String serverErrorMessage = "Bad Response From Server";
                                 CheckBidResponse checkBidResponse = response.body();
                                 if(checkBidResponse != null){
                                     long originalAmount = checkBidResponse.getOriginalInvestAmount();
                                     long newAmount = checkBidResponse.getInvestAmount();
                                     if(originalAmount != newAmount){
+                                        //amount is adjusted
+                                        SnackBarUtil.snackBarForErrorCreate(getView(),
+                                                serverErrorMessage, Snackbar.LENGTH_SHORT)
+                                                .show();
+
                                         long newUnitAmount = newAmount / ConstantVariables.IDR_BASE_UNIT;
                                         viewHolder.mEnterAmount.setText(Long.toString(newUnitAmount));
                                     }
@@ -420,66 +423,66 @@ public class LoanDetailsFragment extends Fragment {
 
 
     // WebView Intent into p2p crowdo
-    private void addToCart(){
-        if(viewHolder != null){
-            int unitBidAmount;
-
-            try {
-                String inputUnitAmount = viewHolder.mEnterAmount.getText().toString().trim().replaceAll("[^\\d.]", "");
-                unitBidAmount = (inputUnitAmount.equals("")) ? 0 : Integer.parseInt(inputUnitAmount);
-            }catch (NumberFormatException nfe){
-                Log.d(LOG_TAG, nfe.getMessage(), nfe);
-                unitBidAmount = 0;
-            }
-
-            long biddingAmount = unitBidAmount * ConstantVariables.IDR_BASE_UNIT;
-
-            if(unitBidAmount <= 0 ) {
-                final Snackbar snackbar = SnackBarUtil.snackBarForWarrningCreate(getView(),
-                        mLabelBidTooLow,
-                        Snackbar.LENGTH_LONG);
-
-                snackbar.setAction(mLabelOkay, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        snackbar.dismiss();
-                    }
-                }).show();
-                return;
-            }
-
-            if(mLoanDetailResponse.getLoan().getFundingAmountToCompleteCache() < biddingAmount){
-
-                final Snackbar snackbar = SnackBarUtil.snackBarForWarrningCreate(getView(),
-                        mLabelBidTooHigh,
-                        Snackbar.LENGTH_LONG);
-                snackbar.setAction(mLabelOkay, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        snackbar.dismiss();
-                    }
-                }).show();
-                return;
-            }
-
-            String localeKey = LocaleHelper.getLanguage(getActivity());
-
-            String webViewUrl = APIServices.P2P_BASE_URL +
-                    "mobile2/checkout?" +
-                    "loan_id="+initLoanId +
-                    "&invest_amount="+biddingAmount+
-                    "&lang="+localeKey+
-                    "&device_id="+ConstantVariables.getUniqueAndroidID(getActivity());
-
-            Log.d(LOG_TAG, "APP URL " + webViewUrl);
-
-            Intent intent = Henson.with(getActivity())
-                    .gotoWebViewActivity()
-                    .mUrl(webViewUrl)
-                    .build();
-
-            startActivity(intent);
-        }
-    }
+//    private void addToCart(){
+//        if(viewHolder != null){
+//            int unitBidAmount;
+//
+//            try {
+//                String inputUnitAmount = viewHolder.mEnterAmount.getText().toString().trim().replaceAll("[^\\d.]", "");
+//                unitBidAmount = (inputUnitAmount.equals("")) ? 0 : Integer.parseInt(inputUnitAmount);
+//            }catch (NumberFormatException nfe){
+//                Log.d(LOG_TAG, nfe.getMessage(), nfe);
+//                unitBidAmount = 0;
+//            }
+//
+//            long biddingAmount = unitBidAmount * ConstantVariables.IDR_BASE_UNIT;
+//
+//            if(unitBidAmount <= 0 ) {
+//                final Snackbar snackbar = SnackBarUtil.snackBarForWarrningCreate(getView(),
+//                        mLabelBidTooLow,
+//                        Snackbar.LENGTH_LONG);
+//
+//                snackbar.setAction(mLabelOkay, new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        snackbar.dismiss();
+//                    }
+//                }).show();
+//                return;
+//            }
+//
+//            if(mLoanDetailResponse.getLoan().getFundingAmountToCompleteCache() < biddingAmount){
+//
+//                final Snackbar snackbar = SnackBarUtil.snackBarForWarrningCreate(getView(),
+//                        mLabelBidTooHigh,
+//                        Snackbar.LENGTH_LONG);
+//                snackbar.setAction(mLabelOkay, new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        snackbar.dismiss();
+//                    }
+//                }).show();
+//                return;
+//            }
+//
+//            String localeKey = LocaleHelper.getLanguage(getActivity());
+//
+//            String webViewUrl = APIServices.P2P_BASE_URL +
+//                    "mobile2/checkout?" +
+//                    "loan_id="+initLoanId +
+//                    "&invest_amount="+biddingAmount+
+//                    "&lang="+localeKey+
+//                    "&device_id="+ConstantVariables.getUniqueAndroidID(getActivity());
+//
+//            Log.d(LOG_TAG, "APP URL " + webViewUrl);
+//
+//            Intent intent = Henson.with(getActivity())
+//                    .gotoWebViewActivity()
+//                    .mUrl(webViewUrl)
+//                    .build();
+//
+//            startActivity(intent);
+//        }
+//    }
 
 }

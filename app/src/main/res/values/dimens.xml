@@ -4,11 +4,9 @@
     <dimen name="welcome_btn_radius_corner_width">0dp</dimen>
     <dimen name="welcome_btn_stoke_width">2dp</dimen>
     <dimen name="welcome_btn_padding">12dp</dimen>
-    <dimen name="welcome_btn_btm_margin">40dp</dimen>
     <dimen name="welcome_btn_text_size">20sp</dimen>
 
     <dimen name="welcome_tab_horizontal_margin">24dp</dimen>
-    <dimen name="welcome_tab_vertical_margin">24dp</dimen>
     <dimen name="welcome_tab_title_size">20sp</dimen>
     <dimen name="welcome_tab_body_size">15sp</dimen>
 
@@ -33,7 +31,6 @@
     <dimen name="list_view_filtering_checkbox_height">24dp</dimen>
     <dimen name="list_view_filtering_checkbox_width">24dp</dimen>
     <dimen name="list_view_filtering_switch_view_icon_padding">8dp</dimen>
-    <dimen name="list_view_filtering_switch_view_icon_margin">8dp</dimen>
     <dimen name="list_view_filtering_action_btn_radius">4dp</dimen>
     <dimen name="list_view_filtering_action_btn_vertical_padding">2dp</dimen>
     <dimen name="list_view_filtering_action_btn_horizontal_padding">4dp</dimen>
@@ -51,8 +48,6 @@
     <dimen name="list_top_credit_vertical_margin">2dp</dimen>
     <dimen name="list_mid_left_margin">8dp</dimen>
     <dimen name="list_mid_right_margin">16dp</dimen>
-    <dimen name="list_mid_vertical_margin">4dp</dimen>
-    <dimen name="list_btm_left_margin">8dp</dimen>
     <dimen name="list_btm_top_margin">4dp</dimen>
     <dimen name="list_btm_btm_margin">4dp</dimen>
     <dimen name="list_btm_content_left_margin">0dp</dimen>
@@ -62,10 +57,7 @@
     <dimen name="loan_detail_small_text_size">12sp</dimen>
     <dimen name="loan_detail_figure_text_size">38sp</dimen>
     <dimen name="loan_detail_vertical_bracket_margin">8dp</dimen>
-    <dimen name="loan_detail_figure_vertical_spacing_margin">8dp</dimen>
     <dimen name="loan_detail_progress_margin_end">8dp</dimen>
-    <dimen name="loan_detail_duration_spacing">10dp</dimen>
-    <dimen name="loan_detail_duration_word_spacing">10dp</dimen>
     <dimen name="loan_detail_btn_padding_top">6dp</dimen>
     <dimen name="loan_detail_btn_padding_btm">6dp</dimen>
     <dimen name="loan_detail_btn_padding_left">4dp</dimen>
@@ -75,11 +67,7 @@
     <dimen name="loan_detail_enter_amount_radius_corner_width">0dp</dimen>
     <dimen name="loan_detail_enter_amount_padding">0dp</dimen>
     <dimen name="loan_detail_enter_amount_icon_size">16dp</dimen>
-    <dimen name="loan_detail_schedule_margin_left">7dp</dimen>
-    <dimen name="loan_detail_schedule_radius_round_width">5dp</dimen>
-    <dimen name="loan_detail_schedule_radius_corner_width">0dp</dimen>
     <dimen name="loan_detail_schedule_box_vertical_padding">4dp</dimen>
-    <dimen name="loan_detail_schedule_box_horizontal_padding">4dp</dimen>
     <dimen name="loan_detail_avalible_amount_margin_left">10dp</dimen>
 
     <dimen name="checkout_summary_expand_title_font_size">16sp</dimen>
@@ -87,7 +75,6 @@
     <dimen name="checkout_summary_expand_small_font_size">12sp</dimen>
     <dimen name="checkout_summary_expand_icon_size">10dp</dimen>
     <dimen name="checkout_summary_expand_margin">6dp</dimen>
-    <dimen name="checkout_summary_action_icon_size">16dp</dimen>
     <dimen name="checkout_summary_action_refresh_icon_size">24dp</dimen>
     <dimen name="checkout_summary_action_close_icon_size">16dp</dimen>
     <dimen name="checkout_summary_action_padding">15dp</dimen>
@@ -100,12 +87,8 @@
     <dimen name="checkout_summary_cart_vertical_margin">8dp</dimen>
     <dimen name="checkout_summary_cart_horizontal_margin">10dp</dimen>
     <dimen name="checkout_summary_cart_header_margin">10dp</dimen>
-    <dimen name="checkout_summary_cart_card_horizontal_padding">4dp</dimen>
-    <dimen name="checkout_summary_cart_card_vertical_padding">3dp</dimen>
-    <dimen name="checkout_summary_cart_card_elevation">1dp</dimen>
     <dimen name="item_checkout_summary_cart_card_corner_radius">4dp</dimen>
     <dimen name="checkout_summary_cart_icon_size">18dp</dimen>
-    <dimen name="checkout_summary_cart_edit_container_vertical_margin">8dp</dimen>
     <dimen name="checkout_summary_action_bottom_icon_size">16dp</dimen>
     <dimen name="checkout_summary_action_bottom_vertical_margin">12dp</dimen>
     <dimen name="checkout_summary_action_button_margin_start">6dp</dimen>
@@ -122,7 +105,6 @@
     <dimen name="learning_center_categories_title_drawable_padding">5dp</dimen>
     <dimen name="learning_center_list_view_margin_top">5dp</dimen>
 
-    <dimen name="item_learning_center_horizontal_margin">16dp</dimen>
     <dimen name="item_learning_center_vertical_margin">8dp</dimen>
     <dimen name="item_learning_center_question_text_size">18sp</dimen>
     <dimen name="item_learning_center_answer_text_size">14sp</dimen>
@@ -131,23 +113,12 @@
 
     <dimen name="webview_progressbar_height">1dp</dimen>
 
-    <!-- drawer width standard mobile increment (56dp) * 5 -->
-    <dimen name="nav_drawer_padding">16dp</dimen>
 
     <!-- toolbar items -->
     <dimen name="toolbar_badge_text_size">7sp</dimen>
 
     <!-- default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_padding">8dp</dimen>
-    <dimen name="activity_vertical_padding">8dp</dimen>
-
     <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-
-    <dimen name="dialog_horizontal_padding">18dp</dimen>
-    <dimen name="dialog_vertical_padding">18dp</dimen>
-
-    <dimen name="dialog_horizontal_margin">48dp</dimen>
-    <dimen name="dialog_vertical_margin">48dp</dimen>
 
 </resources>

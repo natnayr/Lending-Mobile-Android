@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="fa_shield" translatable="false">&#xf132;</string>
-    <string name="fa_file_text" translatable="false">&#xf15c;</string>
-    <string name="fa_money" translatable="false">&#xf0d6;</string>
-    <string name="fa_unlock_alt" translatable="false">&#xf13e;</string>
-    <string name="fa_angle_right" translatable="false">&#xf105;</string>
-</resources>
