@@ -176,7 +176,6 @@
         android:layout_marginBottom="@dimen/loan_detail_vertical_bracket_margin"
         android:layout_below="@+id/loan_detail_secondary_group">
         <TextView
-
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -209,6 +208,26 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/loan_detail_close_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:rotation="-25"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/loan_detail_close_status_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CLOSED"
+            android:fontFamily="@string/font_family_regular"
+            android:textSize="@dimen/loan_detail_figure_text_size"
+            android:textColor="@color/color_primary_700"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/loan_detail_frequency_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/loan_detail_vertical_bracket_margin"

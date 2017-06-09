@@ -43,10 +43,8 @@ import butterknife.ButterKnife;
 public class LoanDetailsViewHolder {
 
     private static final String LOG_TAG = LoanDetailsViewHolder.class.getSimpleName();
-
     private static final int AMOUNT_UNIT = 1;
     private static final int ENTER_AMOUNT_MAX_LENGTH = 4;
-
     private Context mContext;
 
     // views
@@ -70,6 +68,9 @@ public class LoanDetailsViewHolder {
     @BindView(R.id.loan_detail_schedule_last_repayment_date) TextView mScheduleLastRepaymentDate;
     @BindView(R.id.loan_detail_avalible_amount) TextView mAvalibleAmount;
 
+    //status
+    @BindView(R.id.loan_detail_close_status) LinearLayout mClosedStatus;
+
     // to interact with
     @BindView(R.id.loan_detail_amount_minus_btn) ImageButton mAmountMinusBtn;
     @BindView(R.id.loan_detail_amount_plus_btn) ImageButton mAmountPlusBtn;
@@ -79,7 +80,6 @@ public class LoanDetailsViewHolder {
 
     // String Bindings
     @BindString(R.string.loan_detail_target_amount_principal) String mTargetAmountPrincipalString;
-
     @BindString(R.string.loan_detail_out_sec_uncollateralized) String mOutSecUncollateralized;
     @BindString(R.string.loan_detail_out_sec_invoice_or_cheque) String mOutSecInvoiceOrCheque;
     @BindString(R.string.loan_detail_out_sec_personal_guarantee) String mOutSecPersonalGuarantee;
@@ -213,6 +213,8 @@ public class LoanDetailsViewHolder {
             }
         });
 
+        //init visibility as gone
+        mClosedStatus.setVisibility(View.GONE);
 
     }
 
@@ -225,10 +227,6 @@ public class LoanDetailsViewHolder {
         }
 
         mPercentageReturn.setText(Double.toString(loan.getInterestRate()));
-
-        if(!"".equals(loan.getGrade().trim())) {
-
-        }
         
         if(!"".equals(loan.getGrade().trim())) {
             mGrade.setText(loan.getGrade().trim());
@@ -299,6 +297,10 @@ public class LoanDetailsViewHolder {
         }
 
         int progressNum = loan.getFundedPercentageCache();
+        if(progressNum >= 100){
+            mClosedStatus.setVisibility(View.VISIBLE);
+        }
+
         mProgressBar.setProgress(progressNum);
         mProgressBar.setContentDescription(Integer.toString(progressNum)
                 + mProgressDescriptionTail);
@@ -313,6 +315,7 @@ public class LoanDetailsViewHolder {
                 mNumDaysLeft.setText(Integer.toString(daysLeft));
             } else {
                 mNumDaysLeft.setText("0");
+                mClosedStatus.setVisibility(View.VISIBLE);
             }
         }
 
@@ -323,6 +326,8 @@ public class LoanDetailsViewHolder {
             mTargetAmountDescription.setText(mTargetAmountPrincipalString +
                     " (" + loan.getCurrency() + ")");
         }
+
+        if(loan.getTargetAmount() <= loan.getFundedAmountCache())
 
         if(!"".equals(loan.getStartDate().trim()))
             mScheduleStartDate.setText(DateUtils.dateTimeFormatter(

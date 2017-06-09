@@ -88,7 +88,7 @@
     <string name="loan_detail_target_amount_principal">Principal\nTarget</string>
     <string name="loan_detail_out_sec_uncollateralized">No Collateral</string>
     <string name="loan_detail_out_sec_invoice_or_cheque">Working Order/\nInvoice</string>
-    <string name="loan_detail_out_sec_personal_guarantee">Personal\Guarantee</string>
+    <string name="loan_detail_out_sec_personal_guarantee">Personal\nGuarantee</string>
     <string name="loan_detail_progress_description_tail_label">%\nFunded</string>
     <string name="loan_detail_schedule_header_string">Monthly</string>
     <string name="loan_detail_schedule_header_content_description">Payment Schedule</string>

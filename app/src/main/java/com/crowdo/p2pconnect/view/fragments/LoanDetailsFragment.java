@@ -20,8 +20,11 @@ import com.crowdo.p2pconnect.data.client.BiddingClient;
 import com.crowdo.p2pconnect.data.client.LoanClient;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
+import com.crowdo.p2pconnect.model.core.Investment;
+import com.crowdo.p2pconnect.model.response.AcceptBidResponse;
 import com.crowdo.p2pconnect.model.response.CheckBidResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
+import com.crowdo.p2pconnect.model.response.ServerResponse;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
@@ -65,7 +68,6 @@ public class LoanDetailsFragment extends Fragment {
     @BindString(R.string.intent_file_chooser) String mLabelIntentChooser;
     @BindString(R.string.unable_open_file_label) String mLabelErrorOpenFile;
     @BindString(R.string.loan_detail_prog_snackbar_bid_too_low) String mLabelBidTooLow;
-    @BindString(R.string.loan_detail_prog_snackbar_bid_too_high_label) String mLabelBidTooHigh;
     @BindString(R.string.permissions_write_request) String mLabelPermissionRequest;
     @BindString(R.string.cancel_label) String mLabelCancel;
     @BindString(R.string.okay_label) String mLabelOkay;
@@ -82,17 +84,16 @@ public class LoanDetailsFragment extends Fragment {
     private Disposable disposableGetLoanDetails;
     private Disposable disposablePostCheckBid;
     private Disposable disposablePostAcceptBid;
+    private BiddingClient bidClient;
 
     public LoanDetailsFragment() {
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.initLoanId = Dart.get(getArguments(), BUNDLE_ID_KEY);
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -151,7 +152,6 @@ public class LoanDetailsFragment extends Fragment {
 
         populateLoanDetails();
     }
-
 
     @Override
     public void onPause() {
@@ -328,24 +328,13 @@ public class LoanDetailsFragment extends Fragment {
                 return;
             }
 
-            long biddingAmount = unitBidAmount * ConstantVariables.IDR_BASE_UNIT;
+            final long biddingAmount = unitBidAmount * ConstantVariables.IDR_BASE_UNIT;
 
-            if(mLoanDetailResponse.getLoan().getFundingAmountToCompleteCache() < biddingAmount){
-
-                final Snackbar snackbar = SnackBarUtil.snackBarForWarrningCreate(getView(),
-                        mLabelBidTooHigh,
-                        Snackbar.LENGTH_LONG);
-                snackbar.setAction(mLabelOkay, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        snackbar.dismiss();
-                    }
-                }).show();
-                return;
-            }
+            Log.d(LOG_TAG, "APP checkingBid of biddingAmount:"+biddingAmount
+                    +" & initLoanId:"+initLoanId);
 
             //check bid
-            final BiddingClient bidClient = BiddingClient.getInstance(getActivity());
+            bidClient = BiddingClient.getInstance(getActivity());
 
             bidClient.postCheckBid(biddingAmount, initLoanId,
                             ConstantVariables.getUniqueAndroidID(getActivity()))
@@ -360,20 +349,22 @@ public class LoanDetailsFragment extends Fragment {
                         @Override
                         public void onNext(Response<CheckBidResponse> response) {
                             if(response.isSuccessful()){
-                                String serverErrorMessage = "Bad Response From Server";
+                                String serverMessage;
                                 CheckBidResponse checkBidResponse = response.body();
                                 if(checkBidResponse != null){
-                                    long originalAmount = checkBidResponse.getOriginalInvestAmount();
-                                    long newAmount = checkBidResponse.getInvestAmount();
+                                    final long originalAmount = checkBidResponse.getOriginalInvestAmount();
+                                    final long newAmount = checkBidResponse.getInvestAmount();
                                     if(originalAmount != newAmount){
                                         //amount is adjusted
-                                        SnackBarUtil.snackBarForErrorCreate(getView(),
-                                                serverErrorMessage, Snackbar.LENGTH_SHORT)
-                                                .show();
-
                                         long newUnitAmount = newAmount / ConstantVariables.IDR_BASE_UNIT;
                                         viewHolder.mEnterAmount.setText(Long.toString(newUnitAmount));
+
+                                        serverMessage = checkBidResponse.getServer().getMessage();
+                                        SnackBarUtil.snackBarForWarrningCreate(getView(),
+                                                serverMessage, Snackbar.LENGTH_SHORT).show();
                                     }
+
+                                    addToCart(newAmount);
                                 }
                             }else{
                                 //Error Handling
@@ -415,74 +406,80 @@ public class LoanDetailsFragment extends Fragment {
 
                         @Override
                         public void onComplete() {
-                            Log.d(LOG_TAG, "APP checkBidAndAddToCart Rx onComplete");
+                            Log.d(LOG_TAG, "APP postCheckBid Rx onComplete");
                         }
                     });
         }
     }
 
+    private void addToCart(long biddingAmount){
 
-    // WebView Intent into p2p crowdo
-//    private void addToCart(){
-//        if(viewHolder != null){
-//            int unitBidAmount;
-//
-//            try {
-//                String inputUnitAmount = viewHolder.mEnterAmount.getText().toString().trim().replaceAll("[^\\d.]", "");
-//                unitBidAmount = (inputUnitAmount.equals("")) ? 0 : Integer.parseInt(inputUnitAmount);
-//            }catch (NumberFormatException nfe){
-//                Log.d(LOG_TAG, nfe.getMessage(), nfe);
-//                unitBidAmount = 0;
-//            }
-//
-//            long biddingAmount = unitBidAmount * ConstantVariables.IDR_BASE_UNIT;
-//
-//            if(unitBidAmount <= 0 ) {
-//                final Snackbar snackbar = SnackBarUtil.snackBarForWarrningCreate(getView(),
-//                        mLabelBidTooLow,
-//                        Snackbar.LENGTH_LONG);
-//
-//                snackbar.setAction(mLabelOkay, new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        snackbar.dismiss();
-//                    }
-//                }).show();
-//                return;
-//            }
-//
-//            if(mLoanDetailResponse.getLoan().getFundingAmountToCompleteCache() < biddingAmount){
-//
-//                final Snackbar snackbar = SnackBarUtil.snackBarForWarrningCreate(getView(),
-//                        mLabelBidTooHigh,
-//                        Snackbar.LENGTH_LONG);
-//                snackbar.setAction(mLabelOkay, new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        snackbar.dismiss();
-//                    }
-//                }).show();
-//                return;
-//            }
-//
-//            String localeKey = LocaleHelper.getLanguage(getActivity());
-//
-//            String webViewUrl = APIServices.P2P_BASE_URL +
-//                    "mobile2/checkout?" +
-//                    "loan_id="+initLoanId +
-//                    "&invest_amount="+biddingAmount+
-//                    "&lang="+localeKey+
-//                    "&device_id="+ConstantVariables.getUniqueAndroidID(getActivity());
-//
-//            Log.d(LOG_TAG, "APP URL " + webViewUrl);
-//
-//            Intent intent = Henson.with(getActivity())
-//                    .gotoWebViewActivity()
-//                    .mUrl(webViewUrl)
-//                    .build();
-//
-//            startActivity(intent);
-//        }
-//    }
+        Log.d(LOG_TAG, "APP addToCart of biddingAmount:"+biddingAmount
+                +" & initLoanId:"+initLoanId);
+        bidClient.postAcceptBid(biddingAmount, initLoanId,
+                ConstantVariables.getUniqueAndroidID(getActivity()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<AcceptBidResponse>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposablePostAcceptBid = d;
+                    }
+
+                    @Override
+                    public void onNext(Response<AcceptBidResponse> response) {
+                        if(response.isSuccessful()){
+                            AcceptBidResponse acceptBidResponse = response.body();
+                            if(acceptBidResponse != null){
+                                Investment bid = acceptBidResponse.getExistingBid();
+                                ServerResponse server = acceptBidResponse.getServer();
+
+                                //pass response to user
+                                SnackBarUtil.snackBarForInfoCreate(getView(),
+                                        server.getMessage(), Snackbar.LENGTH_SHORT).show();
+
+                            }
+                        }else{
+                            //Error Handling
+                            if(HTTPResponseUtils.check4xxClientError(response.code())){
+                                String serverErrorMessage = "Error: Accept Bid Not successful";
+                                if(ConstantVariables.HTTP_UNAUTHORISED == response.code()){
+                                    AuthAccountUtils.actionLogout(getActivity());
+                                }else if(ConstantVariables.HTTP_PRECONDITION_FAILED == response.code()){
+                                    //Invalid Investment Amount (e.g. 0, -1, etc)
+                                    if(response.errorBody() != null) {
+                                        Converter<ResponseBody, MessageResponse> errorConverter =
+                                                bidClient.getRetrofit().responseBodyConverter(
+                                                        MessageResponse.class, new Annotation[0]);
+                                        try{
+                                            MessageResponse errorResponse = errorConverter
+                                                    .convert(response.errorBody());
+                                            serverErrorMessage = errorResponse.getServerResponse().getMessage();
+                                        }catch (IOException e){
+                                            e.printStackTrace();
+                                            Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                                        }
+
+                                        SnackBarUtil.snackBarForErrorCreate(getView(),
+                                                serverErrorMessage, Snackbar.LENGTH_SHORT)
+                                                .show();
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(LOG_TAG, "APP checkBidAndAddToCart Rx onComplete");
+                    }
+                });
+    }
 
 }
