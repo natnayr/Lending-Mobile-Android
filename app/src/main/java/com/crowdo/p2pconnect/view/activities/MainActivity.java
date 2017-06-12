@@ -46,6 +46,7 @@ import net.hockeyapp.android.CrashManagerListener;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import butterknife.BindString;
@@ -366,11 +367,12 @@ public class MainActivity extends AppCompatActivity{
                     httpUrlc.connect();
                     if(httpUrlc.getResponseCode() == 200){
                         checkConnectToServer = true;
-                        Log.d(LOG_TAG, "APP Connection Success");
+                        Log.d(LOG_TAG, "APP Server Connection Success");
                     }else{
                         checkConnectToServer = false;
+                        Log.d(LOG_TAG, "APP Server Connection Failed");
                     }
-                } catch (IOException e) {
+                } catch (IOException ioe) {
                     checkConnectToServer = false;
                 }
 
@@ -381,7 +383,7 @@ public class MainActivity extends AppCompatActivity{
             protected void onPostExecute(Boolean result) {
                 if(!result){
                     String badConnectionMsg = getString(R.string.server_connection_poor);
-                    SnackBarUtil.snackBarForErrorCreate(thisView,
+                    SnackBarUtil.snackBarForWarrningCreate(thisView,
                             badConnectionMsg, Snackbar.LENGTH_INDEFINITE).setAction("Log Out", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

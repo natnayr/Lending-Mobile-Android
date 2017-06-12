@@ -1,6 +1,5 @@
 package com.crowdo.p2pconnect.view.fragments;
 
-import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.LayerDrawable;
@@ -194,11 +193,11 @@ public class LoanListFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
 
-        inflater.inflate(R.menu.menu_search_loans, menu);
+        inflater.inflate(R.menu.menu_loans_list_filter, menu);
         final MenuItem menuSearch = menu.findItem(R.id.action_search_loans);
 
-        MenuItem itemCart = menu.findItem(R.id.action_cart);
-        LayerDrawable icon = (LayerDrawable) itemCart.getIcon();
+        final MenuItem menuCart = menu.findItem(R.id.action_cart);
+        LayerDrawable icon = (LayerDrawable) menuCart.getIcon();
         CartBadgeDrawable.setBadgeCount(getActivity(), icon, "50");
 
         if(menuSearch != null) {

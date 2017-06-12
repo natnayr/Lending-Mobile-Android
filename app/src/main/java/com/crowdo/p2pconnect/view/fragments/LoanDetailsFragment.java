@@ -2,6 +2,7 @@ package com.crowdo.p2pconnect.view.fragments;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,10 +13,14 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.crowdo.p2pconnect.custom_ui.CartBadgeDrawable;
 import com.crowdo.p2pconnect.data.client.BiddingClient;
 import com.crowdo.p2pconnect.data.client.LoanClient;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
@@ -151,6 +156,17 @@ public class LoanDetailsFragment extends Fragment {
         }
 
         populateLoanDetails();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+
+        inflater.inflate(R.menu.menu_loan_detail, menu);
+        final MenuItem menuCart = menu.findItem(R.id.action_cart);
+        LayerDrawable icon = (LayerDrawable) menuCart.getIcon();
+        CartBadgeDrawable.setBadgeCount(getActivity(), icon, "50");
     }
 
     @Override

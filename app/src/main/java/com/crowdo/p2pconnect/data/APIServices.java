@@ -9,6 +9,7 @@ import com.crowdo.p2pconnect.model.response.CheckBidResponse;
 import com.crowdo.p2pconnect.model.response.CheckoutSummaryResponse;
 import com.crowdo.p2pconnect.model.response.LoanDetailResponse;
 import com.crowdo.p2pconnect.model.response.LoanListResponse;
+import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 
 import io.reactivex.Observable;
 import retrofit2.Response;
@@ -41,13 +42,17 @@ public interface APIServices {
     @Headers({"Content-type: application/json"})
     Observable<Response<AuthResponse>> postRegisterUser(@Body RegisterRequest data);
 
+    @GET("member/info")
+    @Headers({"Content-type: application/json"})
+    Observable<Response<MemberInfoResponse>> getMemberInfo(@Query("device_id") String deviceId, @Query("site_config") String siteConfig);
+
     @GET("loans/loan_listing")
     @Headers({"Content-type: application/json"})
-    Observable<Response<LoanListResponse>> getLoansList(@Query("device_id") String deviceId, @Query("site_config") String siteOut);
+    Observable<Response<LoanListResponse>> getLoansList(@Query("device_id") String deviceId, @Query("site_config") String siteConfig);
 
     @GET("loans/loan_details/{id}")
     @Headers({"Content-type: application/json"})
-    Observable<Response<LoanDetailResponse>> getLoanDetail(@Path("id") int id, @Query("device_id") String deviceId, @Query("site_config") String siteOut);
+    Observable<Response<LoanDetailResponse>> getLoanDetail(@Path("id") int id, @Query("device_id") String deviceId, @Query("site_config") String siteConfig);
 
     @POST("bid/check_bid")
     @Headers({"Content-type: application/json"})

@@ -81,6 +81,7 @@
     <string name="loan_list_out_sec_invoice_or_cheque">Working Order/\nInvoice</string>
     <string name="loan_list_out_sec_personal_guarantee">Personal\nGuarantee</string>
 
+    <string name="loan_detail_action_cart">Shopping Cart</string>
     <string name="loan_detail_percentage_return_label">Interest\nReturn</string>
     <string name="loan_detail_grade_label">Grade</string>
     <string name="loan_detail_tenure_label">Months Tenure</string>
