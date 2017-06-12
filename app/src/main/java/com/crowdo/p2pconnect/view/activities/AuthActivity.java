@@ -22,7 +22,6 @@ import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.oauth.AccountAuthenticatorFragmentActivity;
 import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
-import com.crowdo.p2pconnect.view.fragments.CheckoutSummaryFragment;
 import com.crowdo.p2pconnect.view.fragments.LoginFragment;
 import com.crowdo.p2pconnect.view.fragments.RegisterFragment;
 
@@ -198,7 +197,7 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
                 }
 
                 if(checkNetwork && checkConnectToServer){
-                    String badConnectionMsg = getString(R.string.network_connection_poor);
+                    String badConnectionMsg = getString(R.string.server_connection_poor);
                     SnackBarUtil.snackBarForErrorCreate(thisView,
                             badConnectionMsg, Snackbar.LENGTH_LONG).show();
                 }

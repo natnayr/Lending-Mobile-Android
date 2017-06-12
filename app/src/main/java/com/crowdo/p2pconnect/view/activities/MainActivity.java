@@ -20,17 +20,14 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.APIServices;
-import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.TypefaceUtils;
-import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.fragments.CheckoutSummaryFragment;
 import com.crowdo.p2pconnect.view.fragments.LearningCenterFragment;
 import com.crowdo.p2pconnect.view.fragments.LoanListFragment;
@@ -46,12 +43,10 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
-import net.hockeyapp.android.metrics.MetricsManager;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -121,7 +116,7 @@ public class MainActivity extends AppCompatActivity{
         mNavDrawerAppLogo.setTypeface(TypefaceUtils.getNothingYouCouldDoTypeFace(this));
 
         //HockeyApp user metrics
-        MetricsManager.register(getApplication());
+//        MetricsManager.register(getApplication());
     }
 
     private DrawerBuilder buildNavigationDrawer(){
@@ -140,10 +135,6 @@ public class MainActivity extends AppCompatActivity{
                                 .withSelectedIconColorRes(R.color.color_primary_700),
                         new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_LEARNING_CENTER_FRAGMENT)
                                 .withName(R.string.toolbar_title_learning_center).withIcon(CommunityMaterial.Icon.cmd_book_open_page_variant)
-                                .withSelectedTextColorRes(R.color.color_primary_700)
-                                .withSelectedIconColorRes(R.color.color_primary_700),
-                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_SHOPPING_CART)
-                                .withName("Checkout").withIcon(CommunityMaterial.Icon.cmd_cart)
                                 .withSelectedTextColorRes(R.color.color_primary_700)
                                 .withSelectedIconColorRes(R.color.color_primary_700),
                         new SectionDrawerItem().withName("Account"),
@@ -201,10 +192,6 @@ public class MainActivity extends AppCompatActivity{
                                 case DRAWER_SELECT_LEARNING_CENTER_FRAGMENT:
                                     fragmentClass = LearningCenterFragment.class;
                                     mToolbar.setTitle(R.string.toolbar_title_learning_center);
-                                    break;
-                                case DRAWER_SELECT_SHOPPING_CART:
-                                    fragmentClass = CheckoutSummaryFragment.class;
-                                    mToolbar.setTitle("Checkout");
                                     break;
                                 case DRAWER_SELECT_ACCOUNT_TOP_UP:
                                     break;
@@ -372,12 +359,17 @@ public class MainActivity extends AppCompatActivity{
                 //try connecting to server (google dns)
                 boolean checkConnectToServer = true;
                 try {
-                    int timeoutMs = 1500;
-                    Socket sock = new Socket();
-                    SocketAddress sockaddr = new InetSocketAddress("8.8.8.8", 53);
-
-                    sock.connect(sockaddr, timeoutMs);
-                    sock.close();
+                    URL url = new URL(APIServices.API_LIVE_BASE_URL);
+                    int timeoutMs = 10 * 1000;
+                    HttpURLConnection httpUrlc = (HttpURLConnection) url.openConnection();
+                    httpUrlc.setConnectTimeout(timeoutMs);
+                    httpUrlc.connect();
+                    if(httpUrlc.getResponseCode() == 200){
+                        checkConnectToServer = true;
+                        Log.d(LOG_TAG, "APP Connection Success");
+                    }else{
+                        checkConnectToServer = false;
+                    }
                 } catch (IOException e) {
                     checkConnectToServer = false;
                 }
@@ -388,9 +380,14 @@ public class MainActivity extends AppCompatActivity{
             @Override
             protected void onPostExecute(Boolean result) {
                 if(!result){
-                    String badConnectionMsg = getString(R.string.network_connection_poor);
+                    String badConnectionMsg = getString(R.string.server_connection_poor);
                     SnackBarUtil.snackBarForErrorCreate(thisView,
-                            badConnectionMsg, Snackbar.LENGTH_LONG).show();
+                            badConnectionMsg, Snackbar.LENGTH_INDEFINITE).setAction("Log Out", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AuthAccountUtils.actionLogout(MainActivity.this);
+                        }
+                    }).show();
                 }
             }
         }.execute();

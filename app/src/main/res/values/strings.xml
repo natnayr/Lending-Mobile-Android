@@ -135,7 +135,7 @@
     <!-- Globals -->
     <string name="auth_session_end_and_logout">Session Ended, Logging Out</string>
     <string name="auth_welcome">Welcome</string>
-    <string name="network_connection_poor">Network Connection Unavailable</string>
+    <string name="server_connection_poor">Whoops, Server Connection is Unavailable</string>
     <string name="pre_exit_question">Are you sure you want to exit?</string>
     <string name="downloading_label">Downloading, Please tap OPEN to access file</string>
     <string name="downloaded_to_label">Downloaded to&#160;</string>

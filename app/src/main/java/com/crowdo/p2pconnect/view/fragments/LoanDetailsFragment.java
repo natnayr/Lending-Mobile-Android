@@ -416,6 +416,7 @@ public class LoanDetailsFragment extends Fragment {
 
         Log.d(LOG_TAG, "APP addToCart of biddingAmount:"+biddingAmount
                 +" & initLoanId:"+initLoanId);
+
         bidClient.postAcceptBid(biddingAmount, initLoanId,
                 ConstantVariables.getUniqueAndroidID(getActivity()))
                 .subscribeOn(Schedulers.io())
