@@ -47,20 +47,14 @@ public class LoanDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         Bundle args = new Bundle();
         args.putInt(LoanDetailsFragment.BUNDLE_ID_KEY, this.id);
 
-        Fragment fragment = getSupportFragmentManager()
-                .findFragmentByTag(LoanDetailsFragment.class.getCanonicalName());
-
-        if(fragment == null) {
-            LoanDetailsFragment loanDetailsFragment = new LoanDetailsFragment();
-            loanDetailsFragment.setArguments(args);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.loan_details_content, loanDetailsFragment)
-                    .commit();
-        }
+        LoanDetailsFragment loanDetailsFragment = new LoanDetailsFragment();
+        loanDetailsFragment.setArguments(args);
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.loan_details_content, loanDetailsFragment)
+                .commit();
     }
 
 

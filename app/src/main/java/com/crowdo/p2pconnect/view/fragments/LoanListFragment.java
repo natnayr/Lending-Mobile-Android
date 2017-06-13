@@ -278,8 +278,6 @@ public class LoanListFragment extends Fragment {
             case R.id.action_search_loans:
                 return true;
             case R.id.action_cart:
-                Log.d(LOG_TAG, "APP onOptionsItemSelected action_cart called");
-
                 Intent checkoutIntent = new Intent(getActivity(), CheckoutActivity.class);
                 checkoutIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(checkoutIntent);
@@ -290,62 +288,49 @@ public class LoanListFragment extends Fragment {
 
     private void populateLoansList() {
 
-        updateShoppingCartItemCount();
+        Log.d(LOG_TAG, "APP populateLoansList()");
+        LoanClient.getInstance(getActivity())
+                .getLiveLoans(ConstantVariables.getUniqueAndroidID(mContext))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<LoanListResponse>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposableGetLiveLoans = d;
+                    }
 
-        //Check if Authenticated, done only here
-        String authToken = SharedPreferencesUtils.getSharedPrefString(getActivity(),
-                CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
-        if(authToken == null){
-            //logout and show launch activity,
-            AuthAccountUtils.actionLogout(getActivity(), false);
-        }else {
-            Log.d(LOG_TAG, "APP populateLoansList()");
-            final String uniqueAndroidID = ConstantVariables.getUniqueAndroidID(mContext);
-
-            LoanClient.getInstance(getActivity())
-                    .getLiveLoans(uniqueAndroidID)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<Response<LoanListResponse>>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-                            disposableGetLiveLoans = d;
-                        }
-
-                        @Override
-                        public void onNext(Response<LoanListResponse> response) {
-                            if (response.isSuccessful()) {
-                                List<Loan> loanListResponses = response.body().loans;
-                                Log.d(LOG_TAG, "APP populateLoansList Rx onNext with "
-                                        + loanListResponses.size() + " items retreived.");
-                                mLoanAdapter.setLoans(loanListResponses);
-                            } else {
-                                Log.d(LOG_TAG, "APP getLiveLoans onNext() status > "
-                                        + response.code());
-                                if (HTTPResponseUtils.check4xxClientError(response.code())) {
-                                    if (ConstantVariables.HTTP_UNAUTHORISED == response.code()) {
-                                        //Unauthorised, Invalidate & Logout
-                                        AuthAccountUtils.actionLogout(getActivity());
-                                    }
+                    @Override
+                    public void onNext(Response<LoanListResponse> response) {
+                        if (response.isSuccessful()) {
+                            List<Loan> loanListResponses = response.body().loans;
+                            Log.d(LOG_TAG, "APP populateLoansList Rx onNext with "
+                                    + loanListResponses.size() + " items retreived.");
+                            mLoanAdapter.setLoans(loanListResponses);
+                        } else {
+                            Log.d(LOG_TAG, "APP getLiveLoans onNext() status > "
+                                    + response.code());
+                            if (HTTPResponseUtils.check4xxClientError(response.code())) {
+                                if (ConstantVariables.HTTP_UNAUTHORISED == response.code()) {
+                                    //Unauthorised, Invalidate & Logout
+                                    AuthAccountUtils.actionLogout(getActivity());
                                 }
                             }
                         }
+                    }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            e.printStackTrace();
-                            Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-                            swipeContainer.setRefreshing(false);
-                        }
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                        swipeContainer.setRefreshing(false);
+                    }
 
-                        @Override
-                        public void onComplete() {
-                            Log.d(LOG_TAG, "APP populateLoansList Rx onComplete");
-                            swipeContainer.setRefreshing(false);
-                        }
-                    });
-        }
-
+                    @Override
+                    public void onComplete() {
+                        Log.d(LOG_TAG, "APP populateLoansList Rx onComplete");
+                        swipeContainer.setRefreshing(false);
+                    }
+                });
     }
 
     private void setSearchExpandedLayoutCollapse(){
@@ -367,7 +352,6 @@ public class LoanListFragment extends Fragment {
     }
 
     private void updateShoppingCartItemCount(){
-
         if(mMenuCart == null) {
             Log.d(LOG_TAG, "APP updateShoppingCartItemCount mMenuCart is null");
             getActivity().invalidateOptionsMenu();

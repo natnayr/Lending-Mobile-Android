@@ -41,6 +41,7 @@ import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.model.response.LoanDetailResponse;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
+import com.crowdo.p2pconnect.view.activities.CheckoutActivity;
 import com.crowdo.p2pconnect.viewholders.LoanDetailsViewHolder;
 import com.esafirm.rxdownloader.RxDownloader;
 import com.f2prateek.dart.Dart;
@@ -113,10 +114,10 @@ public class LoanDetailsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_loan_details, parent, false);
+        View rootView = inflater.inflate(R.layout.fragment_loan_details, container, false);
         ButterKnife.bind(this, rootView);
 
         viewHolder = new LoanDetailsViewHolder(rootView, getActivity());
@@ -143,6 +144,7 @@ public class LoanDetailsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         SoftInputHelper.hideSoftKeyboard(getActivity());
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -174,9 +176,23 @@ public class LoanDetailsFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
 
+        Log.d(LOG_TAG, "APP onCreateOptionsMenu inflate action_cart");
         inflater.inflate(R.menu.menu_cart, menu);
         mMenuCart = menu.findItem(R.id.action_cart);
-        updateShoppingCartItemCount();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.action_cart:
+                Log.d(LOG_TAG, "APP onOptionsItemSelected action_cart called");
+                Intent checkoutIntent = new Intent(getActivity(), CheckoutActivity.class);
+                checkoutIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(checkoutIntent);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -202,7 +218,9 @@ public class LoanDetailsFragment extends Fragment {
     }
 
     private void populateLoanDetails(){
+        updateShoppingCartItemCount();
 
+        Log.d(LOG_TAG, "APP populateLoanDetails()");
         LoanClient.getInstance(getActivity())
                 .getLoanDetails(LoanDetailsFragment.this.initLoanId,
                         ConstantVariables.getUniqueAndroidID(getActivity()))
