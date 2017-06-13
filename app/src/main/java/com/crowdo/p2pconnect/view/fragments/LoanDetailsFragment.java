@@ -20,14 +20,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.crowdo.p2pconnect.commons.MemberDataRetrieval;
 import com.crowdo.p2pconnect.custom_ui.CartBadgeDrawable;
 import com.crowdo.p2pconnect.data.client.BiddingClient;
 import com.crowdo.p2pconnect.data.client.LoanClient;
+import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.model.core.Investment;
 import com.crowdo.p2pconnect.model.response.AcceptBidResponse;
 import com.crowdo.p2pconnect.model.response.CheckBidResponse;
+import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
 import com.crowdo.p2pconnect.model.response.ServerResponse;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
@@ -90,6 +93,7 @@ public class LoanDetailsFragment extends Fragment {
     private Disposable disposablePostCheckBid;
     private Disposable disposablePostAcceptBid;
     private BiddingClient bidClient;
+    private MenuItem mMenuCart;
 
     public LoanDetailsFragment() {
     }
@@ -149,7 +153,6 @@ public class LoanDetailsFragment extends Fragment {
             viewHolder.mBidEnterBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    addToCart();
                     checkingBid();
                 }
             });
@@ -159,14 +162,21 @@ public class LoanDetailsFragment extends Fragment {
     }
 
     @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        mMenuCart = menu.findItem(R.id.action_cart);
+        updateShoppingCartItemCount();
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
 
-        inflater.inflate(R.menu.menu_loan_detail, menu);
-        final MenuItem menuCart = menu.findItem(R.id.action_cart);
-        LayerDrawable icon = (LayerDrawable) menuCart.getIcon();
-        CartBadgeDrawable.setBadgeCount(getActivity(), icon, "50");
+        inflater.inflate(R.menu.menu_cart, menu);
+        mMenuCart = menu.findItem(R.id.action_cart);
+        updateShoppingCartItemCount();
     }
 
     @Override
@@ -179,6 +189,9 @@ public class LoanDetailsFragment extends Fragment {
         }
         if(disposablePostCheckBid != null){
             disposablePostCheckBid.dispose();
+        }
+        if(disposablePostAcceptBid != null){
+            disposablePostAcceptBid.dispose();
         }
         super.onPause();
     }
@@ -497,6 +510,28 @@ public class LoanDetailsFragment extends Fragment {
                         Log.d(LOG_TAG, "APP checkBidAndAddToCart Rx onComplete");
                     }
                 });
+    }
+
+    private void updateShoppingCartItemCount(){
+
+        if(mMenuCart == null) {
+            Log.d(LOG_TAG, "APP updateShoppingCartItemCount mMenuCart is null");
+            getActivity().invalidateOptionsMenu();
+            return;
+        }
+
+        final LayerDrawable cartIcon = (LayerDrawable) mMenuCart.getIcon();
+        MemberDataRetrieval memberRetrieval = new MemberDataRetrieval();
+        memberRetrieval.retrieveMemberInfo(getActivity(), new CallBackUtil<MemberInfoResponse>() {
+            @Override
+            public void eventCallBack(MemberInfoResponse memberInfoResponse) {
+                if (HTTPResponseUtils.check2xxSuccess(memberInfoResponse
+                        .getServerResponse().getStatus())) {
+                    CartBadgeDrawable.setBadgeCount(getActivity(), cartIcon,
+                            Integer.toString(memberInfoResponse.getNumberOfPendingBids()));
+                }
+            }
+        });
     }
 
 }

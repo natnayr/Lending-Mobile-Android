@@ -26,11 +26,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.commons.MemberDataRetrieval;
 import com.crowdo.p2pconnect.custom_ui.CartBadgeDrawable;
+import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.model.core.Loan;
 import com.crowdo.p2pconnect.model.response.LoanListResponse;
+import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
@@ -76,6 +79,7 @@ public class LoanListFragment extends Fragment {
     private SearchView searchView;
     private Disposable disposableGetLiveLoans;
     private Context mContext;
+    private MenuItem mMenuCart;
 
     public LoanListFragment() {
     }
@@ -170,6 +174,7 @@ public class LoanListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        getActivity().invalidateOptionsMenu();
         populateLoansList();
     }
 
@@ -189,16 +194,23 @@ public class LoanListFragment extends Fragment {
     }
 
     @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        mMenuCart = menu.findItem(R.id.action_cart);
+        updateShoppingCartItemCount();
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
 
-        inflater.inflate(R.menu.menu_loans_list_filter, menu);
+        inflater.inflate(R.menu.menu_search_and_cart, menu);
         final MenuItem menuSearch = menu.findItem(R.id.action_search_loans);
 
-        final MenuItem menuCart = menu.findItem(R.id.action_cart);
-        LayerDrawable icon = (LayerDrawable) menuCart.getIcon();
-        CartBadgeDrawable.setBadgeCount(getActivity(), icon, "50");
+        mMenuCart = menu.findItem(R.id.action_cart);
+        updateShoppingCartItemCount();
 
         if(menuSearch != null) {
             searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
@@ -278,6 +290,8 @@ public class LoanListFragment extends Fragment {
 
     private void populateLoansList() {
 
+        updateShoppingCartItemCount();
+
         //Check if Authenticated, done only here
         String authToken = SharedPreferencesUtils.getSharedPrefString(getActivity(),
                 CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
@@ -352,8 +366,26 @@ public class LoanListFragment extends Fragment {
         }
     }
 
+    private void updateShoppingCartItemCount(){
 
+        if(mMenuCart == null) {
+            Log.d(LOG_TAG, "APP updateShoppingCartItemCount mMenuCart is null");
+            getActivity().invalidateOptionsMenu();
+            return;
+        }
 
-
+        final LayerDrawable cartIcon = (LayerDrawable) mMenuCart.getIcon();
+        MemberDataRetrieval memberRetrieval = new MemberDataRetrieval();
+        memberRetrieval.retrieveMemberInfo(getActivity(), new CallBackUtil<MemberInfoResponse>() {
+            @Override
+            public void eventCallBack(MemberInfoResponse memberInfoResponse) {
+                if (HTTPResponseUtils.check2xxSuccess(memberInfoResponse
+                        .getServerResponse().getStatus())) {
+                    CartBadgeDrawable.setBadgeCount(getActivity(), cartIcon,
+                            Integer.toString(memberInfoResponse.getNumberOfPendingBids()));
+                }
+            }
+        });
+    }
 
 }
