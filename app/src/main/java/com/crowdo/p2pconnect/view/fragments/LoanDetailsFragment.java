@@ -378,7 +378,7 @@ public class LoanDetailsFragment extends Fragment {
                 Log.d(LOG_TAG, nfe.getMessage(), nfe);
                 unitBidAmount = 0;
             }
-            
+
             if(unitBidAmount <= 0 ) {
                 final Snackbar snackbar = SnackBarUtil.snackBarForWarrningCreate(getView(),
                         mLabelBidTooLow, Snackbar.LENGTH_LONG);
@@ -412,10 +412,12 @@ public class LoanDetailsFragment extends Fragment {
 
                         @Override
                         public void onNext(Response<CheckBidResponse> response) {
+                            Log.d(LOG_TAG, "APP checkingBid onNext");
                             if(response.isSuccessful()){
                                 String serverMessage;
                                 CheckBidResponse checkBidResponse = response.body();
                                 if(checkBidResponse != null){
+                                    Log.d(LOG_TAG, "APP " + checkBidResponse.getServer().getMessage());
                                     final long originalAmount = checkBidResponse.getOriginalInvestAmount();
                                     final long newAmount = checkBidResponse.getInvestAmount();
                                     if(originalAmount != newAmount){
