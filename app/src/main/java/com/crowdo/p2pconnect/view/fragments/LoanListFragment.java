@@ -66,15 +66,15 @@ public class LoanListFragment extends Fragment {
     private static final String LOG_TAG = LoanListFragment.class.getSimpleName();
     public static final String LOAN_LIST_FRAGMENT_TAG = "LOAN_LIST_FRAGMENT_TAG";
 
-    @BindView(R.id.loan_list_view_filtering_expandable) ExpandableLayout loanListSearchExpandableLayout;
+    @BindView(R.id.loan_list_view_filtering_expandable) ExpandableLayout mLoanListSearchExpandable;
     @BindView(R.id.listview_loans) ListView mListView;
-    @BindView(R.id.loan_list_view_swipe) SwipeRefreshLayout swipeContainer;
-    @BindView(R.id.loan_list_view_filtering_hide_button) LinearLayout filteringHideButton;
-    @BindView(R.id.loan_list_view_filtering_clear_button) LinearLayout filteringClearButton;
-    @BindView(R.id.loan_list_view_filtering_count) TextView filteringCountLabel;
-    @BindString(R.string.loan_list_action_filter_item_count_tail) String filteringCountTail;
+    @BindView(R.id.loan_list_view_swipe) SwipeRefreshLayout mSwipeContainer;
+    @BindView(R.id.loan_list_view_filtering_hide_button) LinearLayout mFilteringHideButton;
+    @BindView(R.id.loan_list_view_filtering_clear_button) LinearLayout mFilteringClearButton;
+    @BindView(R.id.loan_list_view_filtering_count) TextView mFilteringCountLabel;
+    @BindString(R.string.loan_list_action_filter_item_count_tail) String mFilteringCountTail;
 
-    private LoanListAdapter mLoanAdapter;
+    private LoanListAdapter loanAdapter;
     private LoanListFilterViewHolder filteringViewHolder;
     private SearchView searchView;
     private Disposable disposableGetLiveLoans;
@@ -87,7 +87,7 @@ public class LoanListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mLoanAdapter = new LoanListAdapter(getActivity());
+        loanAdapter = new LoanListAdapter(getActivity());
     }
 
     @Override
@@ -100,19 +100,19 @@ public class LoanListFragment extends Fragment {
 
         // use view holder
         filteringViewHolder = new LoanListFilterViewHolder(rootView);
-        filteringViewHolder.initView(mLoanAdapter);
+        filteringViewHolder.initView(loanAdapter);
 
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 populateLoansList();
             }
         });
 
-        swipeContainer.setColorSchemeResources(R.color.color_primary_700,
+        mSwipeContainer.setColorSchemeResources(R.color.color_primary_700,
                 R.color.color_primary, R.color.color_primary_300);
 
-        mListView.setAdapter(mLoanAdapter);
+        mListView.setAdapter(loanAdapter);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -129,25 +129,25 @@ public class LoanListFragment extends Fragment {
             }
         });
 
-        filteringHideButton.setOnClickListener(new View.OnClickListener() {
+        mFilteringHideButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                loanListSearchExpandableLayout.collapse();
+                mLoanListSearchExpandable.collapse();
                 searchView.clearFocus();
             }
         });
 
-        filteringClearButton.setOnClickListener(new View.OnClickListener() {
+        mFilteringClearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 filteringViewHolder.clearFiltering();
             }
         });
 
-        mLoanAdapter.setFilteringCountTextView(filteringCountLabel, filteringCountTail);
+        loanAdapter.setFilteringCountTextView(mFilteringCountLabel, mFilteringCountTail);
 
-        loanListSearchExpandableLayout.setOnExpansionUpdateListener(new ExpandableLayout.OnExpansionUpdateListener() {
+        mLoanListSearchExpandable.setOnExpansionUpdateListener(new ExpandableLayout.OnExpansionUpdateListener() {
             @Override
             public void onExpansionUpdate(float expansionFraction, int state) {
                 //set alpha and enabled of ListView
@@ -159,8 +159,8 @@ public class LoanListFragment extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == KeyEvent.ACTION_DOWN) {
-                    if (loanListSearchExpandableLayout.isExpanded()) {
-                        loanListSearchExpandableLayout.collapse();
+                    if (mLoanListSearchExpandable.isExpanded()) {
+                        mLoanListSearchExpandable.collapse();
                         return true;
                     }
                 }
@@ -219,20 +219,20 @@ public class LoanListFragment extends Fragment {
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    if(loanListSearchExpandableLayout != null){
-                        if(loanListSearchExpandableLayout.isExpanded()){
-                            loanListSearchExpandableLayout.collapse();
+                    if(mLoanListSearchExpandable != null){
+                        if(mLoanListSearchExpandable.isExpanded()){
+                            mLoanListSearchExpandable.collapse();
                         }
                     }
-                    mLoanAdapter.searchLoans();
+                    loanAdapter.searchLoans();
                     searchView.clearFocus();
                     return false;
                 }
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
-                    mLoanAdapter.setSearchQuery(newText);
-                    mLoanAdapter.searchLoans();
+                    loanAdapter.setSearchQuery(newText);
+                    loanAdapter.searchLoans();
                     return false;
                 }
             });
@@ -278,6 +278,8 @@ public class LoanListFragment extends Fragment {
             case R.id.action_search_loans:
                 return true;
             case R.id.action_cart:
+                Log.d(LOG_TAG, "APP onOptionsItemSelected action_cart called");
+
                 Intent checkoutIntent = new Intent(getActivity(), CheckoutActivity.class);
                 checkoutIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(checkoutIntent);
@@ -288,70 +290,84 @@ public class LoanListFragment extends Fragment {
 
     private void populateLoansList() {
 
-        Log.d(LOG_TAG, "APP populateLoansList()");
-        LoanClient.getInstance(getActivity())
-                .getLiveLoans(ConstantVariables.getUniqueAndroidID(mContext))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<LoanListResponse>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        disposableGetLiveLoans = d;
-                    }
+        updateShoppingCartItemCount();
 
-                    @Override
-                    public void onNext(Response<LoanListResponse> response) {
-                        if (response.isSuccessful()) {
-                            List<Loan> loanListResponses = response.body().loans;
-                            Log.d(LOG_TAG, "APP populateLoansList Rx onNext with "
-                                    + loanListResponses.size() + " items retreived.");
-                            mLoanAdapter.setLoans(loanListResponses);
-                        } else {
-                            Log.d(LOG_TAG, "APP getLiveLoans onNext() status > "
-                                    + response.code());
-                            if (HTTPResponseUtils.check4xxClientError(response.code())) {
-                                if (ConstantVariables.HTTP_UNAUTHORISED == response.code()) {
-                                    //Unauthorised, Invalidate & Logout
-                                    AuthAccountUtils.actionLogout(getActivity());
+        //Check if Authenticated, done only here
+        String authToken = SharedPreferencesUtils.getSharedPrefString(getActivity(),
+                CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
+        if(authToken == null){
+            //logout and show launch activity,
+            AuthAccountUtils.actionLogout(getActivity(), false);
+        }else {
+            Log.d(LOG_TAG, "APP populateLoansList()");
+            final String uniqueAndroidID = ConstantVariables.getUniqueAndroidID(mContext);
+
+            LoanClient.getInstance(getActivity())
+                    .getLiveLoans(uniqueAndroidID)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Response<LoanListResponse>>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+                            disposableGetLiveLoans = d;
+                        }
+
+                        @Override
+                        public void onNext(Response<LoanListResponse> response) {
+                            if (response.isSuccessful()) {
+                                List<Loan> loanListResponses = response.body().loans;
+                                Log.d(LOG_TAG, "APP populateLoansList Rx onNext with "
+                                        + loanListResponses.size() + " items retreived.");
+                                loanAdapter.setLoans(loanListResponses);
+                            } else {
+                                Log.d(LOG_TAG, "APP getLiveLoans onNext() status > "
+                                        + response.code());
+                                if (HTTPResponseUtils.check4xxClientError(response.code())) {
+                                    if (ConstantVariables.HTTP_UNAUTHORISED == response.code()) {
+                                        //Unauthorised, Invalidate & Logout
+                                        AuthAccountUtils.actionLogout(getActivity());
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-                        swipeContainer.setRefreshing(false);
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                            e.printStackTrace();
+                            Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                            mSwipeContainer.setRefreshing(false);
+                        }
 
-                    @Override
-                    public void onComplete() {
-                        Log.d(LOG_TAG, "APP populateLoansList Rx onComplete");
-                        swipeContainer.setRefreshing(false);
-                    }
-                });
+                        @Override
+                        public void onComplete() {
+                            Log.d(LOG_TAG, "APP populateLoansList Rx onComplete");
+                            mSwipeContainer.setRefreshing(false);
+                        }
+                    });
+        }
+
     }
 
     private void setSearchExpandedLayoutCollapse(){
-        if(loanListSearchExpandableLayout != null){
-            if(loanListSearchExpandableLayout.isExpanded()){
-                Log.d(LOG_TAG, "APP loanListSearchExpandableLayout is collapsing.");
-                loanListSearchExpandableLayout.collapse();
+        if(mLoanListSearchExpandable != null){
+            if(mLoanListSearchExpandable.isExpanded()){
+                Log.d(LOG_TAG, "APP mLoanListSearchExpandable is collapsing.");
+                mLoanListSearchExpandable.collapse();
             }
         }
     }
 
     private void setSearchExpandedLayoutExpand(){
-        if(loanListSearchExpandableLayout != null){
-            if(!loanListSearchExpandableLayout.isExpanded()){
-                Log.d(LOG_TAG, "APP loanListSearchExpandableLayout is expanding.");
-                loanListSearchExpandableLayout.expand();
+        if(mLoanListSearchExpandable != null){
+            if(!mLoanListSearchExpandable.isExpanded()){
+                Log.d(LOG_TAG, "APP mLoanListSearchExpandable is expanding.");
+                mLoanListSearchExpandable.expand();
             }
         }
     }
 
     private void updateShoppingCartItemCount(){
+
         if(mMenuCart == null) {
             Log.d(LOG_TAG, "APP updateShoppingCartItemCount mMenuCart is null");
             getActivity().invalidateOptionsMenu();

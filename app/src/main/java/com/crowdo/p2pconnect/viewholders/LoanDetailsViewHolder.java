@@ -214,9 +214,11 @@ public class LoanDetailsViewHolder {
         });
 
         //init visibility as gone
-        mClosedStatus.setVisibility(View.GONE);
+        openTheLoan();
 
     }
+
+
 
     public void attachView(final LoanDetailResponse loanDetailResponse, final Context context) {
 
@@ -298,7 +300,7 @@ public class LoanDetailsViewHolder {
 
         int progressNum = loan.getFundedPercentageCache();
         if(progressNum >= 100){
-            mClosedStatus.setVisibility(View.VISIBLE);
+            closeTheLoan();
         }
 
         mProgressBar.setProgress(progressNum);
@@ -315,7 +317,7 @@ public class LoanDetailsViewHolder {
                 mNumDaysLeft.setText(Integer.toString(daysLeft));
             } else {
                 mNumDaysLeft.setText("0");
-                mClosedStatus.setVisibility(View.VISIBLE);
+                closeTheLoan();
             }
         }
 
@@ -327,11 +329,14 @@ public class LoanDetailsViewHolder {
                     " (" + loan.getCurrency() + ")");
         }
 
-        if(loan.getTargetAmount() <= loan.getFundedAmountCache())
+        if(loan.getTargetAmount() <= loan.getFundedAmountCache()){
+            closeTheLoan();
+        }
 
         if(!"".equals(loan.getStartDate().trim()))
             mScheduleStartDate.setText(DateUtils.dateTimeFormatter(
                     ConstantVariables.OUT_DATE_TIME_FORMAT, loan.getStartDate().trim()));
+
         if(!"".equals(loanDetailResponse.getFirstRepayment().trim()))
             mScheduleFirstRepaymentDate.setText(DateUtils.dateTimeFormatter(
                     ConstantVariables.OUT_DATE_TIME_FORMAT, loanDetailResponse.getFirstRepayment().trim()));
@@ -406,5 +411,21 @@ public class LoanDetailsViewHolder {
                 mEnterAmount.setText(Integer.toString(curAmount + byAmount));
             }
         }
+    }
+
+    private void closeTheLoan(){
+        mClosedStatus.setVisibility(View.VISIBLE);
+        mAmountMinusBtn.setEnabled(false);
+        mAmountPlusBtn.setEnabled(false);
+        mEnterAmount.setEnabled(false);
+        mBidEnterBtn.setEnabled(false);
+    }
+
+    private void openTheLoan(){
+        mClosedStatus.setVisibility(View.GONE);
+        mAmountMinusBtn.setEnabled(true);
+        mAmountPlusBtn.setEnabled(true);
+        mEnterAmount.setEnabled(true);
+        mBidEnterBtn.setEnabled(true);
     }
 }

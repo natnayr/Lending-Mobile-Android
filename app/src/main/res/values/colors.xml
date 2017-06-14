@@ -39,6 +39,7 @@
 
     <!-- Branding Colors & Others -->
     <color name="color_transparent">#00000000</color>
+    <color name="color_white_faded">#88ffffff</color>
     <color name="color_crowdo_red">#E60000</color>
 
     <!-- Colors for GRADE Backgrounds-->

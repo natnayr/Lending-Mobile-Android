@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.commons.NetworkConnectionChecks;
 import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
@@ -138,15 +139,15 @@ public class MainActivity extends AppCompatActivity{
                                 .withName(R.string.toolbar_title_learning_center).withIcon(CommunityMaterial.Icon.cmd_book_open_page_variant)
                                 .withSelectedTextColorRes(R.color.color_primary_700)
                                 .withSelectedIconColorRes(R.color.color_primary_700),
-                        new SectionDrawerItem().withName("Account"),
-                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_ACCOUNT_TOP_UP)
-                                .withName("Top Up").withIcon(CommunityMaterial.Icon.cmd_wallet)
-                                .withSelectedTextColorRes(R.color.color_primary_700)
-                                .withSelectedIconColorRes(R.color.color_primary_700),
-                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_ACCOUNT_WITHDRAW)
-                                .withName("Withdraw").withIcon(CommunityMaterial.Icon.cmd_square_inc_cash)
-                                .withSelectedTextColorRes(R.color.color_primary_700)
-                                .withSelectedIconColorRes(R.color.color_primary_700),
+//                        new SectionDrawerItem().withName("Account"),
+//                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_ACCOUNT_TOP_UP)
+//                                .withName("Top Up").withIcon(CommunityMaterial.Icon.cmd_wallet)
+//                                .withSelectedTextColorRes(R.color.color_primary_700)
+//                                .withSelectedIconColorRes(R.color.color_primary_700),
+//                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_ACCOUNT_WITHDRAW)
+//                                .withName("Withdraw").withIcon(CommunityMaterial.Icon.cmd_square_inc_cash)
+//                                .withSelectedTextColorRes(R.color.color_primary_700)
+//                                .withSelectedIconColorRes(R.color.color_primary_700),
                         new SectionDrawerItem().withName(R.string.navmenu_label_preferences),
                         new ExpandableDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_CHANGE)
                                 .withName(R.string.navmenu_label_language)
@@ -194,10 +195,10 @@ public class MainActivity extends AppCompatActivity{
                                     fragmentClass = LearningCenterFragment.class;
                                     mToolbar.setTitle(R.string.toolbar_title_learning_center);
                                     break;
-                                case DRAWER_SELECT_ACCOUNT_TOP_UP:
-                                    break;
-                                case DRAWER_SELECT_ACCOUNT_WITHDRAW:
-                                    break;
+//                                case DRAWER_SELECT_ACCOUNT_TOP_UP:
+//                                    break;
+//                                case DRAWER_SELECT_ACCOUNT_WITHDRAW:
+//                                    break;
                                 case DRAWER_SELECT_LANGUAGE_EN:
                                     LocaleHelper.setLocale(MainActivity.this, ConstantVariables.APP_LANG_EN);
                                     MainActivity.this.recreate();
@@ -333,7 +334,8 @@ public class MainActivity extends AppCompatActivity{
         super.onResume();
 //        checkForCrashes();
 
-        isOnline();
+        //check network and logout if needed
+        NetworkConnectionChecks.isOnline(this, true);
     }
 
     private void checkForCrashes() {
@@ -345,54 +347,5 @@ public class MainActivity extends AppCompatActivity{
         });
     }
 
-    private void isOnline() {
-        final View thisView = this.findViewById(android.R.id.content);
 
-        new AsyncTask<Void, Void, Boolean>(){
-            @Override
-            protected Boolean doInBackground(Void... params) {
-                //checking device
-                ConnectivityManager cm =
-                        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo netInfo = cm.getActiveNetworkInfo();
-                boolean checkNetwork = netInfo != null && netInfo.isConnectedOrConnecting();
-
-                //try connecting to server (google dns)
-                boolean checkConnectToServer = true;
-                try {
-                    URL url = new URL(APIServices.API_LIVE_BASE_URL);
-                    int timeoutMs = 10 * 1000;
-                    HttpURLConnection httpUrlc = (HttpURLConnection) url.openConnection();
-                    httpUrlc.setConnectTimeout(timeoutMs);
-                    httpUrlc.connect();
-                    if(httpUrlc.getResponseCode() == 200){
-                        checkConnectToServer = true;
-                        Log.d(LOG_TAG, "APP Server Connection Success");
-                    }else{
-                        checkConnectToServer = false;
-                        Log.d(LOG_TAG, "APP Server Connection Failed");
-                    }
-                } catch (IOException ioe) {
-                    checkConnectToServer = false;
-                }
-
-                return checkNetwork && checkConnectToServer;
-            }
-
-            @Override
-            protected void onPostExecute(Boolean result) {
-                if(!result){
-                    String badConnectionMsg = getString(R.string.server_connection_poor);
-                    SnackBarUtil.snackBarForWarrningCreate(thisView,
-                            badConnectionMsg, Snackbar.LENGTH_INDEFINITE).setAction("Log Out", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            AuthAccountUtils.actionLogout(MainActivity.this);
-                        }
-                    }).show();
-                }
-            }
-        }.execute();
-
-    }
 }

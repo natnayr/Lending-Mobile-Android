@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.commons.NetworkConnectionChecks;
 import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
@@ -172,48 +173,8 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
     protected void onResume() {
         super.onResume();
 
-        isOnline();
-    }
-
-    private void isOnline() {
-        final View thisView = this.findViewById(android.R.id.content);
-
-        new AsyncTask<Void,Void, Void>(){
-            @Override
-            protected Void doInBackground(Void... params) {
-                //checking device
-                ConnectivityManager cm =
-                        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo netInfo = cm.getActiveNetworkInfo();
-                boolean checkNetwork = netInfo != null && netInfo.isConnectedOrConnecting();
-
-                //try connecting to server (google dns)
-                boolean checkConnectToServer = true;
-                try {
-                    URL url = new URL(APIServices.API_LIVE_BASE_URL);
-                    int timeoutMs = 10 * 1000;
-                    HttpURLConnection httpUrlc = (HttpURLConnection) url.openConnection();
-                    httpUrlc.setConnectTimeout(timeoutMs);
-                    httpUrlc.connect();
-                    if(httpUrlc.getResponseCode() == 200){
-                        checkConnectToServer = true;
-                        Log.d(LOG_TAG, "APP Connection Success");
-                    }else{
-                        checkConnectToServer = false;
-                        Log.d(LOG_TAG, "APP Server Connection Failed");
-                    }
-                } catch (IOException ioe) {
-                    checkConnectToServer = false;
-                }
-
-                if(checkNetwork && checkConnectToServer){
-                    String badConnectionMsg = getString(R.string.server_connection_poor);
-                    SnackBarUtil.snackBarForWarrningCreate(thisView,
-                            badConnectionMsg, Snackbar.LENGTH_LONG).show();
-                }
-                return null;
-            }
-        };
+        //check network and prompt only
+        NetworkConnectionChecks.isOnline(this, false);
     }
 
 }

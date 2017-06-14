@@ -4,9 +4,12 @@ package com.crowdo.p2pconnect.model.response;
  * Created by cwdsg05 on 18/11/16.
  */
 
+import com.crowdo.p2pconnect.model.core.Investment;
 import com.crowdo.p2pconnect.model.core.Loan;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class LoanDetailResponse {
 
@@ -17,6 +20,10 @@ public class LoanDetailResponse {
     @SerializedName("loan")
     @Expose
     private Loan loan;
+
+    @SerializedName("bids")
+    @Expose
+    private List<Investment> bids;
 
     @SerializedName("first_repayment")
     @Expose
@@ -40,6 +47,14 @@ public class LoanDetailResponse {
 
     public void setLoan(Loan loan){
         this.loan = loan;
+    }
+
+    public List<Investment> getBids() {
+        return bids;
+    }
+
+    public void setBids(List<Investment> bids) {
+        this.bids = bids;
     }
 
     public String getFirstRepayment() {

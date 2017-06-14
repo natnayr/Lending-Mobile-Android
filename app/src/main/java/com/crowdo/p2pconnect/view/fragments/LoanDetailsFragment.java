@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -54,6 +55,7 @@ import java.net.URISyntaxException;
 
 import butterknife.BindColor;
 import butterknife.BindString;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -82,6 +84,9 @@ public class LoanDetailsFragment extends Fragment {
     @BindString(R.string.okay_label) String mLabelOkay;
     @BindString(R.string.open_label) String mLabelOpen;
     @BindString(R.string.permissions_no_write_statement) String mLabelCannotWrite;
+
+    @BindView(R.id.loan_details_swiperefresh) SwipeRefreshLayout mSwipeContainer;
+
 
     private static final String LOG_TAG = LoanDetailsFragment.class.getSimpleName();
 
@@ -136,6 +141,16 @@ public class LoanDetailsFragment extends Fragment {
             }
         });
 
+        mSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                populateLoanDetails();
+            }
+        });
+
+        mSwipeContainer.setColorSchemeResources(R.color.color_primary_700,
+                R.color.color_primary, R.color.color_primary_300);
+
         rootView.setTag(viewHolder);
         return rootView;
     }
@@ -179,6 +194,7 @@ public class LoanDetailsFragment extends Fragment {
         Log.d(LOG_TAG, "APP onCreateOptionsMenu inflate action_cart");
         inflater.inflate(R.menu.menu_cart, menu);
         mMenuCart = menu.findItem(R.id.action_cart);
+        updateShoppingCartItemCount();
     }
 
     @Override
@@ -256,11 +272,13 @@ public class LoanDetailsFragment extends Fragment {
                     public void onError(Throwable e) {
                         e.printStackTrace();
                         Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                        mSwipeContainer.setRefreshing(false);
                     }
 
                     @Override
                     public void onComplete() {
                         Log.d(LOG_TAG, "APP getLoanDetails Rx onComplete");
+                        mSwipeContainer.setRefreshing(false);
                     }
                 });
     }
@@ -360,8 +378,7 @@ public class LoanDetailsFragment extends Fragment {
                 Log.d(LOG_TAG, nfe.getMessage(), nfe);
                 unitBidAmount = 0;
             }
-
-
+            
             if(unitBidAmount <= 0 ) {
                 final Snackbar snackbar = SnackBarUtil.snackBarForWarrningCreate(getView(),
                         mLabelBidTooLow, Snackbar.LENGTH_LONG);

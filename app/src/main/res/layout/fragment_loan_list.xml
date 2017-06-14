@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/color_icons_text"
-        tools:context=".view.fragments.LoanListFragment"
         android:layout_alignParentTop="true">
         <ListView
             android:id="@+id/listview_loans"
