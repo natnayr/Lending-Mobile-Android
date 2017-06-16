@@ -13,9 +13,28 @@
     app:cardUseCompatPadding="true"
     app:cardCornerRadius="@dimen/item_checkout_summary_cart_card_corner_radius"
     app:cardBackgroundColor="@color/color_background_100">
+
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/item_checkout_summary_background"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:background="@color/color_primary_700">-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="REMOVE"-->
+            <!--android:textColor="@color/color_icons_text"-->
+            <!--android:fontFamily="@string/font_family_regular"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"/>-->
+    <!--</RelativeLayout>-->
+
+
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        android:id="@+id/item_checkout_summary_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_background_100">
         <LinearLayout
             android:id="@+id/item_checkout_summary_info_container"
             android:layout_width="match_parent"

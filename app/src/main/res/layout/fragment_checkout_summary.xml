@@ -242,8 +242,8 @@
 
             </RelativeLayout>
         </RelativeLayout>
-
     </net.cachapa.expandablelayout.ExpandableLayout>
+
     <View
         android:id="@+id/checkout_summary_expandable_divider"
         android:layout_width="match_parent"
@@ -252,13 +252,17 @@
         android:elevation="1dp"
         android:layout_below="@+id/checkout_summary_expandable"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/checkout_summary_recycler_view"
-        android:layout_width="match_parent"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_height="wrap_content"
-        android:scrollbars="vertical"
+        android:layout_width="match_parent"
         android:layout_below="@+id/checkout_summary_expandable"
-        android:layout_above="@+id/checkout_summary_action_button"/>
+        android:layout_above="@+id/checkout_summary_action_button">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/checkout_summary_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none" />
+    </android.support.design.widget.CoordinatorLayout>
 
     <LinearLayout
         android:id="@+id/checkout_summary_action_button"

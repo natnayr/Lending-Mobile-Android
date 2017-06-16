@@ -8,11 +8,15 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.custom_ui.CheckoutSummaryItemTouch;
 import com.crowdo.p2pconnect.data.client.CheckoutClient;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
@@ -86,6 +90,24 @@ public class CheckoutSummaryFragment extends Fragment{
                 populateSummaryList();
             }
         });
+
+        //get touch listener to dictate after action
+        ItemTouchHelper.SimpleCallback itemTouchSimpleCallback = new CheckoutSummaryItemTouch(0,
+                (ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT), getActivity()){
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+
+                if (direction == ItemTouchHelper.LEFT) {
+                    //call adapter removeItem
+                    Toast.makeText(mContext, "onSwiped LEFT position: " +
+                            position, Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchSimpleCallback);
+        itemTouchHelper.attachToRecyclerView(mCheckoutSummaryRecyclerView);
 
         return rootView;
     }

@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
@@ -28,6 +29,8 @@ import butterknife.ButterKnife;
  */
 
 public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder{
+
+    @Nullable@BindView(R.id.item_checkout_summary_container) public RelativeLayout mItemContainer;
 
     @Nullable @BindView(R.id.item_checkout_summary_loanid_value) TextView mItemLoanId;
     @Nullable @BindView(R.id.item_checkout_summary_tenure_value) TextView mItemTenure;
@@ -53,6 +56,7 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder{
     @Nullable @BindDrawable(R.drawable.item_checkout_summary_minus_btn_pressed) Drawable mMinusPressedDrawable;
     @Nullable @BindDrawable(R.drawable.item_checkout_summary_plus_btn_enabled) Drawable mPlusEnabledDrawable;
     @Nullable @BindDrawable(R.drawable.item_checkout_summary_plus_btn_pressed) Drawable mPlusPressedDrawable;
+
 
     private Context mContext;
     private static final int AMOUNT_UNIT = 1;
@@ -192,7 +196,5 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder{
                 mItemEditText.setText(Integer.toString(curAmount + unitAmount));
             }
         }
-
-
     }
 }

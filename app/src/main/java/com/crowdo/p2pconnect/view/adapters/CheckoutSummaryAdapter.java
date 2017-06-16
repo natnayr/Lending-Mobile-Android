@@ -1,14 +1,17 @@
 package com.crowdo.p2pconnect.view.adapters;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
@@ -41,6 +44,7 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         this.biddingLoanList = new ArrayList<Loan>();
         this.totalPendingBids = 0;
     }
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -77,7 +81,6 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             Investment bidInvestmentItem = biddingInvestmentList.get(position-1);
             Loan bidLoanItem = biddingLoanList.get(position-1);
 
-            Log.d(LOG_TAG, "APP bidItem.getLoanId(): " + bidInvestmentItem.getLoanId());
             itemHolder.populateItemDetails(bidInvestmentItem, bidLoanItem);
         }
     }
@@ -95,6 +98,12 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }else {
             return TYPE_ITEM;
         }
+    }
+
+    public void removeItem(int position){
+        biddingLoanList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, biddingInvestmentList.size());
     }
 
     public void setBiddingInvestmentsAndLoans(@Nullable List<Investment> investments,
@@ -118,10 +127,6 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private boolean isPositionHeader (int position){
         return position == 0;
     }
-
-//    private boolean isPositionFooter(int position){
-//        return position == biddingInvestmentList.size() + 1;
-//    }
 
 
     class HeaderCheckoutSummaryViewHolder extends RecyclerView.ViewHolder{
