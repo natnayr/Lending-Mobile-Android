@@ -57,4 +57,17 @@ public class SharedPreferencesUtils {
         editor.putStringSet(key, value);
         editor.commit();
     }
+
+    public static void setOnSharedPrefChanged(Context context, final CallBackUtil callBackUtil){
+        SharedPreferences sharedPreferences = getSharedPref(context);
+        SharedPreferences.OnSharedPreferenceChangeListener listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                callBackUtil.eventCallBack(key);
+            }
+        };
+        sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+    }
+
+
 }

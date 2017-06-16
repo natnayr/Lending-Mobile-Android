@@ -4,6 +4,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.commons.NetworkConnectionChecks;
 import com.crowdo.p2pconnect.data.APIServices;
+import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
@@ -117,9 +119,9 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
 
         Log.d(LOG_TAG, "APP finishAuth");
 
-        String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-        String accountPasswordHash = intent.getStringExtra(AuthActivity.PARAM_USER_PASS_HASH);
-        String authToken = intent.getStringExtra(AccountManager.KEY_AUTHTOKEN);
+        final String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+        final String accountPasswordHash = intent.getStringExtra(AuthActivity.PARAM_USER_PASS_HASH);
+        final String authToken = intent.getStringExtra(AccountManager.KEY_AUTHTOKEN);
         
         //remove all other accounts
         AuthAccountUtils.removeAccounts(this);
@@ -130,27 +132,37 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
         Log.d(LOG_TAG, "APP finishAuth() > addAccountExplicitly");
         boolean accountSuccess = mAccountManager.addAccountExplicitly(account, accountPasswordHash, userData);
 
+        //set post keychange actions
+        SharedPreferencesUtils.setOnSharedPrefChanged(this, new CallBackUtil() {
+            @Override
+            public void eventCallBack(Object keyChanged) {
+                Log.d(LOG_TAG, "APP finishAuth() > OnSharedPrefChanged");
+                if(keyChanged.equals(CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY)){
+                    if(mAuthTokenType == null){
+                        mAuthTokenType = CrowdoAccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS;
+                    }
+
+                    //set AuthToken
+                    mAccountManager.setAuthToken(account, mAuthTokenType, authToken);
+
+                    //Alert other apps
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        mAccountManager.notifyAccountAuthenticated(account);
+                    }
+
+                    setAccountAuthenticatorResult(intent.getExtras());
+                    setResult(RESULT_OK, intent);
+                    finish(); //carry on with either AccountManager or In-App Login
+                }
+            }
+        });
+
         if(accountSuccess) {
             Log.d(LOG_TAG, "APP finishAuth() > account created");
-            if(mAuthTokenType == null){
-                mAuthTokenType = CrowdoAccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS;
-            }
-
-            //set AuthToken
-            mAccountManager.setAuthToken(account, mAuthTokenType, authToken);
-
-            //Alert other apps
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                mAccountManager.notifyAccountAuthenticated(account);
-            }
 
             //Auth Token Store in Shared Pref for easy access
             SharedPreferencesUtils.setSharePrefString(this,
                     CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, authToken);
-
-            setAccountAuthenticatorResult(intent.getExtras());
-            setResult(RESULT_OK, intent);
-            finish(); //carry on with either AccountManager or In-App Login
 
         }else{
             Log.d(LOG_TAG, "APP finishAuth() > account creation failed");
