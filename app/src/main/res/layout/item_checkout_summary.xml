@@ -14,20 +14,21 @@
     app:cardCornerRadius="@dimen/item_checkout_summary_cart_card_corner_radius"
     app:cardBackgroundColor="@color/color_background_100">
 
-    <!--<RelativeLayout-->
-        <!--android:id="@+id/item_checkout_summary_background"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:background="@color/color_primary_700">-->
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="REMOVE"-->
-            <!--android:textColor="@color/color_icons_text"-->
-            <!--android:fontFamily="@string/font_family_regular"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_centerVertical="true"/>-->
-    <!--</RelativeLayout>-->
+    <LinearLayout
+        android:id="@+id/item_checkout_summary_delete_btn"
+        android:layout_height="match_parent"
+        android:layout_width="@dimen/item_checkout_summary_cart_action_width"
+        android:layout_gravity="right"
+        android:gravity="center"
+        android:background="@color/color_primary_700"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/item_checkout_summary_delete_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@color/color_icons_text" />
+    </LinearLayout>
 
 
     <RelativeLayout

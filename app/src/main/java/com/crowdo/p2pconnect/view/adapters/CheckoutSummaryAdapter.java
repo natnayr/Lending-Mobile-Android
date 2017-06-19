@@ -18,6 +18,7 @@ import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.model.core.Investment;
 import com.crowdo.p2pconnect.model.core.Loan;
 import com.crowdo.p2pconnect.viewholders.ItemCheckoutSummaryViewHolder;
+import com.loopeer.itemtouchhelperextension.Extension;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
@@ -66,7 +67,7 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
         if (holder instanceof HeaderCheckoutSummaryViewHolder){
             HeaderCheckoutSummaryViewHolder headerHolder = (HeaderCheckoutSummaryViewHolder) holder;
@@ -75,14 +76,23 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             headerHolder.mHeaderCheckoutSummaryNoOfLoans.setText(Integer.toString(totalPendingBids));
 
         }else if(holder instanceof ItemCheckoutSummaryViewHolder){
-            ItemCheckoutSummaryViewHolder itemHolder = (ItemCheckoutSummaryViewHolder) holder;
+            final int truePosition = holder.getAdapterPosition()-1;
+            final ItemCheckoutSummaryViewHolder itemHolder = (ItemCheckoutSummaryViewHolder) holder;
 
             //taking note of header, thus position-1
-            Investment bidInvestmentItem = biddingInvestmentList.get(position-1);
-            Loan bidLoanItem = biddingLoanList.get(position-1);
+            Investment bidInvestmentItem = biddingInvestmentList.get(truePosition);
+            Loan bidLoanItem = biddingLoanList.get(truePosition);
 
             itemHolder.populateItemDetails(bidInvestmentItem, bidLoanItem);
+            itemHolder.mItemDeleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(LOG_TAG, "APP mItemDeleteBtn click " + truePosition);
+                    doDelete(truePosition);
+                }
+            });
         }
+
     }
 
     @Override
@@ -100,10 +110,10 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    public void removeItem(int position){
+    public void doDelete(int position){
+        biddingInvestmentList.remove(position);
         biddingLoanList.remove(position);
         notifyItemRemoved(position);
-        notifyItemRangeChanged(position, biddingInvestmentList.size());
     }
 
     public void setBiddingInvestmentsAndLoans(@Nullable List<Investment> investments,
@@ -136,6 +146,9 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         @Nullable @BindView(R.id.checkout_summary_no_of_loans_icon)
         ImageView mSummaryCartNoOfLoansIcon;
 
+        @Nullable @BindView(R.id.checkout_summary_swipe_delete_info_icon)
+        ImageView mSummaryCartSwipeToDeleteIcon;
+
         HeaderCheckoutSummaryViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -144,8 +157,17 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     new IconicsDrawable(mContext)
                             .icon(CommunityMaterial.Icon.cmd_cash_multiple)
                             .colorRes(R.color.color_secondary_text)
-                            .sizeRes(R.dimen.checkout_summary_cart_icon_size)
-            );
+                            .sizeRes(R.dimen.checkout_summary_cart_icon_size));
+
+
+            mSummaryCartSwipeToDeleteIcon.setImageDrawable(
+                    new IconicsDrawable(mContext)
+                            .icon(CommunityMaterial.Icon.cmd_chevron_double_left)
+                            .colorRes(R.color.color_secondary_text)
+                            .sizeRes(R.dimen.item_checkout_summary_cart_swipe_info_icon_size));
+
+
+
         }
     }
 

@@ -8,6 +8,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,6 +17,7 @@ import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.model.core.Investment;
 import com.crowdo.p2pconnect.model.core.Loan;
+import com.loopeer.itemtouchhelperextension.Extension;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
@@ -28,7 +31,7 @@ import butterknife.ButterKnife;
  * Created by cwdsg05 on 26/5/17.
  */
 
-public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder{
+public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder implements Extension{
 
     @Nullable@BindView(R.id.item_checkout_summary_container) public RelativeLayout mItemContainer;
 
@@ -40,6 +43,9 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder{
     @Nullable @BindView(R.id.item_checkout_summary_bid_edit_minus_btn) ImageButton mItemBidMinusBtn;
     @Nullable @BindView(R.id.item_checkout_summary_bid_edit_plus_btn) ImageButton mItemBidPlusBtn;
     @Nullable @BindView(R.id.item_checkout_summary_enter_amount_edittext) EditText mItemEditText;
+
+    @Nullable @BindView(R.id.item_checkout_summary_delete_btn) public LinearLayout mItemDeleteBtn;
+    @Nullable @BindView(R.id.item_checkout_summary_delete_icon) ImageView mItemDeleteIcon;
 
     @Nullable @BindString(R.string.item_checkout_summary_tenure_label) String mItemTenureLabel;
     @Nullable @BindString(R.string.item_checkout_summary_interest_rate_label) String mItemInterestRateLabel;
@@ -56,7 +62,6 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder{
     @Nullable @BindDrawable(R.drawable.item_checkout_summary_minus_btn_pressed) Drawable mMinusPressedDrawable;
     @Nullable @BindDrawable(R.drawable.item_checkout_summary_plus_btn_enabled) Drawable mPlusEnabledDrawable;
     @Nullable @BindDrawable(R.drawable.item_checkout_summary_plus_btn_pressed) Drawable mPlusPressedDrawable;
-
 
     private Context mContext;
     private static final int AMOUNT_UNIT = 1;
@@ -91,6 +96,11 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder{
         mItemBidMinusBtn.setImageDrawable(minusEnabled);
         mItemBidPlusBtn.setBackground(mPlusEnabledDrawable);
         mItemBidPlusBtn.setImageDrawable(plusEnabled);
+
+        mItemDeleteIcon.setImageDrawable(new IconicsDrawable(mContext)
+            .icon(CommunityMaterial.Icon.cmd_delete)
+            .colorRes(R.color.color_icons_text)
+            .sizeRes(R.dimen.item_checkout_summary_cart_action_icon_size));
 
         mItemBidMinusBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -129,6 +139,8 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder{
                 return false;
             }
         });
+
+
     }
 
     public void populateItemDetails(Investment bidInvestmentItem, Loan bidLoanItem){
@@ -180,6 +192,8 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder{
 
     }
 
+
+
     private void addToEnterAmount(int unitAmount) {
         String cleanString = mItemEditText.getText().toString()
                 .replaceAll("[^\\d]", "").trim();
@@ -196,5 +210,10 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder{
                 mItemEditText.setText(Integer.toString(curAmount + unitAmount));
             }
         }
+    }
+
+    @Override
+    public float getActionWidth() {
+        return mItemDeleteBtn.getWidth();
     }
 }

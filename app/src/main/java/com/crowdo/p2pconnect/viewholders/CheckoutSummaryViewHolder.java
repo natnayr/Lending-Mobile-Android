@@ -97,19 +97,19 @@ public class CheckoutSummaryViewHolder {
         mSummaryPendingBidsIconMain.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_format_list_bulleted_type)
-                        .colorRes(R.color.color_primary_text)
+                        .colorRes(R.color.color_primary_text_800)
                         .sizeRes(R.dimen.checkout_summary_bidding_overall_icon_main_size));
 
         mSummaryAvalibleBalanceIconMain.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_cash)
-                        .colorRes(R.color.color_primary_text)
+                        .colorRes(R.color.color_primary_text_800)
                         .sizeRes(R.dimen.checkout_summary_bidding_overall_icon_main_size));
 
         mSummaryAmtTopUpIconMain.setImageDrawable(
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_wallet)
-                        .colorRes(R.color.color_primary_text)
+                        .colorRes(R.color.color_primary_text_800)
                         .sizeRes(R.dimen.checkout_summary_bidding_overall_icon_main_size));
 
         mSummaryAmtTopUpIconFloat.setImageDrawable(
@@ -117,7 +117,7 @@ public class CheckoutSummaryViewHolder {
                         .icon(CommunityMaterial.Icon.cmd_plus_circle)
                         .backgroundColorRes(R.color.color_icons_text)
                         .roundedCornersDp(5)
-                        .colorRes(R.color.color_primary_text)
+                        .colorRes(R.color.color_primary_text_800)
                         .sizeRes(R.dimen.checkout_summary_bidding_overall_icon_float_size));
 
         mSummaryExpandBtn.setOnClickListener(

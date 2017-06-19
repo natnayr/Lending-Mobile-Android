@@ -47,12 +47,6 @@ public class MemberDataRetrieval {
                         }else{
                             Log.d(LOG_TAG, "APP getMemberInfo onNext() status > "
                                     + response.code());
-                            if (HTTPResponseUtils.check4xxClientError(response.code())) {
-//                                if (ConstantVariables.HTTP_UNAUTHORISED == response.code()) {
-//                                    //Unauthorised, Invalidate & Logout
-//                                    AuthAccountUtils.actionLogout(activity);
-//                                }
-                            }
                         }
                     }
 

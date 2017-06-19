@@ -1,6 +1,5 @@
 package com.crowdo.p2pconnect.view.fragments;
 
-import android.accounts.AccountManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.custom_ui.CheckoutSummaryItemTouch;
+import com.crowdo.p2pconnect.custom_ui.CheckoutSummaryItemTouchCallback;
 import com.crowdo.p2pconnect.data.client.CheckoutClient;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
@@ -26,6 +25,7 @@ import com.crowdo.p2pconnect.model.response.CheckoutSummaryResponse;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.view.adapters.CheckoutSummaryAdapter;
 import com.crowdo.p2pconnect.viewholders.CheckoutSummaryViewHolder;
+import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 
 import java.util.List;
 
@@ -51,6 +51,7 @@ public class CheckoutSummaryFragment extends Fragment{
     private CheckoutSummaryViewHolder viewHolder;
     private CheckoutSummaryAdapter checkoutSummaryAdapter;
     private Disposable disposableGetCheckoutSummary;
+    private ItemTouchHelperExtension mItemTouchHelper;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,22 +93,10 @@ public class CheckoutSummaryFragment extends Fragment{
         });
 
         //get touch listener to dictate after action
-        ItemTouchHelper.SimpleCallback itemTouchSimpleCallback = new CheckoutSummaryItemTouch(0,
-                (ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT), getActivity()){
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                int position = viewHolder.getAdapterPosition();
-
-                if (direction == ItemTouchHelper.LEFT) {
-                    //call adapter removeItem
-                    Toast.makeText(mContext, "onSwiped LEFT position: " +
-                            position, Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
-
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchSimpleCallback);
-        itemTouchHelper.attachToRecyclerView(mCheckoutSummaryRecyclerView);
+        ItemTouchHelperExtension.Callback itemTouchCallback =
+                new CheckoutSummaryItemTouchCallback(getActivity());
+        mItemTouchHelper = new ItemTouchHelperExtension(itemTouchCallback);
+        mItemTouchHelper.attachToRecyclerView(mCheckoutSummaryRecyclerView);
 
         return rootView;
     }

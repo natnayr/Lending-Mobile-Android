@@ -5,37 +5,61 @@
     android:id="@+id/checkout_summary_no_of_loans"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_below="@id/checkout_summary_expandable_divider"
     android:layout_marginLeft="@dimen/checkout_summary_cart_horizontal_margin"
     android:layout_marginRight="@dimen/checkout_summary_cart_horizontal_margin"
     android:layout_marginTop="@dimen/checkout_summary_cart_vertical_margin"
     android:layout_marginBottom="@dimen/checkout_summary_cart_vertical_margin">
-    <ImageView
-        android:id="@+id/checkout_summary_no_of_loans_icon"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"/>
-    <TextView
-        android:id="@+id/checkout_summary_no_of_loans_label"
+        android:layout_centerVertical="true">
+        <ImageView
+            android:id="@+id/checkout_summary_no_of_loans_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/checkout_summary_no_of_loans_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No. of Bids:"
+            android:textSize="@dimen/checkout_summary_expand_small_font_size"
+            android:textColor="@color/color_secondary_text"
+            android:fontFamily="@string/font_family_regular"
+            android:layout_toEndOf="@id/checkout_summary_no_of_loans_icon"
+            android:layout_marginLeft="@dimen/checkout_summary_cart_header_margin"/>
+        <TextView
+            android:id="@+id/checkout_summary_no_of_loans_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="8"
+            android:textSize="@dimen/checkout_summary_expand_small_font_size"
+            android:textColor="@color/color_accent"
+            android:fontFamily="@string/font_family_regular"
+            android:layout_toEndOf="@id/checkout_summary_no_of_loans_label"
+            android:layout_marginLeft="@dimen/checkout_summary_cart_header_margin"/>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No. of Bids:"
-        android:textSize="@dimen/checkout_summary_expand_small_font_size"
-        android:textColor="@color/color_secondary_text"
-        android:fontFamily="@string/font_family_regular"
-        android:layout_toEndOf="@id/checkout_summary_no_of_loans_icon"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/checkout_summary_cart_header_margin"/>
-    <TextView
-        android:id="@+id/checkout_summary_no_of_loans_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="8"
-        android:textSize="@dimen/checkout_summary_expand_small_font_size"
-        android:textColor="@color/color_accent"
-        android:fontFamily="@string/font_family_regular"
-        android:layout_toEndOf="@id/checkout_summary_no_of_loans_label"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/checkout_summary_cart_header_margin"/>
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true">
+        <ImageView
+            android:id="@+id/checkout_summary_swipe_delete_info_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/checkout_summary_swipe_delete_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Swipe Left To Delete"
+            android:textSize="@dimen/checkout_summary_expand_small_font_size"
+            android:textColor="@color/color_secondary_text"
+            android:textStyle="italic"
+            android:fontFamily="@string/font_family_light"
+            android:layout_toEndOf="@id/checkout_summary_swipe_delete_info_icon"
+            android:layout_marginStart="@dimen/checkout_summary_cart_header_margin"/>
+
+    </RelativeLayout>
 </RelativeLayout>

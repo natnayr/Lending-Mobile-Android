@@ -12,11 +12,11 @@ import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
  * Created by cwdsg05 on 16/6/17.
  */
 
-public class CheckoutSummaryItemTouch extends ItemTouchHelperExtension.Callback{
+public class CheckoutSummaryItemTouchCallback extends ItemTouchHelperExtension.Callback{
 
     private Context mContext;
 
-    public CheckoutSummaryItemTouch(Context context) {
+    public CheckoutSummaryItemTouchCallback(Context context) {
         super();
         this.mContext = context;
     }
@@ -35,13 +35,20 @@ public class CheckoutSummaryItemTouch extends ItemTouchHelperExtension.Callback{
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
     }
 
+    @Override
+    public boolean isLongPressDragEnabled() {
+        return true;
+    }
 
     @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
         ItemCheckoutSummaryViewHolder holder = (ItemCheckoutSummaryViewHolder) viewHolder;
+        if(dX < -holder.mItemDeleteBtn.getWidth()){
+            dX = -holder.mItemDeleteBtn.getWidth();
+        }
         holder.mItemContainer.setTranslationX(dX);
+        return;
     }
-
 
 }
 
