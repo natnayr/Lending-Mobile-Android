@@ -7,9 +7,11 @@ import com.crowdo.p2pconnect.data.ReceivingCookiesInterceptor;
 import com.crowdo.p2pconnect.data.SendingCookiesInterceptor;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
-import com.crowdo.p2pconnect.model.request.BidRequest;
+import com.crowdo.p2pconnect.model.request.DeleteBidRequest;
+import com.crowdo.p2pconnect.model.request.OfferBidRequest;
 import com.crowdo.p2pconnect.model.response.AcceptBidResponse;
 import com.crowdo.p2pconnect.model.response.CheckBidResponse;
+import com.crowdo.p2pconnect.model.response.DeleteBidResponse;
 import com.crowdo.p2pconnect.oauth.AuthHTTPInterceptor;
 import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.google.gson.Gson;
@@ -73,13 +75,18 @@ public class BiddingClient {
 
     public Observable<Response<CheckBidResponse>> postCheckBid(long investAmount, int loanId,
                                                                String deviceId){
-        return apiServices.postCheckBid(new BidRequest(investAmount, loanId,
+        return apiServices.postCheckBid(new OfferBidRequest(investAmount, loanId,
                 ConstantVariables.API_SITE_CONFIG_ID, deviceId));
     }
 
     public Observable<Response<AcceptBidResponse>> postAcceptBid(long investAmount, int loanId,
                                                                  String deviceId){
-        return apiServices.postAcceptBid(new BidRequest(investAmount, loanId,
+        return apiServices.postAcceptBid(new OfferBidRequest(investAmount, loanId,
                 ConstantVariables.API_SITE_CONFIG_ID, deviceId));
+    }
+
+    public Observable<Response<DeleteBidResponse>> postDeleteBid(int bidId, String deviceId){
+        return apiServices.postDeleteBid(new DeleteBidRequest(ConstantVariables.API_SITE_CONFIG_ID,
+                deviceId, bidId));
     }
 }

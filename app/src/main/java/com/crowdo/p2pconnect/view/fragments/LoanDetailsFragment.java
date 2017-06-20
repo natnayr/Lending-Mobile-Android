@@ -225,6 +225,8 @@ public class LoanDetailsFragment extends Fragment {
         if(disposablePostAcceptBid != null){
             disposablePostAcceptBid.dispose();
         }
+
+
         super.onPause();
     }
 
@@ -505,6 +507,9 @@ public class LoanDetailsFragment extends Fragment {
                                 SnackBarUtil.snackBarForInfoCreate(getView(),
                                         server.getMessage(), Snackbar.LENGTH_SHORT).show();
 
+
+                                updateShoppingCartItemCount(); //update cart to new number
+                                viewHolder.mEnterAmount.setText(""); //clear bidding after
                             }
                         }else{
                             //Error Handling

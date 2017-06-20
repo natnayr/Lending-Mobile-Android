@@ -8,7 +8,8 @@
     android:layout_marginLeft="@dimen/checkout_summary_cart_horizontal_margin"
     android:layout_marginRight="@dimen/checkout_summary_cart_horizontal_margin"
     android:layout_marginTop="@dimen/checkout_summary_cart_vertical_margin"
-    android:layout_marginBottom="@dimen/checkout_summary_cart_vertical_margin">
+    android:layout_marginBottom="@dimen/checkout_summary_cart_vertical_margin"
+    android:layout_centerVertical="true">
 
         <ImageView
             android:id="@+id/checkout_summary_no_of_loans_icon"
@@ -35,25 +36,22 @@
             android:fontFamily="@string/font_family_regular"
             android:layout_toEndOf="@id/checkout_summary_no_of_loans_label"
             android:layout_marginStart="@dimen/checkout_summary_cart_header_margin"/>
-
-
         <ImageView
             android:id="@+id/checkout_summary_swipe_delete_info_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/checkout_summary_swipe_delete_info"/>
+            android:layout_toStartOf="@+id/checkout_summary_swipe_delete_info"/>
         <TextView
             android:id="@+id/checkout_summary_swipe_delete_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Swipe Left To Delete"
+            android:text="Swipe Left To Remove"
             android:textSize="@dimen/checkout_summary_expand_small_font_size"
             android:textColor="@color/color_secondary_text"
             android:textStyle="italic"
-            android:fontFamily="@string/font_family_light"
-            android:layout_centerVertical="true"
+            android:fontFamily="@string/font_family_condensed"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="@dimen/checkout_summary_cart_header_margin"/>
+            android:layout_marginStart="@dimen/item_checkout_summary_cart_swipe_icon_margin"/>
 
 </RelativeLayout>

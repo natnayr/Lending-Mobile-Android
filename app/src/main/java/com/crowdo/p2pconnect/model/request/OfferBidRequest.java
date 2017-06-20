@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by cwdsg05 on 7/6/17.
  */
 
-public class BidRequest {
+public class OfferBidRequest {
 
     @SerializedName("bid")
     @Expose
@@ -21,7 +21,7 @@ public class BidRequest {
     @Expose
     private String deviceId;
 
-    public BidRequest(long investAmount, int loanId, String siteConfig, String deviceId){
+    public OfferBidRequest(long investAmount, int loanId, String siteConfig, String deviceId){
         this.siteConfig = siteConfig;
         this.deviceId = deviceId;
         bid = new Bid(investAmount, loanId);

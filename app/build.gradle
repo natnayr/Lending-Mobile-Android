@@ -12,7 +12,6 @@ android {
         versionName "0.1.1.21"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [HOCKEYAPP_APP_ID: "26edfa1f4e314714a244f6d7b972b529"]
-        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         debug {

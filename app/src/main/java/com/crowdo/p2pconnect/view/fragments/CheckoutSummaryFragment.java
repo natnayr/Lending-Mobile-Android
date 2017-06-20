@@ -71,7 +71,7 @@ public class CheckoutSummaryFragment extends Fragment{
         viewHolder = new CheckoutSummaryViewHolder(rootView, getActivity());
         viewHolder.initView();
 
-        this.checkoutSummaryAdapter = new CheckoutSummaryAdapter(getActivity());
+        this.checkoutSummaryAdapter = new CheckoutSummaryAdapter(getActivity(), mCheckoutSummaryRecyclerView);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         mCheckoutSummaryRecyclerView.setLayoutManager(mLayoutManager);
@@ -113,6 +113,11 @@ public class CheckoutSummaryFragment extends Fragment{
         if(disposableGetCheckoutSummary != null){
             disposableGetCheckoutSummary.dispose();
         }
+        //dispose inside adapter
+        if(checkoutSummaryAdapter != null){
+            checkoutSummaryAdapter.removeDisposablePostDeleteBid();
+        }
+        super.onPause();
     }
 
     private void populateSummaryList(){
@@ -137,7 +142,8 @@ public class CheckoutSummaryFragment extends Fragment{
                             CheckoutSummaryResponse body = response.body();
                             List<Investment> investments = body.getBids();
                             List<Loan> loans = body.getLoans();
-                            checkoutSummaryAdapter.setBiddingInvestmentsAndLoans(investments, loans, body.getNumOfPendingBids());
+                            Log.d(LOG_TAG, "APP Number of Pending Bids: " + body.getNumOfPendingBids());
+                            checkoutSummaryAdapter.setBiddingInvestmentsAndLoans(investments, loans);
                             viewHolder.populateSummaryDetails(body.getTotalPendingBids(), body.getAvailableCashBalance());
                         }else{
                             Log.d(LOG_TAG, "APP getCheckoutSummary onNext() status > " + response.code());
@@ -150,8 +156,9 @@ public class CheckoutSummaryFragment extends Fragment{
                     }
 
                     @Override
-                    public void onError(@NonNull Throwable e) {
-
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
                     }
 
                     @Override
