@@ -1,18 +1,14 @@
 package com.crowdo.p2pconnect.view.adapters;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
@@ -22,16 +18,16 @@ import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.model.core.Investment;
 import com.crowdo.p2pconnect.model.core.Loan;
-import com.crowdo.p2pconnect.model.response.DeleteBidResponse;
+import com.crowdo.p2pconnect.model.response.BidStatusResponse;
+import com.crowdo.p2pconnect.model.response.MessageResponse;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.view.activities.CheckoutActivity;
 import com.crowdo.p2pconnect.viewholders.ItemCheckoutSummaryViewHolder;
-import com.loopeer.itemtouchhelperextension.Extension;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
-import org.w3c.dom.Text;
-
+import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +38,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
+import retrofit2.Converter;
 import retrofit2.Response;
 
 public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
@@ -49,6 +47,7 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private static final String LOG_TAG = CheckoutSummaryAdapter.class.getSimpleName();
     private List<Investment> biddingInvestmentList;
     private List<Loan> biddingLoanList;
+//    private List<>
     private Context mContext;
     private Disposable disposablePostDeleteBid;
     private RecyclerView mRecyclerView;
@@ -64,7 +63,6 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         this.mRecyclerView = recyclerView;
     }
 
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -76,7 +74,9 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_checkout_summary, parent, false);
 
-            ItemCheckoutSummaryViewHolder viewHolder = new ItemCheckoutSummaryViewHolder(view, mContext);
+            ItemCheckoutSummaryViewHolder viewHolder =
+                    new ItemCheckoutSummaryViewHolder(view, mContext, this);
+
             viewHolder.initView();
 
             return viewHolder;
@@ -90,7 +90,7 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         if (holder instanceof HeaderCheckoutSummaryViewHolder){
             HeaderCheckoutSummaryViewHolder headerHolder = (HeaderCheckoutSummaryViewHolder) holder;
-            Log.d(LOG_TAG, "APP Number of Pending Bids: " + biddingInvestmentList.size());
+            Log.d(LOG_TAG, "APP onBindViewHolder Pending Bids Count: " + biddingInvestmentList.size());
 
             mHeaderNoOfLoans = headerHolder.mHeaderCheckoutSummaryNoOfLoans;
             mHeaderNoOfLoans.setText(Integer.toString(biddingInvestmentList.size()));
@@ -99,17 +99,15 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             final int listPosition = holder.getAdapterPosition()-1;
             final ItemCheckoutSummaryViewHolder itemHolder = (ItemCheckoutSummaryViewHolder) holder;
 
+            Log.d(LOG_TAG, "APP onBindViewHolder listPosition = " + listPosition +
+                    ", getLayoutPosition() = " + itemHolder.getLayoutPosition());
+
             //taking note of header, thus position-1
             final Investment bidInvestmentItem = biddingInvestmentList.get(listPosition);
             final Loan bidLoanItem = biddingLoanList.get(listPosition);
 
-            itemHolder.populateItemDetails(bidInvestmentItem, bidLoanItem);
-            itemHolder.mItemDeleteBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    doDelete(listPosition, bidInvestmentItem, bidLoanItem);
-                }
-            });
+            itemHolder.populateItemDetails(itemHolder.getLayoutPosition(),
+                    bidInvestmentItem, bidLoanItem);
         }
 
     }
@@ -135,25 +133,25 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    private void doDelete(final int position, final Investment bidInvestmentItem,
+    public void doDelete(final int layoutPosition, final Investment bidInvestmentItem,
                           final Loan bidLoanItem){
-
         //do check here
-        BiddingClient.getInstance(mContext)
-                .postDeleteBid(bidInvestmentItem.getId(),
+        final BiddingClient bidClient = BiddingClient.getInstance(mContext);
+
+        bidClient.postDeleteBid(bidInvestmentItem.getId(),
                         ConstantVariables.getUniqueAndroidID(mContext))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<DeleteBidResponse>>() {
+                .subscribe(new Observer<Response<BidStatusResponse>>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
                         disposablePostDeleteBid = d;
                     }
 
                     @Override
-                    public void onNext(@NonNull Response<DeleteBidResponse> response) {
+                    public void onNext(@NonNull Response<BidStatusResponse> response) {
                         if(response.isSuccessful()){
-                            DeleteBidResponse deleteBidResponse = response.body();
+                            BidStatusResponse deleteBidResponse = response.body();
                             if(mRecyclerView !=null) {
                                 SnackBarUtil.snackBarForInfoCreate(mRecyclerView,
                                         deleteBidResponse.getServer().getMessage(),
@@ -165,6 +163,25 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                             if(HTTPResponseUtils.check4xxClientError(response.code())){
                                 if(ConstantVariables.HTTP_UNAUTHORISED == response.code()){
                                     AuthAccountUtils.actionLogout((CheckoutActivity) mContext);
+                                }else if(ConstantVariables.HTTP_NOT_FOUND == response.code()){
+                                    String serverErrorMessage = "Error: Delete Bid Not Successful";
+                                    if(response.errorBody() != null) {
+                                        Converter<ResponseBody, MessageResponse> errorConverter =
+                                                bidClient.getRetrofit().responseBodyConverter(
+                                                        MessageResponse.class, new Annotation[0]);
+                                        try{
+                                            MessageResponse errorResponse = errorConverter
+                                                    .convert(response.errorBody());
+                                            serverErrorMessage = errorResponse.getServerResponse().getMessage();
+                                        }catch (IOException e){
+                                            e.printStackTrace();
+                                            Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                                        }
+
+                                        SnackBarUtil.snackBarForErrorCreate(mRecyclerView,
+                                                serverErrorMessage, Snackbar.LENGTH_SHORT)
+                                                .show();
+                                    }
                                 }
                             }
                         }
@@ -178,15 +195,15 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                     @Override
                     public void onComplete() {
-                        Log.d(LOG_TAG, "APP postDeleteBid Rx onComplete");
+                        Log.d(LOG_TAG, "APP postDeleteBid Rx onComplete, remove on adapter pos: "
+                                + layoutPosition);
                         biddingInvestmentList.remove(bidInvestmentItem);
                         biddingLoanList.remove(bidLoanItem);
-                        notifyItemRemoved(position);
-                        notifyItemRangeChanged(position, biddingInvestmentList.size()+1);
+                        notifyItemRemoved(layoutPosition);
+                        notifyItemChanged(0); //ask to redraw header that is bound list.size
                     }
                 });
     }
-
 
 
     public void setBiddingInvestmentsAndLoans(@Nullable List<Investment> investments,
@@ -207,7 +224,6 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private boolean isPositionHeader (int position){
         return position == 0;
     }
-
 
     public void removeDisposablePostDeleteBid() {
         if(disposablePostDeleteBid != null){

@@ -17,6 +17,7 @@ import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.model.core.Investment;
 import com.crowdo.p2pconnect.model.core.Loan;
+import com.crowdo.p2pconnect.view.adapters.CheckoutSummaryAdapter;
 import com.loopeer.itemtouchhelperextension.Extension;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -63,17 +64,38 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder imple
     @Nullable @BindDrawable(R.drawable.item_checkout_summary_plus_btn_enabled) Drawable mPlusEnabledDrawable;
     @Nullable @BindDrawable(R.drawable.item_checkout_summary_plus_btn_pressed) Drawable mPlusPressedDrawable;
 
-    private Context mContext;
+
     private static final int AMOUNT_UNIT = 1;
     private static final int ENTER_AMOUNT_MAX_LENGTH = 4;
 
-    public ItemCheckoutSummaryViewHolder(View itemView, Context context) {
+    private Context mContext;
+    private CheckoutSummaryAdapter mAdapter;
+    private Investment bidInvestmentItem;
+    private Loan bidLoanItem;
+
+    public ItemCheckoutSummaryViewHolder(View itemView, Context context, CheckoutSummaryAdapter adapter) {
         super(itemView);
         this.mContext = context;
+        this.mAdapter = adapter;
         ButterKnife.bind(this, itemView);
     }
 
     public void initView(){
+
+        mItemBidMinusBtn.setBackground(mMinusEnabledDrawable);
+        mItemBidPlusBtn.setBackground(mPlusEnabledDrawable);
+
+        mItemDeleteIcon.setImageDrawable(new IconicsDrawable(mContext)
+            .icon(CommunityMaterial.Icon.cmd_delete)
+            .colorRes(R.color.color_icons_text)
+            .sizeRes(R.dimen.item_checkout_summary_cart_action_icon_size));
+    }
+
+    public void populateItemDetails(final int layoutPosition, final Investment bidInvestmentItem, final Loan bidLoanItem){
+
+        this.bidInvestmentItem = bidInvestmentItem;
+        this.bidLoanItem = bidLoanItem;
+
         final IconicsDrawable minusEnabled = new IconicsDrawable(mContext)
                 .icon(CommunityMaterial.Icon.cmd_minus)
                 .colorRes(R.color.color_primary_text)
@@ -92,58 +114,8 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder imple
                 .colorRes(R.color.color_icons_text)
                 .sizeRes(R.dimen.item_checkout_summary_cart_edit_icon_size);
 
-        mItemBidMinusBtn.setBackground(mMinusEnabledDrawable);
         mItemBidMinusBtn.setImageDrawable(minusEnabled);
-        mItemBidPlusBtn.setBackground(mPlusEnabledDrawable);
         mItemBidPlusBtn.setImageDrawable(plusEnabled);
-
-        mItemDeleteIcon.setImageDrawable(new IconicsDrawable(mContext)
-            .icon(CommunityMaterial.Icon.cmd_delete)
-            .colorRes(R.color.color_icons_text)
-            .sizeRes(R.dimen.item_checkout_summary_cart_action_icon_size));
-
-        mItemBidMinusBtn.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()){
-                    case MotionEvent.ACTION_DOWN:
-                        mItemBidMinusBtn.setBackground(mMinusPressedDrawable);
-                        mItemBidMinusBtn.setImageDrawable(minusPressed);
-                        addToEnterAmount(-AMOUNT_UNIT);
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        mItemBidMinusBtn.setBackground(mMinusEnabledDrawable);
-                        mItemBidMinusBtn.setImageDrawable(minusEnabled);
-                        return true;
-                }
-                return false;
-            }
-        });
-
-        mItemBidPlusBtn.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()){
-                    case MotionEvent.ACTION_DOWN:
-                        mItemBidPlusBtn.setBackground(mPlusPressedDrawable);
-                        mItemBidPlusBtn.setImageDrawable(plusPressed);
-                        addToEnterAmount(AMOUNT_UNIT);
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        mItemBidPlusBtn.setBackground(mPlusEnabledDrawable);
-                        mItemBidPlusBtn.setImageDrawable(plusEnabled);
-                        return true;
-
-                }
-
-                return false;
-            }
-        });
-
-
-    }
-
-    public void populateItemDetails(Investment bidInvestmentItem, Loan bidLoanItem){
 
         if(!"".equals(bidLoanItem.getLoanId().trim())) {
             mItemLoanId.setText(bidLoanItem.getLoanId().toUpperCase().trim());
@@ -190,9 +162,51 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder imple
             mItemEditText.setText(Long.toString(unitInvestAmount));
         }
 
+        mItemDeleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAdapter.doDelete(layoutPosition, bidInvestmentItem, bidLoanItem);
+            }
+        });
+
+        mItemBidMinusBtn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        mItemBidMinusBtn.setBackground(mMinusPressedDrawable);
+                        mItemBidMinusBtn.setImageDrawable(minusPressed);
+                        addToEnterAmount(-AMOUNT_UNIT);
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        mItemBidMinusBtn.setBackground(mMinusEnabledDrawable);
+                        mItemBidMinusBtn.setImageDrawable(minusEnabled);
+                        return true;
+                }
+                return false;
+            }
+        });
+
+        mItemBidPlusBtn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        mItemBidPlusBtn.setBackground(mPlusPressedDrawable);
+                        mItemBidPlusBtn.setImageDrawable(plusPressed);
+                        addToEnterAmount(AMOUNT_UNIT);
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        mItemBidPlusBtn.setBackground(mPlusEnabledDrawable);
+                        mItemBidPlusBtn.setImageDrawable(plusEnabled);
+                        return true;
+                }
+
+                return false;
+            }
+        });
+
     }
-
-
 
     private void addToEnterAmount(int unitAmount) {
         String cleanString = mItemEditText.getText().toString()
@@ -211,6 +225,7 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder imple
             }
         }
     }
+
 
     @Override
     public float getActionWidth() {

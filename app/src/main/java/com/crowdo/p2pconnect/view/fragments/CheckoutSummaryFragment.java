@@ -142,11 +142,10 @@ public class CheckoutSummaryFragment extends Fragment{
                             CheckoutSummaryResponse body = response.body();
                             List<Investment> investments = body.getBids();
                             List<Loan> loans = body.getLoans();
-                            Log.d(LOG_TAG, "APP Number of Pending Bids: " + body.getNumOfPendingBids());
                             checkoutSummaryAdapter.setBiddingInvestmentsAndLoans(investments, loans);
                             viewHolder.populateSummaryDetails(body.getTotalPendingBids(), body.getAvailableCashBalance());
                         }else{
-                            Log.d(LOG_TAG, "APP getCheckoutSummary onNext() status > " + response.code());
+                            Log.d(LOG_TAG, "APP getCheckoutSummary !isSuccessful onNext() status > " + response.code());
                             if(HTTPResponseUtils.check4xxClientError(response.code())){
                                 if(ConstantVariables.HTTP_UNAUTHORISED == response.code()){
                                     AuthAccountUtils.actionLogout(getActivity());

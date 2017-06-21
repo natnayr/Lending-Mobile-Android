@@ -29,7 +29,7 @@ import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.model.core.Investment;
-import com.crowdo.p2pconnect.model.response.AcceptBidResponse;
+import com.crowdo.p2pconnect.model.response.BidStatusResponse;
 import com.crowdo.p2pconnect.model.response.CheckBidResponse;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
@@ -489,35 +489,37 @@ public class LoanDetailsFragment extends Fragment {
                 ConstantVariables.getUniqueAndroidID(getActivity()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<AcceptBidResponse>>() {
+                .subscribe(new Observer<Response<BidStatusResponse>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         disposablePostAcceptBid = d;
                     }
 
                     @Override
-                    public void onNext(Response<AcceptBidResponse> response) {
+                    public void onNext(Response<BidStatusResponse> response) {
                         if(response.isSuccessful()){
-                            AcceptBidResponse acceptBidResponse = response.body();
-                            if(acceptBidResponse != null){
-                                Investment bid = acceptBidResponse.getExistingBid();
-                                ServerResponse server = acceptBidResponse.getServer();
+                            BidStatusResponse acceptBidStatusResponse = response.body();
+                            if(acceptBidStatusResponse != null){
+                                Investment bid = acceptBidStatusResponse.getBid();
+                                ServerResponse server = acceptBidStatusResponse.getServer();
+                                Log.d(LOG_TAG, "APP addToCart onNext() bid_id: " + bid.getId());
 
                                 //pass response to user
                                 SnackBarUtil.snackBarForInfoCreate(getView(),
                                         server.getMessage(), Snackbar.LENGTH_SHORT).show();
 
-
                                 updateShoppingCartItemCount(); //update cart to new number
                                 viewHolder.mEnterAmount.setText(""); //clear bidding after
                             }
                         }else{
+                            Log.d(LOG_TAG, "APP getCheckoutSummary !isSuccessful onNext() status > "
+                                    + response.code());
                             //Error Handling
                             if(HTTPResponseUtils.check4xxClientError(response.code())){
-                                String serverErrorMessage = "Error: Accept Bid Not successful";
                                 if(ConstantVariables.HTTP_UNAUTHORISED == response.code()){
                                     AuthAccountUtils.actionLogout(getActivity());
                                 }else if(ConstantVariables.HTTP_PRECONDITION_FAILED == response.code()){
+                                    String serverErrorMessage = "Error: Accept Bid Not Successful";
                                     //Invalid Investment Amount (e.g. 0, -1, etc)
                                     if(response.errorBody() != null) {
                                         Converter<ResponseBody, MessageResponse> errorConverter =

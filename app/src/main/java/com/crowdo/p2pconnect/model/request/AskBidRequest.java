@@ -7,11 +7,11 @@ import com.google.gson.annotations.SerializedName;
  * Created by cwdsg05 on 7/6/17.
  */
 
-public class OfferBidRequest {
+public class AskBidRequest {
 
-    @SerializedName("bid")
+    @SerializedName("ask_bid")
     @Expose
-    private Bid bid;
+    private AskBid askBid;
 
     @SerializedName("site_config")
     @Expose
@@ -21,18 +21,18 @@ public class OfferBidRequest {
     @Expose
     private String deviceId;
 
-    public OfferBidRequest(long investAmount, int loanId, String siteConfig, String deviceId){
+    public AskBidRequest(long investAmount, int loanId, String siteConfig, String deviceId){
         this.siteConfig = siteConfig;
         this.deviceId = deviceId;
-        bid = new Bid(investAmount, loanId);
+        askBid = new AskBid(investAmount, loanId);
     }
 
-    public Bid getBid() {
-        return bid;
+    public AskBid getAskBid() {
+        return askBid;
     }
 
-    public void setBid(Bid bid) {
-        this.bid = bid;
+    public void setAskBid(AskBid askBid) {
+        this.askBid = askBid;
     }
 
     public String getSiteConfig() {
@@ -51,7 +51,7 @@ public class OfferBidRequest {
         this.deviceId = deviceId;
     }
 
-    private class Bid{
+    private class AskBid {
         @SerializedName("invest_amount")
         @Expose
         private Long investAmount;
@@ -60,7 +60,7 @@ public class OfferBidRequest {
         @Expose
         private Integer loanId;
 
-        public Bid(long investAmount, int loanId) {
+        public AskBid(long investAmount, int loanId) {
             this.investAmount = investAmount;
             this.loanId = loanId;
         }

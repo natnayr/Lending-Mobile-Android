@@ -1,14 +1,13 @@
 package com.crowdo.p2pconnect.data;
 
 import com.crowdo.p2pconnect.model.request.DeleteBidRequest;
-import com.crowdo.p2pconnect.model.request.OfferBidRequest;
+import com.crowdo.p2pconnect.model.request.AskBidRequest;
 import com.crowdo.p2pconnect.model.request.LoginRequest;
 import com.crowdo.p2pconnect.model.request.RegisterRequest;
-import com.crowdo.p2pconnect.model.response.AcceptBidResponse;
+import com.crowdo.p2pconnect.model.response.BidStatusResponse;
 import com.crowdo.p2pconnect.model.response.AuthResponse;
 import com.crowdo.p2pconnect.model.response.CheckBidResponse;
 import com.crowdo.p2pconnect.model.response.CheckoutSummaryResponse;
-import com.crowdo.p2pconnect.model.response.DeleteBidResponse;
 import com.crowdo.p2pconnect.model.response.LoanDetailResponse;
 import com.crowdo.p2pconnect.model.response.LoanListResponse;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
@@ -58,15 +57,15 @@ public interface APIServices {
 
     @POST("bid/check_bid")
     @Headers({"Content-type: application/json"})
-    Observable<Response<CheckBidResponse>> postCheckBid(@Body OfferBidRequest data);
+    Observable<Response<CheckBidResponse>> postCheckBid(@Body AskBidRequest data);
 
     @POST("bid/accept_bid")
     @Headers({"Content-type: application/json"})
-    Observable<Response<AcceptBidResponse>> postAcceptBid(@Body OfferBidRequest data);
+    Observable<Response<BidStatusResponse>> postAcceptBid(@Body AskBidRequest data);
 
     @POST("bid/delete_bid")
     @Headers({"Content-type: application/json"})
-    Observable<Response<DeleteBidResponse>> postDeleteBid(@Body DeleteBidRequest data);
+    Observable<Response<BidStatusResponse>> postDeleteBid(@Body DeleteBidRequest data);
 
     @GET("invest/checkout/summary")
     @Headers({"Content-type: application/json"})

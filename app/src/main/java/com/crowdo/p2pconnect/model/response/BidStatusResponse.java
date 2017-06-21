@@ -8,15 +8,15 @@ import com.google.gson.annotations.SerializedName;
  * Created by cwdsg05 on 7/6/17.
  */
 
-public class AcceptBidResponse {
+public class BidStatusResponse {
 
     @SerializedName("server")
     @Expose
     private ServerResponse server;
 
-    @SerializedName("existing_bid")
+    @SerializedName("bid")
     @Expose
-    private Investment existingBid;
+    private Investment bid;
 
     public ServerResponse getServer() {
         return server;
@@ -26,11 +26,11 @@ public class AcceptBidResponse {
         this.server = server;
     }
 
-    public Investment getExistingBid() {
-        return existingBid;
+    public Investment getBid() {
+        return bid;
     }
 
     public void setExistingBid(Investment existingBid) {
-        this.existingBid = existingBid;
+        this.bid = bid;
     }
 }

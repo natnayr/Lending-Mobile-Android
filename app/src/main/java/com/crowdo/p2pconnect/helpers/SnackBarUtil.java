@@ -35,10 +35,6 @@ public class SnackBarUtil {
 
         View sbView = snackbar.getView();
         sbView.setBackgroundResource(R.color.color_accent);
-//        TextView tv = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-//        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-//        tv.setGravity(Gravity.CENTER);
-
         return snackbar;
     }
 
@@ -47,9 +43,6 @@ public class SnackBarUtil {
         Snackbar snackbar = snackBarCreate(view, msg, getIconTextColor(view), snackBarDuration);
         View sbView = snackbar.getView();
         sbView.setBackgroundResource(R.color.color_amber_500);
-//        TextView tv = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-//        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-//        tv.setGravity(Gravity.CENTER);
 
         return snackbar;
     }
@@ -59,9 +52,6 @@ public class SnackBarUtil {
         Snackbar snackbar = snackBarCreate(view, msg, getIconTextColor(view), snackBarDuration);
         View sbView = snackbar.getView();
         sbView.setBackgroundResource(R.color.color_primary_700);
-//        TextView tv = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-//        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-//        tv.setGravity(Gravity.CENTER);
 
         return snackbar;
     }
