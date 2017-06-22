@@ -15,10 +15,10 @@
         android:background="@color/color_background_100">
         <LinearLayout
             android:id="@+id/checkout_summary_expand_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:layout_centerInParent="true"
             android:clickable="true">
             <TextView

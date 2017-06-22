@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.custom_ui.CheckoutSummaryItemTouchCallback;
 import com.crowdo.p2pconnect.data.client.CheckoutClient;
+import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.model.core.Investment;
@@ -68,10 +69,22 @@ public class CheckoutSummaryFragment extends Fragment{
 
         mContext = getActivity();
 
-        viewHolder = new CheckoutSummaryViewHolder(rootView, getActivity());
+        viewHolder = new CheckoutSummaryViewHolder(rootView, getActivity(), new CallBackUtil<Boolean>(){
+                    @Override
+                    public void eventCallBack(Boolean doRefreshList) {
+                        populateSummaryList(doRefreshList);
+                    }
+                });
+
         viewHolder.initView();
 
-        this.checkoutSummaryAdapter = new CheckoutSummaryAdapter(getActivity(), mCheckoutSummaryRecyclerView);
+        this.checkoutSummaryAdapter = new CheckoutSummaryAdapter(getActivity(),
+                mCheckoutSummaryRecyclerView, new CallBackUtil<Boolean>() {
+            @Override
+            public void eventCallBack(Boolean doRefreshList) {
+                populateSummaryList(doRefreshList);
+            }
+        });
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         mCheckoutSummaryRecyclerView.setLayoutManager(mLayoutManager);
@@ -82,13 +95,6 @@ public class CheckoutSummaryFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 getActivity().finish();
-            }
-        });
-
-        viewHolder.mSummaryRefreshBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                populateSummaryList();
             }
         });
 
@@ -104,7 +110,7 @@ public class CheckoutSummaryFragment extends Fragment{
     @Override
     public void onResume() {
         super.onResume();
-        populateSummaryList();
+        populateSummaryList(true);
     }
 
     @Override
@@ -120,7 +126,7 @@ public class CheckoutSummaryFragment extends Fragment{
         super.onPause();
     }
 
-    private void populateSummaryList(){
+    private void populateSummaryList(final boolean doRefreshList){
 
         Log.d(LOG_TAG, "APP populateSummaryList()");
         final String uniqueAndroidID = ConstantVariables.getUniqueAndroidID(mContext);
@@ -138,11 +144,13 @@ public class CheckoutSummaryFragment extends Fragment{
 
                     @Override
                     public void onNext(@NonNull Response<CheckoutSummaryResponse> response) {
-                        if(response.isSuccessful()){
+                        if(response.isSuccessful()) {
                             CheckoutSummaryResponse body = response.body();
-                            List<Investment> investments = body.getBids();
-                            List<Loan> loans = body.getLoans();
-                            checkoutSummaryAdapter.setBiddingInvestmentsAndLoans(investments, loans);
+                            if (doRefreshList){
+                                List<Investment> investments = body.getBids();
+                                List<Loan> loans = body.getLoans();
+                                checkoutSummaryAdapter.setBiddingInvestmentsAndLoans(investments, loans);
+                            }
                             viewHolder.populateSummaryDetails(body.getTotalPendingBids(), body.getAvailableCashBalance());
                         }else{
                             Log.d(LOG_TAG, "APP getCheckoutSummary !isSuccessful onNext() status > " + response.code());

@@ -3,12 +3,14 @@ package com.crowdo.p2pconnect.viewholders;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
@@ -63,9 +65,12 @@ public class CheckoutSummaryViewHolder {
 
     private static final String LOG_TAG = CheckoutSummaryViewHolder.class.getSimpleName();
     private Context mContext;
+    private CallBackUtil<Boolean> callBackFragmentPopulateSummary;
 
-    public CheckoutSummaryViewHolder(View view, Context mContext) {
+    public CheckoutSummaryViewHolder(View view, Context mContext,
+                                     CallBackUtil<Boolean> callBackUtil) {
         this.mContext = mContext;
+        this.callBackFragmentPopulateSummary = callBackUtil;
         ButterKnife.bind(this, view);
     }
 
@@ -80,13 +85,34 @@ public class CheckoutSummaryViewHolder {
                 .colorRes(R.color.color_secondary_text)
                 .sizeRes(R.dimen.checkout_summary_expand_icon_size);
 
-        mSummaryExpandIcon.setImageDrawable(chevronUpIcon);
+        final IconicsDrawable cloudSyncIconEnabled = new IconicsDrawable(mContext)
+                .icon(CommunityMaterial.Icon.cmd_cloud_sync)
+                .colorRes(R.color.color_secondary_text)
+                .sizeRes(R.dimen.checkout_summary_action_refresh_icon_size);
 
-        mSummarySyncIcon.setImageDrawable(
-                new IconicsDrawable(mContext)
-                        .icon(CommunityMaterial.Icon.cmd_cloud_sync)
-                        .colorRes(R.color.color_secondary_text)
-                        .sizeRes(R.dimen.checkout_summary_action_refresh_icon_size));
+        final IconicsDrawable cloudSyncIconPressed = new IconicsDrawable(mContext)
+                .icon(CommunityMaterial.Icon.cmd_cloud_sync)
+                .colorRes(R.color.color_secondary_text_300)
+                .sizeRes(R.dimen.checkout_summary_action_refresh_icon_size);
+
+        mSummaryExpandIcon.setImageDrawable(chevronUpIcon);
+        mSummarySyncIcon.setImageDrawable(cloudSyncIconEnabled);
+        
+        mSummaryRefreshBtn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        mSummarySyncIcon.setImageDrawable(cloudSyncIconPressed);
+                        callBackFragmentPopulateSummary.eventCallBack(true);
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        mSummarySyncIcon.setImageDrawable(cloudSyncIconEnabled);
+                        return true;
+                }
+                return false;
+            }
+        });
 
         mSummaryCloseIcon.setImageDrawable(
                 new IconicsDrawable(mContext)
@@ -152,10 +178,24 @@ public class CheckoutSummaryViewHolder {
                 }
             }
         });
+
+        mSummaryRecycleView.setOnFlingListener(new RecyclerView.OnFlingListener() {
+            @Override
+            public boolean onFling(int velocityX, int velocityY) {
+                if(velocityY > 0){
+                    if(mSummaryExpandableLayout.isExpanded()){
+                        mSummaryExpandableLayout.collapse();
+                        mSummaryExpandIcon.setImageDrawable(chevronDownIcon);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     public void populateSummaryDetails(long totalPendingBids, long availableBalance){
-        availableBalance = Long.valueOf("25000000000"); //TODO remove this
+        availableBalance = Long.valueOf("10000000"); //TODO remove this
         mSummaryPendingBidsValue.setText(mSummaryCurrencySymbol + Long.toString(totalPendingBids));
         mSummaryAvailableBalanceValue.setText(mSummaryCurrencySymbol + Long.toString(availableBalance));
 

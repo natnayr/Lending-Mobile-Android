@@ -70,8 +70,6 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder imple
 
     private Context mContext;
     private CheckoutSummaryAdapter mAdapter;
-    private Investment bidInvestmentItem;
-    private Loan bidLoanItem;
 
     public ItemCheckoutSummaryViewHolder(View itemView, Context context, CheckoutSummaryAdapter adapter) {
         super(itemView);
@@ -81,7 +79,6 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder imple
     }
 
     public void initView(){
-
         mItemBidMinusBtn.setBackground(mMinusEnabledDrawable);
         mItemBidPlusBtn.setBackground(mPlusEnabledDrawable);
 
@@ -91,10 +88,10 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder imple
             .sizeRes(R.dimen.item_checkout_summary_cart_action_icon_size));
     }
 
-    public void populateItemDetails(final int layoutPosition, final Investment bidInvestmentItem, final Loan bidLoanItem){
+    public void populateItemDetails(final int layoutPosition, final CheckoutSummaryAdapter.CheckoutListItem pairItem){
 
-        this.bidInvestmentItem = bidInvestmentItem;
-        this.bidLoanItem = bidLoanItem;
+        final Investment bidInvestmentItem = pairItem.investment;
+        final Loan bidLoanItem = pairItem.loan;
 
         final IconicsDrawable minusEnabled = new IconicsDrawable(mContext)
                 .icon(CommunityMaterial.Icon.cmd_minus)
@@ -165,7 +162,7 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder imple
         mItemDeleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAdapter.doDelete(layoutPosition, bidInvestmentItem, bidLoanItem);
+                mAdapter.doDelete(layoutPosition, pairItem);
             }
         });
 
@@ -176,7 +173,9 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder imple
                     case MotionEvent.ACTION_DOWN:
                         mItemBidMinusBtn.setBackground(mMinusPressedDrawable);
                         mItemBidMinusBtn.setImageDrawable(minusPressed);
+
                         addToEnterAmount(-AMOUNT_UNIT);
+
                         return true;
                     case MotionEvent.ACTION_UP:
                         mItemBidMinusBtn.setBackground(mMinusEnabledDrawable);
