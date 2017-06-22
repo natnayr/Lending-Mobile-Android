@@ -45,9 +45,6 @@ public class CheckoutSummaryItemTouchCallback extends ItemTouchHelperExtension.C
         ItemCheckoutSummaryViewHolder holder = (ItemCheckoutSummaryViewHolder) viewHolder;
         if(dX < -holder.mItemDeleteBtn.getWidth()){
             dX = -holder.mItemDeleteBtn.getWidth();
-            holder.mItemDeleteBtn.setEnabled(true);
-        }else{
-            holder.mItemDeleteBtn.setEnabled(false);
         }
         holder.mItemContainer.setTranslationX(dX);
         return;

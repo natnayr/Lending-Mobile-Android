@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -43,7 +42,7 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder imple
 
     @Nullable @BindView(R.id.item_checkout_summary_bid_edit_minus_btn) ImageButton mItemBidMinusBtn;
     @Nullable @BindView(R.id.item_checkout_summary_bid_edit_plus_btn) ImageButton mItemBidPlusBtn;
-    @Nullable @BindView(R.id.item_checkout_summary_enter_amount_edittext) EditText mItemEditText;
+    @Nullable @BindView(R.id.item_checkout_summary_enter_amount_edittext) TextView mItemBidUnitAmount;
 
     @Nullable @BindView(R.id.item_checkout_summary_delete_btn) public LinearLayout mItemDeleteBtn;
     @Nullable @BindView(R.id.item_checkout_summary_delete_icon) ImageView mItemDeleteIcon;
@@ -63,7 +62,6 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder imple
     @Nullable @BindDrawable(R.drawable.item_checkout_summary_minus_btn_pressed) Drawable mMinusPressedDrawable;
     @Nullable @BindDrawable(R.drawable.item_checkout_summary_plus_btn_enabled) Drawable mPlusEnabledDrawable;
     @Nullable @BindDrawable(R.drawable.item_checkout_summary_plus_btn_pressed) Drawable mPlusPressedDrawable;
-
 
     private static final int AMOUNT_UNIT = 1;
     private static final int ENTER_AMOUNT_MAX_LENGTH = 4;
@@ -88,10 +86,8 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder imple
             .sizeRes(R.dimen.item_checkout_summary_cart_action_icon_size));
     }
 
-    public void populateItemDetails(final int layoutPosition, final CheckoutSummaryAdapter.CheckoutListItem pairItem){
-
-        final Investment bidInvestmentItem = pairItem.investment;
-        final Loan bidLoanItem = pairItem.loan;
+    public void populateItemDetails(final int layoutPosition, final Investment bidInvestmentItem,
+                                    final Loan bidLoanItem){
 
         final IconicsDrawable minusEnabled = new IconicsDrawable(mContext)
                 .icon(CommunityMaterial.Icon.cmd_minus)
@@ -156,13 +152,13 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder imple
         long originalInvestAmount = Double.valueOf(bidInvestmentItem.getInvestAmount()).longValue();
         if(originalInvestAmount > 0){
             Long unitInvestAmount = originalInvestAmount / ConstantVariables.IDR_BASE_UNIT;
-            mItemEditText.setText(Long.toString(unitInvestAmount));
+            mItemBidUnitAmount.setText(Long.toString(unitInvestAmount));
         }
 
         mItemDeleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAdapter.doDelete(layoutPosition, pairItem);
+                mAdapter.doDelete(layoutPosition, bidInvestmentItem, bidLoanItem);
             }
         });
 
@@ -173,9 +169,10 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder imple
                     case MotionEvent.ACTION_DOWN:
                         mItemBidMinusBtn.setBackground(mMinusPressedDrawable);
                         mItemBidMinusBtn.setImageDrawable(minusPressed);
-
                         addToEnterAmount(-AMOUNT_UNIT);
 
+                        int unit = Integer.parseInt(mItemBidUnitAmount.getText().toString());
+                        mAdapter.addToUpdateList(unit, bidInvestmentItem);
                         return true;
                     case MotionEvent.ACTION_UP:
                         mItemBidMinusBtn.setBackground(mMinusEnabledDrawable);
@@ -194,6 +191,9 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder imple
                         mItemBidPlusBtn.setBackground(mPlusPressedDrawable);
                         mItemBidPlusBtn.setImageDrawable(plusPressed);
                         addToEnterAmount(AMOUNT_UNIT);
+
+                        int unit = Integer.parseInt(mItemBidUnitAmount.getText().toString());
+                        mAdapter.addToUpdateList(unit, bidInvestmentItem);
                         return true;
                     case MotionEvent.ACTION_UP:
                         mItemBidPlusBtn.setBackground(mPlusEnabledDrawable);
@@ -208,19 +208,19 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder imple
     }
 
     private void addToEnterAmount(int unitAmount) {
-        String cleanString = mItemEditText.getText().toString()
+        String cleanString = mItemBidUnitAmount.getText().toString()
                 .replaceAll("[^\\d]", "").trim();
 
         if ("0".equals(cleanString) || "".equals(cleanString)) {
             if (unitAmount > 0) {
                 //post byAmount
-                mItemEditText.setText(Integer.toString(AMOUNT_UNIT));
+                mItemBidUnitAmount.setText(Integer.toString(AMOUNT_UNIT));
             }
         } else if (cleanString.length() <= ENTER_AMOUNT_MAX_LENGTH) {
             int curAmount = Integer.parseInt(cleanString);
             if ((curAmount + unitAmount) >= 0 &&
                     (curAmount + unitAmount) < (Math.pow(10, ENTER_AMOUNT_MAX_LENGTH))) {
-                mItemEditText.setText(Integer.toString(curAmount + unitAmount));
+                mItemBidUnitAmount.setText(Integer.toString(curAmount + unitAmount));
             }
         }
     }

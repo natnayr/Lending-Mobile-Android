@@ -119,7 +119,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="6"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:orientation="horizontal"
                 android:background="@drawable/item_checkout_summary_edittext_layout"
                 android:gravity="center">
@@ -132,7 +132,7 @@
                     android:fontFamily="@string/font_family_condensed"
                     android:gravity="center"
                     android:textSize="@dimen/checkout_summary_expand_large_font_size"/>
-                <EditText
+                <TextView
                     android:id="@+id/item_checkout_summary_enter_amount_edittext"
                     android:layout_width="0dp"
                     android:layout_weight="4"
@@ -142,9 +142,8 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:maxLength="4"
-                    android:theme="@style/ItemCheckoutSummaryEditTextStyle"
-                    android:cursorVisible="true"
-                    android:textCursorDrawable="@null"
+                    android:text="10"
+                    android:fontFamily="@string/font_family_condensed"
                     android:textSize="@dimen/checkout_summary_expand_large_font_size"/>
                 <TextView
                     android:id="@+id/item_checkout_summary_enter_amount_unit_zeros_label"

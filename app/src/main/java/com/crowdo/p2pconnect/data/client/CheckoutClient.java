@@ -71,4 +71,6 @@ public class CheckoutClient {
 
         return apiServices.getCheckoutSummary(deviceId, ConstantVariables.API_SITE_CONFIG_ID);
     }
+
+//    public Observable<Response<CheckoutUpdate>>
 }

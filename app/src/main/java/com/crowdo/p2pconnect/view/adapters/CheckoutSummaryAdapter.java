@@ -19,7 +19,7 @@ import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.model.core.Investment;
 import com.crowdo.p2pconnect.model.core.Loan;
-import com.crowdo.p2pconnect.model.core.UpdateBid;
+import com.crowdo.p2pconnect.model.request.UpdateBid;
 import com.crowdo.p2pconnect.model.response.BidStatusResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
@@ -49,20 +49,21 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private static final String LOG_TAG = CheckoutSummaryAdapter.class.getSimpleName();
     private Context mContext;
-    private List<CheckoutListItem> biddingList;
-    private List<UpdateListItem> updatingList;
+    private List<Investment> biddingInvestmentList;
+    private List<Loan> biddingLoanList;
+    private List<UpdateItem> updatingList;
     private Disposable disposablePostDeleteBid;
     private RecyclerView mRecyclerView;
     private TextView mHeaderNoOfLoans;
     private CallBackUtil<Boolean> callBackUtilToFragment;
-
 
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
 
     public CheckoutSummaryAdapter(Context context, RecyclerView recyclerView, CallBackUtil<Boolean> callBackUtil) {
         this.mContext = context;
-        this.biddingList = new ArrayList<>();
+        this.biddingInvestmentList = new ArrayList<>();
+        this.biddingLoanList = new ArrayList<>();
         this.updatingList = new ArrayList<>();
         this.mRecyclerView = recyclerView;
         this.callBackUtilToFragment = callBackUtil;
@@ -75,13 +76,13 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.header_checkout_summary, parent, false);
             return new HeaderCheckoutSummaryViewHolder(view);
+
         }else if(viewType == TYPE_ITEM){
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_checkout_summary, parent, false);
 
             ItemCheckoutSummaryViewHolder viewHolder =
                     new ItemCheckoutSummaryViewHolder(view, mContext, this);
-
             viewHolder.initView();
 
             return viewHolder;
@@ -95,36 +96,34 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         if (holder instanceof HeaderCheckoutSummaryViewHolder){
             HeaderCheckoutSummaryViewHolder headerHolder = (HeaderCheckoutSummaryViewHolder) holder;
-            Log.d(LOG_TAG, "APP onBindViewHolder Pending Bids Count: " + biddingList.size());
+            Log.d(LOG_TAG, "APP onBindViewHolder Pending Bids Count: " + biddingInvestmentList.size());
 
             mHeaderNoOfLoans = headerHolder.mHeaderCheckoutSummaryNoOfLoans;
-            mHeaderNoOfLoans.setText(Integer.toString(biddingList.size()));
+            mHeaderNoOfLoans.setText(Integer.toString(biddingInvestmentList.size()));
 
         }else if(holder instanceof ItemCheckoutSummaryViewHolder){
             final int listPosition = holder.getAdapterPosition()-1;
             final ItemCheckoutSummaryViewHolder itemHolder = (ItemCheckoutSummaryViewHolder) holder;
 
-            Log.d(LOG_TAG, "APP onBindViewHolder listPosition = " + listPosition +
-                    ", getLayoutPosition() = " + itemHolder.getLayoutPosition());
-
             //taking note of header, thus position-1
-            final CheckoutListItem bidListItem = biddingList.get(listPosition);
+            final Investment bidInvestmentItem = biddingInvestmentList.get(listPosition);
+            final Loan bidLoanItem = biddingLoanList.get(listPosition);
 
-            itemHolder.populateItemDetails(itemHolder.getLayoutPosition(), bidListItem);
+            itemHolder.populateItemDetails(itemHolder.getLayoutPosition(), bidInvestmentItem,
+                    bidLoanItem);
         }
-
     }
 
     @Override
     public int getItemCount() {
         //investment list should be equal to loan list + header
-        if(biddingList.size() == 0 ){
+        if(biddingInvestmentList.size() == 0 ){
             return 1;
         }
-        if(biddingList == null){
+        if(biddingInvestmentList == null){
             return 0;
         }
-        return biddingList.size() + 1;
+        return biddingInvestmentList.size() + 1;
     }
 
     @Override
@@ -143,29 +142,41 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }else if(investments.size() != loans.size()){
             return; //must be equal in size
         }
-        biddingList.clear();
-        Iterator<Investment> investIter = investments.iterator();
-        Iterator<Loan> loanIter = loans.iterator();
-        while(investIter.hasNext() && loanIter.hasNext()){
-            biddingList.add(new CheckoutListItem(investIter.next(), loanIter.next()));
-        }
+        biddingInvestmentList.clear();
+        biddingLoanList.clear();
+        updatingList.clear(); //clear updating list
+        biddingInvestmentList.addAll(investments);
+        biddingLoanList.addAll(loans);
 
         notifyDataSetChanged();
     }
-
-
 
     private boolean isPositionHeader (int position){
         return position == 0;
     }
 
-    public void addToUpdateList(int toUpdateInvestUnitAmount, Investment investment){
-        long toUpdateInvestAmount = toUpdateInvestUnitAmount * ConstantVariables.IDR_BASE_UNIT;
-//        if(!toUpdateInvestmentList.contains(investment)){
-//            if(investment.getInvestAmount() != toUpdateInvestAmount){
-//
-//            }
-//        }
+    public void addToUpdateList(int toUpdateInvestUnit, Investment investment){
+        long toUpdateInvestAmount = toUpdateInvestUnit * ConstantVariables.IDR_BASE_UNIT;
+        UpdateItem updateItem = new UpdateItem(investment,
+                new UpdateBid(investment.getId(), toUpdateInvestAmount));
+
+        if(!updatingList.contains(updateItem)){
+            updatingList.add(updateItem);
+        }else{
+            updatingList.remove(updateItem);
+            if(updateItem.investment.getInvestAmount() != toUpdateInvestAmount
+                    && toUpdateInvestAmount >= 0) {
+                updatingList.add(updateItem);
+            }
+        }
+
+        Iterator<UpdateItem> uiit = updatingList.iterator();
+        Log.d(LOG_TAG, "APP addToUpdateList updatingList size: " + updatingList.size());
+        while(uiit.hasNext()){
+            UpdateItem it = uiit.next();
+            Log.d(LOG_TAG, "APP addToUpdateList uiit id: " + it.updateBid.getBidId()
+                    + ", amount: " + it.updateBid.getInvestAmount());
+        }
     }
 
     public void removeDisposablePostDeleteBid() {
@@ -174,11 +185,12 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    public void doDelete(final int layoutPosition, final CheckoutListItem pairItem){
+    public void doDelete(final int layoutPosition, final Investment bidInvestmentItem,
+                         final Loan bidLoanItem){
         //do check here
         final BiddingClient bidClient = BiddingClient.getInstance(mContext);
 
-        bidClient.postDeleteBid(pairItem.investment.getId(),
+        bidClient.postDeleteBid(bidInvestmentItem.getId(),
                         ConstantVariables.getUniqueAndroidID(mContext))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -237,57 +249,13 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     public void onComplete() {
                         Log.d(LOG_TAG, "APP postDeleteBid Rx onComplete, remove on adapter pos: "
                                 + layoutPosition);
-                        biddingList.remove(pairItem);
+                        biddingInvestmentList.remove(bidInvestmentItem);
+                        biddingLoanList.remove(bidLoanItem);
                         notifyItemRemoved(layoutPosition);
                         notifyItemChanged(0); //ask to redraw header that is bound list.size
                         callBackUtilToFragment.eventCallBack(false); //refresh header
                     }
                 });
-    }
-
-    public class CheckoutListItem{
-        public Investment investment;
-        public Loan loan;
-        public CheckoutListItem(Investment investment, Loan loan){
-            this.investment = investment;
-            this.loan = loan;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if(!(obj instanceof CheckoutListItem))
-                return false;
-
-            CheckoutListItem other = (CheckoutListItem) obj;
-            return (this.investment.getId()==other.investment.getId()) &&
-                    (this.loan.getId()==other.loan.getId());
-        }
-
-        @Override
-        public int hashCode() {
-            return investment.hashCode();
-        }
-    }
-
-    class UpdateListItem{
-        public Investment investment;
-        public UpdateBid updateBid;
-        public UpdateListItem(Investment investment, UpdateBid updateBid){
-            this.investment = investment;
-            this.updateBid = updateBid;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if(!(obj instanceof UpdateListItem))
-                return false;
-            return ((UpdateListItem) obj).investment.getId()
-                    == investment.getId();
-        }
-        @Override
-        public int hashCode() {
-            return investment.hashCode();
-        }
     }
 
     class HeaderCheckoutSummaryViewHolder extends RecyclerView.ViewHolder{
@@ -316,6 +284,28 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                             .icon(CommunityMaterial.Icon.cmd_chevron_double_left)
                             .colorRes(R.color.color_secondary_text)
                             .sizeRes(R.dimen.item_checkout_summary_cart_swipe_info_icon_size));
+        }
+    }
+
+    class UpdateItem {
+        public Investment investment;
+        public UpdateBid updateBid;
+        public UpdateItem(Investment investment, UpdateBid updateBid){
+            this.investment = investment;
+            this.updateBid = updateBid;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if(!(obj instanceof UpdateItem))
+                return false;
+            UpdateItem other = (UpdateItem) obj;
+            return (other.investment.getId() == this.investment.getId());
+        }
+
+        @Override
+        public int hashCode() {
+            return investment.hashCode();
         }
     }
 

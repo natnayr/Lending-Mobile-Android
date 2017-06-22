@@ -1,20 +1,18 @@
 package com.crowdo.p2pconnect.model.request;
 
-import com.crowdo.p2pconnect.model.core.UpdateBid;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 /**
  * Created by cwdsg05 on 22/6/17.
  */
 
-public class UpdateBidsBatchRequest {
+public class CheckoutUpdateRequest {
 
     @SerializedName("bids")
     @Expose
-    private UpdateBatch updateBatch;
+    private PreUpdateBatch preUpdateBatch;
 
     @SerializedName("device_id")
     @Expose
@@ -24,12 +22,20 @@ public class UpdateBidsBatchRequest {
     @Expose
     private String siteConfig;
 
-    public UpdateBatch getUpdateBatch() {
-        return updateBatch;
+    public CheckoutUpdateRequest(List<UpdateBid> batch, String deviceId,
+                                 String siteConfig){
+        this.preUpdateBatch = new PreUpdateBatch();
+        this.preUpdateBatch.setBatch(batch);
+        this.deviceId = deviceId;
+        this.siteConfig = siteConfig;
     }
 
-    public void setUpdateBatch(UpdateBatch updateBatch) {
-        this.updateBatch = updateBatch;
+    public PreUpdateBatch getPreUpdateBatch() {
+        return preUpdateBatch;
+    }
+
+    public void setPreUpdateBatch(PreUpdateBatch preUpdateBatch) {
+        this.preUpdateBatch = preUpdateBatch;
     }
 
     public String getDeviceId() {
@@ -48,7 +54,7 @@ public class UpdateBidsBatchRequest {
         this.siteConfig = siteConfig;
     }
 
-    private class UpdateBatch {
+    private class PreUpdateBatch {
 
         @SerializedName("batch")
         @Expose

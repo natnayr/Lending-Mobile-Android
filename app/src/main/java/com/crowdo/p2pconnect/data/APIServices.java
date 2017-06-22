@@ -32,7 +32,7 @@ public interface APIServices {
 
     public static final String P2P_BASE_URL = "https://crowdo.co.id/";
 
-    public static final String API_LIVE_BASE_URL = "http://192.168.1.4:3000/";
+    public static final String API_LIVE_BASE_URL = "http://192.168.1.12:3000/";
     public static final String LIVE_STAGE = "api/v2/";
 
     @POST("oauth/login")
