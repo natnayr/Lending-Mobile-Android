@@ -86,22 +86,24 @@
             android:layout_marginStart="@dimen/checkout_summary_bidding_overall_horizontal_margin">
 
             <TextView
-                android:id="@+id/checkout_summary_bidding_overall_notification_label"
+                android:id="@+id/checkout_summary_update_notify_label"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:textColor="@color/color_accent"
-                android:textSize="@dimen/checkout_summary_expand_small_font_size"
+                android:textSize="@dimen/checkout_summary_expand_large_font_size"
                 android:text="@string/checkout_summary_bidding_overall_update_notify"
                 android:fontFamily="@string/font_family_condensed"
                 android:gravity="center"
                 android:layout_alignParentTop="true"
-                android:paddingBottom="4px"/>
+                android:layout_centerHorizontal="true"
+                android:paddingBottom="4px"
+                android:paddingTop="4px" />
 
             <RelativeLayout
                 android:id="@+id/checkout_summary_bidding_overall_pending_bids"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/checkout_summary_bidding_overall_notification_label">
+                android:layout_below="@+id/checkout_summary_update_notify_label">
 
                 <FrameLayout
                     android:id="@+id/checkout_summary_bidding_overall_pending_bids_icon"
@@ -287,5 +289,31 @@
             android:layout_marginStart="@dimen/checkout_summary_action_button_margin_start"
             android:backgroundTint="@color/color_icons_text"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/checkout_summary_update_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/checkout_summary_action_bottom_vertical_margin"
+        android:paddingBottom="@dimen/checkout_summary_action_bottom_vertical_margin"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/checkout_summary_update_button_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_icons_text"
+            android:textSize="@dimen/checkout_summary_expand_title_font_size"
+            android:fontFamily="@string/font_family_regular" />
+        <ImageView
+            android:id="@+id/checkout_summary_update_button_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/checkout_summary_action_button_margin_start"
+            android:backgroundTint="@color/color_icons_text"/>
+    </LinearLayout>
+
 
 </RelativeLayout>

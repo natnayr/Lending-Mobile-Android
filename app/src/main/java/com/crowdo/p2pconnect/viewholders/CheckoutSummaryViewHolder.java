@@ -32,6 +32,8 @@ public class CheckoutSummaryViewHolder {
     @BindView(R.id.checkout_summary_close_btn) public LinearLayout mSummaryCloseBtn;
     @BindView(R.id.checkout_summary_refresh_btn) public LinearLayout mSummaryRefreshBtn;
 
+    @BindView(R.id.checkout_summary_update_notify_label) public TextView mSummaryUpdateNotifyLabel;
+
     @BindView(R.id.checkout_summary_expand_icon) ImageView mSummaryExpandIcon;
     @BindView(R.id.checkout_summary_refresh_icon) ImageView mSummarySyncIcon;
     @BindView(R.id.checkout_summary_close_icon) ImageView mSummaryCloseIcon;
@@ -52,6 +54,10 @@ public class CheckoutSummaryViewHolder {
     @BindView(R.id.checkout_summary_action_button_label) TextView mSummaryActionButtonLabel;
     @BindView(R.id.checkout_summary_action_button_icon) ImageView mSummaryActionButtonIcon;
 
+    @BindView(R.id.checkout_summary_update_button) public LinearLayout mSummaryUpdateButton;
+    @BindView(R.id.checkout_summary_update_button_label) TextView mSummaryUpdateButtonLabel;
+    @BindView(R.id.checkout_summary_update_button_icon) ImageView mSummaryUpdateButtonIcon;
+
     @BindString(R.string.checkout_summary_bidding_overall_idr_currency_symbol_label) String mSummaryCurrencySymbol;
     @BindString(R.string.checkout_summary_container_top_up_label) String mSummaryTopUpLabel;
     @BindString(R.string.checkout_summary_container_update_label) String mSummaryUpdateLabel;
@@ -62,10 +68,14 @@ public class CheckoutSummaryViewHolder {
     @BindColor(R.color.color_primary_text) int mColorPrimaryText;
     @BindColor(R.color.color_green_500) int mColorGreen500;
     @BindColor(R.color.color_accent) int mColorAccent;
+    @BindColor(R.color.color_amber_500) int mColorAmber500;
 
     private static final String LOG_TAG = CheckoutSummaryViewHolder.class.getSimpleName();
     private Context mContext;
     private CallBackUtil<Boolean> callBackFragmentPopulateSummary;
+
+    public static final int CONFIRM_ACTION = 1;
+    public static final int TOPUP_ACTION = 2;
 
     public CheckoutSummaryViewHolder(View view, Context mContext,
                                      CallBackUtil<Boolean> callBackUtil) {
@@ -192,6 +202,14 @@ public class CheckoutSummaryViewHolder {
                 return false;
             }
         });
+
+        mSummaryUpdateButton.setBackgroundColor(mColorAmber500);
+        mSummaryUpdateButtonIcon.setImageDrawable(new IconicsDrawable(mContext)
+            .icon(CommunityMaterial.Icon.cmd_clipboard_flow)
+            .colorRes(R.color.color_icons_text)
+            .sizeRes(R.dimen.checkout_summary_action_bottom_icon_size));
+        mSummaryUpdateButtonLabel.setText(mSummaryUpdateLabel);
+        mSummaryUpdateButton.setVisibility(View.GONE);
     }
 
     public void populateSummaryDetails(long totalPendingBids, long availableBalance){
@@ -213,9 +231,7 @@ public class CheckoutSummaryViewHolder {
                             .colorRes(R.color.color_primary)
                             .sizeRes(R.dimen.checkout_summary_bidding_overall_icon_float_size));
 
-            mSummaryActionButton.setBackgroundColor(mColorAccent);
-            mSummaryActionButtonIcon.setImageDrawable(mSummaryTopUpIcon);
-            mSummaryActionButtonLabel.setText(mSummaryTopUpLabel);
+            followUpActionTrigger(TOPUP_ACTION);
 
         }else{
             //top up not needed
@@ -223,14 +239,28 @@ public class CheckoutSummaryViewHolder {
             mSummaryAmtTopUpValue.setTextColor(mColorPrimaryText);
             mSummaryAvalibleBalanceIconFloat.setVisibility(View.INVISIBLE);
 
-            mSummaryActionButton.setBackgroundColor(mColorGreen500);
-            mSummaryActionButtonIcon.setImageDrawable(new IconicsDrawable(mContext)
-                    .icon(CommunityMaterial.Icon.cmd_checkbox_marked_circle)
-                    .sizeRes(R.dimen.checkout_summary_action_bottom_icon_size)
-                    .colorRes(R.color.color_icons_text));
-            mSummaryActionButtonLabel.setText(mSummaryConfirmLabel);
+            followUpActionTrigger(CONFIRM_ACTION);
         }
-
-
     }
+
+    public void followUpActionTrigger(int actionCall){
+        switch (actionCall){
+            case CONFIRM_ACTION:
+                mSummaryActionButton.setBackgroundColor(mColorGreen500);
+                mSummaryActionButtonIcon.setImageDrawable(new IconicsDrawable(mContext)
+                        .icon(CommunityMaterial.Icon.cmd_checkbox_marked_circle)
+                        .sizeRes(R.dimen.checkout_summary_action_bottom_icon_size)
+                        .colorRes(R.color.color_icons_text));
+                mSummaryActionButtonLabel.setText(mSummaryConfirmLabel);
+                return;
+
+            case TOPUP_ACTION:
+
+                mSummaryActionButton.setBackgroundColor(mColorAccent);
+                mSummaryActionButtonIcon.setImageDrawable(mSummaryTopUpIcon);
+                mSummaryActionButtonLabel.setText(mSummaryTopUpLabel);
+                return;
+        }
+    }
+
 }

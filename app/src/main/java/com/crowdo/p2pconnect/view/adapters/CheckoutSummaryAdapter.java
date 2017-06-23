@@ -55,18 +55,22 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private Disposable disposablePostDeleteBid;
     private RecyclerView mRecyclerView;
     private TextView mHeaderNoOfLoans;
-    private CallBackUtil<Boolean> callBackUtilToFragment;
+    private CallBackUtil<Boolean> callBackPopulateSummaryList;
+    private CallBackUtil<Boolean> callBackUpdateList;
 
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
 
-    public CheckoutSummaryAdapter(Context context, RecyclerView recyclerView, CallBackUtil<Boolean> callBackUtil) {
+    public CheckoutSummaryAdapter(Context context, RecyclerView recyclerView,
+                                  CallBackUtil<Boolean> callBackPopulateSummaryList,
+                                  CallBackUtil<Boolean> callBackUpdateList) {
         this.mContext = context;
         this.biddingInvestmentList = new ArrayList<>();
         this.biddingLoanList = new ArrayList<>();
         this.updatingList = new ArrayList<>();
         this.mRecyclerView = recyclerView;
-        this.callBackUtilToFragment = callBackUtil;
+        this.callBackPopulateSummaryList = callBackPopulateSummaryList;
+        this.callBackUpdateList =  callBackUpdateList;
     }
 
     @Override
@@ -145,6 +149,7 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         biddingInvestmentList.clear();
         biddingLoanList.clear();
         updatingList.clear(); //clear updating list
+        callBackUpdateList.eventCallBack(false);
         biddingInvestmentList.addAll(investments);
         biddingLoanList.addAll(loans);
 
@@ -170,6 +175,9 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             }
         }
 
+        callBackUpdateList.eventCallBack(updatingList.size() > 0);
+
+        //TODO: Test Only, Delete after
         Iterator<UpdateItem> uiit = updatingList.iterator();
         Log.d(LOG_TAG, "APP addToUpdateList updatingList size: " + updatingList.size());
         while(uiit.hasNext()){
@@ -183,6 +191,16 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         if(disposablePostDeleteBid != null){
             disposablePostDeleteBid.dispose();
         }
+    }
+
+    public List<UpdateBid> getUpdateBidList() {
+        List<UpdateBid> updateBidList = new ArrayList<UpdateBid>();
+
+        Iterator<UpdateItem> uiit = updatingList.iterator();
+        while(uiit.hasNext()){
+            updateBidList.add(uiit.next().updateBid);
+        }
+        return updateBidList;
     }
 
     public void doDelete(final int layoutPosition, final Investment bidInvestmentItem,
@@ -233,6 +251,9 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                                         SnackBarUtil.snackBarForErrorCreate(mRecyclerView,
                                                 serverErrorMessage, Snackbar.LENGTH_SHORT)
                                                 .show();
+
+                                        //hard refresh
+                                        callBackPopulateSummaryList.eventCallBack(true);
                                     }
                                 }
                             }
@@ -253,7 +274,7 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         biddingLoanList.remove(bidLoanItem);
                         notifyItemRemoved(layoutPosition);
                         notifyItemChanged(0); //ask to redraw header that is bound list.size
-                        callBackUtilToFragment.eventCallBack(false); //refresh header
+                        callBackPopulateSummaryList.eventCallBack(false); //refresh header
                     }
                 });
     }
@@ -287,7 +308,7 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    class UpdateItem {
+    public class UpdateItem {
         public Investment investment;
         public UpdateBid updateBid;
         public UpdateItem(Investment investment, UpdateBid updateBid){

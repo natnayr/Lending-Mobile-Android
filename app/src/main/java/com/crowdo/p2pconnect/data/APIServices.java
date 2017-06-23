@@ -1,5 +1,6 @@
 package com.crowdo.p2pconnect.data;
 
+import com.crowdo.p2pconnect.model.request.CheckoutUpdateRequest;
 import com.crowdo.p2pconnect.model.request.DeleteBidRequest;
 import com.crowdo.p2pconnect.model.request.AskBidRequest;
 import com.crowdo.p2pconnect.model.request.LoginRequest;
@@ -8,6 +9,7 @@ import com.crowdo.p2pconnect.model.response.BidStatusResponse;
 import com.crowdo.p2pconnect.model.response.AuthResponse;
 import com.crowdo.p2pconnect.model.response.CheckBidResponse;
 import com.crowdo.p2pconnect.model.response.CheckoutSummaryResponse;
+import com.crowdo.p2pconnect.model.response.CheckoutUpdateResponse;
 import com.crowdo.p2pconnect.model.response.LoanDetailResponse;
 import com.crowdo.p2pconnect.model.response.LoanListResponse;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
@@ -16,6 +18,7 @@ import io.reactivex.Observable;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -71,4 +74,7 @@ public interface APIServices {
     @Headers({"Content-type: application/json"})
     Observable<Response<CheckoutSummaryResponse>> getCheckoutSummary(@Query("device_id") String deviceId, @Query("site_config") String siteOut);
 
+    @POST("bid/update_bid_batch")
+    @Headers({"Content-type: application/json"})
+    Observable<Response<CheckoutUpdateResponse>> postCheckoutUpdate(@Body CheckoutUpdateRequest data);
 }

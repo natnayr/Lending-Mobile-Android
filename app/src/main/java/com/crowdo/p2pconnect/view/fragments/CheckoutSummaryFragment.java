@@ -7,22 +7,24 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.custom_ui.CheckoutSummaryItemTouchCallback;
+import com.crowdo.p2pconnect.data.client.BiddingClient;
 import com.crowdo.p2pconnect.data.client.CheckoutClient;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.model.core.Investment;
 import com.crowdo.p2pconnect.model.core.Loan;
+import com.crowdo.p2pconnect.model.request.CheckoutUpdateRequest;
+import com.crowdo.p2pconnect.model.request.UpdateBid;
 import com.crowdo.p2pconnect.model.response.CheckoutSummaryResponse;
+import com.crowdo.p2pconnect.model.response.CheckoutUpdateResponse;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.view.adapters.CheckoutSummaryAdapter;
 import com.crowdo.p2pconnect.viewholders.CheckoutSummaryViewHolder;
@@ -46,12 +48,12 @@ import retrofit2.Response;
 public class CheckoutSummaryFragment extends Fragment{
 
     @BindView(R.id.checkout_summary_recycler_view) RecyclerView mCheckoutSummaryRecyclerView;
-
     private static final String LOG_TAG = CheckoutSummaryFragment.class.getSimpleName();
     private Context mContext;
-    private CheckoutSummaryViewHolder viewHolder;
-    private CheckoutSummaryAdapter checkoutSummaryAdapter;
+    private CheckoutSummaryViewHolder mViewHolder;
+    private CheckoutSummaryAdapter mCheckoutSummaryAdapter;
     private Disposable disposableGetCheckoutSummary;
+    private Disposable disposablePostCheckoutUpdate;
     private ItemTouchHelperExtension mItemTouchHelper;
 
     @Override
@@ -69,29 +71,44 @@ public class CheckoutSummaryFragment extends Fragment{
 
         mContext = getActivity();
 
-        viewHolder = new CheckoutSummaryViewHolder(rootView, getActivity(), new CallBackUtil<Boolean>(){
+        mViewHolder = new CheckoutSummaryViewHolder(rootView, getActivity(), new CallBackUtil<Boolean>(){
                     @Override
                     public void eventCallBack(Boolean doRefreshList) {
                         populateSummaryList(doRefreshList);
                     }
                 });
 
-        viewHolder.initView();
+        mViewHolder.initView();
 
-        this.checkoutSummaryAdapter = new CheckoutSummaryAdapter(getActivity(),
-                mCheckoutSummaryRecyclerView, new CallBackUtil<Boolean>() {
+        CallBackUtil<Boolean> callBackPopulateSummaryList = new CallBackUtil<Boolean>() {
             @Override
             public void eventCallBack(Boolean doRefreshList) {
                 populateSummaryList(doRefreshList);
             }
-        });
+        };
+
+        CallBackUtil<Boolean> callBackUpdateList = new CallBackUtil<Boolean>(){
+            @Override
+            public void eventCallBack(Boolean doShow) {
+                if(doShow) {
+                    mViewHolder.mSummaryUpdateNotifyLabel.setVisibility(View.VISIBLE);
+                    mViewHolder.mSummaryUpdateButton.setVisibility(View.VISIBLE);
+                }else{
+                    mViewHolder.mSummaryUpdateNotifyLabel.setVisibility(View.INVISIBLE);
+                    mViewHolder.mSummaryUpdateButton.setVisibility(View.GONE);
+                }
+            }
+        };
+
+        this.mCheckoutSummaryAdapter = new CheckoutSummaryAdapter(getActivity(),
+                mCheckoutSummaryRecyclerView, callBackPopulateSummaryList, callBackUpdateList);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         mCheckoutSummaryRecyclerView.setLayoutManager(mLayoutManager);
         mCheckoutSummaryRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mCheckoutSummaryRecyclerView.setAdapter(this.checkoutSummaryAdapter);
+        mCheckoutSummaryRecyclerView.setAdapter(this.mCheckoutSummaryAdapter);
 
-        viewHolder.mSummaryCloseBtn.setOnClickListener(new View.OnClickListener() {
+        mViewHolder.mSummaryCloseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().finish();
@@ -103,6 +120,13 @@ public class CheckoutSummaryFragment extends Fragment{
                 new CheckoutSummaryItemTouchCallback(getActivity());
         mItemTouchHelper = new ItemTouchHelperExtension(itemTouchCallback);
         mItemTouchHelper.attachToRecyclerView(mCheckoutSummaryRecyclerView);
+
+        mViewHolder.mSummaryUpdateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         return rootView;
     }
@@ -119,11 +143,46 @@ public class CheckoutSummaryFragment extends Fragment{
         if(disposableGetCheckoutSummary != null){
             disposableGetCheckoutSummary.dispose();
         }
+        if(disposablePostCheckoutUpdate != null){
+            disposablePostCheckoutUpdate.dispose();
+        }
+
         //dispose inside adapter
-        if(checkoutSummaryAdapter != null){
-            checkoutSummaryAdapter.removeDisposablePostDeleteBid();
+        if(mCheckoutSummaryAdapter != null){
+            mCheckoutSummaryAdapter.removeDisposablePostDeleteBid();
         }
         super.onPause();
+    }
+
+
+    private void updateSummaryList(){
+
+        List<UpdateBid> updateBidList = mCheckoutSummaryAdapter.getUpdateBidList();
+        CheckoutClient.getInstance(getActivity())
+                .postCheckoutUpdate(updateBidList, ConstantVariables.getUniqueAndroidID(mContext))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<CheckoutUpdateResponse>>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                        disposablePostCheckoutUpdate = d;
+                    }
+
+                    @Override
+                    public void onNext(@NonNull Response<CheckoutUpdateResponse> checkoutUpdateResponseResponse) {
+
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     private void populateSummaryList(final boolean doRefreshList){
@@ -149,9 +208,9 @@ public class CheckoutSummaryFragment extends Fragment{
                             if (doRefreshList){
                                 List<Investment> investments = body.getBids();
                                 List<Loan> loans = body.getLoans();
-                                checkoutSummaryAdapter.setBiddingInvestmentsAndLoans(investments, loans);
+                                mCheckoutSummaryAdapter.setBiddingInvestmentsAndLoans(investments, loans);
                             }
-                            viewHolder.populateSummaryDetails(body.getTotalPendingBids(), body.getAvailableCashBalance());
+                            mViewHolder.populateSummaryDetails(body.getTotalPendingBids(), body.getAvailableCashBalance());
                         }else{
                             Log.d(LOG_TAG, "APP getCheckoutSummary !isSuccessful onNext() status > " + response.code());
                             if(HTTPResponseUtils.check4xxClientError(response.code())){

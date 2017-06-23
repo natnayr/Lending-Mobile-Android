@@ -6,14 +6,14 @@
     android:viewportHeight="24">
 
     <path
-        android:fillColor="#000000"
+        android:fillColor="@color/color_icons_text"
         android:strokeWidth="0.39999998"
         android:pathData="M 21.578,4.8247619 h -1.6 v 1.6 h -0.8 v -1.6 h -1.6 v -0.8 h 1.6 v -1.6 h 0.8 v
 1.6 h 1.6 m -2,-3.6 a 3.9999999,3.9999999 0 0 0 -4,4 3.9999999,3.9999999 0 0 0
 4,4.0000001 3.9999999,3.9999999 0 0 0 4,-4.0000001 3.9999999,3.9999999 0 0 0
 -4,-4 z" />
     <path
-        android:fillColor="#000000"
+        android:fillColor="@color/color_icons_text"
         android:strokeWidth="0.95112306"
         android:pathData="M 18.462968,20.038024 v 0.951123 a 1.9022461,1.9022461 0 0 1 -1.902247,1.902246
 H 3.2449976 c -1.0557466,0 -1.9022461,-0.85601 -1.9022461,-1.902246 V 7.6734239
