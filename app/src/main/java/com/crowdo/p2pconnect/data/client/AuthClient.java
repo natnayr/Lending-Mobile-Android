@@ -22,7 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by cwdsg05 on 22/3/17.
  */
 
-public class AuthClient {
+public class AuthClient implements ClientInterface{
 
     private static final String LOG_TAG = AuthClient.class.getSimpleName();
     private static AuthClient instance;

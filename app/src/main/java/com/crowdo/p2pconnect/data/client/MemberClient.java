@@ -25,7 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by cwdsg05 on 12/6/17.
  */
 
-public class MemberClient {
+public class MemberClient implements ClientInterface{
 
     public static final String LOG_TAG = MemberClient.class.getSimpleName();
 
@@ -59,6 +59,11 @@ public class MemberClient {
                 .build();
 
         this.apiServices = retrofit.create(APIServices.class);
+    }
+
+    @Override
+    public Retrofit getRetrofit() {
+        return retrofit;
     }
 
     public static MemberClient getInstance(Context context){

@@ -28,7 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by cwdsg05 on 7/6/17.
  */
 
-public class BiddingClient {
+public class BiddingClient implements ClientInterface{
 
     private static final String LOG_TAG = BiddingClient.class.getSimpleName();
 

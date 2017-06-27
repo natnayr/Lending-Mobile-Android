@@ -3,6 +3,7 @@ package com.crowdo.p2pconnect.view.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,9 +20,9 @@ import com.crowdo.p2pconnect.data.client.CheckoutClient;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
+import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.model.core.Investment;
 import com.crowdo.p2pconnect.model.core.Loan;
-import com.crowdo.p2pconnect.model.request.CheckoutUpdateRequest;
 import com.crowdo.p2pconnect.model.request.UpdateBid;
 import com.crowdo.p2pconnect.model.response.CheckoutSummaryResponse;
 import com.crowdo.p2pconnect.model.response.CheckoutUpdateResponse;
@@ -48,6 +49,7 @@ import retrofit2.Response;
 public class CheckoutSummaryFragment extends Fragment{
 
     @BindView(R.id.checkout_summary_recycler_view) RecyclerView mCheckoutSummaryRecyclerView;
+
     private static final String LOG_TAG = CheckoutSummaryFragment.class.getSimpleName();
     private Context mContext;
     private CheckoutSummaryViewHolder mViewHolder;
@@ -55,6 +57,7 @@ public class CheckoutSummaryFragment extends Fragment{
     private Disposable disposableGetCheckoutSummary;
     private Disposable disposablePostCheckoutUpdate;
     private ItemTouchHelperExtension mItemTouchHelper;
+    private CheckoutClient checkoutClient;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -124,7 +127,7 @@ public class CheckoutSummaryFragment extends Fragment{
         mViewHolder.mSummaryUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                updateSummaryList();
             }
         });
 
@@ -158,31 +161,58 @@ public class CheckoutSummaryFragment extends Fragment{
     private void updateSummaryList(){
 
         List<UpdateBid> updateBidList = mCheckoutSummaryAdapter.getUpdateBidList();
-        CheckoutClient.getInstance(getActivity())
-                .postCheckoutUpdate(updateBidList, ConstantVariables.getUniqueAndroidID(mContext))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<CheckoutUpdateResponse>>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                        disposablePostCheckoutUpdate = d;
-                    }
+        if(!updateBidList.isEmpty()) {
+            checkoutClient = CheckoutClient.getInstance(getActivity());
 
-                    @Override
-                    public void onNext(@NonNull Response<CheckoutUpdateResponse> checkoutUpdateResponseResponse) {
+            checkoutClient.postCheckoutUpdate(updateBidList, ConstantVariables.getUniqueAndroidID(mContext))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Response<CheckoutUpdateResponse>>() {
+                        @Override
+                        public void onSubscribe(@NonNull Disposable d) {
+                            disposablePostCheckoutUpdate = d;
+                        }
 
-                    }
+                        @Override
+                        public void onNext(@NonNull Response<CheckoutUpdateResponse> response) {
+                            Log.d(LOG_TAG, "APP updateSummaryList response: " + response.message());
+                            if(response.isSuccessful()){
+                                CheckoutUpdateResponse updateResponse = response.body();
+                                if(updateResponse != null){
+                                    Log.d(LOG_TAG, "APP updateSummaryList Rx response: "
+                                        + response.message());
+                                    SnackBarUtil.snackBarForInfoCreate(getView(),
+                                            response.message(), Snackbar.LENGTH_SHORT);
 
-                    @Override
-                    public void onError(@NonNull Throwable e) {
+                                }
+                            }else{
+                                if(HTTPResponseUtils.check4xxClientError(response.code())){
+                                    AuthAccountUtils.actionLogout(getActivity());
+                                }else{
+                                    //all other 4xx codes
+                                    String serverErrorMessage = HTTPResponseUtils
+                                            .errorServerResponseConvert(checkoutClient,
+                                                    response.errorBody());
 
-                    }
+                                    SnackBarUtil.snackBarForErrorCreate(getView(),
+                                            serverErrorMessage, Snackbar.LENGTH_SHORT)
+                                            .show();
+                                }
+                            }
+                        }
 
-                    @Override
-                    public void onComplete() {
+                        @Override
+                        public void onError(@NonNull Throwable e) {
+                            e.printStackTrace();
+                            Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                        }
 
-                    }
-                });
+                        @Override
+                        public void onComplete() {
+                            Log.d(LOG_TAG, "APP updateSummaryList Rx onComplete");
+                        }
+                    });
+        }
     }
 
     private void populateSummaryList(final boolean doRefreshList){

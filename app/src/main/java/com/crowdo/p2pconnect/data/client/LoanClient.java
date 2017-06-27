@@ -26,7 +26,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by cwdsg05 on 1/12/16.
  */
 
-public class LoanClient {
+public class LoanClient implements ClientInterface{
 
     private static final String LOG_TAG = LoanClient.class.getSimpleName();
 

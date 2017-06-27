@@ -246,18 +246,18 @@ public class LoanDetailsFragment extends Fragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<LoanDetailResponse>>() {
                     @Override
-                    public void onSubscribe(Disposable d) {
+                    public void onSubscribe(@NonNull Disposable d) {
                         disposableGetLoanDetails = d;
                     }
 
                     @Override
-                    public void onNext(Response<LoanDetailResponse> response) {
+                    public void onNext(@NonNull Response<LoanDetailResponse> response) {
                         if(response.isSuccessful()){
                             LoanDetailResponse loanDetailResponse = response.body();
 
                             if(loanDetailResponse != null) {
                                 mLoanDetailResponse = loanDetailResponse;
-                                Log.d(LOG_TAG, "APP Populated LoanDetails Rx onNext with loanId "
+                                Log.d(LOG_TAG, "APP populateLoanDetails Rx onNext with loanId "
                                         + loanDetailResponse.getLoan().getLoanId() + " retreived.");
                                 viewHolder.attachView(loanDetailResponse, getActivity());
                             }
@@ -271,7 +271,7 @@ public class LoanDetailsFragment extends Fragment {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(@NonNull Throwable e) {
                         e.printStackTrace();
                         Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
                         mSwipeContainer.setRefreshing(false);
@@ -408,12 +408,12 @@ public class LoanDetailsFragment extends Fragment {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<Response<CheckBidResponse>>() {
                         @Override
-                        public void onSubscribe(Disposable d) {
+                        public void onSubscribe(@NonNull Disposable d) {
                             disposablePostCheckBid = d;
                         }
 
                         @Override
-                        public void onNext(Response<CheckBidResponse> response) {
+                        public void onNext(@NonNull Response<CheckBidResponse> response) {
                             Log.d(LOG_TAG, "APP checkingBid onNext");
                             if(response.isSuccessful()){
                                 String serverMessage;
@@ -437,11 +437,11 @@ public class LoanDetailsFragment extends Fragment {
                             }else{
                                 //Error Handling
                                 if(HTTPResponseUtils.check4xxClientError(response.code())){
-                                    String serverErrorMessage = "Error: Check Bid Not successful";
                                     if(ConstantVariables.HTTP_UNAUTHORISED == response.code()){
                                         AuthAccountUtils.actionLogout(getActivity());
-                                    }else if(ConstantVariables.HTTP_PRECONDITION_FAILED == response.code()){
+                                    }else{
                                         //Invalid Investment Amount (e.g. 0, -1, etc)
+                                        String serverErrorMessage = "Error: Check Bid Not successful";
                                         if(response.errorBody() != null) {
                                             Converter<ResponseBody, MessageResponse> errorConverter =
                                                     bidClient.getRetrofit().responseBodyConverter(
@@ -467,7 +467,7 @@ public class LoanDetailsFragment extends Fragment {
                         }
 
                         @Override
-                        public void onError(Throwable e) {
+                        public void onError(@NonNull Throwable e) {
                             e.printStackTrace();
                             Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
                         }
@@ -521,23 +521,12 @@ public class LoanDetailsFragment extends Fragment {
                                 }else if(ConstantVariables.HTTP_PRECONDITION_FAILED == response.code()){
                                     String serverErrorMessage = "Error: Accept Bid Not Successful";
                                     //Invalid Investment Amount (e.g. 0, -1, etc)
-                                    if(response.errorBody() != null) {
-                                        Converter<ResponseBody, MessageResponse> errorConverter =
-                                                bidClient.getRetrofit().responseBodyConverter(
-                                                        MessageResponse.class, new Annotation[0]);
-                                        try{
-                                            MessageResponse errorResponse = errorConverter
-                                                    .convert(response.errorBody());
-                                            serverErrorMessage = errorResponse.getServerResponse().getMessage();
-                                        }catch (IOException e){
-                                            e.printStackTrace();
-                                            Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-                                        }
 
-                                        SnackBarUtil.snackBarForErrorCreate(getView(),
-                                                serverErrorMessage, Snackbar.LENGTH_SHORT)
-                                                .show();
-                                    }
+
+                                    SnackBarUtil.snackBarForErrorCreate(getView(),
+                                            serverErrorMessage, Snackbar.LENGTH_SHORT)
+                                            .show();
+
                                 }
                             }
                         }

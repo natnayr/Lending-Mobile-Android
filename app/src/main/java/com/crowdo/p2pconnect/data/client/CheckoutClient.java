@@ -31,7 +31,7 @@ import retrofit2.http.Body;
  * Created by cwdsg05 on 30/5/17.
  */
 
-public class CheckoutClient {
+public class CheckoutClient implements ClientInterface{
 
     private static final String LOG_TAG = CheckoutClient.class.getSimpleName();
 
@@ -71,6 +71,10 @@ public class CheckoutClient {
         if(instance == null)
             instance = new CheckoutClient(context);
         return instance;
+    }
+
+    public Retrofit getRetrofit(){
+        return retrofit;
     }
 
     public Observable<Response<CheckoutSummaryResponse>> getCheckoutSummary(String deviceId){
