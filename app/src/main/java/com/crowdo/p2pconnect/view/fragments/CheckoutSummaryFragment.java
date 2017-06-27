@@ -180,9 +180,17 @@ public class CheckoutSummaryFragment extends Fragment{
                                 CheckoutUpdateResponse updateResponse = response.body();
                                 if(updateResponse != null){
                                     Log.d(LOG_TAG, "APP updateSummaryList Rx response: "
-                                        + response.message());
-                                    SnackBarUtil.snackBarForInfoCreate(getView(),
-                                            response.message(), Snackbar.LENGTH_SHORT);
+                                        + updateResponse.getServerResponse().getMessage());
+                                    Snackbar snackbar = SnackBarUtil.snackBarForInfoCreate(getView(),
+                                            updateResponse.getServerResponse().getMessage(),
+                                            Snackbar.LENGTH_SHORT);
+                                    snackbar.addCallback(new Snackbar.Callback(){
+                                        @Override
+                                        public void onShown(Snackbar sb) {
+                                            //refresh list when snackbar is displayed
+                                            populateSummaryList(true);
+                                        }
+                                    }).show();
 
                                 }
                             }else{

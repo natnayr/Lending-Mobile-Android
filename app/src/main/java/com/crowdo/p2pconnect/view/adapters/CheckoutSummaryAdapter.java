@@ -176,15 +176,6 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
 
         callBackUpdateList.eventCallBack(updatingList.size() > 0);
-
-        //TODO: Test Only, Delete after
-        Iterator<UpdateItem> uiit = updatingList.iterator();
-        Log.d(LOG_TAG, "APP addToUpdateList updatingList size: " + updatingList.size());
-        while(uiit.hasNext()){
-            UpdateItem it = uiit.next();
-            Log.d(LOG_TAG, "APP addToUpdateList uiit id: " + it.updateBid.getBidId()
-                    + ", amount: " + it.updateBid.getInvestAmount());
-        }
     }
 
     public void removeDisposablePostDeleteBid() {
