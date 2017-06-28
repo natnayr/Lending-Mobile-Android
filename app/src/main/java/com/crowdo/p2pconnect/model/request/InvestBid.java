@@ -13,18 +13,18 @@ public class InvestBid {
 
     @SerializedName("invest_amount")
     @Expose
-    private long investAmount;
+    private Long investAmount = null;
 
     @SerializedName("original_invest_amount")
     @Expose
-    private long originalInvestAmount;
+    private Long originalInvestAmount = null;
 
-    public InvestBid(int bidId, long investAmount){
+    public InvestBid(int bidId, Long investAmount){
         this.bidId = bidId;
         this.investAmount = investAmount;
     }
 
-    public InvestBid(int bidId, long investAmount, long originalInvestAmount){
+    public InvestBid(int bidId, Long investAmount, Long originalInvestAmount){
         this.bidId = bidId;
         this.investAmount = investAmount;
         this.originalInvestAmount = originalInvestAmount;
@@ -38,19 +38,19 @@ public class InvestBid {
         this.bidId = bidId;
     }
 
-    public long getInvestAmount() {
+    public Long getInvestAmount() {
         return investAmount;
     }
 
-    public void setInvestAmount(long investAmount) {
+    public void setInvestAmount(Long investAmount) {
         this.investAmount = investAmount;
     }
 
-    public long getOriginalInvestAmount() {
+    public Long getOriginalInvestAmount() {
         return originalInvestAmount;
     }
 
-    public void setOriginalInvestAmount(long originalInvestAmount) {
+    public void setOriginalInvestAmount(Long originalInvestAmount) {
         this.originalInvestAmount = originalInvestAmount;
     }
 }

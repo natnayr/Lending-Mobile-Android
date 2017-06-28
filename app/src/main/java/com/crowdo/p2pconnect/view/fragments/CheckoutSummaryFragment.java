@@ -1,11 +1,13 @@
 package com.crowdo.p2pconnect.view.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,14 +30,18 @@ import com.crowdo.p2pconnect.model.core.Loan;
 import com.crowdo.p2pconnect.model.request.InvestBid;
 import com.crowdo.p2pconnect.model.response.CheckoutSummaryResponse;
 import com.crowdo.p2pconnect.model.response.CheckoutUpdateResponse;
+import com.crowdo.p2pconnect.model.response.MessageResponse;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.view.activities.Henson;
 import com.crowdo.p2pconnect.view.adapters.CheckoutSummaryAdapter;
 import com.crowdo.p2pconnect.viewholders.CheckoutSummaryViewHolder;
 import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
+import com.mikepenz.community_material_typeface_library.CommunityMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 
 import java.util.List;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observer;
@@ -53,12 +59,15 @@ public class CheckoutSummaryFragment extends Fragment{
 
     @BindView(R.id.checkout_summary_recycler_view) RecyclerView mCheckoutSummaryRecyclerView;
 
+    @BindString(R.string.checkout_summary_empty_message_label) String mCheckoutSummaryEmptyMessage;
+
     private static final String LOG_TAG = CheckoutSummaryFragment.class.getSimpleName();
     private Context mContext;
     private CheckoutSummaryViewHolder mViewHolder;
     private CheckoutSummaryAdapter mCheckoutSummaryAdapter;
     private Disposable disposableGetCheckoutSummary;
     private Disposable disposablePostCheckoutUpdate;
+    private Disposable disposablePostCheckoutConfirm;
     private ItemTouchHelperExtension mItemTouchHelper;
     private CheckoutClient checkoutClient;
 
@@ -121,12 +130,44 @@ public class CheckoutSummaryFragment extends Fragment{
         CallBackUtil<Object> callBackConfirmBtnPress = new CallBackUtil<Object>() {
             @Override
             public void eventCallBack(Object obj) {
-                checkoutConfirm();
+                final List<InvestBid> investBidList = mCheckoutSummaryAdapter.getInvestmentBidList();
+                if(investBidList.isEmpty()){
+                    SnackBarUtil.snackBarForInfoCreate(getView(),
+                            mCheckoutSummaryEmptyMessage, Snackbar.LENGTH_SHORT)
+                            .show();
+                }else{
+                    new AlertDialog.Builder(mContext)
+                            .setTitle("Confirmation")
+                            .setMessage("By tapping onto the Confirm you agree to the Participation Agreement")
+                            .setPositiveButton(R.string.checkout_summary_container_confirm_label,
+                                    new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    checkoutConfirmProcess(investBidList);
+                                    dialog.dismiss();
+                                }})
+                            .setNeutralButton(R.string.checkout_summary_dialog_download_agreement_label,
+                                    new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            })
+                            .setNegativeButton(R.string.checkout_summary_dialog_cancel_label,
+                                    new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+
+                }
+
             }
         };
 
         this.mViewHolder = new CheckoutSummaryViewHolder(rootView, getActivity(),
-                callBackSummaryRefresh, callBackTopUpWebView);
+                callBackSummaryRefresh, callBackTopUpWebView, callBackConfirmBtnPress);
 
         mViewHolder.initView();
 
@@ -176,6 +217,9 @@ public class CheckoutSummaryFragment extends Fragment{
         if(disposablePostCheckoutUpdate != null){
             disposablePostCheckoutUpdate.dispose();
         }
+        if(disposablePostCheckoutConfirm != null){
+            disposablePostCheckoutConfirm.dispose();
+        }
 
         //dispose inside adapter
         if(mCheckoutSummaryAdapter != null){
@@ -220,10 +264,17 @@ public class CheckoutSummaryFragment extends Fragment{
                             mViewHolder.populateSummaryDetails(body.getTotalPendingBids(), body.getAvailableCashBalance());
                         }else{
                             Log.d(LOG_TAG, "APP getCheckoutSummary !isSuccessful onNext() status > " + response.code());
-                            if(HTTPResponseUtils.check4xxClientError(response.code())){
-                                if(ConstantVariables.HTTP_UNAUTHORISED == response.code()){
-                                    AuthAccountUtils.actionLogout(getActivity());
-                                }
+                            if (ConstantVariables.HTTP_UNAUTHORISED == response.code()) {
+                                AuthAccountUtils.actionLogout(getActivity());
+                            } else {
+                                //all other 4xx codes
+                                String serverErrorMessage = HTTPResponseUtils
+                                        .errorServerResponseConvert(checkoutClient,
+                                                response.errorBody());
+
+                                SnackBarUtil.snackBarForErrorCreate(getView(),
+                                        serverErrorMessage, Snackbar.LENGTH_SHORT)
+                                        .show();
                             }
                         }
                     }
@@ -244,11 +295,11 @@ public class CheckoutSummaryFragment extends Fragment{
 
     private void updateSummaryList(){
 
-        List<InvestBid> investBidList = mCheckoutSummaryAdapter.getUpdateBidList();
-        if(!investBidList.isEmpty()) {
+        List<InvestBid> updateBidList = mCheckoutSummaryAdapter.getUpdateBidList();
+        if(!updateBidList.isEmpty()) {
             checkoutClient = CheckoutClient.getInstance(getActivity());
 
-            checkoutClient.postCheckoutUpdate(investBidList, ConstantVariables.getUniqueAndroidID(mContext))
+            checkoutClient.postCheckoutUpdate(updateBidList, ConstantVariables.getUniqueAndroidID(mContext))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<Response<CheckoutUpdateResponse>>() {
@@ -278,9 +329,9 @@ public class CheckoutSummaryFragment extends Fragment{
 
                                 }
                             }else{
-                                if(HTTPResponseUtils.check4xxClientError(response.code())){
+                                if (ConstantVariables.HTTP_UNAUTHORISED == response.code()) {
                                     AuthAccountUtils.actionLogout(getActivity());
-                                }else{
+                                } else {
                                     //all other 4xx codes
                                     String serverErrorMessage = HTTPResponseUtils
                                             .errorServerResponseConvert(checkoutClient,
@@ -307,7 +358,69 @@ public class CheckoutSummaryFragment extends Fragment{
         }
     }
 
-    private void checkoutConfirm(){
+    private void checkoutConfirmProcess(List<InvestBid> investBidList){
+        Log.d(LOG_TAG, "APP checkoutConfirmProcess");
+
+        if(!investBidList.isEmpty()){
+            checkoutClient = CheckoutClient.getInstance(getActivity());
+
+            checkoutClient.postCheckoutConfirm(investBidList,
+                    ConstantVariables.getUniqueAndroidID(mContext))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Response<MessageResponse>>() {
+                        @Override
+                        public void onSubscribe(@NonNull Disposable d) {
+                            disposablePostCheckoutConfirm = d;
+                        }
+
+                        @Override
+                        public void onNext(@NonNull Response<MessageResponse> response) {
+                            if(response.isSuccessful()){
+                                MessageResponse messageResponse = response.body();
+                                String confirmResponseMessage = messageResponse.getServerResponse().getMessage();
+
+                                SnackBarUtil.snackBarForInfoCreate(getView(),
+                                        confirmResponseMessage, Snackbar.LENGTH_SHORT)
+                                        .addCallback(new Snackbar.Callback(){
+                                            @Override
+                                            public void onDismissed(Snackbar snackbar, int event) {
+                                                getActivity().getSupportFragmentManager()
+                                                        .beginTransaction()
+                                                        .replace(R.id.checkout_summary_content, new CheckoutConfirmFragment())
+                                                        .commit();
+                                            }
+                                        }).show();
+                            }else{
+                                if (ConstantVariables.HTTP_UNAUTHORISED == response.code()) {
+                                    AuthAccountUtils.actionLogout(getActivity());
+                                } else {
+                                    //all other 4xx codes
+                                    String serverErrorMessage = HTTPResponseUtils
+                                            .errorServerResponseConvert(checkoutClient,
+                                                    response.errorBody());
+
+                                    SnackBarUtil.snackBarForErrorCreate(getView(),
+                                            serverErrorMessage, Snackbar.LENGTH_SHORT)
+                                            .show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onError(@NonNull Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            Log.d(LOG_TAG, "APP checkoutConfirmProcess");
+                        }
+                    });
+        }
+    }
+
+    private void downloadParticipationAgreement(){
 
     }
 }

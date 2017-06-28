@@ -185,11 +185,26 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     public List<InvestBid> getUpdateBidList() {
-        List<InvestBid> investBidList = new ArrayList<InvestBid>();
+        List<InvestBid> investBidList = new ArrayList<>();
 
         Iterator<UpdateItem> uiit = updatingList.iterator();
         while(uiit.hasNext()){
             investBidList.add(uiit.next().investBid);
+        }
+        return investBidList;
+    }
+
+    public List<InvestBid> getInvestmentBidList(){
+        //enforce that all updates are made and biddingList is not empty
+        if(!updatingList.isEmpty() && biddingInvestmentList.isEmpty()){
+            return null;
+        }
+
+        List<InvestBid> investBidList = new ArrayList<>();
+        Iterator<Investment> iit = biddingInvestmentList.iterator();
+        while(iit.hasNext()){
+            Investment investment = iit.next();
+            investBidList.add(new InvestBid(investment.getId(), investment.getInvestAmount()));
         }
         return investBidList;
     }

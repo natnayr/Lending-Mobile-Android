@@ -37,20 +37,23 @@
         <ImageView
             android:id="@+id/checkout_confirm_success_logo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/checkout_confirm_success_logo_margin"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Congratulations!"
             android:textSize="@dimen/checkout_title_font_size"
+            android:textColor="@color/color_primary_text_800"
             android:fontFamily="@string/font_family_medium"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/checkout_confirm_message_margin"
             android:gravity="center"
             android:text="Your bid(s) were successful."
             android:textSize="@dimen/checkout_large_font_size"
+            android:textColor="@color/color_primary_text_800"
             android:fontFamily="@string/font_family_light"/>
     </LinearLayout>
 
@@ -76,8 +79,7 @@
             android:id="@+id/checkout_confirm_continue_button_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/checkout_confirm_action_button_margin_start"
-            android:backgroundTint="@color/color_icons_text"/>
+            android:layout_marginStart="@dimen/checkout_confirm_action_button_margin_start"/>
     </LinearLayout>
 
 </RelativeLayout>

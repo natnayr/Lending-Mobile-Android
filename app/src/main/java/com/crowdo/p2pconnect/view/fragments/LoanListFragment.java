@@ -176,6 +176,7 @@ public class LoanListFragment extends Fragment {
         super.onResume();
         getActivity().invalidateOptionsMenu();
         populateLoansList();
+        updateShoppingCartItemCount();
     }
 
     @Override

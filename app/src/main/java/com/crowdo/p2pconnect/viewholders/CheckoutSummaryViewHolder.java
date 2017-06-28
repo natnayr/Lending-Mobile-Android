@@ -1,7 +1,9 @@
 package com.crowdo.p2pconnect.viewholders;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
@@ -74,16 +76,19 @@ public class CheckoutSummaryViewHolder {
     private Context mContext;
     private CallBackUtil<Boolean> callBackFragmentPopulateSummary;
     private CallBackUtil<Object> callBackTopUpWebView;
+    private CallBackUtil<Object> callBackConfirmBtnPress;
 
     public static final int CONFIRM_ACTION = 1;
     public static final int TOPUP_ACTION = 2;
 
     public CheckoutSummaryViewHolder(View view, Context mContext,
                                      CallBackUtil<Boolean> callBackSummaryRefresh,
-                                     CallBackUtil<Object> callBackTopUpWebView) {
+                                     CallBackUtil<Object> callBackTopUpWebView,
+                                     CallBackUtil<Object> callBackConfirmBtnPress) {
         this.mContext = mContext;
         this.callBackFragmentPopulateSummary = callBackSummaryRefresh;
         this.callBackTopUpWebView = callBackTopUpWebView;
+        this.callBackConfirmBtnPress = callBackConfirmBtnPress;
         ButterKnife.bind(this, view);
     }
 
@@ -218,7 +223,6 @@ public class CheckoutSummaryViewHolder {
     }
 
     public void populateSummaryDetails(long totalPendingBids, long availableBalance){
-        availableBalance = Long.valueOf("10000000"); //TODO remove this
         mSummaryPendingBidsValue.setText(mSummaryCurrencySymbol + Long.toString(totalPendingBids));
         mSummaryAvailableBalanceValue.setText(mSummaryCurrencySymbol + Long.toString(availableBalance));
 
@@ -257,6 +261,13 @@ public class CheckoutSummaryViewHolder {
                         .sizeRes(R.dimen.checkout_summary_action_bottom_icon_size)
                         .colorRes(R.color.color_icons_text));
                 mSummaryActionButtonLabel.setText(mSummaryConfirmLabel);
+                mSummaryActionButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        callBackConfirmBtnPress.eventCallBack(null);
+                    }
+                });
+
                 return;
 
             case TOPUP_ACTION:

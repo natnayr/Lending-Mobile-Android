@@ -14,6 +14,7 @@ import com.crowdo.p2pconnect.R;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
+import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -49,10 +50,17 @@ public class CheckoutConfirmFragment extends Fragment{
 
         mConfirmSuccessLogo.setImageDrawable(new IconicsDrawable(mContext)
                 .icon(CommunityMaterial.Icon.cmd_check_circle)
-                .colorRes());
+                .colorRes(R.color.color_green_500)
+                .sizeRes(R.dimen.checkout_confirm_success_logo_size));
 
+        mConfirmContinueIcon.setImageDrawable(new IconicsDrawable(mContext)
+                .icon(CommunityMaterial.Icon.cmd_arrow_right_thick)
+                .colorRes(R.color.color_icons_text)
+                .sizeRes(R.dimen.checkout_large_font_size));
 
 
         return rootView;
     }
+
+
 }
