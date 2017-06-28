@@ -151,16 +151,16 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent res) {
         //DING DING DING Aauth is done!! CHECK RESULTS
-        Log.d(LOG_TAG, "APP: onActivityResult");
+        Log.d(LOG_TAG, "APP onActivityResult");
         if(requestCode == ConstantVariables.REQUEST_CODE_AUTHENTICATION){
             if(resultCode == AuthActivity.RESULT_OK){
-                Log.d(LOG_TAG, "APP: onActivityResult > SUCCESS");
+                Log.d(LOG_TAG, "APP onActivityResult > SUCCESS");
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
                 finish();
             }else if(resultCode == AuthActivity.RESULT_CANCELED){
-                Log.d(LOG_TAG, "APP: onActivityResult > CANCELLED");
+                Log.d(LOG_TAG, "APP onActivityResult > CANCELLED");
                 //TODO: SOMETHING HERE TO INFORM USER of FAILURE
             }
         }

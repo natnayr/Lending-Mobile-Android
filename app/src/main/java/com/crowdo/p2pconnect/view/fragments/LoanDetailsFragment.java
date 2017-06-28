@@ -29,7 +29,7 @@ import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.model.core.Investment;
-import com.crowdo.p2pconnect.model.response.BidStatusResponse;
+import com.crowdo.p2pconnect.model.response.BidOnlyResponse;
 import com.crowdo.p2pconnect.model.response.CheckBidResponse;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
@@ -489,19 +489,19 @@ public class LoanDetailsFragment extends Fragment {
                 ConstantVariables.getUniqueAndroidID(getActivity()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<BidStatusResponse>>() {
+                .subscribe(new Observer<Response<BidOnlyResponse>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         disposablePostAcceptBid = d;
                     }
 
                     @Override
-                    public void onNext(Response<BidStatusResponse> response) {
+                    public void onNext(Response<BidOnlyResponse> response) {
                         if(response.isSuccessful()){
-                            BidStatusResponse acceptBidStatusResponse = response.body();
-                            if(acceptBidStatusResponse != null){
-                                Investment bid = acceptBidStatusResponse.getBid();
-                                ServerResponse server = acceptBidStatusResponse.getServer();
+                            BidOnlyResponse acceptBidOnlyResponse = response.body();
+                            if(acceptBidOnlyResponse != null){
+                                Investment bid = acceptBidOnlyResponse.getBid();
+                                ServerResponse server = acceptBidOnlyResponse.getServer();
                                 Log.d(LOG_TAG, "APP addToCart onNext() bid_id: " + bid.getId());
 
                                 //pass response to user

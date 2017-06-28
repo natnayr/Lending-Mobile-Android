@@ -19,8 +19,8 @@ import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.model.core.Investment;
 import com.crowdo.p2pconnect.model.core.Loan;
-import com.crowdo.p2pconnect.model.request.UpdateBid;
-import com.crowdo.p2pconnect.model.response.BidStatusResponse;
+import com.crowdo.p2pconnect.model.request.InvestBid;
+import com.crowdo.p2pconnect.model.response.BidOnlyResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.view.activities.CheckoutActivity;
@@ -56,21 +56,21 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private RecyclerView mRecyclerView;
     private TextView mHeaderNoOfLoans;
     private CallBackUtil<Boolean> callBackPopulateSummaryList;
-    private CallBackUtil<Boolean> callBackUpdateList;
+    private CallBackUtil<Boolean> callBackShowUpdateBtn;
 
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
 
     public CheckoutSummaryAdapter(Context context, RecyclerView recyclerView,
                                   CallBackUtil<Boolean> callBackPopulateSummaryList,
-                                  CallBackUtil<Boolean> callBackUpdateList) {
+                                  CallBackUtil<Boolean> callBackShowUpdateBtn) {
         this.mContext = context;
         this.biddingInvestmentList = new ArrayList<>();
         this.biddingLoanList = new ArrayList<>();
         this.updatingList = new ArrayList<>();
         this.mRecyclerView = recyclerView;
         this.callBackPopulateSummaryList = callBackPopulateSummaryList;
-        this.callBackUpdateList =  callBackUpdateList;
+        this.callBackShowUpdateBtn =  callBackShowUpdateBtn;
     }
 
     @Override
@@ -149,7 +149,7 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         biddingInvestmentList.clear();
         biddingLoanList.clear();
         updatingList.clear(); //clear updating list
-        callBackUpdateList.eventCallBack(false);
+        callBackShowUpdateBtn.eventCallBack(false);
         biddingInvestmentList.addAll(investments);
         biddingLoanList.addAll(loans);
 
@@ -163,7 +163,7 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void addToUpdateList(int toUpdateInvestUnit, Investment investment){
         long toUpdateInvestAmount = toUpdateInvestUnit * ConstantVariables.IDR_BASE_UNIT;
         UpdateItem updateItem = new UpdateItem(investment,
-                new UpdateBid(investment.getId(), toUpdateInvestAmount));
+                new InvestBid(investment.getId(), toUpdateInvestAmount));
 
         if(!updatingList.contains(updateItem)){
             updatingList.add(updateItem);
@@ -175,7 +175,7 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             }
         }
 
-        callBackUpdateList.eventCallBack(updatingList.size() > 0);
+        callBackShowUpdateBtn.eventCallBack(updatingList.size() > 0);
     }
 
     public void removeDisposablePostDeleteBid() {
@@ -184,14 +184,14 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    public List<UpdateBid> getUpdateBidList() {
-        List<UpdateBid> updateBidList = new ArrayList<UpdateBid>();
+    public List<InvestBid> getUpdateBidList() {
+        List<InvestBid> investBidList = new ArrayList<InvestBid>();
 
         Iterator<UpdateItem> uiit = updatingList.iterator();
         while(uiit.hasNext()){
-            updateBidList.add(uiit.next().updateBid);
+            investBidList.add(uiit.next().investBid);
         }
-        return updateBidList;
+        return investBidList;
     }
 
     public void doDelete(final int layoutPosition, final Investment bidInvestmentItem,
@@ -203,16 +203,16 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         ConstantVariables.getUniqueAndroidID(mContext))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<BidStatusResponse>>() {
+                .subscribe(new Observer<Response<BidOnlyResponse>>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
                         disposablePostDeleteBid = d;
                     }
 
                     @Override
-                    public void onNext(@NonNull Response<BidStatusResponse> response) {
+                    public void onNext(@NonNull Response<BidOnlyResponse> response) {
                         if(response.isSuccessful()){
-                            BidStatusResponse deleteBidResponse = response.body();
+                            BidOnlyResponse deleteBidResponse = response.body();
                             if(mRecyclerView !=null) {
                                 SnackBarUtil.snackBarForInfoCreate(mRecyclerView,
                                         deleteBidResponse.getServer().getMessage(),
@@ -301,10 +301,10 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public class UpdateItem {
         public Investment investment;
-        public UpdateBid updateBid;
-        public UpdateItem(Investment investment, UpdateBid updateBid){
+        public InvestBid investBid;
+        public UpdateItem(Investment investment, InvestBid investBid){
             this.investment = investment;
-            this.updateBid = updateBid;
+            this.investBid = investBid;
         }
 
         @Override

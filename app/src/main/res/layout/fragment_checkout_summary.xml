@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/checkout_summary_title_label"
                 android:fontFamily="@string/font_family_regular"
-                android:textSize="@dimen/checkout_summary_expand_title_font_size"
+                android:textSize="@dimen/checkout_title_font_size"
                 android:textColor="@color/color_secondary_text" />
             <ImageView
                 android:id="@+id/checkout_summary_expand_icon"
@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:textColor="@color/color_accent"
-                android:textSize="@dimen/checkout_summary_expand_large_font_size"
+                android:textSize="@dimen/checkout_large_font_size"
                 android:text="@string/checkout_summary_bidding_overall_update_notify"
                 android:fontFamily="@string/font_family_condensed"
                 android:gravity="center"
@@ -127,7 +127,7 @@
                     android:fontFamily="@string/font_family_light"
                     android:text="@string/checkout_summary_bidding_overall_pending_bids_label"
                     android:textColor="@color/color_primary_text"
-                    android:textSize="@dimen/checkout_summary_expand_small_font_size" />
+                    android:textSize="@dimen/checkout_small_font_size" />
 
                 <TextView
                     android:id="@+id/checkout_summary_bidding_overall_pending_bids_value"
@@ -139,7 +139,7 @@
                     android:fontFamily="@string/font_family_condensed"
                     android:gravity="center"
                     android:textColor="@color/color_primary_text"
-                    android:textSize="@dimen/checkout_summary_expand_large_font_size" />
+                    android:textSize="@dimen/checkout_large_font_size" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -177,7 +177,7 @@
                     android:fontFamily="@string/font_family_light"
                     android:text="@string/checkout_summary_bidding_overall_available_balance_label"
                     android:textColor="@color/color_primary_text"
-                    android:textSize="@dimen/checkout_summary_expand_small_font_size" />
+                    android:textSize="@dimen/checkout_small_font_size" />
 
                 <TextView
                     android:id="@+id/checkout_summary_bidding_overall_available_balance_value"
@@ -189,7 +189,7 @@
                     android:fontFamily="@string/font_family_condensed"
                     android:gravity="center"
                     android:textColor="@color/color_green_500"
-                    android:textSize="@dimen/checkout_summary_expand_large_font_size" />
+                    android:textSize="@dimen/checkout_large_font_size" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -225,7 +225,7 @@
                     android:fontFamily="@string/font_family_light"
                     android:text="@string/checkout_summary_bidding_overall_amt_top_up_label"
                     android:textColor="@color/color_primary_text"
-                    android:textSize="@dimen/checkout_summary_expand_small_font_size" />
+                    android:textSize="@dimen/checkout_small_font_size" />
 
                 <TextView
                     android:id="@+id/checkout_summary_bidding_overall_amt_top_up_value"
@@ -237,7 +237,7 @@
                     android:fontFamily="@string/font_family_condensed"
                     android:gravity="center"
                     android:text="-"
-                    android:textSize="@dimen/checkout_summary_expand_large_font_size"
+                    android:textSize="@dimen/checkout_large_font_size"
                     android:paddingTop="@dimen/checkout_summary_bidding_overall_amt_top_up_vertical_padding"
                     android:paddingBottom="@dimen/checkout_summary_bidding_overall_amt_top_up_vertical_padding"
                     android:background="@drawable/checkout_summary_calc_total_box"/>
@@ -280,7 +280,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/color_icons_text"
-            android:textSize="@dimen/checkout_summary_expand_title_font_size"
+            android:textSize="@dimen/checkout_title_font_size"
             android:fontFamily="@string/font_family_regular"/>
         <ImageView
             android:id="@+id/checkout_summary_action_button_icon"
@@ -305,7 +305,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/color_icons_text"
-            android:textSize="@dimen/checkout_summary_expand_title_font_size"
+            android:textSize="@dimen/checkout_title_font_size"
             android:fontFamily="@string/font_family_regular" />
         <ImageView
             android:id="@+id/checkout_summary_update_button_icon"

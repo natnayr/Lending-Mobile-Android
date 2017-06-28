@@ -7,10 +7,12 @@ import com.crowdo.p2pconnect.data.SendingCookiesInterceptor;
 import com.crowdo.p2pconnect.data.ReceivingCookiesInterceptor;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
-import com.crowdo.p2pconnect.model.request.CheckoutUpdateRequest;
-import com.crowdo.p2pconnect.model.request.UpdateBid;
+import com.crowdo.p2pconnect.model.request.CheckoutBatchRequest;
+import com.crowdo.p2pconnect.model.request.InvestBid;
 import com.crowdo.p2pconnect.model.response.CheckoutSummaryResponse;
 import com.crowdo.p2pconnect.model.response.CheckoutUpdateResponse;
+import com.crowdo.p2pconnect.model.response.MessageResponse;
+import com.crowdo.p2pconnect.model.response.ServerResponse;
 import com.crowdo.p2pconnect.oauth.AuthHTTPInterceptor;
 import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.google.gson.Gson;
@@ -25,7 +27,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Body;
 
 /**
  * Created by cwdsg05 on 30/5/17.
@@ -83,8 +84,15 @@ public class CheckoutClient implements ClientInterface{
     }
 
     public Observable<Response<CheckoutUpdateResponse>> postCheckoutUpdate(
-                List<UpdateBid> updateBidBatch, String deviceId){
-        return apiServices.postCheckoutUpdate(new CheckoutUpdateRequest(updateBidBatch, deviceId,
+            List<InvestBid> investBidBatch, String deviceId){
+        return apiServices.postCheckoutUpdate(new CheckoutBatchRequest(investBidBatch, deviceId,
                 ConstantVariables.API_SITE_CONFIG_ID));
     }
+
+    public Observable<Response<MessageResponse>> postCheckoutConfirm(
+            List<InvestBid> investBidBatch, String deviceId){
+        return apiServices.postCheckoutConfirm(new CheckoutBatchRequest(investBidBatch, deviceId,
+                ConstantVariables.API_SITE_CONFIG_ID));
+    }
+
 }

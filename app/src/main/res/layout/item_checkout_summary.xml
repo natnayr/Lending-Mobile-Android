@@ -52,7 +52,7 @@
                 android:id="@+id/item_checkout_summary_loanid_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/checkout_summary_expand_large_font_size"
+                android:textSize="@dimen/checkout_large_font_size"
                 android:fontFamily="@string/font_family_light"
                 android:textColor="@color/color_primary_text"
                 android:gravity="center"
@@ -65,7 +65,7 @@
                 android:id="@+id/item_checkout_summary_tenure_value"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textSize="@dimen/checkout_summary_expand_large_font_size"
+                android:textSize="@dimen/checkout_large_font_size"
                 android:fontFamily="@string/font_family_light"
                 android:textColor="@color/color_primary_text"
                 android:gravity="center"/>
@@ -80,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/grade_colorC"
-                android:textSize="@dimen/checkout_summary_expand_large_font_size"
+                android:textSize="@dimen/checkout_large_font_size"
                 android:fontFamily="@string/font_family_regular"
                 android:gravity="center"/>
 
@@ -93,7 +93,7 @@
                 android:id="@+id/item_checkout_summary_interest_rate_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/checkout_summary_expand_large_font_size"
+                android:textSize="@dimen/checkout_large_font_size"
                 android:fontFamily="@string/font_family_light"
                 android:textColor="@color/color_primary_text"
                 android:gravity="center"/>
@@ -131,7 +131,7 @@
                     android:text="@string/item_checkout_summary_enter_amount_currency_symbol_idr"
                     android:fontFamily="@string/font_family_condensed"
                     android:gravity="center"
-                    android:textSize="@dimen/checkout_summary_expand_large_font_size"/>
+                    android:textSize="@dimen/checkout_large_font_size"/>
                 <TextView
                     android:id="@+id/item_checkout_summary_enter_amount_edittext"
                     android:layout_width="0dp"
@@ -144,14 +144,14 @@
                     android:maxLength="4"
                     android:text="10"
                     android:fontFamily="@string/font_family_condensed"
-                    android:textSize="@dimen/checkout_summary_expand_large_font_size"/>
+                    android:textSize="@dimen/checkout_large_font_size"/>
                 <TextView
                     android:id="@+id/item_checkout_summary_enter_amount_unit_zeros_label"
                     android:layout_width="0dp"
                     android:layout_weight="5"
                     android:layout_height="wrap_content"
                     android:text="@string/item_checkout_summary_enter_amount_unit_zeros_idr"
-                    android:textSize="@dimen/checkout_summary_expand_large_font_size"
+                    android:textSize="@dimen/checkout_large_font_size"
                     android:fontFamily="@string/font_family_condensed"
                     android:gravity="start" />
             </LinearLayout>

@@ -8,11 +8,11 @@ import java.util.List;
  * Created by cwdsg05 on 22/6/17.
  */
 
-public class CheckoutUpdateRequest {
+public class CheckoutBatchRequest {
 
     @SerializedName("bids")
     @Expose
-    private PreUpdateBatch preUpdateBatch;
+    private Batch batch;
 
     @SerializedName("device_id")
     @Expose
@@ -22,20 +22,20 @@ public class CheckoutUpdateRequest {
     @Expose
     private String siteConfig;
 
-    public CheckoutUpdateRequest(List<UpdateBid> batch, String deviceId,
-                                 String siteConfig){
-        this.preUpdateBatch = new PreUpdateBatch();
-        this.preUpdateBatch.setBatch(batch);
+    public CheckoutBatchRequest(List<InvestBid> batch, String deviceId,
+                                String siteConfig){
+        this.batch = new Batch();
+        this.batch.setBatch(batch);
         this.deviceId = deviceId;
         this.siteConfig = siteConfig;
     }
 
-    public PreUpdateBatch getPreUpdateBatch() {
-        return preUpdateBatch;
+    public Batch getBatch() {
+        return batch;
     }
 
-    public void setPreUpdateBatch(PreUpdateBatch preUpdateBatch) {
-        this.preUpdateBatch = preUpdateBatch;
+    public void setBatch(Batch batch) {
+        this.batch = batch;
     }
 
     public String getDeviceId() {
@@ -54,17 +54,17 @@ public class CheckoutUpdateRequest {
         this.siteConfig = siteConfig;
     }
 
-    private class PreUpdateBatch {
+    private class Batch {
 
         @SerializedName("batch")
         @Expose
-        private List<UpdateBid> batch = null;
+        private List<InvestBid> batch = null;
 
-        public List<UpdateBid> getBatch() {
+        public List<InvestBid> getBatch() {
             return batch;
         }
 
-        public void setBatch(List<UpdateBid> batch) {
+        public void setBatch(List<InvestBid> batch) {
             this.batch = batch;
         }
     }

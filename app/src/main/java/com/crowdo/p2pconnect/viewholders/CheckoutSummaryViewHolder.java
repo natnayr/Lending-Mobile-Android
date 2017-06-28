@@ -50,7 +50,7 @@ public class CheckoutSummaryViewHolder {
     @BindView(R.id.checkout_summary_bidding_overall_available_balance_value) TextView mSummaryAvailableBalanceValue;
     @BindView(R.id.checkout_summary_bidding_overall_amt_top_up_value) TextView mSummaryAmtTopUpValue;
 
-    @BindView(R.id.checkout_summary_action_button) LinearLayout mSummaryActionButton;
+    @BindView(R.id.checkout_summary_action_button) public LinearLayout mSummaryActionButton;
     @BindView(R.id.checkout_summary_action_button_label) TextView mSummaryActionButtonLabel;
     @BindView(R.id.checkout_summary_action_button_icon) ImageView mSummaryActionButtonIcon;
 
@@ -73,14 +73,17 @@ public class CheckoutSummaryViewHolder {
     private static final String LOG_TAG = CheckoutSummaryViewHolder.class.getSimpleName();
     private Context mContext;
     private CallBackUtil<Boolean> callBackFragmentPopulateSummary;
+    private CallBackUtil<Object> callBackTopUpWebView;
 
     public static final int CONFIRM_ACTION = 1;
     public static final int TOPUP_ACTION = 2;
 
     public CheckoutSummaryViewHolder(View view, Context mContext,
-                                     CallBackUtil<Boolean> callBackUtil) {
+                                     CallBackUtil<Boolean> callBackSummaryRefresh,
+                                     CallBackUtil<Object> callBackTopUpWebView) {
         this.mContext = mContext;
-        this.callBackFragmentPopulateSummary = callBackUtil;
+        this.callBackFragmentPopulateSummary = callBackSummaryRefresh;
+        this.callBackTopUpWebView = callBackTopUpWebView;
         ButterKnife.bind(this, view);
     }
 
@@ -203,13 +206,15 @@ public class CheckoutSummaryViewHolder {
             }
         });
 
+        //set up update button but hide first
+        mSummaryUpdateButton.setVisibility(View.GONE);
         mSummaryUpdateButton.setBackgroundColor(mColorAmber500);
         mSummaryUpdateButtonIcon.setImageDrawable(new IconicsDrawable(mContext)
             .icon(CommunityMaterial.Icon.cmd_clipboard_flow)
             .colorRes(R.color.color_icons_text)
             .sizeRes(R.dimen.checkout_summary_action_bottom_icon_size));
         mSummaryUpdateButtonLabel.setText(mSummaryUpdateLabel);
-        mSummaryUpdateButton.setVisibility(View.GONE);
+
     }
 
     public void populateSummaryDetails(long totalPendingBids, long availableBalance){
@@ -259,6 +264,13 @@ public class CheckoutSummaryViewHolder {
                 mSummaryActionButton.setBackgroundColor(mColorAccent);
                 mSummaryActionButtonIcon.setImageDrawable(mSummaryTopUpIcon);
                 mSummaryActionButtonLabel.setText(mSummaryTopUpLabel);
+                mSummaryActionButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        callBackTopUpWebView.eventCallBack(null);
+                    }
+                });
+
                 return;
         }
     }

@@ -9,7 +9,7 @@ import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.model.request.DeleteBidRequest;
 import com.crowdo.p2pconnect.model.request.AskBidRequest;
-import com.crowdo.p2pconnect.model.response.BidStatusResponse;
+import com.crowdo.p2pconnect.model.response.BidOnlyResponse;
 import com.crowdo.p2pconnect.model.response.CheckBidResponse;
 import com.crowdo.p2pconnect.oauth.AuthHTTPInterceptor;
 import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
@@ -78,13 +78,13 @@ public class BiddingClient implements ClientInterface{
                 ConstantVariables.API_SITE_CONFIG_ID, deviceId));
     }
 
-    public Observable<Response<BidStatusResponse>> postAcceptBid(long investAmount, int loanId,
-                                                                 String deviceId){
+    public Observable<Response<BidOnlyResponse>> postAcceptBid(long investAmount, int loanId,
+                                                               String deviceId){
         return apiServices.postAcceptBid(new AskBidRequest(investAmount, loanId,
                 ConstantVariables.API_SITE_CONFIG_ID, deviceId));
     }
 
-    public Observable<Response<BidStatusResponse>> postDeleteBid(int bidId, String deviceId){
+    public Observable<Response<BidOnlyResponse>> postDeleteBid(int bidId, String deviceId){
         return apiServices.postDeleteBid(new DeleteBidRequest(ConstantVariables.API_SITE_CONFIG_ID,
                 deviceId, bidId));
     }

@@ -174,14 +174,7 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
             return;
         }
 
-        int count = getSupportFragmentManager()
-                .getBackStackEntryCount();
-
-        if (count == 0) {
-            super.onBackPressed();
-        } else {
-            toBackStackOrParent();
-        }
+        finish();
     }
 
     private boolean toBackStackOrParent(){
@@ -390,4 +383,6 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base));
     }
+
+
 }

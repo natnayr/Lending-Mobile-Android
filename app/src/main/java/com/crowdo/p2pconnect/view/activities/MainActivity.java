@@ -191,14 +191,12 @@ public class MainActivity extends AppCompatActivity{
                                     fragmentClass = LoanListFragment.class;
                                     mToolbar.setTitle(R.string.toolbar_title_loan_list);
                                     break;
+
                                 case DRAWER_SELECT_LEARNING_CENTER_FRAGMENT:
                                     fragmentClass = LearningCenterFragment.class;
                                     mToolbar.setTitle(R.string.toolbar_title_learning_center);
                                     break;
-//                                case DRAWER_SELECT_ACCOUNT_TOP_UP:
-//                                    break;
-//                                case DRAWER_SELECT_ACCOUNT_WITHDRAW:
-//                                    break;
+
                                 case DRAWER_SELECT_LANGUAGE_EN:
                                     LocaleHelper.setLocale(MainActivity.this, ConstantVariables.APP_LANG_EN);
                                     MainActivity.this.recreate();

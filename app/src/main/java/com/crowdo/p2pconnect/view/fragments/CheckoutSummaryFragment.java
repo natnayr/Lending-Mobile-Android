@@ -1,6 +1,7 @@
 package com.crowdo.p2pconnect.view.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -15,18 +16,20 @@ import android.view.ViewGroup;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.custom_ui.CheckoutSummaryItemTouchCallback;
-import com.crowdo.p2pconnect.data.client.BiddingClient;
+import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.data.client.CheckoutClient;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
+import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.model.core.Investment;
 import com.crowdo.p2pconnect.model.core.Loan;
-import com.crowdo.p2pconnect.model.request.UpdateBid;
+import com.crowdo.p2pconnect.model.request.InvestBid;
 import com.crowdo.p2pconnect.model.response.CheckoutSummaryResponse;
 import com.crowdo.p2pconnect.model.response.CheckoutUpdateResponse;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
+import com.crowdo.p2pconnect.view.activities.Henson;
 import com.crowdo.p2pconnect.view.adapters.CheckoutSummaryAdapter;
 import com.crowdo.p2pconnect.viewholders.CheckoutSummaryViewHolder;
 import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
@@ -59,6 +62,8 @@ public class CheckoutSummaryFragment extends Fragment{
     private ItemTouchHelperExtension mItemTouchHelper;
     private CheckoutClient checkoutClient;
 
+    private static final int INTENT_REQUEST_TOP_UP = 10101;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,25 +77,16 @@ public class CheckoutSummaryFragment extends Fragment{
         View rootView = inflater.inflate(R.layout.fragment_checkout_summary, container, false);
         ButterKnife.bind(this, rootView);
 
-        mContext = getActivity();
+        this.mContext = getActivity();
 
-        mViewHolder = new CheckoutSummaryViewHolder(rootView, getActivity(), new CallBackUtil<Boolean>(){
-                    @Override
-                    public void eventCallBack(Boolean doRefreshList) {
-                        populateSummaryList(doRefreshList);
-                    }
-                });
-
-        mViewHolder.initView();
-
-        CallBackUtil<Boolean> callBackPopulateSummaryList = new CallBackUtil<Boolean>() {
+        CallBackUtil<Boolean> callBackSummaryRefresh = new CallBackUtil<Boolean>() {
             @Override
             public void eventCallBack(Boolean doRefreshList) {
                 populateSummaryList(doRefreshList);
             }
         };
 
-        CallBackUtil<Boolean> callBackUpdateList = new CallBackUtil<Boolean>(){
+        CallBackUtil<Boolean> callBackShowUpdateBtn = new CallBackUtil<Boolean>(){
             @Override
             public void eventCallBack(Boolean doShow) {
                 if(doShow) {
@@ -103,8 +99,39 @@ public class CheckoutSummaryFragment extends Fragment{
             }
         };
 
+        CallBackUtil<Object> callBackTopUpWebView = new CallBackUtil<Object>() {
+            @Override
+            public void eventCallBack(Object obj) {
+                String webViewUrl = APIServices.P2P_BASE_URL +
+                        "mobile2/top_up" +
+                        "?lang=" + LocaleHelper.getLanguage(getActivity()) +
+                        "&device_id=" +
+                        ConstantVariables.getUniqueAndroidID(getActivity());
+
+                Log.d(LOG_TAG, "APP Top Up Action webViewUrl " + webViewUrl);
+
+                Intent intent = Henson.with(getActivity())
+                        .gotoWebViewActivity()
+                        .mUrl(webViewUrl)
+                        .build();
+                startActivityForResult(intent, INTENT_REQUEST_TOP_UP);
+            }
+        };
+
+        CallBackUtil<Object> callBackConfirmBtnPress = new CallBackUtil<Object>() {
+            @Override
+            public void eventCallBack(Object obj) {
+                checkoutConfirm();
+            }
+        };
+
+        this.mViewHolder = new CheckoutSummaryViewHolder(rootView, getActivity(),
+                callBackSummaryRefresh, callBackTopUpWebView);
+
+        mViewHolder.initView();
+
         this.mCheckoutSummaryAdapter = new CheckoutSummaryAdapter(getActivity(),
-                mCheckoutSummaryRecyclerView, callBackPopulateSummaryList, callBackUpdateList);
+                mCheckoutSummaryRecyclerView, callBackSummaryRefresh, callBackShowUpdateBtn);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         mCheckoutSummaryRecyclerView.setLayoutManager(mLayoutManager);
@@ -157,14 +184,71 @@ public class CheckoutSummaryFragment extends Fragment{
         super.onPause();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(LOG_TAG, "APP onActivityResult");
+        if(requestCode == INTENT_REQUEST_TOP_UP){
+            //if coming back from WebView, do refresh
+            populateSummaryList(true);
+        }
+    }
+
+    private void populateSummaryList(final boolean doRefreshList){
+
+        Log.d(LOG_TAG, "APP populateSummaryList()");
+
+        //check authentication
+        CheckoutClient.getInstance(getActivity())
+                .getCheckoutSummary(ConstantVariables.getUniqueAndroidID(mContext))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<CheckoutSummaryResponse>>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                        disposableGetCheckoutSummary = d;
+                    }
+
+                    @Override
+                    public void onNext(@NonNull Response<CheckoutSummaryResponse> response) {
+                        if(response.isSuccessful()) {
+                            CheckoutSummaryResponse body = response.body();
+                            if (doRefreshList){
+                                List<Investment> investments = body.getBids();
+                                List<Loan> loans = body.getLoans();
+                                mCheckoutSummaryAdapter.setBiddingInvestmentsAndLoans(investments, loans);
+                            }
+                            mViewHolder.populateSummaryDetails(body.getTotalPendingBids(), body.getAvailableCashBalance());
+                        }else{
+                            Log.d(LOG_TAG, "APP getCheckoutSummary !isSuccessful onNext() status > " + response.code());
+                            if(HTTPResponseUtils.check4xxClientError(response.code())){
+                                if(ConstantVariables.HTTP_UNAUTHORISED == response.code()){
+                                    AuthAccountUtils.actionLogout(getActivity());
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(LOG_TAG, "APP getCheckoutSummary onComplete()");
+                    }
+                });
+
+    }
 
     private void updateSummaryList(){
 
-        List<UpdateBid> updateBidList = mCheckoutSummaryAdapter.getUpdateBidList();
-        if(!updateBidList.isEmpty()) {
+        List<InvestBid> investBidList = mCheckoutSummaryAdapter.getUpdateBidList();
+        if(!investBidList.isEmpty()) {
             checkoutClient = CheckoutClient.getInstance(getActivity());
 
-            checkoutClient.postCheckoutUpdate(updateBidList, ConstantVariables.getUniqueAndroidID(mContext))
+            checkoutClient.postCheckoutUpdate(investBidList, ConstantVariables.getUniqueAndroidID(mContext))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<Response<CheckoutUpdateResponse>>() {
@@ -180,7 +264,7 @@ public class CheckoutSummaryFragment extends Fragment{
                                 CheckoutUpdateResponse updateResponse = response.body();
                                 if(updateResponse != null){
                                     Log.d(LOG_TAG, "APP updateSummaryList Rx response: "
-                                        + updateResponse.getServerResponse().getMessage());
+                                            + updateResponse.getServerResponse().getMessage());
                                     Snackbar snackbar = SnackBarUtil.snackBarForInfoCreate(getView(),
                                             updateResponse.getServerResponse().getMessage(),
                                             Snackbar.LENGTH_SHORT);
@@ -223,53 +307,7 @@ public class CheckoutSummaryFragment extends Fragment{
         }
     }
 
-    private void populateSummaryList(final boolean doRefreshList){
-
-        Log.d(LOG_TAG, "APP populateSummaryList()");
-        final String uniqueAndroidID = ConstantVariables.getUniqueAndroidID(mContext);
-
-        //check authentication
-        CheckoutClient.getInstance(getActivity())
-                .getCheckoutSummary(uniqueAndroidID)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<CheckoutSummaryResponse>>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                        disposableGetCheckoutSummary = d;
-                    }
-
-                    @Override
-                    public void onNext(@NonNull Response<CheckoutSummaryResponse> response) {
-                        if(response.isSuccessful()) {
-                            CheckoutSummaryResponse body = response.body();
-                            if (doRefreshList){
-                                List<Investment> investments = body.getBids();
-                                List<Loan> loans = body.getLoans();
-                                mCheckoutSummaryAdapter.setBiddingInvestmentsAndLoans(investments, loans);
-                            }
-                            mViewHolder.populateSummaryDetails(body.getTotalPendingBids(), body.getAvailableCashBalance());
-                        }else{
-                            Log.d(LOG_TAG, "APP getCheckoutSummary !isSuccessful onNext() status > " + response.code());
-                            if(HTTPResponseUtils.check4xxClientError(response.code())){
-                                if(ConstantVariables.HTTP_UNAUTHORISED == response.code()){
-                                    AuthAccountUtils.actionLogout(getActivity());
-                                }
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Log.d(LOG_TAG, "APP getCheckoutSummary onComplete()");
-                    }
-                });
+    private void checkoutConfirm(){
 
     }
 }

@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by cwdsg05 on 22/6/17.
  */
-public class UpdateBid {
+public class InvestBid {
     @SerializedName("bid_id")
     @Expose
     private int bidId;
@@ -19,12 +19,12 @@ public class UpdateBid {
     @Expose
     private long originalInvestAmount;
 
-    public UpdateBid(int bidId, long investAmount){
+    public InvestBid(int bidId, long investAmount){
         this.bidId = bidId;
         this.investAmount = investAmount;
     }
 
-    public UpdateBid(int bidId, long investAmount, long originalInvestAmount){
+    public InvestBid(int bidId, long investAmount, long originalInvestAmount){
         this.bidId = bidId;
         this.investAmount = investAmount;
         this.originalInvestAmount = originalInvestAmount;

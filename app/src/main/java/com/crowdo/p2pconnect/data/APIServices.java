@@ -1,11 +1,11 @@
 package com.crowdo.p2pconnect.data;
 
-import com.crowdo.p2pconnect.model.request.CheckoutUpdateRequest;
+import com.crowdo.p2pconnect.model.request.CheckoutBatchRequest;
 import com.crowdo.p2pconnect.model.request.DeleteBidRequest;
 import com.crowdo.p2pconnect.model.request.AskBidRequest;
 import com.crowdo.p2pconnect.model.request.LoginRequest;
 import com.crowdo.p2pconnect.model.request.RegisterRequest;
-import com.crowdo.p2pconnect.model.response.BidStatusResponse;
+import com.crowdo.p2pconnect.model.response.BidOnlyResponse;
 import com.crowdo.p2pconnect.model.response.AuthResponse;
 import com.crowdo.p2pconnect.model.response.CheckBidResponse;
 import com.crowdo.p2pconnect.model.response.CheckoutSummaryResponse;
@@ -13,12 +13,12 @@ import com.crowdo.p2pconnect.model.response.CheckoutUpdateResponse;
 import com.crowdo.p2pconnect.model.response.LoanDetailResponse;
 import com.crowdo.p2pconnect.model.response.LoanListResponse;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
+import com.crowdo.p2pconnect.model.response.MessageResponse;
 
 import io.reactivex.Observable;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -64,11 +64,11 @@ public interface APIServices {
 
     @POST("bid/accept_bid")
     @Headers({"Content-type: application/json"})
-    Observable<Response<BidStatusResponse>> postAcceptBid(@Body AskBidRequest data);
+    Observable<Response<BidOnlyResponse>> postAcceptBid(@Body AskBidRequest data);
 
     @POST("bid/delete_bid")
     @Headers({"Content-type: application/json"})
-    Observable<Response<BidStatusResponse>> postDeleteBid(@Body DeleteBidRequest data);
+    Observable<Response<BidOnlyResponse>> postDeleteBid(@Body DeleteBidRequest data);
 
     @GET("invest/checkout/summary")
     @Headers({"Content-type: application/json"})
@@ -76,5 +76,10 @@ public interface APIServices {
 
     @POST("bid/update_bid_batch")
     @Headers({"Content-type: application/json"})
-    Observable<Response<CheckoutUpdateResponse>> postCheckoutUpdate(@Body CheckoutUpdateRequest data);
+    Observable<Response<CheckoutUpdateResponse>> postCheckoutUpdate(@Body CheckoutBatchRequest data);
+
+    @POST("invest/checkout/confirm_bids")
+    @Headers({"Content-type: application/json"})
+    Observable<Response<MessageResponse>> postCheckoutConfirm(@Body CheckoutBatchRequest data);
+
 }
