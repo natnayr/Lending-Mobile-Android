@@ -247,20 +247,18 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
                     }
 
                     @Override
-                    public void onNext(final String s) {
-                        Log.d(LOG_TAG, "APP file is now in " + s);
+                    public void onNext(final String location) {
+                        Log.d(LOG_TAG, "APP file is now in " + location);
 
                         final Snackbar snackbar = SnackBarUtil
-                                .snackBarForInfoCreate(rootView, mLabelDownloadedTo + s,
-                                        Snackbar.LENGTH_LONG);
-
-
-                        snackbar.setAction(mLabelOpen, new View.OnClickListener() {
+                                .snackBarForInfoCreate(rootView, mLabelDownloadedTo + location,
+                                        Snackbar.LENGTH_LONG)
+                                .setAction(mLabelOpen, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 try {
                                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                                    File downloadFile = new File(new URI(s));
+                                    File downloadFile = new File(new URI(location));
 
                                     intent.setDataAndType(Uri.fromFile(downloadFile), usageMimeType);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

@@ -1,8 +1,11 @@
 package com.crowdo.p2pconnect.view.fragments;
 
+import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -15,6 +18,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
+import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.custom_ui.CheckoutSummaryItemTouchCallback;
@@ -35,10 +40,12 @@ import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.view.activities.Henson;
 import com.crowdo.p2pconnect.view.adapters.CheckoutSummaryAdapter;
 import com.crowdo.p2pconnect.viewholders.CheckoutSummaryViewHolder;
+import com.esafirm.rxdownloader.RxDownloader;
 import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
-import com.mikepenz.community_material_typeface_library.CommunityMaterial;
-import com.mikepenz.iconics.IconicsDrawable;
 
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import butterknife.BindString;
@@ -60,6 +67,12 @@ public class CheckoutSummaryFragment extends Fragment{
     @BindView(R.id.checkout_summary_recycler_view) RecyclerView mCheckoutSummaryRecyclerView;
 
     @BindString(R.string.checkout_summary_empty_message_label) String mCheckoutSummaryEmptyMessage;
+    @BindString(R.string.downloaded_to_label) String mLabelDownloadedTo;
+    @BindString(R.string.okay_label) String mLabelOkay;
+    @BindString(R.string.open_label) String mLabelOpen;
+    @BindString(R.string.intent_file_chooser) String mLabelIntentFile;
+    @BindString(R.string.unable_open_file_label) String mLabelErrorOpenFile;
+    @BindString(R.string.downloading_label) String mLabelDownloading;
 
     private static final String LOG_TAG = CheckoutSummaryFragment.class.getSimpleName();
     private Context mContext;
@@ -144,13 +157,12 @@ public class CheckoutSummaryFragment extends Fragment{
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     checkoutConfirmProcess(investBidList);
-                                    dialog.dismiss();
                                 }})
                             .setNeutralButton(R.string.checkout_summary_dialog_download_agreement_label,
                                     new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-
+                                    downloadParticipationAgreement();
                                 }
                             })
                             .setNegativeButton(R.string.checkout_summary_dialog_cancel_label,
@@ -362,6 +374,11 @@ public class CheckoutSummaryFragment extends Fragment{
         Log.d(LOG_TAG, "APP checkoutConfirmProcess");
 
         if(!investBidList.isEmpty()){
+            final ProgressDialog progress = new ProgressDialog(getActivity());
+            progress.setMessage("Please wait");
+            progress.setCancelable(false);
+            progress.show();
+
             checkoutClient = CheckoutClient.getInstance(getActivity());
 
             checkoutClient.postCheckoutConfirm(investBidList,
@@ -376,6 +393,8 @@ public class CheckoutSummaryFragment extends Fragment{
 
                         @Override
                         public void onNext(@NonNull Response<MessageResponse> response) {
+                            progress.dismiss();
+
                             if(response.isSuccessful()){
                                 MessageResponse messageResponse = response.body();
                                 String confirmResponseMessage = messageResponse.getServerResponse().getMessage();
@@ -409,7 +428,6 @@ public class CheckoutSummaryFragment extends Fragment{
 
                         @Override
                         public void onError(@NonNull Throwable e) {
-
                         }
 
                         @Override
@@ -421,6 +439,83 @@ public class CheckoutSummaryFragment extends Fragment{
     }
 
     private void downloadParticipationAgreement(){
+
+        String mimeType = null;
+        final String extension = MimeTypeMap.getFileExtensionFromUrl(ConstantVariables.PARTICIPATION_AGREEMENT_URL);
+        if(extension != null) {
+            mimeType = MimeTypeMap.getSingleton()
+                    .getMimeTypeFromExtension(extension);
+        }
+
+        Toast.makeText(getActivity(), mLabelDownloading,
+                Toast.LENGTH_SHORT).show();
+
+        final String usageMimeType = mimeType;
+
+        RxDownloader.getInstance(getActivity())
+                .download(ConstantVariables.PARTICIPATION_AGREEMENT_URL,
+                        ConstantVariables.PARTICIPATION_AGREEMENT_FILENAME,
+                        usageMimeType)
+                .subscribe(new rx.Observer<String>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(LOG_TAG, "APP onCompleted Participation Agreement Download");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(LOG_TAG, "ERROR: onError " + e.getMessage(), e);
+                    }
+
+                    @Override
+                    public void onNext(final String location) {
+                        final Snackbar snackbar = SnackBarUtil
+                                .snackBarForInfoCreate(getView(),
+                                        mLabelDownloadedTo + location,
+                                        Snackbar.LENGTH_LONG);
+
+                        snackbar.setAction(mLabelOpen, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                                    File downloadFile = new File(new URI(location));
+                                    intent.setData(Uri.fromFile(downloadFile));
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                    Intent chooserIntent = Intent.createChooser(intent, mLabelIntentFile);
+
+
+                                    startActivity(chooserIntent);
+                                }catch(URISyntaxException ue){
+                                    Log.e(LOG_TAG, "ERROR: " + ue.getMessage(), ue);
+                                    final Snackbar snackbar = SnackBarUtil.snackBarForErrorCreate(getView(),
+                                            mLabelErrorOpenFile,
+                                            Snackbar.LENGTH_LONG);
+
+                                    snackbar.setAction(mLabelOkay, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            snackbar.dismiss();
+                                        }
+                                    });
+                                }catch (ActivityNotFoundException anfe){
+                                    Log.e(LOG_TAG, "ERROR: " + anfe.getMessage(), anfe);
+                                    final Snackbar snackbar = SnackBarUtil.snackBarForErrorCreate(
+                                            getView(), mLabelErrorOpenFile,
+                                            Snackbar.LENGTH_LONG);
+
+                                    snackbar.setAction(mLabelOkay, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            snackbar.dismiss();
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                        snackbar.show();
+                    }
+                });
 
     }
 }

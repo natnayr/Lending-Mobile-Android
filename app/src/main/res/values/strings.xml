@@ -134,8 +134,7 @@
     <string name="checkout_summary_container_confirm_label">Confirm</string>
     <string name="checkout_summary_empty_message_label">Your Checkout Summary is empty. Place bids on active loans.</string>
     <string name="checkout_summary_dialog_confirm_label">CONFIRM</string>
-    <string name="checkout_summary_dialog_download_agreement_label">DOWNLOAD PARTICIPATION AGREEMENT</string>
-
+    <string name="checkout_summary_dialog_download_agreement_label">AGREEMENT</string>
     <string name="checkout_summary_dialog_cancel_label">CANCEL</string>
 
     <!-- Globals -->

@@ -14,7 +14,6 @@ import com.crowdo.p2pconnect.R;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
-import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -24,10 +23,10 @@ import butterknife.ButterKnife;
 
 public class CheckoutConfirmFragment extends Fragment{
 
-
+    @BindView(R.id.checkout_confirm_close_btn) LinearLayout mConfirmCloseButton;
+    @BindView(R.id.checkout_confirm_close_icon) ImageView mConfirmCloseIcon;
     @BindView(R.id.checkout_confirm_success_logo) ImageView mConfirmSuccessLogo;
     @BindView(R.id.checkout_confirm_continue_button) LinearLayout mConfirmContinueButton;
-    @BindView(R.id.checkout_confirm_continue_button_icon) ImageView mConfirmContinueIcon;
 
     private Context mContext;
 
@@ -53,11 +52,24 @@ public class CheckoutConfirmFragment extends Fragment{
                 .colorRes(R.color.color_green_500)
                 .sizeRes(R.dimen.checkout_confirm_success_logo_size));
 
-        mConfirmContinueIcon.setImageDrawable(new IconicsDrawable(mContext)
-                .icon(CommunityMaterial.Icon.cmd_arrow_right_thick)
-                .colorRes(R.color.color_icons_text)
-                .sizeRes(R.dimen.checkout_large_font_size));
+        mConfirmCloseIcon.setImageDrawable(new IconicsDrawable(mContext)
+                .icon(CommunityMaterial.Icon.cmd_close)
+                .colorRes(R.color.color_secondary_text)
+                .sizeRes(R.dimen.checkout_summary_success_close_icon_size));
 
+        mConfirmCloseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+
+        mConfirmContinueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
 
         return rootView;
     }
