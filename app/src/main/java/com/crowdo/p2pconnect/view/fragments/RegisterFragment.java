@@ -270,10 +270,11 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
                 Log.d(LOG_TAG, "APP: onComplete > response.isSuccessful TRUE");
 
                 //show success
-                SnackBarUtil.snackBarForInfoCreate(getView(),
-                        authResponse.getServerResponse().getMessage(),
-                        Snackbar.LENGTH_SHORT).show();
-
+                if(getView() != null) {
+                    SnackBarUtil.snackBarForInfoCreate(getView(),
+                            authResponse.getServerResponse().getMessage(),
+                            Snackbar.LENGTH_SHORT).show();
+                }
                 final String email = authResponse.getMember().getEmail();
                 final String authToken = authResponse.getAuthToken();
                 final String passwordHash = mPasswordHash;

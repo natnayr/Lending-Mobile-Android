@@ -239,9 +239,11 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
 
                 if (HTTPResponseUtils.check2xxSuccess(authResponse.getServerResponse().getStatus())) {
                     //show http success
-                    SnackBarUtil.snackBarForInfoCreate(getView(),
-                            authResponse.getServerResponse().getMessage(),
-                            Snackbar.LENGTH_SHORT).show();
+                    if(getView() != null) {
+                        SnackBarUtil.snackBarForInfoCreate(getView(),
+                                authResponse.getServerResponse().getMessage(),
+                                Snackbar.LENGTH_SHORT).show();
+                    }
 
                     final String email = authResponse.getMember().getEmail();
                     final String authToken = authResponse.getAuthToken();

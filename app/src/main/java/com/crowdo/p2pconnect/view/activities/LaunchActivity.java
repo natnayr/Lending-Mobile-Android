@@ -44,7 +44,9 @@ import butterknife.ButterKnife;
 /**
  * Created by ryan on 19/10/16.
  */
-public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener{
+public class LaunchActivity extends AppCompatActivity implements
+        MediaPlayer.OnPreparedListener,
+        MediaPlayer.OnErrorListener{
 
     @BindView(R.id.welcome_login_btn) Button mWelcomeLoginButton;
     @BindView(R.id.welcome_register_btn) Button mWelcomeRegisterButton;
@@ -66,6 +68,8 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
 
     private Timer mTimer;
     private int page;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +97,7 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
                         try {
                             mPlayer.setDataSource(mContext, videoUri);
                             mPlayer.setOnPreparedListener(LaunchActivity.this);
+                            mPlayer.setOnErrorListener(LaunchActivity.this);
                             mPlayer.prepare();
 
                         } catch (IOException e) {
@@ -118,7 +123,6 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
         mWelcomeLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(LaunchActivity.this, AuthActivity.class);
                 intent.putExtra(AuthActivity.FRAGMENT_CLASS_TAG_CALL, LoginFragment.LOGIN_FRAGMENT_TAG);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -169,6 +173,11 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
     private void pageSwitcher(int timeframeEach){
         mTimer = new Timer();
         mTimer.scheduleAtFixedRate(new FlipPageTimerTask(), 0, timeframeEach);
+    }
+
+    @Override
+    public boolean onError(MediaPlayer mp, int what, int extra) {
+        return true;
     }
 
     class FlipPageTimerTask extends TimerTask {
@@ -226,12 +235,8 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        if(mPlayer != null) {
-            stopPosition = mPlayer.getCurrentPosition();
-            mPlayer.pause();
-        }
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -242,6 +247,27 @@ public class LaunchActivity extends AppCompatActivity implements MediaPlayer.OnP
             mPlayer.start();
         }
     }
+
+    @Override
+    protected void onPause() {
+        if(mPlayer != null) {
+            if(mPlayer.isPlaying()) {
+                stopPosition = mPlayer.getCurrentPosition();
+                mPlayer.pause();
+            }
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        if(mPlayer != null) {
+            mPlayer.stop();
+            mPlayer.release();
+        }
+        super.onStop();
+    }
+
 
     class WelcomePagerAdapter extends PagerAdapter {
         private Context mContext;

@@ -200,6 +200,7 @@ public class LoanListFragment extends Fragment {
 
         mMenuCart = menu.findItem(R.id.action_cart);
         updateShoppingCartItemCount();
+
     }
 
     @Override
@@ -290,7 +291,7 @@ public class LoanListFragment extends Fragment {
     }
 
     private void populateLoansList() {
-
+        getActivity().invalidateOptionsMenu();
         updateShoppingCartItemCount();
 
         //Check if Authenticated, done only here

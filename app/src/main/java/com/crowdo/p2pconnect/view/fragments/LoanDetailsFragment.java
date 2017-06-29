@@ -236,6 +236,7 @@ public class LoanDetailsFragment extends Fragment {
     }
 
     private void populateLoanDetails(){
+        getActivity().invalidateOptionsMenu();
         updateShoppingCartItemCount();
 
         Log.d(LOG_TAG, "APP populateLoanDetails()");
