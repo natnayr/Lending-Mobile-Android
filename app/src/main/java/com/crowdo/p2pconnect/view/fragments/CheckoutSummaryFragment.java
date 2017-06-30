@@ -1,6 +1,7 @@
 package com.crowdo.p2pconnect.view.fragments;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -20,8 +21,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.GravityEnum;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.custom_ui.CheckoutSummaryItemTouchCallback;
 import com.crowdo.p2pconnect.data.APIServices;
@@ -133,7 +138,7 @@ public class CheckoutSummaryFragment extends Fragment{
                         ConstantVariables.getUniqueAndroidID(getActivity());
 
                 Log.d(LOG_TAG, "APP Top Up Action webViewUrl " + webViewUrl);
-
+                
                 Intent intent = Henson.with(getActivity())
                         .gotoWebViewActivity()
                         .mUrl(webViewUrl)
@@ -151,29 +156,34 @@ public class CheckoutSummaryFragment extends Fragment{
                             mCheckoutSummaryEmptyMessage, Snackbar.LENGTH_SHORT)
                             .show();
                 }else{
-                    new AlertDialog.Builder(mContext)
-                            .setTitle("Confirmation")
-                            .setMessage("By tapping onto the Confirm you agree to the Participation Agreement")
-                            .setPositiveButton(R.string.checkout_summary_container_confirm_label,
-                                    new DialogInterface.OnClickListener() {
+                    new MaterialDialog.Builder(mContext)
+                            .autoDismiss(false)
+//                            .btnStackedGravity(GravityEnum.CENTER)
+//                            .itemsGravity(GravityEnum.CENTER)
+//                            .buttonsGravity(GravityEnum.CENTER)
+                            .content(R.string.checkout_summary_dialog_message_label)
+                            .positiveText(R.string.checkout_summary_dialog_agree_label)
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    checkoutConfirmProcess(investBidList);
-                                }})
-                            .setNeutralButton(R.string.checkout_summary_dialog_download_agreement_label,
-                                    new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    downloadParticipationAgreement();
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    checkoutConfirmProcess(investBidList, dialog);
                                 }
                             })
-                            .setNegativeButton(R.string.checkout_summary_dialog_cancel_label,
-                                    new DialogInterface.OnClickListener() {
+                            .negativeText(R.string.checkout_summary_dialog_cancel_label)
+                            .onNegative(new MaterialDialog.SingleButtonCallback() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                     dialog.dismiss();
                                 }
-                            }).show();
+                            })
+                            .neutralText(R.string.checkout_summary_dialog_download_agreement_label)
+                            .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    downloadParticipationAgreement(dialog);
+                                }
+                            })
+                            .show();
 
                 }
 
@@ -372,7 +382,7 @@ public class CheckoutSummaryFragment extends Fragment{
         }
     }
 
-    private void checkoutConfirmProcess(List<InvestBid> investBidList){
+    private void checkoutConfirmProcess(List<InvestBid> investBidList, final MaterialDialog dialog){
         Log.d(LOG_TAG, "APP checkoutConfirmProcess");
 
         if(!investBidList.isEmpty()){
@@ -435,12 +445,13 @@ public class CheckoutSummaryFragment extends Fragment{
                         @Override
                         public void onComplete() {
                             Log.d(LOG_TAG, "APP checkoutConfirmProcess");
+                            dialog.dismiss();
                         }
                     });
         }
     }
 
-    private void downloadParticipationAgreement(){
+    private void downloadParticipationAgreement(final MaterialDialog dialog){
 
         //check permissions
         if(PermissionsUtils.checkPermissionAndRequestActivity(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -468,6 +479,7 @@ public class CheckoutSummaryFragment extends Fragment{
                     @Override
                     public void onCompleted() {
                         Log.d(LOG_TAG, "APP onCompleted Participation Agreement Download");
+                        dialog.dismiss();
                     }
 
                     @Override

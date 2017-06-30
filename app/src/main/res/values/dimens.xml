@@ -101,6 +101,7 @@
     <dimen name="item_checkout_summary_cart_swipe_info_icon_size">8dp</dimen>
     <dimen name="item_checkout_summary_cart_action_icon_size">24dp</dimen>
     <dimen name="item_checkout_summary_cart_action_width">60dp</dimen>
+    <dimen name="checkout_summary_dialog_minimize_text_size">4sp</dimen>
 
     <dimen name="checkout_summary_success_close_icon_size">16dp</dimen>
     <dimen name="checkout_confirm_success_logo_size">125dp</dimen>
