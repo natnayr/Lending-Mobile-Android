@@ -587,11 +587,11 @@
                     android:id="@+id/loan_detail_close_status_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:rotation="-25"
-                    android:text="CLOSED"
-                    android:fontFamily="@string/font_family_regular"
+                    android:rotation="-40"
+                    android:text="COMPLETED"
+                    android:fontFamily="@string/font_family_light"
                     android:textSize="@dimen/loan_detail_figure_text_size"
-                    android:textColor="@color/color_primary_700"/>
+                    android:textColor="@color/color_secondary_text_500"/>
             </LinearLayout>
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>

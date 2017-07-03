@@ -81,6 +81,8 @@ public class CheckoutSummaryFragment extends Fragment{
     @BindString(R.string.unable_open_file_label) String mLabelErrorOpenFile;
     @BindString(R.string.downloading_label) String mLabelDownloading;
 
+    @BindString(R.string.wait_message) String mLabelWaitMessage;
+
     private static final String LOG_TAG = CheckoutSummaryFragment.class.getSimpleName();
     private Context mContext;
     private CheckoutSummaryViewHolder mViewHolder;
@@ -158,9 +160,7 @@ public class CheckoutSummaryFragment extends Fragment{
                 }else{
                     new MaterialDialog.Builder(mContext)
                             .autoDismiss(false)
-//                            .btnStackedGravity(GravityEnum.CENTER)
-//                            .itemsGravity(GravityEnum.CENTER)
-//                            .buttonsGravity(GravityEnum.CENTER)
+                            .buttonsGravity(GravityEnum.END)
                             .content(R.string.checkout_summary_dialog_message_label)
                             .positiveText(R.string.checkout_summary_dialog_agree_label)
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -387,7 +387,7 @@ public class CheckoutSummaryFragment extends Fragment{
 
         if(!investBidList.isEmpty()){
             final ProgressDialog progress = new ProgressDialog(getActivity());
-            progress.setMessage("Please wait");
+            progress.setMessage(mLabelWaitMessage);
             progress.setCancelable(false);
             progress.show();
 

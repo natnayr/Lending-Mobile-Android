@@ -16,7 +16,6 @@
     <string name="loan_detail_out_sec_invoice_or_cheque">Perintah Kerja/\nTagihan</string>
     <string name="loan_detail_out_sec_uncollateralized">Tanpa Jaminan</string>
     <string name="loan_detail_percentage_return_label">Bunga\nPengembalian</string>
-    <string name="loan_detail_prog_snackbar_bid_too_high_label">Maaf, Jumlah penawaran terlalu tinggi</string>
     <string name="loan_detail_prog_snackbar_bid_too_low">Mohon masukkan jumlah BID lebih besar dari 0</string>
     <string name="loan_detail_error_reading_pdf">PDF reader tidak bisa dibuka, mohon install lagi</string>
     <string name="loan_detail_progress_description_tail_label">%\nBerhasil didanai</string>
@@ -101,4 +100,28 @@
     <string name="auth_password_incorrect_match">Sandi tidak cocok</string>
     <string name="auth_register_title_label">Daftar</string>
     <string name="auth_account_creation_failed">Maaf, Pembuatan akun android gagal. Mohon verifikasi bahwa ijin aplikasi Anda diberikan</string>
+    <string name="auth_session_end_and_logout">Sesi Berakhir, Keluar</string>
+    <string name="auth_welcome">Selamat Datang</string>
+    <string name="checkout_summary_bidding_overall_amt_top_up_label">Diwajibkan Top Up</string>
+    <string name="checkout_summary_bidding_overall_available_balance_label">Sisa Saldo</string>
+    <string name="checkout_summary_bidding_overall_available_balance_label_insufficient">Sisa Saldo (Tidak Mencukupi)</string>
+    <string name="checkout_summary_bidding_overall_update_notify">Catatan: Klik Perbarui Untuk Melihat Perubahan</string>
+    <string name="checkout_summary_container_confirm_label">Konfirmasi</string>
+    <string name="checkout_summary_container_top_up_label">Top Up</string>
+    <string name="checkout_summary_container_update_label">Perbarui</string>
+    <string name="checkout_summary_dialog_agree_label">TERIMA</string>
+    <string name="checkout_summary_dialog_cancel_label">BATAL</string>
+    <string name="checkout_summary_dialog_download_agreement_label">PERJANJIAN KEIKUTSERTAAN</string>
+    <string name="checkout_summary_dialog_message_label">Dengan klik TERIMA Anda setuju pada Perjanjian Keikutsertaan.</string>
+    <string name="checkout_summary_empty_message_label">Ringkasan Keluar Anda kosong. Tempatkan penawaran di pinjaman aktif</string>
+    <string name="checkout_summary_title_label">Ringkasan Keluar</string>
+    <string name="item_checkout_summary_tenure_label">&#160;BULAN</string>
+    <string name="checkout_summary_bidding_overall_pending_bids_label">Total Penawaran Tertunda</string>
+    <string name="loan_detail_action_cart">Troli Belanja</string>
+    <string name="server_connection_poor">Koneksi Server Tidak Tersedia</string>
+    <string name="wait_message">Mohon Tunggu</string>
+    <string name="checkout_confirm_success_congrats_label">Salamat</string>
+    <string name="checkout_confirm_success_message_label">Tawaran anda telah dikonfirmasi</string>
+    <string name="checkout_confirm_continue_action_label">Lanjut</string>
+    <string name="loan_detail_completed_sign_label">SELESAI</string>
 </resources>

@@ -108,6 +108,7 @@
     <string name="loan_detail_bidding_btn_content_description">Bid Here</string>
     <string name="loan_detail_error_reading_pdf">Error opening PDF reader, please install one</string>
     <string name="loan_detail_prog_snackbar_bid_too_low">Key in amounts larger than 0</string>
+    <string name="loan_detail_completed_sign_label">COMPLETED</string>
 
     <string name="learning_center_search_hint">Search</string>
     <string name="learning_center_categories_label_general">General Enquires</string>
@@ -123,10 +124,10 @@
     <string name="checkout_summary_bidding_overall_available_balance_label">Available Balance</string>
     <string name="checkout_summary_bidding_overall_available_balance_label_insufficient">Available Balance\n(Insufficient)</string>
     <string name="checkout_summary_bidding_overall_amt_top_up_label">Required Top Up</string>
-    <string name="checkout_summary_bidding_overall_idr_currency_symbol_label">IDR&#160;</string>
+    <string name="checkout_summary_bidding_overall_idr_currency_symbol_label" translatable="false">IDR&#160;</string>
     <string name="checkout_summary_bidding_overall_update_notify">Note: Click Update to Reflect Changes</string>
     <string name="item_checkout_summary_tenure_label">&#160;MONTHS</string>
-    <string name="item_checkout_summary_interest_rate_label">%</string>
+    <string name="item_checkout_summary_interest_rate_label" translatable="false">%</string>
     <string name="item_checkout_summary_enter_amount_currency_symbol_idr" translatable="false">Rp</string>
     <string name="item_checkout_summary_enter_amount_unit_zeros_idr" translatable="false">,000,000</string>
     <string name="checkout_summary_container_top_up_label">Top Up</string>
@@ -135,8 +136,12 @@
     <string name="checkout_summary_empty_message_label">Your Checkout Summary is empty. Place bids on active loans.</string>
     <string name="checkout_summary_dialog_message_label">By clicking ACCEPT you agree to the Participation Agreement.</string>
     <string name="checkout_summary_dialog_agree_label">ACCEPT</string>
-    <string name="checkout_summary_dialog_download_agreement_label">DOWNLOAD PARTICIPATION AGREEMENT</string>
+    <string name="checkout_summary_dialog_download_agreement_label">PARTICIPATION AGREEMENT</string>
     <string name="checkout_summary_dialog_cancel_label">CANCEL</string>
+
+    <string name="checkout_confirm_success_congrats_label">Congratulations</string>
+    <string name="checkout_confirm_success_message_label">Your bid(s) are confirmed</string>
+    <string name="checkout_confirm_continue_action_label">Continue</string>
 
     <!-- Globals -->
     <string name="auth_session_end_and_logout">Session Ended, Logging Out</string>
@@ -150,6 +155,7 @@
     <string name="open_label">OPEN</string>
     <string name="cancel_label">Cancel</string>
     <string name="intent_file_chooser">Open With</string>
+    <string name="wait_message">Please wait</string>
 
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="percent_label" translatable="false">%</string>

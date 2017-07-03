@@ -126,7 +126,7 @@
                 <TextView
                     android:id="@+id/item_checkout_summary_enter_amount_currency_label"
                     android:layout_width="0dp"
-                    android:layout_weight="3"
+                    android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:text="@string/item_checkout_summary_enter_amount_currency_symbol_idr"
                     android:fontFamily="@string/font_family_condensed"
@@ -135,20 +135,20 @@
                 <TextView
                     android:id="@+id/item_checkout_summary_enter_amount_edittext"
                     android:layout_width="0dp"
-                    android:layout_weight="4"
+                    android:layout_weight="2"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/color_primary_text"
                     android:inputType="number"
-                    android:gravity="center"
+                    android:gravity="right"
                     android:maxLines="1"
                     android:maxLength="4"
                     android:text="10"
+                    android:textColor="@color/color_accent"
                     android:fontFamily="@string/font_family_condensed"
                     android:textSize="@dimen/checkout_large_font_size"/>
                 <TextView
                     android:id="@+id/item_checkout_summary_enter_amount_unit_zeros_label"
                     android:layout_width="0dp"
-                    android:layout_weight="5"
+                    android:layout_weight="4"
                     android:layout_height="wrap_content"
                     android:text="@string/item_checkout_summary_enter_amount_unit_zeros_idr"
                     android:textSize="@dimen/checkout_large_font_size"
