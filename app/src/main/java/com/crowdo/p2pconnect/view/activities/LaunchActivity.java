@@ -234,10 +234,6 @@ public class LaunchActivity extends AppCompatActivity implements
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
 
     @Override
     protected void onResume() {
@@ -251,23 +247,21 @@ public class LaunchActivity extends AppCompatActivity implements
     @Override
     protected void onPause() {
         if(mPlayer != null) {
-            if(mPlayer.isPlaying()) {
-                stopPosition = mPlayer.getCurrentPosition();
-                mPlayer.pause();
-            }
+            stopPosition = mPlayer.getCurrentPosition();
+            mPlayer.pause();
         }
         super.onPause();
     }
 
+
     @Override
-    protected void onStop() {
+    protected void onDestroy() {
         if(mPlayer != null) {
             mPlayer.stop();
             mPlayer.release();
         }
-        super.onStop();
+        super.onDestroy();
     }
-
 
     class WelcomePagerAdapter extends PagerAdapter {
         private Context mContext;

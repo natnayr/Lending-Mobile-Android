@@ -156,6 +156,7 @@
     <string name="cancel_label">Cancel</string>
     <string name="intent_file_chooser">Open With</string>
     <string name="wait_message">Please wait</string>
+    <string name="language_prompt">Language</string>
 
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="percent_label" translatable="false">%</string>

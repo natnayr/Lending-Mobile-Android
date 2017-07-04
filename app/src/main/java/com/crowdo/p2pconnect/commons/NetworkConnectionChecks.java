@@ -42,7 +42,7 @@ public class NetworkConnectionChecks {
                 //try connecting to server (google dns)
                 boolean checkConnectToServer = true;
                 try {
-                    URL url = new URL(APIServices.API_LIVE_BASE_URL);
+                    URL url = new URL(APIServices.API_LIVE_BASE_URL + APIServices.LIVE_DOCS);
                     int timeoutMs = 10 * 1000;
                     HttpURLConnection httpUrlc = (HttpURLConnection) url.openConnection();
                     httpUrlc.setConnectTimeout(timeoutMs);

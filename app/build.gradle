@@ -119,6 +119,9 @@ dependencies {
     compile 'com.afollestad.material-dialogs:core:0.9.4.5'
     compile 'com.afollestad.material-dialogs:commons:0.9.4.5'
 
+    //Material Spinner
+    compile 'com.jaredrummler:material-spinner:1.1.0'
+
     //HockeyApp
     compile 'net.hockeyapp.android:HockeySDK:4.1.4'
 }

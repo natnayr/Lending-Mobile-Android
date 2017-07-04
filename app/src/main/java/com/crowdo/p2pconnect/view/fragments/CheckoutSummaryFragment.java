@@ -314,7 +314,6 @@ public class CheckoutSummaryFragment extends Fragment{
                         Log.d(LOG_TAG, "APP getCheckoutSummary onComplete()");
                     }
                 });
-
     }
 
     private void updateSummaryList(){

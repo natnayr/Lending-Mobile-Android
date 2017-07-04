@@ -66,5 +66,6 @@ public class ConstantVariables {
     public static final int HTTP_UNAUTHORISED = 401;
     public static final int HTTP_NOT_FOUND = 404;
     public static final int HTTP_PRECONDITION_FAILED = 412;
+    public static final int HTTP_INVESTOR_FAILED_ACCREDITATION = 418;
     public static final int HTTP_UNPROCESSABLE_ENTITY = 422;
 }
