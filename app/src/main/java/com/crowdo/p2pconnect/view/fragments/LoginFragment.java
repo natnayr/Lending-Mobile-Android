@@ -11,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.client.AuthClient;
+import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
 import com.crowdo.p2pconnect.model.response.AuthResponse;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
@@ -25,14 +27,20 @@ import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.model.core.Member;
 import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
+import com.crowdo.p2pconnect.view.activities.LaunchActivity;
 import com.crowdo.p2pconnect.viewholders.LoginViewHolder;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindColor;
 import butterknife.BindString;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -47,6 +55,8 @@ import retrofit2.Response;
  */
 
 public class LoginFragment extends Fragment implements Observer<Response<AuthResponse>>{
+
+    @BindView(R.id.auth_login_lang_spinner) MaterialSpinner mLoginLangSpinner;
 
     @BindString(R.string.auth_http_error_message) String mHttpErrorServerMessage;
     @BindString(R.string.auth_http_handling_message) String mHttpErrorHandlingMessage;
@@ -120,6 +130,30 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
                 getFragmentManager().beginTransaction()
                         .replace(R.id.auth_content, registerFragment)
                         .commit();
+            }
+        });
+
+        final List<String> languageSet = new LinkedList<>(Arrays.asList("English", "Bahasa"));
+        mLoginLangSpinner.setItems(languageSet);
+
+        mLoginLangSpinner.setSelectedIndex(0);
+        String localeVal = LocaleHelper.getLanguage(getActivity());
+        if(localeVal.equals(ConstantVariables.APP_LANG_ID)){
+            mLoginLangSpinner.setSelectedIndex(1);
+        }
+
+        mLoginLangSpinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+                if(languageSet.get(0).equals(item)){
+                    //english
+                    LocaleHelper.setLocale(getActivity(), ConstantVariables.APP_LANG_EN);
+                    getActivity().recreate();
+                }else if(languageSet.get(1).equals(item)){
+                    //indo
+                    LocaleHelper.setLocale(getActivity(), ConstantVariables.APP_LANG_ID);
+                    getActivity().recreate();
+                }
             }
         });
 

@@ -135,7 +135,7 @@
                 android:id="@+id/auth_register_submit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="22sp"
+                android:textSize="@dimen/auth_field_text_size"
                 android:text="@string/auth_register_submit_label"
                 android:fontFamily="@string/font_family_condensed"
                 android:textColor="@color/auth_btn_text_color"

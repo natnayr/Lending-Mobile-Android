@@ -15,7 +15,7 @@
         android:paddingEnd="@dimen/auth_btn_drawable_padding"
         app:ms_background_color="@color/color_transparent"
         app:ms_arrow_tint="@color/color_secondary_text"
-        app:ms_text_color="@color/color_secondary_text"/>
+        app:ms_text_color="@color/color_secondary_text" />
 
     <LinearLayout
         android:id="@+id/auth_login_exit_btn"
@@ -102,7 +102,7 @@
                 android:id="@+id/auth_login_submit_btn_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="22sp"
+                android:textSize="@dimen/auth_field_text_size"
                 android:text="@string/auth_login_submit_label"
                 android:fontFamily="@string/font_family_condensed"
                 android:textColor="@color/auth_btn_text_color"

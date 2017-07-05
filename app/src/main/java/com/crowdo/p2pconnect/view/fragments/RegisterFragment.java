@@ -27,13 +27,18 @@ import com.crowdo.p2pconnect.model.core.Member;
 import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.viewholders.RegisterViewHolder;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindColor;
 import butterknife.BindString;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -49,9 +54,10 @@ import retrofit2.Response;
 
 public class RegisterFragment extends Fragment implements Observer<Response<AuthResponse>>{
 
+    @BindView(R.id.auth_register_lang_spinner) MaterialSpinner mRegisterLangSpinner;
+
     @BindString(R.string.auth_http_error_message) String mHttpErrorServerMessage;
     @BindString(R.string.auth_http_handling_message) String mHttpErrorHandlingMessage;
-
     @BindString(R.string.auth_email_incorrect_format) String mEmailIncorrectFormatMessage;
     @BindString(R.string.auth_email_not_valid) String mEmailInvalidPrompt;
     @BindString(R.string.auth_password_incorrect_format) String mPasswordIncorrectFormatMessage;
@@ -118,6 +124,30 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
                 getFragmentManager().beginTransaction()
                         .replace(R.id.auth_content, loginFragment)
                         .commit();
+            }
+        });
+
+        final List<String> languageSet = new LinkedList<>(Arrays.asList("English", "Bahasa"));
+        mRegisterLangSpinner.setItems(languageSet);
+
+        mRegisterLangSpinner.setSelectedIndex(0);
+        String localeVal = LocaleHelper.getLanguage(getActivity());
+        if(localeVal.equals(ConstantVariables.APP_LANG_ID)){
+            mRegisterLangSpinner.setSelectedIndex(1);
+        }
+
+        mRegisterLangSpinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+                if(languageSet.get(0).equals(item)){
+                    //english
+                    LocaleHelper.setLocale(getActivity(), ConstantVariables.APP_LANG_EN);
+                    getActivity().recreate();
+                }else if(languageSet.get(1).equals(item)){
+                    //indo
+                    LocaleHelper.setLocale(getActivity(), ConstantVariables.APP_LANG_ID);
+                    getActivity().recreate();
+                }
             }
         });
 

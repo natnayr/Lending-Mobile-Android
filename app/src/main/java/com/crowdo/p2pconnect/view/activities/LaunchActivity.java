@@ -69,6 +69,8 @@ public class LaunchActivity extends AppCompatActivity implements
     private Timer mTimer;
     private int page;
 
+    private String langAtCreate;
+
 
 
     @Override
@@ -76,6 +78,8 @@ public class LaunchActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
         ButterKnife.bind(this);
+
+        langAtCreate = LocaleHelper.getLanguage(this);
 
         videoUri = Uri.parse("android.resource://" +
                 getPackageName() + "/" + R.raw.crowdo_video_phone);
@@ -241,6 +245,12 @@ public class LaunchActivity extends AppCompatActivity implements
         if (mPlayer != null) {
             mPlayer.seekTo(stopPosition);
             mPlayer.start();
+        }
+
+        if(!langAtCreate.equals(LocaleHelper.getLanguage(this))){
+            //recreate if language is not the same
+
+            recreate();
         }
     }
 
