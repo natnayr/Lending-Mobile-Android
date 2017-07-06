@@ -17,8 +17,8 @@ public class AuthHTTPInterceptor implements Interceptor{
 
     private String authToken;
 
-    public AuthHTTPInterceptor(String token){
-        this.authToken = token;
+    public AuthHTTPInterceptor(){
+        this.authToken = AuthAccountUtils.getAuthTokenFromRealm();
     }
 
     @Override

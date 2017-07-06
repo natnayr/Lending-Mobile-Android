@@ -5,5 +5,5 @@ package com.crowdo.p2pconnect.helpers;
  */
 
 public interface CallBackUtil<T> {
-    void eventCallBack(T t);
+    void eventCallBack(T t1);
 }

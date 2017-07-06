@@ -75,7 +75,6 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
     private AuthClient mAuthClient;
     private RegisterViewHolder viewHolder;
     private Disposable disposableRegisterUser;
-    private String initAccountType;
     private String mPasswordHash;
     private AuthResponse authResponse;
 
@@ -83,7 +82,6 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.initAccountType = getArguments().getString(AuthActivity.ARG_ACCOUNT_TYPE);
     }
 
     @Nullable

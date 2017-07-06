@@ -53,6 +53,7 @@ import java.net.URL;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 
 /**
  * Created by cwdsg05 on 3/2/17.

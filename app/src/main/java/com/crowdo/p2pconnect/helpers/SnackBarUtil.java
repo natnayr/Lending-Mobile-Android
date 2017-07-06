@@ -38,7 +38,7 @@ public class SnackBarUtil {
         return snackbar;
     }
 
-    public static Snackbar snackBarForWarrningCreate(View view, String msg, int snackBarDuration){
+    public static Snackbar snackBarForWarningCreate(View view, String msg, int snackBarDuration){
 
         Snackbar snackbar = snackBarCreate(view, msg, getIconTextColor(view), snackBarDuration);
         View sbView = snackbar.getView();

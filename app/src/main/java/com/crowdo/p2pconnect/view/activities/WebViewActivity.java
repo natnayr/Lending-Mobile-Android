@@ -35,6 +35,7 @@ import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
+import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.esafirm.rxdownloader.RxDownloader;
 import com.f2prateek.dart.Dart;
@@ -103,8 +104,7 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
         mWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
         Map<String, String> headerMap = new HashMap<>();
         //if able to get authToken
-        String authToken = SharedPreferencesUtils.getSharedPrefString(this,
-                CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
+        String authToken = AuthAccountUtils.getAuthTokenFromRealm();
         if(authToken != null){
             headerMap.put("Authorization", authToken);
         }

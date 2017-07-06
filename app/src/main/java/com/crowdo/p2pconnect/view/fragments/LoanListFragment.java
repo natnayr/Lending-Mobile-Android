@@ -295,8 +295,7 @@ public class LoanListFragment extends Fragment {
         updateShoppingCartItemCount();
 
         //Check if Authenticated, done only here
-        String authToken = SharedPreferencesUtils.getSharedPrefString(getActivity(),
-                CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
+        String authToken = AuthAccountUtils.getAuthTokenFromRealm();
         if(authToken == null){
             //logout and show launch activity,
             AuthAccountUtils.actionLogout(getActivity(), false);

@@ -346,7 +346,7 @@ public class LoanDetailsViewHolder {
 
         if(!"".equals(loan.getCurrency().trim()))
             mAvalibleAmount.setText(NumericUtils.formatCurrency(loan.getCurrency().trim(),
-                    loan.getFundingAmountToCompleteCache(), loan.getCurrency().trim()+" ", false) +
+                    loan.getFundingAmountToCompleteCache(), false) +
                     " " + loan.getCurrency().trim());
 
         //Add textwatcher here cause of required currency

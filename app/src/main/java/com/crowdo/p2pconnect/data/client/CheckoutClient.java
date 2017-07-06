@@ -47,15 +47,11 @@ public class CheckoutClient implements ClientInterface{
         final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        //get token
-        String authToken = SharedPreferencesUtils.getSharedPrefString(context,
-                CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
-
         OkHttpClient httpClient = new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(new SendingCookiesInterceptor(context))
                 .addInterceptor(new ReceivingCookiesInterceptor(context))
-                .addInterceptor(new AuthHTTPInterceptor(authToken))
+                .addInterceptor(new AuthHTTPInterceptor())
                 .build();
 
         retrofit = new Retrofit.Builder()

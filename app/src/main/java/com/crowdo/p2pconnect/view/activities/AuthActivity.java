@@ -4,38 +4,24 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.commons.NetworkConnectionChecks;
-import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
-import com.crowdo.p2pconnect.helpers.SnackBarUtil;
+import com.crowdo.p2pconnect.model.others.AccountStore;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
-import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.oauth.AccountAuthenticatorFragmentActivity;
 import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.fragments.LoginFragment;
 import com.crowdo.p2pconnect.view.fragments.RegisterFragment;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.InetSocketAddress;
-import java.net.MalformedURLException;
-import java.net.Socket;
-import java.net.SocketAddress;
-import java.net.URL;
+import io.realm.Realm;
 
 
 /**
@@ -61,10 +47,6 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
     public final static String FRAGMENT_CLASS_TAG_CALL = "FRAGMENT_CLASS";
 
     private AccountManager mAccountManager;
-    private String mAccountName;
-    private String mAccountType;
-    private String mAuthTokenType;
-    private boolean mIsNewAccountRequested;
 
     @Override
     protected void onCreate(Bundle icicle) {
@@ -74,14 +56,6 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
         mAccountManager = AccountManager.get(getBaseContext());
         Bundle extras = getIntent().getExtras();
 
-        mAccountName = extras.getString(ARG_ACCOUNT_EMAIL);
-        mAccountType = extras.getString(ARG_ACCOUNT_TYPE);
-        mAuthTokenType = extras.getString(ARG_AUTH_TOKEN_TYPE);
-        mIsNewAccountRequested = extras.getBoolean(ARG_IS_ADDING_NEW_ACCOUNT);
-
-        if(mAccountType == null){
-            mAccountType = CrowdoAccountGeneral.ACCOUNT_TYPE;
-        }
 
         String fragmentTag = extras.getString(FRAGMENT_CLASS_TAG_CALL);
         if(fragmentTag != null) {
@@ -93,14 +67,6 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
             }
 
             if(fragment != null) {
-                Bundle args = new Bundle();
-                //append if not null
-                if(mAccountName != null) {
-                    args.putString(AuthActivity.ARG_ACCOUNT_EMAIL, mAccountName);
-                }
-
-                args.putString(AuthActivity.ARG_ACCOUNT_TYPE, mAccountType);
-                fragment.setArguments(args);
 
                 //fragment should be either Login or Register
                 getSupportFragmentManager().beginTransaction()
@@ -120,30 +86,58 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
         Log.d(LOG_TAG, "APP finishAuth");
 
         final String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+        final String accountUserName = intent.getStringExtra(AuthActivity.POST_AUTH_MEMBER_NAME);
+        final String accountUserEmail = intent.getStringExtra(AuthActivity.POST_AUTH_MEMBER_EMAIL);
         final String accountPasswordHash = intent.getStringExtra(AuthActivity.PARAM_USER_PASS_HASH);
         final String authToken = intent.getStringExtra(AccountManager.KEY_AUTHTOKEN);
-        
-        //remove all other accounts
-        AuthAccountUtils.removeAccounts(this);
 
+        //remove all other accounts
+        AuthAccountUtils.removeAccounts(this, new CallBackUtil<Object>() {
+            @Override
+            public void eventCallBack(Object obj) {
+                accountProcedure(intent, userData, accountName,
+                        accountUserName, accountUserEmail, accountPasswordHash, authToken);
+            }
+        });
+
+
+    }
+
+    private void accountProcedure(final Intent intent, final Bundle userData, final String accountName,
+                                  final String accountUserName, final String accountUserEmail,
+                                  final String accountPasswordHash, final String authToken){
         //Create Account
         final Account account = new Account(accountName, CrowdoAccountGeneral.ACCOUNT_TYPE);
 
         Log.d(LOG_TAG, "APP finishAuth() > addAccountExplicitly");
-        boolean accountSuccess = mAccountManager.addAccountExplicitly(account, accountPasswordHash, userData);
+        boolean accountSuccess = mAccountManager.addAccountExplicitly(account,
+                accountPasswordHash, userData);
 
-        //set post keychange actions
-        SharedPreferencesUtils.setOnSharedPrefChanged(this, new CallBackUtil() {
-            @Override
-            public void eventCallBack(Object keyChanged) {
-                Log.d(LOG_TAG, "APP finishAuth() > OnSharedPrefChanged");
-                if(keyChanged.equals(CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY)){
-                    if(mAuthTokenType == null){
-                        mAuthTokenType = CrowdoAccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS;
-                    }
+        Log.d(LOG_TAG, "APP finishAuth() > accountSuccess: " + accountSuccess);
+
+        if(accountSuccess) {
+
+            //Auth Token Store in Shared Pref for easy access
+            Log.d(LOG_TAG, "APP finishAuth() > store authToken into SharedPref");
+
+            Realm realm = Realm.getDefaultInstance();
+            realm.executeTransactionAsync(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    AccountStore accountStore = realm.createObject(AccountStore.class);
+                    accountStore.setAccountAuthToken(authToken);
+                    accountStore.setAccountUserEmail(accountUserEmail);
+                    accountStore.setAccountUserName(accountUserName);
+                }
+            }, new Realm.Transaction.OnSuccess() {
+                @Override
+                public void onSuccess() {
+                    Log.d(LOG_TAG, "APP finishAuth() > OnSharedPrefChanged eventCallBack");
+
+                    String authTokenType = CrowdoAccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS;
 
                     //set AuthToken
-                    mAccountManager.setAuthToken(account, mAuthTokenType, authToken);
+                    mAccountManager.setAuthToken(account, authTokenType, authToken);
 
                     //Alert other apps
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -154,24 +148,9 @@ public class AuthActivity extends AccountAuthenticatorFragmentActivity {
                     setResult(RESULT_OK, intent);
                     finish(); //carry on with either AccountManager or In-App Login
                 }
-            }
-        });
-
-        if(accountSuccess) {
-            Log.d(LOG_TAG, "APP finishAuth() > account created");
-
-            //Auth Token Store in Shared Pref for easy access
-            SharedPreferencesUtils.setSharePrefString(this,
-                    CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, authToken);
-
-        }else{
-            Log.d(LOG_TAG, "APP finishAuth() > account creation failed");
-            Toast.makeText(AuthActivity.this, R.string.auth_account_creation_failed,
-                    Toast.LENGTH_SHORT).show();
-
-            //TODO: Possible setResult(RESULT_FAILED) handler here
+            });
+            realm.close();
         }
-
     }
 
     @Override

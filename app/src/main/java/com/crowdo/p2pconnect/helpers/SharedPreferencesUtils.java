@@ -21,30 +21,30 @@ public class SharedPreferencesUtils {
         return getSharedPref(context).getString(key, defaultValue);
     }
 
-    public static void setSharePrefString(Context context, String key, String value){
+    public static boolean setSharePrefString(Context context, String key, String value){
         SharedPreferences.Editor editor = getSharedPref(context).edit();
         editor.putString(key, value);
-        editor.commit();
+        return editor.commit();
     }
 
     public static int getSharedPrefInt(Context context, String key, int defaultValue){
         return getSharedPref(context).getInt(key, defaultValue); //null == -1
     }
 
-    public static void setSharePrefInt(Context context, String key, int value){
+    public static boolean setSharePrefInt(Context context, String key, int value){
         SharedPreferences.Editor editor = getSharedPref(context).edit();
         editor.putInt(key, value);
-        editor.commit();
+        return editor.commit();
     }
 
     public static boolean getSharedPrefBool(Context context, String key, boolean defaultValue){
         return getSharedPref(context).getBoolean(key, defaultValue); //null == -1
     }
 
-    public static void setSharePrefBool(Context context, String key, boolean value){
+    public static boolean setSharePrefBool(Context context, String key, boolean value){
         SharedPreferences.Editor editor = getSharedPref(context).edit();
         editor.putBoolean(key, value);
-        editor.commit();
+        return editor.commit();
 
     }
 
@@ -52,10 +52,10 @@ public class SharedPreferencesUtils {
         return getSharedPref(context).getStringSet(key, defaultValue); //null default
     }
 
-    public static void setSharedPrefStringSet(Context context, String key, Set<String> value){
+    public static boolean setSharedPrefStringSet(Context context, String key, Set<String> value){
         SharedPreferences.Editor editor = getSharedPref(context).edit();
         editor.putStringSet(key, value);
-        editor.commit();
+        return editor.commit();
     }
 
     public static void setOnSharedPrefChanged(Context context, final CallBackUtil callBackUtil){
@@ -67,6 +67,12 @@ public class SharedPreferencesUtils {
             }
         };
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+    }
+
+    public static boolean clearAllSharedPref(Context context){
+        SharedPreferences.Editor editor = getSharedPref(context).edit();
+        editor.clear();
+        return editor.commit();
     }
 
 

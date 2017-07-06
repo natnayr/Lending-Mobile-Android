@@ -11,6 +11,10 @@ public class InvestBid {
     @Expose
     private int bidId;
 
+    @SerializedName("loan_id")
+    @Expose
+    private String loanId;
+
     @SerializedName("invest_amount")
     @Expose
     private Long investAmount = null;
@@ -24,18 +28,20 @@ public class InvestBid {
         this.investAmount = investAmount;
     }
 
-    public InvestBid(int bidId, Long investAmount, Long originalInvestAmount){
-        this.bidId = bidId;
-        this.investAmount = investAmount;
-        this.originalInvestAmount = originalInvestAmount;
-    }
-
     public int getBidId() {
         return bidId;
     }
 
     public void setBidId(int bidId) {
         this.bidId = bidId;
+    }
+
+    public String getLoanId() {
+        return loanId;
+    }
+
+    public void setLoanId(String loanId) {
+        this.loanId = loanId;
     }
 
     public Long getInvestAmount() {

@@ -7,7 +7,9 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
-import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
+import com.crowdo.p2pconnect.model.others.AccountStore;
+
+import io.realm.Realm;
 
 /**
  * Created by cwdsg05 on 20/4/17.
@@ -33,13 +35,27 @@ public class CrowdoSessionCheckService extends IntentService{
 
 
         //remove SharedPref authToken if not in-sync with AccountManager
-        AuthAccountUtils.getExisitingAuthToken(mAccountManager, new CallBackUtil<String>() {
+        AuthAccountUtils.getAccountManagerAuthToken(mAccountManager, new CallBackUtil<String>() {
             @Override
-            public void eventCallBack(String authToken) {
+            public void eventCallBack(final String authToken) {
                 Log.d(LOG_TAG, "APP CrowdoSessionCheckService onHandleIntent > " +
-                        "getExisitingAuthToken token updated ");
-                SharedPreferencesUtils.setSharePrefString(getApplicationContext(),
-                        CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, authToken);
+                        "getAccountManagerAuthToken token updated ");
+
+                Realm realm = Realm.getDefaultInstance();
+                realm.executeTransactionAsync(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        if(authToken != null && realm.where(AccountStore.class).count() > 0) {
+                            //if authToken not null and AccountStore has record
+                            AccountStore accountStore = realm.where(AccountStore.class).findFirst();
+                            accountStore.setAccountAuthToken(authToken);
+                        }else{
+                            //delete all
+                            realm.where(AccountStore.class).findAll().deleteAllFromRealm();
+                        }
+                    }
+                });
+                realm.close();
             }
         });
     }

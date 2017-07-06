@@ -383,7 +383,7 @@ public class LoanDetailsFragment extends Fragment {
             }
 
             if(unitBidAmount <= 0 ) {
-                final Snackbar snackbar = SnackBarUtil.snackBarForWarrningCreate(getView(),
+                final Snackbar snackbar = SnackBarUtil.snackBarForWarningCreate(getView(),
                         mLabelBidTooLow, Snackbar.LENGTH_LONG);
 
                 snackbar.setAction(mLabelOkay, new View.OnClickListener() {
@@ -429,11 +429,18 @@ public class LoanDetailsFragment extends Fragment {
                                         viewHolder.mEnterAmount.setText(Long.toString(newUnitAmount));
 
                                         serverMessage = checkBidResponse.getServer().getMessage();
-                                        SnackBarUtil.snackBarForWarrningCreate(getView(),
-                                                serverMessage, Snackbar.LENGTH_SHORT).show();
+                                        Snackbar changeBidSnackBar = SnackBarUtil.snackBarForWarningCreate(getView(),
+                                                serverMessage, Snackbar.LENGTH_SHORT);
+                                        changeBidSnackBar.addCallback(new Snackbar.Callback(){
+                                            @Override
+                                            public void onDismissed(Snackbar transientBottomBar, int event) {
+                                                addToCart(newAmount);
+                                            }
+                                        });
+                                        changeBidSnackBar.show();
+                                    }else{
+                                        addToCart(newAmount);
                                     }
-
-                                    addToCart(newAmount);
                                 }
                             }else{
                                 //Error Handling

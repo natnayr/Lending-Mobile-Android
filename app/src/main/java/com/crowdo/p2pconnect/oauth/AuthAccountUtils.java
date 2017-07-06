@@ -18,7 +18,11 @@ import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
+import com.crowdo.p2pconnect.model.others.AccountStore;
 import com.crowdo.p2pconnect.view.activities.LaunchActivity;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 
 /**
@@ -42,56 +46,83 @@ public class AuthAccountUtils {
         return null;
     }
 
-    public static void removeAccounts(final Activity activity){
+    public static void removeAccounts(final Activity activity,
+                                      final CallBackUtil<Object> callBackUtil){
 
-        AccountManager am = AccountManager.get(activity);
-        Account[] accounts = am.getAccountsByType(CrowdoAccountGeneral.ACCOUNT_TYPE);
-        if(accounts.length > 0) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                for (Account acc : accounts) {
-                    am.clearPassword(acc);
-                    am.removeAccountExplicitly(acc);
-                }
-            } else {
-                for (Account acc : accounts) {
-                    am.clearPassword(acc);
-                    am.removeAccount(acc, null, null);
-                }
-            }
-        }
-    }
-
-
-    public static void invalidateAuthToken(final Activity activity, final AccountManager accountManager, String authToken){
-
-        //invalidate SharedPref
-        SharedPreferencesUtils.setSharePrefString(activity,
-                CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
-
-        final Account account = getOnlyAccount(accountManager);
-        if(account != null) {
-            final AccountManagerFuture<Bundle> future = accountManager.getAuthToken(account,
-                    authToken, null, activity, null, null);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Bundle bnd = future.getResult();
-                        final String authToken = bnd.getString(AccountManager.KEY_AUTHTOKEN);
-                        accountManager.invalidateAuthToken(account.type, authToken);
-                    } catch (Exception e) {
-                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-                        e.printStackTrace();
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                AccountManager am = AccountManager.get(activity);
+                Account[] accounts = am.getAccountsByType(CrowdoAccountGeneral.ACCOUNT_TYPE);
+                if(accounts.length > 0) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                        for (Account acc : accounts) {
+                            am.clearPassword(acc);
+                            am.removeAccountExplicitly(acc);
+                        }
+                    } else {
+                        for (Account acc : accounts) {
+                            am.clearPassword(acc);
+                            am.removeAccount(acc, null, null);
+                        }
                     }
                 }
-            }).start();
-        }
+
+                realm.where(AccountStore.class).findAll().deleteAllFromRealm();
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                Log.d(LOG_TAG, "APP removeAccounts > removed all accounts & shared pref");
+                callBackUtil.eventCallBack(null);
+            }
+        });
+        realm.close();
     }
 
-    public static void getExisitingAuthToken(final AccountManager accountManager,
-                                             final CallBackUtil<String> callback){
 
-        Log.d(LOG_TAG, "APP getExisitingAuthToken()");
+    public static void invalidateAuthToken(final Activity activity,
+                                           final AccountManager accountManager,
+                                           final String authToken){
+
+        //invalidate authtoken from realm first then the rest
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<AccountStore> results = realm.where(AccountStore.class).findAll();
+                results.deleteAllFromRealm();
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                final Account account = getOnlyAccount(accountManager);
+                if(account != null) {
+                    final AccountManagerFuture<Bundle> future = accountManager.getAuthToken(account,
+                            authToken, null, activity, null, null);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Bundle bnd = future.getResult();
+                                final String authToken = bnd.getString(AccountManager.KEY_AUTHTOKEN);
+                                accountManager.invalidateAuthToken(account.type, authToken);
+                            } catch (Exception e) {
+                                Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+                }
+            }
+        });
+    }
+
+    public static void getAccountManagerAuthToken(final AccountManager accountManager,
+                                                  final CallBackUtil<String> callback){
+
+        Log.d(LOG_TAG, "APP getAccountManagerAuthToken()");
 
         Account account = AuthAccountUtils.getOnlyAccount(accountManager);
         if(account == null) {
@@ -99,7 +130,7 @@ public class AuthAccountUtils {
             return;
         }
 
-        Log.d(LOG_TAG, "APP getExisitingAuthToken() > account.name:" + account.name);
+        Log.d(LOG_TAG, "APP getAccountManagerAuthToken() > account.name:" + account.name);
         final AccountManagerFuture<Bundle> future =
                 accountManager.getAuthToken(account,
                         CrowdoAccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS,
@@ -111,7 +142,7 @@ public class AuthAccountUtils {
                 try{
                     Bundle bundle = future.getResult();
                     String authToken = bundle.getString(AccountManager.KEY_AUTHTOKEN);
-                    Log.d(LOG_TAG, "APP getExisitingAuthToken > authToken");
+                    Log.d(LOG_TAG, "APP getAccountManagerAuthToken > authToken");
                     callback.eventCallBack(authToken);
                 }catch (Exception e){
                     Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
@@ -127,10 +158,9 @@ public class AuthAccountUtils {
     }
 
 
-    public static void actionLogout(final Activity activity, boolean isNewSession){
+    public static void actionLogout(final Activity activity, final boolean isNewSession){
         Log.d(LOG_TAG, "APP actionLogout()");
-
-
+        
         //begin process
         AccountManager accountManager = AccountManager.get(activity);
 
@@ -155,51 +185,68 @@ public class AuthAccountUtils {
         }
 
         //invalidate authKey if avalible
-        String authToken = SharedPreferencesUtils.getSharedPrefString(activity,
-                CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
+        String authToken = getAuthTokenFromRealm();
         if(authToken != null){
             AuthAccountUtils.invalidateAuthToken(activity, accountManager, authToken);
         }
 
         //remove accounts
-        AuthAccountUtils.removeAccounts(activity);
+        AuthAccountUtils.removeAccounts(activity, new CallBackUtil<Object>() {
+            @Override
+            public void eventCallBack(Object obj) {
+                String authMessage;
+                if(isNewSession){
+                    authMessage = activity.getResources().getString(R.string.auth_welcome);
+                }else{
+                    authMessage = activity.getResources().getString(R.string.auth_session_end_and_logout);
+                }
 
-        String authMessage;
-        if(isNewSession){
-            authMessage = activity.getResources().getString(R.string.auth_welcome);
-        }else{
-            authMessage = activity.getResources().getString(R.string.auth_session_end_and_logout);
-        }
-
-        //if activity has not attached itself to a view
-        View rootView = null;
-        try{
-            rootView = activity.getCurrentFocus().getRootView();
-        }catch (NullPointerException e){
-            e.printStackTrace();
-            Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-        }
+                //if activity has not attached itself to a view
+                View rootView = null;
+                try{
+                    rootView = activity.getCurrentFocus().getRootView();
+                }catch (NullPointerException e){
+                    e.printStackTrace();
+                    Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                }
 
 
-        if(rootView != null) {
-            //notify user of logout.
-            SnackBarUtil.snackBarForInfoCreate(rootView,
-                    authMessage, Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
-                @Override
-                public void onDismissed(Snackbar transientBottomBar, int event) {
-                    super.onDismissed(transientBottomBar, event);
+                if(rootView != null) {
+                    //notify user of logout.
+                    SnackBarUtil.snackBarForInfoCreate(rootView,
+                            authMessage, Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
+                        @Override
+                        public void onDismissed(Snackbar transientBottomBar, int event) {
+                            super.onDismissed(transientBottomBar, event);
+                            goToLaunchActivity(activity);
+                        }
+                    }).show();
+                }else{
                     goToLaunchActivity(activity);
                 }
-            }).show();
-        }else{
-            goToLaunchActivity(activity);
+            }
+        });
+    }
+
+    public static String getAuthTokenFromRealm(){
+        Realm realm = Realm.getDefaultInstance();
+        realm.refresh();
+
+        AccountStore accountStore = realm.where(AccountStore.class).findFirst();
+        if(accountStore == null){
+            realm.close();
+            return null;
         }
+
+        String token = accountStore.getAccountAuthToken();
+        realm.close();
+        return token;
     }
 
     private static void goToLaunchActivity(Activity activity){
         Intent intent = new Intent(activity, LaunchActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         activity.startActivity(intent);
         activity.finish(); //close activity
     }

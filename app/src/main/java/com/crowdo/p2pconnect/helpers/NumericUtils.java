@@ -15,8 +15,7 @@ public class NumericUtils {
     public static final String IDR = "IDR";
 
 
-    public static String formatCurrency(String currencyStr, double amount,
-                                        String symbol, boolean wantSymbol){
+    public static String formatCurrency(String currencyStr, double amount, boolean wantSymbol){
 
         String output = "";
         NumberFormat nf;

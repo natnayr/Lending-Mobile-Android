@@ -10,6 +10,7 @@ import android.util.Log;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
+import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.oauth.CrowdoSessionCheckService;
 
@@ -65,8 +66,7 @@ public class CrowdoApplication extends Application{
 
     private void initApp(){
         //check with authToken
-        String authToken = SharedPreferencesUtils.getSharedPrefString(this,
-                CrowdoAccountGeneral.AUTHTOKEN_SHARED_PREF_KEY, null);
+        String authToken = AuthAccountUtils.getAuthTokenFromRealm();
 
         //if userId is less than 0, not registered & clean db
         if(authToken == null){

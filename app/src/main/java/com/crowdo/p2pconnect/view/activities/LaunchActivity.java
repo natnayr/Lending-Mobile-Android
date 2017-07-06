@@ -164,7 +164,8 @@ public class LaunchActivity extends AppCompatActivity implements
             if(resultCode == AuthActivity.RESULT_OK){
                 Log.d(LOG_TAG, "APP onActivityResult > SUCCESS");
                 Intent intent = new Intent(this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                        Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
             }else if(resultCode == AuthActivity.RESULT_CANCELED){

@@ -10,7 +10,7 @@ import android.provider.Settings;
 
 public class ConstantVariables {
 
-    public static final long REALM_DB_VERSION = 1;
+    public static final long REALM_DB_VERSION = 2;
     public static final long IDR_BASE_UNIT = 1000000;
 
     public static final int REQUEST_CODE_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 12312;
@@ -27,6 +27,9 @@ public class ConstantVariables {
 
     public static final String API_SITE_CONFIG_SG = "sg";
     public static final String API_SITE_CONFIG_ID = "id";
+
+    public static final String CURRENCY_IDR = "IDR";
+    public static final String CURRENCY_SGD = "SGD";
 
     public static String getUniqueAndroidID(Context context){
         return Build.SERIAL + Settings.Secure.getString(context.getContentResolver(),

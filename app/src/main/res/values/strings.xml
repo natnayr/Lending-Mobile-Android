@@ -130,6 +130,11 @@
     <string name="item_checkout_summary_interest_rate_label" translatable="false">%</string>
     <string name="item_checkout_summary_enter_amount_currency_symbol_idr" translatable="false">Rp</string>
     <string name="item_checkout_summary_enter_amount_unit_zeros_idr" translatable="false">,000,000</string>
+
+    <string name="checkout_summary_update_changes_notify_a">You bids(s) have been adjusted:\n\n</string>
+    <string name="checkout_summary_update_changes_notify_b">Reasons:\n\tA) Exceeded the loan\'s available bid amount.\n\tB) Amount is lower than minimum of&#160;</string>
+    <string name="checkout_summary_update_changes_notify_c">.\n\tC) Multiple of&#160;</string>
+
     <string name="checkout_summary_container_top_up_label">Top Up</string>
     <string name="checkout_summary_container_update_label">Update</string>
     <string name="checkout_summary_container_confirm_label">Confirm</string>
@@ -152,6 +157,7 @@
     <string name="downloaded_to_label">Downloaded to&#160;</string>
     <string name="unable_open_file_label">Error, unable to open file</string>
     <string name="okay_label">OK</string>
+    <string name="close_label">CLOSE</string>
     <string name="open_label">OPEN</string>
     <string name="cancel_label">Cancel</string>
     <string name="intent_file_chooser">Open With</string>

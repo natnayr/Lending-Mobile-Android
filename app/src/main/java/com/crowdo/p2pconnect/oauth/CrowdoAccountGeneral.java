@@ -11,5 +11,4 @@ public class CrowdoAccountGeneral {
     public static final String AUTHTOKEN_TYPE_ONLINE_ACCESS = "OAUTH_ACCESS_ONLINE";
     public static final String AUTHTOKEN_TYPE_ONLINE_ACCESS_LABEL = "Access to CROWDO online account";
 
-    public static final String AUTHTOKEN_SHARED_PREF_KEY = "AUTH_TOKEN_KEY_FOR_SHARED_PREF";
 }

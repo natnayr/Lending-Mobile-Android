@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.client.AuthClient;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
+import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
 import com.crowdo.p2pconnect.model.response.AuthResponse;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
@@ -72,8 +73,6 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
     private AuthClient authClient;
     private LoginViewHolder viewHolder;
     private Disposable disposableLoginUser;
-    private String initAccountType;
-    private String initAccountEmail;
     private String mPasswordHash;
     private AuthResponse authResponse;
 
@@ -81,8 +80,6 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.initAccountType = getArguments().getString(AuthActivity.ARG_ACCOUNT_TYPE);
-        this.initAccountEmail = getArguments().getString(AuthActivity.ARG_ACCOUNT_EMAIL);
     }
 
     @Nullable
@@ -110,13 +107,6 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
                 submit();
             }
         });
-
-        //fill email if passed through
-        if(initAccountEmail != null){
-            if(initAccountEmail.length() > 0){
-                viewHolder.mLoginEmailEditText.setText(initAccountEmail);
-            }
-        }
 
         SoftInputHelper.setupUI(rootView, getActivity(), new EditText[]{
                 viewHolder.mLoginEmailEditText, viewHolder.mLoginPasswdEditText});

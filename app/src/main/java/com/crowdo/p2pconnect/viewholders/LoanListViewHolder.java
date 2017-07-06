@@ -168,6 +168,6 @@ public class LoanListViewHolder {
         }
 
         mLoanAmount.setText(NumericUtils.formatCurrency(item.getCurrency().trim(),
-                item.getTargetAmount(), item.getCurrency().trim()+" ", true));
+                item.getTargetAmount(), true));
     }
 }

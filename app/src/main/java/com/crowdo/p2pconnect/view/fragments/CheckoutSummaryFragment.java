@@ -1,18 +1,15 @@
 package com.crowdo.p2pconnect.view.fragments;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -35,6 +31,7 @@ import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
+import com.crowdo.p2pconnect.helpers.NumericUtils;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.model.core.Investment;
@@ -53,6 +50,7 @@ import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindString;
@@ -80,6 +78,9 @@ public class CheckoutSummaryFragment extends Fragment{
     @BindString(R.string.intent_file_chooser) String mLabelIntentFile;
     @BindString(R.string.unable_open_file_label) String mLabelErrorOpenFile;
     @BindString(R.string.downloading_label) String mLabelDownloading;
+    @BindString(R.string.checkout_summary_update_changes_notify_a) String mLabelAdjustA;
+    @BindString(R.string.checkout_summary_update_changes_notify_b) String mLabelAdjustB;
+    @BindString(R.string.checkout_summary_update_changes_notify_c) String mLabelAdjustC;
 
     @BindString(R.string.wait_message) String mLabelWaitMessage;
 
@@ -165,8 +166,8 @@ public class CheckoutSummaryFragment extends Fragment{
                             .positiveText(R.string.checkout_summary_dialog_agree_label)
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    checkoutConfirmProcess(investBidList, dialog);
+                                public void onClick(@NonNull MaterialDialog confirmDialog, @NonNull DialogAction which) {
+                                    checkoutConfirmProcess(investBidList, confirmDialog);
                                 }
                             })
                             .negativeText(R.string.checkout_summary_dialog_cancel_label)
@@ -318,7 +319,7 @@ public class CheckoutSummaryFragment extends Fragment{
 
     private void updateSummaryList(){
 
-        List<InvestBid> updateBidList = mCheckoutSummaryAdapter.getUpdateBidList();
+        final List<InvestBid> updateBidList = mCheckoutSummaryAdapter.getUpdateBidList();
         if(!updateBidList.isEmpty()) {
             checkoutClient = CheckoutClient.getInstance(getActivity());
 
@@ -336,21 +337,67 @@ public class CheckoutSummaryFragment extends Fragment{
                             Log.d(LOG_TAG, "APP updateSummaryList response: " + response.message());
                             if(response.isSuccessful()){
                                 CheckoutUpdateResponse updateResponse = response.body();
+                                List<InvestBid> respondArray = response.body().getArray();
                                 if(updateResponse != null){
+                                    if(respondArray.size() > 0) {
+                                        //dialog for adjusted bids
+                                        boolean adjustmentIsMade = false;
+                                        String baseBidUnit = NumericUtils.formatCurrency(NumericUtils.IDR,
+                                                ConstantVariables.IDR_BASE_UNIT, false).trim();
+                                        String adjustMessage = mLabelAdjustA;
+                                        Iterator<InvestBid> rait = respondArray.iterator();
+                                        Log.d(LOG_TAG, "APP adjust count " + respondArray.size());
+                                        while(rait.hasNext()){
+                                            InvestBid updateBid = rait.next();
+                                            if(updateBid.getInvestAmount() != null &&
+                                                    updateBid.getOriginalInvestAmount() != null){
+                                                String loanId = updateBid.getLoanId();
+                                                String requestedAmt = NumericUtils.formatCurrency(NumericUtils.IDR,
+                                                        updateBid.getOriginalInvestAmount(), false).trim();
+                                                String approvedAmt = NumericUtils.formatCurrency(NumericUtils.IDR,
+                                                        updateBid.getInvestAmount(), false).trim();
+
+                                                Log.d(LOG_TAG, "APP requestedAmt:" +
+                                                        updateBid.getOriginalInvestAmount() +
+                                                        " approvedAmt:" + updateBid.getInvestAmount() );
+
+                                                if(!updateBid.getInvestAmount()
+                                                        .equals(updateBid.getOriginalInvestAmount())){
+                                                    adjustmentIsMade = true;
+                                                    adjustMessage += "\u2022 "+loanId+":\n\t\t" +
+                                                            requestedAmt + " -> " + approvedAmt + "\n\n";
+                                                }
+                                            }
+                                        }
+
+                                        if(adjustmentIsMade){
+                                            //add reasonings
+                                            adjustMessage += "" + mLabelAdjustB + baseBidUnit
+                                                    + mLabelAdjustC + baseBidUnit +".";
+                                            new MaterialDialog.Builder(mContext)
+                                                    .autoDismiss(true)
+                                                    .content(adjustMessage)
+                                                    .positiveText(R.string.close_label)
+                                                    .show();
+                                        }
+                                    }
+
                                     Log.d(LOG_TAG, "APP updateSummaryList Rx response: "
                                             + updateResponse.getServerResponse().getMessage());
+
                                     Snackbar snackbar = SnackBarUtil.snackBarForInfoCreate(getView(),
                                             updateResponse.getServerResponse().getMessage(),
                                             Snackbar.LENGTH_SHORT);
-                                    snackbar.addCallback(new Snackbar.Callback(){
+                                    snackbar.addCallback(new Snackbar.Callback() {
                                         @Override
                                         public void onShown(Snackbar sb) {
                                             //refresh list when snackbar is displayed
                                             populateSummaryList(true);
                                         }
                                     }).show();
-
                                 }
+
+
                             }else{
                                 if (ConstantVariables.HTTP_UNAUTHORISED == response.code()) {
                                     AuthAccountUtils.actionLogout(getActivity());
@@ -381,7 +428,7 @@ public class CheckoutSummaryFragment extends Fragment{
         }
     }
 
-    private void checkoutConfirmProcess(List<InvestBid> investBidList, final MaterialDialog dialog){
+    private void checkoutConfirmProcess(List<InvestBid> investBidList, final MaterialDialog confirmDialog){
         Log.d(LOG_TAG, "APP checkoutConfirmProcess");
 
         if(!investBidList.isEmpty()){
@@ -444,7 +491,7 @@ public class CheckoutSummaryFragment extends Fragment{
                         @Override
                         public void onComplete() {
                             Log.d(LOG_TAG, "APP checkoutConfirmProcess");
-                            dialog.dismiss();
+                            confirmDialog.dismiss();
                         }
                     });
         }
