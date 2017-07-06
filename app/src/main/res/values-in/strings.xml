@@ -124,4 +124,12 @@
     <string name="checkout_confirm_success_message_label">Tawaran anda telah dikonfirmasi</string>
     <string name="checkout_confirm_continue_action_label">Lanjut</string>
     <string name="loan_detail_completed_sign_label">SELESAI</string>
+    <string name="checkout_summary_update_changes_notify_a">Tawaran Anda telah disesuaikan:\n\n</string>
+    <string name="checkout_summary_update_changes_notify_b">Sebab:\n\tA) Melebihi jumlah tawaran pinjaman yang tersedia.\n\tB) Lebih rendah dari jumlah minimum&#160;</string>
+    <string name="checkout_summary_update_changes_notify_c">.\n\tC) Beberapa kali dari&#160;</string>
+    <string name="loan_detail_invalid_investor_label">Untuk menawar, Anda harus menjadi investor yang memenuhi syarat.</string>
+    <string name="loan_detail_invalid_investor_button_label">DAFTAR</string>
+    <string name="close_label">TUTUP</string>
+    <string name="header_checkout_summary_swipe_left_label">Geser Ke Kiri Untuk Menghapus</string>
+    <string name="header_checkout_summary_bid_count_label">Jumlah Tawaran:</string>
 </resources>

@@ -65,6 +65,9 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
     @BindString(R.string.auth_password_incorrect_match) String mPasswordIncorrectMatchMessage;
     @BindString(R.string.auth_password_do_not_match) String mPasswordDoNotMatchPrompt;
 
+    @BindString(R.string.language_english_label) String mLanguageEnglishLabel;
+    @BindString(R.string.language_bahasa_label) String mLanguageBahasaIndoLabel;
+
     @BindColor(R.color.color_accent) int mColorAccent;
     @BindColor(R.color.color_icons_text) int mColorIconText;
     @BindColor(R.color.color_primary_700) int mColorPrimaryDark;
@@ -125,7 +128,7 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
             }
         });
 
-        final List<String> languageSet = new LinkedList<>(Arrays.asList("English", "Bahasa"));
+        final List<String> languageSet = new LinkedList<>(Arrays.asList(mLanguageEnglishLabel, mLanguageBahasaIndoLabel));
         mRegisterLangSpinner.setItems(languageSet);
 
         mRegisterLangSpinner.setSelectedIndex(0);

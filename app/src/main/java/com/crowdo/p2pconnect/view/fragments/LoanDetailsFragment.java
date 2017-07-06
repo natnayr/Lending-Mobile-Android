@@ -43,6 +43,7 @@ import com.crowdo.p2pconnect.model.response.LoanDetailResponse;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.view.activities.CheckoutActivity;
+import com.crowdo.p2pconnect.view.activities.Henson;
 import com.crowdo.p2pconnect.viewholders.LoanDetailsViewHolder;
 import com.esafirm.rxdownloader.RxDownloader;
 import com.f2prateek.dart.Dart;
@@ -73,18 +74,19 @@ public class LoanDetailsFragment extends Fragment {
 
     @BindColor(R.color.color_icons_text) int mColorIconText;
 
-    @BindString(R.string.downloading_label) String mLabelToastDownloading;
-    @BindString(R.string.downloaded_to_label) String mLabelDownloadedTo;
-    @BindString(R.string.loan_detail_error_reading_pdf) String mLabelSnackPDFReadError;
-    @BindString(R.string.intent_file_chooser) String mLabelIntentChooser;
-    @BindString(R.string.unable_open_file_label) String mLabelErrorOpenFile;
-    @BindString(R.string.loan_detail_prog_snackbar_bid_too_low) String mLabelBidTooLow;
-    @BindString(R.string.permissions_write_request) String mLabelPermissionRequest;
-    @BindString(R.string.cancel_label) String mLabelCancel;
-    @BindString(R.string.okay_label) String mLabelOkay;
-    @BindString(R.string.open_label) String mLabelOpen;
-    @BindString(R.string.permissions_no_write_statement) String mLabelCannotWrite;
-
+    @BindString(R.string.downloading_label) String mToastDownloadingMessage;
+    @BindString(R.string.downloaded_to_label) String mDownloadedToLabel;
+    @BindString(R.string.loan_detail_error_reading_pdf) String mSnackPDFReadErrorLabel;
+    @BindString(R.string.intent_file_chooser) String mIntentChooserLabel;
+    @BindString(R.string.unable_open_file_label) String mErrorOpenFileLabel;
+    @BindString(R.string.loan_detail_prog_snackbar_bid_too_low) String mBidTooLowLabel;
+    @BindString(R.string.permissions_write_request) String mPermissionRequestLabel;
+    @BindString(R.string.cancel_label) String mCancelLabel;
+    @BindString(R.string.okay_label) String mOkayLabel;
+    @BindString(R.string.open_label) String mOpenLabel;
+    @BindString(R.string.permissions_no_write_statement) String mCannotWriteLabel;
+    @BindString(R.string.loan_detail_invalid_investor_label) String mInvalidInvestorLabel;
+    @BindString(R.string.loan_detail_invalid_investor_button_label) String mInvalidInvestorButtonLabel;
     @BindView(R.id.loan_details_swiperefresh) SwipeRefreshLayout mSwipeContainer;
 
 
@@ -134,8 +136,8 @@ public class LoanDetailsFragment extends Fragment {
             public void onClick(View view) {
 
                 PermissionsUtils.checkPermisssionAndRequestStorageFragment(getActivity(),
-                        LoanDetailsFragment.this, mLabelPermissionRequest, mLabelOkay,
-                        mLabelCancel);
+                        LoanDetailsFragment.this, mPermissionRequestLabel, mOkayLabel,
+                        mCancelLabel);
 
                 downloadFactSheet();
             }
@@ -294,7 +296,7 @@ public class LoanDetailsFragment extends Fragment {
                 Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
             if (initLoanId >= 0) {
-                Toast.makeText(getActivity(), mLabelToastDownloading, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), mToastDownloadingMessage, Toast.LENGTH_SHORT).show();
 
                 final String url = APIServices.P2P_BASE_URL + APIServices.FACTSHEET_STAGE + initLoanId +
                         "/?" + APIServices.FACTSHEET_LANGUAGE_PARAM + LocaleHelper.getLanguage(getActivity());
@@ -317,9 +319,9 @@ public class LoanDetailsFragment extends Fragment {
                             public void onNext(final String s) {
 
                                 final Snackbar snackbar = SnackBarUtil.snackBarForInfoCreate(
-                                        getView(), mLabelDownloadedTo + s, Snackbar.LENGTH_LONG);
+                                        getView(), mDownloadedToLabel + s, Snackbar.LENGTH_LONG);
 
-                                snackbar.setAction(mLabelOpen, new View.OnClickListener() {
+                                snackbar.setAction(mOpenLabel, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         try {
@@ -330,7 +332,7 @@ public class LoanDetailsFragment extends Fragment {
                                                     ConstantVariables.PDF_CONTENT_TYPE);
                                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                             Intent chooserIntent = Intent.createChooser(intent,
-                                                    mLabelIntentChooser);
+                                                    mIntentChooserLabel);
 
                                             startActivity(chooserIntent);
                                         } catch (ActivityNotFoundException e) {
@@ -338,9 +340,9 @@ public class LoanDetailsFragment extends Fragment {
 
                                             final Snackbar snackbar = SnackBarUtil
                                                     .snackBarForErrorCreate(getView(),
-                                                            mLabelSnackPDFReadError,
+                                                            mSnackPDFReadErrorLabel,
                                                             Snackbar.LENGTH_LONG);
-                                            snackbar.setAction(mLabelOkay, new View.OnClickListener() {
+                                            snackbar.setAction(mOkayLabel, new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
                                                     snackbar.dismiss();
@@ -351,10 +353,10 @@ public class LoanDetailsFragment extends Fragment {
                                             Log.e(LOG_TAG, "ERROR: " + ue.getMessage(), ue);
                                             final Snackbar snackbar = SnackBarUtil
                                                     .snackBarForErrorCreate(getView(),
-                                                            mLabelErrorOpenFile,
+                                                            mErrorOpenFileLabel,
                                                             Snackbar.LENGTH_LONG);
 
-                                            snackbar.setAction(mLabelOkay, new View.OnClickListener() {
+                                            snackbar.setAction(mOkayLabel, new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
                                                     snackbar.dismiss();
@@ -384,9 +386,9 @@ public class LoanDetailsFragment extends Fragment {
 
             if(unitBidAmount <= 0 ) {
                 final Snackbar snackbar = SnackBarUtil.snackBarForWarningCreate(getView(),
-                        mLabelBidTooLow, Snackbar.LENGTH_LONG);
+                        mBidTooLowLabel, Snackbar.LENGTH_LONG);
 
-                snackbar.setAction(mLabelOkay, new View.OnClickListener() {
+                snackbar.setAction(mOkayLabel, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         snackbar.dismiss();
@@ -445,8 +447,33 @@ public class LoanDetailsFragment extends Fragment {
                             }else{
                                 //Error Handling
                                 if(HTTPResponseUtils.check4xxClientError(response.code())){
-                                    if(ConstantVariables.HTTP_UNAUTHORISED == response.code()){
+                                    if(ConstantVariables.HTTP_UNAUTHORISED == response.code()) {
                                         AuthAccountUtils.actionLogout(getActivity());
+
+                                    }else if (ConstantVariables.HTTP_INVESTOR_FAILED_ACCREDITATION == response.code()){
+                                        Snackbar investorInvalidSnackbar = SnackBarUtil.snackBarForErrorCreate(getView(),
+                                                mInvalidInvestorLabel, Snackbar.LENGTH_LONG);
+
+                                        investorInvalidSnackbar.setAction(mInvalidInvestorButtonLabel, new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                String webViewUrl = APIServices.P2P_BASE_URL +
+                                                        "mobile2/register_as_investor" +
+                                                        "?lang=" + LocaleHelper.getLanguage(getActivity()) +
+                                                        "&device_id=" +
+                                                        ConstantVariables.getUniqueAndroidID(getActivity());
+
+                                                Log.d(LOG_TAG, "APP Top Up Action webViewUrl " + webViewUrl);
+
+                                                Intent intent = Henson.with(getActivity())
+                                                        .gotoWebViewActivity()
+                                                        .mUrl(webViewUrl)
+                                                        .build();
+                                                startActivity(intent);
+                                            }
+                                        });
+
+                                        investorInvalidSnackbar.show();
                                     }else{
                                         //Invalid Investment Amount (e.g. 0, -1, etc)
                                         String serverErrorMessage = "Error: Check Bid Not successful";

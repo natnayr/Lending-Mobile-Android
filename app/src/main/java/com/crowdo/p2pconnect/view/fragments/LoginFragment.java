@@ -63,6 +63,9 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
     @BindString(R.string.auth_http_handling_message) String mHttpErrorHandlingMessage;
     @BindString(R.string.auth_email_incorrect_format) String mEmailIncorrectFormatMessage;
     @BindString(R.string.auth_email_not_valid) String mEmailInvalidPrompt;
+    @BindString(R.string.language_english_label) String mLanguageEnglishLabel;
+    @BindString(R.string.language_bahasa_label) String mLanguageBahasaIndoLabel;
+
     @BindColor(R.color.color_accent) int mColorAccent;
     @BindColor(R.color.color_icons_text) int mColorIconText;
     @BindColor(R.color.color_primary_700) int mColorPrimaryDark;
@@ -123,7 +126,8 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
             }
         });
 
-        final List<String> languageSet = new LinkedList<>(Arrays.asList("English", "Bahasa"));
+        final List<String> languageSet = new LinkedList<>(Arrays.asList(mLanguageEnglishLabel,
+                mLanguageBahasaIndoLabel));
         mLoginLangSpinner.setItems(languageSet);
 
         mLoginLangSpinner.setSelectedIndex(0);

@@ -109,6 +109,8 @@
     <string name="loan_detail_error_reading_pdf">Error opening PDF reader, please install one</string>
     <string name="loan_detail_prog_snackbar_bid_too_low">Key in amounts larger than 0</string>
     <string name="loan_detail_completed_sign_label">COMPLETED</string>
+    <string name="loan_detail_invalid_investor_label">To bid, you need to be a qualified investor.</string>
+    <string name="loan_detail_invalid_investor_button_label">APPLY</string>
 
     <string name="learning_center_search_hint">Search</string>
     <string name="learning_center_categories_label_general">General Enquires</string>
@@ -126,12 +128,13 @@
     <string name="checkout_summary_bidding_overall_amt_top_up_label">Required Top Up</string>
     <string name="checkout_summary_bidding_overall_idr_currency_symbol_label" translatable="false">IDR&#160;</string>
     <string name="checkout_summary_bidding_overall_update_notify">Note: Click Update to Reflect Changes</string>
+    <string name="header_checkout_summary_bid_count_label">No. of Bids:</string>
+    <string name="header_checkout_summary_swipe_left_label">Swipe Left To Remove</string>
     <string name="item_checkout_summary_tenure_label">&#160;MONTHS</string>
     <string name="item_checkout_summary_interest_rate_label" translatable="false">%</string>
     <string name="item_checkout_summary_enter_amount_currency_symbol_idr" translatable="false">Rp</string>
     <string name="item_checkout_summary_enter_amount_unit_zeros_idr" translatable="false">,000,000</string>
-
-    <string name="checkout_summary_update_changes_notify_a">You bids(s) have been adjusted:\n\n</string>
+    <string name="checkout_summary_update_changes_notify_a">Your bids(s) have been adjusted:\n\n</string>
     <string name="checkout_summary_update_changes_notify_b">Reasons:\n\tA) Exceeded the loan\'s available bid amount.\n\tB) Amount is lower than minimum of&#160;</string>
     <string name="checkout_summary_update_changes_notify_c">.\n\tC) Multiple of&#160;</string>
 
@@ -162,7 +165,6 @@
     <string name="cancel_label">Cancel</string>
     <string name="intent_file_chooser">Open With</string>
     <string name="wait_message">Please wait</string>
-    <string name="language_prompt">Language</string>
 
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="percent_label" translatable="false">%</string>

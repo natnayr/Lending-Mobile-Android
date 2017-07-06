@@ -71,8 +71,6 @@ public class LaunchActivity extends AppCompatActivity implements
 
     private String langAtCreate;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
