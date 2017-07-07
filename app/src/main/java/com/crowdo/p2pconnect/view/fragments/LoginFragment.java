@@ -105,8 +105,6 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
         viewHolder.mLoginSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Clear keyboard
-                SoftInputHelper.hideSoftKeyboard(getActivity());
                 submit();
             }
         });

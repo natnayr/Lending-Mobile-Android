@@ -78,7 +78,7 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         if(viewType == TYPE_HEADER){
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.header_checkout_summary, parent, false);
+                    .inflate(R.layout.item_checkout_summary_header, parent, false);
             return new HeaderCheckoutSummaryViewHolder(view);
 
         }else if(viewType == TYPE_ITEM){

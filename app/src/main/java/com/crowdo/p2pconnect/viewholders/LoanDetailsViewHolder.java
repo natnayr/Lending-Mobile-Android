@@ -69,7 +69,7 @@ public class LoanDetailsViewHolder {
     @BindView(R.id.loan_detail_avalible_amount) TextView mAvalibleAmount;
 
     //status
-    @BindView(R.id.loan_detail_close_status) LinearLayout mClosedStatus;
+    @BindView(R.id.loan_details_close_status) LinearLayout mClosedStatus;
 
     // to interact with
     @BindView(R.id.loan_detail_amount_minus_btn) ImageButton mAmountMinusBtn;

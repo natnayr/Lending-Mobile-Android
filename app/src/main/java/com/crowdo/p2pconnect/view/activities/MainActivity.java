@@ -44,6 +44,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
+import net.hockeyapp.android.metrics.MetricsManager;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity{
         mNavDrawerAppLogo.setTypeface(TypefaceUtils.getNothingYouCouldDoTypeFace(this));
 
         //HockeyApp user metrics
-//        MetricsManager.register(getApplication());
+        MetricsManager.register(getApplication());
     }
 
     private DrawerBuilder buildNavigationDrawer(){
@@ -331,7 +332,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
-//        checkForCrashes();
+        checkForCrashes();
 
         //check network and logout if needed
         NetworkConnectionChecks.isOnline(this, true);

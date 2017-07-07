@@ -12,7 +12,7 @@
     <string name="loan_detail_factsheet_btn_content_description">Lihat Lembar Fakta</string>
     <string name="loan_detail_factsheet_btn_description">(Informasi Tambahan)</string>
     <string name="loan_detail_factsheet_btn_label">Lembar Fakta</string>
-    <string name="loan_detail_grade_label">Level</string>
+    <string name="loan_detail_grade_label">Grade</string>
     <string name="loan_detail_out_sec_invoice_or_cheque">Perintah Kerja/\nTagihan</string>
     <string name="loan_detail_out_sec_uncollateralized">Tanpa Jaminan</string>
     <string name="loan_detail_percentage_return_label">Bunga\nPengembalian</string>
