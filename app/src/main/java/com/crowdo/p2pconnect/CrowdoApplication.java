@@ -11,7 +11,6 @@ import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
-import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.oauth.CrowdoSessionCheckService;
 
 import java.util.Calendar;
@@ -37,6 +36,7 @@ public class CrowdoApplication extends Application{
         configureRealm(); //set configuration
 
         initApp(); //if need to redirect
+
 
         sessionCheckingStart();
     }

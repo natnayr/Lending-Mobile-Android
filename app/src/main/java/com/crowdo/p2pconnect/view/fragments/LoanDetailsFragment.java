@@ -339,7 +339,7 @@ public class LoanDetailsFragment extends Fragment {
                                             Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
 
                                             final Snackbar snackbar = SnackBarUtil
-                                                    .snackBarForErrorCreate(getView(),
+                                                    .snackBarForWarningCreate(getView(),
                                                             mSnackPDFReadErrorLabel,
                                                             Snackbar.LENGTH_LONG);
                                             snackbar.setAction(mOkayLabel, new View.OnClickListener() {
@@ -352,7 +352,7 @@ public class LoanDetailsFragment extends Fragment {
                                         } catch (URISyntaxException ue){
                                             Log.e(LOG_TAG, "ERROR: " + ue.getMessage(), ue);
                                             final Snackbar snackbar = SnackBarUtil
-                                                    .snackBarForErrorCreate(getView(),
+                                                    .snackBarForWarningCreate(getView(),
                                                             mErrorOpenFileLabel,
                                                             Snackbar.LENGTH_LONG);
 
@@ -385,8 +385,8 @@ public class LoanDetailsFragment extends Fragment {
             }
 
             if(unitBidAmount <= 0 ) {
-                final Snackbar snackbar = SnackBarUtil.snackBarForWarningCreate(getView(),
-                        mBidTooLowLabel, Snackbar.LENGTH_LONG);
+                final Snackbar snackbar = SnackBarUtil.snackBarForWarningCreate(
+                        getView(), mBidTooLowLabel, Snackbar.LENGTH_LONG);
 
                 snackbar.setAction(mOkayLabel, new View.OnClickListener() {
                     @Override
@@ -431,8 +431,8 @@ public class LoanDetailsFragment extends Fragment {
                                         viewHolder.mEnterAmount.setText(Long.toString(newUnitAmount));
 
                                         serverMessage = checkBidResponse.getServer().getMessage();
-                                        Snackbar changeBidSnackBar = SnackBarUtil.snackBarForWarningCreate(getView(),
-                                                serverMessage, Snackbar.LENGTH_SHORT);
+                                        Snackbar changeBidSnackBar = SnackBarUtil.snackBarForWarningCreate(
+                                                getView(), serverMessage, Snackbar.LENGTH_SHORT);
                                         changeBidSnackBar.addCallback(new Snackbar.Callback(){
                                             @Override
                                             public void onDismissed(Snackbar transientBottomBar, int event) {
@@ -451,7 +451,7 @@ public class LoanDetailsFragment extends Fragment {
                                         AuthAccountUtils.actionLogout(getActivity());
 
                                     }else if (ConstantVariables.HTTP_INVESTOR_FAILED_ACCREDITATION == response.code()){
-                                        Snackbar investorInvalidSnackbar = SnackBarUtil.snackBarForErrorCreate(getView(),
+                                        Snackbar investorInvalidSnackbar = SnackBarUtil.snackBarForWarningCreate(getView(),
                                                 mInvalidInvestorLabel, Snackbar.LENGTH_LONG);
 
                                         investorInvalidSnackbar.setAction(mInvalidInvestorButtonLabel, new View.OnClickListener() {
@@ -492,7 +492,7 @@ public class LoanDetailsFragment extends Fragment {
                                                 Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
                                             }
 
-                                            SnackBarUtil.snackBarForErrorCreate(getView(),
+                                            SnackBarUtil.snackBarForWarningCreate(getView(),
                                                     serverErrorMessage, Snackbar.LENGTH_SHORT)
                                                     .show();
                                         }
@@ -540,7 +540,7 @@ public class LoanDetailsFragment extends Fragment {
                                 Log.d(LOG_TAG, "APP addToCart onNext() bid_id: " + bid.getId());
 
                                 //pass response to user
-                                SnackBarUtil.snackBarForInfoCreate(getView(),
+                                SnackBarUtil.snackBarForSuccessCreate(getView(),
                                         server.getMessage(), Snackbar.LENGTH_SHORT).show();
 
                                 updateShoppingCartItemCount(); //update cart to new number
@@ -557,8 +557,7 @@ public class LoanDetailsFragment extends Fragment {
                                     String serverErrorMessage = "Error: Accept Bid Not Successful";
                                     //Invalid Investment Amount (e.g. 0, -1, etc)
 
-
-                                    SnackBarUtil.snackBarForErrorCreate(getView(),
+                                    SnackBarUtil.snackBarForWarningCreate(getView(),
                                             serverErrorMessage, Snackbar.LENGTH_SHORT)
                                             .show();
 

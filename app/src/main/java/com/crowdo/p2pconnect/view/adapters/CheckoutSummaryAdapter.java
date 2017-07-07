@@ -229,7 +229,7 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         if(response.isSuccessful()){
                             BidOnlyResponse deleteBidResponse = response.body();
                             if(mRecyclerView !=null) {
-                                SnackBarUtil.snackBarForInfoCreate(mRecyclerView,
+                                SnackBarUtil.snackBarForSuccessCreate(mRecyclerView,
                                         deleteBidResponse.getServer().getMessage(),
                                         Snackbar.LENGTH_SHORT).show();
                             }
@@ -254,7 +254,7 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                                             Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
                                         }
 
-                                        SnackBarUtil.snackBarForErrorCreate(mRecyclerView,
+                                        SnackBarUtil.snackBarForWarningCreate(mRecyclerView,
                                                 serverErrorMessage, Snackbar.LENGTH_SHORT)
                                                 .show();
 

@@ -177,7 +177,7 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
 
         //local incorrect email check
         if (!RegexValidationUtil.isValidEmailFormat(inputEmail)) {
-            SnackBarUtil.snackBarForErrorCreate(getView(),
+            SnackBarUtil.snackBarForWarningCreate(getView(),
                     mEmailIncorrectFormatMessage, Snackbar.LENGTH_SHORT).show();
             viewHolder.mRegisterEmailEditText.setError(mEmailInvalidPrompt);
             return;
@@ -185,7 +185,7 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
 
         //local incorrect password check
         if (!RegexValidationUtil.isValidPasswordLength(inputPassword)) {
-            SnackBarUtil.snackBarForErrorCreate(getView(),
+            SnackBarUtil.snackBarForWarningCreate(getView(),
                     mPasswordIncorrectFormatMessage, Snackbar.LENGTH_SHORT).show();
             viewHolder.mRegisterPasswordEmailText.setError(mPasswordTooShortPrompt);
             return;
@@ -193,7 +193,7 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
 
         //check if they match each other
         if (!inputPassword.equals(inputConfirmPassword)){
-            SnackBarUtil.snackBarForErrorCreate(getView(),
+            SnackBarUtil.snackBarForWarningCreate(getView(),
                     mPasswordIncorrectMatchMessage, Snackbar.LENGTH_SHORT).show();
             viewHolder.mRegisterConfirmPasswdEditText.setError(mPasswordDoNotMatchPrompt);
             return;
@@ -257,8 +257,8 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
                 }
                 viewHolder.mRegisterPasswordEmailText.setText(""); //clear passwords
                 viewHolder.mRegisterConfirmPasswdEditText.setText(""); //clear confirm passwords
-                //Error Snackbar
-                SnackBarUtil.snackBarForErrorCreate(getView(),
+                //Warning Snackbar
+                SnackBarUtil.snackBarForWarningCreate(getView(),
                         serverErrorMsg,
                         Snackbar.LENGTH_SHORT).show();
                 try {
@@ -286,8 +286,7 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
         viewHolder.mRegisterConfirmPasswdEditText.setText(""); //clear confirm passwords
         e.printStackTrace();
         Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-        SnackBarUtil.snackBarForErrorCreate(getView(),
-                mHttpErrorHandlingMessage,
+        SnackBarUtil.snackBarForErrorCreate(getView(), mHttpErrorHandlingMessage,
                 Snackbar.LENGTH_SHORT).show();
     }
 
@@ -302,7 +301,7 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
 
                 //show success
                 if(getView() != null) {
-                    SnackBarUtil.snackBarForInfoCreate(getView(),
+                    SnackBarUtil.snackBarForSuccessCreate(getView(),
                             authResponse.getServerResponse().getMessage(),
                             Snackbar.LENGTH_SHORT).show();
                 }

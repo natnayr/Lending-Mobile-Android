@@ -84,12 +84,15 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
     @InjectExtra public String mUrl;
 
+    private Context mContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.webview);
 
         ButterKnife.bind(WebViewActivity.this);
+
 
         //mToolbar view
         setSupportActionBar(mToolbar);
@@ -251,7 +254,7 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
                         Log.d(LOG_TAG, "APP file is now in " + location);
 
                         final Snackbar snackbar = SnackBarUtil
-                                .snackBarForInfoCreate(rootView, mLabelDownloadedTo + location,
+                                .snackBarForSuccessCreate(rootView, mLabelDownloadedTo + location,
                                         Snackbar.LENGTH_LONG)
                                 .setAction(mLabelOpen, new View.OnClickListener() {
                             @Override
@@ -268,9 +271,9 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
                                     startActivity(chooserIntent);
                                 }catch(URISyntaxException ue){
                                     Log.e(LOG_TAG, "ERROR: " + ue.getMessage(), ue);
-                                    final Snackbar snackbar = SnackBarUtil.snackBarForErrorCreate(rootView,
-                                            mLabelErrorOpenFile,
-                                            Snackbar.LENGTH_LONG);
+                                    final Snackbar snackbar = SnackBarUtil
+                                            .snackBarForErrorCreate(rootView, mLabelErrorOpenFile,
+                                                    Snackbar.LENGTH_LONG);
 
                                     snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                                         @Override

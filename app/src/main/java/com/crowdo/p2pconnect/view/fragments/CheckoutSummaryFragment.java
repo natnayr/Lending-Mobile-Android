@@ -297,7 +297,7 @@ public class CheckoutSummaryFragment extends Fragment{
                                         .errorServerResponseConvert(checkoutClient,
                                                 response.errorBody());
 
-                                SnackBarUtil.snackBarForErrorCreate(getView(),
+                                SnackBarUtil.snackBarForWarningCreate(getView(),
                                         serverErrorMessage, Snackbar.LENGTH_SHORT)
                                         .show();
                             }
@@ -385,7 +385,7 @@ public class CheckoutSummaryFragment extends Fragment{
                                     Log.d(LOG_TAG, "APP updateSummaryList Rx response: "
                                             + updateResponse.getServerResponse().getMessage());
 
-                                    Snackbar snackbar = SnackBarUtil.snackBarForInfoCreate(getView(),
+                                    Snackbar snackbar = SnackBarUtil.snackBarForWarningCreate(getView(),
                                             updateResponse.getServerResponse().getMessage(),
                                             Snackbar.LENGTH_SHORT);
                                     snackbar.addCallback(new Snackbar.Callback() {
@@ -407,7 +407,7 @@ public class CheckoutSummaryFragment extends Fragment{
                                             .errorServerResponseConvert(checkoutClient,
                                                     response.errorBody());
 
-                                    SnackBarUtil.snackBarForErrorCreate(getView(),
+                                    SnackBarUtil.snackBarForWarningCreate(getView(),
                                             serverErrorMessage, Snackbar.LENGTH_SHORT)
                                             .show();
                                 }
@@ -457,7 +457,7 @@ public class CheckoutSummaryFragment extends Fragment{
                                 MessageResponse messageResponse = response.body();
                                 String confirmResponseMessage = messageResponse.getServerResponse().getMessage();
 
-                                SnackBarUtil.snackBarForInfoCreate(getView(),
+                                SnackBarUtil.snackBarForSuccessCreate(getView(),
                                         confirmResponseMessage, Snackbar.LENGTH_SHORT)
                                         .addCallback(new Snackbar.Callback(){
                                             @Override
@@ -477,7 +477,7 @@ public class CheckoutSummaryFragment extends Fragment{
                                             .errorServerResponseConvert(checkoutClient,
                                                     response.errorBody());
 
-                                    SnackBarUtil.snackBarForErrorCreate(getView(),
+                                    SnackBarUtil.snackBarForWarningCreate(getView(),
                                             serverErrorMessage, Snackbar.LENGTH_SHORT)
                                             .show();
                                 }
@@ -554,9 +554,8 @@ public class CheckoutSummaryFragment extends Fragment{
                                     startActivity(chooserIntent);
                                 }catch(URISyntaxException ue){
                                     Log.e(LOG_TAG, "ERROR: " + ue.getMessage(), ue);
-                                    final Snackbar snackbar = SnackBarUtil.snackBarForErrorCreate(getView(),
-                                            mLabelErrorOpenFile,
-                                            Snackbar.LENGTH_LONG);
+                                    final Snackbar snackbar = SnackBarUtil.snackBarForErrorCreate(
+                                            getView(), mLabelErrorOpenFile, Snackbar.LENGTH_LONG);
 
                                     snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                                         @Override
@@ -567,8 +566,7 @@ public class CheckoutSummaryFragment extends Fragment{
                                 }catch (ActivityNotFoundException anfe){
                                     Log.e(LOG_TAG, "ERROR: " + anfe.getMessage(), anfe);
                                     final Snackbar snackbar = SnackBarUtil.snackBarForErrorCreate(
-                                            getView(), mLabelErrorOpenFile,
-                                            Snackbar.LENGTH_LONG);
+                                            getView(), mLabelErrorOpenFile, Snackbar.LENGTH_LONG);
 
                                     snackbar.setAction(mLabelOkay, new View.OnClickListener() {
                                         @Override

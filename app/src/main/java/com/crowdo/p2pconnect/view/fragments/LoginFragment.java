@@ -171,7 +171,7 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
 
         //local incorrect email check
         if (!RegexValidationUtil.isValidEmailFormat(inputEmail)) {
-            final Snackbar snack = SnackBarUtil.snackBarForErrorCreate(getView(),
+            final Snackbar snack = SnackBarUtil.snackBarForWarningCreate(getView(),
                     mEmailIncorrectFormatMessage, Snackbar.LENGTH_SHORT);
             snack.show();
             viewHolder.mLoginEmailEditText.setError(mEmailInvalidPrompt);
@@ -222,7 +222,7 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
 
                 viewHolder.mLoginPasswdEditText.setText(""); //clear password
                 //Error Snackbar
-                SnackBarUtil.snackBarForErrorCreate(getView(),
+                SnackBarUtil.snackBarForWarningCreate(getView(),
                         serverErrorMsg, Snackbar.LENGTH_SHORT).show();
                 try {
                     TimeUnit.SECONDS.sleep(1);
@@ -266,7 +266,7 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
                 if (HTTPResponseUtils.check2xxSuccess(authResponse.getServerResponse().getStatus())) {
                     //show http success
                     if(getView() != null) {
-                        SnackBarUtil.snackBarForInfoCreate(getView(),
+                        SnackBarUtil.snackBarForSuccessCreate(getView(),
                                 authResponse.getServerResponse().getMessage(),
                                 Snackbar.LENGTH_SHORT).show();
                     }

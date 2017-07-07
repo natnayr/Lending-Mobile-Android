@@ -8,8 +8,8 @@ android {
         applicationId "com.crowdo.p2pconnect"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 24
-        versionName "0.1.2.2"
+        versionCode 25
+        versionName "0.1.2.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [HOCKEYAPP_APP_ID: "26edfa1f4e314714a244f6d7b972b529"]
     }
@@ -121,6 +121,9 @@ dependencies {
 
     //Material Spinner
     compile 'com.jaredrummler:material-spinner:1.1.0'
+
+    //LG SnackBars
+    compile 'com.github.matecode:Snacky:1.0.2'
 
     //HockeyApp
     compile 'net.hockeyapp.android:HockeySDK:4.1.4'
