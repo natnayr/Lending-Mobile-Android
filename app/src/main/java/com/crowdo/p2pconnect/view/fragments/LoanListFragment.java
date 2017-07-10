@@ -2,11 +2,16 @@ package com.crowdo.p2pconnect.view.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
@@ -199,6 +204,12 @@ public class LoanListFragment extends Fragment {
         super.onPrepareOptionsMenu(menu);
 
         mMenuCart = menu.findItem(R.id.action_cart);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+            //re-set color of icon, v19 issue
+//            Drawable iconCart = getResources().getDrawable(R.drawable.ic_shopping_cart_white_24dp);
+            mMenuCart.getIcon().setColorFilter(getResources().getColor(R.color.color_icons_text), PorterDuff.Mode.SRC_IN);
+//            mMenuCart.setIcon(iconCart);
+        }
         updateShoppingCartItemCount();
 
     }

@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_centerVertical="true"
+        android:elevation="1dp"
         android:layout_alignParentTop="true"
         android:background="@color/color_background_100">
         <LinearLayout
@@ -76,6 +77,7 @@
         app:el_expanded="true"
         app:el_duration="700"
         app:el_parallax="0"
+        android:elevation="1dp"
         android:layout_below="@+id/checkout_summary_header">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -249,6 +251,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/color_divider"
+        android:elevation="1dp"
         android:layout_below="@+id/checkout_summary_expandable"/>
 
     <android.support.design.widget.CoordinatorLayout

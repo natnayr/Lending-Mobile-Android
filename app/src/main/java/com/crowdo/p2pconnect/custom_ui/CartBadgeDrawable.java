@@ -130,6 +130,8 @@ public class CartBadgeDrawable extends Drawable{
 
     public static void setBadgeCount(Activity activity, LayerDrawable icon,
                                      String count){
+        if(activity == null) return; //no activity, go home
+
         CartBadgeDrawable cartBadge;
 
         //reuse drawable if possible

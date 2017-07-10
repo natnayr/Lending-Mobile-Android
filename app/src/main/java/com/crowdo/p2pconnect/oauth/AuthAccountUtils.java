@@ -200,29 +200,30 @@ public class AuthAccountUtils {
                 }else{
                     authMessage = activity.getResources().getString(R.string.auth_session_end_and_logout);
                 }
+                if(activity != null) {
+                    //if activity has not attached itself to a view
+                    View rootView = null;
+                    try {
+                        rootView = activity.getCurrentFocus().getRootView();
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                    }
 
-                //if activity has not attached itself to a view
-                View rootView = null;
-                try{
-                    rootView = activity.getCurrentFocus().getRootView();
-                }catch (NullPointerException e){
-                    e.printStackTrace();
-                    Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-                }
 
-
-                if(rootView != null) {
-                    //notify user of logout.
-                    SnackBarUtil.snackBarForInfoCreate(rootView,
-                            authMessage, Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
-                        @Override
-                        public void onDismissed(Snackbar transientBottomBar, int event) {
-                            super.onDismissed(transientBottomBar, event);
-                            goToLaunchActivity(activity);
-                        }
-                    }).show();
-                }else{
-                    goToLaunchActivity(activity);
+                    if (rootView != null) {
+                        //notify user of logout.
+                        SnackBarUtil.snackBarForInfoCreate(rootView,
+                                authMessage, Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
+                            @Override
+                            public void onShown(Snackbar sb) {
+                                super.onShown(sb);
+                                goToLaunchActivity(activity);
+                            }
+                        }).show();
+                    } else {
+                        goToLaunchActivity(activity);
+                    }
                 }
             }
         });
@@ -239,6 +240,9 @@ public class AuthAccountUtils {
         }
 
         String token = accountStore.getAccountAuthToken();
+        if(token == null){
+            token = "";
+        }
         realm.close();
         return token;
     }

@@ -81,7 +81,6 @@ public class CheckoutSummaryFragment extends Fragment{
     @BindString(R.string.checkout_summary_update_changes_notify_a) String mLabelAdjustA;
     @BindString(R.string.checkout_summary_update_changes_notify_b) String mLabelAdjustB;
     @BindString(R.string.checkout_summary_update_changes_notify_c) String mLabelAdjustC;
-
     @BindString(R.string.wait_message) String mLabelWaitMessage;
 
     private static final String LOG_TAG = CheckoutSummaryFragment.class.getSimpleName();

@@ -1,11 +1,9 @@
 package com.crowdo.p2pconnect.oauth;
 
-import android.text.TextUtils;
-
+import android.util.Log;
 import java.io.IOException;
 
 import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -16,6 +14,7 @@ import okhttp3.Response;
 public class AuthHTTPInterceptor implements Interceptor{
 
     private String authToken;
+    private final static String LOG_TAG = AuthHTTPInterceptor.class.getSimpleName();
 
     public AuthHTTPInterceptor(){
         this.authToken = AuthAccountUtils.getAuthTokenFromRealm();
@@ -26,7 +25,7 @@ public class AuthHTTPInterceptor implements Interceptor{
         Request original = chain.request();
         Request.Builder builder = original.newBuilder()
                 .header("Authorization", authToken);
-
+        Log.d(LOG_TAG, "APP authToken: " + authToken);
         Request request = builder.build();
         return chain.proceed(request);
     }

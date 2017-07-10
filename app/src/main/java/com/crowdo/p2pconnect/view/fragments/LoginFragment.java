@@ -249,9 +249,11 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
         viewHolder.mLoginPasswdEditText.setText("");
         e.printStackTrace();
         Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-        SnackBarUtil.snackBarForErrorCreate(getView(),
-                mHttpErrorHandlingMessage,
-                Snackbar.LENGTH_SHORT).show();
+        if(getView() != null) {
+            SnackBarUtil.snackBarForErrorCreate(getView(),
+                    mHttpErrorHandlingMessage,
+                    Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     @Override

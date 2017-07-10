@@ -104,7 +104,7 @@ public class CheckoutSummaryViewHolder {
                 .sizeRes(R.dimen.checkout_summary_expand_icon_size);
 
         final IconicsDrawable cloudSyncIconEnabled = new IconicsDrawable(mContext)
-                .icon(CommunityMaterial.Icon.cmd_cloud_sync)
+                .icon(CommunityMaterial.Icon.cmd_sync)
                 .colorRes(R.color.color_secondary_text)
                 .sizeRes(R.dimen.checkout_summary_action_refresh_icon_size);
 
