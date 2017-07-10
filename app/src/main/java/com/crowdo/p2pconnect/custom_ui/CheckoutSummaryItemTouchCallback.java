@@ -42,12 +42,14 @@ public class CheckoutSummaryItemTouchCallback extends ItemTouchHelperExtension.C
 
     @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-        ItemCheckoutSummaryViewHolder holder = (ItemCheckoutSummaryViewHolder) viewHolder;
-        if(dX < -holder.mItemDeleteBtn.getWidth()){
-            dX = -holder.mItemDeleteBtn.getWidth();
+        if(viewHolder instanceof ItemCheckoutSummaryViewHolder && isCurrentlyActive) {
+            ItemCheckoutSummaryViewHolder holder = (ItemCheckoutSummaryViewHolder) viewHolder;
+            if (dX < -holder.mItemDeleteBtn.getWidth()) {
+                dX = -holder.mItemDeleteBtn.getWidth();
+            }
+            holder.mItemContainer.setTranslationX(dX);
+            return;
         }
-        holder.mItemContainer.setTranslationX(dX);
-        return;
     }
 
 }

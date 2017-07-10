@@ -1,11 +1,7 @@
 package com.crowdo.p2pconnect.helpers;
 
-import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.view.View;
-
-import com.crowdo.p2pconnect.R;
-import com.mikepenz.iconics.IconicsDrawable;
 
 import de.mateware.snacky.Snacky;
 

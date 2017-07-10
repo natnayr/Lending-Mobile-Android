@@ -3,6 +3,11 @@
 /local.properties
 .idea/
 .DS_Store
+crowdo_dev_key.jks
 /build
 /captures
 .externalNativeBuild
+
+app/app-release\.apk
+
+

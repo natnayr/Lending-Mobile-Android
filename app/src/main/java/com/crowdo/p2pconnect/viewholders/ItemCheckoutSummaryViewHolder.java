@@ -33,7 +33,7 @@ import butterknife.ButterKnife;
 
 public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder implements Extension{
 
-    @Nullable@BindView(R.id.item_checkout_summary_container) public RelativeLayout mItemContainer;
+    @Nullable @BindView(R.id.item_checkout_summary_container) public RelativeLayout mItemContainer;
 
     @Nullable @BindView(R.id.item_checkout_summary_loanid_value) TextView mItemLoanId;
     @Nullable @BindView(R.id.item_checkout_summary_tenure_value) TextView mItemTenure;
@@ -113,6 +113,7 @@ public class ItemCheckoutSummaryViewHolder extends RecyclerView.ViewHolder imple
         if(!"".equals(bidLoanItem.getLoanId().trim())) {
             mItemLoanId.setText(bidLoanItem.getLoanId().toUpperCase().trim());
         }
+
 
         mItemTenure.setText(Integer.toString(bidLoanItem.getTenure())
                 + mItemTenureLabel);
