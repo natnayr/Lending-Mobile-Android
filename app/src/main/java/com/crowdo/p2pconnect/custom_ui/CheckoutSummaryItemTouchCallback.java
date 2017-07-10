@@ -48,7 +48,6 @@ public class CheckoutSummaryItemTouchCallback extends ItemTouchHelperExtension.C
                 dX = -holder.mItemDeleteBtn.getWidth();
             }
             holder.mItemContainer.setTranslationX(dX);
-            return;
         }
     }
 
