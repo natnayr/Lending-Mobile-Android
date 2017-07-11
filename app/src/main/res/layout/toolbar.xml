@@ -9,6 +9,6 @@
     android:fitsSystemWindows="true"
     android:minHeight="?attr/actionBarSize"
     android:background="@color/color_primary"
-    app:popupTheme="@style/PopupMenuTheme"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
     android:theme="@style/ToolbarTheme"
     android:animateLayoutChanges="true"/>

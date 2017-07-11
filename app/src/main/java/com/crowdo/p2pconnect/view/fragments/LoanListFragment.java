@@ -204,14 +204,7 @@ public class LoanListFragment extends Fragment {
         super.onPrepareOptionsMenu(menu);
 
         mMenuCart = menu.findItem(R.id.action_cart);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-            //re-set color of icon, v19 issue
-//            Drawable iconCart = getResources().getDrawable(R.drawable.ic_shopping_cart_white_24dp);
-            mMenuCart.getIcon().setColorFilter(getResources().getColor(R.color.color_icons_text), PorterDuff.Mode.SRC_IN);
-//            mMenuCart.setIcon(iconCart);
-        }
         updateShoppingCartItemCount();
-
     }
 
     @Override
@@ -379,6 +372,10 @@ public class LoanListFragment extends Fragment {
     }
 
     private void updateShoppingCartItemCount(){
+
+        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT){
+            return;
+        }
 
         if(mMenuCart == null) {
             Log.d(LOG_TAG, "APP updateShoppingCartItemCount mMenuCart is null");

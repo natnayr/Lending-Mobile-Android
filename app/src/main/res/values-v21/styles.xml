@@ -6,6 +6,7 @@
         <item name="android:colorAccent">@color/color_accent</item>
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
     <style name="AppAlertDialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">

@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity{
         mNavDrawerAppLogo.setTypeface(TypefaceUtils.getNothingYouCouldDoTypeFace(this));
 
         //HockeyApp user metrics
-        MetricsManager.register(getApplication());
+//        MetricsManager.register(getApplication());
     }
 
     private DrawerBuilder buildNavigationDrawer(){
@@ -339,12 +339,12 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void checkForCrashes() {
-        CrashManager.register(this, new CrashManagerListener() {
-            @Override
-            public boolean shouldAutoUploadCrashes() {
-                return true;
-            }
-        });
+//        CrashManager.register(this, new CrashManagerListener() {
+//            @Override
+//            public boolean shouldAutoUploadCrashes() {
+//                return true;
+//            }
+//        });
     }
 
 

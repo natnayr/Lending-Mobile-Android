@@ -103,29 +103,29 @@ public class CheckoutSummaryViewHolder {
                 .colorRes(R.color.color_secondary_text)
                 .sizeRes(R.dimen.checkout_summary_expand_icon_size);
 
-        final IconicsDrawable cloudSyncIconEnabled = new IconicsDrawable(mContext)
+        final IconicsDrawable syncIconEnabled = new IconicsDrawable(mContext)
                 .icon(CommunityMaterial.Icon.cmd_sync)
                 .colorRes(R.color.color_secondary_text)
                 .sizeRes(R.dimen.checkout_summary_action_refresh_icon_size);
 
-        final IconicsDrawable cloudSyncIconPressed = new IconicsDrawable(mContext)
-                .icon(CommunityMaterial.Icon.cmd_cloud_sync)
+        final IconicsDrawable syncIconPressed = new IconicsDrawable(mContext)
+                .icon(CommunityMaterial.Icon.cmd_sync)
                 .colorRes(R.color.color_secondary_text_300)
                 .sizeRes(R.dimen.checkout_summary_action_refresh_icon_size);
 
         mSummaryExpandIcon.setImageDrawable(chevronUpIcon);
-        mSummarySyncIcon.setImageDrawable(cloudSyncIconEnabled);
+        mSummarySyncIcon.setImageDrawable(syncIconEnabled);
         
         mSummaryRefreshBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()){
                     case MotionEvent.ACTION_DOWN:
-                        mSummarySyncIcon.setImageDrawable(cloudSyncIconPressed);
+                        mSummarySyncIcon.setImageDrawable(syncIconPressed);
                         callBackFragmentPopulateSummary.eventCallBack(true);
                         return true;
                     case MotionEvent.ACTION_UP:
-                        mSummarySyncIcon.setImageDrawable(cloudSyncIconEnabled);
+                        mSummarySyncIcon.setImageDrawable(syncIconEnabled);
                         return true;
                 }
                 return false;

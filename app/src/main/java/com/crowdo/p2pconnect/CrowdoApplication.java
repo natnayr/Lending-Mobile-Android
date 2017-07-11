@@ -37,8 +37,7 @@ public class CrowdoApplication extends Application{
 
         initApp(); //if need to redirect
 
-
-        sessionCheckingStart();
+//        sessionCheckingStart();
     }
 
     private static CrowdoApplication get(Context context){
