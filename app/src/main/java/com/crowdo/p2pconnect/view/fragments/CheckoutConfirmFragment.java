@@ -23,8 +23,9 @@ import butterknife.ButterKnife;
 
 public class CheckoutConfirmFragment extends Fragment{
 
-    @BindView(R.id.checkout_confirm_close_btn) LinearLayout mConfirmCloseButton;
-    @BindView(R.id.checkout_confirm_close_icon) ImageView mConfirmCloseIcon;
+    @BindView(R.id.toolbar_custom_left_btn) LinearLayout mConfirmCloseButton;
+    @BindView(R.id.toolbar_custom_left_icon) ImageView mConfirmCloseIcon;
+
     @BindView(R.id.checkout_confirm_success_logo) ImageView mConfirmSuccessLogo;
     @BindView(R.id.checkout_confirm_continue_button) LinearLayout mConfirmContinueButton;
 

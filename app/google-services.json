@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "261821595176",
+    "firebase_url": "https://crowdo-connect.firebaseio.com",
+    "project_id": "crowdo-connect",
+    "storage_bucket": "crowdo-connect.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261821595176:android:e183e00952bd1f17",
+        "android_client_info": {
+          "package_name": "com.crowdo.p2pconnect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "261821595176-m3ubqbidvuha1sb6hbjuogu31uiuj59m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.crowdo.p2pconnect",
+            "certificate_hash": "788819852dacefeeacf1a21de186a0fe7221b6f9"
+          }
+        },
+        {
+          "client_id": "261821595176-c2ko76s9179n992loq8h7c0sniv44sr8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATrqcMdw8Noe57xxCRHTryUJRGNJSnJ2k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "261821595176-c2ko76s9179n992loq8h7c0sniv44sr8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

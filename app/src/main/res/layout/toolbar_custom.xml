@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar_custom_header"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:layout_centerVertical="true"
+    android:layout_alignParentTop="true"
+    android:background="@color/color_background_100">
+
+    <LinearLayout
+        android:id="@+id/toolbar_custom_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:clickable="true">
+        <TextView
+            android:id="@+id/toolbar_custom_title_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@string/font_family_regular"
+            android:textSize="@dimen/toolbar_custom_title_size"
+            android:textColor="@color/color_secondary_text" />
+        <ImageView
+            android:id="@+id/toolbar_custom_title_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/toolbar_custom_title_margin"
+            android:background="@color/color_transparent"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/toolbar_custom_left_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/toolbar_custom_btn_padding"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:clickable="true">
+        <ImageView
+            android:id="@+id/toolbar_custom_left_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/color_transparent"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/toolbar_custom_right_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/toolbar_custom_btn_padding"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:clickable="true">
+        <ImageView
+            android:id="@+id/toolbar_custom_right_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/color_transparent"/>
+    </LinearLayout>
+</RelativeLayout>

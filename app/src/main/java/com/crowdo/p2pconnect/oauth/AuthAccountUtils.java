@@ -164,7 +164,7 @@ public class AuthAccountUtils {
         //begin process
         AccountManager accountManager = AccountManager.get(activity);
 
-        //clear cookie cache fro webview
+        //clear cookie cache fro activity_webview
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             CookieManager cookieManager = CookieManager.getInstance();
             cookieManager.removeSessionCookies(new ValueCallback<Boolean>() {

@@ -1,9 +1,7 @@
 package com.crowdo.p2pconnect.viewholders;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,15 +28,17 @@ import butterknife.ButterKnife;
 
 public class CheckoutSummaryViewHolder {
 
-    @BindView(R.id.checkout_summary_expand_btn) LinearLayout mSummaryExpandBtn;
-    @BindView(R.id.checkout_summary_close_btn) public LinearLayout mSummaryCloseBtn;
-    @BindView(R.id.checkout_summary_refresh_btn) public LinearLayout mSummaryRefreshBtn;
+    @BindView(R.id.toolbar_custom_title) LinearLayout mSummaryExpandBtn;
+    @BindView(R.id.toolbar_custom_title_icon) ImageView mSummaryExpandIcon;
+    @BindView(R.id.toolbar_custom_title_label) TextView mSummaryTitleLabel;
+
+    @BindView(R.id.toolbar_custom_left_btn) public LinearLayout mSummaryCloseBtn;
+    @BindView(R.id.toolbar_custom_left_icon) ImageView mSummaryCloseIcon;
+
+    @BindView(R.id.toolbar_custom_right_btn) public LinearLayout mSummaryRefreshBtn;
+    @BindView(R.id.toolbar_custom_right_icon) ImageView mSummarySyncIcon;
 
     @BindView(R.id.checkout_summary_update_notify_label) public TextView mSummaryUpdateNotifyLabel;
-
-    @BindView(R.id.checkout_summary_expand_icon) ImageView mSummaryExpandIcon;
-    @BindView(R.id.checkout_summary_refresh_icon) ImageView mSummarySyncIcon;
-    @BindView(R.id.checkout_summary_close_icon) ImageView mSummaryCloseIcon;
     @BindView(R.id.checkout_summary_expandable) ExpandableLayout mSummaryExpandableLayout;
     @BindView(R.id.checkout_summary_recycler_view) RecyclerView mSummaryRecycleView;
 
@@ -60,10 +60,11 @@ public class CheckoutSummaryViewHolder {
     @BindView(R.id.checkout_summary_update_button_label) TextView mSummaryUpdateButtonLabel;
     @BindView(R.id.checkout_summary_update_button_icon) ImageView mSummaryUpdateButtonIcon;
 
-    @BindString(R.string.checkout_summary_bidding_overall_idr_currency_symbol_label) String mSummaryCurrencySymbol;
-    @BindString(R.string.checkout_summary_container_top_up_label) String mSummaryTopUpLabel;
-    @BindString(R.string.checkout_summary_container_update_label) String mSummaryUpdateLabel;
-    @BindString(R.string.checkout_summary_container_confirm_label) String mSummaryConfirmLabel;
+    @BindString(R.string.checkout_summary_title_label) String mSummaryTitleText;
+    @BindString(R.string.checkout_summary_bidding_overall_idr_currency_symbol_label) String mSummaryCurrencySymbolText;
+    @BindString(R.string.checkout_summary_container_top_up_label) String mSummaryTopUpText;
+    @BindString(R.string.checkout_summary_container_update_label) String mSummaryUpdateText;
+    @BindString(R.string.checkout_summary_container_confirm_label) String mSummaryConfirmText;
 
     @BindDrawable(R.drawable.ic_top_up_icon) Drawable mSummaryTopUpIcon;
     @BindColor(R.color.color_primary) int mColorPrimary;
@@ -96,22 +97,24 @@ public class CheckoutSummaryViewHolder {
         final IconicsDrawable chevronUpIcon = new IconicsDrawable(mContext)
                 .icon(CommunityMaterial.Icon.cmd_chevron_up)
                 .colorRes(R.color.color_secondary_text)
-                .sizeRes(R.dimen.checkout_summary_expand_icon_size);
+                .sizeRes(R.dimen.toolbar_custom_title_icon_size);
 
         final IconicsDrawable chevronDownIcon = new IconicsDrawable(mContext)
                 .icon(CommunityMaterial.Icon.cmd_chevron_down)
                 .colorRes(R.color.color_secondary_text)
-                .sizeRes(R.dimen.checkout_summary_expand_icon_size);
+                .sizeRes(R.dimen.toolbar_custom_title_icon_size);
 
         final IconicsDrawable syncIconEnabled = new IconicsDrawable(mContext)
                 .icon(CommunityMaterial.Icon.cmd_sync)
                 .colorRes(R.color.color_secondary_text)
-                .sizeRes(R.dimen.checkout_summary_action_refresh_icon_size);
+                .sizeRes(R.dimen.toolbar_custom_right_icon_size);
 
         final IconicsDrawable syncIconPressed = new IconicsDrawable(mContext)
                 .icon(CommunityMaterial.Icon.cmd_sync)
                 .colorRes(R.color.color_secondary_text_300)
-                .sizeRes(R.dimen.checkout_summary_action_refresh_icon_size);
+                .sizeRes(R.dimen.toolbar_custom_right_icon_size);
+
+        mSummaryTitleLabel.setText(mSummaryTitleText);
 
         mSummaryExpandIcon.setImageDrawable(chevronUpIcon);
         mSummarySyncIcon.setImageDrawable(syncIconEnabled);
@@ -136,7 +139,7 @@ public class CheckoutSummaryViewHolder {
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_close)
                         .colorRes(R.color.color_secondary_text)
-                        .sizeRes(R.dimen.checkout_summary_action_close_icon_size));
+                        .sizeRes(R.dimen.toolbar_custom_left_icon_size));
 
         mSummaryPendingBidsIconMain.setImageDrawable(
                 new IconicsDrawable(mContext)
@@ -218,18 +221,18 @@ public class CheckoutSummaryViewHolder {
             .icon(CommunityMaterial.Icon.cmd_clipboard_flow)
             .colorRes(R.color.color_icons_text)
             .sizeRes(R.dimen.checkout_summary_action_bottom_icon_size));
-        mSummaryUpdateButtonLabel.setText(mSummaryUpdateLabel);
+        mSummaryUpdateButtonLabel.setText(mSummaryUpdateText);
 
     }
 
     public void populateSummaryDetails(long totalPendingBids, long availableBalance){
-        mSummaryPendingBidsValue.setText(mSummaryCurrencySymbol + Long.toString(totalPendingBids));
-        mSummaryAvailableBalanceValue.setText(mSummaryCurrencySymbol + Long.toString(availableBalance));
+        mSummaryPendingBidsValue.setText(mSummaryCurrencySymbolText + Long.toString(totalPendingBids));
+        mSummaryAvailableBalanceValue.setText(mSummaryCurrencySymbolText + Long.toString(availableBalance));
 
         if(totalPendingBids > availableBalance){
             //top up needed
             long requiredAmtTopUp = totalPendingBids - availableBalance;
-            mSummaryAmtTopUpValue.setText(mSummaryCurrencySymbol + Long.toString(requiredAmtTopUp));
+            mSummaryAmtTopUpValue.setText(mSummaryCurrencySymbolText + Long.toString(requiredAmtTopUp));
             mSummaryAmtTopUpValue.setTextColor(mColorPrimary);
             mSummaryAvalibleBalanceIconFloat.setVisibility(View.VISIBLE);
             mSummaryAvalibleBalanceIconFloat.setImageDrawable(
@@ -260,7 +263,7 @@ public class CheckoutSummaryViewHolder {
                         .icon(CommunityMaterial.Icon.cmd_checkbox_marked_circle)
                         .sizeRes(R.dimen.checkout_summary_action_bottom_icon_size)
                         .colorRes(R.color.color_icons_text));
-                mSummaryActionButtonLabel.setText(mSummaryConfirmLabel);
+                mSummaryActionButtonLabel.setText(mSummaryConfirmText);
                 mSummaryActionButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -274,7 +277,7 @@ public class CheckoutSummaryViewHolder {
 
                 mSummaryActionButton.setBackgroundColor(mColorAccent);
                 mSummaryActionButtonIcon.setImageDrawable(mSummaryTopUpIcon);
-                mSummaryActionButtonLabel.setText(mSummaryTopUpLabel);
+                mSummaryActionButtonLabel.setText(mSummaryTopUpText);
                 mSummaryActionButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

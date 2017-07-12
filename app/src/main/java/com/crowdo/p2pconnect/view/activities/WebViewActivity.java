@@ -33,10 +33,8 @@ import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
-import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
-import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.esafirm.rxdownloader.RxDownloader;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
@@ -52,8 +50,6 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import im.delight.android.webview.AdvancedWebView;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import rx.Subscriber;
 
 /**
@@ -89,7 +85,7 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.webview);
+        setContentView(R.layout.activity_webview);
 
         ButterKnife.bind(WebViewActivity.this);
 

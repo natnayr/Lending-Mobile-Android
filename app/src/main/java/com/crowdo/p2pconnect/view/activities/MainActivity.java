@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity{
                                         .mUrl(webViewUrl)
                                         .build();
                                 startActivity(intent);
-                                Log.d(LOG_TAG, "APP webview launched to " + webViewUrl);
+                                Log.d(LOG_TAG, "APP activity_webview launched to " + webViewUrl);
                                 return true;
                             }
 
