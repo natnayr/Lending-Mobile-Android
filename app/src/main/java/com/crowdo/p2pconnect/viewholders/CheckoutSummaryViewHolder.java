@@ -28,8 +28,8 @@ import butterknife.ButterKnife;
 
 public class CheckoutSummaryViewHolder {
 
-    @BindView(R.id.toolbar_custom_title) LinearLayout mSummaryExpandBtn;
-    @BindView(R.id.toolbar_custom_title_icon) ImageView mSummaryExpandIcon;
+    @BindView(R.id.toolbar_custom_title) LinearLayout mSummaryTitleBtn;
+    @BindView(R.id.toolbar_custom_title_icon) ImageView mSummaryTitleExpandIcon;
     @BindView(R.id.toolbar_custom_title_label) TextView mSummaryTitleLabel;
 
     @BindView(R.id.toolbar_custom_left_btn) public LinearLayout mSummaryCloseBtn;
@@ -82,11 +82,11 @@ public class CheckoutSummaryViewHolder {
     public static final int CONFIRM_ACTION = 1;
     public static final int TOPUP_ACTION = 2;
 
-    public CheckoutSummaryViewHolder(View view, Context mContext,
+    public CheckoutSummaryViewHolder(View view, Context context,
                                      CallBackUtil<Boolean> callBackSummaryRefresh,
                                      CallBackUtil<Object> callBackTopUpWebView,
                                      CallBackUtil<Object> callBackConfirmBtnPress) {
-        this.mContext = mContext;
+        this.mContext = context;
         this.callBackFragmentPopulateSummary = callBackSummaryRefresh;
         this.callBackTopUpWebView = callBackTopUpWebView;
         this.callBackConfirmBtnPress = callBackConfirmBtnPress;
@@ -94,13 +94,13 @@ public class CheckoutSummaryViewHolder {
     }
 
     public void initView(){
-        final IconicsDrawable chevronUpIcon = new IconicsDrawable(mContext)
-                .icon(CommunityMaterial.Icon.cmd_chevron_up)
+        final IconicsDrawable menuUpIcon = new IconicsDrawable(mContext)
+                .icon(CommunityMaterial.Icon.cmd_menu_up)
                 .colorRes(R.color.color_secondary_text)
                 .sizeRes(R.dimen.toolbar_custom_title_icon_size);
 
-        final IconicsDrawable chevronDownIcon = new IconicsDrawable(mContext)
-                .icon(CommunityMaterial.Icon.cmd_chevron_down)
+        final IconicsDrawable menuDownIcon = new IconicsDrawable(mContext)
+                .icon(CommunityMaterial.Icon.cmd_menu_down)
                 .colorRes(R.color.color_secondary_text)
                 .sizeRes(R.dimen.toolbar_custom_title_icon_size);
 
@@ -116,7 +116,7 @@ public class CheckoutSummaryViewHolder {
 
         mSummaryTitleLabel.setText(mSummaryTitleText);
 
-        mSummaryExpandIcon.setImageDrawable(chevronUpIcon);
+        mSummaryTitleExpandIcon.setImageDrawable(menuUpIcon);
         mSummarySyncIcon.setImageDrawable(syncIconEnabled);
         
         mSummaryRefreshBtn.setOnTouchListener(new View.OnTouchListener() {
@@ -167,16 +167,16 @@ public class CheckoutSummaryViewHolder {
                         .colorRes(R.color.color_primary_text_800)
                         .sizeRes(R.dimen.checkout_summary_bidding_overall_icon_float_size));
 
-        mSummaryExpandBtn.setOnClickListener(
+        mSummaryTitleBtn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if(mSummaryExpandableLayout.isExpanded()){
                             mSummaryExpandableLayout.collapse();
-                            mSummaryExpandIcon.setImageDrawable(chevronDownIcon);
+                            mSummaryTitleExpandIcon.setImageDrawable(menuDownIcon);
                         }else{
                             mSummaryExpandableLayout.expand();
-                            mSummaryExpandIcon.setImageDrawable(chevronUpIcon);
+                            mSummaryTitleExpandIcon.setImageDrawable(menuUpIcon);
                         }
                     }
                 }
@@ -194,11 +194,13 @@ public class CheckoutSummaryViewHolder {
                 if(dy > 0){
                     if(mSummaryExpandableLayout.isExpanded()){
                         mSummaryExpandableLayout.collapse();
-                        mSummaryExpandIcon.setImageDrawable(chevronDownIcon);
+                        mSummaryTitleExpandIcon.setImageDrawable(menuDownIcon);
                     }
                 }
             }
         });
+
+
 
         mSummaryRecycleView.setOnFlingListener(new RecyclerView.OnFlingListener() {
             @Override
@@ -206,7 +208,7 @@ public class CheckoutSummaryViewHolder {
                 if(velocityY > 0){
                     if(mSummaryExpandableLayout.isExpanded()){
                         mSummaryExpandableLayout.collapse();
-                        mSummaryExpandIcon.setImageDrawable(chevronDownIcon);
+                        mSummaryTitleExpandIcon.setImageDrawable(menuDownIcon);
                         return true;
                     }
                 }

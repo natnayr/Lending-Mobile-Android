@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +32,6 @@ public class CheckoutConfirmFragment extends Fragment{
     @BindView(R.id.checkout_confirm_continue_button) LinearLayout mConfirmContinueButton;
 
     private Context mContext;
-
 
     public CheckoutConfirmFragment() {
     }
@@ -75,5 +76,21 @@ public class CheckoutConfirmFragment extends Fragment{
         return rootView;
     }
 
+    public static class MyPagerAdapter extends FragmentPagerAdapter{
+
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return 0;
+        }
+    }
 
 }

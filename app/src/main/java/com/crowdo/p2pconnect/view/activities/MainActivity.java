@@ -141,11 +141,11 @@ public class MainActivity extends AppCompatActivity{
                                 .withName(R.string.toolbar_title_learning_center).withIcon(CommunityMaterial.Icon.cmd_book_open_page_variant)
                                 .withSelectedTextColorRes(R.color.color_primary_700)
                                 .withSelectedIconColorRes(R.color.color_primary_700),
-//                        new SectionDrawerItem().withName("Account"),
-//                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_ACCOUNT_TOP_UP)
-//                                .withName("Top Up").withIcon(CommunityMaterial.Icon.cmd_wallet)
-//                                .withSelectedTextColorRes(R.color.color_primary_700)
-//                                .withSelectedIconColorRes(R.color.color_primary_700),
+                        new SectionDrawerItem().withName("Account"),
+                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_ACCOUNT_TOP_UP)
+                                .withName("Top Up").withIcon(CommunityMaterial.Icon.cmd_wallet)
+                                .withSelectedTextColorRes(R.color.color_primary_700)
+                                .withSelectedIconColorRes(R.color.color_primary_700),
 //                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_ACCOUNT_WITHDRAW)
 //                                .withName("Withdraw").withIcon(CommunityMaterial.Icon.cmd_square_inc_cash)
 //                                .withSelectedTextColorRes(R.color.color_primary_700)
@@ -198,6 +198,12 @@ public class MainActivity extends AppCompatActivity{
                                     fragmentClass = LearningCenterFragment.class;
                                     mToolbar.setTitle(R.string.toolbar_title_learning_center);
                                     break;
+
+                                case DRAWER_SELECT_ACCOUNT_TOP_UP:
+                                    Intent intent = new Intent(MainActivity.this, TopUpActivity.class);
+                                    startActivity(intent);
+                                    break;
+
 
                                 case DRAWER_SELECT_LANGUAGE_EN:
                                     LocaleHelper.setLocale(MainActivity.this, ConstantVariables.APP_LANG_EN);

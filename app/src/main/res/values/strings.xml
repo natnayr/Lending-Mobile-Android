@@ -151,6 +151,10 @@
     <string name="checkout_confirm_success_message_label">Your bid(s) are confirmed</string>
     <string name="checkout_confirm_continue_action_label">Continue</string>
 
+    <string name="top_up_title_label">Top Up</string>
+    <string name="top_up_tab_title_one">Top Up</string>
+    <string name="top_up_tab_title_two">History</string>
+
     <!-- Globals -->
     <string name="auth_session_end_and_logout">Session Ended, Logging Out</string>
     <string name="auth_welcome">Welcome</string>

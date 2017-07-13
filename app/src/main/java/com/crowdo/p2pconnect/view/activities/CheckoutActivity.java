@@ -15,12 +15,10 @@ import com.crowdo.p2pconnect.view.fragments.CheckoutSummaryFragment;
 
 public class CheckoutActivity extends AppCompatActivity {
 
-    private static final String LOG_TAG = CheckoutActivity.class.getSimpleName();
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_checkout_summary);
+        setContentView(R.layout.activity_checkout);
 
         CheckoutSummaryFragment checkoutSummaryFragment = new CheckoutSummaryFragment();
         getSupportFragmentManager().beginTransaction()
