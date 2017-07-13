@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +15,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.commons.MemberDataRetrieval;
+import com.crowdo.p2pconnect.helpers.CallBackUtil;
+import com.crowdo.p2pconnect.helpers.ConstantVariables;
+import com.crowdo.p2pconnect.helpers.NumericUtils;
+import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.view.fragments.TopUpHistoryFragment;
 import com.crowdo.p2pconnect.view.fragments.TopUpSubmitFragment;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
@@ -39,20 +45,24 @@ public class TopUpActivity extends AppCompatActivity {
     @BindView(R.id.toolbar_custom_right_btn) LinearLayout mTopUpRefreshBtn;
     @BindView(R.id.toolbar_custom_right_icon) ImageView mTopUpRefreshIcon;
     @BindView(R.id.top_up_balance_expandable) ExpandableLayout mTopUpBalanceExpandableLayout;
+    @BindView(R.id.top_up_balance_amount) TextView mTopUpBalanceAmountLabel;
+    @BindView(R.id.top_up_balance_description) TextView mTopUpBalanceDescriptionLabel;
+
     @BindView(R.id.top_up_viewpager) ViewPager mTopUpViewPager;
     @BindView(R.id.top_up_tablayout) TabLayout mTopUpTabLayout;
 
     @BindString(R.string.top_up_title_label) String mTopUpTitleText;
     @BindString(R.string.top_up_tab_title_one) String mTopUpTabTitleOne;
     @BindString(R.string.top_up_tab_title_two) String mTopUpTabTitleTwo;
+    @BindString(R.string.top_up_balance_description_start) String mTopUpBalanceDescriptionStartLabel;
 
     private TopUpPagerAdapter pagerAdapter;
     private final Fragment[] PAGES = new Fragment[]{
             new TopUpSubmitFragment(),
             new TopUpHistoryFragment()
     };
-    private final String[] PAGE_TITLES = new String[] {
-            mTopUpTabTitleOne, mTopUpTabTitleTwo};
+    private final String[] PAGE_TITLES = new String[] {mTopUpTabTitleOne, mTopUpTabTitleTwo};
+    private final static String LOG_TAG = TopUpActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +72,8 @@ public class TopUpActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         initView();
+
+        getMemberDetails();
 
         mTopUpCloseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +91,23 @@ public class TopUpActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    private void getMemberDetails(){
+        MemberDataRetrieval memberRetrieval = new MemberDataRetrieval();
+        memberRetrieval.retrieveMemberInfo(this, new CallBackUtil<MemberInfoResponse>() {
+            @Override
+            public void eventCallBack(MemberInfoResponse memberInfoResponse) {
+                String amount = NumericUtils.formatCurrency(NumericUtils.IDR,
+                        ((double) memberInfoResponse.getAvailableCashBalance()), false).trim();
+                Log.d(LOG_TAG, "APP getMemberDetails getAvailableCashBalance: " + memberInfoResponse.getAvailableCashBalance());
+
+                mTopUpBalanceAmountLabel.setText(amount);
+
+                mTopUpBalanceDescriptionLabel.setText(mTopUpBalanceDescriptionStartLabel +
+                    "(" + NumericUtils.IDR + ")");
+            }
+        });
     }
 
     private void initView(){

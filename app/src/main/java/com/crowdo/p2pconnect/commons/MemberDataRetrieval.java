@@ -1,12 +1,14 @@
 package com.crowdo.p2pconnect.commons;
 
 import android.app.Activity;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 
 import com.crowdo.p2pconnect.data.client.MemberClient;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
+import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 
@@ -27,7 +29,7 @@ public class MemberDataRetrieval {
 
     public void retrieveMemberInfo(final Activity activity, final CallBackUtil<MemberInfoResponse> callBackUtil){
 
-        Log.d(LOG_TAG, "APP retrieveMemberInfo start");
+        Log.d(LOG_TAG, "APP retrieveMemberInfo");
 
         MemberClient.getInstance(activity)
                 .getMemberInfo(ConstantVariables.getUniqueAndroidID(activity))
@@ -44,9 +46,6 @@ public class MemberDataRetrieval {
                         if(response.isSuccessful()){
                             mMemberInfoResposne = response.body();
                             callBackUtil.eventCallBack(mMemberInfoResposne);
-                        }else{
-                            Log.d(LOG_TAG, "APP getMemberInfo onNext() status > "
-                                    + response.code());
                         }
                     }
 

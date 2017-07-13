@@ -154,6 +154,7 @@
     <string name="top_up_title_label">Top Up</string>
     <string name="top_up_tab_title_one">Top Up</string>
     <string name="top_up_tab_title_two">History</string>
+    <string name="top_up_balance_description_start">Account Balance&#160;</string>
 
     <!-- Globals -->
     <string name="auth_session_end_and_logout">Session Ended, Logging Out</string>
