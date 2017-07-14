@@ -6,15 +6,12 @@ import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.data.SendingCookiesInterceptor;
 import com.crowdo.p2pconnect.data.ReceivingCookiesInterceptor;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
-import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.model.request.CheckoutBatchRequest;
 import com.crowdo.p2pconnect.model.request.InvestBid;
 import com.crowdo.p2pconnect.model.response.CheckoutSummaryResponse;
 import com.crowdo.p2pconnect.model.response.CheckoutUpdateResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
-import com.crowdo.p2pconnect.model.response.ServerResponse;
 import com.crowdo.p2pconnect.oauth.AuthHTTPInterceptor;
-import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

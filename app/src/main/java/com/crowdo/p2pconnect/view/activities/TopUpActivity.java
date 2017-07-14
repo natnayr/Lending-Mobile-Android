@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.commons.MemberDataRetrieval;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
-import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.NumericUtils;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.view.fragments.TopUpHistoryFragment;
@@ -57,12 +56,19 @@ public class TopUpActivity extends AppCompatActivity {
     @BindString(R.string.top_up_balance_description_start) String mTopUpBalanceDescriptionStartLabel;
 
     private TopUpPagerAdapter pagerAdapter;
-    private final Fragment[] PAGES = new Fragment[]{
-            new TopUpSubmitFragment(),
-            new TopUpHistoryFragment()
-    };
-    private final String[] PAGE_TITLES = new String[] {mTopUpTabTitleOne, mTopUpTabTitleTwo};
+
     private final static String LOG_TAG = TopUpActivity.class.getSimpleName();
+    private final String[] PAGE_TITLES = new String[] {mTopUpTabTitleOne, mTopUpTabTitleTwo};
+    private final Fragment[] PAGES;
+    private TopUpHistoryFragment historyFragment;
+    private TopUpSubmitFragment submitFragment ;
+
+
+    public TopUpActivity(){
+        submitFragment = new TopUpSubmitFragment();
+        historyFragment = new TopUpHistoryFragment();
+        PAGES = new Fragment[]{ submitFragment, historyFragment };
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

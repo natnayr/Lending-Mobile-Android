@@ -249,7 +249,7 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
                                     MessageResponse.class, new Annotation[0]);
                     try {
                         MessageResponse errorResponse = errorConverter.convert(response.errorBody());
-                        serverErrorMsg = errorResponse.getServerResponse().getMessage();
+                        serverErrorMsg = errorResponse.getServer().getMessage();
                     } catch (IOException e) {
                         e.printStackTrace();
                         Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
@@ -296,13 +296,13 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
 
         //success register
         if(authResponse != null) {
-            if (HTTPResponseUtils.check2xxSuccess(authResponse.getServerResponse().getStatus())) {
+            if (HTTPResponseUtils.check2xxSuccess(authResponse.getServer().getStatus())) {
                 Log.d(LOG_TAG, "APP: onComplete > response.isSuccessful TRUE");
 
                 //show success
                 if(getView() != null) {
                     SnackBarUtil.snackBarForSuccessCreate(getView(),
-                            authResponse.getServerResponse().getMessage(),
+                            authResponse.getServer().getMessage(),
                             Snackbar.LENGTH_SHORT).show();
                 }
                 final String email = authResponse.getMember().getEmail();

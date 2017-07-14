@@ -1,5 +1,7 @@
 package com.crowdo.p2pconnect.model.response;
 
+import com.crowdo.p2pconnect.model.others.BankInfo;
+import com.crowdo.p2pconnect.model.others.Server;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -11,7 +13,7 @@ public class MemberInfoResponse {
 
     @SerializedName("server")
     @Expose
-    private ServerResponse serverResponse;
+    private Server server;
     @SerializedName("name")
     @Expose
     private String name;
@@ -21,19 +23,22 @@ public class MemberInfoResponse {
     @SerializedName("number_of_pending_bids")
     @Expose
     private int numberOfPendingBids;
-    @SerializedName("total_pending_bids")
+    @SerializedName("total_pending_bid_amount")
     @Expose
-    private String totalPendingBids;
+    private double totalPendingBidAmount;
     @SerializedName("available_cash_balance")
     @Expose
     private int availableCashBalance;
+    @SerializedName("bank_info")
+    @Expose
+    private BankInfo bankInfo;
 
-    public ServerResponse getServerResponse() {
-        return serverResponse;
+    public Server getServer() {
+        return server;
     }
 
-    public void setServerResponse(ServerResponse serverResponse) {
-        this.serverResponse = serverResponse;
+    public void setServer(Server server) {
+        this.server = server;
     }
 
     public String getName() {
@@ -60,12 +65,12 @@ public class MemberInfoResponse {
         this.numberOfPendingBids = numberOfPendingBids;
     }
 
-    public String getTotalPendingBids() {
-        return totalPendingBids;
+    public double getTotalPendingBidAmount() {
+        return totalPendingBidAmount;
     }
 
-    public void setTotalPendingBids(String totalPendingBids) {
-        this.totalPendingBids = totalPendingBids;
+    public void setTotalPendingBidAmount(double totalPendingBidAmount) {
+        this.totalPendingBidAmount = totalPendingBidAmount;
     }
 
     public int getAvailableCashBalance() {
@@ -74,5 +79,13 @@ public class MemberInfoResponse {
 
     public void setAvailableCashBalance(int availableCashBalance) {
         this.availableCashBalance = availableCashBalance;
+    }
+
+    public BankInfo getBankInfo() {
+        return bankInfo;
+    }
+
+    public void setBankInfo(BankInfo bankInfo) {
+        this.bankInfo = bankInfo;
     }
 }

@@ -33,7 +33,7 @@ import com.crowdo.p2pconnect.model.response.BidOnlyResponse;
 import com.crowdo.p2pconnect.model.response.CheckBidResponse;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
-import com.crowdo.p2pconnect.model.response.ServerResponse;
+import com.crowdo.p2pconnect.model.others.Server;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
@@ -486,7 +486,7 @@ public class LoanDetailsFragment extends Fragment {
                                                         .convert(response.errorBody());
 
                                                 serverErrorMessage = errorResponse
-                                                        .getServerResponse().getMessage();
+                                                        .getServer().getMessage();
                                             }catch (IOException e){
                                                 e.printStackTrace();
                                                 Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
@@ -536,7 +536,7 @@ public class LoanDetailsFragment extends Fragment {
                             BidOnlyResponse acceptBidOnlyResponse = response.body();
                             if(acceptBidOnlyResponse != null){
                                 Investment bid = acceptBidOnlyResponse.getBid();
-                                ServerResponse server = acceptBidOnlyResponse.getServer();
+                                Server server = acceptBidOnlyResponse.getServer();
                                 Log.d(LOG_TAG, "APP addToCart onNext() bid_id: " + bid.getId());
 
                                 //pass response to user
@@ -593,7 +593,7 @@ public class LoanDetailsFragment extends Fragment {
             @Override
             public void eventCallBack(MemberInfoResponse memberInfoResponse) {
                 if (HTTPResponseUtils.check2xxSuccess(memberInfoResponse
-                        .getServerResponse().getStatus())) {
+                        .getServer().getStatus())) {
                     CartBadgeDrawable.setBadgeCount(getActivity(), cartIcon,
                             Integer.toString(memberInfoResponse.getNumberOfPendingBids()));
                 }

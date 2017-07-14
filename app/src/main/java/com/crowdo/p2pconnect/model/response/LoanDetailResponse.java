@@ -6,6 +6,7 @@ package com.crowdo.p2pconnect.model.response;
 
 import com.crowdo.p2pconnect.model.core.Investment;
 import com.crowdo.p2pconnect.model.core.Loan;
+import com.crowdo.p2pconnect.model.others.Server;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -15,7 +16,7 @@ public class LoanDetailResponse {
 
     @SerializedName("server")
     @Expose
-    private ServerResponse serverResponse;
+    private Server server;
 
     @SerializedName("loan")
     @Expose
@@ -33,12 +34,12 @@ public class LoanDetailResponse {
     @Expose
     private String lastRepayment;
 
-    public ServerResponse getServerResponse(){
-        return serverResponse;
+    public Server getServer(){
+        return server;
     }
 
-    public void setServerResponse(ServerResponse serverResponse){
-        this.serverResponse = serverResponse;
+    public void setServer(Server server){
+        this.server = server;
     }
 
     public Loan getLoan(){

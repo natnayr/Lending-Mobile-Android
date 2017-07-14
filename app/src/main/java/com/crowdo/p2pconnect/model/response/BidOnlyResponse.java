@@ -1,6 +1,7 @@
 package com.crowdo.p2pconnect.model.response;
 
 import com.crowdo.p2pconnect.model.core.Investment;
+import com.crowdo.p2pconnect.model.others.Server;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -12,17 +13,17 @@ public class BidOnlyResponse {
 
     @SerializedName("server")
     @Expose
-    private ServerResponse server;
+    private Server server;
 
     @SerializedName("bid")
     @Expose
     private Investment bid;
 
-    public ServerResponse getServer() {
+    public Server getServer() {
         return server;
     }
 
-    public void setServer(ServerResponse server) {
+    public void setServer(Server server) {
         this.server = server;
     }
 

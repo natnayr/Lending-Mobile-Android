@@ -1,6 +1,7 @@
 package com.crowdo.p2pconnect.model.response;
 
 import com.crowdo.p2pconnect.model.core.Loan;
+import com.crowdo.p2pconnect.model.others.Server;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -14,7 +15,7 @@ public class LoanListResponse {
 
     @SerializedName("server")
     @Expose
-    public ServerResponse serverResponse;
+    public Server server;
 
     @SerializedName("loans")
     @Expose

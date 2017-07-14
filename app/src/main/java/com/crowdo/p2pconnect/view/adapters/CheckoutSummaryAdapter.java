@@ -248,7 +248,7 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                                         try{
                                             MessageResponse errorResponse = errorConverter
                                                     .convert(response.errorBody());
-                                            serverErrorMessage = errorResponse.getServerResponse().getMessage();
+                                            serverErrorMessage = errorResponse.getServer().getMessage();
                                         }catch (IOException e){
                                             e.printStackTrace();
                                             Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);

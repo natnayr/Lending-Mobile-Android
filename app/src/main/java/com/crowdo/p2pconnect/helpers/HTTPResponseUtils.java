@@ -1,6 +1,5 @@
 package com.crowdo.p2pconnect.helpers;
 
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 
 import com.crowdo.p2pconnect.data.client.ClientInterface;
@@ -11,7 +10,6 @@ import java.lang.annotation.Annotation;
 
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
-import retrofit2.Response;
 
 /**
  * Created by cwdsg05 on 24/3/17.
@@ -57,9 +55,9 @@ public class HTTPResponseUtils {
             try{
                 MessageResponse errorResponse = errorConverter
                         .convert(errorBody);
-                serverErrorMessage = errorResponse.getServerResponse().getMessage();
+                serverErrorMessage = errorResponse.getServer().getMessage();
                 Log.d(LOG_TAG, "APP errorServerResponseConvert 4xx Error Code: " +
-                        errorResponse.getServerResponse().getStatus());
+                        errorResponse.getServer().getStatus());
             }catch (IOException e) {
                 e.printStackTrace();
                 Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);

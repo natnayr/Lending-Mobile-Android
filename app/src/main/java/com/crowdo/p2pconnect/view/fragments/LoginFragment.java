@@ -11,12 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.client.AuthClient;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
-import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
 import com.crowdo.p2pconnect.model.response.AuthResponse;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
@@ -28,7 +26,6 @@ import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.model.core.Member;
 import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
-import com.crowdo.p2pconnect.view.activities.LaunchActivity;
 import com.crowdo.p2pconnect.viewholders.LoginViewHolder;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
@@ -213,7 +210,7 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
                                     MessageResponse.class, new Annotation[0]);
                     try {
                         MessageResponse errorResponse = errorConverter.convert(response.errorBody());
-                        serverErrorMsg = errorResponse.getServerResponse().getMessage();
+                        serverErrorMsg = errorResponse.getServer().getMessage();
                     } catch (IOException e) {
                         e.printStackTrace();
                         Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
@@ -262,14 +259,14 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
 
         //success login
         if(authResponse != null){
-            if (HTTPResponseUtils.check2xxSuccess(authResponse.getServerResponse().getStatus())) {
+            if (HTTPResponseUtils.check2xxSuccess(authResponse.getServer().getStatus())) {
                 Log.d(LOG_TAG, "APP: onComplete > response.isSuccessful TRUE");
 
-                if (HTTPResponseUtils.check2xxSuccess(authResponse.getServerResponse().getStatus())) {
+                if (HTTPResponseUtils.check2xxSuccess(authResponse.getServer().getStatus())) {
                     //show http success
                     if(getView() != null) {
                         SnackBarUtil.snackBarForSuccessCreate(getView(),
-                                authResponse.getServerResponse().getMessage(),
+                                authResponse.getServer().getMessage(),
                                 Snackbar.LENGTH_SHORT).show();
                     }
 

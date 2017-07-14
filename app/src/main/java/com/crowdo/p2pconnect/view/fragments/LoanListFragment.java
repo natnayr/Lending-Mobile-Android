@@ -2,16 +2,12 @@ package com.crowdo.p2pconnect.view.fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
@@ -40,9 +36,7 @@ import com.crowdo.p2pconnect.model.core.Loan;
 import com.crowdo.p2pconnect.model.response.LoanListResponse;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
-import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
-import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.activities.CheckoutActivity;
 import com.crowdo.p2pconnect.view.activities.Henson;
 import com.crowdo.p2pconnect.data.client.LoanClient;
@@ -389,7 +383,7 @@ public class LoanListFragment extends Fragment {
             @Override
             public void eventCallBack(MemberInfoResponse memberInfoResponse) {
                 if (HTTPResponseUtils.check2xxSuccess(memberInfoResponse
-                        .getServerResponse().getStatus())) {
+                        .getServer().getStatus())) {
                     CartBadgeDrawable.setBadgeCount(getActivity(), cartIcon,
                             Integer.toString(memberInfoResponse.getNumberOfPendingBids()));
                 }

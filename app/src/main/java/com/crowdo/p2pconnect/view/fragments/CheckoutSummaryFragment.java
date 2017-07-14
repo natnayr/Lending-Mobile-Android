@@ -382,10 +382,10 @@ public class CheckoutSummaryFragment extends Fragment{
                                     }
 
                                     Log.d(LOG_TAG, "APP updateSummaryList Rx response: "
-                                            + updateResponse.getServerResponse().getMessage());
+                                            + updateResponse.getServer().getMessage());
 
                                     Snackbar snackbar = SnackBarUtil.snackBarForWarningCreate(getView(),
-                                            updateResponse.getServerResponse().getMessage(),
+                                            updateResponse.getServer().getMessage(),
                                             Snackbar.LENGTH_SHORT);
                                     snackbar.addCallback(new Snackbar.Callback() {
                                         @Override
@@ -454,7 +454,7 @@ public class CheckoutSummaryFragment extends Fragment{
 
                             if(response.isSuccessful()){
                                 MessageResponse messageResponse = response.body();
-                                String confirmResponseMessage = messageResponse.getServerResponse().getMessage();
+                                String confirmResponseMessage = messageResponse.getServer().getMessage();
 
                                 SnackBarUtil.snackBarForSuccessCreate(getView(),
                                         confirmResponseMessage, Snackbar.LENGTH_SHORT)

@@ -1,5 +1,6 @@
 package com.crowdo.p2pconnect.model.response;
 
+import com.crowdo.p2pconnect.model.others.Server;
 import com.crowdo.p2pconnect.model.request.InvestBid;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -14,7 +15,7 @@ public class CheckoutUpdateResponse {
 
     @SerializedName("server")
     @Expose
-    private ServerResponse serverResponse;
+    private Server server;
 
     @SerializedName("array")
     @Expose
@@ -28,12 +29,12 @@ public class CheckoutUpdateResponse {
     @Expose
     private int totalCashBalance;
 
-    public ServerResponse getServerResponse() {
-        return serverResponse;
+    public Server getServer() {
+        return server;
     }
 
-    public void setServerResponse(ServerResponse serverResponse) {
-        this.serverResponse = serverResponse;
+    public void setServer(Server server) {
+        this.server = server;
     }
 
     public List<InvestBid> getArray() {
