@@ -6,10 +6,8 @@ import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.data.ReceivingCookiesInterceptor;
 import com.crowdo.p2pconnect.data.SendingCookiesInterceptor;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
-import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.oauth.AuthHTTPInterceptor;
-import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

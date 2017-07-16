@@ -24,7 +24,6 @@ import com.crowdo.p2pconnect.helpers.RegexValidationUtil;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.model.core.Member;
-import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.viewholders.RegisterViewHolder;
 import com.jaredrummler.materialspinner.MaterialSpinner;

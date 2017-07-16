@@ -71,7 +71,7 @@ public class NetworkConnectionChecks {
                         snackbar.setAction("Log Out", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                AuthAccountUtils.actionLogout(activity);
+//                                AuthAccountUtils.actionLogout(activity);
                             }
                         });
                     }

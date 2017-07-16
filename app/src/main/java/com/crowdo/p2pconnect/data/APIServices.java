@@ -1,5 +1,6 @@
 package com.crowdo.p2pconnect.data;
 
+import com.andretietz.retroauth.Authenticated;
 import com.crowdo.p2pconnect.model.request.CheckoutBatchRequest;
 import com.crowdo.p2pconnect.model.request.DeleteBidRequest;
 import com.crowdo.p2pconnect.model.request.AskBidRequest;
@@ -39,6 +40,8 @@ public interface APIServices {
     public static final String LIVE_STAGE = "api/v2/";
     public static final String LIVE_DOCS = "docs";
 
+
+
     @POST("oauth/login")
     @Headers({"Content-type: application/json"})
     Observable<Response<AuthResponse>> postLoginUser(@Body LoginRequest data);
@@ -51,6 +54,7 @@ public interface APIServices {
     @Headers({"Content-type: application/json"})
     Observable<Response<MemberInfoResponse>> getMemberInfo(@Query("device_id") String deviceId, @Query("site_config") String siteConfig);
 
+    @Authenticated
     @GET("loans/loan_listing")
     @Headers({"Content-type: application/json"})
     Observable<Response<LoanListResponse>> getLoansList(@Query("device_id") String deviceId, @Query("site_config") String siteConfig);

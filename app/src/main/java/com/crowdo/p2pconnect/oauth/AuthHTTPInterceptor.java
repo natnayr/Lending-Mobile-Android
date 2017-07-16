@@ -17,7 +17,7 @@ public class AuthHTTPInterceptor implements Interceptor{
     private final static String LOG_TAG = AuthHTTPInterceptor.class.getSimpleName();
 
     public AuthHTTPInterceptor(){
-        this.authToken = AuthAccountUtils.getAuthTokenFromRealm();
+//        this.authToken = AuthAccountUtils.getAuthTokenFromRealm();
     }
 
     @Override

@@ -293,57 +293,48 @@ public class LoanListFragment extends Fragment {
         updateShoppingCartItemCount();
 
         //Check if Authenticated, done only here
-        String authToken = AuthAccountUtils.getAuthTokenFromRealm();
-        if(authToken == null){
+//        String authToken = AuthAccountUtils.getAuthTokenFromRealm();
+//        if(authToken == null){
             //logout and show launch activity,
-            AuthAccountUtils.actionLogout(getActivity(), false);
-        }else {
-            Log.d(LOG_TAG, "APP populateLoansList()");
-            final String uniqueAndroidID = ConstantVariables.getUniqueAndroidID(mContext);
+//            AuthAccountUtils.actionLogout(getActivity(), false);
+//        }else {
+        Log.d(LOG_TAG, "APP populateLoansList()");
+        final String uniqueAndroidID = ConstantVariables.getUniqueAndroidID(mContext);
 
-            LoanClient.getInstance(getActivity())
-                    .getLiveLoans(uniqueAndroidID)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<Response<LoanListResponse>>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-                            disposableGetLiveLoans = d;
-                        }
+        LoanClient.getInstance(getActivity())
+                .getLiveLoans(uniqueAndroidID)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<LoanListResponse>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposableGetLiveLoans = d;
+                    }
 
-                        @Override
-                        public void onNext(Response<LoanListResponse> response) {
-                            if (response.isSuccessful()) {
-                                List<Loan> loanListResponses = response.body().loans;
-                                Log.d(LOG_TAG, "APP populateLoansList Rx onNext with "
-                                        + loanListResponses.size() + " items retreived.");
-                                loanAdapter.setLoans(loanListResponses);
-                            } else {
-                                Log.d(LOG_TAG, "APP getLiveLoans onNext() status > "
-                                        + response.code());
-                                if (HTTPResponseUtils.check4xxClientError(response.code())) {
-                                    if (ConstantVariables.HTTP_UNAUTHORISED == response.code()) {
-                                        //Unauthorised, Invalidate & Logout
-                                        AuthAccountUtils.actionLogout(getActivity());
-                                    }
-                                }
-                            }
+                    @Override
+                    public void onNext(Response<LoanListResponse> response) {
+                        if (response.isSuccessful()) {
+                            List<Loan> loanListResponses = response.body().loans;
+                            Log.d(LOG_TAG, "APP populateLoansList Rx onNext with "
+                                    + loanListResponses.size() + " items retreived.");
+                            loanAdapter.setLoans(loanListResponses);
                         }
+                    }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            e.printStackTrace();
-                            Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
-                            mSwipeContainer.setRefreshing(false);
-                        }
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                        mSwipeContainer.setRefreshing(false);
+                    }
 
-                        @Override
-                        public void onComplete() {
-                            Log.d(LOG_TAG, "APP populateLoansList Rx onComplete");
-                            mSwipeContainer.setRefreshing(false);
-                        }
-                    });
-        }
+                    @Override
+                    public void onComplete() {
+                        Log.d(LOG_TAG, "APP populateLoansList Rx onComplete");
+                        mSwipeContainer.setRefreshing(false);
+                    }
+                });
+
 
     }
 

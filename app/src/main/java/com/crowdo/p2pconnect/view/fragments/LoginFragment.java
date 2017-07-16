@@ -24,7 +24,6 @@ import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.model.core.Member;
-import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.viewholders.LoginViewHolder;
 import com.jaredrummler.materialspinner.MaterialSpinner;
@@ -270,26 +269,17 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
                                 Snackbar.LENGTH_SHORT).show();
                     }
 
-                    final String email = authResponse.getMember().getEmail();
-                    final String authToken = authResponse.getAuthToken();
-                    final String passwordHash = mPasswordHash;
                     final Member member = authResponse.getMember();
 
                     final Bundle userData = new Bundle();
-                    userData.putString(AuthActivity.POST_AUTH_MEMBER_ID, member.getId().toString());
-                    userData.putString(AuthActivity.POST_AUTH_MEMBER_EMAIL, member.getEmail());
-                    userData.putString(AuthActivity.POST_AUTH_MEMBER_NAME, member.getName());
-                    userData.putString(AuthActivity.POST_AUTH_MEMBER_LOCALE, member.getLocalePreference());
+                    userData.putString(AuthActivity.AUTH_MEMBER_EMAIL, member.getEmail());
+                    userData.putString(AuthActivity.AUTH_MEMBER_NAME, member.getName());
+                    userData.putString(AuthActivity.AUTH_MEMBER_TOKEN, authResponse.getAuthToken());
+                    userData.putString(AuthActivity.AUTH_MEMBER_LOCALE, member.getLocalePreference());
 
-                    //return back to authenticator result handling
-                    Bundle data = new Bundle();
-                    data.putString(AccountManager.KEY_ACCOUNT_NAME, email);
-                    data.putString(AccountManager.KEY_ACCOUNT_TYPE, CrowdoAccountGeneral.ACCOUNT_TYPE);
-                    data.putString(AccountManager.KEY_AUTHTOKEN, authToken);
-                    data.putString(AuthActivity.PARAM_USER_PASS_HASH, passwordHash);
 
                     final Intent res = new Intent();
-                    res.putExtras(data);
+//                    res.putExtras(data);
 
                     //go back to AuthActivity to create account
                     ((AuthActivity) getActivity()).finishAuth(res, userData);

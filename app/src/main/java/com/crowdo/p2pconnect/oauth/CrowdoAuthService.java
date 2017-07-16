@@ -1,24 +1,21 @@
 package com.crowdo.p2pconnect.oauth;
 
-import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
+import android.os.Looper;
+
+import com.andretietz.retroauth.AuthenticationService;
+import com.crowdo.p2pconnect.R;
 
 /**
  * Created by cwdsg05 on 24/3/17.
  */
 
-public class CrowdoAuthService extends Service{
-
-    private static final String LOG_TAG = CrowdoAuthService.class.getSimpleName();
+public class CrowdoAuthService extends AuthenticationService {
 
     @Override
-    public IBinder onBind(Intent intent) {
-        //service extended for AccountManager
-        CrowdoAccountAuthenticator authAuthenticator = new CrowdoAccountAuthenticator(this);
-        return authAuthenticator.getIBinder();
+    public String getLoginAction(Context context) {
+        return context.getString(R.string.authentication_ACTION);
     }
-
-
 }

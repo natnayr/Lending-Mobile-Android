@@ -17,7 +17,6 @@ import io.realm.Realm;
 
 public class CrowdoSessionCheckService extends IntentService{
 
-    public static final String LOG_TAG = CrowdoSessionCheckService.class.getSimpleName();
     public AccountManager mAccountManager;
 
     public CrowdoSessionCheckService(){
@@ -30,33 +29,33 @@ public class CrowdoSessionCheckService extends IntentService{
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        Log.d(LOG_TAG, "APP CrowdoSessionCheckService onHandleIntent");
+//        Log.d(LOG_TAG, "APP CrowdoSessionCheckService onHandleIntent");
         mAccountManager = AccountManager.get(getApplicationContext());
 
 
         //remove SharedPref authToken if not in-sync with AccountManager
-        AuthAccountUtils.getAccountManagerAuthToken(mAccountManager, new CallBackUtil<String>() {
-            @Override
-            public void eventCallBack(final String authToken) {
-                Log.d(LOG_TAG, "APP CrowdoSessionCheckService onHandleIntent > " +
-                        "getAccountManagerAuthToken token updated ");
-
-                Realm realm = Realm.getDefaultInstance();
-                realm.executeTransactionAsync(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        if(authToken != null && realm.where(AccountStore.class).count() > 0) {
-                            //if authToken not null and AccountStore has record
-                            AccountStore accountStore = realm.where(AccountStore.class).findFirst();
-                            accountStore.setAccountAuthToken(authToken);
-                        }else{
-                            //delete all
-                            realm.where(AccountStore.class).findAll().deleteAllFromRealm();
-                        }
-                    }
-                });
-                realm.close();
-            }
-        });
+//        AuthAccountUtils.getAccountManagerAuthToken(mAccountManager, new CallBackUtil<String>() {
+//            @Override
+//            public void eventCallBack(final String authToken) {
+//                Log.d(LOG_TAG, "APP CrowdoSessionCheckService onHandleIntent > " +
+//                        "getAccountManagerAuthToken token updated ");
+//
+//                Realm realm = Realm.getDefaultInstance();
+//                realm.executeTransactionAsync(new Realm.Transaction() {
+//                    @Override
+//                    public void execute(Realm realm) {
+//                        if(authToken != null && realm.where(AccountStore.class).count() > 0) {
+//                            //if authToken not null and AccountStore has record
+//                            AccountStore accountStore = realm.where(AccountStore.class).findFirst();
+//                            accountStore.setAccountAuthToken(authToken);
+//                        }else{
+//                            //delete all
+//                            realm.where(AccountStore.class).findAll().deleteAllFromRealm();
+//                        }
+//                    }
+//                });
+//                realm.close();
+//            }
+//        });
     }
 }
