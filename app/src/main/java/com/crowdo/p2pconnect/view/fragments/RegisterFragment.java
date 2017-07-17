@@ -1,7 +1,5 @@
 package com.crowdo.p2pconnect.view.fragments;
 
-import android.accounts.AccountManager;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -18,7 +16,6 @@ import com.crowdo.p2pconnect.model.response.AuthResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
-import com.crowdo.p2pconnect.helpers.HashingUtils;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.RegexValidationUtil;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
@@ -77,7 +74,6 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
     private AuthClient mAuthClient;
     private RegisterViewHolder viewHolder;
     private Disposable disposableRegisterUser;
-    private String mPasswordHash;
     private AuthResponse authResponse;
 
 
@@ -99,7 +95,7 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
         viewHolder.mRegisterExitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().finish();
+                getActivity().onBackPressed();
             }
         });
 
@@ -198,9 +194,6 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
             return;
         }
 
-        //store password
-        mPasswordHash = HashingUtils.hashSHA256(inputPassword);
-
         mAuthClient = AuthClient.getInstance(getActivity());
         mAuthClient.registerUser(inputEmail, inputName, inputPassword, inputConfirmPassword,
                         LocaleHelper.getLanguage(getActivity()),
@@ -217,8 +210,6 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
 
     @Override
     public void onNext(Response<AuthResponse> response) {
-
-
         Log.d(LOG_TAG, "APP onNext HTTP raw:" + response.raw());
 
         if(response.isSuccessful()) {

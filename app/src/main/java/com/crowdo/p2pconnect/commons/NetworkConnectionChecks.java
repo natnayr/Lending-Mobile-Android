@@ -12,7 +12,6 @@ import android.view.View;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
-import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

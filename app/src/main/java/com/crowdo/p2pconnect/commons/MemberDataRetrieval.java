@@ -1,16 +1,12 @@
 package com.crowdo.p2pconnect.commons;
 
 import android.app.Activity;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 
 import com.crowdo.p2pconnect.data.client.MemberClient;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
-import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
-import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
-import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;

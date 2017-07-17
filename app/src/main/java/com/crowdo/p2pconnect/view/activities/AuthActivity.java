@@ -29,8 +29,8 @@ public class AuthActivity extends AuthenticationActivity {
     public final static String AUTH_MEMBER_TOKEN = "AUTH_MEMBER_TOKEN";
     public final static String AUTH_MEMBER_LOCALE = "AUTH_MEMBER_LOCALE";
 
-    public final static String FRAGMENT_CLASS_TAG_CALL = "AUTH_ACTIVITY_FRAGMENT_CLASS";
-
+    public final static int REQUEST_FRAGMENT_RESULT = 123;
+    public final static String FRAGMENT_CLASS_TAG_CALL = "AUTH_ACTIVITY_FRAGMENT_CLASS_TAG_CALL";
 
     @Override
     protected void onCreate(Bundle icicle) {
@@ -84,9 +84,28 @@ public class AuthActivity extends AuthenticationActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        Intent launchIntent = new Intent(AuthActivity.this, LaunchActivity.class);
+        startActivityForResult(launchIntent, REQUEST_FRAGMENT_RESULT);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(LOG_TAG, "APP onActivityResult " + requestCode);
+
+        if(requestCode == REQUEST_FRAGMENT_RESULT) {
+
+            Fragment fragment = null;
+            if(resultCode == LaunchActivity.RESULT_CODE_REGISTER){
+                fragment = new RegisterFragment();
+            }else{
+                fragment = new LoginFragment();
+            }
+            //fragment should be either Login or Register
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.auth_content, fragment)
+                    .commitAllowingStateLoss();
+        }
+    }
 
     @Override
     protected void onResume() {

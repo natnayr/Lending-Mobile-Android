@@ -1,7 +1,5 @@
 package com.crowdo.p2pconnect.view.fragments;
 
-import android.accounts.AccountManager;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -18,7 +16,6 @@ import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
 import com.crowdo.p2pconnect.model.response.AuthResponse;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
-import com.crowdo.p2pconnect.helpers.HashingUtils;
 import com.crowdo.p2pconnect.helpers.RegexValidationUtil;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
@@ -72,7 +69,6 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
     private AuthClient authClient;
     private LoginViewHolder viewHolder;
     private Disposable disposableLoginUser;
-    private String mPasswordHash;
     private AuthResponse authResponse;
 
 
@@ -94,7 +90,7 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
         viewHolder.mLoginExitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().finish();
+                getActivity().onBackPressed();
             }
         });
 
@@ -174,8 +170,6 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
             return;
         }
 
-        //store password
-        mPasswordHash = HashingUtils.hashSHA256(inputPassword);
 
         //do http call
         authClient = AuthClient.getInstance(getActivity());
