@@ -29,12 +29,12 @@ public class CrowdoAuthProvider implements Provider<Account, AndroidTokenType, A
     }
 
     @Override
-    public boolean retryRequired(int i, Response response, TokenStorage<Account, AndroidTokenType, AndroidToken> tokenStorage, Account account, AndroidTokenType androidTokenType, AndroidToken androidToken) {
+    public boolean retryRequired(int count, Response response, TokenStorage<Account, AndroidTokenType, AndroidToken> tokenStorage, Account account, AndroidTokenType androidTokenType, AndroidToken androidToken) {
         if(!response.isSuccessful()){
             if(response.code() == ConstantVariables.HTTP_UNAUTHORISED){
                 tokenStorage.removeToken(account, androidTokenType, androidToken);
+                return true;
             }
-            return true;
         }
 
         return false;

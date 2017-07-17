@@ -2,6 +2,9 @@ package com.crowdo.p2pconnect.data.client;
 
 import android.content.Context;
 
+import com.andretietz.retroauth.AndroidAuthenticationHandler;
+import com.andretietz.retroauth.AndroidTokenType;
+import com.andretietz.retroauth.Retroauth;
 import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.data.ReceivingCookiesInterceptor;
 import com.crowdo.p2pconnect.data.SendingCookiesInterceptor;
@@ -10,6 +13,7 @@ import com.crowdo.p2pconnect.model.request.DeleteBidRequest;
 import com.crowdo.p2pconnect.model.request.AskBidRequest;
 import com.crowdo.p2pconnect.model.response.BidOnlyResponse;
 import com.crowdo.p2pconnect.model.response.CheckBidResponse;
+import com.crowdo.p2pconnect.oauth.CrowdoAuthProvider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -45,13 +49,17 @@ public class BiddingClient implements ClientInterface{
                 .addInterceptor(new ReceivingCookiesInterceptor(context))
                 .build();
 
+        CrowdoAuthProvider provider = new CrowdoAuthProvider();
 
-        retrofit = new Retrofit.Builder()
+        retrofit = new Retroauth.Builder<>(AndroidAuthenticationHandler.create(provider,
+                AndroidTokenType.Factory.create()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(httpClient)
                 .baseUrl(APIServices.API_LIVE_BASE_URL + APIServices.LIVE_STAGE)
                 .build();
+
+        provider.onRetrofitCreated(retrofit);
 
         this.apiServices = retrofit.create(APIServices.class);
     }
