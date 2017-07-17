@@ -288,9 +288,7 @@ public class CheckoutSummaryFragment extends Fragment{
                             mViewHolder.populateSummaryDetails(body.getTotalPendingBids(), body.getAvailableCashBalance());
                         }else{
                             Log.d(LOG_TAG, "APP getCheckoutSummary !isSuccessful onNext() status > " + response.code());
-                            if (ConstantVariables.HTTP_UNAUTHORISED == response.code()) {
-                                AuthAccountUtils.actionLogout(getActivity());
-                            } else {
+                            if (HTTPResponseUtils.check4xxClientError(response.code())) {
                                 //all other 4xx codes
                                 String serverErrorMessage = HTTPResponseUtils
                                         .errorServerResponseConvert(checkoutClient,
@@ -398,9 +396,7 @@ public class CheckoutSummaryFragment extends Fragment{
 
 
                             }else{
-                                if (ConstantVariables.HTTP_UNAUTHORISED == response.code()) {
-                                    AuthAccountUtils.actionLogout(getActivity());
-                                } else {
+                                if (HTTPResponseUtils.check4xxClientError(response.code())){
                                     //all other 4xx codes
                                     String serverErrorMessage = HTTPResponseUtils
                                             .errorServerResponseConvert(checkoutClient,
@@ -450,7 +446,7 @@ public class CheckoutSummaryFragment extends Fragment{
 
                         @Override
                         public void onNext(@NonNull Response<MessageResponse> response) {
-                            progress.dismiss();
+                            progress.dismiss(); //dismiss spinner
 
                             if(response.isSuccessful()){
                                 MessageResponse messageResponse = response.body();
@@ -468,9 +464,7 @@ public class CheckoutSummaryFragment extends Fragment{
                                             }
                                         }).show();
                             }else{
-                                if (ConstantVariables.HTTP_UNAUTHORISED == response.code()) {
-                                    AuthAccountUtils.actionLogout(getActivity());
-                                } else {
+                                if (HTTPResponseUtils.check4xxClientError(response.code())){
                                     //all other 4xx codes
                                     String serverErrorMessage = HTTPResponseUtils
                                             .errorServerResponseConvert(checkoutClient,

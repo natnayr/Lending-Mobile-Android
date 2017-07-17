@@ -8,6 +8,7 @@
     <string name="authentication_TOKEN" translatable="false">com.crowdo.p2pconnect.TOKEN</string>
     <string name="authentication_EMAIL" translatable="false">com.crowdo.p2pconnect.EMAIL</string>
     <string name="authentication_LOCALE" translatable="false">com.crowdo.p2pconnect.LOCALE</string>
+    <string name="authentication_INVALID_TOKEN" translatable="false">INVALID_TOKEN</string>
 
     <!-- Main -->
     <string name="navmenu_label_actions">Actions</string>

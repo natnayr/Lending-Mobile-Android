@@ -292,12 +292,6 @@ public class LoanListFragment extends Fragment {
         getActivity().invalidateOptionsMenu();
         updateShoppingCartItemCount();
 
-        //Check if Authenticated, done only here
-//        String authToken = AuthAccountUtils.getAuthTokenFromRealm();
-//        if(authToken == null){
-            //logout and show launch activity,
-//            AuthAccountUtils.actionLogout(getActivity(), false);
-//        }else {
         Log.d(LOG_TAG, "APP populateLoansList()");
         final String uniqueAndroidID = ConstantVariables.getUniqueAndroidID(mContext);
 
@@ -315,8 +309,8 @@ public class LoanListFragment extends Fragment {
                     public void onNext(Response<LoanListResponse> response) {
                         if (response.isSuccessful()) {
                             List<Loan> loanListResponses = response.body().loans;
-                            Log.d(LOG_TAG, "APP populateLoansList Rx onNext with "
-                                    + loanListResponses.size() + " items retreived.");
+                            Log.d(LOG_TAG, "APP populateLoansList onNext with "
+                                    + loanListResponses.size() + " items");
                             loanAdapter.setLoans(loanListResponses);
                         }
                     }

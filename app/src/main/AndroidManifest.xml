@@ -83,13 +83,10 @@
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
             <meta-data android:name="android.accounts.AccountAuthenticator"
-                       android:resource="@xml/authenticator"/>
+                    android:resource="@xml/authenticator"/>
         </service>
-        
-        <service android:name=".oauth.CrowdoSessionCheckService"
-            android:enabled="true"
-            android:exported="false"/>
 
-        <meta-data android:name="net.hockeyapp.android.appIdentifier" android:value="${HOCKEYAPP_APP_ID}" />
+        <meta-data android:name="net.hockeyapp.android.appIdentifier"
+            android:value="${HOCKEYAPP_APP_ID}" />
     </application>
 </manifest>

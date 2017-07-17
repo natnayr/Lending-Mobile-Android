@@ -127,9 +127,9 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
             }
         });
 
+        //Lang Locale Selector
         final List<String> languageSet = new LinkedList<>(Arrays.asList(mLanguageEnglishLabel, mLanguageBahasaIndoLabel));
         mRegisterLangSpinner.setItems(languageSet);
-
         mRegisterLangSpinner.setSelectedIndex(0);
         String localeVal = LocaleHelper.getLanguage(getActivity());
         if(localeVal.equals(ConstantVariables.APP_LANG_ID)){
@@ -210,19 +210,6 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
                 .subscribe(this);
     }
 
-    private void handleResult(Response<AuthResponse> response){
-        final Bundle data = new Bundle();
-        final Intent res = new Intent();
-
-        if(response.isSuccessful()) {
-            Log.d(LOG_TAG, "APP: handleResult > response.isSuccessful()");
-            AuthResponse oauth = response.body();
-
-
-        }
-
-    }
-
     @Override
     public void onSubscribe(Disposable d) {
         disposableRegisterUser = d;
@@ -231,7 +218,6 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
     @Override
     public void onNext(Response<AuthResponse> response) {
 
-        handleResult(response);
 
         Log.d(LOG_TAG, "APP onNext HTTP raw:" + response.raw());
 
@@ -304,29 +290,17 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
                             authResponse.getServer().getMessage(),
                             Snackbar.LENGTH_SHORT).show();
                 }
-                final String email = authResponse.getMember().getEmail();
-                final String authToken = authResponse.getAuthToken();
-                final String passwordHash = mPasswordHash;
+
                 final Member member = authResponse.getMember();
 
                 final Bundle userData = new Bundle();
-                userData.putString(AuthActivity.POST_AUTH_MEMBER_ID, member.getId().toString());
-                userData.putString(AuthActivity.POST_AUTH_MEMBER_EMAIL, member.getEmail());
-                userData.putString(AuthActivity.POST_AUTH_MEMBER_NAME, member.getName());
-                userData.putString(AuthActivity.POST_AUTH_MEMBER_LOCALE, member.getLocalePreference());
-
-                //return back to authenticator result handling
-                Bundle data = new Bundle();
-                data.putString(AccountManager.KEY_ACCOUNT_NAME, email);
-                data.putString(AccountManager.KEY_ACCOUNT_TYPE, CrowdoAccountGeneral.ACCOUNT_TYPE);
-                data.putString(AccountManager.KEY_AUTHTOKEN, authToken);
-                data.putString(AuthActivity.PARAM_USER_PASS_HASH, passwordHash);
-
-                final Intent res = new Intent();
-                res.putExtras(data);
+                userData.putString(AuthActivity.AUTH_MEMBER_EMAIL, member.getEmail());
+                userData.putString(AuthActivity.AUTH_MEMBER_NAME, member.getName());
+                userData.putString(AuthActivity.AUTH_MEMBER_TOKEN, authResponse.getAuthToken());
+                userData.putString(AuthActivity.AUTH_MEMBER_LOCALE, member.getLocalePreference());
 
                 //go back to AuthActivity to create account
-                ((AuthActivity) getActivity()).finishAuth(res, userData);
+                ((AuthActivity) getActivity()).finishAuth(userData);
             }
         }
     }

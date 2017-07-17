@@ -1,17 +1,12 @@
 package com.crowdo.p2pconnect;
 
-import android.app.AlarmManager;
 import android.app.Application;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
-import com.crowdo.p2pconnect.oauth.CrowdoSessionCheckService;
 
-import java.util.Calendar;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;

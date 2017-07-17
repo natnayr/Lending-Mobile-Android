@@ -10,7 +10,6 @@ import com.crowdo.p2pconnect.model.request.DeleteBidRequest;
 import com.crowdo.p2pconnect.model.request.AskBidRequest;
 import com.crowdo.p2pconnect.model.response.BidOnlyResponse;
 import com.crowdo.p2pconnect.model.response.CheckBidResponse;
-import com.crowdo.p2pconnect.oauth.AuthHTTPInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -44,7 +43,6 @@ public class BiddingClient implements ClientInterface{
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(new SendingCookiesInterceptor(context))
                 .addInterceptor(new ReceivingCookiesInterceptor(context))
-                .addInterceptor(new AuthHTTPInterceptor())
                 .build();
 
 

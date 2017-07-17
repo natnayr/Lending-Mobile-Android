@@ -31,32 +31,32 @@ public class AuthActivity extends AuthenticationActivity {
 
     public final static String FRAGMENT_CLASS_TAG_CALL = "AUTH_ACTIVITY_FRAGMENT_CLASS";
 
-    private AccountManager mAccountManager;
 
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.activity_auth);
 
-        mAccountManager = AccountManager.get(getBaseContext());
+        Log.d(LOG_TAG, "APP AuthActivity onCreate");
+
         Bundle extras = getIntent().getExtras();
 
+        Fragment fragment = null;
         String fragmentTag = extras.getString(FRAGMENT_CLASS_TAG_CALL);
         if(fragmentTag != null) {
-            Fragment fragment = null;
             if(fragmentTag.equals(LoginFragment.LOGIN_FRAGMENT_TAG)){
                 fragment = new LoginFragment();
             }else if(fragmentTag.equals(RegisterFragment.REGISTER_FRAGMENT_TAG)){
                 fragment = new RegisterFragment();
             }
-
-            if(fragment != null) {
-                //fragment should be either Login or Register
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.auth_content, fragment)
-                        .commit();
-            }
+        }else{
+            fragment = new LoginFragment(); //default
         }
+        //fragment should be either Login or Register
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.auth_content, fragment)
+                .commit();
+
     }
 
     @Override
@@ -64,78 +64,26 @@ public class AuthActivity extends AuthenticationActivity {
         super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 
-    public void finishAuth(final Intent intent, final Bundle userData){
+    public void finishAuth(Bundle userData){
 
         Log.d(LOG_TAG, "APP finishAuth");
 
-        final String accountUserName = intent.getStringExtra(AuthActivity.AUTH_MEMBER_NAME);
-        final String accountUserEmail = intent.getStringExtra(AuthActivity.AUTH_MEMBER_EMAIL);
-        final String accountAuthToken = intent.getStringExtra(AuthActivity.AUTH_MEMBER_TOKEN);
-        final String accountUserLocale = intent.getStringExtra(AuthActivity.AUTH_MEMBER_LOCALE);
+        final String accountUserName = userData.getString(AuthActivity.AUTH_MEMBER_NAME);
+        final String accountUserEmail = userData.getString(AuthActivity.AUTH_MEMBER_EMAIL);
+        final String accountAuthToken = userData.getString(AuthActivity.AUTH_MEMBER_TOKEN);
+        final String accountUserLocale = userData.getString(AuthActivity.AUTH_MEMBER_LOCALE);
 
-        Account userAccount = createOrGetAccount(accountUserName);
-
-        storeToken(userAccount, getString(R.string.authentication_ACTION), accountAuthToken);
-
-        storeUserData(userAccount, getString(R.string.authentication_EMAIL), accountUserEmail);
-        storeUserData(userAccount, getString(R.string.authentication_LOCALE), accountUserLocale);
-
-        finalizeAuthentication(userAccount);
-    }
-
-    private void accountProcedure(final Intent intent, final Bundle userData, final String accountName,
-                                  final String accountUserName, final String accountUserEmail,
-                                  final String accountPasswordHash, final String authToken){
-        //Create Account
-//        final Account account = new Account(accountName, CrowdoAccountGeneral.ACCOUNT_TYPE);
-//
-//        Log.d(LOG_TAG, "APP finishAuth() > addAccountExplicitly");
-//        boolean accountSuccess = mAccountManager.addAccountExplicitly(account,
-//                accountPasswordHash, userData);
-//
-//        Log.d(LOG_TAG, "APP finishAuth() > accountSuccess: " + accountSuccess);
-//
-//        if(accountSuccess) {
-//
-//            //Auth Token Store in Shared Pref for easy access
-//            Log.d(LOG_TAG, "APP finishAuth() > store authToken into SharedPref");
-//
-//            Realm realm = Realm.getDefaultInstance();
-//            realm.executeTransactionAsync(new Realm.Transaction() {
-//                @Override
-//                public void execute(Realm realm) {
-//                    AccountStore accountStore = realm.createObject(AccountStore.class);
-//                    accountStore.setAccountAuthToken(authToken);
-//                    accountStore.setAccountUserEmail(accountUserEmail);
-//                    accountStore.setAccountUserName(accountUserName);
-//                }
-//            }, new Realm.Transaction.OnSuccess() {
-//                @Override
-//                public void onSuccess() {
-//                    Log.d(LOG_TAG, "APP finishAuth() > OnSharedPrefChanged eventCallBack");
-//
-//                    String authTokenType = CrowdoAccountGeneral.AUTHTOKEN_TYPE_ONLINE_ACCESS;
-//
-//                    //set AuthToken
-//                    mAccountManager.setAuthToken(account, authTokenType, authToken);
-//
-//                    //Alert other apps
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                        mAccountManager.notifyAccountAuthenticated(account);
-//                    }
-//
-//                    setAccountAuthenticatorResult(intent.getExtras());
-//                    setResult(RESULT_OK, intent);
-//                    finish(); //carry on with either AccountManager or In-App Login
-//                }
-//            });
-//            realm.close();
-//        }
+        if(accountAuthToken != null) {
+            Account userAccount = createOrGetAccount(accountUserName);
+            storeToken(userAccount, getRequestedTokenType(), accountAuthToken);
+            storeUserData(userAccount, getString(R.string.authentication_EMAIL), accountUserEmail);
+            storeUserData(userAccount, getString(R.string.authentication_LOCALE), accountUserLocale);
+            finalizeAuthentication(userAccount);
+        }
     }
 
     @Override
     public void onBackPressed() {
-//        setResult(RESULT_CANCELED);
         super.onBackPressed();
     }
 

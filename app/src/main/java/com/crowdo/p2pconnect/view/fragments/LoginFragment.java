@@ -278,11 +278,8 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
                     userData.putString(AuthActivity.AUTH_MEMBER_LOCALE, member.getLocalePreference());
 
 
-                    final Intent res = new Intent();
-//                    res.putExtras(data);
-
                     //go back to AuthActivity to create account
-                    ((AuthActivity) getActivity()).finishAuth(res, userData);
+                    ((AuthActivity) getActivity()).finishAuth(userData);
                 }
             }
         }

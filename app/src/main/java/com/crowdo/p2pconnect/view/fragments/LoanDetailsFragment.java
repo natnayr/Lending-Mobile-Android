@@ -264,12 +264,6 @@ public class LoanDetailsFragment extends Fragment {
                                         + loanDetailResponse.getLoan().getLoanId() + " retreived.");
                                 viewHolder.attachView(loanDetailResponse, getActivity());
                             }
-                        }else{
-                            if(HTTPResponseUtils.check4xxClientError(response.code())){
-                                if(ConstantVariables.HTTP_UNAUTHORISED == response.code()){
-                                    AuthAccountUtils.actionLogout(getActivity());
-                                }
-                            }
                         }
                     }
 
@@ -447,10 +441,7 @@ public class LoanDetailsFragment extends Fragment {
                             }else{
                                 //Error Handling
                                 if(HTTPResponseUtils.check4xxClientError(response.code())){
-                                    if(ConstantVariables.HTTP_UNAUTHORISED == response.code()) {
-                                        AuthAccountUtils.actionLogout(getActivity());
-
-                                    }else if (ConstantVariables.HTTP_INVESTOR_FAILED_ACCREDITATION == response.code()){
+                                    if (ConstantVariables.HTTP_INVESTOR_FAILED_ACCREDITATION == response.code()){
                                         Snackbar investorInvalidSnackbar = SnackBarUtil.snackBarForWarningCreate(getView(),
                                                 mInvalidInvestorLabel, Snackbar.LENGTH_LONG);
 
@@ -551,9 +542,8 @@ public class LoanDetailsFragment extends Fragment {
                                     + response.code());
                             //Error Handling
                             if(HTTPResponseUtils.check4xxClientError(response.code())){
-                                if(ConstantVariables.HTTP_UNAUTHORISED == response.code()){
-                                    AuthAccountUtils.actionLogout(getActivity());
-                                }else if(ConstantVariables.HTTP_PRECONDITION_FAILED == response.code()){
+
+                                if(ConstantVariables.HTTP_PRECONDITION_FAILED == response.code()){
                                     String serverErrorMessage = "Error: Accept Bid Not Successful";
                                     //Invalid Investment Amount (e.g. 0, -1, etc)
 

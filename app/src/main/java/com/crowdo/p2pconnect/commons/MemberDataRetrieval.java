@@ -57,7 +57,7 @@ public class MemberDataRetrieval {
 
                     @Override
                     public void onComplete() {
-                        Log.d(LOG_TAG, "APP retrieveMemberInfo Rx onComplete");
+                        Log.d(LOG_TAG, "APP retrieveMemberInfo onComplete");
                     }
                 });
     }

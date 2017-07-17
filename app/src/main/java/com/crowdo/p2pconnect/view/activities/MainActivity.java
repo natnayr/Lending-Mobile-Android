@@ -226,8 +226,7 @@ public class MainActivity extends AppCompatActivity{
                                     break;
 
                                 case DRAWER_SELECT_LOGOUT:
-                                    //immediate invalidate of token & logout
-                                    AuthAccountUtils.actionLogout(MainActivity.this);
+
                                     break;
                                 default:
                                     return false; //default close

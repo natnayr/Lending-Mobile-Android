@@ -11,7 +11,6 @@ import com.crowdo.p2pconnect.model.request.InvestBid;
 import com.crowdo.p2pconnect.model.response.CheckoutSummaryResponse;
 import com.crowdo.p2pconnect.model.response.CheckoutUpdateResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
-import com.crowdo.p2pconnect.oauth.AuthHTTPInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -48,7 +47,6 @@ public class CheckoutClient implements ClientInterface{
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(new SendingCookiesInterceptor(context))
                 .addInterceptor(new ReceivingCookiesInterceptor(context))
-                .addInterceptor(new AuthHTTPInterceptor())
                 .build();
 
         retrofit = new Retrofit.Builder()
