@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
@@ -74,7 +75,7 @@ public class AuthActivity extends AuthenticationActivity {
         final String accountUserLocale = userData.getString(AuthActivity.AUTH_MEMBER_LOCALE);
 
         if(accountAuthToken != null) {
-            Account userAccount = createOrGetAccount(accountUserName);
+            final Account userAccount = createOrGetAccount(accountUserName);
             storeToken(userAccount, getRequestedTokenType(), accountAuthToken);
             storeUserData(userAccount, getString(R.string.authentication_EMAIL), accountUserEmail);
             storeUserData(userAccount, getString(R.string.authentication_LOCALE), accountUserLocale);

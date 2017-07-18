@@ -1,5 +1,6 @@
 package com.crowdo.p2pconnect.view.activities;
 
+import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.content.Context;
@@ -17,12 +18,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.andretietz.retroauth.AuthAccountManager;
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.commons.MemberDataRetrieval;
 import com.crowdo.p2pconnect.commons.NetworkConnectionChecks;
 import com.crowdo.p2pconnect.data.APIServices;
+import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.TypefaceUtils;
+import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.view.fragments.LearningCenterFragment;
 import com.crowdo.p2pconnect.view.fragments.LoanListFragment;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
@@ -209,7 +214,23 @@ public class MainActivity extends AppCompatActivity{
                                     break;
 
                                 case DRAWER_SELECT_LOGOUT:
-
+                                    AuthAccountManager authAccountManager = new AuthAccountManager();
+                                    Account activeAccount = authAccountManager
+                                            .getActiveAccount(getString(R.string.authentication_ACCOUNT));
+                                    if(activeAccount != null) {
+                                        AccountManager.get(MainActivity.this).setAuthToken(activeAccount,
+                                                getString(R.string.authentication_TOKEN),
+                                                getString(R.string.authentication_INVALID_TOKEN));
+                                        //call member retreival
+                                        new MemberDataRetrieval().retrieveMemberInfo(MainActivity.this,
+                                                new CallBackUtil<MemberInfoResponse>() {
+                                            @Override
+                                            public void eventCallBack(MemberInfoResponse response) {
+                                                //do nothing, login should pop up
+                                            }
+                                        });
+                                        return true;
+                                    }
                                     break;
                                 default:
                                     return false; //default close
