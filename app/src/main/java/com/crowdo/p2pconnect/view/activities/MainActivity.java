@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity{
     private static final int DRAWER_SELECT_LOGOUT = 107;
     private static final int DRAWER_SELECT_SHOPPING_CART = 999;
 
-    private AccountManager mAccountManager;
 
     @Override
     public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
@@ -83,8 +82,6 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-        mAccountManager = AccountManager.get(this);
 
         mToolbar.setTitle(getString(R.string.toolbar_title_loan_list));
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){

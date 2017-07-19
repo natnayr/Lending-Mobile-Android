@@ -51,23 +51,14 @@ public class TopUpActivity extends AppCompatActivity {
     @BindView(R.id.top_up_tablayout) TabLayout mTopUpTabLayout;
 
     @BindString(R.string.top_up_title_label) String mTopUpTitleText;
-    @BindString(R.string.top_up_tab_title_one) String mTopUpTabTitleOne;
-    @BindString(R.string.top_up_tab_title_two) String mTopUpTabTitleTwo;
     @BindString(R.string.top_up_balance_description_start) String mTopUpBalanceDescriptionStartLabel;
 
     private TopUpPagerAdapter pagerAdapter;
 
     private final static String LOG_TAG = TopUpActivity.class.getSimpleName();
-    private final String[] PAGE_TITLES = new String[] {mTopUpTabTitleOne, mTopUpTabTitleTwo};
-    private final Fragment[] PAGES;
-    private TopUpHistoryFragment historyFragment;
-    private TopUpSubmitFragment submitFragment ;
 
 
     public TopUpActivity(){
-        submitFragment = new TopUpSubmitFragment();
-        historyFragment = new TopUpHistoryFragment();
-        PAGES = new Fragment[]{ submitFragment, historyFragment };
     }
 
     @Override
@@ -171,12 +162,22 @@ public class TopUpActivity extends AppCompatActivity {
                         return true;
                 }
                 return false;
+            }
+        });
 
+        mTopUpRefreshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getMemberDetails();
             }
         });
     }
 
     private class TopUpPagerAdapter extends FragmentPagerAdapter{
+
+        private final String[] PAGE_TITLES = new String[] {"Top Up", "History"};
+        private Fragment[] PAGES = new Fragment[]{ new TopUpSubmitFragment(),
+                new TopUpHistoryFragment()};
 
         public TopUpPagerAdapter(FragmentManager fm) {
             super(fm);

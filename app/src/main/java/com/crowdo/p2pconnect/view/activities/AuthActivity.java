@@ -115,5 +115,4 @@ public class AuthActivity extends AuthenticationActivity {
         //check network and dun show loggout
         NetworkConnectionChecks.isOnline(this, false);
     }
-
 }
