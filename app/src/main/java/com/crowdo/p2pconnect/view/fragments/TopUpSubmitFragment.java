@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.viewholders.TopUpSubmitViewHolder;
 
 import butterknife.ButterKnife;
 
@@ -19,6 +20,7 @@ import butterknife.ButterKnife;
 public class TopUpSubmitFragment extends Fragment{
 
     private Context mContext;
+    private TopUpSubmitViewHolder viewHolder;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,7 +30,9 @@ public class TopUpSubmitFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_top_up_submit, container, false);
-        ButterKnife.bind(this, rootView);
+
+        viewHolder = new TopUpSubmitViewHolder(rootView, getActivity());
+        viewHolder.initView();
 
         mContext = getActivity();
 

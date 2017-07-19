@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="32sp"
+                android:textSize="@dimen/top_up_title_font_size"
                 android:textColor="@color/color_icons_text"
                 android:fontFamily="@string/font_family_medium" />
             <TextView
@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:textSize="14sp"
+                android:textSize="@dimen/top_up_large_font_size"
                 android:textColor="@color/color_icons_text"
                 android:fontFamily="@string/font_family_light" />
         </LinearLayout>
@@ -50,9 +50,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/top_up_balance_expandable"
         app:tabMode="fixed"
-        app:tabMaxWidth="0dp"
         app:tabGravity="fill"
-        app:tabIndicatorColor="@color/color_primary"/>
+        app:tabMaxWidth="0dp"
+        app:tabIndicatorColor="@color/color_primary"
+        app:tabTextColor="@color/color_secondary_text"
+        app:tabSelectedTextColor="@color/color_primary_text"/>
     
     <android.support.v4.view.ViewPager
         android:id="@+id/top_up_viewpager"
