@@ -1,5 +1,7 @@
 package com.crowdo.p2pconnect.data;
 
+import com.andretietz.retroauth.Authenticated;
+import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.model.request.CheckoutBatchRequest;
 import com.crowdo.p2pconnect.model.request.DeleteBidRequest;
 import com.crowdo.p2pconnect.model.request.AskBidRequest;
@@ -39,6 +41,8 @@ public interface APIServices {
     public static final String LIVE_STAGE = "api/v2/";
     public static final String LIVE_DOCS = "docs";
 
+
+
     @POST("oauth/login")
     @Headers({"Content-type: application/json"})
     Observable<Response<AuthResponse>> postLoginUser(@Body LoginRequest data);
@@ -47,40 +51,47 @@ public interface APIServices {
     @Headers({"Content-type: application/json"})
     Observable<Response<AuthResponse>> postRegisterUser(@Body RegisterRequest data);
 
+    @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @GET("member/info")
     @Headers({"Content-type: application/json"})
     Observable<Response<MemberInfoResponse>> getMemberInfo(@Query("device_id") String deviceId, @Query("site_config") String siteConfig);
 
-    @GET("loans/loan_listing")
+    @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})    @GET("loans/loan_listing")
     @Headers({"Content-type: application/json"})
     Observable<Response<LoanListResponse>> getLoansList(@Query("device_id") String deviceId, @Query("site_config") String siteConfig);
 
+    @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @GET("loans/loan_details/{id}")
     @Headers({"Content-type: application/json"})
     Observable<Response<LoanDetailResponse>> getLoanDetail(@Path("id") int id, @Query("device_id") String deviceId, @Query("site_config") String siteConfig);
 
+    @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @POST("bid/check_bid")
     @Headers({"Content-type: application/json"})
     Observable<Response<CheckBidResponse>> postCheckBid(@Body AskBidRequest data);
 
+    @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @POST("bid/accept_bid")
     @Headers({"Content-type: application/json"})
     Observable<Response<BidOnlyResponse>> postAcceptBid(@Body AskBidRequest data);
 
+    @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @POST("bid/delete_bid")
     @Headers({"Content-type: application/json"})
     Observable<Response<BidOnlyResponse>> postDeleteBid(@Body DeleteBidRequest data);
 
+    @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @GET("invest/checkout/summary")
     @Headers({"Content-type: application/json"})
     Observable<Response<CheckoutSummaryResponse>> getCheckoutSummary(@Query("device_id") String deviceId, @Query("site_config") String siteOut);
 
+    @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @POST("bid/update_bid_batch")
     @Headers({"Content-type: application/json"})
     Observable<Response<CheckoutUpdateResponse>> postCheckoutUpdate(@Body CheckoutBatchRequest data);
 
+    @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @POST("invest/checkout/confirm_bids")
     @Headers({"Content-type: application/json"})
     Observable<Response<MessageResponse>> postCheckoutConfirm(@Body CheckoutBatchRequest data);
-
 }

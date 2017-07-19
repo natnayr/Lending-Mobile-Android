@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andretietz.retroauth.AuthenticationActivity;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
@@ -52,12 +53,19 @@ public class LaunchActivity extends AppCompatActivity implements
     @BindView(R.id.welcome_register_btn) Button mWelcomeRegisterButton;
     @BindView(R.id.welcome_pager) ViewPager mViewPager;
     @BindView(R.id.welcome_pager_tabdots) TabLayout mTabLayout;
-    @BindString(R.string.pre_exit_question) String mPreExitQuestion;
     @BindView(R.id.welcome_logo_app_name) TextView mWelcomeAppNameView;
+
+    @BindString(R.string.pre_exit_question) String mPreExitQuestion;
+    @BindString(R.string.authentication_ACCOUNT) String AUTHENTICATION_ACCOUNT;
+    @BindString(R.string.authentication_ACTION) String AUTHENTICATION_ACTION;
+    @BindString(R.string.authentication_TOKEN) String AUTHENTICATION_TOKEN;
 
     private static final String LOG_TAG = LaunchActivity.class.getSimpleName();
     private static final int MAXPAGE = 2;
     private static final int TIMEFRAME = 13180;
+
+    public static final int RESULT_CODE_LOGIN = 10001;
+    public static final int RESULT_CODE_REGISTER = 10002;
 
     private int stopPosition;
     private  MediaPlayer mPlayer;
@@ -121,24 +129,20 @@ public class LaunchActivity extends AppCompatActivity implements
             }
         }
 
-
         mWelcomeLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LaunchActivity.this, AuthActivity.class);
-                intent.putExtra(AuthActivity.FRAGMENT_CLASS_TAG_CALL, LoginFragment.LOGIN_FRAGMENT_TAG);
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivityForResult(intent, ConstantVariables.REQUEST_CODE_AUTHENTICATION);
+                //haha, AuthActivity is actually the parent of LaunchActivity
+                setResult(RESULT_CODE_LOGIN);
+                finish();
             }
         });
 
         mWelcomeRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LaunchActivity.this, AuthActivity.class);
-                intent.putExtra(AuthActivity.FRAGMENT_CLASS_TAG_CALL, RegisterFragment.REGISTER_FRAGMENT_TAG);
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivityForResult(intent, ConstantVariables.REQUEST_CODE_AUTHENTICATION);
+                setResult(RESULT_CODE_REGISTER);
+                finish();
             }
         });
 
@@ -154,24 +158,6 @@ public class LaunchActivity extends AppCompatActivity implements
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent res) {
-        //DING DING DING Aauth is done!! CHECK RESULTS
-        Log.d(LOG_TAG, "APP onActivityResult");
-        if(requestCode == ConstantVariables.REQUEST_CODE_AUTHENTICATION){
-            if(resultCode == AuthActivity.RESULT_OK){
-                Log.d(LOG_TAG, "APP onActivityResult > SUCCESS");
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NO_ANIMATION |
-                        Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
-            }else if(resultCode == AuthActivity.RESULT_CANCELED){
-                Log.d(LOG_TAG, "APP onActivityResult > CANCELLED");
-                //TODO: SOMETHING HERE TO INFORM USER of FAILURE
-            }
-        }
-    }
 
     private void pageSwitcher(int timeframeEach){
         mTimer = new Timer();

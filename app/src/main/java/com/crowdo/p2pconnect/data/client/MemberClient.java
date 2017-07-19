@@ -2,14 +2,15 @@ package com.crowdo.p2pconnect.data.client;
 
 import android.content.Context;
 
+import com.andretietz.retroauth.AndroidAuthenticationHandler;
+import com.andretietz.retroauth.AndroidTokenType;
+import com.andretietz.retroauth.Retroauth;
 import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.data.ReceivingCookiesInterceptor;
 import com.crowdo.p2pconnect.data.SendingCookiesInterceptor;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
-import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
-import com.crowdo.p2pconnect.oauth.AuthHTTPInterceptor;
-import com.crowdo.p2pconnect.oauth.CrowdoAccountGeneral;
+import com.crowdo.p2pconnect.oauth.CrowdoAuthProvider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -37,22 +38,26 @@ public class MemberClient implements ClientInterface{
         final Gson gson = new GsonBuilder().serializeNulls().create();
 
         //Http Interceptor
-        final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//        final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+//        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient httpClient = new OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
+//                .addInterceptor(loggingInterceptor)
                 .addInterceptor(new SendingCookiesInterceptor(context))
                 .addInterceptor(new ReceivingCookiesInterceptor(context))
-                .addInterceptor(new AuthHTTPInterceptor())
                 .build();
 
-        retrofit = new Retrofit.Builder()
+        CrowdoAuthProvider provider = new CrowdoAuthProvider();
+
+        retrofit = new Retroauth.Builder<>(AndroidAuthenticationHandler.create(provider,
+                AndroidTokenType.Factory.create()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(httpClient)
                 .baseUrl(APIServices.API_LIVE_BASE_URL + APIServices.LIVE_STAGE)
                 .build();
+
+        provider.onRetrofitCreated(retrofit);
 
         this.apiServices = retrofit.create(APIServices.class);
     }

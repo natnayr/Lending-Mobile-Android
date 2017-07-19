@@ -29,12 +29,12 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.andretietz.retroauth.AuthAccountManager;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
-import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
 import com.esafirm.rxdownloader.RxDownloader;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
@@ -89,7 +89,6 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
         ButterKnife.bind(WebViewActivity.this);
 
-
         //mToolbar view
         setSupportActionBar(mToolbar);
 
@@ -103,11 +102,15 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
         mWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
         Map<String, String> headerMap = new HashMap<>();
         //if able to get authToken
-        String authToken = AuthAccountUtils.getAuthTokenFromRealm();
+
+        AuthAccountManager authAccountManager = new AuthAccountManager();
+        String authToken = authAccountManager
+                .getActiveUserData(getString(R.string.authentication_ACCOUNT),
+                        getString(R.string.authentication_TOKEN));
         if(authToken != null){
+            Log.d(LOG_TAG, "APP WebView AuthToken: " + authToken);
             headerMap.put("Authorization", authToken);
         }
-        headerMap.put("Content-Type", "application/json");
         mWebView.loadUrl(mUrl, headerMap);
 
         mWebView.setWebChromeClient(new WebChromeClient(){

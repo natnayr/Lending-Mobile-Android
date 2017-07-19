@@ -22,8 +22,6 @@ import com.crowdo.p2pconnect.model.core.Loan;
 import com.crowdo.p2pconnect.model.request.InvestBid;
 import com.crowdo.p2pconnect.model.response.BidOnlyResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
-import com.crowdo.p2pconnect.oauth.AuthAccountUtils;
-import com.crowdo.p2pconnect.view.activities.CheckoutActivity;
 import com.crowdo.p2pconnect.viewholders.ItemCheckoutSummaryViewHolder;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -238,7 +236,7 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                             Log.d(LOG_TAG, "APP getCheckoutSummary onNext() status > " + response.code());
                             if(HTTPResponseUtils.check4xxClientError(response.code())){
                                 if(ConstantVariables.HTTP_UNAUTHORISED == response.code()){
-                                    AuthAccountUtils.actionLogout((CheckoutActivity) mContext);
+//                                    AuthAccountUtils.actionLogout((CheckoutActivity) mContext);
                                 }else if(ConstantVariables.HTTP_NOT_FOUND == response.code()){
                                     String serverErrorMessage = "Error: Delete Bid Not Successful";
                                     if(response.errorBody() != null) {

@@ -15,7 +15,6 @@ public class ConstantVariables {
 
     public static final int REQUEST_CODE_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 12312;
     public static final int REQUEST_CODE_PERMISSIONS_OVERLAY = 10101;
-    public static final int REQUEST_CODE_AUTHENTICATION = 20202;
 
     public static final String APP_LANG_DEFAULT = "en";
     public static final String APP_LANG_EN = "en";

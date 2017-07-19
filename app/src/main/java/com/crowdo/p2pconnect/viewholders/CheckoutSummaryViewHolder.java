@@ -71,7 +71,7 @@ public class CheckoutSummaryViewHolder {
     @BindColor(R.color.color_primary_text) int mColorPrimaryText;
     @BindColor(R.color.color_green_500) int mColorGreen500;
     @BindColor(R.color.color_accent) int mColorAccent;
-    @BindColor(R.color.color_amber_500) int mColorAmber500;
+    @BindColor(R.color.color_amber_600) int mColorAmber600;
 
     private static final String LOG_TAG = CheckoutSummaryViewHolder.class.getSimpleName();
     private Context mContext;
@@ -218,7 +218,7 @@ public class CheckoutSummaryViewHolder {
 
         //set up update button but hide first
         mSummaryUpdateButton.setVisibility(View.GONE);
-        mSummaryUpdateButton.setBackgroundColor(mColorAmber500);
+        mSummaryUpdateButton.setBackgroundColor(mColorAmber600);
         mSummaryUpdateButtonIcon.setImageDrawable(new IconicsDrawable(mContext)
             .icon(CommunityMaterial.Icon.cmd_clipboard_flow)
             .colorRes(R.color.color_icons_text)

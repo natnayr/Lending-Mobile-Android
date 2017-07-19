@@ -21,20 +21,24 @@
         android:label="@string/app_name"
         android:logo="@drawable/ic_key_logo"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".view.activities.LaunchActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTop"
-            android:theme="@style/WelcomeTheme"/>
 
         <activity
             android:name=".view.activities.AuthActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/AuthTheme"
             android:launchMode="singleTop"
-            android:parentActivityName=".view.activities.LaunchActivity">
+            android:theme="@style/AuthTheme">
+            <intent-filter>
+                <action android:name="com.crowdo.p2pconnect.ACTION"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
+
+        <activity
+            android:name=".view.activities.LaunchActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            android:theme="@style/WelcomeTheme"/>
 
         <activity
             android:name=".view.activities.MainActivity"
@@ -72,18 +76,17 @@
             android:windowSoftInputMode="adjustPan">
         </activity>
 
-        <service android:name=".oauth.CrowdoAuthService">
+        <service android:name=".oauth.CrowdoAuthService"
+            android:process=":auth"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
             <meta-data android:name="android.accounts.AccountAuthenticator"
-                       android:resource="@xml/authenticator"/>
+                    android:resource="@xml/authenticator"/>
         </service>
-        
-        <service android:name=".oauth.CrowdoSessionCheckService"
-            android:enabled="true"
-            android:exported="false"/>
 
-        <meta-data android:name="net.hockeyapp.android.appIdentifier" android:value="${HOCKEYAPP_APP_ID}" />
+        <meta-data android:name="net.hockeyapp.android.appIdentifier"
+            android:value="${HOCKEYAPP_APP_ID}" />
     </application>
 </manifest>
