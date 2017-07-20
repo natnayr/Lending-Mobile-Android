@@ -21,6 +21,7 @@ public class TopUpSubmitViewHolder {
     @BindView(R.id.top_up_submit_payment_icon) ImageView mSubmitPaymentIcon;
     @BindView(R.id.top_up_submit_payment_upload_icon) ImageView mSubmitPaymentUploadIcon;
     @BindView(R.id.top_up_submit_payment_reference_edittext) public EditText mSubmitPaymentReferenceEditText;
+    @BindView(R.id.top_up_submit_bank_details_icon) ImageView mSubmitBankIcon;
     private Context mContext;
 
     public TopUpSubmitViewHolder(View view, Context context) {
@@ -39,7 +40,10 @@ public class TopUpSubmitViewHolder {
                 .sizeRes(R.dimen.top_up_card_icon_size)
                 .colorRes(R.color.color_icons_text));
 
-
+        mSubmitBankIcon.setImageDrawable(new IconicsDrawable(mContext)
+                .icon(CommunityMaterial.Icon.cmd_bank)
+                .sizeRes(R.dimen.top_up_info_header_icon_size)
+                .colorRes(R.color.color_primary_text));
 
     }
 }

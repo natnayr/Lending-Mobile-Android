@@ -44,7 +44,7 @@ public class TopUpActivity extends AppCompatActivity {
     @BindView(R.id.toolbar_custom_left_icon) ImageView mTopUpCloseIcon;
     @BindView(R.id.toolbar_custom_right_btn) LinearLayout mTopUpRefreshBtn;
     @BindView(R.id.toolbar_custom_right_icon) ImageView mTopUpRefreshIcon;
-    @BindView(R.id.top_up_balance_expandable) ExpandableLayout mTopUpBalanceExpandableLayout;
+    @BindView(R.id.top_up_balance_expandable) public ExpandableLayout mTopUpBalanceExpandableLayout;
     @BindView(R.id.top_up_balance_amount) TextView mTopUpBalanceAmountLabel;
     @BindView(R.id.top_up_balance_description) TextView mTopUpBalanceDescriptionLabel;
 

@@ -123,7 +123,7 @@
     <dimen name="top_up_info_header_icon_size">24dp</dimen>
     <dimen name="top_up_info_header_vertical_spacing">8dp</dimen>
     <dimen name="top_up_card_item_vertical_spacing">8dp</dimen>
-    <dimen name="top_up_card_item_horizontal_spacing">16dp</dimen>
+    <dimen name="top_up_card_item_horizontal_spacing">8dp</dimen>
 
     <dimen name="learning_center_categories_margin">5dp</dimen>
     <dimen name="learning_center_categories_title_size">18sp</dimen>

@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
+import com.crowdo.p2pconnect.view.activities.TopUpActivity;
 import com.crowdo.p2pconnect.viewholders.TopUpSubmitViewHolder;
 
 import butterknife.ButterKnife;
@@ -51,6 +52,15 @@ public class TopUpSubmitFragment extends Fragment{
                     }
                 }
                 return false;
+            }
+        });
+
+        viewHolder.mSubmitPaymentReferenceEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    ((TopUpActivity) getActivity()).mTopUpBalanceExpandableLayout.collapse();
+                }
             }
         });
 
