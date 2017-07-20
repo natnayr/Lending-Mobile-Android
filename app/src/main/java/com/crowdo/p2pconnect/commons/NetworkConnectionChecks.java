@@ -11,7 +11,10 @@ import android.view.View;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.APIServices;
+import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
+import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
+import com.crowdo.p2pconnect.oauth.AuthHelper;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -25,7 +28,7 @@ public class NetworkConnectionChecks {
 
     private final static String LOG_TAG = NetworkConnectionChecks.class.getSimpleName();
 
-    public static void isOnline(final Activity activity, final boolean showLogOut) {
+    public static void isOnline(final Activity activity) {
 
         final View thisView = activity.findViewById(android.R.id.content);
 
@@ -66,14 +69,6 @@ public class NetworkConnectionChecks {
                     String badConnectionMsg = activity.getString(R.string.server_connection_poor);
                     Snackbar snackbar = SnackBarUtil.snackBarForErrorCreate(thisView,
                             badConnectionMsg, Snackbar.LENGTH_INDEFINITE);
-                    if(showLogOut) {
-                        snackbar.setAction("Log Out", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-//                                AuthAccountUtils.actionLogout(activity);
-                            }
-                        });
-                    }
                     snackbar.show();
                 }
             }

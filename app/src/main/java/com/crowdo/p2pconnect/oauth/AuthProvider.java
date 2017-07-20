@@ -17,7 +17,7 @@ import retrofit2.Retrofit;
  * Created by cwdsg05 on 16/7/17.
  */
 
-public class CrowdoAuthProvider implements Provider<Account, AndroidTokenType, AndroidToken>{
+public class AuthProvider implements Provider<Account, AndroidTokenType, AndroidToken>{
 
     private APIServices apiServices;
 

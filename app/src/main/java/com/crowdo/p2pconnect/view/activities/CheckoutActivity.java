@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.commons.NetworkConnectionChecks;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.view.fragments.CheckoutSummaryFragment;
 
@@ -38,4 +39,11 @@ public class CheckoutActivity extends AppCompatActivity {
         super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //check network and dun show loggout
+        NetworkConnectionChecks.isOnline(this);
+    }
 }

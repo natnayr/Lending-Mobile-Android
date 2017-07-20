@@ -219,6 +219,7 @@ public class CheckoutSummaryFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 updateSummaryList();
+
             }
         });
 

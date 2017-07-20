@@ -12,7 +12,7 @@ import com.crowdo.p2pconnect.R;
  * Created by cwdsg05 on 24/3/17.
  */
 
-public class CrowdoAuthService extends AuthenticationService {
+public class AuthService extends AuthenticationService {
 
     @Override
     public String getLoginAction(Context context) {

@@ -76,7 +76,7 @@
             android:windowSoftInputMode="adjustPan">
         </activity>
 
-        <service android:name=".oauth.CrowdoAuthService"
+        <service android:name=".oauth.AuthService"
             android:process=":auth"
             android:exported="false">
             <intent-filter>

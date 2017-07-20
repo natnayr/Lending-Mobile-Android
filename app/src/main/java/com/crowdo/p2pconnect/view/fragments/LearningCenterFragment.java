@@ -374,4 +374,6 @@ public class LearningCenterFragment extends Fragment{
         public void afterTextChanged(Editable s) { }
     }
 
+
+
 }

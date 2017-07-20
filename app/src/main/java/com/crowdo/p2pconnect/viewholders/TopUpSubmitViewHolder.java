@@ -2,6 +2,7 @@ package com.crowdo.p2pconnect.viewholders;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.crowdo.p2pconnect.R;
@@ -17,9 +18,9 @@ import butterknife.ButterKnife;
 
 public class TopUpSubmitViewHolder {
 
-    @BindView(R.id.top_up_submit_payment_icon) ImageView mSubmitPaymentProofIcon;
-
-
+    @BindView(R.id.top_up_submit_payment_icon) ImageView mSubmitPaymentIcon;
+    @BindView(R.id.top_up_submit_payment_upload_icon) ImageView mSubmitPaymentUploadIcon;
+    @BindView(R.id.top_up_submit_payment_reference_edittext) public EditText mSubmitPaymentReferenceEditText;
     private Context mContext;
 
     public TopUpSubmitViewHolder(View view, Context context) {
@@ -28,9 +29,17 @@ public class TopUpSubmitViewHolder {
     }
 
     public void initView(){
-        mSubmitPaymentProofIcon.setImageDrawable(new IconicsDrawable(mContext)
+        mSubmitPaymentIcon.setImageDrawable(new IconicsDrawable(mContext)
                 .icon(CommunityMaterial.Icon.cmd_credit_card)
                 .sizeRes(R.dimen.top_up_info_header_icon_size)
                 .colorRes(R.color.color_primary_text));
+
+        mSubmitPaymentUploadIcon.setImageDrawable(new IconicsDrawable(mContext)
+                .icon(CommunityMaterial.Icon.cmd_upload)
+                .sizeRes(R.dimen.top_up_card_icon_size)
+                .colorRes(R.color.color_icons_text));
+
+
+
     }
 }

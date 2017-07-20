@@ -14,7 +14,7 @@ import com.crowdo.p2pconnect.model.request.InvestBid;
 import com.crowdo.p2pconnect.model.response.CheckoutSummaryResponse;
 import com.crowdo.p2pconnect.model.response.CheckoutUpdateResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
-import com.crowdo.p2pconnect.oauth.CrowdoAuthProvider;
+import com.crowdo.p2pconnect.oauth.AuthProvider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -53,7 +53,7 @@ public class CheckoutClient implements ClientInterface{
                 .addInterceptor(new ReceivingCookiesInterceptor(context))
                 .build();
 
-        CrowdoAuthProvider provider = new CrowdoAuthProvider();
+        AuthProvider provider = new AuthProvider();
 
         retrofit = new Retroauth.Builder<>(AndroidAuthenticationHandler.create(provider,
                 AndroidTokenType.Factory.create()))

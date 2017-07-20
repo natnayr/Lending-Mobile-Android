@@ -10,13 +10,12 @@ import com.crowdo.p2pconnect.data.ReceivingCookiesInterceptor;
 import com.crowdo.p2pconnect.data.SendingCookiesInterceptor;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
-import com.crowdo.p2pconnect.oauth.CrowdoAuthProvider;
+import com.crowdo.p2pconnect.oauth.AuthProvider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -47,7 +46,7 @@ public class MemberClient implements ClientInterface{
                 .addInterceptor(new ReceivingCookiesInterceptor(context))
                 .build();
 
-        CrowdoAuthProvider provider = new CrowdoAuthProvider();
+        AuthProvider provider = new AuthProvider();
 
         retrofit = new Retroauth.Builder<>(AndroidAuthenticationHandler.create(provider,
                 AndroidTokenType.Factory.create()))

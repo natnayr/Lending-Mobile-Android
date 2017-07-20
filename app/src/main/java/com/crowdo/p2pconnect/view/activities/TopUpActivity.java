@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.commons.MemberDataRetrieval;
+import com.crowdo.p2pconnect.commons.NetworkConnectionChecks;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.NumericUtils;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
@@ -199,5 +200,11 @@ public class TopUpActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
+        //check network and dun show loggout
+        NetworkConnectionChecks.isOnline(this);
+    }
 }

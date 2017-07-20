@@ -1,7 +1,5 @@
 package com.crowdo.p2pconnect.view.activities;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
@@ -18,9 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.andretietz.retroauth.AuthAccountManager;
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.commons.MemberDataRetrieval;
 import com.crowdo.p2pconnect.commons.NetworkConnectionChecks;
 import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
@@ -28,6 +24,7 @@ import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.TypefaceUtils;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
+import com.crowdo.p2pconnect.oauth.AuthHelper;
 import com.crowdo.p2pconnect.view.fragments.LearningCenterFragment;
 import com.crowdo.p2pconnect.view.fragments.LoanListFragment;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
@@ -128,13 +125,13 @@ public class MainActivity extends AppCompatActivity{
                                 .withSelectedIconColorRes(R.color.color_primary_700),
                         new SectionDrawerItem().withName("Account"),
                         new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_ACCOUNT_TOP_UP)
-                                .withName("Top Up").withIcon(CommunityMaterial.Icon.cmd_wallet)
-                                .withSelectedTextColorRes(R.color.color_primary_700)
-                                .withSelectedIconColorRes(R.color.color_primary_700),
+                                .withName("Top Up")
+                                .withIcon(CommunityMaterial.Icon.cmd_wallet)
+                                .withSelectable(false),
 //                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_ACCOUNT_WITHDRAW)
-//                                .withName("Withdraw").withIcon(CommunityMaterial.Icon.cmd_square_inc_cash)
-//                                .withSelectedTextColorRes(R.color.color_primary_700)
-//                                .withSelectedIconColorRes(R.color.color_primary_700),
+//                                .withName("Withdraw")
+//                                .withIcon(CommunityMaterial.Icon.cmd_square_inc_cash)
+//                                .withSelectable(false),
                         new SectionDrawerItem().withName(R.string.navmenu_label_preferences),
                         new ExpandableDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_CHANGE)
                                 .withName(R.string.navmenu_label_language)
@@ -211,24 +208,14 @@ public class MainActivity extends AppCompatActivity{
                                     break;
 
                                 case DRAWER_SELECT_LOGOUT:
-                                    AuthAccountManager authAccountManager = new AuthAccountManager();
-                                    Account activeAccount = authAccountManager
-                                            .getActiveAccount(getString(R.string.authentication_ACCOUNT));
-                                    if(activeAccount != null) {
-                                        AccountManager.get(MainActivity.this).setAuthToken(activeAccount,
-                                                getString(R.string.authentication_TOKEN),
-                                                getString(R.string.authentication_INVALID_TOKEN));
-                                        //call member retreival
-                                        new MemberDataRetrieval().retrieveMemberInfo(MainActivity.this,
-                                                new CallBackUtil<MemberInfoResponse>() {
-                                            @Override
-                                            public void eventCallBack(MemberInfoResponse response) {
-                                                //do nothing, login should pop up
-                                            }
-                                        });
-                                        return true;
-                                    }
-                                    break;
+                                    AuthHelper.invalidateTokenAndMakeCall(MainActivity.this,
+                                            new CallBackUtil<MemberInfoResponse>() {
+                                        @Override
+                                        public void eventCallBack(MemberInfoResponse t1) {
+                                            //do nothing, login should pop up
+                                        }
+                                    });
+                                    return true;
                                 default:
                                     return false; //default close
                             }
@@ -271,27 +258,10 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     public void onBackPressed() {
-        if (0 < getSupportFragmentManager().getBackStackEntryCount()) {
-            toBackStackOrParent();
-        } else {
-            super.onBackPressed();
-        }
+
+        super.onBackPressed();
     }
 
-    private boolean toBackStackOrParent(){
-        Intent upIntent = NavUtils.getParentActivityIntent(this);
-        if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-            TaskStackBuilder.create(this)
-                    .addNextIntentWithParentStack(upIntent)
-                    .startActivities();
-            Log.d(LOG_TAG, "APP TaskStackBuilder.create(this) has been called");
-        } else {
-            //If no backstack then navigate to logical main list view
-            NavUtils.navigateUpTo(this, upIntent);
-            Log.d(LOG_TAG, "APP NavUtils.navigateUpTo(this, upIntent) has been called");
-        }
-        return true;
-    }
 
     @Override
     public void onSupportActionModeStarted(@NonNull android.support.v7.view.ActionMode mode) {
@@ -340,8 +310,8 @@ public class MainActivity extends AppCompatActivity{
         super.onResume();
         checkForCrashes();
 
-        //check network and logout if needed
-        NetworkConnectionChecks.isOnline(this, true);
+        //check network and invalidateTokenAndMakeCall if needed
+        NetworkConnectionChecks.isOnline(this);
     }
 
     private void checkForCrashes() {

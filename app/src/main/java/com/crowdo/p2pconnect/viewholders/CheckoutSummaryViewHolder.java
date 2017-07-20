@@ -78,6 +78,8 @@ public class CheckoutSummaryViewHolder {
     private CallBackUtil<Boolean> callBackFragmentPopulateSummary;
     private CallBackUtil<Object> callBackTopUpWebView;
     private CallBackUtil<Object> callBackConfirmBtnPress;
+    private IconicsDrawable menuUpIcon;
+    private IconicsDrawable menuDownIcon;
 
     public static final int CONFIRM_ACTION = 1;
     public static final int TOPUP_ACTION = 2;
@@ -94,12 +96,12 @@ public class CheckoutSummaryViewHolder {
     }
 
     public void initView(){
-        final IconicsDrawable menuUpIcon = new IconicsDrawable(mContext)
+        this.menuUpIcon = new IconicsDrawable(mContext)
                 .icon(CommunityMaterial.Icon.cmd_menu_up)
                 .colorRes(R.color.color_secondary_text)
                 .sizeRes(R.dimen.toolbar_custom_title_icon_size);
 
-        final IconicsDrawable menuDownIcon = new IconicsDrawable(mContext)
+        this.menuDownIcon = new IconicsDrawable(mContext)
                 .icon(CommunityMaterial.Icon.cmd_menu_down)
                 .colorRes(R.color.color_secondary_text)
                 .sizeRes(R.dimen.toolbar_custom_title_icon_size);
@@ -290,5 +292,6 @@ public class CheckoutSummaryViewHolder {
                 return;
         }
     }
+
 
 }

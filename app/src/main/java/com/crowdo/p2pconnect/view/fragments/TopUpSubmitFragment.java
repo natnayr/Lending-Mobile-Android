@@ -4,11 +4,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.viewholders.TopUpSubmitViewHolder;
 
 import butterknife.ButterKnife;
@@ -19,7 +22,6 @@ import butterknife.ButterKnife;
 
 public class TopUpSubmitFragment extends Fragment{
 
-    private Context mContext;
     private TopUpSubmitViewHolder viewHolder;
 
     @Override
@@ -34,7 +36,24 @@ public class TopUpSubmitFragment extends Fragment{
         viewHolder = new TopUpSubmitViewHolder(rootView, getActivity());
         viewHolder.initView();
 
-        mContext = getActivity();
+        SoftInputHelper.setupUI(rootView, getActivity(), new EditText[]{viewHolder.mSubmitPaymentReferenceEditText});
+        viewHolder.mSubmitPaymentReferenceEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int key, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (key) {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                        case KeyEvent.KEYCODE_NUMPAD_ENTER:
+                            SoftInputHelper.hideSoftKeyboardOfView(view,view);
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
+
 
         return rootView;
     }

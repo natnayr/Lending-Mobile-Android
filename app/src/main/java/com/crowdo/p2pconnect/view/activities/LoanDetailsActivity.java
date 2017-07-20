@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.commons.NetworkConnectionChecks;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.view.fragments.LoanDetailsFragment;
@@ -114,5 +115,13 @@ public class LoanDetailsActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //check network and dun show loggout
+        NetworkConnectionChecks.isOnline(this);
     }
 }

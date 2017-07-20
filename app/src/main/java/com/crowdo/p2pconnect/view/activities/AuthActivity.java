@@ -5,7 +5,6 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
@@ -113,6 +112,6 @@ public class AuthActivity extends AuthenticationActivity {
         super.onResume();
 
         //check network and dun show loggout
-        NetworkConnectionChecks.isOnline(this, false);
+        NetworkConnectionChecks.isOnline(this);
     }
 }
