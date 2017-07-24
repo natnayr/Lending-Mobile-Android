@@ -14,6 +14,9 @@ public class MemberInfoResponse {
     @SerializedName("server")
     @Expose
     private Server server;
+    @SerializedName("user_id")
+    @Expose
+    private int userId;
     @SerializedName("name")
     @Expose
     private String name;
@@ -39,6 +42,14 @@ public class MemberInfoResponse {
 
     public void setServer(Server server) {
         this.server = server;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getName() {

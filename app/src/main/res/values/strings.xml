@@ -172,6 +172,13 @@
     <string name="top_up_submit_bank_details_title">Bank Details</string>
     <string name="top_up_submit_bank_details_statement_with_pending">Transfer %s or more to the account below.</string>
     <string name="top_up_submit_bank_details_statement_without_pending">Transfer to the account below.</string>
+    <string name="top_up_submit_bank_details_indicate">Please indicate your account number &lt;b>U%06d&lt;/b> as the description of the transaction.</string>
+    <string name="top_up_submit_bank_details_account_name">Account Name:</string>
+    <string name="top_up_submit_bank_details_account_number">Account Number:</string>
+    <string name="top_up_submit_bank_details_bank_name">Bank Name:</string>
+    <string name="top_up_submit_bank_details_branch_name">Branch Name:</string>
+    <string name="top_up_submit_bank_details_swift_code">Swift Code:</string>
+    <string name="top_up_submit_bank_details_bank_address">Bank Address:</string>
 
     <!-- GLOBALS -->
     <string name="auth_session_end_and_logout">Session Ended, Logging Out</string>
