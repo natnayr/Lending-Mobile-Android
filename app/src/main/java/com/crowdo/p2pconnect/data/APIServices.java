@@ -43,7 +43,6 @@ public interface APIServices {
     public static final String LIVE_DOCS = "docs";
 
 
-
     @POST("oauth/login")
     @Headers({"Content-type: application/json"})
     Observable<Response<AuthResponse>> postLoginUser(@Body LoginRequest data);

@@ -33,9 +33,7 @@
                 android:fontFamily="@string/font_family_condensed"
                 android:gravity="center"
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:paddingBottom="4dp"
-                android:paddingTop="4dp" />
+                android:layout_centerHorizontal="true" />
 
             <RelativeLayout
                 android:id="@+id/checkout_summary_bidding_overall_pending_bids"
@@ -183,13 +181,6 @@
             </RelativeLayout>
         </RelativeLayout>
     </net.cachapa.expandablelayout.ExpandableLayout>
-
-    <View
-        android:id="@+id/checkout_summary_expandable_divider"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/color_divider"
-        android:layout_below="@+id/checkout_summary_expandable"/>
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_height="wrap_content"

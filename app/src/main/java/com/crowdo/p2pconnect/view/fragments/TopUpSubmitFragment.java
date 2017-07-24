@@ -11,7 +11,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.commons.MemberDataRetrieval;
+import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
+import com.crowdo.p2pconnect.model.others.BankInfo;
+import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.view.activities.TopUpActivity;
 import com.crowdo.p2pconnect.viewholders.TopUpSubmitViewHolder;
 
@@ -64,7 +68,17 @@ public class TopUpSubmitFragment extends Fragment{
             }
         });
 
+        MemberDataRetrieval memberRetrieval = new MemberDataRetrieval();
+        memberRetrieval.retrieveMemberInfo(getActivity(), new CallBackUtil<MemberInfoResponse>() {
+            @Override
+            public void eventCallBack(MemberInfoResponse memberInfoResponse) {
+                viewHolder.fillAccountInfo((memberInfoResponse.getTotalPendingBidAmount() -
+                                (double) memberInfoResponse.getAvailableCashBalance()),
+                        memberInfoResponse.getBankInfo());
+            }
+        });
 
         return rootView;
     }
+
 }

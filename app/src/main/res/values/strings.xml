@@ -165,6 +165,14 @@
     <string name="top_up_tab_title_two">History</string>
     <string name="top_up_balance_description_start">Account Balance&#160;</string>
 
+    <string name="top_up_submit_upload_title">Upload Proof Of Payment</string>
+    <string name="top_up_submit_upload_instruction">Tap to Upload File</string>
+    <string name="top_up_submit_upload_info">Maximum file size: 2MB</string>
+    <string name="top_up_submit_upload_submit_label">SUBMIT</string>
+    <string name="top_up_submit_bank_details_title">Bank Details</string>
+    <string name="top_up_submit_bank_details_statement_with_pending">Transfer %s or more to the account below.</string>
+    <string name="top_up_submit_bank_details_statement_without_pending">Transfer to the account below.</string>
+
     <!-- GLOBALS -->
     <string name="auth_session_end_and_logout">Session Ended, Logging Out</string>
     <string name="auth_welcome">Welcome</string>

@@ -12,12 +12,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.commons.MemberDataRetrieval;
 import com.crowdo.p2pconnect.commons.NetworkConnectionChecks;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
+import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.NumericUtils;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.view.fragments.TopUpHistoryFragment;
@@ -27,6 +29,7 @@ import com.mikepenz.iconics.IconicsDrawable;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
+import butterknife.BindColor;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +40,7 @@ import butterknife.ButterKnife;
 
 public class TopUpActivity extends AppCompatActivity {
 
+    @BindView(R.id.toolbar_custom_header) RelativeLayout mTopUpHeader;
     @BindView(R.id.toolbar_custom_title) LinearLayout mTopUpTitleBtn;
     @BindView(R.id.toolbar_custom_title_label) TextView mTopUpTitleLabel;
     @BindView(R.id.toolbar_custom_title_icon) ImageView mTopUpTitleExpandIcon;
@@ -54,12 +58,22 @@ public class TopUpActivity extends AppCompatActivity {
     @BindString(R.string.top_up_title_label) String mTopUpTitleText;
     @BindString(R.string.top_up_balance_description_start) String mTopUpBalanceDescriptionStartLabel;
 
+    @BindColor(R.color.color_grey_blue_800) int mColorGreyBlue500;
+    @BindColor(R.color.color_icons_text) int mColorWhite;
+
     private TopUpPagerAdapter pagerAdapter;
 
     private final static String LOG_TAG = TopUpActivity.class.getSimpleName();
-
+    private TopUpSubmitFragment submitFragment;
+    private TopUpHistoryFragment historyFragment;
+    private Fragment[] PAGES;
 
     public TopUpActivity(){
+        submitFragment = new TopUpSubmitFragment();
+        historyFragment = new TopUpHistoryFragment();
+        PAGES = new Fragment[]{
+                submitFragment, historyFragment
+        };
     }
 
     @Override
@@ -101,39 +115,42 @@ public class TopUpActivity extends AppCompatActivity {
                 Log.d(LOG_TAG, "APP getMemberDetails getAvailableCashBalance: " + memberInfoResponse.getAvailableCashBalance());
 
                 mTopUpBalanceAmountLabel.setText(amount);
-
                 mTopUpBalanceDescriptionLabel.setText(mTopUpBalanceDescriptionStartLabel +
                     "(" + NumericUtils.IDR + ")");
+
             }
         });
     }
 
     private void initView(){
+        mTopUpHeader.setBackgroundColor(mColorGreyBlue500);
+        mTopUpTitleLabel.setTextColor(mColorWhite);
+
         final IconicsDrawable menuUpIcon = new IconicsDrawable(this)
                 .icon(CommunityMaterial.Icon.cmd_menu_up)
-                .colorRes(R.color.color_secondary_text)
+                .colorRes(R.color.color_icons_text)
                 .sizeRes(R.dimen.toolbar_custom_title_icon_size);
 
         final IconicsDrawable menuDownIcon = new IconicsDrawable(this)
                 .icon(CommunityMaterial.Icon.cmd_menu_down)
-                .colorRes(R.color.color_secondary_text)
+                .colorRes(R.color.color_icons_text)
                 .sizeRes(R.dimen.toolbar_custom_title_icon_size);
 
         final IconicsDrawable syncIconEnabled = new IconicsDrawable(this)
                 .icon(CommunityMaterial.Icon.cmd_sync)
-                .colorRes(R.color.color_secondary_text)
+                .colorRes(R.color.color_icons_text)
                 .sizeRes(R.dimen.toolbar_custom_right_icon_size);
 
         final IconicsDrawable syncIconPressed = new IconicsDrawable(this)
                 .icon(CommunityMaterial.Icon.cmd_sync)
-                .colorRes(R.color.color_secondary_text_300)
+                .colorRes(R.color.color_secondary_text)
                 .sizeRes(R.dimen.toolbar_custom_right_icon_size);
 
         mTopUpTitleLabel.setText(mTopUpTitleText);
         mTopUpTitleExpandIcon.setImageDrawable(menuUpIcon);
         mTopUpCloseIcon.setImageDrawable(new IconicsDrawable(this)
                 .icon(CommunityMaterial.Icon.cmd_close)
-                .colorRes(R.color.color_secondary_text)
+                .colorRes(R.color.color_icons_text)
                 .sizeRes(R.dimen.toolbar_custom_left_icon_size));
 
         mTopUpRefreshIcon.setImageDrawable(syncIconEnabled);
@@ -177,8 +194,6 @@ public class TopUpActivity extends AppCompatActivity {
     private class TopUpPagerAdapter extends FragmentPagerAdapter{
 
         private final String[] PAGE_TITLES = new String[] {"Top Up", "History"};
-        private Fragment[] PAGES = new Fragment[]{ new TopUpSubmitFragment(),
-                new TopUpHistoryFragment()};
 
         public TopUpPagerAdapter(FragmentManager fm) {
             super(fm);

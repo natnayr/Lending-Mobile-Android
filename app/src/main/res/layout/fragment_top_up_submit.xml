@@ -9,7 +9,7 @@
     android:paddingEnd="@dimen/top_up_card_horizontal_padding">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <LinearLayout
-                    android:id="@+id/top_up_submit_payment_header"
+                    android:id="@+id/top_up_submit_upload_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/top_up_info_header_vertical_spacing"
@@ -31,22 +31,22 @@
                     android:orientation="horizontal"
                     android:gravity="center">
                     <ImageView
-                        android:id="@+id/top_up_submit_payment_icon"
+                        android:id="@+id/top_up_submit_upload_header_icon"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
                     <TextView
-                        android:id="@+id/top_up_submit_payment_label"
+                        android:id="@+id/top_up_submit_upload_header_label"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="6"
-                        android:text="Upload Proof of Payment"
+                        android:text="@string/top_up_submit_upload_title"
                         android:textColor="@color/color_primary_text"
                         android:textSize="@dimen/top_up_large_font_size"
                         android:fontFamily="@string/font_family_medium" />
                 </LinearLayout>
                 <RelativeLayout
-                    android:id="@+id/top_up_submit_payment_body"
+                    android:id="@+id/top_up_submit_upload_body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/color_icons_text"
@@ -54,41 +54,42 @@
                     android:paddingEnd="@dimen/top_up_card_item_horizontal_spacing"
                     android:paddingTop="@dimen/top_up_card_item_vertical_spacing"
                     android:paddingBottom="@dimen/top_up_card_item_vertical_spacing"
-                    android:layout_below="@+id/top_up_submit_payment_header">
+                    android:layout_below="@+id/top_up_submit_upload_header">
                     <RelativeLayout
-                        android:id="@+id/top_up_submit_payment_upload_button"
+                        android:id="@+id/top_up_submit_upload_open_dialog_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/top_up_card_item_vertical_spacing"
                         android:layout_marginBottom="@dimen/top_up_card_item_vertical_spacing"
+                        android:layout_marginStart="@dimen/top_up_card_item_horizontal_spacing"
+                        android:layout_marginEnd="@dimen/top_up_card_item_horizontal_spacing"
                         android:clickable="true"
                         android:layout_alignParentTop="true"
                         android:background="@drawable/top_up_upload_btn">
                         <LinearLayout
-                            android:id="@+id/top_up_submit_payment_upload_instruction"
+                            android:id="@+id/top_up_submit_upload_open_dialog_instruction"
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:orientation="vertical"
                             android:layout_centerInParent="true">
                             <TextView
-                                android:id="@+id/top_up_submit_payment_upload_instruction_main"
+                                android:id="@+id/top_up_submit_upload_open_dialog_instruction_main"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/top_up_card_item_vertical_spacing"
                                 android:layout_marginBottom="@dimen/top_up_card_item_vertical_spacing"
-                                android:text="Tap Here to Upload File"
+                                android:text="@string/top_up_submit_upload_instruction"
                                 android:maxLines="2"
                                 android:textSize="@dimen/top_up_large_font_size"
                                 android:textColor="@color/color_secondary_text"/>
                             <TextView
-                                android:id="@+id/top_up_submit_payment_upload_instruction_sub"
+                                android:id="@+id/top_up_submit_upload_open_dialog_instruction_sub"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/top_up_card_item_vertical_spacing"
-                                android:text="Maximum file size: 2MB"
+                                android:text="@string/top_up_submit_upload_info"
                                 android:maxLines="2"
                                 android:textSize="@dimen/top_up_small_font_size"
-                                android:layout_below="@id/top_up_submit_payment_upload_instruction"
                                 android:textColor="@color/color_secondary_text"/>
                         </LinearLayout>
 
@@ -96,15 +97,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/top_up_upload_round"
-                            android:layout_marginTop="@dimen/top_up_card_item_vertical_spacing"
-                            android:layout_marginBottom="@dimen/top_up_card_item_vertical_spacing"
-                            android:layout_marginStart="@dimen/top_up_card_item_horizontal_spacing"
                             android:layout_marginEnd="@dimen/top_up_card_item_horizontal_spacing"
-
-                            android:layout_toStartOf="@+id/top_up_submit_payment_upload_instruction"
+                            android:layout_toStartOf="@+id/top_up_submit_upload_open_dialog_instruction"
                             android:layout_centerVertical="true">
                             <ImageView
-                                android:id="@+id/top_up_submit_payment_upload_icon"
+                                android:id="@+id/top_up_submit_upload_open_dialog_icon"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
                         </LinearLayout>
@@ -116,16 +113,16 @@
                         android:layout_height="0px"/>
 
                     <android.support.design.widget.TextInputLayout
-                        android:id="@+id/top_up_submit_payment_reference_layout"
+                        android:id="@+id/top_up_submit_upload_reference_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/top_up_card_item_vertical_spacing"
                         android:layout_marginBottom="@dimen/top_up_card_item_vertical_spacing"
                         android:layout_marginStart="@dimen/top_up_card_item_horizontal_spacing"
                         android:layout_marginEnd="@dimen/top_up_card_item_horizontal_spacing"
-                        android:layout_below="@+id/top_up_submit_payment_upload_button">
+                        android:layout_below="@+id/top_up_submit_upload_open_dialog_button">
                         <EditText
-                            android:id="@+id/top_up_submit_payment_reference_edittext"
+                            android:id="@+id/top_up_submit_upload_reference_edittext"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text"
@@ -133,18 +130,17 @@
                             android:textSize="@dimen/top_up_small_font_size"
                             android:hint="Transaction Reference (Optional)"
                             android:textColor="@color/color_primary_text"
-                            android:textColorHint="@color/color_secondary_text"
-                            />
+                            android:textColorHint="@color/color_secondary_text" />
                     </android.support.design.widget.TextInputLayout>
                     <Button
-                        android:id="@+id/top_up_submit_payment_submit"
+                        android:id="@+id/top_up_submit_upload_submit_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/Widget.AppCompat.Button.Colored"
-                        android:layout_below="@+id/top_up_submit_payment_reference_layout"
-                        android:text="submit"
-                        android:backgroundTint="@color/color_primary"
-                        android:clickable="true">
+                        android:layout_below="@+id/top_up_submit_upload_reference_layout"
+                        android:text="@string/top_up_submit_upload_submit_label"
+                        android:clickable="true"
+                        app:backgroundTint="@color/color_primary"
+                        style="@style/Widget.AppCompat.Button.Colored">
                     </Button>
                 </RelativeLayout>
             </RelativeLayout>
@@ -153,12 +149,12 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/top_up_card_vertical_padding"
             app:cardCornerRadius="5dp"
             app:cardBackgroundColor="@color/color_background_100"
             app:cardElevation="2dp"
             app:cardPreventCornerOverlap="true"
-            app:cardUseCompatPadding="true">
+            app:cardUseCompatPadding="true"
+            android:layout_marginTop="@dimen/top_up_card_vertical_padding">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -180,7 +176,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="6"
-                        android:text="Bank Details"
+                        android:text="@string/top_up_submit_bank_details_title"
                         android:textColor="@color/color_primary_text"
                         android:textSize="@dimen/top_up_large_font_size"
                         android:fontFamily="@string/font_family_medium" />
@@ -195,6 +191,15 @@
                     android:paddingTop="@dimen/top_up_card_item_vertical_spacing"
                     android:paddingBottom="@dimen/top_up_card_item_vertical_spacing"
                     android:layout_below="@+id/top_up_submit_bank_details_header">
+
+                    <TextView
+                        android:id="@+id/top_up_submit_bank_details_statement"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@string/font_family_medium"
+                        android:textSize="@dimen/top_up_small_font_size"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true"/>
                 </RelativeLayout>
             </RelativeLayout>
         </android.support.v7.widget.CardView>
