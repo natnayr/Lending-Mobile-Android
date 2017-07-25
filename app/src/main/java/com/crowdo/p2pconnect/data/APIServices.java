@@ -4,7 +4,7 @@ import com.andretietz.retroauth.Authenticated;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.model.request.CheckoutBatchRequest;
 import com.crowdo.p2pconnect.model.request.DeleteBidRequest;
-import com.crowdo.p2pconnect.model.request.AskBidRequest;
+import com.crowdo.p2pconnect.model.request.NewBidRequest;
 import com.crowdo.p2pconnect.model.request.LoginRequest;
 import com.crowdo.p2pconnect.model.request.RegisterRequest;
 import com.crowdo.p2pconnect.model.response.BidOnlyResponse;
@@ -23,7 +23,6 @@ import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -69,12 +68,12 @@ public interface APIServices {
     @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @POST("bid/check_bid")
     @Headers({"Content-type: application/json"})
-    Observable<Response<CheckBidResponse>> postCheckBid(@Body AskBidRequest data);
+    Observable<Response<CheckBidResponse>> postCheckBid(@Body NewBidRequest data);
 
     @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @POST("bid/accept_bid")
     @Headers({"Content-type: application/json"})
-    Observable<Response<BidOnlyResponse>> postAcceptBid(@Body AskBidRequest data);
+    Observable<Response<BidOnlyResponse>> postAcceptBid(@Body NewBidRequest data);
 
     @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @POST("bid/delete_bid")

@@ -1,7 +1,6 @@
 package com.crowdo.p2pconnect.model.core;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
 /**
  * Created by cwdsg05 on 30/5/17.
@@ -9,64 +8,49 @@ import com.google.gson.annotations.SerializedName;
 
 public class Investment {
 
-    @SerializedName("id")
-    @Expose
+    @Json(name = "id")
     private int id;
 
-    @SerializedName("state")
-    @Expose
+    @Json(name = "state")
     private String state;
 
-    @SerializedName("loan_id")
-    @Expose
+    @Json(name = "loan_id")
     private int loanId;
 
-    @SerializedName("invest_amount")
-    @Expose
+    @Json(name = "invest_amount")
     private long investAmount;
 
-    @SerializedName("created_at")
-    @Expose
+    @Json(name = "created_at")
     private String createdAt;
 
-    @SerializedName("updated_at")
-    @Expose
+    @Json(name = "updated_at")
     private String updatedAt;
 
-    @SerializedName("participation_agreement")
-    @Expose
+    @Json(name = "participation_agreement")
     private String participationAgreement;
 
-    @SerializedName("expected_principal_return")
-    @Expose
+    @Json(name = "expected_principal_return")
     private String expectedPrincipalReturn;
 
-    @SerializedName("expected_interest_return")
-    @Expose
+    @Json(name = "expected_interest_return")
     private String expectedInterestReturn;
 
-    @SerializedName("actual_principal_return")
-    @Expose
+    @Json(name = "actual_principal_return")
     private String actualPrincipalReturn;
 
-    @SerializedName("actual_interest_return")
-    @Expose
+    @Json(name = "actual_interest_return")
     private String actualInterestReturn;
 
-    @SerializedName("expected_amount")
-    @Expose
+    @Json(name = "expected_amount")
     private String expectedAmount;
 
-    @SerializedName("paid_amount")
-    @Expose
+    @Json(name = "paid_amount")
     private String paidAmount;
 
-    @SerializedName("unpaid_amount")
-    @Expose
+    @Json(name = "unpaid_amount")
     private String unpaidAmount;
 
-    @SerializedName("pending_bid_reminder_sent")
-    @Expose
+    @Json(name = "pending_bid_reminder_sent")
     private boolean pendingBidReminderSent;
 
     public int getId() {

@@ -4,6 +4,7 @@ import com.crowdo.p2pconnect.model.core.Investment;
 import com.crowdo.p2pconnect.model.others.Server;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
 /**
  * Created by cwdsg05 on 7/6/17.
@@ -11,27 +12,18 @@ import com.google.gson.annotations.SerializedName;
 
 public class BidOnlyResponse {
 
-    @SerializedName("server")
-    @Expose
+    @Json(name = "server")
     private Server server;
 
-    @SerializedName("bid")
-    @Expose
+    @Json(name = "bid")
     private Investment bid;
 
     public Server getServer() {
         return server;
     }
 
-    public void setServer(Server server) {
-        this.server = server;
-    }
-
     public Investment getBid() {
         return bid;
     }
 
-    public void setExistingBid(Investment existingBid) {
-        this.bid = bid;
-    }
 }

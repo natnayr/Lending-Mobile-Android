@@ -1,191 +1,146 @@
 package com.crowdo.p2pconnect.model.core;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
 /**
  * Created by cwdsg05 on 30/5/17.
  */
 
 public class Loan {
-    @SerializedName("id")
-    @Expose
+
+    @Json(name = "id")
     private int id;
 
-    @SerializedName("partner_id")
-    @Expose
+    @Json(name = "partner_id")
     private int partnerId;
 
-    @SerializedName("partner_portfolio_id")
-    @Expose
+    @Json(name = "partner_portfolio_id")
     private int partnerPortfolioId;
 
-    @SerializedName("borrower_id")
-    @Expose
+    @Json(name = "borrower_id")
     private int borrowerId;
 
-    @SerializedName("currency_out")
-    @Expose
+    @Json(name = "currency_out")
     private String currency;
 
-    @SerializedName("loan_status")
-    @Expose
+    @Json(name = "loan_status")
     private String loanStatus;
 
-    @SerializedName("customer_id")
-    @Expose
+    @Json(name = "customer_id")
     private String customerId;
 
-    @SerializedName("loan_id_out")
-    @Expose
+    @Json(name = "loan_id_out")
     private String loanId;
 
-    @SerializedName("loan_type")
-    @Expose
+    @Json(name = "loan_type")
     private String loanType;
 
-    @SerializedName("collateral")
-    @Expose
+    @Json(name = "collateral")
     private String collateral;
 
-    @SerializedName("collateral_description")
-    @Expose
+    @Json(name = "collateral_description")
     private String collateralDescription;
 
-    @SerializedName("target_amount_out")
-    @Expose
+    @Json(name = "target_amount_out")
     private double targetAmount;
 
-    @SerializedName("interest_rate_out")
-    @Expose
+    @Json(name = "interest_rate_out")
     private double interestRate;
 
-    @SerializedName("pmt_out")
-    @Expose
+    @Json(name = "pmt_out")
     private double pmt;
 
-    @SerializedName("total_interest_out")
-    @Expose
+    @Json(name = "total_interest_out")
     private double totalInterestOut;
 
-    @SerializedName("num_of_on_time_payments")
-    @Expose
+    @Json(name = "num_of_on_time_payments")
     private int numOfOnTimePayments;
 
-    @SerializedName("num_of_delayed_payments")
-    @Expose
+    @Json(name = "num_of_delayed_payments")
     private int numOfDelayedPayments;
 
-    @SerializedName("num_of_default_payments")
-    @Expose
+    @Json(name = "num_of_default_payments")
     private int numOfDefaultPayments;
 
-    @SerializedName("original_tenure")
-    @Expose
+    @Json(name = "original_tenure")
     private int originalTenure;
 
-    @SerializedName("tenure_out")
-    @Expose
+    @Json(name = "tenure_out")
     private int tenure;
 
-    @SerializedName("frequency_out")
-    @Expose
+    @Json(name = "frequency_out")
     private String frequencyOut;
 
-    @SerializedName("start_date_out")
-    @Expose
+    @Json(name = "start_date_out")
     private String startDate;
 
-    @SerializedName("funding_duration")
-    @Expose
+    @Json(name = "funding_duration")
     private int fundingDuration;
 
-    @SerializedName("funding_start_date")
-    @Expose
+    @Json(name = "funding_start_date")
     private String fundingStartDate;
 
-    @SerializedName("funding_end_date")
-    @Expose
+    @Json(name = "funding_end_date")
     private String fundingEndDate;
 
-    @SerializedName("investments_count")
-    @Expose
+    @Json(name = "investments_count")
     private int investmentsCount;
 
-    @SerializedName("grade")
-    @Expose
+    @Json(name = "grade")
     private String grade;
 
-    @SerializedName("created_at")
-    @Expose
+    @Json(name = "created_at")
     private String createdAt;
 
-    @SerializedName("updated_at")
-    @Expose
+    @Json(name = "updated_at")
     private String updatedAt;
 
-    @SerializedName("underlying_agreement")
-    @Expose
+    @Json(name = "underlying_agreement")
     private String underlyingAgreement;
 
-    @SerializedName("master_agreement")
-    @Expose
+    @Json(name = "master_agreement")
     private String masterAgreement;
 
-    @SerializedName("funded_amount_cache")
-    @Expose
+    @Json(name = "funded_amount_cache")
     private double fundedAmountCache;
 
-    @SerializedName("one_percent_promotion")
-    @Expose
+    @Json(name = "one_percent_promotion")
     private boolean onePercentPromotion;
 
-    @SerializedName("loan_to_value")
-    @Expose
+    @Json(name = "loan_to_value")
     private int loanToValue;
 
-    @SerializedName("borrower_age")
-    @Expose
+    @Json(name = "borrower_age")
     private int borrowerAge;
 
-    @SerializedName("borrower_gender")
-    @Expose
+    @Json(name = "borrower_gender")
     private String borrowerGender;
 
-    @SerializedName("funded_percentage_cache")
-    @Expose
+    @Json(name = "funded_percentage_cache")
     private int fundedPercentageCache;
 
-    @SerializedName("funding_amount_to_complete_cache")
-    @Expose
+    @Json(name = "funding_amount_to_complete_cache")
     private double fundingAmountToCompleteCache;
 
-    @SerializedName("underlying_approved")
-    @Expose
+    @Json(name = "underlying_approved")
     private boolean underlyingApproved;
 
-    @SerializedName("underlying_approved_at")
-    @Expose
+    @Json(name = "underlying_approved_at")
     private String underlyingApprovedAt;
 
-    @SerializedName("sort_weight")
-    @Expose
+    @Json(name = "sort_weight")
     private int sortWeight;
 
-    @SerializedName("reject_reason")
-    @Expose
+    @Json(name = "reject_reason")
     private String rejectReason;
 
-    @SerializedName("security")
-    @Expose
+    @Json(name = "security")
     private String security;
 
-    @SerializedName("liquidation_flag")
-    @Expose
+    @Json(name = "liquidation_flag")
     private String liquidationFlag;
 
-    @SerializedName("disbursed_proof")
-    @Expose
+    @Json(name = "disbursed_proof")
     private String disbursedProof;
 
     public int getId() {

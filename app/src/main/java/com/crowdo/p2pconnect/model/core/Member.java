@@ -1,97 +1,60 @@
 package com.crowdo.p2pconnect.model.core;
 
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
 /**
  * Created by cwdsg05 on 21/3/17.
  */
 public class Member {
 
-    @SerializedName("id")
-    @Expose
-    Integer id;
+    @Json(name = "id")
+    private long id;
 
-    @SerializedName("email")
-    @Expose
-    String email;
+    @Json(name = "email")
+    private String email;
 
-    @SerializedName("name")
-    @Expose
-    String name;
+    @Json(name = "name")
+    private String name;
 
-    @SerializedName("phone_number")
-    @Expose
-    String phoneNumber;
+    @Json(name = "phone_number")
+    private String phoneNumber;
 
-    @SerializedName("nationality")
-    @Expose
-    String nationality;
+    @Json(name = "nationality")
+    private String nationality;
 
-    @SerializedName("date_of_birth")
-    @Expose
-    String dateOfBirth;
+    @Json(name = "date_of_birth")
+    private String dateOfBirth;
 
-    @SerializedName("address1")
-    @Expose
-    String address1;
+    @Json(name = "address1")
+    private String address1;
 
-    @SerializedName("address2")
-    @Expose
-    String address2;
+    @Json(name = "address2")
+    private String address2;
 
-    @SerializedName("city")
-    @Expose
-    String city;
+    @Json(name = "city")
+    private String city;
 
-    @SerializedName("postal_code")
-    @Expose
-    String postalCode;
+    @Json(name = "postal_code")
+    private String postalCode;
 
-    @SerializedName("country_of_residence")
-    @Expose
-    String countryOfResidence;
+    @Json(name = "country_of_residence")
+    private String countryOfResidence;
 
-    @SerializedName("locale_preference")
-    @Expose
-    String localePreference;
+    @Json(name = "locale_preference")
+    private String localePreference;
 
-    @SerializedName("session_country")
-    @Expose
-    String sessionCountry;
+    @Json(name = "session_country")
+    private String sessionCountry;
 
-    @SerializedName("is_banned")
-    @Expose
-    Boolean isBanned;
+    @Json(name = "is_banned")
+    private boolean isBanned;
 
-    public Member(){ };
-
-    public Member(Integer id, String email, String name, String phoneNumber,
-                  String nationality, String dateOfBirth, String address1, String address2,
-                  String city, String postalCode, String countryOfResidence,
-                  String localePreference, String sessionCountry, Boolean isBanned) {
-        this.id = id;
-        this.email = email;
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.nationality = nationality;
-        this.dateOfBirth = dateOfBirth;
-        this.address1 = address1;
-        this.address2 = address2;
-        this.city = city;
-        this.postalCode = postalCode;
-        this.countryOfResidence = countryOfResidence;
-        this.localePreference = localePreference;
-        this.sessionCountry = sessionCountry;
-        this.isBanned = isBanned;
-    }
-
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -191,11 +154,11 @@ public class Member {
         this.sessionCountry = sessionCountry;
     }
 
-    public Boolean getIsBanned() {
+    public boolean isBanned() {
         return isBanned;
     }
 
-    public void setIsBanned(Boolean isBanned) {
-        this.isBanned = isBanned;
+    public void setBanned(boolean banned) {
+        isBanned = banned;
     }
 }

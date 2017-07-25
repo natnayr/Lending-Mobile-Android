@@ -4,6 +4,7 @@ import com.crowdo.p2pconnect.model.core.Member;
 import com.crowdo.p2pconnect.model.others.Server;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
 /**
  * Created by cwdsg05 on 23/3/17.
@@ -11,36 +12,23 @@ import com.google.gson.annotations.SerializedName;
 
 public class AuthResponse {
 
-    @SerializedName("server")
-    @Expose
+    @Json(name = "server")
     public Server server;
 
-    @SerializedName("auth_token")
-    @Expose
+    @Json(name = "auth_token")
     private String authToken;
 
-    @SerializedName("auth_summary")
-    @Expose
+    @Json(name = "auth_summary")
     private Member member;
 
     public Server getServer(){ return server; }
-
-    public void setServer(Server server){ this.server = server; }
 
     public String getAuthToken() {
         return authToken;
     }
 
-    public void setAuthToken(String authToken) {
-        this.authToken = authToken;
-    }
-
     public Member getMember() {
         return member;
-    }
-
-    public void setUser(Member member) {
-        this.member = member;
     }
 
 }

@@ -8,15 +8,13 @@ import com.crowdo.p2pconnect.data.ReceivingCookiesInterceptor;
 import com.crowdo.p2pconnect.model.request.LoginRequest;
 import com.crowdo.p2pconnect.model.request.RegisterRequest;
 import com.crowdo.p2pconnect.model.response.AuthResponse;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.moshi.MoshiConverterFactory;
 
 /**
  * Created by cwdsg05 on 22/3/17.
@@ -30,9 +28,6 @@ public class AuthClient implements ClientInterface{
     private Retrofit retrofit;
 
     public AuthClient(Context context) {
-        final Gson gson = new GsonBuilder()
-                .serializeNulls()
-                .create();
 
         //Http Inteceptor
 //        final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
@@ -47,7 +42,7 @@ public class AuthClient implements ClientInterface{
 
         retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(MoshiConverterFactory.create())
                 .client(httpClient)
                 .baseUrl(APIServices.API_LIVE_BASE_URL + APIServices.LIVE_STAGE)
                 .build();

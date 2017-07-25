@@ -582,9 +582,9 @@ public class LoanDetailsFragment extends Fragment {
             @Override
             public void eventCallBack(MemberInfoResponse memberInfoResponse) {
                 if (HTTPResponseUtils.check2xxSuccess(memberInfoResponse
-                        .server.status)) {
+                        .getServer().getStatus())) {
                     CartBadgeDrawable.setBadgeCount(getActivity(), cartIcon,
-                            Integer.toString(memberInfoResponse.numberOfPendingBids));
+                            Integer.toString(memberInfoResponse.getNumberOfPendingBids()));
                 }
             }
         });

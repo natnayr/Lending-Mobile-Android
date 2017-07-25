@@ -1,7 +1,6 @@
 package com.crowdo.p2pconnect.model.others;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
 /**
  * Created by cwdsg05 on 30/5/17.
@@ -9,12 +8,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class Server {
 
-    @SerializedName("message")
-    @Expose
+    @Json(name = "message")
     private String message;
 
-    @SerializedName("status")
-    @Expose
+    @Json(name = "status")
     private int status;
 
     public Server(String message, int status){

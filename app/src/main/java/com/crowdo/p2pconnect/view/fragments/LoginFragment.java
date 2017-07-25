@@ -271,7 +271,6 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
                     userData.putString(AuthActivity.AUTH_MEMBER_TOKEN, authResponse.getAuthToken());
                     userData.putString(AuthActivity.AUTH_MEMBER_LOCALE, member.getLocalePreference());
 
-
                     //go back to AuthActivity to create account
                     ((AuthActivity) getActivity()).finishAuth(userData);
                 }

@@ -41,48 +41,25 @@ public class CheckoutSummaryResponse {
     public Server getServer() {
         return server;
     }
-
-    public void setServer(Server server) {
-        this.server = server;
-    }
-
+    
     public int getNumOfPendingBids() {
         return numOfPendingBids;
-    }
-
-    public void setNumOfPendingBids(int numOfPendingBids) {
-        this.numOfPendingBids = numOfPendingBids;
     }
 
     public long getTotalPendingBids() {
         return totalPendingBids;
     }
 
-    public void setTotalPendingBids(long totalPendingBids) {
-        this.totalPendingBids = totalPendingBids;
-    }
-
     public long getAvailableCashBalance() {
         return availableCashBalance;
-    }
-
-    public void setAvailableCashBalance(long availableCashBalance) {
-        this.availableCashBalance = availableCashBalance;
     }
 
     public List<Investment> getBids() {
         return bids;
     }
 
-    public void setBids(List<Investment> bids) {
-        this.bids = bids;
-    }
-
     public List<Loan> getLoans() {
         return loans;
     }
 
-    public void setLoans(List<Loan> loans) {
-        this.loans = loans;
-    }
 }

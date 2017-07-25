@@ -1,7 +1,7 @@
 package com.crowdo.p2pconnect.model.response;
 
 import com.crowdo.p2pconnect.model.others.BankInfo;
-import com.crowdo.p2pconnect.model.others.ServerMoshi;
+import com.crowdo.p2pconnect.model.others.Server;
 import com.squareup.moshi.Json;
 
 /**
@@ -11,22 +11,84 @@ import com.squareup.moshi.Json;
 public class MemberInfoResponse {
 
     @Json(name = "server")
-    public ServerMoshi server;
+    private Server server;
     @Json(name = "name")
-    public String name;
+    private String name;
     @Json(name = "email")
-    public String email;
+    private String email;
     @Json(name = "user_id")
-    public long userId;
+    private long userId;
     @Json(name = "number_of_pending_bids")
-    public int numberOfPendingBids;
+    private int numberOfPendingBids;
     @Json(name = "total_pending_bid_amount")
-    public long totalPendingBidAmount;
+    private long totalPendingBidAmount;
     @Json(name = "available_cash_balance")
-    public long availableCashBalance;
+    private long availableCashBalance;
     @Json(name = "bank_info")
-    public BankInfo bankInfo;
+    private BankInfo bankInfo;
 
+    public Server getServer() {
+        return server;
+    }
 
+    public void setServer(Server server) {
+        this.server = server;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public int getNumberOfPendingBids() {
+        return numberOfPendingBids;
+    }
+
+    public void setNumberOfPendingBids(int numberOfPendingBids) {
+        this.numberOfPendingBids = numberOfPendingBids;
+    }
+
+    public long getTotalPendingBidAmount() {
+        return totalPendingBidAmount;
+    }
+
+    public void setTotalPendingBidAmount(long totalPendingBidAmount) {
+        this.totalPendingBidAmount = totalPendingBidAmount;
+    }
+
+    public long getAvailableCashBalance() {
+        return availableCashBalance;
+    }
+
+    public void setAvailableCashBalance(long availableCashBalance) {
+        this.availableCashBalance = availableCashBalance;
+    }
+
+    public BankInfo getBankInfo() {
+        return bankInfo;
+    }
+
+    public void setBankInfo(BankInfo bankInfo) {
+        this.bankInfo = bankInfo;
+    }
 }
 

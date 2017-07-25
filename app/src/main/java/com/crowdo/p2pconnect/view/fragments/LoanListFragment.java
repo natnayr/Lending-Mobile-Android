@@ -307,7 +307,7 @@ public class LoanListFragment extends Fragment {
                     @Override
                     public void onNext(Response<LoanListResponse> response) {
                         if (response.isSuccessful()) {
-                            List<Loan> loanListResponses = response.body().loans;
+                            List<Loan> loanListResponses = response.body().getLoans();
                             Log.d(LOG_TAG, "APP populateLoansList onNext with "
                                     + loanListResponses.size() + " items");
                             loanAdapter.setLoans(loanListResponses);
@@ -367,9 +367,9 @@ public class LoanListFragment extends Fragment {
             @Override
             public void eventCallBack(MemberInfoResponse memberInfoResponse) {
                 if (HTTPResponseUtils.check2xxSuccess(memberInfoResponse
-                        .server.status)) {
+                        .getServer().getStatus())) {
                     CartBadgeDrawable.setBadgeCount(getActivity(), cartIcon,
-                            Integer.toString(memberInfoResponse.numberOfPendingBids));
+                            Integer.toString(memberInfoResponse.getNumberOfPendingBids()));
                 }
             }
         });

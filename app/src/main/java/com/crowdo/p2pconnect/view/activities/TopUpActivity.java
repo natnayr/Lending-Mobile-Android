@@ -109,7 +109,7 @@ public class TopUpActivity extends AppCompatActivity {
             @Override
             public void eventCallBack(MemberInfoResponse memberInfoResponse) {
                 String amount = NumericUtils.formatCurrency(NumericUtils.IDR,
-                        ((double) memberInfoResponse.availableCashBalance), false).trim();
+                        ((double) memberInfoResponse.getAvailableCashBalance()), false).trim();
                 mTopUpBalanceAmountLabel.setText(amount);
                 mTopUpBalanceDescriptionLabel.setText(mTopUpBalanceDescriptionStartLabel +
                     "(" + NumericUtils.IDR + ")");

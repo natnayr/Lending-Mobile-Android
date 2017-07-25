@@ -1,7 +1,6 @@
 package com.crowdo.p2pconnect.model.request;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
 /**
  * Created by cwdsg05 on 27/3/17.
@@ -9,14 +8,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class RegisterRequest {
 
-    @SerializedName("member")
-    @Expose
+    @Json(name = "member")
     public RegisterMember member;
-
-    @SerializedName("device_id")
-    @Expose
+    @Json(name = "device_id")
     public String deviceId;
-
 
     /**
      * No args constructor for use in serialization
@@ -31,26 +26,17 @@ public class RegisterRequest {
         this.deviceId = deviceId;
     }
 
-    private class RegisterMember {
+    private static class RegisterMember {
 
-        @SerializedName("name")
-        @Expose
+        @Json(name = "name")
         public String name;
-
-        @SerializedName("email")
-        @Expose
+        @Json(name = "email")
         public String email;
-
-        @SerializedName("password")
-        @Expose
+        @Json(name = "password")
         public String password;
-
-        @SerializedName("password_confirmation")
-        @Expose
+        @Json(name = "password_confirmation")
         public String passwordConfirmation;
-
-        @SerializedName("locale_preference")
-        @Expose
+        @Json(name = "locale_preference")
         public String localePreference;
 
         /**
@@ -68,5 +54,7 @@ public class RegisterRequest {
             this.passwordConfirmation = passwordConfirmation;
             this.localePreference = localePreference;
         }
+
+
     }
 }

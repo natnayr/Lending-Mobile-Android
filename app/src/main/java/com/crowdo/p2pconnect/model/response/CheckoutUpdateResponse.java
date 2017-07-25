@@ -33,31 +33,18 @@ public class CheckoutUpdateResponse {
         return server;
     }
 
-    public void setServer(Server server) {
-        this.server = server;
-    }
-
     public List<InvestBid> getArray() {
         return array;
     }
 
-    public void setArray(List<InvestBid> array) {
-        this.array = array;
-    }
 
     public String getTotalPendingBids() {
         return totalPendingBids;
     }
 
-    public void setTotalPendingBids(String totalPendingBids) {
-        this.totalPendingBids = totalPendingBids;
-    }
 
     public int getTotalCashBalance() {
         return totalCashBalance;
     }
 
-    public void setTotalCashBalance(int totalCashBalance) {
-        this.totalCashBalance = totalCashBalance;
-    }
 }

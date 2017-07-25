@@ -10,19 +10,17 @@ import com.crowdo.p2pconnect.data.ReceivingCookiesInterceptor;
 import com.crowdo.p2pconnect.data.SendingCookiesInterceptor;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.model.request.DeleteBidRequest;
-import com.crowdo.p2pconnect.model.request.AskBidRequest;
+import com.crowdo.p2pconnect.model.request.NewBidRequest;
 import com.crowdo.p2pconnect.model.response.BidOnlyResponse;
 import com.crowdo.p2pconnect.model.response.CheckBidResponse;
 import com.crowdo.p2pconnect.oauth.AuthProvider;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.moshi.MoshiConverterFactory;
 
 /**
  * Created by cwdsg05 on 7/6/17.
@@ -37,7 +35,6 @@ public class BiddingClient implements ClientInterface{
     private APIServices apiServices;
 
     public BiddingClient(Context context){
-        final Gson gson = new GsonBuilder().serializeNulls().create();
 
 //        final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
 //        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -53,7 +50,7 @@ public class BiddingClient implements ClientInterface{
         retrofit = new Retroauth.Builder<>(AndroidAuthenticationHandler.create(provider,
                 AndroidTokenType.Factory.create()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(MoshiConverterFactory.create())
                 .client(httpClient)
                 .baseUrl(APIServices.API_LIVE_BASE_URL + APIServices.LIVE_STAGE)
                 .build();
@@ -73,13 +70,13 @@ public class BiddingClient implements ClientInterface{
 
     public Observable<Response<CheckBidResponse>> postCheckBid(long investAmount, int loanId,
                                                                String deviceId){
-        return apiServices.postCheckBid(new AskBidRequest(investAmount, loanId,
+        return apiServices.postCheckBid(new NewBidRequest(investAmount, loanId,
                 ConstantVariables.API_SITE_CONFIG_ID, deviceId));
     }
 
     public Observable<Response<BidOnlyResponse>> postAcceptBid(long investAmount, int loanId,
                                                                String deviceId){
-        return apiServices.postAcceptBid(new AskBidRequest(investAmount, loanId,
+        return apiServices.postAcceptBid(new NewBidRequest(investAmount, loanId,
                 ConstantVariables.API_SITE_CONFIG_ID, deviceId));
     }
 
