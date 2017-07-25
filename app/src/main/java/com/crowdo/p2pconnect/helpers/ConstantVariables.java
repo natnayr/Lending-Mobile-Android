@@ -63,6 +63,7 @@ public class ConstantVariables {
     public static final String PARTICIPATION_AGREEMENT_URL = "https://crowdo.co.id/documents/participation_agreement.pdf";
     public static final String PARTICIPATION_AGREEMENT_FILENAME = "participation_agreement.pdf";
 
+
     public static final int HTTP_SUCCESS_OK = 200;
     public static final int HTTP_BAD_REQUEST = 400;
     public static final int HTTP_UNAUTHORISED = 401;

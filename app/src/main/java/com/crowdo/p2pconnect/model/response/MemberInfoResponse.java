@@ -1,6 +1,7 @@
 package com.crowdo.p2pconnect.model.response;
 
 import com.crowdo.p2pconnect.model.others.BankInfo;
+import com.crowdo.p2pconnect.model.others.ServerMoshi;
 import com.squareup.moshi.Json;
 
 /**
@@ -10,7 +11,7 @@ import com.squareup.moshi.Json;
 public class MemberInfoResponse {
 
     @Json(name = "server")
-    public Server server;
+    public ServerMoshi server;
     @Json(name = "name")
     public String name;
     @Json(name = "email")
@@ -26,10 +27,6 @@ public class MemberInfoResponse {
     @Json(name = "bank_info")
     public BankInfo bankInfo;
 
-    public class Server {
-        @Json(name = "message")
-        public String message;
-        @Json(name = "status")
-        public long status;
-    }
+
 }
+

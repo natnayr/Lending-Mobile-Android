@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.NumericUtils;
+import com.crowdo.p2pconnect.model.others.BankInfo;
+import com.crowdo.p2pconnect.model.response.DefinitionBankInfoResponse;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -70,14 +72,14 @@ public class TopUpSubmitViewHolder {
 
     }
 
-    public void fillAccountInfo(final MemberInfoResponse memberInfoResponse){
+    public void fillMemberInfo(final MemberInfoResponse memberInfoResponse) {
         long totalPendingAmount = (memberInfoResponse.totalPendingBidAmount -
                 memberInfoResponse.availableCashBalance);
 
-        if(totalPendingAmount <= 0) {
+        if (totalPendingAmount <= 0) {
             //enough money
             mSubmitInfoStatement.setText(mSubmitInfoWithoutPendingLabel);
-        }else{
+        } else {
             //top up amount
             String statement = String.format(mSubmitInfoWithPendingLabel,
                     NumericUtils.formatCurrency(NumericUtils.IDR, totalPendingAmount, true));
@@ -86,12 +88,39 @@ public class TopUpSubmitViewHolder {
 
         String indicateStatement = String.format(mSubmitInfoIndicateLabel,
                 memberInfoResponse.userId);
-        Log.d(LOG_TAG, "APP fillAccountInfo indicateStatement: " + indicateStatement);
+        Log.d(LOG_TAG, "APP fillMemberInfo indicateStatement: " + indicateStatement);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             mSubmitInfoIndicateAccountInfo.setText(Html.fromHtml(indicateStatement,
                     Html.FROM_HTML_MODE_LEGACY));
-        }else{
+        } else {
             mSubmitInfoIndicateAccountInfo.setText(Html.fromHtml(indicateStatement));
         }
     }
+
+    public void fillDefinitionsBankInfo(final DefinitionBankInfoResponse definitionBankInfoResponse) {
+        BankInfo bankInfo = definitionBankInfoResponse.bankInfo;
+
+        if(bankInfo.accountName != null) {
+            mSubmitInfoAccountName.setText(bankInfo.accountName.trim());
+        }
+
+        if(bankInfo.accountNumber != null){
+            mSubmitInfoAccountNumber.setText(bankInfo.accountNumber.trim());
+        }
+
+        if(bankInfo.bankName != null){
+            mSubmitInfoBankName.setText(bankInfo.bankName.trim());
+        }
+
+        if(bankInfo.swiftCode != null){
+            mSubmitInfoSwiftCode.setText(bankInfo.swiftCode.trim());
+        }
+
+        if(bankInfo.bankAddress != null){
+            mSubmitInfoBankAddress.setText(bankInfo.bankAddress.trim());
+        }
+
+    }
+
+
 }

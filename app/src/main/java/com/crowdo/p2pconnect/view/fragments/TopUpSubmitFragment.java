@@ -12,9 +12,11 @@ import android.widget.EditText;
 
 import com.afollestad.materialdialogs.folderselector.FileChooserDialog;
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.commons.DefinitionsRetrieval;
 import com.crowdo.p2pconnect.commons.MemberInfoRetrieval;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
+import com.crowdo.p2pconnect.model.response.DefinitionBankInfoResponse;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.view.activities.TopUpActivity;
 import com.crowdo.p2pconnect.viewholders.TopUpSubmitViewHolder;
@@ -25,7 +27,7 @@ import java.io.File;
  * Created by cwdsg05 on 13/7/17.
  */
 
-public class TopUpSubmitFragment extends Fragment implements FileChooserDialog.FileCallback{
+public class TopUpSubmitFragment extends Fragment{
 
     private TopUpSubmitViewHolder viewHolder;
 
@@ -72,11 +74,9 @@ public class TopUpSubmitFragment extends Fragment implements FileChooserDialog.F
             }
         });
 
-
         viewHolder.mSubmitFileFinderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
             }
         });
@@ -85,22 +85,19 @@ public class TopUpSubmitFragment extends Fragment implements FileChooserDialog.F
         memberRetrieval.retrieveInfo(getActivity(), new CallBackUtil<MemberInfoResponse>() {
             @Override
             public void eventCallBack(MemberInfoResponse memberInfoResponse) {
-                viewHolder.fillAccountInfo(memberInfoResponse);
+                viewHolder.fillMemberInfo(memberInfoResponse);
+            }
+        });
+
+        DefinitionsRetrieval definitionsRetrieval = new DefinitionsRetrieval();
+        definitionsRetrieval.retreiveInfo(getActivity(), new CallBackUtil<DefinitionBankInfoResponse>() {
+            @Override
+            public void eventCallBack(DefinitionBankInfoResponse definitionBankInfoResponse) {
+                viewHolder.fillDefinitionsBankInfo(definitionBankInfoResponse);
             }
         });
 
         return rootView;
     }
-
-    @Override
-    public void onFileSelection(@NonNull FileChooserDialog dialog, @NonNull File file) {
-
-    }
-
-    @Override
-    public void onFileChooserDismissed(@NonNull FileChooserDialog dialog) {
-
-    }
-
 
 }

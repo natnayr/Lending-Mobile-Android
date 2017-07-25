@@ -192,11 +192,12 @@
                     android:paddingTop="@dimen/top_up_card_item_vertical_spacing"
                     android:paddingBottom="@dimen/top_up_card_item_vertical_spacing"
                     android:layout_below="@+id/top_up_submit_bank_details_header">
-
                     <TextView
                         android:id="@+id/top_up_submit_bank_details_statement"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/top_up_card_item_vertical_spacing"
+                        android:layout_marginBottom="@dimen/top_up_card_item_vertical_spacing"
                         android:layout_marginStart="@dimen/top_up_card_item_horizontal_spacing"
                         android:layout_marginEnd="@dimen/top_up_card_item_horizontal_spacing"
                         android:fontFamily="@string/font_family_medium"
@@ -207,6 +208,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/top_up_card_item_vertical_spacing"
+                        android:layout_marginBottom="@dimen/top_up_card_item_vertical_spacing"
                         android:layout_marginStart="@dimen/top_up_card_item_horizontal_spacing"
                         android:layout_marginEnd="@dimen/top_up_card_item_horizontal_spacing"
                         android:textSize="@dimen/top_up_small_font_size"
@@ -217,24 +219,26 @@
                         android:layout_marginTop="@dimen/top_up_card_item_vertical_spacing"
                         android:layout_marginStart="@dimen/top_up_card_item_horizontal_spacing"
                         android:layout_marginEnd="@dimen/top_up_card_item_horizontal_spacing"
+                        android:stretchColumns="*"
                         android:layout_below="@+id/top_up_submit_bank_details_indicate">
                         <TableRow
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
                             <TextView
                                 android:id="@+id/top_up_submit_bank_details_account_name_label"
-                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
                                 android:gravity="start"
                                 android:fontFamily="@string/font_family_regular"
                                 android:textSize="@dimen/top_up_small_font_size"
                                 android:text="@string/top_up_submit_bank_details_account_name"/>
                             <TextView
                                 android:id="@+id/top_up_submit_bank_details_account_name_value"
-                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="end"
+                                android:layout_width="0dp"
+                                android:layout_weight="2"
+                                android:gravity="start"
                                 android:fontFamily="@string/font_family_light"
                                 android:textSize="@dimen/top_up_small_font_size"/>
                         </TableRow>
@@ -244,18 +248,19 @@
                             android:layout_marginTop="@dimen/top_up_card_item_vertical_spacing">
                             <TextView
                                 android:id="@+id/top_up_submit_bank_details_account_number_label"
-                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
                                 android:gravity="start"
                                 android:fontFamily="@string/font_family_regular"
                                 android:textSize="@dimen/top_up_small_font_size"
                                 android:text="@string/top_up_submit_bank_details_account_number"/>
                             <TextView
                                 android:id="@+id/top_up_submit_bank_details_account_number_value"
-                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="end"
+                                android:layout_width="0dp"
+                                android:layout_weight="2"
+                                android:gravity="start"
                                 android:fontFamily="@string/font_family_light"
                                 android:textSize="@dimen/top_up_small_font_size"/>
                         </TableRow>
@@ -265,18 +270,19 @@
                             android:layout_marginTop="@dimen/top_up_card_item_vertical_spacing">
                             <TextView
                                 android:id="@+id/top_up_submit_bank_details_bank_name_label"
-                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
                                 android:gravity="start"
                                 android:fontFamily="@string/font_family_regular"
                                 android:textSize="@dimen/top_up_small_font_size"
                                 android:text="@string/top_up_submit_bank_details_bank_name"/>
                             <TextView
                                 android:id="@+id/top_up_submit_bank_details_bank_name_value"
-                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="end"
+                                android:layout_width="0dp"
+                                android:layout_weight="2"
+                                android:gravity="start"
                                 android:fontFamily="@string/font_family_light"
                                 android:textSize="@dimen/top_up_small_font_size"/>
                         </TableRow>
@@ -286,18 +292,19 @@
                             android:layout_marginTop="@dimen/top_up_card_item_vertical_spacing">
                             <TextView
                                 android:id="@+id/top_up_submit_bank_details_branch_name_label"
-                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
                                 android:gravity="start"
                                 android:fontFamily="@string/font_family_regular"
                                 android:textSize="@dimen/top_up_small_font_size"
                                 android:text="@string/top_up_submit_bank_details_branch_name"/>
                             <TextView
                                 android:id="@+id/top_up_submit_bank_details_branch_name_value"
-                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="end"
+                                android:layout_width="0dp"
+                                android:layout_weight="2"
+                                android:gravity="start"
                                 android:fontFamily="@string/font_family_light"
                                 android:textSize="@dimen/top_up_small_font_size"/>
                         </TableRow>
@@ -307,18 +314,19 @@
                             android:layout_marginTop="@dimen/top_up_card_item_vertical_spacing">
                             <TextView
                                 android:id="@+id/top_up_submit_bank_details_swift_code_label"
-                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
                                 android:gravity="start"
                                 android:fontFamily="@string/font_family_regular"
                                 android:textSize="@dimen/top_up_small_font_size"
                                 android:text="@string/top_up_submit_bank_details_swift_code"/>
                             <TextView
                                 android:id="@+id/top_up_submit_bank_details_swift_code_value"
-                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="end"
+                                android:layout_width="0dp"
+                                android:layout_weight="2"
+                                android:gravity="start"
                                 android:fontFamily="@string/font_family_light"
                                 android:textSize="@dimen/top_up_small_font_size"/>
                         </TableRow>
@@ -328,18 +336,19 @@
                             android:layout_marginTop="@dimen/top_up_card_item_vertical_spacing">
                             <TextView
                                 android:id="@+id/top_up_submit_bank_details_bank_address_label"
-                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
                                 android:gravity="start"
                                 android:fontFamily="@string/font_family_regular"
                                 android:textSize="@dimen/top_up_small_font_size"
                                 android:text="@string/top_up_submit_bank_details_bank_address"/>
                             <TextView
                                 android:id="@+id/top_up_submit_bank_details_bank_address_value"
-                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="end"
+                                android:layout_width="0dp"
+                                android:layout_weight="2"
+                                android:gravity="start"
                                 android:fontFamily="@string/font_family_light"
                                 android:textSize="@dimen/top_up_small_font_size"/>
                         </TableRow>

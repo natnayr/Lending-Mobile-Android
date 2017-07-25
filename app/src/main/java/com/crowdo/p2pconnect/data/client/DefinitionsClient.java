@@ -5,13 +5,18 @@ import android.content.Context;
 import com.andretietz.retroauth.AndroidAuthenticationHandler;
 import com.andretietz.retroauth.AndroidTokenType;
 import com.andretietz.retroauth.Retroauth;
+import com.crowdo.p2pconnect.commons.DefinitionsRetrieval;
 import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.data.ReceivingCookiesInterceptor;
 import com.crowdo.p2pconnect.data.SendingCookiesInterceptor;
+import com.crowdo.p2pconnect.model.response.DefinitionBankInfoResponse;
 import com.crowdo.p2pconnect.oauth.AuthProvider;
 import com.squareup.moshi.Moshi;
 
+import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.moshi.MoshiConverterFactory;
@@ -29,11 +34,11 @@ public class DefinitionsClient implements ClientInterface{
     public DefinitionsClient(Context context){
 
         //Http Interceptor
-//        final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-//        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient httpClient = new OkHttpClient.Builder()
-//                .addInterceptor(loggingInterceptor)
+                .addInterceptor(loggingInterceptor)
                 .addInterceptor(new SendingCookiesInterceptor(context))
                 .addInterceptor(new ReceivingCookiesInterceptor(context))
                 .build();
@@ -63,6 +68,10 @@ public class DefinitionsClient implements ClientInterface{
         if(instance == null)
             instance = new DefinitionsClient(context);
         return instance;
+    }
+
+    public Observable<Response<DefinitionBankInfoResponse>> getDefinitionsInfo(String deviceId){
+        return apiServices.getDefinitionsBankInfo(DefinitionsRetrieval.DEFINITIONS_INDONESIA_IDR, deviceId);
     }
 
 }

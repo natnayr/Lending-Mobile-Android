@@ -367,9 +367,9 @@ public class LoanListFragment extends Fragment {
             @Override
             public void eventCallBack(MemberInfoResponse memberInfoResponse) {
                 if (HTTPResponseUtils.check2xxSuccess(memberInfoResponse
-                        .getServer().getStatus())) {
+                        .server.status)) {
                     CartBadgeDrawable.setBadgeCount(getActivity(), cartIcon,
-                            Integer.toString(memberInfoResponse.getNumberOfPendingBids()));
+                            Integer.toString(memberInfoResponse.numberOfPendingBids));
                 }
             }
         });

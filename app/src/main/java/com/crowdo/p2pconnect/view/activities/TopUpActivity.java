@@ -98,7 +98,6 @@ public class TopUpActivity extends AppCompatActivity {
         mTopUpTabLayout.setupWithViewPager(mTopUpViewPager, true);
     }
 
-
     @Override
     public void onBackPressed() {
         finish();
@@ -110,13 +109,10 @@ public class TopUpActivity extends AppCompatActivity {
             @Override
             public void eventCallBack(MemberInfoResponse memberInfoResponse) {
                 String amount = NumericUtils.formatCurrency(NumericUtils.IDR,
-                        ((double) memberInfoResponse.getAvailableCashBalance()), false).trim();
-                Log.d(LOG_TAG, "APP getMemberDetails getAvailableCashBalance: " + memberInfoResponse.getAvailableCashBalance());
-
+                        ((double) memberInfoResponse.availableCashBalance), false).trim();
                 mTopUpBalanceAmountLabel.setText(amount);
                 mTopUpBalanceDescriptionLabel.setText(mTopUpBalanceDescriptionStartLabel +
                     "(" + NumericUtils.IDR + ")");
-
             }
         });
     }
