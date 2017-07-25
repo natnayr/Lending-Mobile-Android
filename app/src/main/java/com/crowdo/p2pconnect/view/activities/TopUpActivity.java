@@ -16,10 +16,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.commons.MemberDataRetrieval;
+import com.crowdo.p2pconnect.commons.MemberInfoRetrieval;
 import com.crowdo.p2pconnect.commons.NetworkConnectionChecks;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
-import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.NumericUtils;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.view.fragments.TopUpHistoryFragment;
@@ -106,8 +105,8 @@ public class TopUpActivity extends AppCompatActivity {
     }
 
     private void getMemberDetails(){
-        MemberDataRetrieval memberRetrieval = new MemberDataRetrieval();
-        memberRetrieval.retrieveMemberInfo(this, new CallBackUtil<MemberInfoResponse>() {
+        MemberInfoRetrieval memberRetrieval = new MemberInfoRetrieval();
+        memberRetrieval.retrieveInfo(this, new CallBackUtil<MemberInfoResponse>() {
             @Override
             public void eventCallBack(MemberInfoResponse memberInfoResponse) {
                 String amount = NumericUtils.formatCurrency(NumericUtils.IDR,

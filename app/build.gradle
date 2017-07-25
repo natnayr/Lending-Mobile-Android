@@ -69,6 +69,7 @@ dependencies {
     //Retrofit V2 (Async library)
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.squareup.retrofit2:converter-moshi:2.3.0'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
 
     //OkHttp Interceptor to check Restful calls
@@ -83,6 +84,9 @@ dependencies {
 
     //GSON (JSON to Object library)
     compile 'com.google.code.gson:gson:2.8.0'
+
+    //Moshi (JSON to Object Library) by Square
+    compile 'com.squareup.moshi:moshi:1.5.0'
 
     //DateTime Library
     compile 'joda-time:joda-time:2.9.9'

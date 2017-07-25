@@ -2,87 +2,53 @@ package com.crowdo.p2pconnect.model.others;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
 /**
  * Created by cwdsg05 on 14/7/17.
  */
 
 public class BankInfo {
-    @SerializedName("bank_name")
-    @Expose
-    private String bankName;
-    @SerializedName("account_number")
-    @Expose
-    private String accountNumber;
-    @SerializedName("account_type")
-    @Expose
-    private String accountType;
-    @SerializedName("account_holder")
-    @Expose
-    private String accountHolder;
-    @SerializedName("swift_code")
-    @Expose
-    private String swiftCode;
-    @SerializedName("bank_address")
-    @Expose
-    private String bankAddress;
-    @SerializedName("bank_country")
-    @Expose
-    private String bankCountry;
 
-    public String getBankName() {
-        return bankName;
-    }
+    @Json(name = "account_name")
+    public String accountName;
 
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
-    }
+    @Json(name = "account_number")
+    public String accountNumber;
 
-    public String getAccountNumber() {
-        return accountNumber;
-    }
+    @Json(name = "account_type")
+    public String accountType;
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
+    @Json(name = "account_holder")
+    public String accountHolder;
 
-    public String getAccountType() {
-        return accountType;
-    }
+    @Json(name = "bank_name")
+    public String bankName;
 
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
+    @Json(name = "branch_name")
+    public String branchName;
 
-    public String getAccountHolder() {
-        return accountHolder;
-    }
+    @Json(name = "swift_code")
+    public String swiftCode;
 
-    public void setAccountHolder(String accountHolder) {
-        this.accountHolder = accountHolder;
-    }
+    @Json(name = "bank_address")
+    public String bankAddress;
 
-    public String getSwiftCode() {
-        return swiftCode;
-    }
+    @Json(name = "bank_country")
+    public String bankCountry;
 
-    public void setSwiftCode(String swiftCode) {
-        this.swiftCode = swiftCode;
-    }
+    @Json(name = "minimum_top_up")
+    public long minimumTopUp;
 
-    public String getBankAddress() {
-        return bankAddress;
-    }
+    @Json(name = "minimum_investment")
+    public long minimumInvestment;
 
-    public void setBankAddress(String bankAddress) {
-        this.bankAddress = bankAddress;
-    }
+    @Json(name = "unit_of_investment")
+    public long unitOfInvestment;
 
-    public String getBankCountry() {
-        return bankCountry;
-    }
+    @Json(name = "unit_of_investment_desc")
+    public String unitOfInvestmentDesc;
 
-    public void setBankCountry(String bankCountry) {
-        this.bankCountry = bankCountry;
-    }
+    @Json(name = "recommended_top_up")
+    public long recommendedTopUp;
 }

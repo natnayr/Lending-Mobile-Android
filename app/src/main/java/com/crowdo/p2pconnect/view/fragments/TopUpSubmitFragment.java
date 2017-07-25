@@ -1,6 +1,5 @@
 package com.crowdo.p2pconnect.view.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,17 +12,14 @@ import android.widget.EditText;
 
 import com.afollestad.materialdialogs.folderselector.FileChooserDialog;
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.commons.MemberDataRetrieval;
+import com.crowdo.p2pconnect.commons.MemberInfoRetrieval;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
-import com.crowdo.p2pconnect.model.others.BankInfo;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.view.activities.TopUpActivity;
 import com.crowdo.p2pconnect.viewholders.TopUpSubmitViewHolder;
 
 import java.io.File;
-
-import butterknife.ButterKnife;
 
 /**
  * Created by cwdsg05 on 13/7/17.
@@ -85,8 +81,8 @@ public class TopUpSubmitFragment extends Fragment implements FileChooserDialog.F
             }
         });
 
-        MemberDataRetrieval memberRetrieval = new MemberDataRetrieval();
-        memberRetrieval.retrieveMemberInfo(getActivity(), new CallBackUtil<MemberInfoResponse>() {
+        MemberInfoRetrieval memberRetrieval = new MemberInfoRetrieval();
+        memberRetrieval.retrieveInfo(getActivity(), new CallBackUtil<MemberInfoResponse>() {
             @Override
             public void eventCallBack(MemberInfoResponse memberInfoResponse) {
                 viewHolder.fillAccountInfo(memberInfoResponse);

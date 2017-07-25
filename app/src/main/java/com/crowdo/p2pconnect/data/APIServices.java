@@ -12,6 +12,7 @@ import com.crowdo.p2pconnect.model.response.AuthResponse;
 import com.crowdo.p2pconnect.model.response.CheckBidResponse;
 import com.crowdo.p2pconnect.model.response.CheckoutSummaryResponse;
 import com.crowdo.p2pconnect.model.response.CheckoutUpdateResponse;
+import com.crowdo.p2pconnect.model.response.DefinitionBankInfoResponse;
 import com.crowdo.p2pconnect.model.response.LoanDetailResponse;
 import com.crowdo.p2pconnect.model.response.LoanListResponse;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
@@ -94,4 +95,10 @@ public interface APIServices {
     @POST("invest/checkout/confirm_bids")
     @Headers({"Content-type: application/json"})
     Observable<Response<MessageResponse>> postCheckoutConfirm(@Body CheckoutBatchRequest data);
+
+    @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
+    @GET("definitions/bank_info/{region}")
+    @Headers({"Content-type: application/json"})
+    Observable<Response<DefinitionBankInfoResponse>> getDefinitionsBankInfo(@Path("region") String region, @Query("device_id") String deviceId);
+
 }

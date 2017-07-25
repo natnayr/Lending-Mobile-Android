@@ -18,14 +18,11 @@ import retrofit2.Response;
  * Created by cwdsg05 on 12/6/17.
  */
 
-public class MemberDataRetrieval {
+public class MemberInfoRetrieval {
 
-    public static final String LOG_TAG = MemberDataRetrieval.class.getSimpleName();
-    private MemberInfoResponse mMemberInfoResposne = null;
+    public static final String LOG_TAG = MemberInfoRetrieval.class.getSimpleName();
 
-    public void retrieveMemberInfo(final Activity activity, final CallBackUtil<MemberInfoResponse> callBackUtil){
-
-        Log.d(LOG_TAG, "APP retrieveMemberInfo");
+    public void retrieveInfo(final Activity activity, final CallBackUtil<MemberInfoResponse> callBackUtil){
 
         MemberClient.getInstance(activity)
                 .getMemberInfo(ConstantVariables.getUniqueAndroidID(activity))
@@ -40,8 +37,7 @@ public class MemberDataRetrieval {
                     @Override
                     public void onNext(Response<MemberInfoResponse> response) {
                         if(response.isSuccessful()){
-                            mMemberInfoResposne = response.body();
-                            callBackUtil.eventCallBack(mMemberInfoResposne);
+                            callBackUtil.eventCallBack(response.body());
                         }
                     }
 
@@ -53,7 +49,7 @@ public class MemberDataRetrieval {
 
                     @Override
                     public void onComplete() {
-                        Log.d(LOG_TAG, "APP retrieveMemberInfo onComplete");
+                        Log.d(LOG_TAG, "APP retrieveInfo onComplete");
                     }
                 });
     }

@@ -197,7 +197,6 @@
 
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="percent_label" translatable="false">%</string>
-    <string name="permission_overlay_permission_request">For Android Marshmallow devices, "Draw over other Apps" permission is required\n\nClick OK to grant</string>
 
     <string name="permissions_write_request">You need to allow access to Storage</string>
     <string name="permissions_no_write_statement">Unable to write file to local storage, please enable Storage Permissions</string>

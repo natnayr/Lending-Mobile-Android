@@ -27,7 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.commons.MemberDataRetrieval;
+import com.crowdo.p2pconnect.commons.MemberInfoRetrieval;
 import com.crowdo.p2pconnect.custom_ui.CartBadgeDrawable;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
@@ -362,8 +362,8 @@ public class LoanListFragment extends Fragment {
         }
 
         final LayerDrawable cartIcon = (LayerDrawable) mMenuCart.getIcon();
-        MemberDataRetrieval memberRetrieval = new MemberDataRetrieval();
-        memberRetrieval.retrieveMemberInfo(getActivity(), new CallBackUtil<MemberInfoResponse>() {
+        MemberInfoRetrieval memberRetrieval = new MemberInfoRetrieval();
+        memberRetrieval.retrieveInfo(getActivity(), new CallBackUtil<MemberInfoResponse>() {
             @Override
             public void eventCallBack(MemberInfoResponse memberInfoResponse) {
                 if (HTTPResponseUtils.check2xxSuccess(memberInfoResponse

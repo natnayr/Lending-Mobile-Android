@@ -71,8 +71,8 @@ public class TopUpSubmitViewHolder {
     }
 
     public void fillAccountInfo(final MemberInfoResponse memberInfoResponse){
-        double totalPendingAmount = (memberInfoResponse.getTotalPendingBidAmount() -
-                (double) memberInfoResponse.getAvailableCashBalance());
+        long totalPendingAmount = (memberInfoResponse.totalPendingBidAmount -
+                memberInfoResponse.availableCashBalance);
 
         if(totalPendingAmount <= 0) {
             //enough money
@@ -85,7 +85,7 @@ public class TopUpSubmitViewHolder {
         }
 
         String indicateStatement = String.format(mSubmitInfoIndicateLabel,
-                memberInfoResponse.getUserId());
+                memberInfoResponse.userId);
         Log.d(LOG_TAG, "APP fillAccountInfo indicateStatement: " + indicateStatement);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             mSubmitInfoIndicateAccountInfo.setText(Html.fromHtml(indicateStatement,

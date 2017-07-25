@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity{
 
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindString(R.string.pre_exit_question) String mPreExitQuestion;
-    @BindString(R.string.permission_overlay_permission_request) String mOverlayPermissionRequest;
     @BindString(R.string.language_english_label) String mLanguageEnglish;
     @BindString(R.string.language_bahasa_label) String mLanguageBahasa;
 

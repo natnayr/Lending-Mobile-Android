@@ -6,7 +6,7 @@ import android.app.Activity;
 
 import com.andretietz.retroauth.AuthAccountManager;
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.commons.MemberDataRetrieval;
+import com.crowdo.p2pconnect.commons.MemberInfoRetrieval;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 
@@ -25,7 +25,7 @@ public class AuthHelper {
                     activity.getString(R.string.authentication_TOKEN),
                     activity.getString(R.string.authentication_INVALID_TOKEN));
             //call member retreival
-            new MemberDataRetrieval().retrieveMemberInfo(activity,
+            new MemberInfoRetrieval().retrieveInfo(activity,
                     callBackUtil);
 
         }
