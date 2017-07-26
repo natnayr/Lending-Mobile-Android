@@ -1,9 +1,9 @@
 package com.crowdo.p2pconnect.model.response;
 
 import com.crowdo.p2pconnect.model.others.Server;
-import com.crowdo.p2pconnect.model.request.InvestBid;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.crowdo.p2pconnect.model.others.InvestBid;
+import com.serjltt.moshi.adapters.FallbackOnNull;
+import com.squareup.moshi.Json;
 
 import java.util.List;
 
@@ -13,20 +13,17 @@ import java.util.List;
 
 public class CheckoutUpdateResponse {
 
-    @SerializedName("server")
-    @Expose
+    @Json(name = "server")
     private Server server;
 
-    @SerializedName("array")
-    @Expose
+    @Json(name = "array")
     private List<InvestBid> array = null;
 
-    @SerializedName("total_pending_bids")
-    @Expose
+    @Json(name = "total_pending_bids")
     private String totalPendingBids;
 
-    @SerializedName("total_cash_balance")
-    @Expose
+    @Json(name = "total_cash_balance")
+    @FallbackOnNull(fallbackInt = 0)
     private int totalCashBalance;
 
     public Server getServer() {
@@ -37,11 +34,9 @@ public class CheckoutUpdateResponse {
         return array;
     }
 
-
     public String getTotalPendingBids() {
         return totalPendingBids;
     }
-
 
     public int getTotalCashBalance() {
         return totalCashBalance;

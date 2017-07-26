@@ -11,8 +11,8 @@ import com.crowdo.p2pconnect.data.SendingCookiesInterceptor;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.oauth.AuthProvider;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.serjltt.moshi.adapters.FallbackOnNull;
+import com.serjltt.moshi.adapters.SerializeNulls;
 import com.squareup.moshi.Moshi;
 
 import io.reactivex.Observable;
@@ -20,7 +20,6 @@ import okhttp3.OkHttpClient;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
 /**
@@ -34,6 +33,11 @@ public class MemberClient implements ClientInterface{
     private static MemberClient instance;
 
     public MemberClient(Context context){
+
+        final Moshi moshi = new Moshi.Builder()
+                .add(FallbackOnNull.ADAPTER_FACTORY)
+                .add(SerializeNulls.ADAPTER_FACTORY)
+                .build();
 
         //Http Interceptor
 //        final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
@@ -50,7 +54,7 @@ public class MemberClient implements ClientInterface{
         retrofit = new Retroauth.Builder<>(AndroidAuthenticationHandler.create(provider,
                 AndroidTokenType.Factory.create()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(MoshiConverterFactory.create())
+                .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .client(httpClient)
                 .baseUrl(APIServices.API_LIVE_BASE_URL + APIServices.LIVE_STAGE)
                 .build();

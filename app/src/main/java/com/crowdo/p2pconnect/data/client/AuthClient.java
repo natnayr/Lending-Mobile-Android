@@ -8,6 +8,9 @@ import com.crowdo.p2pconnect.data.ReceivingCookiesInterceptor;
 import com.crowdo.p2pconnect.model.request.LoginRequest;
 import com.crowdo.p2pconnect.model.request.RegisterRequest;
 import com.crowdo.p2pconnect.model.response.AuthResponse;
+import com.serjltt.moshi.adapters.FallbackOnNull;
+import com.serjltt.moshi.adapters.SerializeNulls;
+import com.squareup.moshi.Moshi;
 
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
@@ -29,6 +32,11 @@ public class AuthClient implements ClientInterface{
 
     public AuthClient(Context context) {
 
+        final Moshi moshi = new Moshi.Builder()
+                .add(FallbackOnNull.ADAPTER_FACTORY)
+                .add(SerializeNulls.ADAPTER_FACTORY)
+                .build();
+
         //Http Inteceptor
 //        final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
 //        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -42,7 +50,7 @@ public class AuthClient implements ClientInterface{
 
         retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(MoshiConverterFactory.create())
+                .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .client(httpClient)
                 .baseUrl(APIServices.API_LIVE_BASE_URL + APIServices.LIVE_STAGE)
                 .build();

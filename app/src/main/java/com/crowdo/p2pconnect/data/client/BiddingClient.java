@@ -14,6 +14,9 @@ import com.crowdo.p2pconnect.model.request.NewBidRequest;
 import com.crowdo.p2pconnect.model.response.BidOnlyResponse;
 import com.crowdo.p2pconnect.model.response.CheckBidResponse;
 import com.crowdo.p2pconnect.oauth.AuthProvider;
+import com.serjltt.moshi.adapters.FallbackOnNull;
+import com.serjltt.moshi.adapters.SerializeNulls;
+import com.squareup.moshi.Moshi;
 
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
@@ -36,6 +39,11 @@ public class BiddingClient implements ClientInterface{
 
     public BiddingClient(Context context){
 
+        final Moshi moshi = new Moshi.Builder()
+                .add(FallbackOnNull.ADAPTER_FACTORY)
+                .add(SerializeNulls.ADAPTER_FACTORY)
+                .build();
+
 //        final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
 //        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -50,7 +58,7 @@ public class BiddingClient implements ClientInterface{
         retrofit = new Retroauth.Builder<>(AndroidAuthenticationHandler.create(provider,
                 AndroidTokenType.Factory.create()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(MoshiConverterFactory.create())
+                .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .client(httpClient)
                 .baseUrl(APIServices.API_LIVE_BASE_URL + APIServices.LIVE_STAGE)
                 .build();

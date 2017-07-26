@@ -2,6 +2,7 @@ package com.crowdo.p2pconnect.model.response;
 
 import com.crowdo.p2pconnect.model.others.BankInfo;
 import com.crowdo.p2pconnect.model.others.Server;
+import com.serjltt.moshi.adapters.FallbackOnNull;
 import com.squareup.moshi.Json;
 
 /**
@@ -12,18 +13,28 @@ public class MemberInfoResponse {
 
     @Json(name = "server")
     private Server server;
+
     @Json(name = "name")
     private String name;
+
     @Json(name = "email")
     private String email;
+
     @Json(name = "user_id")
     private long userId;
+
     @Json(name = "number_of_pending_bids")
+    @FallbackOnNull(fallbackInt = 0)
     private int numberOfPendingBids;
+
     @Json(name = "total_pending_bid_amount")
+    @FallbackOnNull(fallbackLong = 0)
     private long totalPendingBidAmount;
+
     @Json(name = "available_cash_balance")
+    @FallbackOnNull(fallbackLong = 0)
     private long availableCashBalance;
+
     @Json(name = "bank_info")
     private BankInfo bankInfo;
 

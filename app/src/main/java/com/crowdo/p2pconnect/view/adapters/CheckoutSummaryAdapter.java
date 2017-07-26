@@ -19,7 +19,7 @@ import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.model.core.Investment;
 import com.crowdo.p2pconnect.model.core.Loan;
-import com.crowdo.p2pconnect.model.request.InvestBid;
+import com.crowdo.p2pconnect.model.others.InvestBid;
 import com.crowdo.p2pconnect.model.response.BidOnlyResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
 import com.crowdo.p2pconnect.viewholders.ItemCheckoutSummaryViewHolder;

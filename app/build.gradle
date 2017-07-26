@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
-apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 25
@@ -68,7 +67,6 @@ dependencies {
 
     //Retrofit V2 (Async library)
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.retrofit2:converter-moshi:2.3.0'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
 
@@ -82,11 +80,11 @@ dependencies {
     //RetroAuth
     compile 'com.andretietz.retroauth:retroauth-android:2.2.1'
 
-    //GSON (JSON to Object library)
-    compile 'com.google.code.gson:gson:2.8.0'
-
     //Moshi (JSON to Object Library) by Square
     compile 'com.squareup.moshi:moshi:1.5.0'
+
+    //Moshi Lazy-Adapters
+    compile 'com.serjltt.moshi:moshi-lazy-adapters:2.0'
 
     //DateTime Library
     compile 'joda-time:joda-time:2.9.9'
@@ -137,4 +135,9 @@ dependencies {
 
     //HockeyApp
     compile 'net.hockeyapp.android:HockeySDK:4.1.4'
+
+    //Firebase
+    compile 'com.google.firebase:firebase-core:11.0.2'
 }
+
+apply plugin: 'com.google.gms.google-services'

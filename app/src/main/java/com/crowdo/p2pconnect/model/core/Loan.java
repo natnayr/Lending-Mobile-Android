@@ -1,5 +1,6 @@
 package com.crowdo.p2pconnect.model.core;
 
+import com.serjltt.moshi.adapters.FallbackOnNull;
 import com.squareup.moshi.Json;
 
 /**
@@ -9,16 +10,16 @@ import com.squareup.moshi.Json;
 public class Loan {
 
     @Json(name = "id")
-    private int id;
+    private Integer id;
 
     @Json(name = "partner_id")
-    private int partnerId;
+    private Integer partnerId;
 
     @Json(name = "partner_portfolio_id")
-    private int partnerPortfolioId;
+    private Integer partnerPortfolioId;
 
     @Json(name = "borrower_id")
-    private int borrowerId;
+    private Integer borrowerId;
 
     @Json(name = "currency_out")
     private String currency;
@@ -42,31 +43,31 @@ public class Loan {
     private String collateralDescription;
 
     @Json(name = "target_amount_out")
-    private double targetAmount;
+    private Double targetAmount;
 
     @Json(name = "interest_rate_out")
-    private double interestRate;
+    private Double interestRate;
 
     @Json(name = "pmt_out")
-    private double pmt;
+    private Double pmt;
 
     @Json(name = "total_interest_out")
-    private double totalInterestOut;
+    private Double totalInterestOut;
 
     @Json(name = "num_of_on_time_payments")
-    private int numOfOnTimePayments;
+    private Integer numOfOnTimePayments;
 
     @Json(name = "num_of_delayed_payments")
-    private int numOfDelayedPayments;
+    private Integer numOfDelayedPayments;
 
     @Json(name = "num_of_default_payments")
-    private int numOfDefaultPayments;
+    private Integer numOfDefaultPayments;
 
     @Json(name = "original_tenure")
-    private int originalTenure;
+    private Integer originalTenure;
 
     @Json(name = "tenure_out")
-    private int tenure;
+    private Integer tenure;
 
     @Json(name = "frequency_out")
     private String frequencyOut;
@@ -75,7 +76,7 @@ public class Loan {
     private String startDate;
 
     @Json(name = "funding_duration")
-    private int fundingDuration;
+    private Integer fundingDuration;
 
     @Json(name = "funding_start_date")
     private String fundingStartDate;
@@ -84,7 +85,7 @@ public class Loan {
     private String fundingEndDate;
 
     @Json(name = "investments_count")
-    private int investmentsCount;
+    private Integer investmentsCount;
 
     @Json(name = "grade")
     private String grade;
@@ -102,34 +103,34 @@ public class Loan {
     private String masterAgreement;
 
     @Json(name = "funded_amount_cache")
-    private double fundedAmountCache;
+    private Double fundedAmountCache;
 
     @Json(name = "one_percent_promotion")
-    private boolean onePercentPromotion;
+    private Boolean onePercentPromotion;
 
     @Json(name = "loan_to_value")
-    private int loanToValue;
+    private Integer loanToValue;
 
     @Json(name = "borrower_age")
-    private int borrowerAge;
+    private Integer borrowerAge;
 
     @Json(name = "borrower_gender")
     private String borrowerGender;
 
     @Json(name = "funded_percentage_cache")
-    private int fundedPercentageCache;
+    private Integer fundedPercentageCache;
 
     @Json(name = "funding_amount_to_complete_cache")
-    private double fundingAmountToCompleteCache;
+    private Double fundingAmountToCompleteCache;
 
     @Json(name = "underlying_approved")
-    private boolean underlyingApproved;
+    private Boolean underlyingApproved;
 
     @Json(name = "underlying_approved_at")
     private String underlyingApprovedAt;
 
     @Json(name = "sort_weight")
-    private int sortWeight;
+    private Integer sortWeight;
 
     @Json(name = "reject_reason")
     private String rejectReason;
@@ -143,35 +144,35 @@ public class Loan {
     @Json(name = "disbursed_proof")
     private String disbursedProof;
 
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getPartnerId() {
+    public Integer getPartnerId() {
         return this.partnerId;
     }
 
-    public void setPartnerId(int partnerId) {
+    public void setPartnerId(Integer partnerId) {
         this.partnerId = partnerId;
     }
 
-    public int getPartnerPortfolioId() {
+    public Integer getPartnerPortfolioId() {
         return this.partnerPortfolioId;
     }
 
-    public void setPartnerPortfolioId(int partnerPortfolioId) {
+    public void setPartnerPortfolioId(Integer partnerPortfolioId) {
         this.partnerPortfolioId = partnerPortfolioId;
     }
 
-    public int getBorrowerId() {
+    public Integer getBorrowerId() {
         return this.borrowerId;
     }
 
-    public void setBorrowerId(int borrowerId) {
+    public void setBorrowerId(Integer borrowerId) {
         this.borrowerId = borrowerId;
     }
 
@@ -263,43 +264,43 @@ public class Loan {
         this.totalInterestOut = totalInterestOut;
     }
 
-    public int getNumOfOnTimePayments() {
+    public Integer getNumOfOnTimePayments() {
         return this.numOfOnTimePayments;
     }
 
-    public void setNumOfOnTimePayments(int numOfOnTimePayments) {
+    public void setNumOfOnTimePayments(Integer numOfOnTimePayments) {
         this.numOfOnTimePayments = numOfOnTimePayments;
     }
 
-    public int getNumOfDelayedPayments() {
+    public Integer getNumOfDelayedPayments() {
         return this.numOfDelayedPayments;
     }
 
-    public void setNumOfDelayedPayments(int numOfDelayedPayments) {
+    public void setNumOfDelayedPayments(Integer numOfDelayedPayments) {
         this.numOfDelayedPayments = numOfDelayedPayments;
     }
 
-    public int getNumOfDefaultPayments() {
+    public Integer getNumOfDefaultPayments() {
         return this.numOfDefaultPayments;
     }
 
-    public void setNumOfDefaultPayments(int numOfDefaultPayments) {
+    public void setNumOfDefaultPayments(Integer numOfDefaultPayments) {
         this.numOfDefaultPayments = numOfDefaultPayments;
     }
 
-    public int getOriginalTenure() {
+    public Integer getOriginalTenure() {
         return this.originalTenure;
     }
 
-    public void setOriginalTenure(int originalTenure) {
+    public void setOriginalTenure(Integer originalTenure) {
         this.originalTenure = originalTenure;
     }
 
-    public int getTenure() {
+    public Integer getTenure() {
         return this.tenure;
     }
 
-    public void setTenure(int tenure) {
+    public void setTenure(Integer tenure) {
         this.tenure = tenure;
     }
 
@@ -319,11 +320,11 @@ public class Loan {
         this.startDate = startDate;
     }
 
-    public int getFundingDuration() {
+    public Integer getFundingDuration() {
         return this.fundingDuration;
     }
 
-    public void setFundingDuration(int fundingDuration) {
+    public void setFundingDuration(Integer fundingDuration) {
         this.fundingDuration = fundingDuration;
     }
 
@@ -343,11 +344,11 @@ public class Loan {
         this.fundingEndDate = fundingEndDate;
     }
 
-    public int getInvestmentsCount() {
+    public Integer getInvestmentsCount() {
         return this.investmentsCount;
     }
 
-    public void setInvestmentsCount(int investmentsCount) {
+    public void setInvestmentsCount(Integer investmentsCount) {
         this.investmentsCount = investmentsCount;
     }
 
@@ -407,19 +408,19 @@ public class Loan {
         this.onePercentPromotion = onePercentPromotion;
     }
 
-    public int getLoanToValue() {
+    public Integer getLoanToValue() {
         return this.loanToValue;
     }
 
-    public void setLoanToValue(int loanToValue) {
+    public void setLoanToValue(Integer loanToValue) {
         this.loanToValue = loanToValue;
     }
 
-    public int getBorrowerAge() {
+    public Integer getBorrowerAge() {
         return this.borrowerAge;
     }
 
-    public void setBorrowerAge(int borrowerAge) {
+    public void setBorrowerAge(Integer borrowerAge) {
         this.borrowerAge = borrowerAge;
     }
 
@@ -431,11 +432,11 @@ public class Loan {
         this.borrowerGender = borrowerGender;
     }
 
-    public int getFundedPercentageCache() {
+    public Integer getFundedPercentageCache() {
         return this.fundedPercentageCache;
     }
 
-    public void setFundedPercentageCache(int fundedPercentageCache) {
+    public void setFundedPercentageCache(Integer fundedPercentageCache) {
         this.fundedPercentageCache = fundedPercentageCache;
     }
 
@@ -463,11 +464,11 @@ public class Loan {
         this.underlyingApprovedAt = underlyingApprovedAt;
     }
 
-    public int getSortWeight() {
+    public Integer getSortWeight() {
         return this.sortWeight;
     }
 
-    public void setSortWeight(int sortWeight) {
+    public void setSortWeight(Integer sortWeight) {
         this.sortWeight = sortWeight;
     }
 

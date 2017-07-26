@@ -9,7 +9,7 @@ import com.squareup.moshi.Json;
 public class Member {
 
     @Json(name = "id")
-    private long id;
+    private Long id;
 
     @Json(name = "email")
     private String email;

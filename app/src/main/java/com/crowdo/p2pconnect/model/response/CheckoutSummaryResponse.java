@@ -3,8 +3,8 @@ package com.crowdo.p2pconnect.model.response;
 import com.crowdo.p2pconnect.model.core.Investment;
 import com.crowdo.p2pconnect.model.core.Loan;
 import com.crowdo.p2pconnect.model.others.Server;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.serjltt.moshi.adapters.FallbackOnNull;
+import com.squareup.moshi.Json;
 
 import java.util.List;
 
@@ -14,34 +14,31 @@ import java.util.List;
 
 public class CheckoutSummaryResponse {
 
-    @SerializedName("server")
-    @Expose
+    @Json(name = "server")
     private Server server;
 
-    @SerializedName("number_of_pending_bids")
-    @Expose
+    @Json(name = "number_of_pending_bids")
+    @FallbackOnNull(fallbackInt = 0)
     private int numOfPendingBids;
 
-    @SerializedName("total_pending_bids")
-    @Expose
+    @Json(name = "total_pending_bids")
+    @FallbackOnNull(fallbackLong = 0)
     private long totalPendingBids;
 
-    @SerializedName("available_cash_balance")
-    @Expose
+    @Json(name = "available_cash_balance")
+    @FallbackOnNull(fallbackLong = 0)
     private long availableCashBalance;
 
-    @SerializedName("bids")
-    @Expose
+    @Json(name = "bids")
     private List<Investment> bids;
 
-    @SerializedName("loans")
-    @Expose
+    @Json(name = "loans")
     private List<Loan> loans;
 
     public Server getServer() {
         return server;
     }
-    
+
     public int getNumOfPendingBids() {
         return numOfPendingBids;
     }

@@ -1,7 +1,5 @@
 package com.crowdo.p2pconnect.model.others;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 import com.squareup.moshi.Json;
 
 /**

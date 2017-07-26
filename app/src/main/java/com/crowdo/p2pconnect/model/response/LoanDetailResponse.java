@@ -7,31 +7,25 @@ package com.crowdo.p2pconnect.model.response;
 import com.crowdo.p2pconnect.model.core.Investment;
 import com.crowdo.p2pconnect.model.core.Loan;
 import com.crowdo.p2pconnect.model.others.Server;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
 import java.util.List;
 
 public class LoanDetailResponse {
 
-    @SerializedName("server")
-    @Expose
+    @Json(name = "server")
     private Server server;
 
-    @SerializedName("loan")
-    @Expose
+    @Json(name = "loan")
     private Loan loan;
 
-    @SerializedName("bids")
-    @Expose
+    @Json(name = "bids")
     private List<Investment> bids;
 
-    @SerializedName("first_repayment")
-    @Expose
+    @Json(name = "first_repayment")
     private String firstRepayment;
 
-    @SerializedName("last_repayment")
-    @Expose
+    @Json(name = "last_repayment")
     private String lastRepayment;
 
     public Server getServer(){

@@ -9,16 +9,16 @@ import com.squareup.moshi.Json;
 public class Investment {
 
     @Json(name = "id")
-    private int id;
+    private Integer id;
 
     @Json(name = "state")
     private String state;
 
     @Json(name = "loan_id")
-    private int loanId;
+    private Integer loanId;
 
     @Json(name = "invest_amount")
-    private long investAmount;
+    private Long investAmount;
 
     @Json(name = "created_at")
     private String createdAt;
@@ -51,7 +51,7 @@ public class Investment {
     private String unpaidAmount;
 
     @Json(name = "pending_bid_reminder_sent")
-    private boolean pendingBidReminderSent;
+    private Boolean pendingBidReminderSent;
 
     public int getId() {
         return id;

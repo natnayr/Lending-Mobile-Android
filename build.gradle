@@ -6,8 +6,9 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
-        // Realm Mobile Database
-        classpath "io.realm:realm-gradle-plugin:3.4.0"
+
+        // Realm DB
+        classpath "io.realm:realm-gradle-plugin:3.5.0"
 
         classpath 'com.google.gms:google-services:3.1.0'
 

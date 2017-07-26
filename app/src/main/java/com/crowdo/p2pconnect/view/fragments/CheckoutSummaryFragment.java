@@ -36,7 +36,7 @@ import com.crowdo.p2pconnect.helpers.PermissionsUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.model.core.Investment;
 import com.crowdo.p2pconnect.model.core.Loan;
-import com.crowdo.p2pconnect.model.request.InvestBid;
+import com.crowdo.p2pconnect.model.others.InvestBid;
 import com.crowdo.p2pconnect.model.response.CheckoutSummaryResponse;
 import com.crowdo.p2pconnect.model.response.CheckoutUpdateResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
@@ -346,8 +346,8 @@ public class CheckoutSummaryFragment extends Fragment{
                                         Log.d(LOG_TAG, "APP adjust count " + respondArray.size());
                                         while(rait.hasNext()){
                                             InvestBid updateBid = rait.next();
-                                            if(updateBid.getInvestAmount() != null &&
-                                                    updateBid.getOriginalInvestAmount() != null){
+                                            if(updateBid.getInvestAmount() > 0 &&
+                                                    updateBid.getOriginalInvestAmount() > 0){
                                                 String loanId = updateBid.getLoanId();
                                                 String requestedAmt = NumericUtils.formatCurrency(NumericUtils.IDR,
                                                         updateBid.getOriginalInvestAmount(), false).trim();
@@ -358,8 +358,8 @@ public class CheckoutSummaryFragment extends Fragment{
                                                         updateBid.getOriginalInvestAmount() +
                                                         " approvedAmt:" + updateBid.getInvestAmount() );
 
-                                                if(!updateBid.getInvestAmount()
-                                                        .equals(updateBid.getOriginalInvestAmount())){
+                                                if(updateBid.getInvestAmount()
+                                                         != updateBid.getOriginalInvestAmount()){
                                                     adjustmentIsMade = true;
                                                     adjustMessage += "\u2022 "+loanId+":\n\t\t" +
                                                             requestedAmt + " -> " + approvedAmt + "\n\n";

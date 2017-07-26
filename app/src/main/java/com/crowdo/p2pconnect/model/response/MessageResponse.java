@@ -1,8 +1,7 @@
 package com.crowdo.p2pconnect.model.response;
 
 import com.crowdo.p2pconnect.model.others.Server;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
 /**
  * Created by cwdsg05 on 11/4/17.
@@ -10,8 +9,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class MessageResponse {
 
-    @SerializedName("server")
-    @Expose
+    @Json(name = "server")
     private Server server;
 
     public MessageResponse() {

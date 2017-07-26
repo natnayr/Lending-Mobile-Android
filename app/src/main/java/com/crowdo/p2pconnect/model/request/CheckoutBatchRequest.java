@@ -1,7 +1,8 @@
 package com.crowdo.p2pconnect.model.request;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.crowdo.p2pconnect.model.others.InvestBid;
+import com.squareup.moshi.Json;
+
 import java.util.List;
 
 /**
@@ -10,17 +11,14 @@ import java.util.List;
 
 public class CheckoutBatchRequest {
 
-    @SerializedName("bids")
-    @Expose
-    private Batch batch;
+    @Json(name = "bids")
+    public Batch batch;
 
-    @SerializedName("device_id")
-    @Expose
-    private String deviceId;
+    @Json(name = "device_id")
+    public String deviceId;
 
-    @SerializedName("site_config")
-    @Expose
-    private String siteConfig;
+    @Json(name = "site_config")
+    public String siteConfig;
 
     public CheckoutBatchRequest(List<InvestBid> batch, String deviceId,
                                 String siteConfig){
@@ -30,34 +28,10 @@ public class CheckoutBatchRequest {
         this.siteConfig = siteConfig;
     }
 
-    public Batch getBatch() {
-        return batch;
-    }
 
-    public void setBatch(Batch batch) {
-        this.batch = batch;
-    }
+    private static class Batch {
 
-    public String getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
-
-    public String getSiteConfig() {
-        return siteConfig;
-    }
-
-    public void setSiteConfig(String siteConfig) {
-        this.siteConfig = siteConfig;
-    }
-
-    private class Batch {
-
-        @SerializedName("batch")
-        @Expose
+        @Json(name = "batch")
         private List<InvestBid> batch = null;
 
         public List<InvestBid> getBatch() {
