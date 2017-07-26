@@ -379,8 +379,6 @@ public class LoanDetailsViewHolder {
                         mEnterAmount.setSelection(current.length());
                     }
                 } catch (NumberFormatException | IndexOutOfBoundsException e) {
-                    //catch long error
-                    Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
                     //clear it for them
                     mEnterAmount.setText(current);
                     mEnterAmount.setSelection(current.length());

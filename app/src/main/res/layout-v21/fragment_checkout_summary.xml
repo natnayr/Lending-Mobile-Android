@@ -197,7 +197,7 @@
     <LinearLayout
         android:id="@+id/checkout_summary_action_button"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
+        android:layout_height="@dimen/checkout_summary_action_button_height"
         android:layout_alignParentBottom="true"
         android:gravity="center"
         android:orientation="horizontal"
@@ -221,7 +221,7 @@
     <LinearLayout
         android:id="@+id/checkout_summary_update_button"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
+        android:layout_height="@dimen/checkout_summary_action_button_height"
         android:layout_alignParentBottom="true"
         android:gravity="center"
         android:orientation="horizontal"
