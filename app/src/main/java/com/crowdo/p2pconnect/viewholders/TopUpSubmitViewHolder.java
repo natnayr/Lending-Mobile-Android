@@ -15,8 +15,13 @@ import com.crowdo.p2pconnect.helpers.NumericUtils;
 import com.crowdo.p2pconnect.model.others.BankInfo;
 import com.crowdo.p2pconnect.model.response.DefinitionBankInfoResponse;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
+import com.github.angads25.filepicker.model.DialogConfigs;
+import com.github.angads25.filepicker.model.DialogProperties;
+import com.github.angads25.filepicker.view.FilePickerDialog;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
+
+import java.io.File;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -46,12 +51,30 @@ public class TopUpSubmitViewHolder {
     @BindString(R.string.top_up_submit_bank_details_statement_with_pending) String mSubmitInfoWithPendingLabel;
     @BindString(R.string.top_up_submit_bank_details_statement_without_pending) String mSubmitInfoWithoutPendingLabel;
     @BindString(R.string.top_up_submit_bank_details_indicate) String mSubmitInfoIndicateLabel;
+
+    public FilePickerDialog pickerDialog;
     private Context mContext;
     private static final String LOG_TAG = TopUpSubmitViewHolder.class.getSimpleName();
+    public String[] allowedExtensions =  new String[]{"pdf","doc","docx","jpeg",
+            "jpg","png","tif","bmp"};
 
     public TopUpSubmitViewHolder(View view, Context context) {
         this.mContext = context;
         ButterKnife.bind(this, view);
+
+        DialogProperties dialogProperties = new DialogProperties();
+        dialogProperties.selection_mode = DialogConfigs.SINGLE_MODE;
+        dialogProperties.selection_type = DialogConfigs.FILE_SELECT;
+        dialogProperties.root = new File(DialogConfigs.DEFAULT_DIR);
+        dialogProperties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
+        dialogProperties.offset = new File(DialogConfigs.DEFAULT_DIR);
+        dialogProperties.extensions = allowedExtensions;
+
+        pickerDialog = new FilePickerDialog(context, dialogProperties);
+        pickerDialog.setTitle("Select an Image File");
+        pickerDialog.setPositiveBtnName("Select");
+        pickerDialog.setNegativeBtnName("Cancel");
+
     }
 
     public void initView(){
@@ -69,6 +92,13 @@ public class TopUpSubmitViewHolder {
                 .icon(CommunityMaterial.Icon.cmd_bank)
                 .sizeRes(R.dimen.top_up_info_header_icon_size)
                 .colorRes(R.color.color_primary_text));
+
+        mSubmitFileFinderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickerDialog.show();
+            }
+        });
 
     }
 

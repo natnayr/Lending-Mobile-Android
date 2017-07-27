@@ -8,7 +8,9 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.folderselector.FileChooserDialog;
 import com.crowdo.p2pconnect.R;
@@ -20,6 +22,7 @@ import com.crowdo.p2pconnect.model.response.DefinitionBankInfoResponse;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.view.activities.TopUpActivity;
 import com.crowdo.p2pconnect.viewholders.TopUpSubmitViewHolder;
+import com.github.angads25.filepicker.controller.DialogSelectionListener;
 
 import java.io.File;
 
@@ -30,6 +33,7 @@ import java.io.File;
 public class TopUpSubmitFragment extends Fragment{
 
     private TopUpSubmitViewHolder viewHolder;
+    private File chosenFile;
 
     public TopUpSubmitFragment(){
 
@@ -38,6 +42,11 @@ public class TopUpSubmitFragment extends Fragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
@@ -74,10 +83,14 @@ public class TopUpSubmitFragment extends Fragment{
             }
         });
 
-        viewHolder.mSubmitFileFinderButton.setOnClickListener(new View.OnClickListener() {
+        viewHolder.pickerDialog.setDialogSelectionListener(new DialogSelectionListener() {
             @Override
-            public void onClick(View v) {
+            public void onSelectedFilePaths(String[] files) {
+                if(files.length == 1){
+                    //force single file only
+                    chosenFile = new File(files[0]);
 
+                }
             }
         });
 
