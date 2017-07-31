@@ -1,4 +1,4 @@
-package com.crowdo.p2pconnect.commons;
+package com.crowdo.p2pconnect.support;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,10 +11,7 @@ import android.view.View;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.APIServices;
-import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
-import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
-import com.crowdo.p2pconnect.oauth.AuthHelper;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

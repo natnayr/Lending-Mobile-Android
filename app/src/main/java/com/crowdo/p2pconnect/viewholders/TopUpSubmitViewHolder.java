@@ -5,6 +5,7 @@ import android.os.Build;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -33,13 +34,8 @@ import butterknife.ButterKnife;
 
 public class TopUpSubmitViewHolder {
 
-    @BindView(R.id.top_up_submit_upload_header_icon) ImageView mSubmitPaymentIcon;
-    @BindView(R.id.top_up_submit_upload_open_dialog_icon) ImageView mSubmitPaymentUploadIcon;
-    @BindView(R.id.top_up_submit_upload_reference_edittext) public EditText mSubmitPaymentReferenceEditText;
-    @BindView(R.id.top_up_submit_upload_open_dialog_button) public RelativeLayout mSubmitFileFinderButton;
-
     @BindView(R.id.top_up_submit_bank_details_icon) ImageView mSubmitInfoIcon;
-    @BindView(R.id.top_up_submit_bank_details_statement) TextView mSubmitInfoStatement;
+    @BindView(R.id.top_up_submit_bank_details_instructions) TextView mSubmitInfoStatementTextView;
     @BindView(R.id.top_up_submit_bank_details_indicate) TextView mSubmitInfoIndicateAccountInfo;
     @BindView(R.id.top_up_submit_bank_details_account_name_value) TextView mSubmitInfoAccountName;
     @BindView(R.id.top_up_submit_bank_details_account_number_value) TextView mSubmitInfoAccountNumber;
@@ -48,8 +44,15 @@ public class TopUpSubmitViewHolder {
     @BindView(R.id.top_up_submit_bank_details_swift_code_value) TextView mSubmitInfoSwiftCode;
     @BindView(R.id.top_up_submit_bank_details_bank_address_value) TextView mSubmitInfoBankAddress;
 
-    @BindString(R.string.top_up_submit_bank_details_statement_with_pending) String mSubmitInfoWithPendingLabel;
-    @BindString(R.string.top_up_submit_bank_details_statement_without_pending) String mSubmitInfoWithoutPendingLabel;
+    @BindView(R.id.top_up_submit_upload_header_icon) ImageView mSubmitUploadIcon;
+    @BindView(R.id.top_up_submit_upload_open_dialog_icon) ImageView mSubmitUploadOpenDialogIcon;
+    @BindView(R.id.top_up_submit_upload_reference_edittext) public EditText mSubmiUploadReferenceEditText;
+    @BindView(R.id.top_up_submit_upload_open_dialog_button) public RelativeLayout mSubmitUploadOpenDialogButton;
+    @BindView(R.id.top_up_submit_upload_open_dialog_instruction_main) public TextView mSubmitUploadOpenDialogInstructionsMainTextView;
+    @BindView(R.id.top_up_submit_upload_submit_button) public Button mSubmitUploadSubloadButton;
+
+    @BindString(R.string.top_up_submit_bank_details_instructions_with_pending) String mSubmitInfoWithPendingLabel;
+    @BindString(R.string.top_up_submit_bank_details_instructions_without_pending) String mSubmitInfoWithoutPendingLabel;
     @BindString(R.string.top_up_submit_bank_details_indicate) String mSubmitInfoIndicateLabel;
 
     public FilePickerDialog pickerDialog;
@@ -57,6 +60,7 @@ public class TopUpSubmitViewHolder {
     private static final String LOG_TAG = TopUpSubmitViewHolder.class.getSimpleName();
     public String[] allowedExtensions =  new String[]{"pdf","doc","docx","jpeg",
             "jpg","png","tif","bmp"};
+    private long totalPendingAmount = 0;
 
     public TopUpSubmitViewHolder(View view, Context context) {
         this.mContext = context;
@@ -78,12 +82,12 @@ public class TopUpSubmitViewHolder {
     }
 
     public void initView(){
-        mSubmitPaymentIcon.setImageDrawable(new IconicsDrawable(mContext)
+        mSubmitUploadIcon.setImageDrawable(new IconicsDrawable(mContext)
                 .icon(CommunityMaterial.Icon.cmd_credit_card)
                 .sizeRes(R.dimen.top_up_info_header_icon_size)
                 .colorRes(R.color.color_primary_text));
 
-        mSubmitPaymentUploadIcon.setImageDrawable(new IconicsDrawable(mContext)
+        mSubmitUploadOpenDialogIcon.setImageDrawable(new IconicsDrawable(mContext)
                 .icon(CommunityMaterial.Icon.cmd_upload)
                 .sizeRes(R.dimen.top_up_card_icon_size)
                 .colorRes(R.color.color_icons_text));
@@ -93,7 +97,7 @@ public class TopUpSubmitViewHolder {
                 .sizeRes(R.dimen.top_up_info_header_icon_size)
                 .colorRes(R.color.color_primary_text));
 
-        mSubmitFileFinderButton.setOnClickListener(new View.OnClickListener() {
+        mSubmitUploadOpenDialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pickerDialog.show();
@@ -106,14 +110,11 @@ public class TopUpSubmitViewHolder {
         long totalPendingAmount = (memberInfoResponse.getTotalPendingBidAmount() -
                 memberInfoResponse.getAvailableCashBalance());
 
-        if (totalPendingAmount <= 0) {
-            //enough money
-            mSubmitInfoStatement.setText(mSubmitInfoWithoutPendingLabel);
-        } else {
-            //top up amount
+        if(totalPendingAmount > 0) {
+            //to top up for bidding
             String statement = String.format(mSubmitInfoWithPendingLabel,
                     NumericUtils.formatCurrency(NumericUtils.IDR, totalPendingAmount, true));
-            mSubmitInfoStatement.setText(statement);
+            mSubmitInfoStatementTextView.setText(statement);
         }
 
         String indicateStatement = String.format(mSubmitInfoIndicateLabel,
@@ -129,6 +130,13 @@ public class TopUpSubmitViewHolder {
 
     public void fillDefinitionsBankInfo(final DefinitionBankInfoResponse definitionBankInfoResponse) {
         BankInfo bankInfo = definitionBankInfoResponse.getBankInfo();
+
+        if (totalPendingAmount <= 0) {
+            //with 0 or enough money
+            String statement = String.format(mSubmitInfoWithoutPendingLabel,
+                    NumericUtils.formatCurrency(NumericUtils.IDR, bankInfo.minimumTopUp, true));
+            mSubmitInfoStatementTextView.setText(statement);
+        }
 
         if(bankInfo.accountName != null) {
             mSubmitInfoAccountName.setText(bankInfo.accountName.trim());

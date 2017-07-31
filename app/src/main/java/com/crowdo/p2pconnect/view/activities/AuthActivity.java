@@ -1,7 +1,6 @@
 package com.crowdo.p2pconnect.view.activities;
 
 import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +9,7 @@ import android.util.Log;
 
 import com.andretietz.retroauth.AuthenticationActivity;
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.commons.NetworkConnectionChecks;
+import com.crowdo.p2pconnect.support.NetworkConnectionChecks;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.view.fragments.LoginFragment;
 import com.crowdo.p2pconnect.view.fragments.RegisterFragment;

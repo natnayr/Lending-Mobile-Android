@@ -1,4 +1,4 @@
-package com.crowdo.p2pconnect.commons;
+package com.crowdo.p2pconnect.support;
 
 import android.app.Activity;
 import android.util.Log;

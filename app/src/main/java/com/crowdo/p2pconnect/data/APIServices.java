@@ -7,6 +7,7 @@ import com.crowdo.p2pconnect.model.request.DeleteBidRequest;
 import com.crowdo.p2pconnect.model.request.NewBidRequest;
 import com.crowdo.p2pconnect.model.request.LoginRequest;
 import com.crowdo.p2pconnect.model.request.RegisterRequest;
+import com.crowdo.p2pconnect.model.request.TopUpSubmitRequest;
 import com.crowdo.p2pconnect.model.response.BidOnlyResponse;
 import com.crowdo.p2pconnect.model.response.AuthResponse;
 import com.crowdo.p2pconnect.model.response.CheckBidResponse;
@@ -17,6 +18,8 @@ import com.crowdo.p2pconnect.model.response.LoanDetailResponse;
 import com.crowdo.p2pconnect.model.response.LoanListResponse;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
+import com.crowdo.p2pconnect.model.response.TopUpHistoryResponse;
+import com.crowdo.p2pconnect.model.response.TopUpSubmitResponse;
 
 import io.reactivex.Observable;
 import retrofit2.Response;
@@ -83,7 +86,7 @@ public interface APIServices {
     @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @GET("invest/checkout/summary")
     @Headers({"Content-type: application/json"})
-    Observable<Response<CheckoutSummaryResponse>> getCheckoutSummary(@Query("device_id") String deviceId, @Query("site_config") String siteOut);
+    Observable<Response<CheckoutSummaryResponse>> getCheckoutSummary(@Query("device_id") String deviceId, @Query("site_config") String siteConfig);
 
     @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @POST("bid/update_bid_batch")
@@ -94,6 +97,16 @@ public interface APIServices {
     @POST("invest/checkout/confirm_bids")
     @Headers({"Content-type: application/json"})
     Observable<Response<MessageResponse>> postCheckoutConfirm(@Body CheckoutBatchRequest data);
+
+    @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
+    @POST("invest/wallet/request_top_up")
+    @Headers({"Content-type: application/json"})
+    Observable<Response<TopUpSubmitResponse>> postTopUpInit(@Body TopUpSubmitRequest data);
+
+    @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
+    @GET("invest/wallet/top_up_history")
+    @Headers({"Content-type: application/json"})
+    Observable<Response<TopUpHistoryResponse>> getTopUpHistory(@Query("device_id") String deviceId, @Query("site_config") String siteConfig, @Query("currency") String currency);
 
     @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @GET("definitions/bank_info/{region}")

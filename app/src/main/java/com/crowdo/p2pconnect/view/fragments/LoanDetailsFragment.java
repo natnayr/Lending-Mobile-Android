@@ -21,7 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.crowdo.p2pconnect.commons.MemberInfoRetrieval;
+import com.crowdo.p2pconnect.support.MemberInfoRetrieval;
 import com.crowdo.p2pconnect.custom_ui.CartBadgeDrawable;
 import com.crowdo.p2pconnect.data.client.BiddingClient;
 import com.crowdo.p2pconnect.data.client.LoanClient;

@@ -1,21 +1,21 @@
 package com.crowdo.p2pconnect.view.fragments;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.MimeTypeMap;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.afollestad.materialdialogs.folderselector.FileChooserDialog;
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.commons.DefinitionsRetrieval;
-import com.crowdo.p2pconnect.commons.MemberInfoRetrieval;
+import com.crowdo.p2pconnect.helpers.SnackBarUtil;
+import com.crowdo.p2pconnect.support.DefinitionsRetrieval;
+import com.crowdo.p2pconnect.support.MemberInfoRetrieval;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.model.response.DefinitionBankInfoResponse;
@@ -51,13 +51,29 @@ public class TopUpSubmitFragment extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_top_up_submit, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_top_up_submit, container, false);
 
         viewHolder = new TopUpSubmitViewHolder(rootView, getActivity());
         viewHolder.initView();
 
-        SoftInputHelper.setupUI(rootView, getActivity(), new EditText[]{viewHolder.mSubmitPaymentReferenceEditText});
-        viewHolder.mSubmitPaymentReferenceEditText.setOnKeyListener(new View.OnKeyListener() {
+        MemberInfoRetrieval memberRetrieval = new MemberInfoRetrieval();
+        memberRetrieval.retrieveInfo(getActivity(), new CallBackUtil<MemberInfoResponse>() {
+            @Override
+            public void eventCallBack(MemberInfoResponse memberInfoResponse) {
+                viewHolder.fillMemberInfo(memberInfoResponse);
+            }
+        });
+
+        DefinitionsRetrieval definitionsRetrieval = new DefinitionsRetrieval();
+        definitionsRetrieval.retreiveInfo(getActivity(), new CallBackUtil<DefinitionBankInfoResponse>() {
+            @Override
+            public void eventCallBack(DefinitionBankInfoResponse definitionBankInfoResponse) {
+                viewHolder.fillDefinitionsBankInfo(definitionBankInfoResponse);
+            }
+        });
+
+        SoftInputHelper.setupUI(rootView, getActivity(), new EditText[]{viewHolder.mSubmiUploadReferenceEditText});
+        viewHolder.mSubmiUploadReferenceEditText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int key, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -74,7 +90,7 @@ public class TopUpSubmitFragment extends Fragment{
             }
         });
 
-        viewHolder.mSubmitPaymentReferenceEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        viewHolder.mSubmiUploadReferenceEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus){
@@ -89,24 +105,22 @@ public class TopUpSubmitFragment extends Fragment{
                 if(files.length == 1){
                     //force single file only
                     chosenFile = new File(files[0]);
-
+                    viewHolder.mSubmitUploadOpenDialogInstructionsMainTextView.setTypeface(null,
+                            Typeface.BOLD_ITALIC);
+                    viewHolder.mSubmitUploadOpenDialogInstructionsMainTextView.setText(chosenFile.getName());
                 }
             }
         });
 
-        MemberInfoRetrieval memberRetrieval = new MemberInfoRetrieval();
-        memberRetrieval.retrieveInfo(getActivity(), new CallBackUtil<MemberInfoResponse>() {
+        viewHolder.mSubmitUploadSubloadButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void eventCallBack(MemberInfoResponse memberInfoResponse) {
-                viewHolder.fillMemberInfo(memberInfoResponse);
-            }
-        });
+            public void onClick(View v) {
+                if(chosenFile == null){
+                    SnackBarUtil.snackBarForInfoCreate(rootView, getResources()
+                            .getString(R.string.top_up_submit_upload_attach_file_warning),
+                            Snackbar.LENGTH_SHORT).show();
+                }
 
-        DefinitionsRetrieval definitionsRetrieval = new DefinitionsRetrieval();
-        definitionsRetrieval.retreiveInfo(getActivity(), new CallBackUtil<DefinitionBankInfoResponse>() {
-            @Override
-            public void eventCallBack(DefinitionBankInfoResponse definitionBankInfoResponse) {
-                viewHolder.fillDefinitionsBankInfo(definitionBankInfoResponse);
             }
         });
 

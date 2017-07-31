@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.commons.NetworkConnectionChecks;
+import com.crowdo.p2pconnect.support.NetworkConnectionChecks;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.view.fragments.CheckoutSummaryFragment;
 
