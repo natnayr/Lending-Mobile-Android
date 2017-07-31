@@ -13,7 +13,7 @@ public class TopUp {
     @Json(name = "wallet_id")
     private long walletId;
     @Json(name = "amount")
-    private String amount;
+    private long amount;
     @Json(name = "origin")
     private String origin;
     @Json(name = "status")
@@ -37,7 +37,7 @@ public class TopUp {
         return walletId;
     }
 
-    public String getAmount() {
+    public long getAmount() {
         return amount;
     }
 

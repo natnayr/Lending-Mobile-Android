@@ -6,14 +6,20 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.data.client.WalletClient;
+import com.crowdo.p2pconnect.helpers.ConstantVariables;
+import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
+import com.crowdo.p2pconnect.model.response.TopUpSubmitResponse;
 import com.crowdo.p2pconnect.support.DefinitionsRetrieval;
 import com.crowdo.p2pconnect.support.MemberInfoRetrieval;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
@@ -25,6 +31,13 @@ import com.crowdo.p2pconnect.viewholders.TopUpSubmitViewHolder;
 import com.github.angads25.filepicker.controller.DialogSelectionListener;
 
 import java.io.File;
+import java.util.Arrays;
+
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Response;
 
 /**
  * Created by cwdsg05 on 13/7/17.
@@ -34,6 +47,9 @@ public class TopUpSubmitFragment extends Fragment{
 
     private TopUpSubmitViewHolder viewHolder;
     private File chosenFile;
+    private Disposable postTopUpInitDisposable;
+    private Disposable putTopUpUploadDisposable;
+    private static final String LOG_TAG = TopUpSubmitFragment.class.getSimpleName();
 
     public TopUpSubmitFragment(){
 
@@ -115,11 +131,77 @@ public class TopUpSubmitFragment extends Fragment{
         viewHolder.mSubmitUploadSubloadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Snackbar invalidFileSnackbar = SnackBarUtil.snackBarForWarningCreate(rootView, getResources()
+                                .getString(R.string.top_up_submit_upload_attach_file_warning), Snackbar.LENGTH_SHORT);
                 if(chosenFile == null){
-                    SnackBarUtil.snackBarForInfoCreate(rootView, getResources()
-                            .getString(R.string.top_up_submit_upload_attach_file_warning),
-                            Snackbar.LENGTH_SHORT).show();
+                    invalidFileSnackbar.show();
+                    return;
                 }
+
+                String[] allowedExtensions =  new String[]{"pdf","doc","docx","jpeg", "jpg","png",
+                        "tif","bmp"};
+                final String fileUploadExtension = MimeTypeMap.getFileExtensionFromUrl(chosenFile.getAbsolutePath());
+                if(fileUploadExtension == null){
+                    invalidFileSnackbar.show();
+                    return;
+                }
+                if(!Arrays.asList(allowedExtensions).contains(fileUploadExtension)){
+                    //not within allowed filetypes
+                    invalidFileSnackbar.show();
+                    return;
+                }
+
+                final String fileUploadType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileUploadExtension);
+                String refereceText = viewHolder.mSubmiUploadReferenceEditText.getText().toString();
+
+                Log.d(LOG_TAG, "APP uploading file:" + chosenFile.getName() + " type:" + fileUploadType);
+                Log.d(LOG_TAG, "APP attaching referenceText: " + refereceText);
+
+                final WalletClient walletClient = WalletClient.getInstance(getActivity());
+
+                walletClient.postTopUpInit(refereceText, ConstantVariables.getUniqueAndroidID(getActivity()))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<Response<TopUpSubmitResponse>>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+                                postTopUpInitDisposable = d;
+                            }
+
+                            @Override
+                            public void onNext(Response<TopUpSubmitResponse> response) {
+                                if(response.isSuccessful()){
+                                    TopUpSubmitResponse topUpSubmitResponse = response.body();
+
+//                                    uploadFileToServer(chosenFile, fileUploadType,
+//                                            topUpSubmitResponse.getTopUp().getId());
+                                    Log.d(LOG_TAG, "APP attaching topupId: " + topUpSubmitResponse.getTopUp().getId());
+                                }else{
+                                    if (HTTPResponseUtils.check4xxClientError(response.code())){
+                                        //all other 4xx codes
+                                        String serverErrorMessage = HTTPResponseUtils
+                                                .errorServerResponseConvert(walletClient,
+                                                        response.errorBody());
+
+                                        SnackBarUtil.snackBarForWarningCreate(getView(),
+                                                serverErrorMessage, Snackbar.LENGTH_SHORT)
+                                                .show();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                e.printStackTrace();
+                                Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                Log.d(LOG_TAG, "APP: postTopUpInit onComplete");
+                            }
+                        });
+
 
             }
         });
@@ -127,4 +209,49 @@ public class TopUpSubmitFragment extends Fragment{
         return rootView;
     }
 
+    private void uploadFileToServer(final File fileUpload, final String mediaType, final long topUpId){
+
+        final WalletClient walletClient = WalletClient.getInstance(getActivity());
+
+        walletClient.putTopUpUpload(fileUpload, mediaType, topUpId,
+                ConstantVariables.getUniqueAndroidID(getActivity()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<TopUpSubmitResponse>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        putTopUpUploadDisposable = d;
+                    }
+
+                    @Override
+                    public void onNext(Response<TopUpSubmitResponse> response) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    @Override
+    public void onPause() {
+        if(postTopUpInitDisposable != null){
+            if(!postTopUpInitDisposable.isDisposed()) {
+                postTopUpInitDisposable.dispose();
+            }
+        }
+        if(putTopUpUploadDisposable != null){
+            if(!putTopUpUploadDisposable.isDisposed()){
+                putTopUpUploadDisposable.dispose();
+            }
+        }
+        super.onPause();
+    }
 }

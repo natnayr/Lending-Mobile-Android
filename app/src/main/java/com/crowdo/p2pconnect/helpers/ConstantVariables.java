@@ -27,8 +27,8 @@ public class ConstantVariables {
     public static final String API_SITE_CONFIG_SG = "sg";
     public static final String API_SITE_CONFIG_ID = "id";
 
-    public static final String CURRENCY_IDR = "IDR";
-    public static final String CURRENCY_SGD = "SGD";
+    public static final String CURRENCY_IDR = "idr";
+    public static final String CURRENCY_SGD = "sgd";
 
     public static String getUniqueAndroidID(Context context){
         return Build.SERIAL + Settings.Secure.getString(context.getContentResolver(),

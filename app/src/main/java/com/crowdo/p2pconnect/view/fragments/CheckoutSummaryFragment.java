@@ -478,7 +478,8 @@ public class CheckoutSummaryFragment extends Fragment{
                         }
 
                         @Override
-                        public void onError(@NonNull Throwable e) {
+                        public void onError(Throwable e) {
+
                         }
 
                         @Override
