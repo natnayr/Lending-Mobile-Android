@@ -29,6 +29,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -107,8 +108,7 @@ public interface APIServices {
 
     @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @PUT("invest/wallet/upload_top_up_proof")
-    @Headers({"Content-type: application/json"})
-    Observable<Response<TopUpSubmitResponse>> putTopUpUpload(@Query("top_up_id") long topUpId, @Query("device_id") String deviceId, @Body RequestBody body);
+    Observable<Response<TopUpSubmitResponse>> putTopUpUpload(@Query("top_up_id") long topUpId, @Query("device_id") String deviceId, @Body RequestBody fileBody);
 
     @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @GET("invest/wallet/top_up_history")

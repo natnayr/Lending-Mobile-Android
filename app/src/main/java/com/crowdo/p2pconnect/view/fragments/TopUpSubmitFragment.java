@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.client.WalletClient;
@@ -31,6 +32,8 @@ import com.crowdo.p2pconnect.viewholders.TopUpSubmitViewHolder;
 import com.github.angads25.filepicker.controller.DialogSelectionListener;
 
 import java.io.File;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Arrays;
 
 import io.reactivex.Observer;
@@ -47,6 +50,7 @@ public class TopUpSubmitFragment extends Fragment{
 
     private TopUpSubmitViewHolder viewHolder;
     private File chosenFile;
+    private long chosenFileSizeKB;
     private Disposable postTopUpInitDisposable;
     private Disposable putTopUpUploadDisposable;
     private static final String LOG_TAG = TopUpSubmitFragment.class.getSimpleName();
@@ -121,9 +125,20 @@ public class TopUpSubmitFragment extends Fragment{
                 if(files.length == 1){
                     //force single file only
                     chosenFile = new File(files[0]);
+                    chosenFileSizeKB = chosenFile.length() / 1024; //in KB
+                    NumberFormat formatter = new DecimalFormat("#0.00");
+                    String outputMB = formatter.format(((double)chosenFileSizeKB)/1024);
+
+                    viewHolder.mSubmitUploadOpenDialogInstructionsSubTextView.setTypeface(null,
+                            Typeface.BOLD_ITALIC);
+
+                    viewHolder.mSubmitUploadOpenDialogInstructionsSubTextView.setText(outputMB + "MB");
+
                     viewHolder.mSubmitUploadOpenDialogInstructionsMainTextView.setTypeface(null,
                             Typeface.BOLD_ITALIC);
+
                     viewHolder.mSubmitUploadOpenDialogInstructionsMainTextView.setText(chosenFile.getName());
+
                 }
             }
         });
@@ -133,13 +148,12 @@ public class TopUpSubmitFragment extends Fragment{
             public void onClick(View v) {
                 Snackbar invalidFileSnackbar = SnackBarUtil.snackBarForWarningCreate(rootView, getResources()
                                 .getString(R.string.top_up_submit_upload_attach_file_warning), Snackbar.LENGTH_SHORT);
-                if(chosenFile == null){
+                if(chosenFile == null ||  chosenFileSizeKB == 0){
                     invalidFileSnackbar.show();
                     return;
                 }
 
-                String[] allowedExtensions =  new String[]{"pdf","doc","docx","jpeg", "jpg","png",
-                        "tif","bmp"};
+                String[] allowedExtensions =  new String[]{"pdf","doc","docx","jpeg", "jpg","png", "tif","bmp"};
                 final String fileUploadExtension = MimeTypeMap.getFileExtensionFromUrl(chosenFile.getAbsolutePath());
                 if(fileUploadExtension == null){
                     invalidFileSnackbar.show();
@@ -151,11 +165,16 @@ public class TopUpSubmitFragment extends Fragment{
                     return;
                 }
 
+                if((chosenFileSizeKB/1024) > 2){
+                    //under 2MB
+                    invalidFileSnackbar.show();
+                    return;
+                }
+
+
+
                 final String fileUploadType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileUploadExtension);
                 String refereceText = viewHolder.mSubmiUploadReferenceEditText.getText().toString();
-
-                Log.d(LOG_TAG, "APP uploading file:" + chosenFile.getName() + " type:" + fileUploadType);
-                Log.d(LOG_TAG, "APP attaching referenceText: " + refereceText);
 
                 final WalletClient walletClient = WalletClient.getInstance(getActivity());
 
@@ -210,7 +229,7 @@ public class TopUpSubmitFragment extends Fragment{
 
     private void uploadFileToServer(final File fileUpload, final String mediaType, final long topUpId){
 
-        Log.d(LOG_TAG, "APP uploadFileToServer");
+        Log.d(LOG_TAG, "APP uploadFileToServer = mediaType: " + mediaType);
 
         final WalletClient walletClient = WalletClient.getInstance(getActivity());
 
@@ -226,17 +245,20 @@ public class TopUpSubmitFragment extends Fragment{
 
                     @Override
                     public void onNext(Response<TopUpSubmitResponse> response) {
+                        if(response.isSuccessful()){
 
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        e.getMessage();
+                        Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
                     }
 
                     @Override
                     public void onComplete() {
-
+                        Log.d(LOG_TAG, "APP onComplete");
                     }
                 });
     }

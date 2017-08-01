@@ -91,11 +91,11 @@ public class WalletClient implements ClientInterface{
     public Observable<Response<TopUpSubmitResponse>> putTopUpUpload(File fileUpload, String mediaType,
                                                                     long topUpId, String deviceId){
 
-        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
-
-        RequestBody requestBodyFile = RequestBody.create(MediaType.parse(mediaType), fileUpload);
-        builder.addFormDataPart("top_up[transaction_proof]", fileUpload.getName(), requestBodyFile);
-        MultipartBody requestMultipartBody = builder.build();
+        RequestBody fileBody = RequestBody.create(MediaType.parse(mediaType), fileUpload);
+        MultipartBody requestMultipartBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("top_up[transaction_proof]", fileUpload.getName(), fileBody)
+                .build();
 
         return apiServices.putTopUpUpload(topUpId, deviceId, requestMultipartBody);
     }

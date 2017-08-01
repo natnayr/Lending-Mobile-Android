@@ -49,6 +49,8 @@ public class TopUpSubmitViewHolder {
     @BindView(R.id.top_up_submit_upload_reference_edittext) public EditText mSubmiUploadReferenceEditText;
     @BindView(R.id.top_up_submit_upload_open_dialog_button) public RelativeLayout mSubmitUploadOpenDialogButton;
     @BindView(R.id.top_up_submit_upload_open_dialog_instruction_main) public TextView mSubmitUploadOpenDialogInstructionsMainTextView;
+    @BindView(R.id.top_up_submit_upload_open_dialog_instruction_sub) public TextView mSubmitUploadOpenDialogInstructionsSubTextView;
+
     @BindView(R.id.top_up_submit_upload_submit_button) public Button mSubmitUploadSubloadButton;
 
     @BindString(R.string.top_up_submit_bank_details_instructions_with_pending) String mSubmitInfoWithPendingLabel;
@@ -119,7 +121,7 @@ public class TopUpSubmitViewHolder {
 
         String indicateStatement = String.format(mSubmitInfoIndicateLabel,
                 memberInfoResponse.getUserId());
-        Log.d(LOG_TAG, "APP fillMemberInfo indicateStatement: " + indicateStatement);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             mSubmitInfoIndicateAccountInfo.setText(Html.fromHtml(indicateStatement,
                     Html.FROM_HTML_MODE_LEGACY));
@@ -149,6 +151,11 @@ public class TopUpSubmitViewHolder {
         if(bankInfo.bankName != null){
             mSubmitInfoBankName.setText(bankInfo.bankName.trim());
         }
+
+        if(bankInfo.branchName != null){
+            mSubmitInfoBranchName.setText(bankInfo.branchName.trim());
+        }
+
 
         if(bankInfo.swiftCode != null){
             mSubmitInfoSwiftCode.setText(bankInfo.swiftCode.trim());

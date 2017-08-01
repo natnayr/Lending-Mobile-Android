@@ -1,5 +1,6 @@
 package com.crowdo.p2pconnect.model.others;
 
+import com.serjltt.moshi.adapters.FallbackOnNull;
 import com.squareup.moshi.Json;
 
 /**
@@ -10,22 +11,32 @@ public class TopUp {
 
     @Json(name = "id")
     private long id;
+
     @Json(name = "wallet_id")
     private long walletId;
+
     @Json(name = "amount")
+    @FallbackOnNull(fallbackLong = 0)
     private long amount;
+
     @Json(name = "origin")
     private String origin;
+
     @Json(name = "status")
     private String status;
+
     @Json(name = "payment_mode")
     private String paymentMode;
+
     @Json(name = "transaction_reference")
     private String transactionReference;
+
     @Json(name = "transaction_proof")
     private TransactionProof transactionProof;
+
     @Json(name = "created_at")
     private String createdAt;
+
     @Json(name = "updated_at")
     private String updatedAt;
 

@@ -180,7 +180,7 @@
     <string name="top_up_submit_upload_details">Tap to Upload File</string>
     <string name="top_up_submit_upload_added_info">Maximum file size: 2MB</string>
     <string name="top_up_submit_upload_submit_label">SUBMIT</string>
-    <string name="top_up_submit_upload_attach_file_warning">Please attach an image or document file as proof of transfer. (formats: pdf, doc, docx, jpeg, jpg, png, tiff, bmp)</string>
+    <string name="top_up_submit_upload_attach_file_warning">Please attach an image or document file under 2MB as proof of transfer. (formats: pdf, doc, docx, jpeg, jpg, png, tiff, bmp)</string>
 
     <!-- GLOBALS -->
     <string name="auth_session_end_and_logout">Session Ended, Logging Out</string>
