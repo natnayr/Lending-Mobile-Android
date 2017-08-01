@@ -4,7 +4,6 @@ import com.crowdo.p2pconnect.model.others.Server;
 import com.crowdo.p2pconnect.model.others.TopUp;
 import com.squareup.moshi.Json;
 
-import java.util.List;
 
 /**
  * Created by cwdsg05 on 31/7/17.
@@ -13,7 +12,7 @@ import java.util.List;
 public class TopUpSubmitResponse {
     @Json(name = "server")
     private Server server;
-    @Json(name = "top_ups")
+    @Json(name = "top_up")
     private TopUp topUp;
 
     public Server getServer() {

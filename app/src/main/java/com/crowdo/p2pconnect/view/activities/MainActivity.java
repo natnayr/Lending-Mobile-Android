@@ -238,7 +238,7 @@ public class MainActivity extends AppCompatActivity{
                                 try {
                                     fragment = (Fragment) fragmentClass.newInstance();
                                 } catch (Exception e) {
-                                    Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                                    Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
                                     e.printStackTrace();
                                 }
 

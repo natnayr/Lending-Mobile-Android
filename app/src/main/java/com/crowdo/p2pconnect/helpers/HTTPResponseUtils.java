@@ -60,7 +60,7 @@ public class HTTPResponseUtils {
                         errorResponse.getServer().getStatus());
             }catch (IOException e) {
                 e.printStackTrace();
-                Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
             }
         }
         return serverErrorMessage;

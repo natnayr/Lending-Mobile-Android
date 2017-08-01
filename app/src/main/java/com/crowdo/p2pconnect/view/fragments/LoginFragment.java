@@ -206,7 +206,7 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
                         serverErrorMsg = errorResponse.getServer().getMessage();
                     } catch (IOException e) {
                         e.printStackTrace();
-                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                        Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
                     }
                 }
 
@@ -229,7 +229,7 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
             SnackBarUtil.snackBarForErrorCreate(getView(),
                     errorBody,
                     Snackbar.LENGTH_SHORT).show();
-            Log.e(LOG_TAG, "ERROR: " + errorBody);
+            Log.e(LOG_TAG, "ERROR " + errorBody);
         }
     }
 
@@ -238,7 +238,7 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
         //HTTP ERROR Handling
         viewHolder.mLoginPasswdEditText.setText("");
         e.printStackTrace();
-        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+        Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
         if(getView() != null) {
             SnackBarUtil.snackBarForErrorCreate(getView(),
                     mHttpErrorHandlingMessage,
@@ -253,7 +253,7 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
         //success login
         if(authResponse != null){
             if (HTTPResponseUtils.check2xxSuccess(authResponse.getServer().getStatus())) {
-                Log.d(LOG_TAG, "APP: onComplete > response.isSuccessful TRUE");
+                Log.d(LOG_TAG, "APP onComplete > response.isSuccessful TRUE");
 
                 if (HTTPResponseUtils.check2xxSuccess(authResponse.getServer().getStatus())) {
                     //show http success

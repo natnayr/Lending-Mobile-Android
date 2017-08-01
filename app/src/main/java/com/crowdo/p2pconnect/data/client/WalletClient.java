@@ -30,7 +30,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.moshi.MoshiConverterFactory;
-import retrofit2.http.Multipart;
 
 /**
  * Created by cwdsg05 on 31/7/17.
@@ -92,8 +91,7 @@ public class WalletClient implements ClientInterface{
     public Observable<Response<TopUpSubmitResponse>> putTopUpUpload(File fileUpload, String mediaType,
                                                                     long topUpId, String deviceId){
 
-        MultipartBody.Builder builder = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM);
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
 
         RequestBody requestBodyFile = RequestBody.create(MediaType.parse(mediaType), fileUpload);
         builder.addFormDataPart("top_up[transaction_proof]", fileUpload.getName(), requestBodyFile);

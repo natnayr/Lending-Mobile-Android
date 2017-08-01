@@ -262,7 +262,7 @@ public class LearningCenterFragment extends Fragment{
                         }
                         isr.close();
                     } catch (IOException ioe) {
-                        Log.e(LOG_TAG, "ERROR: " + ioe.getMessage(), ioe);
+                        Log.e(LOG_TAG, "ERROR " + ioe.getMessage(), ioe);
                     }
                 }
 
@@ -318,7 +318,7 @@ public class LearningCenterFragment extends Fragment{
         }, new Realm.Transaction.OnError() {
             @Override
             public void onError(Throwable error) {
-                Log.e(LOG_TAG, "ERROR: " + error.getMessage(), error);
+                Log.e(LOG_TAG, "ERROR " + error.getMessage(), error);
                 SharedPreferencesUtils.setSharePrefBool(getActivity(),
                         ConstantVariables.PREF_KEY_LOADED_LEARNINGCENTER_DB, false);
                 Toast.makeText(getActivity(), "Sry, I looks like there was an error loading " +
@@ -361,9 +361,9 @@ public class LearningCenterFragment extends Fragment{
                         mBorrowerItemCountLabel.setText(String.valueOf(mBorrowerItemCount) + mItemCountTailLabel);
                     }
                 } catch (NullPointerException ne) {
-                    Log.e(LOG_TAG, "ERROR: " + ne.getMessage(), ne);
+                    Log.e(LOG_TAG, "ERROR " + ne.getMessage(), ne);
                 } catch (IndexOutOfBoundsException e) {
-                    Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                    Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
                 } finally {
                     mSearchInput.addTextChangedListener(this);
                 }

@@ -269,7 +269,7 @@ public class LoanDetailsFragment extends Fragment {
                     @Override
                     public void onError(@NonNull Throwable e) {
                         e.printStackTrace();
-                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                        Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
                         mSwipeContainer.setRefreshing(false);
                     }
 
@@ -305,7 +305,7 @@ public class LoanDetailsFragment extends Fragment {
 
                             @Override
                             public void onError(Throwable e) {
-                                Log.e(LOG_TAG, "ERROR: onError " + e.getMessage(), e);
+                                Log.e(LOG_TAG, "ERROR onError " + e.getMessage(), e);
                             }
 
                             @Override
@@ -329,7 +329,7 @@ public class LoanDetailsFragment extends Fragment {
 
                                             startActivity(chooserIntent);
                                         } catch (ActivityNotFoundException e) {
-                                            Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                                            Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
 
                                             final Snackbar snackbar = SnackBarUtil
                                                     .snackBarForWarningCreate(getView(),
@@ -343,7 +343,7 @@ public class LoanDetailsFragment extends Fragment {
                                             });
                                             snackbar.show();
                                         } catch (URISyntaxException ue){
-                                            Log.e(LOG_TAG, "ERROR: " + ue.getMessage(), ue);
+                                            Log.e(LOG_TAG, "ERROR " + ue.getMessage(), ue);
                                             final Snackbar snackbar = SnackBarUtil
                                                     .snackBarForWarningCreate(getView(),
                                                             mErrorOpenFileLabel,
@@ -479,7 +479,7 @@ public class LoanDetailsFragment extends Fragment {
                                                         .getServer().getMessage();
                                             }catch (IOException e){
                                                 e.printStackTrace();
-                                                Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                                                Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
                                             }
 
                                             SnackBarUtil.snackBarForWarningCreate(getView(),
@@ -494,7 +494,7 @@ public class LoanDetailsFragment extends Fragment {
                         @Override
                         public void onError(@NonNull Throwable e) {
                             e.printStackTrace();
-                            Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                            Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
                         }
 
                         @Override
@@ -558,7 +558,7 @@ public class LoanDetailsFragment extends Fragment {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                        Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
                     }
 
                     @Override

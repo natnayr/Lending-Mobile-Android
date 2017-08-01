@@ -245,7 +245,7 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(LOG_TAG, "ERROR: onError " + e.getMessage(), e);
+                        Log.e(LOG_TAG, "ERROR onError " + e.getMessage(), e);
                     }
 
                     @Override
@@ -269,7 +269,7 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
                                     startActivity(chooserIntent);
                                 }catch(URISyntaxException ue){
-                                    Log.e(LOG_TAG, "ERROR: " + ue.getMessage(), ue);
+                                    Log.e(LOG_TAG, "ERROR " + ue.getMessage(), ue);
                                     final Snackbar snackbar = SnackBarUtil
                                             .snackBarForErrorCreate(rootView, mLabelErrorOpenFile,
                                                     Snackbar.LENGTH_LONG);
@@ -281,7 +281,7 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
                                         }
                                     });
                                 }catch (ActivityNotFoundException anfe){
-                                    Log.e(LOG_TAG, "ERROR: " + anfe.getMessage(), anfe);
+                                    Log.e(LOG_TAG, "ERROR " + anfe.getMessage(), anfe);
                                     final Snackbar snackbar = SnackBarUtil.snackBarForErrorCreate(
                                             rootView, mLabelErrorOpenFile,
                                             Snackbar.LENGTH_LONG);

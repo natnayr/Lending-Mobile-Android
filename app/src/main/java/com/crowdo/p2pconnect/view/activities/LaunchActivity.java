@@ -111,7 +111,7 @@ public class LaunchActivity extends AppCompatActivity implements
                             mPlayer.prepare();
 
                         } catch (IOException e) {
-                            Log.e(LOG_TAG, "ERROR: surfaceCreated error " + e.getMessage(), e);
+                            Log.e(LOG_TAG, "ERROR surfaceCreated error " + e.getMessage(), e);
                             e.printStackTrace();
                         }
                     }

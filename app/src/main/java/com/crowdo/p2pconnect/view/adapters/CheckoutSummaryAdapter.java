@@ -249,7 +249,7 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                                             serverErrorMessage = errorResponse.getServer().getMessage();
                                         }catch (IOException e){
                                             e.printStackTrace();
-                                            Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                                            Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
                                         }
 
                                         SnackBarUtil.snackBarForWarningCreate(mRecyclerView,
@@ -267,7 +267,7 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     @Override
                     public void onError(@NonNull Throwable e) {
                         e.printStackTrace();
-                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                        Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
                     }
 
                     @Override

@@ -228,7 +228,7 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
                         serverErrorMsg = errorResponse.getServer().getMessage();
                     } catch (IOException e) {
                         e.printStackTrace();
-                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                        Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
                     }
                 }
                 viewHolder.mRegisterPasswordEmailText.setText(""); //clear passwords
@@ -252,7 +252,7 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
             SnackBarUtil.snackBarForErrorCreate(getView(),
                     errorBody,
                     Snackbar.LENGTH_SHORT).show();
-            Log.e(LOG_TAG, "ERROR: " + errorBody);
+            Log.e(LOG_TAG, "ERROR " + errorBody);
         }
     }
 
@@ -261,7 +261,7 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
         viewHolder.mRegisterPasswordEmailText.setText(""); //clear passwords
         viewHolder.mRegisterConfirmPasswdEditText.setText(""); //clear confirm passwords
         e.printStackTrace();
-        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+        Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
         SnackBarUtil.snackBarForErrorCreate(getView(), mHttpErrorHandlingMessage,
                 Snackbar.LENGTH_SHORT).show();
     }
@@ -273,7 +273,7 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
         //success register
         if(authResponse != null) {
             if (HTTPResponseUtils.check2xxSuccess(authResponse.getServer().getStatus())) {
-                Log.d(LOG_TAG, "APP: onComplete > response.isSuccessful TRUE");
+                Log.d(LOG_TAG, "APP onComplete > response.isSuccessful TRUE");
 
                 //show success
                 if(getView() != null) {

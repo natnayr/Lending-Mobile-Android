@@ -304,7 +304,7 @@ public class CheckoutSummaryFragment extends Fragment{
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                        Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
                     }
 
                     @Override
@@ -412,7 +412,7 @@ public class CheckoutSummaryFragment extends Fragment{
                         @Override
                         public void onError(@NonNull Throwable e) {
                             e.printStackTrace();
-                            Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                            Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
                         }
 
                         @Override
@@ -524,7 +524,7 @@ public class CheckoutSummaryFragment extends Fragment{
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(LOG_TAG, "ERROR: onError " + e.getMessage(), e);
+                        Log.e(LOG_TAG, "ERROR onError " + e.getMessage(), e);
                     }
 
                     @Override
@@ -547,7 +547,7 @@ public class CheckoutSummaryFragment extends Fragment{
 
                                     startActivity(chooserIntent);
                                 }catch(URISyntaxException ue){
-                                    Log.e(LOG_TAG, "ERROR: " + ue.getMessage(), ue);
+                                    Log.e(LOG_TAG, "ERROR " + ue.getMessage(), ue);
                                     final Snackbar snackbar = SnackBarUtil.snackBarForErrorCreate(
                                             getView(), mLabelErrorOpenFile, Snackbar.LENGTH_LONG);
 
@@ -558,7 +558,7 @@ public class CheckoutSummaryFragment extends Fragment{
                                         }
                                     });
                                 }catch (ActivityNotFoundException anfe){
-                                    Log.e(LOG_TAG, "ERROR: " + anfe.getMessage(), anfe);
+                                    Log.e(LOG_TAG, "ERROR " + anfe.getMessage(), anfe);
                                     final Snackbar snackbar = SnackBarUtil.snackBarForErrorCreate(
                                             getView(), mLabelErrorOpenFile, Snackbar.LENGTH_LONG);
 

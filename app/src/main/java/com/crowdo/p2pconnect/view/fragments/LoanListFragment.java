@@ -317,7 +317,7 @@ public class LoanListFragment extends Fragment {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                        Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
                         mSwipeContainer.setRefreshing(false);
                     }
 

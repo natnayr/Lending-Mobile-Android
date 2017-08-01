@@ -171,11 +171,10 @@ public class TopUpSubmitFragment extends Fragment{
                             @Override
                             public void onNext(Response<TopUpSubmitResponse> response) {
                                 if(response.isSuccessful()){
-                                    TopUpSubmitResponse topUpSubmitResponse = response.body();
+                                    final TopUpSubmitResponse topUpSubmitResponse = response.body();
 
-//                                    uploadFileToServer(chosenFile, fileUploadType,
-//                                            topUpSubmitResponse.getTopUp().getId());
-                                    Log.d(LOG_TAG, "APP attaching topupId: " + topUpSubmitResponse.getTopUp().getId());
+                                    uploadFileToServer(chosenFile, fileUploadType, topUpSubmitResponse.getTopUp().getId());
+
                                 }else{
                                     if (HTTPResponseUtils.check4xxClientError(response.code())){
                                         //all other 4xx codes
@@ -193,12 +192,12 @@ public class TopUpSubmitFragment extends Fragment{
                             @Override
                             public void onError(Throwable e) {
                                 e.printStackTrace();
-                                Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                                Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
                             }
 
                             @Override
                             public void onComplete() {
-                                Log.d(LOG_TAG, "APP: postTopUpInit onComplete");
+                                Log.d(LOG_TAG, "APP postTopUpInit onComplete");
                             }
                         });
 
@@ -210,6 +209,8 @@ public class TopUpSubmitFragment extends Fragment{
     }
 
     private void uploadFileToServer(final File fileUpload, final String mediaType, final long topUpId){
+
+        Log.d(LOG_TAG, "APP uploadFileToServer");
 
         final WalletClient walletClient = WalletClient.getInstance(getActivity());
 

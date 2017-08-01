@@ -51,7 +51,7 @@ public class DefinitionsRetrieval {
                     @Override
                     public void onError(@NonNull Throwable e) {
                         e.printStackTrace();
-                        Log.e(LOG_TAG, "ERROR: " + e.getMessage(), e);
+                        Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
                     }
 
                     @Override
