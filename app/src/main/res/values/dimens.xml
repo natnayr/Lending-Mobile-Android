@@ -119,7 +119,7 @@
     <dimen name="top_up_small_font_size">12sp</dimen>
     <dimen name="top_up_title_font_size">32sp</dimen>
     <dimen name="top_up_card_icon_size">16dp</dimen>
-    <dimen name="top_up_card_vertical_padding">16dp</dimen>
+    <dimen name="top_up_card_vertical_padding">8dp</dimen>
     <dimen name="top_up_card_horizontal_padding">8dp</dimen>
     <dimen name="top_up_info_header_icon_size">24dp</dimen>
     <dimen name="top_up_info_header_vertical_spacing">8dp</dimen>

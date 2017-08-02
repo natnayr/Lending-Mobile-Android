@@ -33,7 +33,6 @@ public class TopUpHistoryFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_top_up_history, container, false);
         ButterKnife.bind(this, rootView);
 
-        mContext = getActivity();
 
         return rootView;
     }

@@ -19,6 +19,8 @@ import com.serjltt.moshi.adapters.SerializeNulls;
 import com.squareup.moshi.Moshi;
 
 import java.io.File;
+import java.sql.Time;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import okhttp3.MediaType;
@@ -55,6 +57,9 @@ public class WalletClient implements ClientInterface{
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(new SendingCookiesInterceptor(context))
                 .addInterceptor(new ReceivingCookiesInterceptor(context))
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
                 .build();
 
         AuthProvider provider = new AuthProvider();
@@ -92,12 +97,12 @@ public class WalletClient implements ClientInterface{
                                                                     long topUpId, String deviceId){
 
         RequestBody fileBody = RequestBody.create(MediaType.parse(mediaType), fileUpload);
-        MultipartBody requestMultipartBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("top_up[transaction_proof]", fileUpload.getName(), fileBody)
-                .build();
+        MultipartBody.Part filePartBody = MultipartBody.Part
+                .createFormData("top_up[transaction_proof]",
+                        fileUpload.getName(),
+                        fileBody);
 
-        return apiServices.putTopUpUpload(topUpId, deviceId, requestMultipartBody);
+        return apiServices.putTopUpUpload(topUpId, deviceId, filePartBody);
     }
 
 

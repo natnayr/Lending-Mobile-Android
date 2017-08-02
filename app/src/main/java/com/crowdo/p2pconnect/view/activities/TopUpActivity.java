@@ -4,11 +4,12 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -94,6 +95,7 @@ public class TopUpActivity extends AppCompatActivity {
 
         pagerAdapter = new TopUpPagerAdapter(getSupportFragmentManager());
         mTopUpViewPager.setAdapter(pagerAdapter);
+
         mTopUpTabLayout.setupWithViewPager(mTopUpViewPager, true);
     }
 
@@ -168,6 +170,8 @@ public class TopUpActivity extends AppCompatActivity {
                 switch(event.getAction()){
                     case MotionEvent.ACTION_DOWN:
                         mTopUpRefreshIcon.setImageDrawable(syncIconPressed);
+                        getMemberDetails();
+                        submitFragment.refreshFragment();
                         return true;
                     case MotionEvent.ACTION_UP:
                         mTopUpRefreshIcon.setImageDrawable(syncIconEnabled);
@@ -177,15 +181,9 @@ public class TopUpActivity extends AppCompatActivity {
             }
         });
 
-        mTopUpRefreshBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getMemberDetails();
-            }
-        });
     }
 
-    private class TopUpPagerAdapter extends FragmentPagerAdapter{
+    private class TopUpPagerAdapter extends FragmentStatePagerAdapter {
 
         private final String[] PAGE_TITLES = new String[] {"Top Up", "History"};
 
@@ -197,6 +195,7 @@ public class TopUpActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             return PAGES[position];
         }
+
 
         @Override
         public int getCount() {

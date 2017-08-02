@@ -1,11 +1,15 @@
 package com.crowdo.p2pconnect.view.fragments;
 
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -13,8 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.client.WalletClient;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
@@ -36,6 +40,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Arrays;
 
+import de.mateware.snacky.Snacky;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -53,6 +58,7 @@ public class TopUpSubmitFragment extends Fragment{
     private long chosenFileSizeKB;
     private Disposable postTopUpInitDisposable;
     private Disposable putTopUpUploadDisposable;
+    private MaterialDialog waitForUpload;
     private static final String LOG_TAG = TopUpSubmitFragment.class.getSimpleName();
 
     public TopUpSubmitFragment(){
@@ -129,16 +135,21 @@ public class TopUpSubmitFragment extends Fragment{
                     NumberFormat formatter = new DecimalFormat("#0.00");
                     String outputMB = formatter.format(((double)chosenFileSizeKB)/1024);
 
-                    viewHolder.mSubmitUploadOpenDialogInstructionsSubTextView.setTypeface(null,
+                    viewHolder.mSubmitUploadOpenInstructionsMainTextView.setTypeface(null,
                             Typeface.BOLD_ITALIC);
 
-                    viewHolder.mSubmitUploadOpenDialogInstructionsSubTextView.setText(outputMB + "MB");
+                    viewHolder.mSubmitUploadOpenInstructionsMainTextView.setText(chosenFile.getName());
 
-                    viewHolder.mSubmitUploadOpenDialogInstructionsMainTextView.setTypeface(null,
+                    viewHolder.mSubmitUploadOpenInstructionsSubTextView.setTypeface(null,
                             Typeface.BOLD_ITALIC);
 
-                    viewHolder.mSubmitUploadOpenDialogInstructionsMainTextView.setText(chosenFile.getName());
-
+                    if((chosenFileSizeKB/1024) > 2){
+                        //more than 2mb color red
+                        viewHolder.mSubmitUploadOpenInstructionsSubTextView.setText(outputMB + "MB (file too big)");
+                        viewHolder.mSubmitUploadOpenInstructionsSubTextView.setTextColor(viewHolder.mColorPrimary);
+                    }else{
+                        viewHolder.mSubmitUploadOpenInstructionsSubTextView.setText(outputMB + "MB");
+                    }
                 }
             }
         });
@@ -146,6 +157,7 @@ public class TopUpSubmitFragment extends Fragment{
         viewHolder.mSubmitUploadSubloadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Snackbar invalidFileSnackbar = SnackBarUtil.snackBarForWarningCreate(rootView, getResources()
                                 .getString(R.string.top_up_submit_upload_attach_file_warning), Snackbar.LENGTH_SHORT);
                 if(chosenFile == null ||  chosenFileSizeKB == 0){
@@ -171,7 +183,11 @@ public class TopUpSubmitFragment extends Fragment{
                     return;
                 }
 
-
+                waitForUpload = new MaterialDialog.Builder(getActivity())
+                        .content(R.string.wait_message)
+                        .progress(true, 0)
+                        .autoDismiss(false)
+                        .show();
 
                 final String fileUploadType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileUploadExtension);
                 String refereceText = viewHolder.mSubmiUploadReferenceEditText.getText().toString();
@@ -195,6 +211,7 @@ public class TopUpSubmitFragment extends Fragment{
                                     uploadFileToServer(chosenFile, fileUploadType, topUpSubmitResponse.getTopUp().getId());
 
                                 }else{
+                                    waitForUpload.dismiss();
                                     if (HTTPResponseUtils.check4xxClientError(response.code())){
                                         //all other 4xx codes
                                         String serverErrorMessage = HTTPResponseUtils
@@ -204,6 +221,7 @@ public class TopUpSubmitFragment extends Fragment{
                                         SnackBarUtil.snackBarForWarningCreate(getView(),
                                                 serverErrorMessage, Snackbar.LENGTH_SHORT)
                                                 .show();
+
                                     }
                                 }
                             }
@@ -212,6 +230,7 @@ public class TopUpSubmitFragment extends Fragment{
                             public void onError(Throwable e) {
                                 e.printStackTrace();
                                 Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
+                                if(waitForUpload.isShowing()) waitForUpload.dismiss();
                             }
 
                             @Override
@@ -245,8 +264,34 @@ public class TopUpSubmitFragment extends Fragment{
 
                     @Override
                     public void onNext(Response<TopUpSubmitResponse> response) {
+                        waitForUpload.dismiss();
                         if(response.isSuccessful()){
+                            viewHolder.initSubmitButtonState();
 
+                            Spanned topUpStatement;
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                topUpStatement = Html.fromHtml(viewHolder.mSubmitUploadSuccessLabel,
+                                        Html.FROM_HTML_MODE_LEGACY);
+                            } else {
+                                topUpStatement = Html.fromHtml(viewHolder.mSubmitUploadSuccessLabel);
+                            }
+
+                            Snacky.builder().setView(getView())
+                                    .setText(topUpStatement)
+                                    .setDuration(Snackbar.LENGTH_SHORT)
+                                    .success().show();
+
+                        }else{
+                            if (HTTPResponseUtils.check4xxClientError(response.code())){
+                                //all other 4xx codes
+                                String serverErrorMessage = HTTPResponseUtils
+                                        .errorServerResponseConvert(walletClient,
+                                                response.errorBody());
+
+                                SnackBarUtil.snackBarForWarningCreate(getView(),
+                                        serverErrorMessage, Snackbar.LENGTH_SHORT)
+                                        .show();
+                            }
                         }
                     }
 
@@ -259,8 +304,18 @@ public class TopUpSubmitFragment extends Fragment{
                     @Override
                     public void onComplete() {
                         Log.d(LOG_TAG, "APP onComplete");
+                        if(waitForUpload.isShowing()) waitForUpload.dismiss();
+                        refreshFragment();
                     }
                 });
+    }
+
+    public void refreshFragment(){
+        Log.d(LOG_TAG, "APP refreshFragment called");
+        FragmentTransaction ftr = getActivity().getSupportFragmentManager().beginTransaction();
+        ftr.detach(TopUpSubmitFragment.this);
+        ftr.attach(TopUpSubmitFragment.this);
+        ftr.commit();
     }
 
     @Override

@@ -1,9 +1,9 @@
 package com.crowdo.p2pconnect.viewholders;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +24,7 @@ import com.mikepenz.iconics.IconicsDrawable;
 
 import java.io.File;
 
+import butterknife.BindColor;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,17 +46,25 @@ public class TopUpSubmitViewHolder {
     @BindView(R.id.top_up_submit_bank_details_bank_address_value) TextView mSubmitInfoBankAddress;
 
     @BindView(R.id.top_up_submit_upload_header_icon) ImageView mSubmitUploadIcon;
-    @BindView(R.id.top_up_submit_upload_open_dialog_icon) ImageView mSubmitUploadOpenDialogIcon;
+    @BindView(R.id.top_up_submit_upload_open_dialog_icon) ImageView mSubmitUploadOpenIcon;
     @BindView(R.id.top_up_submit_upload_reference_edittext) public EditText mSubmiUploadReferenceEditText;
-    @BindView(R.id.top_up_submit_upload_open_dialog_button) public RelativeLayout mSubmitUploadOpenDialogButton;
-    @BindView(R.id.top_up_submit_upload_open_dialog_instruction_main) public TextView mSubmitUploadOpenDialogInstructionsMainTextView;
-    @BindView(R.id.top_up_submit_upload_open_dialog_instruction_sub) public TextView mSubmitUploadOpenDialogInstructionsSubTextView;
-
+    @BindView(R.id.top_up_submit_upload_open_dialog_button) public RelativeLayout mSubmitUploadOpenButton;
+    @BindView(R.id.top_up_submit_upload_open_dialog_instruction_main) public TextView mSubmitUploadOpenInstructionsMainTextView;
+    @BindView(R.id.top_up_submit_upload_open_dialog_instruction_sub) public TextView mSubmitUploadOpenInstructionsSubTextView;
     @BindView(R.id.top_up_submit_upload_submit_button) public Button mSubmitUploadSubloadButton;
 
     @BindString(R.string.top_up_submit_bank_details_instructions_with_pending) String mSubmitInfoWithPendingLabel;
     @BindString(R.string.top_up_submit_bank_details_instructions_without_pending) String mSubmitInfoWithoutPendingLabel;
+    @BindString(R.string.top_up_submit_upload_details) String mSubmitInfoButtonInstructionsLabel;
+    @BindString(R.string.top_up_submit_upload_added_info) String mSubmitInfoButtonAddedInstructionsLabel;
     @BindString(R.string.top_up_submit_bank_details_indicate) String mSubmitInfoIndicateLabel;
+    @BindString(R.string.top_up_submit_upload_success_complete) public String mSubmitUploadSuccessLabel;
+    @BindString(R.string.cancel_label) String mSubmitCancelLabel;
+    @BindString(R.string.top_up_submit_upload_dialog_title) String mSubmitTitleLabel;
+    @BindString(R.string.top_up_submit_upload_dialog_positive) String mSubmitPositiveLabel;
+
+    @BindColor(R.color.color_secondary_text) int mColorSecondary;
+    @BindColor(R.color.color_primary) public int mColorPrimary;
 
     public FilePickerDialog pickerDialog;
     private Context mContext;
@@ -77,19 +86,21 @@ public class TopUpSubmitViewHolder {
         dialogProperties.extensions = allowedExtensions;
 
         pickerDialog = new FilePickerDialog(context, dialogProperties);
-        pickerDialog.setTitle("Select an Image File");
-        pickerDialog.setPositiveBtnName("Select");
-        pickerDialog.setNegativeBtnName("Cancel");
-
+        pickerDialog.setTitle(mSubmitTitleLabel);
+        pickerDialog.setPositiveBtnName(mSubmitPositiveLabel);
+        pickerDialog.setNegativeBtnName(mSubmitCancelLabel);
     }
 
+
+
     public void initView(){
+
         mSubmitUploadIcon.setImageDrawable(new IconicsDrawable(mContext)
                 .icon(CommunityMaterial.Icon.cmd_credit_card)
                 .sizeRes(R.dimen.top_up_info_header_icon_size)
                 .colorRes(R.color.color_primary_text));
 
-        mSubmitUploadOpenDialogIcon.setImageDrawable(new IconicsDrawable(mContext)
+        mSubmitUploadOpenIcon.setImageDrawable(new IconicsDrawable(mContext)
                 .icon(CommunityMaterial.Icon.cmd_upload)
                 .sizeRes(R.dimen.top_up_card_icon_size)
                 .colorRes(R.color.color_icons_text));
@@ -99,13 +110,28 @@ public class TopUpSubmitViewHolder {
                 .sizeRes(R.dimen.top_up_info_header_icon_size)
                 .colorRes(R.color.color_primary_text));
 
-        mSubmitUploadOpenDialogButton.setOnClickListener(new View.OnClickListener() {
+        mSubmitUploadOpenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pickerDialog.show();
             }
         });
 
+        initSubmitButtonState();
+
+    }
+
+    public void initSubmitButtonState(){
+        mSubmitUploadOpenInstructionsMainTextView.setText(mSubmitInfoButtonInstructionsLabel);
+        mSubmitUploadOpenInstructionsMainTextView.setTypeface(null,
+                Typeface.NORMAL);
+
+        mSubmitUploadOpenInstructionsSubTextView.setText(mSubmitInfoButtonAddedInstructionsLabel);
+        mSubmitUploadOpenInstructionsSubTextView.setTypeface(null,
+                Typeface.NORMAL);
+        mSubmitUploadOpenInstructionsSubTextView.setTextColor(mColorSecondary);
+
+        mSubmiUploadReferenceEditText.setText("");
     }
 
     public void fillMemberInfo(final MemberInfoResponse memberInfoResponse) {

@@ -22,11 +22,13 @@ import com.crowdo.p2pconnect.model.response.TopUpHistoryResponse;
 import com.crowdo.p2pconnect.model.response.TopUpSubmitResponse;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
@@ -107,8 +109,9 @@ public interface APIServices {
     Observable<Response<TopUpSubmitResponse>> postTopUpInit(@Body TopUpSubmitRequest data);
 
     @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
+    @Multipart
     @PUT("invest/wallet/upload_top_up_proof")
-    Observable<Response<TopUpSubmitResponse>> putTopUpUpload(@Query("top_up_id") long topUpId, @Query("device_id") String deviceId, @Body RequestBody fileBody);
+    Observable<Response<TopUpSubmitResponse>> putTopUpUpload(@Query("top_up_id") long topUpId, @Query("device_id") String deviceId, @Part MultipartBody.Part filePartBody);
 
     @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @GET("invest/wallet/top_up_history")
