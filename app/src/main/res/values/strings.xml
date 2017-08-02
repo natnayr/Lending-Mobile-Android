@@ -164,7 +164,7 @@
     <string name="top_up_tab_title_one">Top Up</string>
     <string name="top_up_tab_title_two">History</string>
     <string name="top_up_balance_description_start">Account Balance&#160;</string>
-
+    <string name="top_up_filepickerdialog_no_permission">Permission is Required to select file from memory</string>
 
     <string name="top_up_submit_bank_details_title">Bank Details</string>
     <string name="top_up_submit_bank_details_instructions_with_pending">Step 1: Transfer %s or more to the account below.</string>

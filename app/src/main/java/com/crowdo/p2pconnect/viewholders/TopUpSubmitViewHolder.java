@@ -91,8 +91,6 @@ public class TopUpSubmitViewHolder {
         pickerDialog.setNegativeBtnName(mSubmitCancelLabel);
     }
 
-
-
     public void initView(){
 
         mSubmitUploadIcon.setImageDrawable(new IconicsDrawable(mContext)

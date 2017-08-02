@@ -1,6 +1,8 @@
 package com.crowdo.p2pconnect.view.activities;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,8 +16,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.model.others.TopUp;
 import com.crowdo.p2pconnect.support.MemberInfoRetrieval;
 import com.crowdo.p2pconnect.support.NetworkConnectionChecks;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
@@ -23,6 +27,7 @@ import com.crowdo.p2pconnect.helpers.NumericUtils;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.view.fragments.TopUpHistoryFragment;
 import com.crowdo.p2pconnect.view.fragments.TopUpSubmitFragment;
+import com.github.angads25.filepicker.view.FilePickerDialog;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
@@ -116,6 +121,23 @@ public class TopUpActivity extends AppCompatActivity {
                     "(" + NumericUtils.IDR + ")");
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case FilePickerDialog.EXTERNAL_READ_PERMISSION_GRANT: {
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    if(submitFragment.filePickerDialog != null){
+                        submitFragment.filePickerDialog.show();
+                    }
+                }else{
+                    Toast.makeText(TopUpActivity.this,
+                            getString(R.string.top_up_filepickerdialog_no_permission),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 
     private void initView(){

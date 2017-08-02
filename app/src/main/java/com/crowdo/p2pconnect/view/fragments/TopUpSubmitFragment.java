@@ -34,6 +34,7 @@ import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.view.activities.TopUpActivity;
 import com.crowdo.p2pconnect.viewholders.TopUpSubmitViewHolder;
 import com.github.angads25.filepicker.controller.DialogSelectionListener;
+import com.github.angads25.filepicker.view.FilePickerDialog;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -59,6 +60,8 @@ public class TopUpSubmitFragment extends Fragment{
     private Disposable postTopUpInitDisposable;
     private Disposable putTopUpUploadDisposable;
     private MaterialDialog waitForUpload;
+    public FilePickerDialog filePickerDialog;
+
     private static final String LOG_TAG = TopUpSubmitFragment.class.getSimpleName();
 
     public TopUpSubmitFragment(){
@@ -125,6 +128,10 @@ public class TopUpSubmitFragment extends Fragment{
             }
         });
 
+        if(viewHolder.pickerDialog != null) {
+            this.filePickerDialog = viewHolder.pickerDialog;
+        }
+
         viewHolder.pickerDialog.setDialogSelectionListener(new DialogSelectionListener() {
             @Override
             public void onSelectedFilePaths(String[] files) {
@@ -165,7 +172,8 @@ public class TopUpSubmitFragment extends Fragment{
                     return;
                 }
 
-                String[] allowedExtensions =  new String[]{"pdf","doc","docx","jpeg", "jpg","png", "tif","bmp"};
+                String[] allowedExtensions =  new String[]{"pdf","doc","docx","jpeg", "jpg",
+                        "png", "tif","bmp"};
                 final String fileUploadExtension = MimeTypeMap.getFileExtensionFromUrl(chosenFile.getAbsolutePath());
                 if(fileUploadExtension == null){
                     invalidFileSnackbar.show();
@@ -245,6 +253,7 @@ public class TopUpSubmitFragment extends Fragment{
 
         return rootView;
     }
+
 
     private void uploadFileToServer(final File fileUpload, final String mediaType, final long topUpId){
 
