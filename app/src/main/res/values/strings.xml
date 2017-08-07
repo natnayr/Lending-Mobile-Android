@@ -185,6 +185,13 @@
     <string name="top_up_submit_upload_attach_file_warning">Please attach an image or document file under 2MB as proof of transfer. (formats: pdf, doc, docx, jpeg, jpg, png, tiff, bmp)</string>
     <string name="top_up_submit_upload_success_complete">Thank you, your Top Up has been submitted, please check &lt;b>History&lt;/b> for updates</string>
 
+    <string name="top_up_history_item_amount_unconfirmed">Unconfirmed</string>
+    <string name="top_up_history_item_status_success">Success</string>
+    <string name="top_up_history_item_status_pending">Pending</string>
+    <string name="top_up_history_item_status_cancelled">Cancelled</string>
+    <string name="top_up_history_item_transaction_reference">Transaction Ref</string>
+    <string name="top_up_history_item_payment_proof">Proof of Payment</string>
+
     <!-- GLOBALS -->
     <string name="auth_session_end_and_logout">Session Ended, Logging Out</string>
     <string name="auth_welcome">Welcome</string>

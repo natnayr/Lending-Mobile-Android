@@ -235,9 +235,7 @@ public class CheckoutSummaryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         }else{
                             Log.d(LOG_TAG, "APP getCheckoutSummary onNext() status > " + response.code());
                             if(HTTPResponseUtils.check4xxClientError(response.code())){
-                                if(ConstantVariables.HTTP_UNAUTHORISED == response.code()){
-//                                    AuthAccountUtils.actionLogout((CheckoutActivity) mContext);
-                                }else if(ConstantVariables.HTTP_NOT_FOUND == response.code()){
+                                if(ConstantVariables.HTTP_NOT_FOUND == response.code()){
                                     String serverErrorMessage = "Error: Delete Bid Not Successful";
                                     if(response.errorBody() != null) {
                                         Converter<ResponseBody, MessageResponse> errorConverter =

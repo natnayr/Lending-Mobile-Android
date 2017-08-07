@@ -16,7 +16,7 @@ public class TopUp {
     private long walletId;
 
     @Json(name = "amount")
-    @FallbackOnNull(fallbackLong = 0)
+    @FallbackOnNull(fallbackLong = -1)
     private long amount;
 
     @Json(name = "origin")
@@ -90,4 +90,5 @@ public class TopUp {
         }
 
     }
+
 }

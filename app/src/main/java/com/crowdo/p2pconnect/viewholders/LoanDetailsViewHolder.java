@@ -5,7 +5,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -334,14 +333,14 @@ public class LoanDetailsViewHolder {
         }
 
         if(!"".equals(loan.getStartDate().trim()))
-            mScheduleStartDate.setText(DateUtils.dateTimeFormatter(
+            mScheduleStartDate.setText(DateUtils.dateOnlyFormatter(
                     ConstantVariables.OUT_DATE_TIME_FORMAT, loan.getStartDate().trim()));
 
         if(!"".equals(loanDetailResponse.getFirstRepayment().trim()))
-            mScheduleFirstRepaymentDate.setText(DateUtils.dateTimeFormatter(
+            mScheduleFirstRepaymentDate.setText(DateUtils.dateOnlyFormatter(
                     ConstantVariables.OUT_DATE_TIME_FORMAT, loanDetailResponse.getFirstRepayment().trim()));
         if(!"".equals(loanDetailResponse.getLastRepayment().trim()))
-            mScheduleLastRepaymentDate.setText(DateUtils.dateTimeFormatter(
+            mScheduleLastRepaymentDate.setText(DateUtils.dateOnlyFormatter(
                     ConstantVariables.OUT_DATE_TIME_FORMAT, loanDetailResponse.getLastRepayment().trim()));
 
         if(!"".equals(loan.getCurrency().trim()))
