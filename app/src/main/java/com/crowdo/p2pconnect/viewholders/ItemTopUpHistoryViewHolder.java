@@ -59,7 +59,7 @@ public class ItemTopUpHistoryViewHolder extends RecyclerView.ViewHolder {
         mHistoryItemProofImageButton.setImageDrawable(new IconicsDrawable(mContext)
                             .icon(CommunityMaterial.Icon.cmd_download)
                             .colorRes(R.color.color_secondary_text)
-                            .sizeRes(R.dimen.top_up_card_item_icon_size));
+                            .sizeRes(R.dimen.top_up_card_item_history_icon_size));
 
     }
 

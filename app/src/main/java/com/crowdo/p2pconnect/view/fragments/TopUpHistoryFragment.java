@@ -178,7 +178,8 @@ public class TopUpHistoryFragment extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        e.printStackTrace();
+                        Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
                     }
 
                     @Override
