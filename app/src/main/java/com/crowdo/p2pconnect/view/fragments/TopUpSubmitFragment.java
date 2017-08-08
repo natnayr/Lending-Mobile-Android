@@ -26,6 +26,7 @@ import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.model.response.TopUpSubmitResponse;
 import com.crowdo.p2pconnect.support.DefinitionsRetrieval;
+import com.crowdo.p2pconnect.support.InvestorAccreditationReaction;
 import com.crowdo.p2pconnect.support.MemberInfoRetrieval;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
@@ -43,6 +44,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Arrays;
 
+import butterknife.BindString;
+import butterknife.ButterKnife;
 import de.mateware.snacky.Snacky;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -55,6 +58,9 @@ import retrofit2.Response;
  */
 
 public class TopUpSubmitFragment extends Fragment{
+
+    @BindString(R.string.top_up_invalid_investor_label) String mInvestorInvalidLabel;
+    @BindString(R.string.top_up_invalid_investor_button_label) String mInvestorInvalidButtonLabel;
 
     private TopUpSubmitViewHolder viewHolder;
     private File chosenFile;
@@ -83,6 +89,7 @@ public class TopUpSubmitFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_top_up_submit, container, false);
+        ButterKnife.bind(this, rootView);
 
         viewHolder = new TopUpSubmitViewHolder(rootView, getActivity());
         viewHolder.initView();
@@ -243,15 +250,24 @@ public class TopUpSubmitFragment extends Fragment{
                                 }else{
                                     waitForUpload.dismiss();
                                     if (HTTPResponseUtils.check4xxClientError(response.code())){
-                                        //all other 4xx codes
-                                        String serverErrorMessage = HTTPResponseUtils
-                                                .errorServerResponseConvert(walletClient,
-                                                        response.errorBody());
+                                        if(ConstantVariables.HTTP_INVESTOR_FAILED_ACCREDITATION == response.code()){
+                                            //option to signup given
+                                            Snackbar investorInvalidSnackbar = InvestorAccreditationReaction
+                                                    .failedInvestorAcreditationSnackbar(
+                                                            mInvestorInvalidLabel, mInvestorInvalidButtonLabel,
+                                                            getView(), getActivity());
 
-                                        SnackBarUtil.snackBarForWarningCreate(getView(),
-                                                serverErrorMessage, Snackbar.LENGTH_SHORT)
-                                                .show();
+                                            investorInvalidSnackbar.show();
+                                        }else {
+                                            //all other 4xx codes
+                                            String serverErrorMessage = HTTPResponseUtils
+                                                    .errorServerResponseConvert(walletClient,
+                                                            response.errorBody());
 
+                                            SnackBarUtil.snackBarForWarningCreate(getView(),
+                                                    serverErrorMessage, Snackbar.LENGTH_SHORT)
+                                                    .show();
+                                        }
                                     }
                                 }
                             }
@@ -314,6 +330,8 @@ public class TopUpSubmitFragment extends Fragment{
 
                         }else{
                             if (HTTPResponseUtils.check4xxClientError(response.code())){
+
+
                                 //all other 4xx codes
                                 String serverErrorMessage = HTTPResponseUtils
                                         .errorServerResponseConvert(walletClient,

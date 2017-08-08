@@ -25,14 +25,12 @@ import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
-import com.crowdo.p2pconnect.model.response.MessageResponse;
 import com.crowdo.p2pconnect.model.response.TopUpHistoryResponse;
+import com.crowdo.p2pconnect.support.InvestorAccreditationReaction;
 import com.crowdo.p2pconnect.view.adapters.TopUpHistoryAdapter;
 import com.esafirm.rxdownloader.RxDownloader;
 
 import java.io.File;
-import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -43,8 +41,6 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
-import retrofit2.Converter;
 import retrofit2.Response;
 
 /**
@@ -60,6 +56,9 @@ public class TopUpHistoryFragment extends Fragment {
     @BindString(R.string.okay_label) String mOkay;
     @BindString(R.string.intent_file_chooser) String mOpenWith;
     @BindString(R.string.unable_open_file_label) String mErrorOpenFile;
+    @BindString(R.string.top_up_invalid_investor_label) String mInvalidInvestorLabel;
+    @BindString(R.string.top_up_invalid_investor_button_label) String mInvalidInvestorButtonLabel;
+
 
     private static final String LOG_TAG = TopUpHistoryFragment.class.getSimpleName();
     private TopUpHistoryAdapter mTopUpHistoryAdapter;
@@ -102,8 +101,9 @@ public class TopUpHistoryFragment extends Fragment {
     public void populateTopUpHistory(){
         Log.d(LOG_TAG, "APP populateTopUpHistory");
 
-        WalletClient.getInstance(getActivity())
-                .getTopUpHistory(ConstantVariables.getUniqueAndroidID(getActivity()))
+        final WalletClient walletClient = WalletClient.getInstance(getActivity());
+
+        walletClient.getTopUpHistory(ConstantVariables.getUniqueAndroidID(getActivity()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<TopUpHistoryResponse>>() {
@@ -122,22 +122,22 @@ public class TopUpHistoryFragment extends Fragment {
                         }else {
                             Log.d(LOG_TAG, "APP getTopUpHistory onNext() status > " + response.code());
                             if(HTTPResponseUtils.check4xxClientError(response.code())){
-                                String serverErrorMsg = "Error: Getting Top Up History not successful";
-                                if(response.errorBody() != null){
-                                    Converter<ResponseBody, MessageResponse> errorConverter =
-                                            WalletClient.getInstance(getActivity()).getRetrofit().responseBodyConverter(
-                                                    MessageResponse.class, new Annotation[0]);
-                                    try{
-                                        MessageResponse errorResponse = errorConverter.convert(response.errorBody());
-                                        serverErrorMsg = errorResponse.getServer().getMessage();
-                                    }catch (IOException e){
-                                        e.printStackTrace();
-                                        Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
-                                    }
-                                }
+                                if (ConstantVariables.HTTP_INVESTOR_FAILED_ACCREDITATION == response.code()){
 
-                                SnackBarUtil.snackBarForWarningCreate(getView(), serverErrorMsg,
-                                        Snackbar.LENGTH_SHORT).show();                            }
+                                    Snackbar investorInvalidSnackbar = InvestorAccreditationReaction
+                                            .failedInvestorAcreditationSnackbar(
+                                                    mInvalidInvestorLabel, mInvalidInvestorButtonLabel,
+                                                    getView(), getActivity());
+                                    investorInvalidSnackbar.show();
+                                }else {
+                                    String serverErrorMessage = HTTPResponseUtils
+                                            .errorServerResponseConvert(walletClient,
+                                                    response.errorBody());
+
+                                    SnackBarUtil.snackBarForWarningCreate(getView(),
+                                            serverErrorMessage, Snackbar.LENGTH_SHORT)
+                                            .show();
+                                }}
                         }
                     }
 

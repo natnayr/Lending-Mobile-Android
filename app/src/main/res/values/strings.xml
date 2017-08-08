@@ -160,11 +160,14 @@
     <string name="checkout_confirm_success_message_label">Your bid(s) are confirmed</string>
     <string name="checkout_confirm_continue_action_label">Continue</string>
 
+
     <string name="top_up_title_label">Top Up</string>
     <string name="top_up_tab_title_one">Top Up</string>
     <string name="top_up_tab_title_two">History</string>
     <string name="top_up_balance_description_start">Account Balance&#160;</string>
     <string name="top_up_filepickerdialog_no_permission">Permission is Required to select file from memory</string>
+    <string name="top_up_invalid_investor_label">To top up, you need to be a qualified investor.</string>
+    <string name="top_up_invalid_investor_button_label">APPLY</string>
 
     <string name="top_up_submit_bank_details_title">Bank Details</string>
     <string name="top_up_submit_bank_details_instructions_with_pending">Step 1: Transfer %s or more to the account below.</string>

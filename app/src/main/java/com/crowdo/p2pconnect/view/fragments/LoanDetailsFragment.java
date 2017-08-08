@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.crowdo.p2pconnect.support.InvestorAccreditationReaction;
 import com.crowdo.p2pconnect.support.MemberInfoRetrieval;
 import com.crowdo.p2pconnect.custom_ui.CartBadgeDrawable;
 import com.crowdo.p2pconnect.data.client.BiddingClient;
@@ -441,27 +442,11 @@ public class LoanDetailsFragment extends Fragment {
                                 //Error Handling
                                 if(HTTPResponseUtils.check4xxClientError(response.code())){
                                     if (ConstantVariables.HTTP_INVESTOR_FAILED_ACCREDITATION == response.code()){
-                                        Snackbar investorInvalidSnackbar = SnackBarUtil.snackBarForWarningCreate(getView(),
-                                                mInvalidInvestorLabel, Snackbar.LENGTH_LONG);
 
-                                        investorInvalidSnackbar.setAction(mInvalidInvestorButtonLabel, new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                String webViewUrl = APIServices.P2P_BASE_URL +
-                                                        "mobile2/register_as_investor" +
-                                                        "?lang=" + LocaleHelper.getLanguage(getActivity()) +
-                                                        "&device_id=" +
-                                                        ConstantVariables.getUniqueAndroidID(getActivity());
-
-                                                Log.d(LOG_TAG, "APP Top Up Action webViewUrl " + webViewUrl);
-
-                                                Intent intent = Henson.with(getActivity())
-                                                        .gotoWebViewActivity()
-                                                        .mUrl(webViewUrl)
-                                                        .build();
-                                                startActivity(intent);
-                                            }
-                                        });
+                                        Snackbar investorInvalidSnackbar = InvestorAccreditationReaction
+                                                .failedInvestorAcreditationSnackbar(
+                                                    mInvalidInvestorLabel, mInvalidInvestorButtonLabel,
+                                                    getView(), getActivity());
 
                                         investorInvalidSnackbar.show();
                                     }else{
