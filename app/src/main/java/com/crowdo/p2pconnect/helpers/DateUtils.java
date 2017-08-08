@@ -12,8 +12,8 @@ import org.joda.time.format.DateTimeFormatter;
 
 public class DateUtils {
 
-    private static final String SQL_DATE_ONLY_PATTERN = "yyyy-MM-dd";
-    private static final String SQL_DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ";
+    public static final String SQL_DATE_ONLY_PATTERN = "yyyy-MM-dd";
+    public static final String SQL_DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ";
 
     public static int findDaysLeft(String DATE_TIME_REGION, String fundingEndDate){
         DateTimeFormatter dtf = DateTimeFormat.forPattern(SQL_DATE_ONLY_PATTERN); //e.g 2016-11-18

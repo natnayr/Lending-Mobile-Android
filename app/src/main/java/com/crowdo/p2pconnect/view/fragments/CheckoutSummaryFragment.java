@@ -41,6 +41,8 @@ import com.crowdo.p2pconnect.model.response.CheckoutSummaryResponse;
 import com.crowdo.p2pconnect.model.response.CheckoutUpdateResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
 import com.crowdo.p2pconnect.view.activities.Henson;
+import com.crowdo.p2pconnect.view.activities.MainActivity;
+import com.crowdo.p2pconnect.view.activities.TopUpActivity;
 import com.crowdo.p2pconnect.view.adapters.CheckoutSummaryAdapter;
 import com.crowdo.p2pconnect.viewholders.CheckoutSummaryViewHolder;
 import com.esafirm.rxdownloader.RxDownloader;
@@ -132,18 +134,9 @@ public class CheckoutSummaryFragment extends Fragment{
         CallBackUtil<Object> callBackTopUpWebView = new CallBackUtil<Object>() {
             @Override
             public void eventCallBack(Object obj) {
-                String webViewUrl = APIServices.P2P_BASE_URL +
-                        "mobile2/top_up" +
-                        "?lang=" + LocaleHelper.getLanguage(getActivity()) +
-                        "&device_id=" +
-                        ConstantVariables.getUniqueAndroidID(getActivity());
+                Log.d(LOG_TAG, "APP TopUp Action");
 
-                Log.d(LOG_TAG, "APP Top Up Action webViewUrl " + webViewUrl);
-                
-                Intent intent = Henson.with(getActivity())
-                        .gotoWebViewActivity()
-                        .mUrl(webViewUrl)
-                        .build();
+                Intent intent = new Intent(getActivity(), TopUpActivity.class);
                 startActivityForResult(intent, INTENT_REQUEST_TOP_UP);
             }
         };

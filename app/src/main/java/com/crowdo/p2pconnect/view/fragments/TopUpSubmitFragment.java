@@ -33,10 +33,12 @@ import com.crowdo.p2pconnect.model.response.DefinitionBankInfoResponse;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.view.activities.TopUpActivity;
 import com.crowdo.p2pconnect.viewholders.TopUpSubmitViewHolder;
+import com.developers.imagezipper.ImageZipper;
 import com.github.angads25.filepicker.controller.DialogSelectionListener;
 import com.github.angads25.filepicker.view.FilePickerDialog;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Arrays;
@@ -139,6 +141,23 @@ public class TopUpSubmitFragment extends Fragment{
                     //force single file only
                     chosenFile = new File(files[0]);
                     chosenFileSizeKB = chosenFile.length() / 1024; //in KB
+
+                    //Special service, compress images (from camera perhaps?)
+                    String[] imageExtensions =  new String[]{"jpeg", "jpg", "png", "tif","bmp"};
+
+                    String fileExtension = MimeTypeMap.getFileExtensionFromUrl(chosenFile.getAbsolutePath());
+                    if(Arrays.asList(imageExtensions).contains(fileExtension) &&
+                            (chosenFileSizeKB/1024) > 2){
+                        try {
+                            File compressedFile = new ImageZipper(getActivity()).compressToFile(chosenFile);
+                            chosenFileSizeKB = compressedFile.length() / 1024; //recalculate
+                            chosenFile = compressedFile;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
+                        }
+                    }
+
                     NumberFormat formatter = new DecimalFormat("#0.00");
                     String outputMB = formatter.format(((double)chosenFileSizeKB)/1024);
 
@@ -149,6 +168,7 @@ public class TopUpSubmitFragment extends Fragment{
 
                     viewHolder.mSubmitUploadOpenInstructionsSubTextView.setTypeface(null,
                             Typeface.BOLD_ITALIC);
+
 
                     if((chosenFileSizeKB/1024) > 2){
                         //more than 2mb color red
@@ -172,13 +192,15 @@ public class TopUpSubmitFragment extends Fragment{
                     return;
                 }
 
-                String[] allowedExtensions =  new String[]{"pdf","doc","docx","jpeg", "jpg",
-                        "png", "tif","bmp"};
+
                 final String fileUploadExtension = MimeTypeMap.getFileExtensionFromUrl(chosenFile.getAbsolutePath());
                 if(fileUploadExtension == null){
                     invalidFileSnackbar.show();
                     return;
                 }
+                String[] allowedExtensions =  new String[]{"pdf","doc","docx","jpeg", "jpg",
+                        "png", "tif","bmp"};
+
                 if(!Arrays.asList(allowedExtensions).contains(fileUploadExtension)){
                     //not within allowed filetypes
                     invalidFileSnackbar.show();
@@ -314,7 +336,7 @@ public class TopUpSubmitFragment extends Fragment{
                     public void onComplete() {
                         Log.d(LOG_TAG, "APP onComplete");
                         if(waitForUpload.isShowing()) waitForUpload.dismiss();
-                        refreshFragment();
+                        ((TopUpActivity) getActivity()).refreshAllFragments();
                     }
                 });
     }
@@ -341,4 +363,5 @@ public class TopUpSubmitFragment extends Fragment{
         }
         super.onPause();
     }
+
 }

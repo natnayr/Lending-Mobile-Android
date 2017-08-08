@@ -193,7 +193,7 @@ public class TopUpActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:
                         mTopUpRefreshIcon.setImageDrawable(syncIconPressed);
                         getMemberDetails();
-                        submitFragment.refreshFragment();
+                        refreshAllFragments();
                         return true;
                     case MotionEvent.ACTION_UP:
                         mTopUpRefreshIcon.setImageDrawable(syncIconEnabled);
@@ -202,7 +202,13 @@ public class TopUpActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
 
+    public void refreshAllFragments(){
+        if(submitFragment != null && historyFragment != null) {
+            submitFragment.refreshFragment();
+            historyFragment.refreshFragment();
+        }
     }
 
     private class TopUpPagerAdapter extends FragmentStatePagerAdapter {

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.model.others.TopUp;
 import com.crowdo.p2pconnect.viewholders.ItemTopUpHistoryViewHolder;
 
@@ -23,10 +24,12 @@ public class TopUpHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final String LOG_TAG = TopUpHistoryAdapter.class.getSimpleName();
     private List<TopUp> topUpHistoryList;
     private Context mContext;
+    private CallBackUtil<String> callBackDownloadProof;
 
-    public TopUpHistoryAdapter(Context context) {
+    public TopUpHistoryAdapter(Context context, CallBackUtil<String> callback) {
         this.topUpHistoryList = new ArrayList<>();
         this.mContext = context;
+        this.callBackDownloadProof = callback;
     }
 
     @Override
@@ -49,7 +52,7 @@ public class TopUpHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             //inverse list, latest on top
             final TopUp topUpItem = topUpHistoryList.get(topUpHistoryList.size() - 1 - position);
 
-            itemHolder.populateItemDetails(topUpItem);
+            itemHolder.populateItemDetails(topUpItem, callBackDownloadProof);
         }
     }
 

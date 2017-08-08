@@ -177,6 +177,7 @@
     <string name="top_up_submit_bank_details_swift_code">Swift Code:</string>
     <string name="top_up_submit_bank_details_bank_address">Bank Address:</string><string name="top_up_submit_upload_title">Upload Proof Of Payment</string>
     <string name="top_up_submit_upload_instructions">Step 2: Upload proof of payment</string>
+    <string name="top_up_submit_upload_notes">(Note: large images will be compressed)</string>
     <string name="top_up_submit_upload_details">Tap to Upload File</string>
     <string name="top_up_submit_upload_added_info">Maximum file size: 2MB</string>
     <string name="top_up_submit_upload_submit_label">SUBMIT</string>
@@ -184,8 +185,9 @@
     <string name="top_up_submit_upload_dialog_positive">Select</string>
     <string name="top_up_submit_upload_attach_file_warning">Please attach an image or document file under 2MB as proof of transfer. (formats: pdf, doc, docx, jpeg, jpg, png, tiff, bmp)</string>
     <string name="top_up_submit_upload_success_complete">Thank you, your Top Up has been submitted, please check &lt;b>History&lt;/b> for updates</string>
+    <string name="top_up_submit_reference_hint">Transaction Reference (Optional)</string>
 
-    <string name="top_up_history_item_amount_unconfirmed">Unconfirmed</string>
+    <string name="top_up_history_item_unconfirmed">TBC</string>
     <string name="top_up_history_item_status_success">Success</string>
     <string name="top_up_history_item_status_pending">Pending</string>
     <string name="top_up_history_item_status_cancelled">Cancelled</string>
