@@ -60,11 +60,8 @@ public class MainActivity extends AppCompatActivity{
     private static final int DRAWER_SELECT_LANGUAGE_CHANGE = 104;
     private static final int DRAWER_SELECT_LANGUAGE_EN = 500;
     private static final int DRAWER_SELECT_LANGUAGE_IN = 501;
-    private static final int DRAWER_SELECT_TOP_UP_WALLET = 105;
     private static final int DRAWER_SELECT_APPLY_AS_INVESTOR = 106;
     private static final int DRAWER_SELECT_LOGOUT = 107;
-    private static final int DRAWER_SELECT_SHOPPING_CART = 999;
-
 
     @Override
     public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
@@ -144,10 +141,6 @@ public class MainActivity extends AppCompatActivity{
                                             .withSelectable(false)
                                 ),
                         new SectionDrawerItem().withName(R.string.navmenu_label_actions),
-                        new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_TOP_UP_WALLET)
-                                .withName(R.string.toolbar_title_top_up_wallet)
-                                .withIcon(CommunityMaterial.Icon.cmd_wallet)
-                                .withSelectable(false),
                         new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_APPLY_AS_INVESTOR)
                                 .withName(R.string.toolbar_title_apply_investor)
                                 .withIcon(CommunityMaterial.Icon.cmd_account_star)
@@ -183,7 +176,6 @@ public class MainActivity extends AppCompatActivity{
                                     startActivity(intent);
                                     break;
 
-
                                 case DRAWER_SELECT_LANGUAGE_EN:
                                     LocaleHelper.setLocale(MainActivity.this, ConstantVariables.APP_LANG_EN);
                                     MainActivity.this.recreate();
@@ -193,11 +185,6 @@ public class MainActivity extends AppCompatActivity{
                                     LocaleHelper.setLocale(MainActivity.this, ConstantVariables.APP_LANG_ID);
                                     MainActivity.this.recreate();
                                     return true;
-
-                                case DRAWER_SELECT_TOP_UP_WALLET:
-                                    action = "top_up";
-                                    webCall = true;
-                                    break;
 
                                 case DRAWER_SELECT_APPLY_AS_INVESTOR:
                                     action = "register_as_investor";

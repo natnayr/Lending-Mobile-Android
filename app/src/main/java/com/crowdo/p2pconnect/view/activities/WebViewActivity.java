@@ -1,6 +1,10 @@
 package com.crowdo.p2pconnect.view.activities;
 
 import android.Manifest;
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
@@ -50,7 +54,6 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import im.delight.android.webview.AdvancedWebView;
-import rx.Subscriber;
 
 /**
  * Created by cwdsg05 on 4/1/17.
@@ -80,8 +83,6 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
     @InjectExtra public String mUrl;
 
-    private Context mContext;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,18 +101,31 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
         mWebView.setListener(WebViewActivity.this, WebViewActivity.this);
         mWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
-        Map<String, String> headerMap = new HashMap<>();
+        final Map<String, String> headerMap = new HashMap<>();
         //if able to get authToken
 
         AuthAccountManager authAccountManager = new AuthAccountManager();
-        String authToken = authAccountManager
-                .getActiveUserData(getString(R.string.authentication_ACCOUNT),
-                        getString(R.string.authentication_TOKEN));
-        if(authToken != null){
-            Log.d(LOG_TAG, "APP WebView AuthToken: " + authToken);
-            headerMap.put("Authorization", authToken);
-        }
-        mWebView.loadUrl(mUrl, headerMap);
+        Account activeAccount = authAccountManager.getActiveAccount(getString(R.string.authentication_ACCOUNT));
+        AccountManager.get(this).getAuthToken(activeAccount, getString(R.string.authentication_TOKEN),
+                null, this, new AccountManagerCallback<Bundle>() {
+            @Override
+            public void run(AccountManagerFuture<Bundle> future) {
+                try {
+                    Bundle tokenBundle = future.getResult();
+                    String authToken = tokenBundle.getString(AccountManager.KEY_AUTHTOKEN);
+
+                    if (authToken != null) {
+                        Log.d(LOG_TAG, "APP WebView AuthToken: " + authToken);
+                        headerMap.put("Authorization", authToken);
+                    }
+
+                    mWebView.loadUrl(mUrl, headerMap);
+
+                }catch (Exception e){
+                    Log.e(LOG_TAG, e.getMessage(), e);
+                }
+            }
+        }, null);
 
         mWebView.setWebChromeClient(new WebChromeClient(){
             @Override
