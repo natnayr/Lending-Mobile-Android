@@ -9,4 +9,4 @@
     android:background="@color/color_primary"
     android:theme="@style/ToolbarTheme"
     android:animateLayoutChanges="true"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />

@@ -285,7 +285,6 @@ public class TopUpSubmitFragment extends Fragment{
                             }
                         });
 
-
             }
         });
 

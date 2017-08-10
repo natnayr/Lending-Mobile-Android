@@ -165,7 +165,7 @@
     <string name="top_up_tab_title_one">Top Up</string>
     <string name="top_up_tab_title_two">History</string>
     <string name="top_up_balance_description_start">Account Balance&#160;</string>
-    <string name="top_up_filepickerdialog_no_permission">Permission is Required to select file from memory</string>
+    <string name="top_up_filepickerdialog_no_permission">Permission is Required to select file from storage</string>
     <string name="top_up_invalid_investor_label">To top up, you need to be a qualified investor.</string>
     <string name="top_up_invalid_investor_button_label">APPLY</string>
 
@@ -178,11 +178,12 @@
     <string name="top_up_submit_bank_details_bank_name">Bank Name:</string>
     <string name="top_up_submit_bank_details_branch_name">Branch Name:</string>
     <string name="top_up_submit_bank_details_swift_code">Swift Code:</string>
-    <string name="top_up_submit_bank_details_bank_address">Bank Address:</string><string name="top_up_submit_upload_title">Upload Proof Of Payment</string>
+    <string name="top_up_submit_bank_details_bank_address">Bank Address:</string>
+    <string name="top_up_submit_upload_title">Upload Proof Of Payment</string>
     <string name="top_up_submit_upload_instructions">Step 2: Upload proof of payment</string>
     <string name="top_up_submit_upload_notes">(Note: large images will be compressed)</string>
     <string name="top_up_submit_upload_details">Tap to Upload File</string>
-    <string name="top_up_submit_upload_added_info">Maximum file size: 2MB</string>
+    <string name="top_up_submit_upload_added_info">Maximum file size: 2mb</string>
     <string name="top_up_submit_upload_submit_label">SUBMIT</string>
     <string name="top_up_submit_upload_dialog_title">Choose a File and Click Select</string>
     <string name="top_up_submit_upload_dialog_positive">Select</string>
@@ -191,9 +192,9 @@
     <string name="top_up_submit_reference_hint">Transaction Reference (Optional)</string>
 
     <string name="top_up_history_item_unconfirmed">TBC</string>
-    <string name="top_up_history_item_status_success">Success</string>
-    <string name="top_up_history_item_status_pending">Pending</string>
-    <string name="top_up_history_item_status_cancelled">Cancelled</string>
+    <string name="top_up_history_item_status_success" translatable="false">Success</string>
+    <string name="top_up_history_item_status_pending" translatable="false">Pending</string>
+    <string name="top_up_history_item_status_cancelled" translatable="false">Cancelled</string>
     <string name="top_up_history_item_transaction_reference">Transaction Ref</string>
     <string name="top_up_history_item_payment_proof">Proof of Payment</string>
 

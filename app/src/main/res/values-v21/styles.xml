@@ -7,6 +7,7 @@
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/color_primary_700</item>
     </style>
 
     <style name="AppAlertDialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">

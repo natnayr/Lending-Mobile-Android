@@ -1,7 +1,8 @@
 package com.crowdo.p2pconnect;
 
-import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
@@ -15,7 +16,7 @@ import io.realm.RealmConfiguration;
  * Created by cwdsg05 on 6/1/17.
  */
 
-public class CrowdoApplication extends Application{
+public class CrowdoApplication extends MultiDexApplication{
 
     private Realm realm;
     private RealmConfiguration realmConfig;
@@ -69,6 +70,7 @@ public class CrowdoApplication extends Application{
 
     @Override
     protected void attachBaseContext(Context base) {
+        MultiDex.install(this);
         super.attachBaseContext(LocaleHelper.onAttach(base, ConstantVariables.APP_LANG_DEFAULT));
     }
 

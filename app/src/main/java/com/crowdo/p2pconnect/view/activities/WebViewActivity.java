@@ -237,7 +237,7 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
         RxDownloader.getInstance(this)
                 .download(url, fileName, mimeType)
-                .subscribe(new Subscriber<String>() {
+                .subscribe(new rx.Observer<String>() {
                     @Override
                     public void onCompleted() {
                         Log.d(LOG_TAG, "APP Completed WebView Download");

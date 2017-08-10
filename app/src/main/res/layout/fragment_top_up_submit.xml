@@ -358,6 +358,8 @@
                             android:inputType="text"
                             android:gravity="start"
                             android:textSize="@dimen/top_up_small_font_size"
+                            android:maxLength="50"
+                            android:maxLines="1"
                             android:hint="@string/top_up_submit_reference_hint"
                             android:textColor="@color/color_primary_text"
                             android:textColorHint="@color/color_secondary_text" />

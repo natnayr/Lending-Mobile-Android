@@ -11,7 +11,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.model.others.TopUp;
 import com.crowdo.p2pconnect.support.MemberInfoRetrieval;
 import com.crowdo.p2pconnect.support.NetworkConnectionChecks;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
@@ -61,6 +59,9 @@ public class TopUpActivity extends AppCompatActivity {
 
     @BindString(R.string.top_up_title_label) String mTopUpTitleText;
     @BindString(R.string.top_up_balance_description_start) String mTopUpBalanceDescriptionStartLabel;
+    @BindString(R.string.top_up_tab_title_one) String mTopUpTabOneTitle;
+    @BindString(R.string.top_up_tab_title_two) String mTopUpTabTwoTitle;
+
 
     @BindColor(R.color.color_grey_blue_800) int mColorGreyBlue500;
     @BindColor(R.color.color_icons_text) int mColorWhite;
@@ -71,6 +72,8 @@ public class TopUpActivity extends AppCompatActivity {
     private TopUpSubmitFragment submitFragment;
     private TopUpHistoryFragment historyFragment;
     private Fragment[] PAGES;
+    private String[] PAGE_TITLES;
+
 
     public TopUpActivity(){
         submitFragment = new TopUpSubmitFragment();
@@ -86,6 +89,8 @@ public class TopUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_top_up);
 
         ButterKnife.bind(this);
+
+        PAGE_TITLES = new String[]{mTopUpTabOneTitle, mTopUpTabTwoTitle};
 
         initView();
 
@@ -212,8 +217,6 @@ public class TopUpActivity extends AppCompatActivity {
     }
 
     private class TopUpPagerAdapter extends FragmentStatePagerAdapter {
-
-        private final String[] PAGE_TITLES = new String[] {"Top Up", "History"};
 
         public TopUpPagerAdapter(FragmentManager fm) {
             super(fm);

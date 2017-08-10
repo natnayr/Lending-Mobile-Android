@@ -1,5 +1,6 @@
 package com.crowdo.p2pconnect.view.fragments;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
@@ -24,6 +25,7 @@ import com.crowdo.p2pconnect.data.client.WalletClient;
 import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
+import com.crowdo.p2pconnect.helpers.PermissionsUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.model.response.TopUpHistoryResponse;
 import com.crowdo.p2pconnect.support.InvestorAccreditationReaction;
@@ -155,6 +157,13 @@ public class TopUpHistoryFragment extends Fragment {
     }
 
     public void downloadProof(String url){
+
+        //check permissions
+        if(PermissionsUtils.checkPermissionAndRequestActivity(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                ConstantVariables.REQUEST_CODE_PERMISSIONS_WRITE_EXTERNAL_STORAGE) == false){
+            return;
+        }
+
         String mimeType = null;
         final String extension = MimeTypeMap.getFileExtensionFromUrl(url);
         if(extension != null) {
@@ -168,12 +177,15 @@ public class TopUpHistoryFragment extends Fragment {
         final String usageMimeType = mimeType;
         final String fileName = URLUtil.guessFileName(url, null, null);
 
+        Log.d(LOG_TAG, "APP downloading " + url + " filename:" + fileName + "/" + usageMimeType);
+
+
         RxDownloader.getInstance(getActivity())
-                .download(url, fileName, mimeType)
+                .download(url, fileName, usageMimeType)
                 .subscribe(new rx.Observer<String>() {
                     @Override
                     public void onCompleted() {
-
+                        Log.d(LOG_TAG, "APP onCompleted download proof");
                     }
 
                     @Override
