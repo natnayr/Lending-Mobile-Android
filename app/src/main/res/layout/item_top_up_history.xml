@@ -8,7 +8,7 @@
     app:cardBackgroundColor="@color/color_background_100"
     app:cardElevation="2dp"
     app:cardPreventCornerOverlap="true"
-    android:layout_marginTop="@dimen/top_up_card_vertical_padding"
+    android:layout_marginTop="@dimen/wallet_card_vertical_padding"
     app:cardUseCompatPadding="true">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,10 +17,10 @@
             android:id="@+id/item_top_up_history_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/top_up_card_item_horizontal_spacing"
-            android:layout_marginEnd="@dimen/top_up_card_item_horizontal_spacing"
-            android:layout_marginTop="@dimen/top_up_info_header_vertical_spacing"
-            android:layout_marginBottom="@dimen/top_up_info_header_vertical_spacing"
+            android:layout_marginStart="@dimen/wallet_card_item_horizontal_spacing"
+            android:layout_marginEnd="@dimen/wallet_card_item_horizontal_spacing"
+            android:layout_marginTop="@dimen/wallet_info_header_vertical_spacing"
+            android:layout_marginBottom="@dimen/wallet_info_header_vertical_spacing"
             android:orientation="horizontal"
             android:weightSum="4">
             <TextView
@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textColor="@color/color_primary_text"
-                android:textSize="@dimen/top_up_large_font_size"
+                android:textSize="@dimen/wallet_large_font_size"
                 android:fontFamily="@string/font_family_light"
                 android:maxLines="1"
                 android:gravity="start"/>
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:textColor="@color/color_primary_text"
-                android:textSize="@dimen/top_up_large_font_size"
+                android:textSize="@dimen/wallet_large_font_size"
                 android:fontFamily="@string/font_family_medium"
                 android:maxLines="1"
                 android:gravity="center"/>
@@ -48,7 +48,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="@dimen/top_up_large_font_size"
+                android:textSize="@dimen/wallet_large_font_size"
                 android:fontFamily="@string/font_family_medium"
                 android:maxLines="1"
                 android:gravity="end"/>
@@ -58,10 +58,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/color_icons_text"
-            android:paddingStart="@dimen/top_up_card_item_horizontal_spacing"
-            android:paddingEnd="@dimen/top_up_card_item_horizontal_spacing"
-            android:paddingTop="@dimen/top_up_card_item_vertical_spacing"
-            android:paddingBottom="@dimen/top_up_card_item_vertical_spacing"
+            android:paddingStart="@dimen/wallet_card_item_horizontal_spacing"
+            android:paddingEnd="@dimen/wallet_card_item_horizontal_spacing"
+            android:paddingTop="@dimen/wallet_card_item_vertical_spacing"
+            android:paddingBottom="@dimen/wallet_card_item_vertical_spacing"
             android:layout_below="@+id/item_top_up_history_header"
             android:orientation="horizontal"
             android:weightSum="3">
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textColor="@color/color_primary_text"
-                android:textSize="@dimen/top_up_large_font_size"
+                android:textSize="@dimen/wallet_large_font_size"
                 android:fontFamily="@string/font_family_light"
                 android:gravity="start"
                 android:text="@string/top_up_history_item_transaction_reference"/>
@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:textColor="@color/color_primary_text"
-                android:textSize="@dimen/top_up_small_font_size"
+                android:textSize="@dimen/wallet_small_font_size"
                 android:fontFamily="@string/font_family_light"
                 android:textStyle="italic"
                 android:gravity="end" />
@@ -91,16 +91,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/color_icons_text"
-            android:paddingStart="@dimen/top_up_card_item_horizontal_spacing"
-            android:paddingEnd="@dimen/top_up_card_item_horizontal_spacing"
-            android:paddingBottom="@dimen/top_up_card_item_vertical_spacing"
+            android:paddingStart="@dimen/wallet_card_item_horizontal_spacing"
+            android:paddingEnd="@dimen/wallet_card_item_horizontal_spacing"
+            android:paddingBottom="@dimen/wallet_card_item_vertical_spacing"
             android:layout_below="@+id/item_top_up_history_ref">
             <TextView
                 android:id="@+id/item_top_up_history_proof_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_primary_text"
-                android:textSize="@dimen/top_up_large_font_size"
+                android:textSize="@dimen/wallet_large_font_size"
                 android:fontFamily="@string/font_family_light"
                 android:text="@string/top_up_history_item_payment_proof"
                 android:layout_centerVertical="true"

@@ -117,15 +117,15 @@ public class MainActivity extends AppCompatActivity{
                                 .withName(R.string.toolbar_title_learning_center).withIcon(CommunityMaterial.Icon.cmd_book_open_page_variant)
                                 .withSelectedTextColorRes(R.color.color_primary_700)
                                 .withSelectedIconColorRes(R.color.color_primary_700),
-                        new SectionDrawerItem().withName("Account"),
+                        new SectionDrawerItem().withName(R.string.toolbar_title_account_wallet),
                         new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_ACCOUNT_TOP_UP)
-                                .withName("Top Up")
+                                .withName(R.string.toolbar_title_top_up_wallet)
                                 .withIcon(CommunityMaterial.Icon.cmd_wallet)
                                 .withSelectable(false),
-//                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_ACCOUNT_WITHDRAW)
-//                                .withName("Withdraw")
-//                                .withIcon(CommunityMaterial.Icon.cmd_square_inc_cash)
-//                                .withSelectable(false),
+                        new PrimaryDrawerItem().withIdentifier(DRAWER_SELECT_ACCOUNT_WITHDRAW)
+                                .withName(R.string.toolbar_title_withdraw_wallet)
+                                .withIcon(CommunityMaterial.Icon.cmd_square_inc_cash)
+                                .withSelectable(false),
                         new SectionDrawerItem().withName(R.string.navmenu_label_preferences),
                         new ExpandableDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_CHANGE)
                                 .withName(R.string.navmenu_label_language)
@@ -172,8 +172,13 @@ public class MainActivity extends AppCompatActivity{
                                     break;
 
                                 case DRAWER_SELECT_ACCOUNT_TOP_UP:
-                                    Intent intent = new Intent(MainActivity.this, TopUpActivity.class);
-                                    startActivity(intent);
+                                    Intent topUpIntent = new Intent(MainActivity.this, TopUpActivity.class);
+                                    startActivity(topUpIntent);
+                                    break;
+
+                                case DRAWER_SELECT_ACCOUNT_WITHDRAW:
+                                    Intent withdrawIntent = new Intent(MainActivity.this, TopUpActivity.class);
+                                    startActivity(withdrawIntent);
                                     break;
 
                                 case DRAWER_SELECT_LANGUAGE_EN:

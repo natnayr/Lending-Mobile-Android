@@ -95,17 +95,17 @@ public class TopUpSubmitViewHolder {
 
         mSubmitUploadIcon.setImageDrawable(new IconicsDrawable(mContext)
                 .icon(CommunityMaterial.Icon.cmd_credit_card)
-                .sizeRes(R.dimen.top_up_info_header_icon_size)
+                .sizeRes(R.dimen.wallet_info_header_icon_size)
                 .colorRes(R.color.color_primary_text));
 
         mSubmitUploadOpenIcon.setImageDrawable(new IconicsDrawable(mContext)
                 .icon(CommunityMaterial.Icon.cmd_upload)
-                .sizeRes(R.dimen.top_up_card_icon_size)
+                .sizeRes(R.dimen.wallet_card_icon_size)
                 .colorRes(R.color.color_icons_text));
 
         mSubmitInfoIcon.setImageDrawable(new IconicsDrawable(mContext)
                 .icon(CommunityMaterial.Icon.cmd_bank)
-                .sizeRes(R.dimen.top_up_info_header_icon_size)
+                .sizeRes(R.dimen.wallet_info_header_icon_size)
                 .colorRes(R.color.color_primary_text));
 
         mSubmitUploadOpenButton.setOnClickListener(new View.OnClickListener() {
