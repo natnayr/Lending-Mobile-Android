@@ -18,9 +18,7 @@
     <string name="toolbar_title_loan_list">Investments</string>
     <string name="toolbar_title_loan_detail">Details</string>
     <string name="toolbar_title_learning_center">Learning Center</string>
-    <string name="toolbar_title_account_wallet">Account</string>
     <string name="toolbar_title_top_up_wallet">Top Up</string>
-    <string name="toolbar_title_withdraw_wallet">Withdraw</string>
     <string name="toolbar_title_apply_investor">Apply As Investor</string>
     <string name="toolbar_title_logout">Log Out</string>
 
@@ -161,6 +159,7 @@
     <string name="checkout_confirm_success_congrats_label">Congratulations</string>
     <string name="checkout_confirm_success_message_label">Your bid(s) are confirmed</string>
     <string name="checkout_confirm_continue_action_label">Continue</string>
+
 
     <string name="top_up_title_label">Top Up</string>
     <string name="top_up_tab_title_one">Top Up</string>

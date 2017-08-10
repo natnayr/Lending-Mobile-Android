@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:fitsSystemWindows="true">
 
     <include android:id="@+id/toolbar_custom_header"
@@ -30,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="@dimen/wallet_title_font_size"
+                android:textSize="@dimen/top_up_title_font_size"
                 android:textColor="@color/color_icons_text"
                 android:fontFamily="@string/font_family_medium" />
             <TextView
@@ -38,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="@dimen/wallet_large_font_size"
+                android:textSize="@dimen/top_up_large_font_size"
                 android:textColor="@color/color_icons_text"
                 android:fontFamily="@string/font_family_light" />
         </LinearLayout>

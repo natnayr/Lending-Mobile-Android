@@ -115,18 +115,18 @@
     <dimen name="checkout_confirm_action_bottom_vertical_margin">12dp</dimen>
     <dimen name="checkout_confirm_action_button_margin_start">6dp</dimen>
 
-    <dimen name="wallet_large_font_size">14sp</dimen>
-    <dimen name="wallet_small_font_size">12sp</dimen>
-    <dimen name="wallet_title_font_size">32sp</dimen>
-    <dimen name="wallet_card_icon_size">16dp</dimen>
-    <dimen name="wallet_card_vertical_padding">8dp</dimen>
-    <dimen name="wallet_card_horizontal_padding">8dp</dimen>
-    <dimen name="wallet_info_header_icon_size">24dp</dimen>
-    <dimen name="wallet_info_header_vertical_spacing">8dp</dimen>
-    <dimen name="wallet_card_item_vertical_spacing">8dp</dimen>
-    <dimen name="wallet_card_item_horizontal_spacing">16dp</dimen>
-    <dimen name="wallet_card_item_icon_size">24dp</dimen>
-    <dimen name="wallet_card_item_history_icon_size">16dp</dimen>
+    <dimen name="top_up_large_font_size">14sp</dimen>
+    <dimen name="top_up_small_font_size">12sp</dimen>
+    <dimen name="top_up_title_font_size">32sp</dimen>
+    <dimen name="top_up_card_icon_size">16dp</dimen>
+    <dimen name="top_up_card_vertical_padding">8dp</dimen>
+    <dimen name="top_up_card_horizontal_padding">8dp</dimen>
+    <dimen name="top_up_info_header_icon_size">24dp</dimen>
+    <dimen name="top_up_info_header_vertical_spacing">8dp</dimen>
+    <dimen name="top_up_card_item_vertical_spacing">8dp</dimen>
+    <dimen name="top_up_card_item_horizontal_spacing">16dp</dimen>
+    <dimen name="top_up_card_item_icon_size">24dp</dimen>
+    <dimen name="top_up_card_item_history_icon_size">16dp</dimen>
 
     <dimen name="learning_center_categories_margin">5dp</dimen>
     <dimen name="learning_center_categories_title_size">18sp</dimen>
