@@ -63,7 +63,7 @@ public class TopUpActivity extends AppCompatActivity {
     @BindString(R.string.top_up_tab_title_two) String mTopUpTabTwoTitle;
 
 
-    @BindColor(R.color.color_grey_blue_800) int mColorGreyBlue500;
+    @BindColor(R.color.color_grey_blue_800) int mColorGreyBlue800;
     @BindColor(R.color.color_icons_text) int mColorWhite;
 
     private TopUpPagerAdapter pagerAdapter;
@@ -146,7 +146,7 @@ public class TopUpActivity extends AppCompatActivity {
     }
 
     private void initView(){
-        mTopUpHeader.setBackgroundColor(mColorGreyBlue500);
+        mTopUpHeader.setBackgroundColor(mColorGreyBlue800);
         mTopUpTitleLabel.setTextColor(mColorWhite);
 
         final IconicsDrawable menuUpIcon = new IconicsDrawable(this)

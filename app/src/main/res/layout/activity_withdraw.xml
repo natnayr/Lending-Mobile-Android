@@ -46,7 +46,7 @@
     </net.cachapa.expandablelayout.ExpandableLayout>
 
     <android.support.design.widget.TabLayout
-        android:id="@+id/top_up_tablayout"
+        android:id="@+id/withdraw_tablayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/withdraw_balance_expandable"
@@ -58,9 +58,9 @@
         app:tabSelectedTextColor="@color/color_primary_text"/>
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/top_up_viewpager"
+        android:id="@+id/withdraw_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/top_up_tablayout"/>
+        android:layout_below="@+id/withdraw_tablayout"/>
 
 </RelativeLayout>

@@ -162,7 +162,7 @@
     <string name="checkout_confirm_success_message_label">Your bid(s) are confirmed</string>
     <string name="checkout_confirm_continue_action_label">Continue</string>
 
-    <string name="top_up_title_label">Top Up</string>
+    <string name="top_up_title_label">Wallet</string>
     <string name="top_up_tab_title_one">Top Up</string>
     <string name="top_up_tab_title_two">History</string>
     <string name="top_up_balance_description_start">Account Balance&#160;</string>
@@ -198,6 +198,12 @@
     <string name="top_up_history_item_status_cancelled" translatable="false">Cancelled</string>
     <string name="top_up_history_item_transaction_reference">Transaction Ref</string>
     <string name="top_up_history_item_payment_proof">Proof of Payment</string>
+
+    <string name="withdraw_title_label">Wallet</string>
+    <string name="withdraw_tab_title_one">Withdraw</string>
+    <string name="withdraw_tab_title_two">History</string>
+    <string name="withdraw_balance_description_start">Account Balance&#160;</string>
+
 
     <!-- GLOBALS -->
     <string name="auth_session_end_and_logout">Session Ended, Logging Out</string>
