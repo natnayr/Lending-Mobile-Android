@@ -115,6 +115,13 @@ public class WithdrawActivity extends AppCompatActivity{
                 mWithdrawBalanceAmountLabel.setText(amount);
                 mWithdrawBalanceDescriptionLabel.setText(mWithdrawBalanceDescriptionStartText +
                     "(" + NumericUtils.IDR + ")");
+
+                if(submitFragment != null){
+                    if(memberInfoResponse.getBankInfo() != null) {
+                        submitFragment.setMemberInfo(memberInfoResponse.getBankInfo(),
+                                memberInfoResponse.getAvailableCashBalance());
+                    }
+                }
             }
         });
     }

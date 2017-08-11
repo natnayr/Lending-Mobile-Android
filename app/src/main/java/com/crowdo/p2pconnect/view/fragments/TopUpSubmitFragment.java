@@ -128,15 +128,6 @@ public class TopUpSubmitFragment extends Fragment{
             }
         });
 
-        viewHolder.mSubmiUploadReferenceEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
-                    ((TopUpActivity) getActivity()).mTopUpBalanceExpandableLayout.collapse();
-                }
-            }
-        });
-
         if(viewHolder.pickerDialog != null) {
             this.filePickerDialog = viewHolder.pickerDialog;
         }
