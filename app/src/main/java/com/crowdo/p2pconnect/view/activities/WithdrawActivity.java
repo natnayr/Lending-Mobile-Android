@@ -3,14 +3,26 @@ package com.crowdo.p2pconnect.view.activities;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.helpers.CallBackUtil;
+import com.crowdo.p2pconnect.helpers.NumericUtils;
+import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
+import com.crowdo.p2pconnect.support.MemberInfoRetrieval;
+import com.crowdo.p2pconnect.support.NetworkConnectionChecks;
+import com.crowdo.p2pconnect.view.fragments.WithdrawHistoryFragment;
+import com.crowdo.p2pconnect.view.fragments.WithdrawSubmitFragment;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
@@ -43,14 +55,24 @@ public class WithdrawActivity extends AppCompatActivity{
     @BindView(R.id.withdraw_tablayout) TabLayout mWithdrawTabLayout;
 
     @BindString(R.string.withdraw_title_label) String mWithdrawTitleText;
-    @BindString(R.string.withdraw_balance_description_start) String mWithdrawBalanceDescriptionStartLabel;
-    @BindString(R.string.withdraw_tab_title_one) String mWithdrawTabOneTitle;
-    @BindString(R.string.withdraw_tab_title_two) String mWithdrawTabTwoTitle;
+    @BindString(R.string.withdraw_balance_description_start) String mWithdrawBalanceDescriptionStartText;
+    @BindString(R.string.withdraw_tab_title_one) String mWithdrawTabOneTitleText;
+    @BindString(R.string.withdraw_tab_title_two) String mWithdrawTabTwoTitleText;
 
     @BindColor(R.color.color_grey_blue_800) int mColorGreyBlue800;
     @BindColor(R.color.color_icons_text) int mColorWhite;
 
+    private WithdrawPagerAdapter pagerAdapter;
     private String[] PAGE_TITLES;
+    private Fragment[] PAGES;
+    private WithdrawSubmitFragment submitFragment;
+    private WithdrawHistoryFragment historyFragment;
+
+    public WithdrawActivity() {
+        submitFragment = new WithdrawSubmitFragment();
+        historyFragment = new WithdrawHistoryFragment();
+        PAGES = new Fragment[]{submitFragment, historyFragment};
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,10 +81,42 @@ public class WithdrawActivity extends AppCompatActivity{
 
         ButterKnife.bind(this);
 
-        PAGE_TITLES = new String[]{mWithdrawTabOneTitle, mWithdrawTabTwoTitle};
+        PAGE_TITLES = new String[]{mWithdrawTabOneTitleText, mWithdrawTabTwoTitleText};
 
         initView();
 
+        getMemberDetails();
+
+        mWithdrawCloseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        pagerAdapter = new WithdrawPagerAdapter(getSupportFragmentManager());
+        mWithdrawViewPager.setAdapter(pagerAdapter);
+        mWithdrawTabLayout.setupWithViewPager(mWithdrawViewPager, true);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    public void getMemberDetails(){
+        MemberInfoRetrieval memberRetrieval = new MemberInfoRetrieval();
+        memberRetrieval.retrieveInfo(this, new CallBackUtil<MemberInfoResponse>() {
+            @Override
+            public void eventCallBack(MemberInfoResponse memberInfoResponse) {
+                String amount = NumericUtils.formatCurrency(NumericUtils.IDR,
+                        ((double) memberInfoResponse.getAvailableCashBalance()), false).trim();
+                mWithdrawBalanceAmountLabel.setText(amount);
+                mWithdrawBalanceDescriptionLabel.setText(mWithdrawBalanceDescriptionStartText +
+                    "(" + NumericUtils.IDR + ")");
+            }
+        });
     }
 
     private void initView(){
@@ -88,5 +142,72 @@ public class WithdrawActivity extends AppCompatActivity{
                 .icon(CommunityMaterial.Icon.cmd_sync)
                 .colorRes(R.color.color_secondary_text)
                 .sizeRes(R.dimen.toolbar_custom_right_icon_size);
+
+        mWithdrawTitleLabel.setText(mWithdrawTitleText);
+        mWithdrawTitleExpandIcon.setImageDrawable(menuUpIcon);
+        mWithdrawCloseIcon.setImageDrawable(new IconicsDrawable(this)
+                .icon(CommunityMaterial.Icon.cmd_close)
+                .colorRes(R.color.color_icons_text)
+                .sizeRes(R.dimen.toolbar_custom_left_icon_size));
+
+        mWithdrawTitleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mWithdrawBalanceExpandableLayout.isExpanded()){
+                    mWithdrawBalanceExpandableLayout.collapse();
+                    mWithdrawTitleExpandIcon.setImageDrawable(menuDownIcon);
+                }else{
+                    mWithdrawBalanceExpandableLayout.expand();
+                    mWithdrawTitleExpandIcon.setImageDrawable(menuUpIcon);
+                }
+            }
+        });
+
+        mWithdrawRefreshIcon.setImageDrawable(syncIconEnabled);
+        mWithdrawRefreshBtn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        mWithdrawRefreshIcon.setImageDrawable(syncIconPressed);
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        mWithdrawRefreshIcon.setImageDrawable(syncIconEnabled);
+                        return true;
+                }
+                return false;
+            }
+        });
+
+    }
+
+    private class WithdrawPagerAdapter extends FragmentStatePagerAdapter{
+
+        public WithdrawPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return PAGES[position];
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return PAGE_TITLES[position];
+        }
+
+        @Override
+        public int getCount() {
+            return PAGES.length;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //check network and dun show loggout
+        NetworkConnectionChecks.isOnline(this);
     }
 }

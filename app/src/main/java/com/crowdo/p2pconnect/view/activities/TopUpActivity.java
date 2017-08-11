@@ -58,9 +58,9 @@ public class TopUpActivity extends AppCompatActivity {
     @BindView(R.id.top_up_tablayout) TabLayout mTopUpTabLayout;
 
     @BindString(R.string.top_up_title_label) String mTopUpTitleText;
-    @BindString(R.string.top_up_balance_description_start) String mTopUpBalanceDescriptionStartLabel;
-    @BindString(R.string.top_up_tab_title_one) String mTopUpTabOneTitle;
-    @BindString(R.string.top_up_tab_title_two) String mTopUpTabTwoTitle;
+    @BindString(R.string.top_up_balance_description_start) String mTopUpBalanceDescriptionStartText;
+    @BindString(R.string.top_up_tab_title_one) String mTopUpTabOneTitleText;
+    @BindString(R.string.top_up_tab_title_two) String mTopUpTabTwoTitleText;
 
 
     @BindColor(R.color.color_grey_blue_800) int mColorGreyBlue800;
@@ -90,7 +90,7 @@ public class TopUpActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        PAGE_TITLES = new String[]{mTopUpTabOneTitle, mTopUpTabTwoTitle};
+        PAGE_TITLES = new String[]{mTopUpTabOneTitleText, mTopUpTabTwoTitleText};
 
         initView();
 
@@ -122,7 +122,7 @@ public class TopUpActivity extends AppCompatActivity {
                 String amount = NumericUtils.formatCurrency(NumericUtils.IDR,
                         ((double) memberInfoResponse.getAvailableCashBalance()), false).trim();
                 mTopUpBalanceAmountLabel.setText(amount);
-                mTopUpBalanceDescriptionLabel.setText(mTopUpBalanceDescriptionStartLabel +
+                mTopUpBalanceDescriptionLabel.setText(mTopUpBalanceDescriptionStartText +
                     "(" + NumericUtils.IDR + ")");
             }
         });

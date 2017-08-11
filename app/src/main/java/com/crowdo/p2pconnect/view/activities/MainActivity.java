@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity{
                                     break;
 
                                 case DRAWER_SELECT_ACCOUNT_WITHDRAW:
-                                    Intent withdrawIntent = new Intent(MainActivity.this, TopUpActivity.class);
+                                    Intent withdrawIntent = new Intent(MainActivity.this, WithdrawActivity.class);
                                     startActivity(withdrawIntent);
                                     break;
 
