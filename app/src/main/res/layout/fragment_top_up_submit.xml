@@ -362,7 +362,8 @@
                         android:layout_below="@+id/top_up_submit_upload_reference_layout"
                         android:text="@string/top_up_submit_upload_submit_label"
                         android:clickable="true"
-                        app:backgroundTint="@color/color_primary"
+                        android:enabled="false"
+                        app:backgroundTint="@color/wallet_submit_btn_color"
                         style="@style/Widget.AppCompat.Button.Colored">
                     </Button>
                 </RelativeLayout>

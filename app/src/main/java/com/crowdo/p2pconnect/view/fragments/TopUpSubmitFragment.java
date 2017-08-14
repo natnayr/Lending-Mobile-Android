@@ -172,8 +172,10 @@ public class TopUpSubmitFragment extends Fragment{
                         //more than 2mb color red
                         viewHolder.mSubmitUploadOpenInstructionsSubTextView.setText(outputMB + "MB (file too big)");
                         viewHolder.mSubmitUploadOpenInstructionsSubTextView.setTextColor(viewHolder.mColorPrimary);
+                        viewHolder.mSubmitUploadSubloadButton.setEnabled(false);
                     }else{
                         viewHolder.mSubmitUploadOpenInstructionsSubTextView.setText(outputMB + "MB");
+                        viewHolder.mSubmitUploadSubloadButton.setEnabled(true);
                     }
                 }
             }
@@ -214,7 +216,7 @@ public class TopUpSubmitFragment extends Fragment{
                 waitForUpload = new MaterialDialog.Builder(getActivity())
                         .content(R.string.wait_message)
                         .progress(true, 0)
-                        .autoDismiss(false)
+                        .cancelable(false)
                         .show();
 
                 final String fileUploadType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileUploadExtension);

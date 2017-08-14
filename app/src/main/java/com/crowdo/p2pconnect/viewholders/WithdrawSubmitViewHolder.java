@@ -2,6 +2,7 @@ package com.crowdo.p2pconnect.viewholders;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,7 +21,7 @@ import butterknife.ButterKnife;
  */
 
 public class WithdrawSubmitViewHolder {
-    @BindView(R.id.withdraw_submit_amount_edittext) public EditText mSubmitAmountEditText;
+    @BindView(R.id.withdraw_submit_transfer_amount_edittext) public EditText mSubmitTransferAmountEditText;
     @BindView(R.id.withdraw_submit_account_holder_icon) ImageView mSubmitAccountHolderIcon;
     @BindView(R.id.withdraw_submit_account_holder_label) TextView mSubmitAccountHolderLabel;
     @BindView(R.id.withdraw_submit_account_number_value) TextView mSubmitAccountNumberValue;
@@ -29,6 +30,7 @@ public class WithdrawSubmitViewHolder {
     @BindView(R.id.withdraw_submit_account_bank_address_value) TextView mSubmitAccountBankAddressValue;
     @BindView(R.id.withdraw_submit_account_location_value) TextView mSubmitAccountLocationValue;
 
+    @BindView(R.id.withdraw_submit_transfer_submit_button) public Button mSubmitTransferSubmitButton;
     @BindString(R.string.withdraw_submit_account_holder_account_holder) String mSubmitAccountHolderStartText;
 
     private Context mContext;
@@ -46,7 +48,6 @@ public class WithdrawSubmitViewHolder {
     }
 
     public void populateView(final BankInfo bankInfo){
-
         if(bankInfo.accountHolder != null) {
             mSubmitAccountHolderLabel.setText(mSubmitAccountHolderStartText + bankInfo.accountHolder);
         }

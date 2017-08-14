@@ -202,6 +202,7 @@
 
     <string name="withdraw_submit_enter_amount_hint">Enter Withdrawal Amount (in Millions)</string>
     <string name="withdraw_submit_enter_amount_warning_above_amount">Amount needs to be lower than your balance of %s</string>
+    <string name="withdraw_submit_enter_amount_warning_empty_entry">Please key in your transfer amount</string>
     <string name="withdraw_submit_notice_statement">We will transfer to the following account.</string>
     <string name="withdraw_submit_account_holder_account_holder">Account Holder:&#160;&#160;</string>
     <string name="withdraw_submit_account_holder_account_number">Account Number</string>
@@ -209,6 +210,7 @@
     <string name="withdraw_submit_account_holder_account_type">Account Type</string>
     <string name="withdraw_submit_account_holder_account_bank_address">Branch Address</string>
     <string name="withdraw_submit_account_holder_account_location">Country</string>
+
 
     <!-- GLOBALS -->
     <string name="server_connection_poor">Server Connection is Unavailable</string>

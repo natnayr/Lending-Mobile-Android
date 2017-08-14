@@ -25,7 +25,7 @@
             android:layout_marginStart="@dimen/wallet_card_item_horizontal_spacing"
             android:layout_marginEnd="@dimen/wallet_card_item_horizontal_spacing">
             <EditText
-                android:id="@+id/withdraw_submit_amount_edittext"
+                android:id="@+id/withdraw_submit_transfer_amount_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/wallet_large_font_size"
@@ -201,13 +201,15 @@
             </RelativeLayout>
         </android.support.v7.widget.CardView>
         <Button
+            android:id="@+id/withdraw_submit_transfer_submit_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/wallet_card_item_vertical_spacing"
             android:layout_marginBottom="@dimen/wallet_card_item_vertical_spacing"
             android:text="@string/top_up_submit_upload_submit_label"
             android:clickable="true"
-            app:backgroundTint="@color/color_primary"
+            android:enabled="false"
+            app:backgroundTint="@color/wallet_submit_btn_color"
             style="@style/Widget.AppCompat.Button.Colored"/>
     </LinearLayout>
 </ScrollView>

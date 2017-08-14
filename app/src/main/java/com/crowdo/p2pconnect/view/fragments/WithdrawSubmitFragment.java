@@ -15,7 +15,6 @@ import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.NumericUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
-import com.crowdo.p2pconnect.model.others.BankInfo;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.support.MemberInfoRetrieval;
 import com.crowdo.p2pconnect.viewholders.WithdrawSubmitViewHolder;
@@ -31,9 +30,9 @@ public class WithdrawSubmitFragment extends Fragment {
 
     private WithdrawSubmitViewHolder viewHolder;
     private long avalibleCashBalance;
-    private BankInfo bankInfo;
 
     @BindString(R.string.withdraw_submit_enter_amount_warning_above_amount) String mAmountTooHighWarning;
+    @BindString(R.string.withdraw_submit_enter_amount_warning_empty_entry) String mAmountEmptyStatement;
 
     private static final String LOG_TAG = WithdrawSubmitFragment.class.getSimpleName();
 
@@ -52,8 +51,8 @@ public class WithdrawSubmitFragment extends Fragment {
 
         getMemberDetails();
 
-        SoftInputHelper.setupUI(rootView, getActivity(), new EditText[]{viewHolder.mSubmitAmountEditText});
-        viewHolder.mSubmitAmountEditText.setOnKeyListener(new View.OnKeyListener() {
+        SoftInputHelper.setupUI(rootView, getActivity(), new EditText[]{viewHolder.mSubmitTransferAmountEditText});
+        viewHolder.mSubmitTransferAmountEditText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int key, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -70,12 +69,28 @@ public class WithdrawSubmitFragment extends Fragment {
             }
         });
 
-        viewHolder.mSubmitAmountEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        viewHolder.mSubmitTransferAmountEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
                     formatAndCheckEntry();
                 }
+            }
+        });
+
+        viewHolder.mSubmitTransferSubmitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //user transfer ammount
+                String amountStrInput = viewHolder.mSubmitTransferAmountEditText
+                        .getText().toString().trim().replaceAll("[^\\d.]", "");
+                if("".equals(amountStrInput)){
+                    SnackBarUtil.snackBarForInfoCreate(getView(), mAmountEmptyStatement,
+                            Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+
+                transferAmount(Long.parseLong(amountStrInput));
             }
         });
 
@@ -99,7 +114,7 @@ public class WithdrawSubmitFragment extends Fragment {
 
     private void formatAndCheckEntry(){
         if(viewHolder != null) {
-            String amountInput = viewHolder.mSubmitAmountEditText
+            String amountInput = viewHolder.mSubmitTransferAmountEditText
                     .getText().toString().trim().replaceAll("[^\\d.]", "");
 
             if(!"".equals(amountInput)) {
@@ -110,12 +125,23 @@ public class WithdrawSubmitFragment extends Fragment {
                     String statement = String.format(mAmountTooHighWarning, NumericUtils.IDR+" "+cashBalanceFigure);
 
                     SnackBarUtil.snackBarForWarningCreate(getView(),statement, Snackbar.LENGTH_SHORT).show();
-                    viewHolder.mSubmitAmountEditText.setText(cashBalanceFigure);
+                    viewHolder.mSubmitTransferAmountEditText.setText(cashBalanceFigure);
                 }else{
                     String amountFigure = NumericUtils.formatCurrency(NumericUtils.IDR, amount, false);
-                    viewHolder.mSubmitAmountEditText.setText(amountFigure);
+                    viewHolder.mSubmitTransferAmountEditText.setText(amountFigure);
                 }
+                viewHolder.mSubmitTransferSubmitButton.setEnabled(true);
+            }else{
+                SnackBarUtil.snackBarForInfoCreate(getView(), mAmountEmptyStatement,
+                        Snackbar.LENGTH_SHORT).show();
+
+                viewHolder.mSubmitTransferSubmitButton.setEnabled(false);
             }
         }
+    }
+
+    public void transferAmount(long amount){
+        //amount is confirmed here
+
     }
 }
