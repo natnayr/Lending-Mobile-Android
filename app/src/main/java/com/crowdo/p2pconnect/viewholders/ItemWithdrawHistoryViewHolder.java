@@ -58,6 +58,7 @@ public class ItemWithdrawHistoryViewHolder extends RecyclerView.ViewHolder {
         if(walletEntryItem.getCreatedAt() != null){
             String dateTime = DateUtils.dateTimeFormatter("dd MMM yyyy", walletEntryItem.getCreatedAt());
             mHistoryItemAmount.setText(dateTime);
+            Log.d(LOG_TAG, "APP dateTime: "  + dateTime);
         }else{
             String dateText = DateUtils.dateTimeFormatter("dd MMM yyyy",
                     DateTime.now().toString(DateUtils.SQL_DATE_TIME_PATTERN));
