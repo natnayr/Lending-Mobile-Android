@@ -8,52 +8,48 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.crowdo.p2pconnect.R;
-import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.model.others.WalletEntry;
-import com.crowdo.p2pconnect.viewholders.ItemTopUpHistoryViewHolder;
+import com.crowdo.p2pconnect.viewholders.ItemWithdrawHistoryViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by cwdsg05 on 2/8/17.
+ * Created by cwdsg05 on 14/8/17.
  */
 
-public class TopUpHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class WithdrawHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final String LOG_TAG = TopUpHistoryAdapter.class.getSimpleName();
+    private static final String LOG_TAG = WithdrawHistoryAdapter.class.getSimpleName();
     private List<WalletEntry> walletEntryHistoryList;
     private Context mContext;
-    private CallBackUtil<String> callBackDownloadProof;
 
-    public TopUpHistoryAdapter(Context context, CallBackUtil<String> callback) {
+    public WithdrawHistoryAdapter(Context context) {
         this.walletEntryHistoryList = new ArrayList<>();
         this.mContext = context;
-        this.callBackDownloadProof = callback;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext())
-            .inflate(R.layout.item_top_up_history, parent, false);
-        ItemTopUpHistoryViewHolder viewHolder =
-                new ItemTopUpHistoryViewHolder(view, this.mContext);
+                .inflate(R.layout.item_withdraw_history, parent, false);
+        ItemWithdrawHistoryViewHolder viewHolder =
+                new ItemWithdrawHistoryViewHolder(view, this.mContext);
 
-        viewHolder.initView();
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(holder instanceof ItemTopUpHistoryViewHolder){
-            final ItemTopUpHistoryViewHolder itemHolder = (ItemTopUpHistoryViewHolder) holder;
+        if(holder instanceof ItemWithdrawHistoryViewHolder){
+            final ItemWithdrawHistoryViewHolder itemHolder = (ItemWithdrawHistoryViewHolder) holder;
 
             //inverse list, latest on top
             final WalletEntry walletEntryItem = walletEntryHistoryList.get(walletEntryHistoryList.size() - 1 - position);
 
-            itemHolder.populateItemDetails(walletEntryItem, callBackDownloadProof);
+            itemHolder.populateItemDetails(walletEntryItem);
         }
+
     }
 
     @Override
@@ -61,9 +57,8 @@ public class TopUpHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return this.walletEntryHistoryList.size();
     }
 
-
     public void setWalletEntryHistoryList(@Nullable List<WalletEntry> returnedList){
-        if(returnedList == null){
+        if(returnedList == null) {
             return;
         }
 

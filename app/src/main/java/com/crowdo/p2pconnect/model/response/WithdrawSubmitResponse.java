@@ -4,25 +4,21 @@ import com.crowdo.p2pconnect.model.others.Server;
 import com.crowdo.p2pconnect.model.others.WalletEntry;
 import com.squareup.moshi.Json;
 
-import java.util.List;
-
 /**
- * Created by cwdsg05 on 31/7/17.
+ * Created by cwdsg05 on 14/8/17.
  */
 
-public class TopUpHistoryResponse {
-
+public class WithdrawSubmitResponse {
     @Json(name = "server")
     private Server server;
-    @Json(name = "top_ups")
-    private List<WalletEntry> walletEntries = null;
+    @Json(name = "withdraw")
+    private WalletEntry walletEntry;
 
     public Server getServer() {
         return server;
     }
 
-    public List<WalletEntry> getWalletEntries() {
-        return walletEntries;
+    public WalletEntry getWalletEntry() {
+        return walletEntry;
     }
-
 }

@@ -58,7 +58,6 @@ public class TopUpSubmitViewHolder {
     @BindString(R.string.top_up_submit_upload_details) String mSubmitInfoButtonInstructionsLabel;
     @BindString(R.string.top_up_submit_upload_added_info) String mSubmitInfoButtonAddedInstructionsLabel;
     @BindString(R.string.top_up_submit_bank_details_indicate) String mSubmitInfoIndicateLabel;
-    @BindString(R.string.top_up_submit_upload_success_complete) public String mSubmitUploadSuccessLabel;
     @BindString(R.string.cancel_label) String mSubmitCancelLabel;
     @BindString(R.string.top_up_submit_upload_dialog_title) String mSubmitTitleLabel;
     @BindString(R.string.top_up_submit_upload_dialog_positive) String mSubmitPositiveLabel;

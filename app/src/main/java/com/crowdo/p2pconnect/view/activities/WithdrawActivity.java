@@ -105,7 +105,7 @@ public class WithdrawActivity extends AppCompatActivity{
         finish();
     }
 
-    private void getMemberDetails(){
+    public void getMemberDetails(){
         MemberInfoRetrieval memberRetrieval = new MemberInfoRetrieval();
         memberRetrieval.retrieveInfo(this, new CallBackUtil<MemberInfoResponse>() {
             @Override
@@ -170,6 +170,8 @@ public class WithdrawActivity extends AppCompatActivity{
                 switch (event.getAction()){
                     case MotionEvent.ACTION_DOWN:
                         mWithdrawRefreshIcon.setImageDrawable(syncIconPressed);
+                        getMemberDetails();
+                        refreshAllFragments();
                         return true;
                     case MotionEvent.ACTION_UP:
                         mWithdrawRefreshIcon.setImageDrawable(syncIconEnabled);
@@ -179,6 +181,13 @@ public class WithdrawActivity extends AppCompatActivity{
             }
         });
 
+    }
+
+    public void refreshAllFragments(){
+        if(submitFragment != null && historyFragment != null) {
+            submitFragment.refreshFragment();
+            historyFragment.refreshFragment();
+        }
     }
 
     private class WithdrawPagerAdapter extends FragmentStatePagerAdapter{

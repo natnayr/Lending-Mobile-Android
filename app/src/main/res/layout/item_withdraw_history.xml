@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
-            android:id="@+id/item_top_up_history_header"
+            android:id="@+id/item_withdraw_history_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/wallet_card_item_horizontal_spacing"
@@ -25,7 +25,7 @@
             android:layout_alignParentTop="true"
             android:weightSum="4">
             <TextView
-                android:id="@+id/item_top_up_history_date"
+                android:id="@+id/item_withdraw_history_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -35,7 +35,7 @@
                 android:maxLines="1"
                 android:gravity="start"/>
             <TextView
-                android:id="@+id/item_top_up_history_amount"
+                android:id="@+id/item_withdraw_history_amount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -45,7 +45,7 @@
                 android:maxLines="1"
                 android:gravity="center"/>
             <TextView
-                android:id="@+id/item_top_up_history_status"
+                android:id="@+id/item_withdraw_history_status"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -63,7 +63,7 @@
             android:paddingEnd="@dimen/wallet_card_item_horizontal_spacing"
             android:paddingTop="@dimen/wallet_card_item_vertical_spacing"
             android:paddingBottom="@dimen/wallet_card_item_vertical_spacing"
-            android:layout_below="@+id/item_top_up_history_header"
+            android:layout_below="@+id/item_withdraw_history_header"
             android:orientation="horizontal"
             android:weightSum="3">
             <TextView
@@ -74,7 +74,7 @@
                 android:textSize="@dimen/wallet_large_font_size"
                 android:fontFamily="@string/font_family_light"
                 android:gravity="start"
-                android:text="@string/top_up_history_item_transaction_reference"/>
+                android:text="@string/withdraw_history_item_transaction_reference"/>
             <TextView
                 android:id="@+id/item_withdraw_history_ref_value"
                 android:layout_width="0dp"
@@ -86,33 +86,38 @@
                 android:textStyle="italic"
                 android:gravity="end" />
         </LinearLayout>
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/item_withdraw_fee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/color_icons_text"
             android:paddingStart="@dimen/wallet_card_item_horizontal_spacing"
             android:paddingEnd="@dimen/wallet_card_item_horizontal_spacing"
+            android:paddingTop="@dimen/wallet_card_item_vertical_spacing"
             android:paddingBottom="@dimen/wallet_card_item_vertical_spacing"
-            android:layout_below="@+id/item_withdraw_history_ref">
+            android:layout_below="@+id/item_withdraw_history_ref"
+            android:orientation="horizontal"
+            android:weightSum="3">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:textColor="@color/color_primary_text"
                 android:textSize="@dimen/wallet_large_font_size"
                 android:fontFamily="@string/font_family_light"
-                android:text="@string/top_up_history_item_payment_proof"
-                android:layout_centerVertical="true"
-                android:layout_alignParentStart="true"/>
-            <ImageButton
-                android:id="@+id/item_top_up_history_proof_button"
-                android:layout_width="wrap_content"
+                android:gravity="start"
+                android:text="@string/withdraw_history_item_fees"/>
+            <TextView
+                android:id="@+id/item_withdraw_history_fee_value"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:padding="5dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:background="@null"/>
-        </RelativeLayout>
+                android:layout_weight="2"
+                android:textColor="@color/color_primary_text"
+                android:textSize="@dimen/wallet_large_font_size"
+                android:fontFamily="@string/font_family_medium"
+                android:gravity="end" />
+        </LinearLayout>
+
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

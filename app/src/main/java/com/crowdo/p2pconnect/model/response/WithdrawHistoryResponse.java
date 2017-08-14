@@ -7,14 +7,14 @@ import com.squareup.moshi.Json;
 import java.util.List;
 
 /**
- * Created by cwdsg05 on 31/7/17.
+ * Created by cwdsg05 on 14/8/17.
  */
 
-public class TopUpHistoryResponse {
+public class WithdrawHistoryResponse {
 
     @Json(name = "server")
     private Server server;
-    @Json(name = "top_ups")
+    @Json(name = "withdrawals")
     private List<WalletEntry> walletEntries = null;
 
     public Server getServer() {
@@ -24,5 +24,4 @@ public class TopUpHistoryResponse {
     public List<WalletEntry> getWalletEntries() {
         return walletEntries;
     }
-
 }

@@ -61,12 +61,13 @@ public class TopUpSubmitFragment extends Fragment{
 
     @BindString(R.string.top_up_invalid_investor_label) String mInvestorInvalidLabel;
     @BindString(R.string.top_up_invalid_investor_button_label) String mInvestorInvalidButtonLabel;
+    @BindString(R.string.top_up_submit_upload_success_complete) String mSubmitUploadSuccessLabel;
 
     private TopUpSubmitViewHolder viewHolder;
     private File chosenFile;
     private long chosenFileSizeKB;
-    private Disposable postTopUpInitDisposable;
-    private Disposable putTopUpUploadDisposable;
+    private Disposable disposablePostRequestTopUpInit;
+    private Disposable disposablePutRequestTopUpUpload;
     private MaterialDialog waitForUpload;
     public FilePickerDialog filePickerDialog;
 
@@ -224,13 +225,13 @@ public class TopUpSubmitFragment extends Fragment{
 
                 final WalletClient walletClient = WalletClient.getInstance(getActivity());
 
-                walletClient.postTopUpInit(refereceText, ConstantVariables.getUniqueAndroidID(getActivity()))
+                walletClient.postRequestTopUpInit(refereceText, ConstantVariables.getUniqueAndroidID(getActivity()))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Observer<Response<TopUpSubmitResponse>>() {
                             @Override
                             public void onSubscribe(Disposable d) {
-                                postTopUpInitDisposable = d;
+                                disposablePostRequestTopUpInit = d;
                             }
 
                             @Override
@@ -238,7 +239,7 @@ public class TopUpSubmitFragment extends Fragment{
                                 if(response.isSuccessful()){
                                     final TopUpSubmitResponse topUpSubmitResponse = response.body();
 
-                                    uploadFileToServer(chosenFile, fileUploadType, topUpSubmitResponse.getTopUp().getId());
+                                    uploadFileToServer(chosenFile, fileUploadType, topUpSubmitResponse.getWalletEntry().getId());
 
                                 }else{
                                     waitForUpload.dismiss();
@@ -274,7 +275,7 @@ public class TopUpSubmitFragment extends Fragment{
 
                             @Override
                             public void onComplete() {
-                                Log.d(LOG_TAG, "APP postTopUpInit onComplete");
+                                Log.d(LOG_TAG, "APP postRequestTopUpInit onComplete");
                             }
                         });
 
@@ -291,14 +292,14 @@ public class TopUpSubmitFragment extends Fragment{
 
         final WalletClient walletClient = WalletClient.getInstance(getActivity());
 
-        walletClient.putTopUpUpload(fileUpload, mediaType, topUpId,
+        walletClient.putRequestTopUpUpload(fileUpload, mediaType, topUpId,
                 ConstantVariables.getUniqueAndroidID(getActivity()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<TopUpSubmitResponse>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-                        putTopUpUploadDisposable = d;
+                        disposablePutRequestTopUpUpload = d;
                     }
 
                     @Override
@@ -309,10 +310,10 @@ public class TopUpSubmitFragment extends Fragment{
 
                             Spanned topUpStatement;
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                topUpStatement = Html.fromHtml(viewHolder.mSubmitUploadSuccessLabel,
+                                topUpStatement = Html.fromHtml(mSubmitUploadSuccessLabel,
                                         Html.FROM_HTML_MODE_LEGACY);
                             } else {
-                                topUpStatement = Html.fromHtml(viewHolder.mSubmitUploadSuccessLabel);
+                                topUpStatement = Html.fromHtml(mSubmitUploadSuccessLabel);
                             }
 
                             Snacky.builder().setView(getView())
@@ -338,7 +339,8 @@ public class TopUpSubmitFragment extends Fragment{
 
                     @Override
                     public void onError(Throwable e) {
-                        e.getMessage();
+                        e.printStackTrace();
+                        if(waitForUpload.isShowing()) waitForUpload.dismiss();
                         Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
                     }
 
@@ -361,14 +363,14 @@ public class TopUpSubmitFragment extends Fragment{
 
     @Override
     public void onPause() {
-        if(postTopUpInitDisposable != null){
-            if(!postTopUpInitDisposable.isDisposed()) {
-                postTopUpInitDisposable.dispose();
+        if(disposablePostRequestTopUpInit != null){
+            if(!disposablePostRequestTopUpInit.isDisposed()) {
+                disposablePostRequestTopUpInit.dispose();
             }
         }
-        if(putTopUpUploadDisposable != null){
-            if(!putTopUpUploadDisposable.isDisposed()){
-                putTopUpUploadDisposable.dispose();
+        if(disposablePutRequestTopUpUpload != null){
+            if(!disposablePutRequestTopUpUpload.isDisposed()){
+                disposablePutRequestTopUpUpload.dispose();
             }
         }
         super.onPause();

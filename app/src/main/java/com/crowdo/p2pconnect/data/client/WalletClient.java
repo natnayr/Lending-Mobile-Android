@@ -1,7 +1,6 @@
 package com.crowdo.p2pconnect.data.client;
 
 import android.content.Context;
-import android.webkit.MimeTypeMap;
 
 import com.andretietz.retroauth.AndroidAuthenticationHandler;
 import com.andretietz.retroauth.AndroidTokenType;
@@ -11,22 +10,23 @@ import com.crowdo.p2pconnect.data.ReceivingCookiesInterceptor;
 import com.crowdo.p2pconnect.data.SendingCookiesInterceptor;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.model.request.TopUpSubmitRequest;
+import com.crowdo.p2pconnect.model.request.WithdrawSubmitRequest;
 import com.crowdo.p2pconnect.model.response.TopUpHistoryResponse;
 import com.crowdo.p2pconnect.model.response.TopUpSubmitResponse;
+import com.crowdo.p2pconnect.model.response.WithdrawHistoryResponse;
+import com.crowdo.p2pconnect.model.response.WithdrawSubmitResponse;
 import com.crowdo.p2pconnect.oauth.AuthProvider;
 import com.serjltt.moshi.adapters.FallbackOnNull;
 import com.serjltt.moshi.adapters.SerializeNulls;
 import com.squareup.moshi.Moshi;
 
 import java.io.File;
-import java.sql.Time;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Response;
@@ -88,27 +88,35 @@ public class WalletClient implements ClientInterface{
         return instance;
     }
 
-    public Observable<Response<TopUpSubmitResponse>> postTopUpInit(String transactionReference,
-                                                                   String deviceId){
-        return apiServices.postTopUpInit(new TopUpSubmitRequest(transactionReference, deviceId,
+    public Observable<Response<TopUpSubmitResponse>> postRequestTopUpInit(String transactionReference,
+                                                                          String deviceId){
+        return apiServices.postRequestTopUpInit(new TopUpSubmitRequest(transactionReference, deviceId,
                 ConstantVariables.API_SITE_CONFIG_ID, ConstantVariables.CURRENCY_IDR));
     }
 
-    public Observable<Response<TopUpSubmitResponse>> putTopUpUpload(File fileUpload, String mediaType,
-                                                                    long topUpId, String deviceId){
-
+    public Observable<Response<TopUpSubmitResponse>> putRequestTopUpUpload(File fileUpload, String mediaType,
+                                                                           long topUpId, String deviceId){
         RequestBody fileBody = RequestBody.create(MediaType.parse(mediaType), fileUpload);
         MultipartBody.Part filePartBody = MultipartBody.Part
                 .createFormData("top_up[transaction_proof]",
                         fileUpload.getName(),
                         fileBody);
 
-        return apiServices.putTopUpUpload(topUpId, deviceId, filePartBody);
+        return apiServices.putRequestTopUpUpload(topUpId, deviceId, filePartBody);
     }
-
 
     public Observable<Response<TopUpHistoryResponse>> getTopUpHistory(String deviceId){
         return apiServices.getTopUpHistory(deviceId, ConstantVariables.API_SITE_CONFIG_ID,
+                ConstantVariables.CURRENCY_IDR);
+    }
+
+    public Observable<Response<WithdrawSubmitResponse>> postRequestWithdraw(String amount, String deviceId){
+        return apiServices.postRequestWithdraw(new WithdrawSubmitRequest(amount, deviceId,
+                ConstantVariables.API_SITE_CONFIG_ID, ConstantVariables.CURRENCY_IDR));
+    }
+
+    public Observable<Response<WithdrawHistoryResponse>> getWithdrawHistory(String deviceId){
+        return apiServices.getWithdrawHistory(deviceId, ConstantVariables.API_SITE_CONFIG_ID,
                 ConstantVariables.CURRENCY_IDR);
     }
 

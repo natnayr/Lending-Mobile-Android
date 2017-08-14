@@ -8,6 +8,7 @@ import com.crowdo.p2pconnect.model.request.NewBidRequest;
 import com.crowdo.p2pconnect.model.request.LoginRequest;
 import com.crowdo.p2pconnect.model.request.RegisterRequest;
 import com.crowdo.p2pconnect.model.request.TopUpSubmitRequest;
+import com.crowdo.p2pconnect.model.request.WithdrawSubmitRequest;
 import com.crowdo.p2pconnect.model.response.BidOnlyResponse;
 import com.crowdo.p2pconnect.model.response.AuthResponse;
 import com.crowdo.p2pconnect.model.response.CheckBidResponse;
@@ -20,6 +21,8 @@ import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
 import com.crowdo.p2pconnect.model.response.TopUpHistoryResponse;
 import com.crowdo.p2pconnect.model.response.TopUpSubmitResponse;
+import com.crowdo.p2pconnect.model.response.WithdrawHistoryResponse;
+import com.crowdo.p2pconnect.model.response.WithdrawSubmitResponse;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
@@ -106,17 +109,28 @@ public interface APIServices {
     @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @POST("invest/wallet/request_top_up")
     @Headers({"Content-type: application/json"})
-    Observable<Response<TopUpSubmitResponse>> postTopUpInit(@Body TopUpSubmitRequest data);
+    Observable<Response<TopUpSubmitResponse>> postRequestTopUpInit(@Body TopUpSubmitRequest data);
 
     @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @Multipart
     @PUT("invest/wallet/upload_top_up_proof")
-    Observable<Response<TopUpSubmitResponse>> putTopUpUpload(@Query("top_up_id") long topUpId, @Query("device_id") String deviceId, @Part MultipartBody.Part filePartBody);
+    Observable<Response<TopUpSubmitResponse>> putRequestTopUpUpload(@Query("top_up_id") long topUpId, @Query("device_id") String deviceId, @Part MultipartBody.Part filePartBody);
 
     @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @GET("invest/wallet/top_up_history")
     @Headers({"Content-type: application/json"})
     Observable<Response<TopUpHistoryResponse>> getTopUpHistory(@Query("device_id") String deviceId, @Query("site_config") String siteConfig, @Query("currency") String currency);
+
+    @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
+    @POST("invest/wallet/request_withdraw")
+    @Headers({"Content-type: application/json"})
+    Observable<Response<WithdrawSubmitResponse>> postRequestWithdraw(@Body WithdrawSubmitRequest data);
+
+    @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
+    @GET("invest/wallet/withdrawal_history")
+    @Headers({"Content-type: application/json"})
+    Observable<Response<WithdrawHistoryResponse>> getWithdrawHistory(@Query("device_id") String deviceId, @Query("site_config") String siteConfig, @Query("currency") String currency);
+
 
     @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @GET("definitions/bank_info/{region}")

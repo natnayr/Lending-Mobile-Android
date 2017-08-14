@@ -7,7 +7,7 @@ import com.squareup.moshi.Json;
  * Created by cwdsg05 on 31/7/17.
  */
 
-public class TopUp {
+public class WalletEntry {
 
     @Json(name = "id")
     private long id;
@@ -18,6 +18,10 @@ public class TopUp {
     @Json(name = "amount")
     @FallbackOnNull(fallbackLong = -1)
     private long amount;
+
+    @Json(name = "fee_amount")
+    @FallbackOnNull(fallbackLong = -1)
+    private long feeAmount;
 
     @Json(name = "origin")
     private String origin;
@@ -50,6 +54,10 @@ public class TopUp {
 
     public long getAmount() {
         return amount;
+    }
+
+    public long getFeeAmount() {
+        return feeAmount;
     }
 
     public String getOrigin() {

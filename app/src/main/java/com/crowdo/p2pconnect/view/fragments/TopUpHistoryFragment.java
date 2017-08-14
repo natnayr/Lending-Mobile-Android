@@ -120,7 +120,7 @@ public class TopUpHistoryFragment extends Fragment {
                             TopUpHistoryResponse topUpHistoryResponse = response.body();
 
                             TopUpHistoryFragment.this.mTopUpHistoryAdapter
-                                    .setTopUpHistoryList(topUpHistoryResponse.getTopUps());
+                                    .setWalletEntryHistoryList(topUpHistoryResponse.getWalletEntries());
                         }else {
                             Log.d(LOG_TAG, "APP getTopUpHistory onNext() status > " + response.code());
                             if(HTTPResponseUtils.check4xxClientError(response.code())){
@@ -151,7 +151,7 @@ public class TopUpHistoryFragment extends Fragment {
 
                     @Override
                     public void onComplete() {
-                        Log.d(LOG_TAG, "APP populateTopUpHistory onComplete()");
+                        Log.d(LOG_TAG, "APP getTopUpHistory onComplete()");
                     }
                 });
     }
@@ -255,12 +255,14 @@ public class TopUpHistoryFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
+    public void onPause() {
         if(disposableGetTopUpHistory != null){
             if(!disposableGetTopUpHistory.isDisposed()){
                 disposableGetTopUpHistory.dispose();
             }
         }
-        super.onDestroy();
+        super.onPause();
     }
+
+
 }

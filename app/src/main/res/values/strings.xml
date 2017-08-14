@@ -199,10 +199,12 @@
     <string name="withdraw_tab_title_one">Withdraw</string>
     <string name="withdraw_tab_title_two">History</string>
     <string name="withdraw_balance_description_start">Account Balance&#160;</string>
+    <string name="withdraw_invalid_investor_label">To withdraw, you need to be a qualified investor.</string>
+    <string name="withdraw_invalid_investor_button_label">APPLY</string>
 
     <string name="withdraw_submit_enter_amount_hint">Enter Withdrawal Amount (in Millions)</string>
     <string name="withdraw_submit_enter_amount_warning_above_amount">Amount needs to be lower than your balance of %s</string>
-    <string name="withdraw_submit_enter_amount_warning_empty_entry">Please key in your transfer amount</string>
+    <string name="withdraw_submit_enter_amount_warning_empty_entry">Please key an amount to transfer</string>
     <string name="withdraw_submit_notice_statement">We will transfer to the following account.</string>
     <string name="withdraw_submit_account_holder_account_holder">Account Holder:&#160;&#160;</string>
     <string name="withdraw_submit_account_holder_account_number">Account Number</string>
@@ -210,7 +212,14 @@
     <string name="withdraw_submit_account_holder_account_type">Account Type</string>
     <string name="withdraw_submit_account_holder_account_bank_address">Branch Address</string>
     <string name="withdraw_submit_account_holder_account_location">Country</string>
+    <string name="withdraw_submit_complete">Thank you, your Withdrawal has been submitted, please check &lt;b>History&lt;/b> for updates</string>
 
+    <string name="withdraw_history_item_unconfirmed">TBC</string>
+    <string name="withdraw_history_item_status_success" translatable="false">Success</string>
+    <string name="withdraw_history_item_status_pending" translatable="false">Pending</string>
+    <string name="withdraw_history_item_status_cancelled" translatable="false">Cancelled</string>
+    <string name="withdraw_history_item_transaction_reference">Transaction Ref</string>
+    <string name="withdraw_history_item_fees">Fees</string>
 
     <!-- GLOBALS -->
     <string name="server_connection_poor">Server Connection is Unavailable</string>

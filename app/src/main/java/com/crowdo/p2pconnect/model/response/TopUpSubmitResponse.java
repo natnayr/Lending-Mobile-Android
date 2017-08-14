@@ -1,7 +1,7 @@
 package com.crowdo.p2pconnect.model.response;
 
 import com.crowdo.p2pconnect.model.others.Server;
-import com.crowdo.p2pconnect.model.others.TopUp;
+import com.crowdo.p2pconnect.model.others.WalletEntry;
 import com.squareup.moshi.Json;
 
 
@@ -13,13 +13,13 @@ public class TopUpSubmitResponse {
     @Json(name = "server")
     private Server server;
     @Json(name = "top_up")
-    private TopUp topUp;
+    private WalletEntry walletEntry;
 
     public Server getServer() {
         return server;
     }
 
-    public TopUp getTopUp() {
-        return topUp;
+    public WalletEntry getWalletEntry() {
+        return walletEntry;
     }
 }
