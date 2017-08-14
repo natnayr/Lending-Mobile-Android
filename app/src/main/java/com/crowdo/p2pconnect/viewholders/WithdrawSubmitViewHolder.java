@@ -29,7 +29,6 @@ public class WithdrawSubmitViewHolder {
     @BindView(R.id.withdraw_submit_account_bank_address_value) TextView mSubmitAccountBankAddressValue;
     @BindView(R.id.withdraw_submit_account_location_value) TextView mSubmitAccountLocationValue;
 
-
     @BindString(R.string.withdraw_submit_account_holder_account_holder) String mSubmitAccountHolderStartText;
 
     private Context mContext;

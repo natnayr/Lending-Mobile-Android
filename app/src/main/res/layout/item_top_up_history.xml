@@ -66,7 +66,6 @@
             android:orientation="horizontal"
             android:weightSum="3">
             <TextView
-                android:id="@+id/item_top_up_history_ref_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -87,7 +86,6 @@
                 android:gravity="end" />
         </LinearLayout>
         <RelativeLayout
-            android:id="@+id/item_top_up_history_proof"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/color_icons_text"
@@ -96,7 +94,6 @@
             android:paddingBottom="@dimen/wallet_card_item_vertical_spacing"
             android:layout_below="@+id/item_top_up_history_ref">
             <TextView
-                android:id="@+id/item_top_up_history_proof_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_primary_text"

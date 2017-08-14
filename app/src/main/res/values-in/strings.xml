@@ -98,12 +98,8 @@
     <string name="auth_password_incorrect_format">Sandi terlalu pendek</string>
     <string name="auth_password_incorrect_match">Sandi tidak cocok</string>
     <string name="auth_register_title_label">Daftar</string>
-    <string name="auth_account_creation_failed">Maaf, Pembuatan akun android gagal. Mohon verifikasi bahwa ijin aplikasi Anda diberikan</string>
-    <string name="auth_session_end_and_logout">Sesi Berakhir, Keluar</string>
-    <string name="auth_welcome">Selamat Datang</string>
     <string name="checkout_summary_bidding_overall_amt_top_up_label">Diwajibkan Top Up</string>
     <string name="checkout_summary_bidding_overall_available_balance_label">Sisa Saldo</string>
-    <string name="checkout_summary_bidding_overall_available_balance_label_insufficient">Sisa Saldo (Tidak Mencukupi)</string>
     <string name="checkout_summary_bidding_overall_update_notify">Catatan: Klik Perbarui Untuk Melihat Perubahan</string>
     <string name="checkout_summary_container_confirm_label">Konfirmasi</string>
     <string name="checkout_summary_container_top_up_label">Top Up</string>
@@ -122,7 +118,6 @@
     <string name="checkout_confirm_success_congrats_label">Salamat</string>
     <string name="checkout_confirm_success_message_label">Tawaran anda telah dikonfirmasi</string>
     <string name="checkout_confirm_continue_action_label">Lanjut</string>
-    <string name="loan_detail_completed_sign_label">SELESAI</string>
     <string name="checkout_summary_update_changes_notify_a">Tawaran Anda telah disesuaikan:\n\n</string>
     <string name="checkout_summary_update_changes_notify_b">Sebab:\n\tA) Melebihi jumlah tawaran pinjaman yang tersedia.\n\tB) Lebih rendah dari jumlah minimum&#160;</string>
     <string name="checkout_summary_update_changes_notify_c">.\n\tC) Beberapa kali dari&#160;</string>

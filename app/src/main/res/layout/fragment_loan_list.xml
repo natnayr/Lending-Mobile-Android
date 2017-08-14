@@ -39,7 +39,6 @@
             app:cardPreventCornerOverlap="true">
 
             <RelativeLayout
-                android:id="@+id/loan_list_view_filtering"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -103,7 +102,6 @@
                                 app:unCheckColor="@color/color_divider"
                                 app:lineWidth="1dp" />
                             <TextView
-                                android:id="@+id/loan_list_view_filtering_grade_Aplus_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/gradeA_plus"
@@ -129,7 +127,6 @@
                                 app:unCheckColor="@color/color_divider"
                                 app:lineWidth="1dp" />
                             <TextView
-                                android:id="@+id/loan_list_view_filtering_grade_A_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/gradeA"
@@ -155,7 +152,6 @@
                                 app:unCheckColor="@color/color_divider"
                                 app:lineWidth="1dp" />
                             <TextView
-                                android:id="@+id/loan_list_view_filtering_grade_Bplus_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/gradeB_plus"
@@ -181,7 +177,6 @@
                                 app:unCheckColor="@color/color_divider"
                                 app:lineWidth="1dp" />
                             <TextView
-                                android:id="@+id/loan_list_view_filtering_grade_B_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/gradeB"
@@ -207,7 +202,6 @@
                                 app:unCheckColor="@color/color_divider"
                                 app:lineWidth="1dp" />
                             <TextView
-                                android:id="@+id/loan_list_view_filtering_grade_C_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/gradeC"
@@ -233,7 +227,6 @@
                                 app:unCheckColor="@color/color_divider"
                                 app:lineWidth="1dp" />
                             <TextView
-                                android:id="@+id/loan_list_view_filtering_grade_D_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/gradeD"
@@ -259,7 +252,6 @@
                                 app:unCheckColor="@color/color_divider"
                                 app:lineWidth="1dp" />
                             <TextView
-                                android:id="@+id/loan_list_view_filtering_grade_E_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/gradeE"

@@ -18,7 +18,6 @@
         app:el_parallax="0"
         android:layout_below="@+id/toolbar_custom_header">
         <LinearLayout
-            android:id="@+id/withdraw_balance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

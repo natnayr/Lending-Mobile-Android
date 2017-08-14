@@ -11,10 +11,13 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.helpers.NumericUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.model.others.BankInfo;
+import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
+import com.crowdo.p2pconnect.support.MemberInfoRetrieval;
 import com.crowdo.p2pconnect.viewholders.WithdrawSubmitViewHolder;
 
 import butterknife.BindString;
@@ -27,7 +30,8 @@ import butterknife.ButterKnife;
 public class WithdrawSubmitFragment extends Fragment {
 
     private WithdrawSubmitViewHolder viewHolder;
-    private long mAvailableCashBalance;
+    private long avalibleCashBalance;
+    private BankInfo bankInfo;
 
     @BindString(R.string.withdraw_submit_enter_amount_warning_above_amount) String mAmountTooHighWarning;
 
@@ -45,6 +49,8 @@ public class WithdrawSubmitFragment extends Fragment {
 
         viewHolder = new WithdrawSubmitViewHolder(rootView, getActivity());
         viewHolder.initView();
+
+        getMemberDetails();
 
         SoftInputHelper.setupUI(rootView, getActivity(), new EditText[]{viewHolder.mSubmitAmountEditText});
         viewHolder.mSubmitAmountEditText.setOnKeyListener(new View.OnKeyListener() {
@@ -76,6 +82,21 @@ public class WithdrawSubmitFragment extends Fragment {
         return rootView;
     }
 
+    private void getMemberDetails(){
+        MemberInfoRetrieval memberRetrieval = new MemberInfoRetrieval();
+        memberRetrieval.retrieveInfo(getActivity(), new CallBackUtil<MemberInfoResponse>() {
+            @Override
+            public void eventCallBack(MemberInfoResponse memberInfoResponse) {
+                if(memberInfoResponse.getBankInfo() != null) {
+                    if(viewHolder != null){
+                        viewHolder.populateView(memberInfoResponse.getBankInfo());
+                    }
+                    avalibleCashBalance = memberInfoResponse.getAvailableCashBalance();
+                }
+            }
+        });
+    }
+
     private void formatAndCheckEntry(){
         if(viewHolder != null) {
             String amountInput = viewHolder.mSubmitAmountEditText
@@ -84,8 +105,8 @@ public class WithdrawSubmitFragment extends Fragment {
             if(!"".equals(amountInput)) {
                 double amount = Double.parseDouble(amountInput);
 
-                if(amount > this.mAvailableCashBalance){
-                    String cashBalanceFigure = NumericUtils.formatCurrency(NumericUtils.IDR, (double) this.mAvailableCashBalance, false);
+                if(amount > this.avalibleCashBalance){
+                    String cashBalanceFigure = NumericUtils.formatCurrency(NumericUtils.IDR, (double) this.avalibleCashBalance, false);
                     String statement = String.format(mAmountTooHighWarning, NumericUtils.IDR+" "+cashBalanceFigure);
 
                     SnackBarUtil.snackBarForWarningCreate(getView(),statement, Snackbar.LENGTH_SHORT).show();
@@ -96,10 +117,5 @@ public class WithdrawSubmitFragment extends Fragment {
                 }
             }
         }
-    }
-
-    public void setMemberInfo(BankInfo bankInfo, long cashBalance){
-        viewHolder.populateView(bankInfo);
-        this.mAvailableCashBalance = cashBalance;
     }
 }

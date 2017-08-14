@@ -6,7 +6,6 @@
     android:background="@color/color_transparent">
 
     <TextView
-        android:id="@+id/welcome_intro_2_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/welcome_intro_2_body"

@@ -105,7 +105,7 @@ public class WithdrawActivity extends AppCompatActivity{
         finish();
     }
 
-    public void getMemberDetails(){
+    private void getMemberDetails(){
         MemberInfoRetrieval memberRetrieval = new MemberInfoRetrieval();
         memberRetrieval.retrieveInfo(this, new CallBackUtil<MemberInfoResponse>() {
             @Override
@@ -115,13 +115,6 @@ public class WithdrawActivity extends AppCompatActivity{
                 mWithdrawBalanceAmountLabel.setText(amount);
                 mWithdrawBalanceDescriptionLabel.setText(mWithdrawBalanceDescriptionStartText +
                     "(" + NumericUtils.IDR + ")");
-
-                if(submitFragment != null){
-                    if(memberInfoResponse.getBankInfo() != null) {
-                        submitFragment.setMemberInfo(memberInfoResponse.getBankInfo(),
-                                memberInfoResponse.getAvailableCashBalance());
-                    }
-                }
             }
         });
     }

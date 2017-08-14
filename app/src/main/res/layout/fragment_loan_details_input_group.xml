@@ -52,7 +52,6 @@
             android:orientation="horizontal"
             android:background="@drawable/load_detail_edittext_layout">
             <TextView
-                android:id="@+id/loan_detail_enter_amount_currency_label"
                 android:layout_width="0dp"
                 android:layout_weight="3"
                 android:layout_height="wrap_content"
@@ -78,7 +77,6 @@
                 android:cursorVisible="true"
                 android:textCursorDrawable="@null" />
             <TextView
-                android:id="@+id/loan_detail_enter_amount_unit_zeros_label"
                 android:layout_width="0dp"
                 android:layout_weight="5"
                 android:layout_height="wrap_content"
@@ -101,7 +99,6 @@
 
 
     <LinearLayout
-        android:id="@+id/loan_detail_complete_action_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

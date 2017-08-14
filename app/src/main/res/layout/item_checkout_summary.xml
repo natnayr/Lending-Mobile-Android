@@ -100,7 +100,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/item_checkout_summary_edit_container"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:orientation="horizontal"
@@ -124,7 +123,6 @@
                 android:background="@drawable/item_checkout_summary_edittext_layout"
                 android:gravity="center">
                 <TextView
-                    android:id="@+id/item_checkout_summary_enter_amount_currency_label"
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:layout_height="wrap_content"
@@ -146,7 +144,6 @@
                     android:fontFamily="@string/font_family_condensed"
                     android:textSize="@dimen/checkout_large_font_size"/>
                 <TextView
-                    android:id="@+id/item_checkout_summary_enter_amount_unit_zeros_label"
                     android:layout_width="0dp"
                     android:layout_weight="4"
                     android:layout_height="wrap_content"

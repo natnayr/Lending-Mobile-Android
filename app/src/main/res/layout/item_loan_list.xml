@@ -153,7 +153,6 @@
         android:layout_marginBottom="@dimen/list_btm_btm_margin">
 
         <ImageView
-            android:id="@+id/loan_item_amount_icon_container"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:src="@drawable/ic_cash_multiple_black_12dp"

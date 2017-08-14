@@ -49,10 +49,8 @@
     <string name="auth_password_too_short">Password must be at least 8 characters long</string>
     <string name="auth_password_incorrect_match">Passwords do not match</string>
     <string name="auth_password_do_not_match">Doesn\'t match Password</string>
-    <string name="auth_invalid_token" translatable="false">Invalid token detected</string>
     <string name="auth_http_error_message">Sorry, Unexpected server error occurred</string>
     <string name="auth_http_handling_message">Sorry, Unexpected handling error occurred</string>
-    <string name="auth_account_creation_failed">Sorry, Android Account creation failed. Please verify that your App Permissions are granted</string>
 
     <string name="auth_login_title_label">Login</string>
     <string name="auth_login_user_email_label">User Email</string>
@@ -119,7 +117,6 @@
     <string name="loan_detail_bidding_btn_content_description">Bid Here</string>
     <string name="loan_detail_error_reading_pdf">Error opening PDF reader, please install one</string>
     <string name="loan_detail_prog_snackbar_bid_too_low">Key in amounts larger than 0</string>
-    <string name="loan_detail_completed_sign_label">COMPLETED</string>
     <string name="loan_detail_invalid_investor_label">To bid, you need to be a qualified investor.</string>
     <string name="loan_detail_invalid_investor_button_label">APPLY</string>
 
@@ -135,7 +132,6 @@
     <string name="checkout_summary_title_label">Checkout Summary</string>
     <string name="checkout_summary_bidding_overall_pending_bids_label">Total Pending Bids</string>
     <string name="checkout_summary_bidding_overall_available_balance_label">Available Balance</string>
-    <string name="checkout_summary_bidding_overall_available_balance_label_insufficient">Available Balance\n(Insufficient)</string>
     <string name="checkout_summary_bidding_overall_amt_top_up_label">Required Top Up</string>
     <string name="checkout_summary_bidding_overall_idr_currency_symbol_label" translatable="false">IDR&#160;</string>
     <string name="checkout_summary_bidding_overall_update_notify">Note: Click Update to Reflect Changes</string>
@@ -203,9 +199,6 @@
     <string name="withdraw_tab_title_one">Withdraw</string>
     <string name="withdraw_tab_title_two">History</string>
     <string name="withdraw_balance_description_start">Account Balance&#160;</string>
-    <string name="withdraw_invalid_investor_label">To withdraw, you need to be a qualified investor.</string>
-    <string name="withdraw_invalid_investor_button_label">APPLY</string>
-
 
     <string name="withdraw_submit_enter_amount_hint">Enter Withdrawal Amount (in Millions)</string>
     <string name="withdraw_submit_enter_amount_warning_above_amount">Amount needs to be lower than your balance of %s</string>
@@ -218,8 +211,6 @@
     <string name="withdraw_submit_account_holder_account_location">Country</string>
 
     <!-- GLOBALS -->
-    <string name="auth_session_end_and_logout">Session Ended, Logging Out</string>
-    <string name="auth_welcome">Welcome</string>
     <string name="server_connection_poor">Server Connection is Unavailable</string>
     <string name="pre_exit_question">Are you sure you want to exit?</string>
     <string name="downloading_label">Downloading, Please tap OPEN to access file</string>
@@ -231,7 +222,6 @@
     <string name="cancel_label">Cancel</string>
     <string name="intent_file_chooser">Open With</string>
     <string name="wait_message">Please wait</string>
-
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="percent_label" translatable="false">%</string>
 

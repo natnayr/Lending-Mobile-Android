@@ -29,7 +29,6 @@
                     android:layout_alignParentTop="true"/>
 
                 <include layout="@layout/fragment_loan_details_schedule_group"
-                    android:id="@+id/loan_details_schedule_group"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:layout_below="@+id/loan_details_info_group"
@@ -52,7 +51,6 @@
                 android:background="@color/color_white_faded"
                 android:visibility="gone">
                 <TextView
-                    android:id="@+id/loan_details_close_status_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:rotation="-40"
