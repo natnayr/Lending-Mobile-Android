@@ -187,7 +187,7 @@ public class TopUpSubmitFragment extends Fragment{
             public void onClick(View v) {
 
                 Snackbar invalidFileSnackbar = SnackBarUtil.snackBarForWarningCreate(rootView, getResources()
-                                .getString(R.string.top_up_submit_upload_attach_file_warning), Snackbar.LENGTH_SHORT);
+                                .getString(R.string.top_up_submit_upload_attach_file_warning), Snackbar.LENGTH_LONG);
                 if(chosenFile == null ||  chosenFileSizeKB == 0){
                     invalidFileSnackbar.show();
                     return;
@@ -259,7 +259,7 @@ public class TopUpSubmitFragment extends Fragment{
                                                             response.errorBody());
 
                                             SnackBarUtil.snackBarForWarningCreate(getView(),
-                                                    serverErrorMessage, Snackbar.LENGTH_SHORT)
+                                                    serverErrorMessage, Snackbar.LENGTH_LONG)
                                                     .show();
                                         }
                                     }
@@ -318,12 +318,11 @@ public class TopUpSubmitFragment extends Fragment{
 
                             Snacky.builder().setView(getView())
                                     .setText(topUpStatement)
-                                    .setDuration(Snackbar.LENGTH_SHORT)
+                                    .setDuration(Snackbar.LENGTH_LONG)
                                     .success().show();
 
                         }else{
                             if (HTTPResponseUtils.check4xxClientError(response.code())){
-
 
                                 //all other 4xx codes
                                 String serverErrorMessage = HTTPResponseUtils
@@ -331,7 +330,7 @@ public class TopUpSubmitFragment extends Fragment{
                                                 response.errorBody());
 
                                 SnackBarUtil.snackBarForWarningCreate(getView(),
-                                        serverErrorMessage, Snackbar.LENGTH_SHORT)
+                                        serverErrorMessage, Snackbar.LENGTH_LONG)
                                         .show();
                             }
                         }

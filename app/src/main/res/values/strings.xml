@@ -178,9 +178,9 @@
     <string name="top_up_submit_bank_details_bank_address">Bank Address:</string>
     <string name="top_up_submit_upload_title">Upload Proof Of Payment</string>
     <string name="top_up_submit_upload_instructions">Step 2: Upload proof of payment</string>
-    <string name="top_up_submit_upload_notes">(Note: large images will be compressed)</string>
+    <string name="top_up_submit_upload_notes">Note: large files will be compressed</string>
     <string name="top_up_submit_upload_details">Tap to Upload File</string>
-    <string name="top_up_submit_upload_added_info">Maximum file size: 2mb</string>
+    <string name="top_up_submit_upload_added_info">Maximum file size: 2MB</string>
     <string name="top_up_submit_upload_submit_label">SUBMIT</string>
     <string name="top_up_submit_upload_dialog_title">Choose a File and Click Select</string>
     <string name="top_up_submit_upload_dialog_positive">Select</string>
@@ -202,17 +202,34 @@
     <string name="withdraw_invalid_investor_label">To withdraw, you need to be a qualified investor.</string>
     <string name="withdraw_invalid_investor_button_label">APPLY</string>
 
-    <string name="withdraw_submit_enter_amount_hint">Enter Withdrawal Amount (in Millions)</string>
+    <string name="withdraw_submit_enter_amount_hint">Enter Withdrawal Amount</string>
     <string name="withdraw_submit_enter_amount_warning_above_amount">Amount needs to be lower than your balance of %s</string>
     <string name="withdraw_submit_enter_amount_warning_empty_entry">Please key an amount to transfer</string>
-    <string name="withdraw_submit_notice_statement">We will transfer to the following account.</string>
+    <string name="withdraw_submit_notice_statement">We will transfer to the following account:</string>
     <string name="withdraw_submit_account_holder_account_holder">Account Holder:&#160;&#160;</string>
     <string name="withdraw_submit_account_holder_account_number">Account Number</string>
     <string name="withdraw_submit_account_holder_bank_name">Bank Name</string>
     <string name="withdraw_submit_account_holder_account_type">Account Type</string>
     <string name="withdraw_submit_account_holder_account_bank_address">Branch Address</string>
     <string name="withdraw_submit_account_holder_account_location">Country</string>
+    <string name="withdraw_submit_account_request_for_change">REQUEST FOR CHANGE</string>
+    <string name="withdraw_submit_notes_fees_header" translatable="false">Fee &amp; Notes (please read)</string>
+    <string name="withdraw_submit_fees_title" translatable="false">&lt;u>Fee&lt;/u></string>
+    <string name="withdraw_submit_notes_title" translatable="false">&lt;u>Notes&lt;/u></string>
+    <string name="withdraw_submit_notes_fees_list_1" translatable="false">1.&#160;</string>
+    <string name="withdraw_submit_notes_fees_list_2" translatable="false">2.&#160;</string>
+    <string name="withdraw_submit_notes_fees_list_3" translatable="false">3.&#160;</string>
+    <string name="withdraw_submit_notes_fees_list_4" translatable="false">4.&#160;</string>
+    <string name="withdraw_submit_fees_content_1" translatable="false">Crowdo does not charge any fee on withdrawal.</string>
+    <string name="withdraw_submit_fees_content_2" translatable="false">Bank fee for local indonesian transfer is IDR 7,500.</string>
+    <string name="withdraw_submit_fees_content_3" translatable="false">Bank fee for international transfer are applied by sending bank and receiving bank. You can find an estimation of the international transfer fee in the Learning Center of the app.</string>
+    <string name="withdraw_submit_fees_content_4" translatable="false">Withdrawn amount transferred to non local Indonesian banks will be converted by the bank into the receiving account\'s currency at the daily prevailing currency exchange rate.</string>
+    <string name="withdraw_submit_notes_content_1" translatable="false">Please note that you can withdraw money only after one month from first top up.</string>
+    <string name="withdraw_submit_notes_content_2" translatable="false">Withdrawal to local Indonesia bank will take 2 business days to be processed.</string>
+    <string name="withdraw_submit_notes_content_3" translatable="false">Processing time for international transfer depends on country of destination and receiving bank. Crowdo will process your request within 2 business days.</string>
+    <string name="withdraw_submit_notes_content_4" translatable="false">Minimum amount for international transfer is IDR 1,500,000.</string>
     <string name="withdraw_submit_complete">Thank you, your Withdrawal has been submitted, please check &lt;b>History&lt;/b> for updates</string>
+    <string name="withdraw_submit_label">SUBMIT</string>
 
     <string name="withdraw_history_item_unconfirmed">TBC</string>
     <string name="withdraw_history_item_status_success" translatable="false">Success</string>
@@ -232,6 +249,7 @@
     <string name="open_label">OPEN</string>
     <string name="cancel_label">Cancel</string>
     <string name="intent_file_chooser">Open With</string>
+    <string name="intent_email_client_chooser">Email With</string>
     <string name="wait_message">Please wait</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="percent_label" translatable="false">%</string>

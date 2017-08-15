@@ -30,7 +30,8 @@
                     android:layout_marginTop="@dimen/wallet_info_header_vertical_spacing"
                     android:layout_marginBottom="@dimen/wallet_info_header_vertical_spacing"
                     android:orientation="horizontal"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:layout_alignParentTop="true">
                     <ImageView
                         android:id="@+id/top_up_submit_bank_details_icon"
                         android:layout_width="0dp"
@@ -233,7 +234,8 @@
                     android:layout_marginTop="@dimen/wallet_info_header_vertical_spacing"
                     android:layout_marginBottom="@dimen/wallet_info_header_vertical_spacing"
                     android:orientation="horizontal"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:layout_alignParentTop="true">
                     <ImageView
                         android:id="@+id/top_up_submit_upload_header_icon"
                         android:layout_width="0dp"
@@ -267,17 +269,7 @@
                         android:textSize="@dimen/wallet_small_font_size"
                         android:text="@string/top_up_submit_upload_instructions"
                         android:layout_alignParentTop="true" />
-                    <TextView
-                        android:id="@+id/top_up_submit_upload_notes"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/wallet_card_item_vertical_spacing"
-                        android:layout_marginStart="@dimen/wallet_card_item_horizontal_spacing"
-                        android:layout_marginEnd="@dimen/wallet_card_item_horizontal_spacing"
-                        android:fontFamily="@string/font_family_light"
-                        android:textSize="@dimen/wallet_small_font_size"
-                        android:text="@string/top_up_submit_upload_notes"
-                        android:layout_below="@+id/top_up_submit_upload_instructions"/>
+
                     <RelativeLayout
                         android:id="@+id/top_up_submit_upload_open_dialog_button"
                         android:layout_width="match_parent"
@@ -286,7 +278,7 @@
                         android:layout_marginStart="@dimen/wallet_card_item_horizontal_spacing"
                         android:layout_marginEnd="@dimen/wallet_card_item_horizontal_spacing"
                         android:clickable="true"
-                        android:layout_below="@id/top_up_submit_upload_notes"
+                        android:layout_below="@id/top_up_submit_upload_instructions"
                         android:background="@drawable/top_up_upload_btn">
                         <LinearLayout
                             android:id="@+id/top_up_submit_upload_open_dialog_tumbnail"
@@ -305,7 +297,6 @@
                         <LinearLayout
                             android:layout_height="wrap_content"
                             android:layout_width="match_parent"
-                            android:layout_marginEnd="@dimen/wallet_card_item_horizontal_spacing"
                             android:layout_toEndOf="@+id/top_up_submit_upload_open_dialog_tumbnail"
                             android:orientation="vertical">
                             <TextView
@@ -321,8 +312,15 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/wallet_card_item_vertical_spacing"
-                                android:maxLines="2"
                                 android:textSize="@dimen/wallet_small_font_size"
+                                android:textColor="@color/color_secondary_text"/>
+                            <TextView
+                                android:id="@+id/top_up_submit_upload_notes"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/wallet_card_item_vertical_spacing"
+                                android:textSize="@dimen/wallet_small_font_size"
+                                android:text="@string/top_up_submit_upload_notes"
                                 android:textColor="@color/color_secondary_text"/>
                         </LinearLayout>
                     </RelativeLayout>

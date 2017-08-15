@@ -99,7 +99,7 @@ public class TopUpSubmitViewHolder {
 
         mSubmitUploadOpenIcon.setImageDrawable(new IconicsDrawable(mContext)
                 .icon(CommunityMaterial.Icon.cmd_upload)
-                .sizeRes(R.dimen.wallet_card_icon_size)
+                .sizeRes(R.dimen.wallet_info_header_icon_size)
                 .colorRes(R.color.color_icons_text));
 
         mSubmitInfoIcon.setImageDrawable(new IconicsDrawable(mContext)
@@ -115,7 +115,6 @@ public class TopUpSubmitViewHolder {
         });
 
         initSubmitButtonState();
-
     }
 
     public void initSubmitButtonState(){

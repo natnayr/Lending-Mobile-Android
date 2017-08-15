@@ -147,7 +147,7 @@ public class WithdrawSubmitFragment extends Fragment {
                     String cashBalanceFigure = NumericUtils.formatCurrency(NumericUtils.IDR, (double) this.avalibleCashBalance, false);
                     String statement = String.format(mAmountTooHighWarning, NumericUtils.IDR+" "+cashBalanceFigure);
 
-                    SnackBarUtil.snackBarForWarningCreate(getView(),statement, Snackbar.LENGTH_SHORT).show();
+                    SnackBarUtil.snackBarForWarningCreate(getView(),statement, Snackbar.LENGTH_LONG).show();
                     viewHolder.mSubmitTransferAmountEditText.setText(cashBalanceFigure);
                 }else{
                     String amountFigure = NumericUtils.formatCurrency(NumericUtils.IDR, amount, false);
@@ -201,7 +201,7 @@ public class WithdrawSubmitFragment extends Fragment {
 
                             Snacky.builder().setView(getView())
                                     .setText(topUpStatement)
-                                    .setDuration(Snackbar.LENGTH_SHORT)
+                                    .setDuration(Snackbar.LENGTH_LONG)
                                     .success().show();
                         }else{
                             if (HTTPResponseUtils.check4xxClientError(response.code())){
@@ -219,7 +219,7 @@ public class WithdrawSubmitFragment extends Fragment {
                                                     response.errorBody());
 
                                     SnackBarUtil.snackBarForWarningCreate(getView(),
-                                            serverErrorMessage, Snackbar.LENGTH_SHORT)
+                                            serverErrorMessage, Snackbar.LENGTH_LONG)
                                             .show();
                                 }
                             }

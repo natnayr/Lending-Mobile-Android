@@ -139,7 +139,7 @@
     <string name="top_up_invalid_investor_label">Untuk top up, Anda harus menjadi investor yang memenuhi syarat</string>
     <string name="top_up_submit_bank_details_indicate">Mohon berikan nomor akun Anda &lt;b>U%06d&lt;/b> sesuai dengan deskripsi dari transaksi</string>
     <string name="top_up_submit_bank_details_instructions_with_pending">Langkah 1: Transfer %s atau lebih ke akun dibawah ini</string>
-    <string name="top_up_submit_bank_details_instructions_without_pending">Langkah 2: Transfer ke akun berikut dengan minimum %s</string>
+    <string name="top_up_submit_bank_details_instructions_without_pending">Langkah 1: Transfer ke akun berikut dengan minimum %s</string>
     <string name="top_up_submit_bank_details_swift_code">Kode Swift:</string>
     <string name="top_up_submit_bank_details_title">Detail Bank</string>
     <string name="top_up_submit_reference_hint">Referensi Transaksi (Optional)</string>
@@ -153,8 +153,10 @@
     <string name="top_up_submit_upload_submit_label">KIRIM</string>
     <string name="top_up_tab_title_two">Riwayat</string>
     <string name="top_up_tab_title_one">Top Up</string>
-    <string name="top_up_title_label">Top Up</string>
     <string name="top_up_submit_upload_title">Unggah Bukti Pembayaran</string>
     <string name="top_up_submit_upload_success_complete">Terima kasih, Top up Anda sudah dikirimkan, mohon periksa &lt;b>Riwayat&lt;/b> untuk update</string>
     <string name="top_up_history_item_unconfirmed">Tunggu Konfirmasi</string>
+    <string name="withdraw_tab_title_two">Riwayat</string>
+    <string name="withdraw_submit_label">KIRIM</string>
+
 </resources>

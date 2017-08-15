@@ -1,16 +1,23 @@
 package com.crowdo.p2pconnect.viewholders;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.model.others.BankInfo;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
+
+import net.cachapa.expandablelayout.ExpandableLayout;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -29,10 +36,20 @@ public class WithdrawSubmitViewHolder {
     @BindView(R.id.withdraw_submit_account_type_value) TextView mSubmitAccountTypeValue;
     @BindView(R.id.withdraw_submit_account_bank_address_value) TextView mSubmitAccountBankAddressValue;
     @BindView(R.id.withdraw_submit_account_location_value) TextView mSubmitAccountLocationValue;
-
+    @BindView(R.id.withdraw_submit_account_request_change_button) public LinearLayout mSubmitAccountRequestChangeButton;
+    @BindView(R.id.withdraw_submit_account_request_change_icon) ImageView mSubmitAccountRequestChangeIcon;
+    @BindView(R.id.withdraw_submit_notes_fees_header) LinearLayout mSubmitNotesFeesHeaderButton;
+    @BindView(R.id.withdraw_submit_notes_fees_expandable_body) ExpandableLayout mSubmitNotesFeesExpandableLayout;
+    @BindView(R.id.withdraw_submit_notes_fees_icon) ImageView mSubmitNotesFeesHeaderIcon;
+    @BindView(R.id.withdraw_submit_notes_fees_tap_icon) ImageView mSubmitNotesFeesHeaderTapIcon;
+    @BindView(R.id.withdraw_submit_fees_title) TextView mSubmitFeesTitle;
+    @BindView(R.id.withdraw_submit_notes_title) TextView mSubmitNotesTitle;
     @BindView(R.id.withdraw_submit_transfer_submit_button) public Button mSubmitTransferSubmitButton;
-    @BindString(R.string.withdraw_submit_account_holder_account_holder) String mSubmitAccountHolderStartText;
 
+    @BindString(R.string.withdraw_submit_account_holder_account_holder) String mSubmitAccountHolderStartText;
+    @BindString(R.string.withdraw_submit_fees_title) String mSubmitFeesTitleText;
+    @BindString(R.string.withdraw_submit_notes_title) String mSubmitNotesTitleText;
+    @BindString(R.string.intent_email_client_chooser) String mEmailWithText;
     private Context mContext;
 
     public WithdrawSubmitViewHolder(View view, Context context){
@@ -45,6 +62,58 @@ public class WithdrawSubmitViewHolder {
             .icon(CommunityMaterial.Icon.cmd_account_card_details)
             .sizeRes(R.dimen.wallet_info_header_icon_size)
             .colorRes(R.color.color_primary_text));
+
+        mSubmitAccountRequestChangeIcon.setImageDrawable(new IconicsDrawable(mContext)
+            .icon(CommunityMaterial.Icon.cmd_border_color)
+            .sizeRes(R.dimen.wallet_card_icon_size)
+            .colorRes(R.color.color_icons_text));
+
+        mSubmitNotesFeesHeaderIcon.setImageDrawable(new IconicsDrawable(mContext)
+            .icon(CommunityMaterial.Icon.cmd_information)
+            .sizeRes(R.dimen.wallet_info_header_icon_size)
+            .colorRes(R.color.color_primary_text));
+
+        mSubmitNotesFeesHeaderTapIcon.setImageDrawable(new IconicsDrawable(mContext)
+            .icon(CommunityMaterial.Icon.cmd_gesture_double_tap)
+            .sizeRes(R.dimen.wallet_card_icon_size)
+            .colorRes(R.color.color_primary_text));
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            mSubmitFeesTitle.setText(Html.fromHtml(mSubmitFeesTitleText, Html.FROM_HTML_MODE_LEGACY));
+        }else{
+            mSubmitFeesTitle.setText(Html.fromHtml(mSubmitFeesTitleText));
+        }
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            mSubmitNotesTitle.setText(Html.fromHtml(mSubmitNotesTitleText, Html.FROM_HTML_MODE_LEGACY));
+        }else{
+            mSubmitNotesTitle.setText(Html.fromHtml(mSubmitNotesTitleText));
+        }
+
+        mSubmitNotesFeesHeaderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mSubmitNotesFeesExpandableLayout.isExpanded()){
+                    mSubmitNotesFeesExpandableLayout.collapse();
+                }else{
+                    mSubmitNotesFeesExpandableLayout.expand();
+                }
+            }
+        });
+
+        mSubmitAccountRequestChangeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:"));
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"enquiry.p2p@crowdo.com"});
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Request for change");
+
+                mContext.startActivity(Intent.createChooser(intent, mEmailWithText));
+            }
+        });
+
+
     }
 
     public void populateView(final BankInfo bankInfo){

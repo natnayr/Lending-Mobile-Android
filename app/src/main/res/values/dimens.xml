@@ -1,6 +1,4 @@
 <resources>
-
-
     <dimen name="welcome_btn_radius_corner_width">0dp</dimen>
     <dimen name="welcome_btn_stoke_width">2dp</dimen>
     <dimen name="welcome_btn_padding">12dp</dimen>

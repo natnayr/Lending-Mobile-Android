@@ -31,6 +31,7 @@ public class InvestorAccreditationReaction {
                         "&device_id=" +
                         ConstantVariables.getUniqueAndroidID(activity);
 
+
                 Intent intent = Henson.with(activity)
                         .gotoWebViewActivity()
                         .mUrl(webViewUrl)
