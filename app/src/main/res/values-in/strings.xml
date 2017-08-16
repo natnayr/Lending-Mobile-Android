@@ -143,12 +143,12 @@
     <string name="top_up_submit_bank_details_swift_code">Kode Swift:</string>
     <string name="top_up_submit_bank_details_title">Detail Bank</string>
     <string name="top_up_submit_reference_hint">Referensi Transaksi (Optional)</string>
-    <string name="top_up_submit_upload_added_info">Ukuran file maksimum: 2 mb</string>
+    <string name="top_up_submit_upload_added_info">Ukuran file maksimum: 2mb</string>
     <string name="top_up_submit_upload_attach_file_warning">Mohon lampirkan foto atau dokumen di bawah 2MB sebagai bukti transfer. (format: pdf, doc, docx, jpeg, jpg, png, tiff, bmp)</string>
-    <string name="top_up_submit_upload_details">Tekan untuk mengunggah file</string>
+    <string name="top_up_submit_upload_details">Tekan untuk Memilih File</string>
     <string name="top_up_submit_upload_dialog_positive">Pilih</string>
     <string name="top_up_submit_upload_dialog_title">Tentukan File dan klik pilih</string>
-    <string name="top_up_submit_upload_notes">(Catatan: ukuran foto  yang besar akan diperkecil)</string>
+    <string name="top_up_submit_upload_notes">Catatan: Ukuran foto yang besar akan diperkecil</string>
     <string name="top_up_submit_upload_instructions">Langkah 2: Unggah bukti pembayaran</string>
     <string name="top_up_submit_upload_submit_label">KIRIM</string>
     <string name="top_up_tab_title_two">Riwayat</string>
@@ -158,5 +158,31 @@
     <string name="top_up_history_item_unconfirmed">Tunggu Konfirmasi</string>
     <string name="withdraw_tab_title_two">Riwayat</string>
     <string name="withdraw_submit_label">KIRIM</string>
+    <string name="intent_email_client_chooser">Email Dengan</string>
+    <string name="toolbar_title_account_wallet">Akun</string>
+    <string name="toolbar_title_withdraw_wallet">Tarik</string>
+    <string name="top_up_title_label">Dompet</string>
+    <string name="withdraw_history_item_fees">Biaya</string>
+    <string name="withdraw_history_item_transaction_reference">Referensi Transaksi</string>
+    <string name="withdraw_balance_description_start">Saldo Akun&#160;</string>
+    <string name="withdraw_history_item_unconfirmed">Tunggu Konfirmasi</string>
+    <string name="withdraw_invalid_investor_button_label">AJUKAN</string>
+    <string name="withdraw_invalid_investor_label">Untuk menarik, Anda harus menjadi investor yang memenuhi syarat</string>
+    <string name="withdraw_submit_account_holder_account_bank_address">Alamat Cabang</string>
+    <string name="withdraw_submit_account_holder_account_holder">Pemilik Akun:&#160;&#160;</string>
+    <string name="withdraw_submit_account_holder_account_location">Negara</string>
+    <string name="withdraw_submit_account_holder_account_number">Nomor Akun</string>
+    <string name="withdraw_submit_account_holder_account_type">Tipe Akun</string>
+    <string name="withdraw_submit_account_holder_bank_name">Nama Bank</string>
+    <string name="withdraw_submit_account_request_for_change">PERMINTAAN PERUBAHAN</string>
+    <string name="withdraw_submit_complete">Terima kasih, Penarikan Anda telah dikirimkan, mohon memeriksa &lt;b>Riwayat&lt;/b> untuk pembaruan.</string>
+    <string name="withdraw_submit_enter_amount_hint">Masukkan Jumlah Penarikan</string>
+    <string name="withdraw_submit_enter_amount_warning_above_amount">Jumlah harus lebih rendah dari saldo anda %s</string>
+    <string name="withdraw_submit_enter_amount_warning_empty_entry">Mohon masukkan untuk transfer</string>
+    <string name="withdraw_submit_notice_statement">Kami akan mentransfer ke akun berikut:</string>
+    <string name="withdraw_tab_title_one">Tarik</string>
+    <string name="withdraw_title_label">Dompet</string>
+    <string name="top_up_submit_upload_details_warning">File terlalu besar</string>
+    <string name="top_up_submit_upload_base_upload_message">unduh file</string>
 
 </resources>

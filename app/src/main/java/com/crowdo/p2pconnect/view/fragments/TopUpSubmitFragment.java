@@ -1,6 +1,5 @@
 package com.crowdo.p2pconnect.view.fragments;
 
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -37,6 +36,8 @@ import com.crowdo.p2pconnect.viewholders.TopUpSubmitViewHolder;
 import com.developers.imagezipper.ImageZipper;
 import com.github.angads25.filepicker.controller.DialogSelectionListener;
 import com.github.angads25.filepicker.view.FilePickerDialog;
+import com.mikepenz.community_material_typeface_library.CommunityMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 
 import java.io.File;
 import java.io.IOException;
@@ -62,6 +63,7 @@ public class TopUpSubmitFragment extends Fragment{
     @BindString(R.string.top_up_invalid_investor_label) String mInvestorInvalidLabel;
     @BindString(R.string.top_up_invalid_investor_button_label) String mInvestorInvalidButtonLabel;
     @BindString(R.string.top_up_submit_upload_success_complete) String mSubmitUploadSuccessLabel;
+    @BindString(R.string.top_up_submit_upload_details_warning) String mSubmitUploadFileTooBigLabel;
 
     private TopUpSubmitViewHolder viewHolder;
     private File chosenFile;
@@ -94,6 +96,7 @@ public class TopUpSubmitFragment extends Fragment{
 
         viewHolder = new TopUpSubmitViewHolder(rootView, getActivity());
         viewHolder.initView();
+        viewHolder.initSubmitButtonState();
 
         MemberInfoRetrieval memberRetrieval = new MemberInfoRetrieval();
         memberRetrieval.retrieveInfo(getActivity(), new CallBackUtil<MemberInfoResponse>() {
@@ -143,6 +146,9 @@ public class TopUpSubmitFragment extends Fragment{
 
                     //Special service, compress images (from camera perhaps?)
                     String[] imageExtensions =  new String[]{"jpeg", "jpg", "png", "tif","bmp"};
+                    String[] docExtensions = new String[]{"doc","docs"};
+                    String pdfExtension = "pdf";
+
 
                     String fileExtension = MimeTypeMap.getFileExtensionFromUrl(chosenFile.getAbsolutePath());
                     if(Arrays.asList(imageExtensions).contains(fileExtension) &&
@@ -157,25 +163,35 @@ public class TopUpSubmitFragment extends Fragment{
                         }
                     }
 
+                    CommunityMaterial.Icon iconCode = null;
+                    if(Arrays.asList(imageExtensions).contains(fileExtension)){
+                        iconCode = CommunityMaterial.Icon.cmd_file_image;
+                    }else if(Arrays.asList(docExtensions).contains(fileExtension)){
+                        iconCode = CommunityMaterial.Icon.cmd_file_document;
+                    }else if(pdfExtension.equals(fileExtension)){
+                        iconCode = CommunityMaterial.Icon.cmd_file_pdf;
+                    }
+
+                    if(iconCode != null) {
+                        viewHolder.mSubmitUploadOpenFileDetailsIcon.setVisibility(View.VISIBLE);
+                        viewHolder.mSubmitUploadOpenFileDetailsIcon.setImageDrawable(
+                                new IconicsDrawable(getActivity())
+                                        .icon(iconCode)
+                                        .colorRes(R.color.color_grey_blue_800)
+                                        .sizeRes(R.dimen.wallet_large_font_size));
+                    }
+
                     NumberFormat formatter = new DecimalFormat("#0.00");
                     String outputMB = formatter.format(((double)chosenFileSizeKB)/1024);
 
-                    viewHolder.mSubmitUploadOpenInstructionsMainTextView.setTypeface(null,
-                            Typeface.BOLD_ITALIC);
-
-                    viewHolder.mSubmitUploadOpenInstructionsMainTextView.setText(chosenFile.getName());
-
-                    viewHolder.mSubmitUploadOpenInstructionsSubTextView.setTypeface(null,
-                            Typeface.BOLD_ITALIC);
-
-
                     if((chosenFileSizeKB/1024) > 2){
                         //more than 2mb color red
-                        viewHolder.mSubmitUploadOpenInstructionsSubTextView.setText(outputMB + "MB (file too big)");
-                        viewHolder.mSubmitUploadOpenInstructionsSubTextView.setTextColor(viewHolder.mColorPrimary);
+                        viewHolder.mSubmitUploadOpenFileDetailsTextView.setText(chosenFile.getName() + "(" + outputMB + "MB)\n"
+                                + mSubmitUploadFileTooBigLabel);
+                        viewHolder.mSubmitUploadOpenFileDetailsTextView.setTextColor(viewHolder.mColorPrimary);
                         viewHolder.mSubmitUploadSubloadButton.setEnabled(false);
                     }else{
-                        viewHolder.mSubmitUploadOpenInstructionsSubTextView.setText(outputMB + "MB");
+                        viewHolder.mSubmitUploadOpenFileDetailsTextView.setText(chosenFile.getName() + "(" + outputMB + "MB)");
                         viewHolder.mSubmitUploadSubloadButton.setEnabled(true);
                     }
                 }

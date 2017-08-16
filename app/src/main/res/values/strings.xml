@@ -178,9 +178,12 @@
     <string name="top_up_submit_bank_details_bank_address">Bank Address:</string>
     <string name="top_up_submit_upload_title">Upload Proof Of Payment</string>
     <string name="top_up_submit_upload_instructions">Step 2: Upload proof of payment</string>
-    <string name="top_up_submit_upload_notes">Note: large files will be compressed</string>
-    <string name="top_up_submit_upload_details">Tap to Upload File</string>
+    <string name="top_up_submit_upload_notes">Note: Large images will be compressed</string>
+    <string name="top_up_submit_upload_details">Tap to Select File</string>
     <string name="top_up_submit_upload_added_info">Maximum file size: 2MB</string>
+    <string name="top_up_submit_upload_details_warning">File Too Big</string>
+    <string name="top_up_submit_upload_base_upload_message">upload file</string>
+
     <string name="top_up_submit_upload_submit_label">SUBMIT</string>
     <string name="top_up_submit_upload_dialog_title">Choose a File and Click Select</string>
     <string name="top_up_submit_upload_dialog_positive">Select</string>
@@ -230,6 +233,7 @@
     <string name="withdraw_submit_notes_content_4" translatable="false">Minimum amount for international transfer is IDR 1,500,000.</string>
     <string name="withdraw_submit_complete">Thank you, your Withdrawal has been submitted, please check &lt;b>History&lt;/b> for updates</string>
     <string name="withdraw_submit_label">SUBMIT</string>
+    <string name="withdraw_submit_no_email_app">No email support detected, please manually email to &lt;b>enquiry.p2p@crowdo.com&lt;b> with subject header of &lt;b>Request for Change&lt;b> for any changes required.</string>
 
     <string name="withdraw_history_item_unconfirmed">TBC</string>
     <string name="withdraw_history_item_status_success" translatable="false">Success</string>

@@ -1,14 +1,13 @@
 package com.crowdo.p2pconnect.viewholders;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.os.Build;
+import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
@@ -48,10 +47,10 @@ public class TopUpSubmitViewHolder {
     @BindView(R.id.top_up_submit_upload_header_icon) ImageView mSubmitUploadIcon;
     @BindView(R.id.top_up_submit_upload_open_dialog_icon) ImageView mSubmitUploadOpenIcon;
     @BindView(R.id.top_up_submit_upload_reference_edittext) public EditText mSubmiUploadReferenceEditText;
-    @BindView(R.id.top_up_submit_upload_open_dialog_button) public RelativeLayout mSubmitUploadOpenButton;
-    @BindView(R.id.top_up_submit_upload_open_dialog_instruction_main) public TextView mSubmitUploadOpenInstructionsMainTextView;
-    @BindView(R.id.top_up_submit_upload_open_dialog_instruction_sub) public TextView mSubmitUploadOpenInstructionsSubTextView;
+    @BindView(R.id.top_up_submit_upload_open_dialog_button) public CardView mSubmitUploadOpenButton;
+    @BindView(R.id.top_up_submit_upload_open_dialog_details_label) public TextView mSubmitUploadOpenFileDetailsTextView;
     @BindView(R.id.top_up_submit_upload_submit_button) public Button mSubmitUploadSubloadButton;
+    @BindView(R.id.top_up_submit_upload_open_dialog_details_icon) public ImageView mSubmitUploadOpenFileDetailsIcon;
 
     @BindString(R.string.top_up_submit_bank_details_instructions_with_pending) String mSubmitInfoWithPendingLabel;
     @BindString(R.string.top_up_submit_bank_details_instructions_without_pending) String mSubmitInfoWithoutPendingLabel;
@@ -114,18 +113,13 @@ public class TopUpSubmitViewHolder {
             }
         });
 
+        mSubmitUploadOpenFileDetailsIcon.setVisibility(View.GONE);
+
         initSubmitButtonState();
     }
 
     public void initSubmitButtonState(){
-        mSubmitUploadOpenInstructionsMainTextView.setText(mSubmitInfoButtonInstructionsLabel);
-        mSubmitUploadOpenInstructionsMainTextView.setTypeface(null,
-                Typeface.NORMAL);
-
-        mSubmitUploadOpenInstructionsSubTextView.setText(mSubmitInfoButtonAddedInstructionsLabel);
-        mSubmitUploadOpenInstructionsSubTextView.setTypeface(null,
-                Typeface.NORMAL);
-        mSubmitUploadOpenInstructionsSubTextView.setTextColor(mColorSecondary);
+        mSubmitUploadOpenFileDetailsTextView.setText(mSubmitInfoButtonInstructionsLabel);
 
         mSubmiUploadReferenceEditText.setText("");
     }

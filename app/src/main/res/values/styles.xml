@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_700</item>
         <item name="colorAccent">@color/color_accent</item>
-        <item name="android:textColorPrimary">@color/color_icons_text</item>
+        <item name="android:textColorPrimary">@color/color_primary_text</item>
         <item name="android:textColorSecondary">@color/color_secondary_text</item>
         <item name="android:textColorPrimaryInverse">@color/color_icons_text</item>
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>

@@ -1,10 +1,13 @@
 package com.crowdo.p2pconnect.viewholders;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.support.design.widget.Snackbar;
 import android.text.Html;
+import android.text.Spanned;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.model.others.BankInfo;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -22,6 +26,7 @@ import net.cachapa.expandablelayout.ExpandableLayout;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.mateware.snacky.Snacky;
 
 /**
  * Created by cwdsg05 on 11/8/17.
@@ -50,11 +55,15 @@ public class WithdrawSubmitViewHolder {
     @BindString(R.string.withdraw_submit_fees_title) String mSubmitFeesTitleText;
     @BindString(R.string.withdraw_submit_notes_title) String mSubmitNotesTitleText;
     @BindString(R.string.intent_email_client_chooser) String mEmailWithText;
-    private Context mContext;
+    @BindString(R.string.withdraw_submit_no_email_app) String mNoEmailSupportLabel;
 
-    public WithdrawSubmitViewHolder(View view, Context context){
+    private Context mContext;
+    private View mRootView;
+
+    public WithdrawSubmitViewHolder(View rootView, Context context){
         this.mContext = context;
-        ButterKnife.bind(this, view);
+        this.mRootView = rootView;
+        ButterKnife.bind(this, rootView);
     }
 
     public void initView(){
@@ -104,12 +113,31 @@ public class WithdrawSubmitViewHolder {
         mSubmitAccountRequestChangeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(Intent.ACTION_SENDTO);
                 intent.setData(Uri.parse("mailto:"));
                 intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"enquiry.p2p@crowdo.com"});
                 intent.putExtra(Intent.EXTRA_SUBJECT, "Request for change");
 
-                mContext.startActivity(Intent.createChooser(intent, mEmailWithText));
+                ComponentName emailApp = intent.resolveActivity(mContext.getPackageManager());
+                ComponentName unsupportedAction = ComponentName.unflattenFromString("com.android.fallback/.Fallback");
+                boolean hasEmailApp = emailApp != null && !emailApp.equals(unsupportedAction);
+
+                if(hasEmailApp) {
+                    mContext.startActivity(Intent.createChooser(intent, mEmailWithText));
+                }else{
+                    Spanned noEmailStatement;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        noEmailStatement = Html.fromHtml(mNoEmailSupportLabel, Html.FROM_HTML_MODE_LEGACY);
+                    } else {
+                        noEmailStatement = Html.fromHtml(mNoEmailSupportLabel);
+                    }
+
+                    Snacky.builder().setView(mRootView)
+                            .setText(noEmailStatement)
+                            .setDuration(Snackbar.LENGTH_LONG)
+                            .info().show();
+                }
             }
         });
 

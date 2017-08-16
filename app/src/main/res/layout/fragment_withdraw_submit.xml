@@ -216,7 +216,7 @@
                     android:paddingBottom="@dimen/wallet_info_header_vertical_spacing"
                     android:orientation="horizontal"
                     android:gravity="center"
-                    android:background="@color/color_accent"
+                    android:background="@drawable/wallet_btn_base"
                     android:clickable="true"
                     android:layout_below="@+id/withdraw_submit_account_body">
                     <TextView

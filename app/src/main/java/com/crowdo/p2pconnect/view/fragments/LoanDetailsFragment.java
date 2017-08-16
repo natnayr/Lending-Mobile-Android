@@ -3,6 +3,7 @@ package com.crowdo.p2pconnect.view.fragments;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -178,6 +179,7 @@ public class LoanDetailsFragment extends Fragment {
         }
 
         populateLoanDetails();
+        updateShoppingCartItemCount();
     }
 
     @Override
@@ -554,6 +556,10 @@ public class LoanDetailsFragment extends Fragment {
     }
 
     private void updateShoppingCartItemCount(){
+
+        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT){
+            return;
+        }
 
         if(mMenuCart == null) {
             Log.d(LOG_TAG, "APP updateShoppingCartItemCount mMenuCart is null");
