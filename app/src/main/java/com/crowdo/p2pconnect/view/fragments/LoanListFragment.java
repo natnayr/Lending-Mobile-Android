@@ -136,6 +136,7 @@ public class LoanListFragment extends Fragment {
             }
         });
 
+
         mFilteringClearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
