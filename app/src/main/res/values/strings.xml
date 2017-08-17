@@ -233,7 +233,8 @@
     <string name="withdraw_submit_notes_content_4" translatable="false">Minimum amount for international transfer is IDR 1,500,000.</string>
     <string name="withdraw_submit_complete">Thank you, your Withdrawal has been submitted, please check &lt;b>History&lt;/b> for updates</string>
     <string name="withdraw_submit_label">SUBMIT</string>
-    <string name="withdraw_submit_no_email_app">No email support detected, please manually email to &lt;b>enquiry.p2p@crowdo.com&lt;b> with subject header of &lt;b>Request for Change&lt;b> for any changes required.</string>
+    <string name="withdraw_submit_no_email_app">No email support detected, please email to &lt;b>enquiry.p2p@crowdo.com&lt;/b> with subject header:&lt;b>Request for Change&lt;/b> for any changes required.</string>
+    <string name="withdraw_submit_no_balance">Sorry you do not have enough balance for withdrawal.</string>
 
     <string name="withdraw_history_item_unconfirmed">TBC</string>
     <string name="withdraw_history_item_status_success" translatable="false">Success</string>

@@ -76,7 +76,6 @@ public class TopUpSubmitFragment extends Fragment{
     private static final String LOG_TAG = TopUpSubmitFragment.class.getSimpleName();
 
     public TopUpSubmitFragment(){
-
     }
 
     @Override

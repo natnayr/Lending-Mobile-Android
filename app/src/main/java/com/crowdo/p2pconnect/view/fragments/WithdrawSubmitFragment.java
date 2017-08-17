@@ -53,7 +53,8 @@ public class WithdrawSubmitFragment extends Fragment {
     @BindString(R.string.withdraw_invalid_investor_button_label) String mInvestorInvalidButtonLabel;
     @BindString(R.string.withdraw_submit_complete) String mSubmitSuccessLabel;
     @BindString(R.string.withdraw_submit_enter_amount_warning_above_amount) String mAmountTooHighWarning;
-    @BindString(R.string.withdraw_submit_enter_amount_warning_empty_entry) String mAmountEmptyStatement;
+    @BindString(R.string.withdraw_submit_enter_amount_warning_empty_entry) String mEnteredAmountEmptyStatement;
+    @BindString(R.string.withdraw_submit_no_balance) String mNoBalanceWarning;
 
     private Disposable disposablePostRequestWithdraw;
     private MaterialDialog waitForUpload;
@@ -108,7 +109,7 @@ public class WithdrawSubmitFragment extends Fragment {
                 String amountInput = viewHolder.mSubmitTransferAmountEditText
                         .getText().toString().trim().replaceAll("[^\\d.]", "");
                 if("".equals(amountInput) || Long.parseLong(amountInput) <= 0){
-                    SnackBarUtil.snackBarForInfoCreate(getView(), mAmountEmptyStatement,
+                    SnackBarUtil.snackBarForInfoCreate(getView(), mEnteredAmountEmptyStatement,
                             Snackbar.LENGTH_SHORT).show();
                     return;
                 }
@@ -137,6 +138,14 @@ public class WithdrawSubmitFragment extends Fragment {
 
     private void formatAndCheckEntry(){
         if(viewHolder != null) {
+
+            if(this.avalibleCashBalance <= 0){
+                //no money in account balance
+                SnackBarUtil.snackBarForWarningCreate(getView(), mNoBalanceWarning,
+                        Snackbar.LENGTH_LONG).show();
+                viewHolder.mSubmitTransferSubmitButton.setEnabled(false);
+            }
+
             String amountInput = viewHolder.mSubmitTransferAmountEditText
                     .getText().toString().trim().replaceAll("[^\\d.]", "");
 
@@ -144,18 +153,22 @@ public class WithdrawSubmitFragment extends Fragment {
                 double amount = Double.parseDouble(amountInput);
 
                 if(amount > this.avalibleCashBalance){
+                    //amount is lower than account balance
                     String cashBalanceFigure = NumericUtils.formatCurrency(NumericUtils.IDR, (double) this.avalibleCashBalance, false);
                     String statement = String.format(mAmountTooHighWarning, NumericUtils.IDR+" "+cashBalanceFigure);
 
                     SnackBarUtil.snackBarForWarningCreate(getView(),statement, Snackbar.LENGTH_LONG).show();
                     viewHolder.mSubmitTransferAmountEditText.setText(cashBalanceFigure);
+                    viewHolder.mSubmitTransferSubmitButton.setEnabled(false);
                 }else{
+                    //got money
                     String amountFigure = NumericUtils.formatCurrency(NumericUtils.IDR, amount, false);
                     viewHolder.mSubmitTransferAmountEditText.setText(amountFigure);
+                    viewHolder.mSubmitTransferSubmitButton.setEnabled(true);
                 }
-                viewHolder.mSubmitTransferSubmitButton.setEnabled(true);
+
             }else{
-                SnackBarUtil.snackBarForInfoCreate(getView(), mAmountEmptyStatement,
+                SnackBarUtil.snackBarForInfoCreate(getView(), mEnteredAmountEmptyStatement,
                         Snackbar.LENGTH_SHORT).show();
 
                 viewHolder.mSubmitTransferSubmitButton.setEnabled(false);

@@ -110,7 +110,7 @@ public class LoanListViewHolder {
 
         int daysLeft = DateUtils.findDaysLeft(ConstantVariables.DATE_TIME_REGION, item.getFundingEndDate().trim());
 
-        if(daysLeft<0){
+        if(daysLeft < 0){
             mDaysLeftAndPercentage.setText(mBidStatusClosedLabel +
                     Integer.toString(item.getFundedPercentageCache()) +
                     mPercentageLabel);

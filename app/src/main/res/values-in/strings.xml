@@ -184,5 +184,7 @@
     <string name="withdraw_title_label">Dompet</string>
     <string name="top_up_submit_upload_details_warning">File terlalu besar</string>
     <string name="top_up_submit_upload_base_upload_message">unduh file</string>
+    <string name="withdraw_submit_no_email_app">Tidak ada email yang terdeteksi, silahkan email ke &lt;b>enquiry.p2p@crowdo.com&lt;/b> dengan subjek &lt;b>Request for Change&lt;/b> untuk setiap perubahan.</string>
+    <string name="withdraw_submit_no_balance">Maaf Anda tidak mempunyai cukup saldo untuk penarikan</string>
 
 </resources>

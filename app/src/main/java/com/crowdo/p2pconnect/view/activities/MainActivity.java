@@ -35,6 +35,10 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.CrashManagerListener;
+import net.hockeyapp.android.metrics.MetricsManager;
+
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -96,7 +100,7 @@ public class MainActivity extends AppCompatActivity{
         mNavDrawerAppLogo.setTypeface(TypefaceUtils.getNothingYouCouldDoTypeFace(this));
 
         //HockeyApp user metrics
-//        MetricsManager.register(getApplication());
+        MetricsManager.register(getApplication());
     }
 
     private DrawerBuilder buildNavigationDrawer(){
@@ -304,12 +308,12 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void checkForCrashes() {
-//        CrashManager.register(this, new CrashManagerListener() {
-//            @Override
-//            public boolean shouldAutoUploadCrashes() {
-//                return true;
-//            }
-//        });
+        CrashManager.register(this, new CrashManagerListener() {
+            @Override
+            public boolean shouldAutoUploadCrashes() {
+                return true;
+            }
+        });
     }
 
 

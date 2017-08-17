@@ -26,7 +26,6 @@ import com.crowdo.p2pconnect.model.response.WithdrawSubmitResponse;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -49,7 +48,7 @@ public interface APIServices {
 
     public static final String P2P_BASE_URL = "https://crowdo.co.id/";
 
-    public static final String API_LIVE_BASE_URL = "http://192.168.1.5:3000/";
+    public static final String API_LIVE_BASE_URL = "https://api.crowdo.com/";
     public static final String LIVE_STAGE = "api/v2/";
     public static final String LIVE_DOCS = "docs";
 
@@ -130,7 +129,6 @@ public interface APIServices {
     @GET("invest/wallet/withdrawal_history")
     @Headers({"Content-type: application/json"})
     Observable<Response<WithdrawHistoryResponse>> getWithdrawHistory(@Query("device_id") String deviceId, @Query("site_config") String siteConfig, @Query("currency") String currency);
-
 
     @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @GET("definitions/bank_info/{region}")
