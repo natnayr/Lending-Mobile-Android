@@ -188,6 +188,6 @@
     <string name="withdraw_submit_no_balance">Maaf Anda tidak mempunyai cukup saldo untuk penarikan</string>
     <string name="prompt_download_latest_version_title">Pembaruan tersedia</string>
     <string name="download_label">Unduh</string>
-    <string name="prompt_download_latest_version_message"></string>
+    <string name="prompt_download_latest_version_message">Silahkan unduh versi terbaru untuk fitur dan perbaikan baru.</string>
 
 </resources>
