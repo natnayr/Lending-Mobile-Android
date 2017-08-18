@@ -42,6 +42,9 @@
     <string name="gradeD" translatable="false">D</string>
     <string name="gradeE" translatable="false">E</string>
 
+    <string name="prompt_download_latest_version_title">A New Update is Available</string>
+    <string name="prompt_download_latest_version_message">Please download the latest version for new features and fixes.</string>
+
     <!-- Authentication -->
     <string name="auth_email_incorrect_format">Email in incorrect format</string>
     <string name="auth_email_not_valid">You have specified an invalid email address</string>
@@ -243,6 +246,8 @@
     <string name="withdraw_history_item_transaction_reference">Transaction Ref</string>
     <string name="withdraw_history_item_fees">Fees</string>
 
+    
+
     <!-- GLOBALS -->
     <string name="server_connection_poor">Server Connection is Unavailable</string>
     <string name="pre_exit_question">Are you sure you want to exit?</string>
@@ -258,7 +263,8 @@
     <string name="wait_message">Please wait</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="percent_label" translatable="false">%</string>
-
+    <string name="download_label">Download</string>
+    
     <string name="permissions_write_request">You need to allow access to Storage</string>
     <string name="permissions_no_write_statement">Unable to write file to local storage, please enable Storage Permissions</string>
 

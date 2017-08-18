@@ -10,6 +10,9 @@ import android.provider.Settings;
 
 public class ConstantVariables {
 
+    public static final String PLAYSTORE_APP_URL = "https://play.google.com/store/apps/details?id=com.crowdo.p2pconnect";
+
+
     public static final long REALM_DB_VERSION = 3;
     public static final long IDR_BASE_UNIT = 1000000;
 

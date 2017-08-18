@@ -23,6 +23,7 @@ import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.TypefaceUtils;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.oauth.AuthHelper;
+import com.crowdo.p2pconnect.support.UpdateChecking;
 import com.crowdo.p2pconnect.view.fragments.LearningCenterFragment;
 import com.crowdo.p2pconnect.view.fragments.LoanListFragment;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
@@ -101,6 +102,9 @@ public class MainActivity extends AppCompatActivity{
 
         //HockeyApp user metrics
         MetricsManager.register(getApplication());
+
+        UpdateChecking updateChecking = new UpdateChecking();
+        updateChecking.getCurrentVersion(this);
     }
 
     private DrawerBuilder buildNavigationDrawer(){

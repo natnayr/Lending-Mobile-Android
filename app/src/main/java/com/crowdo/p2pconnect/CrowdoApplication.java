@@ -74,17 +74,4 @@ public class CrowdoApplication extends MultiDexApplication{
         super.attachBaseContext(LocaleHelper.onAttach(base, ConstantVariables.APP_LANG_DEFAULT));
     }
 
-//    private void sessionCheckingStart(){
-//        Intent checkSessionIntent = new Intent(this, CrowdoSessionCheckService.class);
-//        PendingIntent pendingIntent = PendingIntent.getService(this,  0, checkSessionIntent, 0);
-//
-//        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTimeInMillis(System.currentTimeMillis());
-//        calendar.add(Calendar.SECOND, 20); // first time
-//        long frequency= 20 * 1000; // 20seconds repeat
-//        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
-//                frequency, pendingIntent);
-//
-//    }
 }
