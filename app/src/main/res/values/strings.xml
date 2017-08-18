@@ -10,6 +10,9 @@
     <string name="authentication_LOCALE" translatable="false">com.crowdo.p2pconnect.LOCALE</string>
     <string name="authentication_INVALID_TOKEN" translatable="false">INVALID_TOKEN</string>
 
+    <string name="facebook_app_id">155117747942297</string>
+    <string name="fb_login_protocol_scheme">fb155117747942297</string>
+
     <!-- Main -->
     <string name="navmenu_label_actions">Actions</string>
     <string name="navmenu_label_preferences">Preferences</string>

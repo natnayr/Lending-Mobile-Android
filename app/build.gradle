@@ -149,6 +149,9 @@ dependencies {
 
     //JSoup
     compile 'org.jsoup:jsoup:1.10.3'
+
+    //Facebook SDK
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 }
 
 apply plugin: 'com.google.gms.google-services'

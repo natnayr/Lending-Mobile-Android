@@ -23,6 +23,11 @@ import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.model.core.Member;
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.viewholders.LoginViewHolder;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.io.IOException;
@@ -51,6 +56,7 @@ import retrofit2.Response;
 public class LoginFragment extends Fragment implements Observer<Response<AuthResponse>>{
 
     @BindView(R.id.auth_login_lang_spinner) MaterialSpinner mLoginLangSpinner;
+    @BindView(R.id.auth_login_fb_button) LoginButton mFBLoginButton;
 
     @BindString(R.string.auth_http_error_message) String mHttpErrorServerMessage;
     @BindString(R.string.auth_http_handling_message) String mHttpErrorHandlingMessage;
@@ -70,11 +76,13 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
     private LoginViewHolder viewHolder;
     private Disposable disposableLoginUser;
     private AuthResponse authResponse;
+    private CallbackManager callbackManager;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        callbackManager = CallbackManager.Factory.create();
     }
 
     @Nullable
@@ -138,6 +146,23 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
                     LocaleHelper.setLocale(getActivity(), ConstantVariables.APP_LANG_ID);
                     getActivity().recreate();
                 }
+            }
+        });
+
+        mFBLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
             }
         });
 
