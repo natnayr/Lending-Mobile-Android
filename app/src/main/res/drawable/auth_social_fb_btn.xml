@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid
+        android:color="@color/color_facebook_dark"/>
+    <corners
+        android:topLeftRadius="@dimen/auth_social_btn_corner_width"
+        android:topRightRadius="@dimen/auth_social_btn_corner_width"
+        android:bottomRightRadius="@dimen/auth_social_btn_corner_width"
+        android:bottomLeftRadius="@dimen/auth_social_btn_corner_width" />
+</shape>

@@ -134,20 +134,45 @@
                 android:textSize="@dimen/auth_information_text_size" />
         </LinearLayout>
     </LinearLayout>
-    
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/auth_login_fb_button"
+        <LinearLayout
+            android:id="@+id/auth_login_fb_button_shell"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp" />
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:background="@drawable/auth_social_fb_btn"
+            android:layout_marginTop="@dimen/auth_social_btn_margin_vertical"
+            android:layout_marginBottom="@dimen/auth_social_btn_margin_vertical"
+            android:paddingStart="@dimen/auth_social_btn_padding_horizontal"
+            android:paddingEnd="@dimen/auth_social_btn_padding_horizontal"
+            android:layout_centerHorizontal="true"
+            style="@style/Widget.AppCompat.Button.Colored">
+            <ImageView
+                android:id="@+id/auth_login_fb_button_shell_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/auth_fb"
+                android:textSize="@dimen/auth_information_text_size"
+                android:textAllCaps="true"
+                android:textColor="@color/color_icons_text"
+                android:fontFamily="@string/font_family_regular"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/auth_login_fb_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 </RelativeLayout>

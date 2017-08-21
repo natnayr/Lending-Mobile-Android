@@ -5,7 +5,7 @@
     <stroke android:width="0dip"
         android:color="@color/color_background_50" />
 
-    <corners android:radius="7dip"/>
+    <corners android:radius="7dp"/>
 
     <padding android:left="@dimen/loan_detail_btn_padding_left"
         android:right="@dimen/loan_detail_btn_padding_right"

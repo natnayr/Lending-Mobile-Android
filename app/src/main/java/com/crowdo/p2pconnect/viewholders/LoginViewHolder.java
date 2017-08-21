@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.crowdo.p2pconnect.R;
+import com.facebook.login.widget.LoginButton;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
@@ -31,7 +32,9 @@ public class LoginViewHolder {
     @BindView(R.id.auth_login_submit_btn) public LinearLayout mLoginSubmitButton;
     @BindView(R.id.auth_login_submit_btn_text) TextView mLoginSubmitTextView;
     @BindView(R.id.auth_login_redirect_to_register_link) public TextView mLoginRedirectToRegisterTextView;
-
+    @BindView(R.id.auth_login_fb_button_shell_icon) ImageView mLoginFBButtonIcon;
+    @BindView(R.id.auth_login_fb_button_shell) LinearLayout mLoginFBButtonShell;
+    @BindView(R.id.auth_login_fb_button) public LoginButton mLoginFBButton;
     private static final String LOG_TAG = LoginViewHolder.class.getSimpleName();
     private Context mContext;
 
@@ -72,6 +75,20 @@ public class LoginViewHolder {
                         new EditText[]{mLoginEmailEditText, mLoginPasswdEditText},
                         new View[]{mLoginSubmitButton, mLoginSubmitTextView}));
 
+        mLoginFBButtonIcon.setImageDrawable(
+                new IconicsDrawable(mContext)
+                        .icon(CommunityMaterial.Icon.cmd_facebook)
+                        .colorRes(R.color.color_icons_text)
+                        .sizeRes(R.dimen.auth_social_btn_icon_size));
+
+        mLoginFBButtonShell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(v == mLoginFBButtonShell) {
+                    mLoginFBButton.performClick();
+                }
+            }
+        });
     }
 
 

@@ -10,8 +10,8 @@
     <string name="authentication_LOCALE" translatable="false">com.crowdo.p2pconnect.LOCALE</string>
     <string name="authentication_INVALID_TOKEN" translatable="false">INVALID_TOKEN</string>
 
-    <string name="facebook_app_id">155117747942297</string>
-    <string name="fb_login_protocol_scheme">fb155117747942297</string>
+    <string name="facebook_app_id" translatable="false">155117747942297</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb155117747942297</string>
 
     <!-- Main -->
     <string name="navmenu_label_actions">Actions</string>
@@ -57,6 +57,7 @@
     <string name="auth_password_do_not_match">Doesn\'t match Password</string>
     <string name="auth_http_error_message">Sorry, Unexpected server error occurred</string>
     <string name="auth_http_handling_message">Sorry, Unexpected handling error occurred</string>
+    <string name="auth_fb">facebook</string>
 
     <string name="auth_login_title_label">Login</string>
     <string name="auth_login_user_email_label">User Email</string>
@@ -64,6 +65,8 @@
     <string name="auth_login_submit_label">Login</string>
     <string name="auth_login_membership_query_label">Not a member yet?</string>
     <string name="auth_login_membership_click_on_label">Register Here</string>
+    <string name="auth_login_social_alternative">OR</string>
+    <string name="auth_login_social_text">Login with your social account</string>
 
     <string name="auth_register_title_label">Register</string>
     <string name="auth_register_user_email_label">Email Address</string>

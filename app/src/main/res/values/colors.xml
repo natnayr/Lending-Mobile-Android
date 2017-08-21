@@ -27,6 +27,8 @@
     <color name="color_divider">#BDBDBD</color>
     <color name="color_divider_light">#EEEEEE</color>
 
+    <color name="color_facebook_dark">#3B5998</color>
+
     <!-- Instrument Colors -->
     <color name="color_snackbar_teal_A200">#64FFDA</color>
 

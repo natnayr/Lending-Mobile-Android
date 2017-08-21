@@ -149,22 +149,6 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
             }
         });
 
-        mFBLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-
-            }
-        });
 
         return rootView;
     }
