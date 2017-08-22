@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_background_50">
+    android:background="@color/color_background_50"
+    android:fitsSystemWindows="true">
 
     <com.jaredrummler.materialspinner.MaterialSpinner
         android:id="@+id/auth_login_lang_spinner"
@@ -139,7 +140,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:isScrollContainer="false">
         <LinearLayout
             android:id="@+id/auth_login_fb_button_shell"
             android:layout_width="wrap_content"

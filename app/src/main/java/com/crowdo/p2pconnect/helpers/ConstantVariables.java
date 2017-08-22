@@ -4,6 +4,9 @@ import android.content.Context;
 import android.os.Build;
 import android.provider.Settings;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by cwdsg05 on 26/1/17.
  */
@@ -11,7 +14,6 @@ import android.provider.Settings;
 public class ConstantVariables {
 
     public static final String PLAYSTORE_APP_URL = "https://play.google.com/store/apps/details?id=com.crowdo.p2pconnect";
-
 
     public static final long REALM_DB_VERSION = 3;
     public static final long IDR_BASE_UNIT = 1000000;
@@ -37,6 +39,11 @@ public class ConstantVariables {
         return Build.SERIAL + Settings.Secure.getString(context.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
     }
+
+    public static final String AUTH_FACEBOOK_PROVIDER_VALUE = "facebook";
+    public static final String[] AUTH_FACEBOOK_READ_PERMISSIONS = new String[]{"email", "user_work_history", "user_location", "user_education_history"};
+
+    public static final String AUTH_LINKEDIN_PROVIDER_VALUE = "linkedin";
 
     public static final String PREF_KEY_LOADED_LEARNINGCENTER_DB = "LOADED_LEARNINGCENTER_DB_KEY";
     public static final String PREF_KEY_SELECTED_LANGUAGE = "LOCALE_HELPER_SELECTED_LANGUGAGE";

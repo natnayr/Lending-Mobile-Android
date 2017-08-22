@@ -1,5 +1,6 @@
 package com.crowdo.p2pconnect.view.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -23,10 +24,6 @@ import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.model.core.Member;
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.viewholders.LoginViewHolder;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
@@ -76,13 +73,10 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
     private LoginViewHolder viewHolder;
     private Disposable disposableLoginUser;
     private AuthResponse authResponse;
-    private CallbackManager callbackManager;
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        callbackManager = CallbackManager.Factory.create();
     }
 
     @Nullable

@@ -57,7 +57,7 @@
     <string name="auth_password_do_not_match">Doesn\'t match Password</string>
     <string name="auth_http_error_message">Sorry, Unexpected server error occurred</string>
     <string name="auth_http_handling_message">Sorry, Unexpected handling error occurred</string>
-    <string name="auth_fb">facebook</string>
+    <string name="auth_fb">Facebook</string>
 
     <string name="auth_login_title_label">Login</string>
     <string name="auth_login_user_email_label">User Email</string>
