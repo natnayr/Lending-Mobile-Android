@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.ArraySet;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.andretietz.retroauth.AuthenticationActivity;
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
+import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.support.NetworkConnectionChecks;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.view.fragments.LoginFragment;
@@ -24,12 +26,16 @@ import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.squareup.moshi.Moshi;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.Set;
+
+import butterknife.BindString;
+import butterknife.ButterKnife;
 
 
 /**
@@ -39,6 +45,8 @@ import java.util.Set;
 public class AuthActivity extends AuthenticationActivity {
 
     private final static String LOG_TAG = AuthActivity.class.getSimpleName();
+
+    @BindString(R.string.auth_fb_email_permission_required) String fbEmailRequired;
 
     public final static String AUTH_MEMBER_EMAIL = "AUTH_MEMBER_EMAIL";
     public final static String AUTH_MEMBER_NAME = "AUTH_MEMBER_NAME";
@@ -55,19 +63,29 @@ public class AuthActivity extends AuthenticationActivity {
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.activity_auth);
+        ButterKnife.bind(this);
 
         Log.d(LOG_TAG, "APP AuthActivity onCreate");
 
         callbackManager = CallbackManager.Factory.create();
 
-        LoginManager.getInstance().logInWithReadPermissions(this,
-                Arrays.asList(ConstantVariables.AUTH_FACEBOOK_READ_PERMISSIONS));
-
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                submitFB(loginResult);
+                if(loginResult.getAccessToken() != null){
+                    Set<String> deniedPermissions = loginResult.getRecentlyDeniedPermissions();
+                    if(deniedPermissions.contains("email")){
+                        LoginManager.getInstance().logOut(); //log user out since no email given
+
+                        //then tell and re-login
+                        Toast.makeText(AuthActivity.this, fbEmailRequired, Toast.LENGTH_LONG).show();
+                        LoginManager.getInstance().logInWithReadPermissions(AuthActivity.this,
+                                Arrays.asList(ConstantVariables.AUTH_FACEBOOK_READ_PERMISSIONS));
+                    }else{
+                        submitFB(loginResult);
+                    }
+                }
             }
 
             @Override
@@ -78,6 +96,7 @@ public class AuthActivity extends AuthenticationActivity {
             @Override
             public void onError(FacebookException error) {
                 Log.e(LOG_TAG, "ERROR " + error.getMessage(), error);
+                Toast.makeText(AuthActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -163,23 +182,17 @@ public class AuthActivity extends AuthenticationActivity {
 
         Log.d(LOG_TAG, "APP Login FB AccessToken: " + loginResult.getAccessToken().getToken());
 
-        Set<String> grantedPermissions = loginResult.getRecentlyGrantedPermissions();
-
-        Log.d(LOG_TAG, "APP Login FB grantedPermissions: " + StringUtils.join(grantedPermissions, ","));
-
         GraphRequest request = GraphRequest.newMeRequest(
                 loginResult.getAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
-                        Log.d(LOG_TAG, "APP Login FB" + response.getRawResponse());
+                        Log.d(LOG_TAG, "APP Login FB response: " + response.getRawResponse());
                     }
                 }
         );
 
-
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,name,email,education,location,work");
         request.setParameters(parameters);
         request.executeAsync();
     }

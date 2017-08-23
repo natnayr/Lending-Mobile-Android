@@ -7,6 +7,7 @@ import com.crowdo.p2pconnect.data.SendingCookiesInterceptor;
 import com.crowdo.p2pconnect.data.ReceivingCookiesInterceptor;
 import com.crowdo.p2pconnect.model.request.LoginRequest;
 import com.crowdo.p2pconnect.model.request.RegisterRequest;
+import com.crowdo.p2pconnect.model.request.SocialRequest;
 import com.crowdo.p2pconnect.model.response.AuthResponse;
 import com.serjltt.moshi.adapters.FallbackOnNull;
 import com.serjltt.moshi.adapters.SerializeNulls;
@@ -83,6 +84,11 @@ public class AuthClient implements ClientInterface{
 
         return apiServices.postRegisterUser(new RegisterRequest(name, email, password,
                 passwordConfirmation, localePreference, deviceId));
+    }
+
+    public Observable<Response<AuthResponse>> socialAuthUser(String provider, String uid,
+                                                             String accessToken, String deviceId){
+        return apiServices.postSocialAuthUser(new SocialRequest(provider, uid, accessToken, deviceId));
     }
 
 

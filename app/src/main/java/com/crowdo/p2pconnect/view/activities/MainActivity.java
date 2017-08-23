@@ -26,6 +26,7 @@ import com.crowdo.p2pconnect.oauth.AuthHelper;
 import com.crowdo.p2pconnect.support.UpdateChecking;
 import com.crowdo.p2pconnect.view.fragments.LearningCenterFragment;
 import com.crowdo.p2pconnect.view.fragments.LoanListFragment;
+import com.facebook.login.LoginManager;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -208,8 +209,9 @@ public class MainActivity extends AppCompatActivity{
                                     AuthHelper.invalidateTokenAndMakeCall(MainActivity.this,
                                             new CallBackUtil<MemberInfoResponse>() {
                                         @Override
-                                        public void eventCallBack(MemberInfoResponse t1) {
-                                            //do nothing, login should pop up
+                                        public void eventCallBack(MemberInfoResponse response) {
+                                            //remove fb session with crowdo app
+                                            LoginManager.getInstance().logOut();
                                         }
                                     });
                                     return true;

@@ -7,6 +7,7 @@ import com.crowdo.p2pconnect.model.request.DeleteBidRequest;
 import com.crowdo.p2pconnect.model.request.NewBidRequest;
 import com.crowdo.p2pconnect.model.request.LoginRequest;
 import com.crowdo.p2pconnect.model.request.RegisterRequest;
+import com.crowdo.p2pconnect.model.request.SocialRequest;
 import com.crowdo.p2pconnect.model.request.TopUpSubmitRequest;
 import com.crowdo.p2pconnect.model.request.WithdrawSubmitRequest;
 import com.crowdo.p2pconnect.model.response.BidOnlyResponse;
@@ -48,10 +49,9 @@ public interface APIServices {
 
     public static final String P2P_BASE_URL = "https://crowdo.co.id/";
 
-    public static final String API_LIVE_BASE_URL = "https://api.crowdo.com/";
+    public static final String API_LIVE_BASE_URL = "http://192.168.1.5:3000/";
     public static final String LIVE_STAGE = "api/v2/";
     public static final String LIVE_DOCS = "docs";
-
 
     @POST("oauth/login")
     @Headers({"Content-type: application/json"})
@@ -60,6 +60,10 @@ public interface APIServices {
     @POST("oauth/register")
     @Headers({"Content-type: application/json"})
     Observable<Response<AuthResponse>> postRegisterUser(@Body RegisterRequest data);
+
+    @POST("oauth/social_login")
+    @Headers({"Content-type: application/json"})
+    Observable<Response<AuthResponse>> postSocialAuthUser(@Body SocialRequest data);
 
     @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @GET("member/info")
