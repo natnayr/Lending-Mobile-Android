@@ -5,14 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.ArraySet;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.andretietz.retroauth.AuthenticationActivity;
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.data.client.AuthClient;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
-import com.crowdo.p2pconnect.helpers.SnackBarUtil;
+import com.crowdo.p2pconnect.model.response.AuthResponse;
 import com.crowdo.p2pconnect.support.NetworkConnectionChecks;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.view.fragments.LoginFragment;
@@ -23,12 +23,10 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.squareup.moshi.Moshi;
 
-import org.apache.commons.lang3.StringUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -36,17 +34,23 @@ import java.util.Set;
 
 import butterknife.BindString;
 import butterknife.ButterKnife;
-
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Response;
 
 /**
  * Created by cwdsg05 on 10/3/17.
  */
 
-public class AuthActivity extends AuthenticationActivity {
+public class AuthActivity extends AuthenticationActivity implements Observer<Response<AuthResponse>> {
 
     private final static String LOG_TAG = AuthActivity.class.getSimpleName();
 
-    @BindString(R.string.auth_fb_email_permission_required) String fbEmailRequired;
+    @BindString(R.string.auth_welcome_message) String mWelcomeMessage;
+    @BindString(R.string.auth_fb_email_permission_required) String mFbEmailRequired;
 
     public final static String AUTH_MEMBER_EMAIL = "AUTH_MEMBER_EMAIL";
     public final static String AUTH_MEMBER_NAME = "AUTH_MEMBER_NAME";
@@ -57,7 +61,7 @@ public class AuthActivity extends AuthenticationActivity {
     public final static String FRAGMENT_CLASS_TAG_CALL = "AUTH_ACTIVITY_FRAGMENT_CLASS_TAG_CALL";
 
     private CallbackManager callbackManager;
-
+    private AuthClient mAuthClient;
 
     @Override
     protected void onCreate(Bundle icicle) {
@@ -79,7 +83,7 @@ public class AuthActivity extends AuthenticationActivity {
                         LoginManager.getInstance().logOut(); //log user out since no email given
 
                         //then tell and re-login
-                        Toast.makeText(AuthActivity.this, fbEmailRequired, Toast.LENGTH_LONG).show();
+                        Toast.makeText(AuthActivity.this, mFbEmailRequired, Toast.LENGTH_LONG).show();
                         LoginManager.getInstance().logInWithReadPermissions(AuthActivity.this,
                                 Arrays.asList(ConstantVariables.AUTH_FACEBOOK_READ_PERMISSIONS));
                     }else{
@@ -90,7 +94,6 @@ public class AuthActivity extends AuthenticationActivity {
 
             @Override
             public void onCancel() {
-
             }
 
             @Override
@@ -135,6 +138,9 @@ public class AuthActivity extends AuthenticationActivity {
         final String accountUserLocale = userData.getString(AuthActivity.AUTH_MEMBER_LOCALE);
 
         if(accountAuthToken != null) {
+            Toast.makeText(AuthActivity.this, mWelcomeMessage +
+                    accountUserName, Toast.LENGTH_LONG).show();
+
             final Account userAccount = createOrGetAccount(accountUserName);
             storeToken(userAccount, getRequestedTokenType(), accountAuthToken);
             storeUserData(userAccount, getString(R.string.authentication_EMAIL), accountUserEmail);
@@ -178,7 +184,7 @@ public class AuthActivity extends AuthenticationActivity {
     }
 
     private void submitFB(LoginResult loginResult){
-        AccessToken accessToken = loginResult.getAccessToken();
+        final AccessToken accessToken = loginResult.getAccessToken();
 
         Log.d(LOG_TAG, "APP Login FB AccessToken: " + loginResult.getAccessToken().getToken());
 
@@ -188,12 +194,54 @@ public class AuthActivity extends AuthenticationActivity {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         Log.d(LOG_TAG, "APP Login FB response: " + response.getRawResponse());
+
+                        String fbName = null;
+                        String fbId = null;
+
+                        try{
+                            fbName = object.getString("name");
+                            fbId = object.getString("id");
+                        }catch (JSONException jse){
+                            Log.e(LOG_TAG, "ERROR " + jse.getMessage(), jse);
+                            Toast.makeText(AuthActivity.this, jse.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        if(fbName != null && fbId != null)
+
+                        mAuthClient = AuthClient.getInstance(AuthActivity.this);
+
+
+                        mAuthClient.socialAuthUser(ConstantVariables.AUTH_FACEBOOK_PROVIDER_VALUE,
+                                fbId, accessToken.getToken(),
+                                ConstantVariables.getUniqueAndroidID(AuthActivity.this))
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(AuthActivity.this);
                     }
                 }
         );
-
-        Bundle parameters = new Bundle();
-        request.setParameters(parameters);
         request.executeAsync();
+    }
+
+    @Override
+    public void onSubscribe(@NonNull Disposable d) {
+
+    }
+
+    @Override
+    public void onNext(@NonNull Response<AuthResponse> authResponseResponse) {
+
+    }
+
+    @Override
+    public void onError(@NonNull Throwable e) {
+
+    }
+
+    @Override
+    public void onComplete() {
+
     }
 }

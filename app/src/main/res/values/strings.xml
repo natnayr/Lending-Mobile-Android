@@ -57,6 +57,7 @@
     <string name="auth_password_do_not_match">Doesn\'t match Password</string>
     <string name="auth_http_error_message">Sorry, Unexpected server error occurred</string>
     <string name="auth_http_handling_message">Sorry, Unexpected handling error occurred</string>
+    <string name="auth_welcome_message">Welcome&#160;</string>
     <string name="auth_fb">Facebook</string>
     <string name="auth_fb_email_permission_required">Sry, your EMAIL permission is required for Login/Register via Facebook</string>
 

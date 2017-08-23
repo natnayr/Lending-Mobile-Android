@@ -98,8 +98,6 @@ public class LoginViewHolder {
         });
     }
 
-
-
     private class SubmitEnablerTextWatcher implements TextWatcher {
         View[] viewsToEnable;
         EditText[] editTextList;
