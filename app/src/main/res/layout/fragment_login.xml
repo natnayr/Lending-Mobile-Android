@@ -164,12 +164,12 @@
                 android:orientation="horizontal"
                 android:clickable="true"
                 android:background="@drawable/auth_social_fb_btn"
-                android:layout_marginStart="@dimen/auth_social_btn_margin_spacing_horizontal"
                 android:layout_marginEnd="@dimen/auth_social_btn_margin_spacing_horizontal"
                 android:layout_marginTop="@dimen/auth_social_btn_margin_vertical"
                 android:layout_marginBottom="@dimen/auth_social_btn_margin_vertical"
                 android:paddingStart="@dimen/auth_social_btn_padding_horizontal"
                 android:paddingEnd="@dimen/auth_social_btn_padding_horizontal"
+                android:gravity="center_vertical"
                 style="@style/Widget.AppCompat.Button.Colored">
                 <ImageView
                     android:id="@+id/auth_login_fb_button_shell_icon"
@@ -186,22 +186,22 @@
                     android:fontFamily="@string/font_family_regular"/>
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/auth_login_linkedin_button_shell"
+                android:id="@+id/auth_login_linkedin_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:clickable="true"
                 android:background="@drawable/auth_social_linkedin_btn"
                 android:layout_marginStart="@dimen/auth_social_btn_margin_spacing_horizontal"
-                android:layout_marginEnd="@dimen/auth_social_btn_margin_spacing_horizontal"
                 android:layout_marginTop="@dimen/auth_social_btn_margin_vertical"
                 android:layout_marginBottom="@dimen/auth_social_btn_margin_vertical"
                 android:paddingStart="@dimen/auth_social_btn_padding_horizontal"
                 android:paddingEnd="@dimen/auth_social_btn_padding_horizontal"
                 android:layout_toEndOf="@+id/auth_login_fb_button_shell"
+                android:gravity="center_vertical"
                 style="@style/Widget.AppCompat.Button.Colored">
                 <ImageView
-                    android:id="@+id/auth_login_linkedin_button_shell_icon"
+                    android:id="@+id/auth_login_linkedin_button_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
@@ -217,8 +217,6 @@
         </RelativeLayout>
 
     </ScrollView>
-
-
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/auth_login_fb_button"

@@ -25,6 +25,8 @@ import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.viewholders.LoginViewHolder;
 import com.facebook.login.widget.LoginButton;
 import com.jaredrummler.materialspinner.MaterialSpinner;
+import com.linkedin.platform.LISessionManager;
+import com.linkedin.platform.listeners.AuthListener;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -72,6 +74,7 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
     private LoginViewHolder viewHolder;
     private Disposable disposableLoginUser;
     private AuthResponse authResponse;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -142,6 +145,14 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
             }
         });
 
+        viewHolder.mLoginLinkedinButton.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                   LISessionManager.getInstance(getActivity()).init(getActivity(),
+                        ConstantVariables.getLinkedInBuildScope(),
+                           ((AuthActivity) getActivity()).authListenerLI, true);
+                   }
+               });
         return rootView;
     }
 

@@ -17,9 +17,6 @@ import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -40,8 +37,8 @@ public class LoginViewHolder {
     @BindView(R.id.auth_login_fb_button_shell) LinearLayout mLoginFBButtonShell;
     @BindView(R.id.auth_login_fb_button) public LoginButton mLoginFBButton;
 
-    @BindView(R.id.auth_login_linkedin_button_shell_icon) ImageView mLoginLinkedinButtonIcon;
-    @BindView(R.id.auth_login_linkedin_button_shell) LinearLayout mLoginLinkedinButtonShell;
+    @BindView(R.id.auth_login_linkedin_button_icon) ImageView mLoginLinkedinButtonIcon;
+    @BindView(R.id.auth_login_linkedin_button) public LinearLayout mLoginLinkedinButton;
 
     private static final String LOG_TAG = LoginViewHolder.class.getSimpleName();
     private Context mContext;
@@ -88,6 +85,12 @@ public class LoginViewHolder {
                         .icon(CommunityMaterial.Icon.cmd_facebook)
                         .colorRes(R.color.color_icons_text)
                         .sizeRes(R.dimen.auth_social_btn_icon_size));
+
+        mLoginLinkedinButtonIcon.setImageDrawable(
+                new IconicsDrawable(mContext)
+                    .icon(CommunityMaterial.Icon.cmd_linkedin)
+                    .colorRes(R.color.color_icons_text)
+                    .sizeRes(R.dimen.auth_social_btn_icon_size));
 
         //request permissions for
         mLoginFBButton.setReadPermissions(ConstantVariables.AUTH_FACEBOOK_READ_PERMISSIONS);

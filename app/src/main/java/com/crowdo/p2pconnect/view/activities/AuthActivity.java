@@ -25,6 +25,8 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.linkedin.platform.errors.LIAuthError;
+import com.linkedin.platform.listeners.AuthListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,7 +38,6 @@ import butterknife.BindString;
 import butterknife.ButterKnife;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
@@ -60,7 +61,8 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
     public final static int REQUEST_FRAGMENT_RESULT = 123;
     public final static String FRAGMENT_CLASS_TAG_CALL = "AUTH_ACTIVITY_FRAGMENT_CLASS_TAG_CALL";
 
-    private CallbackManager callbackManager;
+    public AuthListener authListenerLI;
+    private CallbackManager callbackManagerFB;
     private AuthClient mAuthClient;
     private Disposable disposableSocialAuthUser;
 
@@ -72,9 +74,21 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
 
         Log.d(LOG_TAG, "APP AuthActivity onCreate");
 
-        callbackManager = CallbackManager.Factory.create();
+        callbackManagerFB = CallbackManager.Factory.create();
 
-        LoginManager.getInstance().registerCallback(callbackManager,
+        authListenerLI = new AuthListener() {
+            @Override
+            public void onAuthSuccess() {
+
+            }
+
+            @Override
+            public void onAuthError(LIAuthError liAuthError) {
+
+            }
+        };
+
+        LoginManager.getInstance().registerCallback(callbackManagerFB,
                 new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -130,7 +144,6 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
     public void finishAuth(Bundle userData){
 
         Log.d(LOG_TAG, "APP finishAuth");
-
         final String accountUserName = userData.getString(AuthActivity.AUTH_MEMBER_NAME);
         final String accountUserEmail = userData.getString(AuthActivity.AUTH_MEMBER_EMAIL);
         final String accountAuthToken = userData.getString(AuthActivity.AUTH_MEMBER_TOKEN);
@@ -170,7 +183,7 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
                     .replace(R.id.auth_content, fragment)
                     .commitAllowingStateLoss();
         }else{
-            callbackManager.onActivityResult(requestCode, resultCode, data);
+            callbackManagerFB.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -180,6 +193,16 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
 
         //check network and dun show loggout
         NetworkConnectionChecks.isOnline(this);
+    }
+
+    @Override
+    protected void onStop() {
+        if(disposableSocialAuthUser != null){
+            if(!disposableSocialAuthUser.isDisposed()){
+                disposableSocialAuthUser.dispose();
+            }
+        }
+        super.onStop();
     }
 
     private void submitFB(LoginResult loginResult){
