@@ -142,7 +142,6 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
             }
         });
 
-
         return rootView;
     }
 

@@ -6,20 +6,6 @@
     android:background="@color/color_background_50"
     android:fitsSystemWindows="true">
 
-    <com.jaredrummler.materialspinner.MaterialSpinner
-        android:id="@+id/auth_login_lang_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:paddingTop="@dimen/auth_btn_drawable_padding"
-        android:paddingBottom="@dimen/auth_btn_drawable_padding"
-        android:paddingStart="@dimen/auth_btn_drawable_padding"
-        android:paddingEnd="@dimen/auth_btn_drawable_padding"
-        app:ms_background_color="@color/color_transparent"
-        app:ms_arrow_tint="@color/color_secondary_text"
-        app:ms_text_color="@color/color_secondary_text" />
-
     <LinearLayout
         android:id="@+id/auth_login_exit_btn"
         android:layout_width="wrap_content"
@@ -39,22 +25,43 @@
             android:backgroundTint="@color/auth_drawable_close_color"/>
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/auth_login_title_label"
+        android:fontFamily="@string/font_family_light"
+        android:textSize="@dimen/auth_logo_text_size"
+        android:textColor="@color/color_secondary_text"
+        android:gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="@dimen/auth_btn_drawable_padding"
+        android:paddingStart="@dimen/auth_btn_drawable_padding"
+        android:paddingEnd="@dimen/auth_btn_drawable_padding"
+        android:paddingBottom="@dimen/auth_btn_drawable_padding"/>
+
+    <com.jaredrummler.materialspinner.MaterialSpinner
+        android:id="@+id/auth_login_lang_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:paddingTop="@dimen/auth_btn_drawable_padding"
+        android:paddingBottom="@dimen/auth_btn_drawable_padding"
+        android:paddingStart="@dimen/auth_btn_drawable_padding"
+        android:paddingEnd="@dimen/auth_btn_drawable_padding"
+        app:ms_background_color="@color/color_transparent"
+        app:ms_arrow_tint="@color/color_secondary_text"
+        app:ms_text_color="@color/color_secondary_text" />
+
     <LinearLayout
+        android:id="@+id/auth_login_input"
         android:layout_centerInParent="true"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/auth_login_title_label"
-            android:fontFamily="@string/font_family_light"
-            android:textSize="@dimen/auth_logo_text_size"
-            android:textColor="@color/color_secondary_text"
-            android:gravity="center_horizontal"/>
-
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -112,63 +119,105 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/auth_information_margin_top"
+
+            android:paddingTop="@dimen/auth_btn_drawable_padding"
+            android:paddingStart="@dimen/auth_btn_drawable_padding"
+            android:paddingEnd="@dimen/auth_btn_drawable_padding"
+            android:paddingBottom="@dimen/auth_btn_drawable_padding"
             android:orientation="vertical"
             android:gravity="center">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/auth_information_spacing_vertical"
                 android:textColor="@color/color_secondary_text"
                 android:text="@string/auth_login_membership_query_label"
                 android:fontFamily="@string/font_family_light"
                 android:textSize="@dimen/auth_information_text_size" />
-
             <TextView
                 android:id="@+id/auth_login_redirect_to_register_link"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
+                android:layout_marginTop="@dimen/auth_information_spacing_vertical"
                 android:textColor="@color/color_accent"
                 android:text="@string/auth_login_membership_click_on_label"
                 android:fontFamily="@string/font_family_light"
+                android:textAllCaps="true"
                 android:textSize="@dimen/auth_information_text_size" />
         </LinearLayout>
     </LinearLayout>
 
-    <RelativeLayout
+    <ScrollView
+        android:id="@+id/auth_login_social_scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:isScrollContainer="false">
-        <LinearLayout
-            android:id="@+id/auth_login_fb_button_shell"
-            android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true">
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:clickable="true"
-            android:background="@drawable/auth_social_fb_btn"
-            android:layout_marginTop="@dimen/auth_social_btn_margin_vertical"
-            android:layout_marginBottom="@dimen/auth_social_btn_margin_vertical"
-            android:paddingStart="@dimen/auth_social_btn_padding_horizontal"
-            android:paddingEnd="@dimen/auth_social_btn_padding_horizontal"
-            android:layout_centerHorizontal="true"
-            style="@style/Widget.AppCompat.Button.Colored">
-            <ImageView
-                android:id="@+id/auth_login_fb_button_shell_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
+            android:gravity="center">
+            <LinearLayout
+                android:id="@+id/auth_login_fb_button_shell"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="@string/auth_fb"
-                android:textSize="@dimen/auth_information_text_size"
-                android:textAllCaps="true"
-                android:textColor="@color/color_icons_text"
-                android:fontFamily="@string/font_family_regular"/>
-        </LinearLayout>
-    </RelativeLayout>
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:background="@drawable/auth_social_fb_btn"
+                android:layout_marginStart="@dimen/auth_social_btn_margin_spacing_horizontal"
+                android:layout_marginEnd="@dimen/auth_social_btn_margin_spacing_horizontal"
+                android:layout_marginTop="@dimen/auth_social_btn_margin_vertical"
+                android:layout_marginBottom="@dimen/auth_social_btn_margin_vertical"
+                android:paddingStart="@dimen/auth_social_btn_padding_horizontal"
+                android:paddingEnd="@dimen/auth_social_btn_padding_horizontal"
+                style="@style/Widget.AppCompat.Button.Colored">
+                <ImageView
+                    android:id="@+id/auth_login_fb_button_shell_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/auth_fb"
+                    android:textSize="@dimen/auth_information_text_size"
+                    android:textAllCaps="true"
+                    android:textColor="@color/color_icons_text"
+                    android:fontFamily="@string/font_family_regular"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/auth_login_linkedin_button_shell"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:background="@drawable/auth_social_linkedin_btn"
+                android:layout_marginStart="@dimen/auth_social_btn_margin_spacing_horizontal"
+                android:layout_marginEnd="@dimen/auth_social_btn_margin_spacing_horizontal"
+                android:layout_marginTop="@dimen/auth_social_btn_margin_vertical"
+                android:layout_marginBottom="@dimen/auth_social_btn_margin_vertical"
+                android:paddingStart="@dimen/auth_social_btn_padding_horizontal"
+                android:paddingEnd="@dimen/auth_social_btn_padding_horizontal"
+                android:layout_toEndOf="@+id/auth_login_fb_button_shell"
+                style="@style/Widget.AppCompat.Button.Colored">
+                <ImageView
+                    android:id="@+id/auth_login_linkedin_button_shell_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/auth_linkedin"
+                    android:textSize="@dimen/auth_information_text_size"
+                    android:textAllCaps="true"
+                    android:textColor="@color/color_icons_text"
+                    android:fontFamily="@string/font_family_regular"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+    </ScrollView>
+
 
 
     <com.facebook.login.widget.LoginButton

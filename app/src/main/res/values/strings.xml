@@ -59,6 +59,7 @@
     <string name="auth_http_handling_message">Sorry, Unexpected handling error occurred</string>
     <string name="auth_welcome_message">Welcome&#160;</string>
     <string name="auth_fb">Facebook</string>
+    <string name="auth_linkedin">Linkedin</string>
     <string name="auth_fb_email_permission_required">Sry, your EMAIL permission is required for Login/Register via Facebook</string>
 
     <string name="auth_login_title_label">Login</string>
@@ -66,7 +67,7 @@
     <string name="auth_login_user_password_label">Password</string>
     <string name="auth_login_submit_label">Login</string>
     <string name="auth_login_membership_query_label">Not a member yet?</string>
-    <string name="auth_login_membership_click_on_label">Register Here</string>
+    <string name="auth_login_membership_click_on_label">SIGN UP</string>
     <string name="auth_login_social_alternative">OR</string>
     <string name="auth_login_social_text">Login with your social account</string>
 
@@ -77,7 +78,7 @@
     <string name="auth_register_user_confirm_password_label">Confirm Password</string>
     <string name="auth_register_submit_label">Sign Up</string>
     <string name="auth_register_membership_query_label">Already a member?</string>
-    <string name="auth_register_membership_click_on_label">Login Here</string>
+    <string name="auth_register_membership_click_on_label">LOGIN</string>
 
     <!-- In App -->
     <string name="loan_list_action_search">Search Loan ID&#46;&#46;&#46;</string>

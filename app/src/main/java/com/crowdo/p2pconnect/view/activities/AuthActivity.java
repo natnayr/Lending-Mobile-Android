@@ -62,6 +62,7 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
 
     private CallbackManager callbackManager;
     private AuthClient mAuthClient;
+    private Disposable disposableSocialAuthUser;
 
     @Override
     protected void onCreate(Bundle icicle) {
@@ -93,8 +94,7 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
             }
 
             @Override
-            public void onCancel() {
-            }
+            public void onCancel() {  }
 
             @Override
             public void onError(FacebookException error) {
@@ -120,7 +120,6 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.auth_content, fragment)
                 .commit();
-
     }
 
     @Override
@@ -211,8 +210,7 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
                         if(fbName != null && fbId != null)
 
                         mAuthClient = AuthClient.getInstance(AuthActivity.this);
-
-
+                        //Start fb hander here
                         mAuthClient.socialAuthUser(ConstantVariables.AUTH_FACEBOOK_PROVIDER_VALUE,
                                 fbId, accessToken.getToken(),
                                 ConstantVariables.getUniqueAndroidID(AuthActivity.this))
@@ -226,17 +224,17 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
     }
 
     @Override
-    public void onSubscribe(@NonNull Disposable d) {
+    public void onSubscribe(Disposable d) {
+        this.disposableSocialAuthUser = d;
+    }
+
+    @Override
+    public void onNext(Response<AuthResponse> authResponseResponse) {
 
     }
 
     @Override
-    public void onNext(@NonNull Response<AuthResponse> authResponseResponse) {
-
-    }
-
-    @Override
-    public void onError(@NonNull Throwable e) {
+    public void onError(Throwable e) {
 
     }
 
