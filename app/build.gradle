@@ -121,11 +121,11 @@ dependencies {
     compile 'com.google.firebase:firebase-core:11.0.2'
     //JSoup
     compile 'org.jsoup:jsoup:1.10.3'
+
     //Facebook SDK
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     //Linkedin SDK
     compile 'com.github.neurospeech:unofficial-linkedin-sdk-android:v1.1.4'
-
 }
 
 apply plugin: 'com.google.gms.google-services'

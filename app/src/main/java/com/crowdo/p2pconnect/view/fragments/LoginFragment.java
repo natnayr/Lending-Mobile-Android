@@ -200,8 +200,6 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
 
     @Override
     public void onNext(Response<AuthResponse> response) {
-        Log.d(LOG_TAG, "APP onNext HTTP raw:" + response.raw());
-
         if(response.isSuccessful()) {
             authResponse = response.body();
         }else {

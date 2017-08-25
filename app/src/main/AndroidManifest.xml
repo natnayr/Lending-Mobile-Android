@@ -27,7 +27,7 @@
         <activity
             android:name=".view.activities.AuthActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:launchMode="singleInstance"
             android:theme="@style/AuthTheme">
             <intent-filter>

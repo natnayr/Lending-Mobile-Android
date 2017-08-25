@@ -28,7 +28,7 @@
     <string name="toolbar_title_logout">Log Out</string>
 
     <string name="language_english_label" translatable="false">English</string>
-    <string name="language_bahasa_label" translatable="false">Bahasa Indonesia</string>
+    <string name="language_bahasa_label" translatable="false">Bahasa</string>
 
     <string name="welcome_intro_1_head">Earn competitive returns</string>
     <string name="welcome_intro_1_body">Personalized investments at your fingertips</string>
@@ -60,6 +60,7 @@
     <string name="auth_welcome_message">Welcome&#160;</string>
     <string name="auth_fb">Facebook</string>
     <string name="auth_linkedin">Linkedin</string>
+    <string name="auth_social_wait">Requesting&#46;&#46;&#46;Please Wait</string>
     <string name="auth_fb_email_permission_required">Sry, your EMAIL permission is required for Login/Register via Facebook</string>
 
     <string name="auth_login_title_label">Login</string>

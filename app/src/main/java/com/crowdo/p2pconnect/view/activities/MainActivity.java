@@ -206,12 +206,12 @@ public class MainActivity extends AppCompatActivity{
                                     break;
 
                                 case DRAWER_SELECT_LOGOUT:
+                                    LoginManager.getInstance().logOut();
                                     AuthHelper.invalidateTokenAndMakeCall(MainActivity.this,
                                             new CallBackUtil<MemberInfoResponse>() {
                                         @Override
                                         public void eventCallBack(MemberInfoResponse response) {
-                                            //remove fb session with crowdo app
-                                            LoginManager.getInstance().logOut();
+                                            // do nothing
                                         }
                                     });
                                     return true;

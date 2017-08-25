@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
@@ -17,6 +18,7 @@ import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -39,6 +41,8 @@ public class LoginViewHolder {
 
     @BindView(R.id.auth_login_linkedin_button_icon) ImageView mLoginLinkedinButtonIcon;
     @BindView(R.id.auth_login_linkedin_button) public LinearLayout mLoginLinkedinButton;
+
+    @BindString(R.string.auth_social_wait) String mLoginRequestingWait;
 
     private static final String LOG_TAG = LoginViewHolder.class.getSimpleName();
     private Context mContext;
@@ -99,6 +103,7 @@ public class LoginViewHolder {
             @Override
             public void onClick(View v) {
                 if(v == mLoginFBButtonShell) {
+                    Toast.makeText(mContext, mLoginRequestingWait, Toast.LENGTH_LONG).show();
                     mLoginFBButton.performClick();
                 }
             }

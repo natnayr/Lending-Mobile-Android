@@ -27,6 +27,7 @@
     <dimen name="auth_social_btn_padding_horizontal">20dp</dimen>
     <dimen name="auth_social_btn_margin_spacing_horizontal">12dp</dimen>
     <dimen name="auth_social_btn_margin_vertical">15dp</dimen>
+    <dimen name="auth_social_info_margin_vertical">18dp</dimen>
 
     <dimen name="list_view_filtering_label_margin">4dp</dimen>
     <dimen name="list_view_filtering_checkbox_padding">4dp</dimen>

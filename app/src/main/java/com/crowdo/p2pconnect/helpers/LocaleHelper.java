@@ -30,7 +30,12 @@ public class LocaleHelper {
     }
 
     public static String getLanguage(Context context){
-        return getPersistentData(context, Locale.getDefault().getLanguage());
+        String lang = getPersistentData(context, Locale.getDefault().getLanguage());
+        //either en or id
+        if(!lang.equals(ConstantVariables.APP_LANG_EN) || !lang.equals(ConstantVariables.APP_LANG_ID)) {
+            lang = ConstantVariables.APP_LANG_DEFAULT;
+        }
+        return lang;
     }
 
     public static Locale getLocale(){

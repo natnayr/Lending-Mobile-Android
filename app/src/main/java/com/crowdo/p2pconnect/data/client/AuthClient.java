@@ -44,10 +44,7 @@ public class AuthClient implements ClientInterface{
 
         OkHttpClient httpClient = new OkHttpClient.Builder()
 //                .addInterceptor(loggingInterceptor)
-                .addInterceptor(new SendingCookiesInterceptor(context))
-                .addInterceptor(new ReceivingCookiesInterceptor(context))
                 .build();
-
 
         retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -71,27 +68,23 @@ public class AuthClient implements ClientInterface{
     }
 
     public Observable<Response<AuthResponse>> loginUser(String email, String password, String deviceID) {
-
         //no token needed thus Retrofit instance can be built at constructor
-
         return apiServices.postLoginUser(new LoginRequest(email, password, deviceID));
     }
 
     public Observable<Response<AuthResponse>> registerUser(String email, String name, String password,
-                                                           String passwordConfirmation, String localePreference,
-                                                           String deviceId) {
+                                                           String passwordConfirmation,
+                                                           String localePreference, String deviceId) {
         //no token needed thus Retrofit instance can be built at constructor
-
         return apiServices.postRegisterUser(new RegisterRequest(name, email, password,
                 passwordConfirmation, localePreference, deviceId));
     }
 
     public Observable<Response<AuthResponse>> socialAuthUser(String provider, String uid,
-                                                             String accessToken, String deviceId){
-        return apiServices.postSocialAuthUser(new SocialRequest(provider, uid, accessToken, deviceId));
+                                                             String accessToken, String localePreference,
+                                                             String deviceId){
+        return apiServices.postSocialAuthUser(new SocialRequest(provider, uid, accessToken,
+                localePreference, deviceId));
     }
-
-
-
 
 }

@@ -47,7 +47,7 @@ public class ConstantVariables {
 
     public static final String AUTH_LINKEDIN_PROVIDER_VALUE = "linkedin";
     public static Scope getLinkedInBuildScope() {
-        return Scope.build(Scope.R_BASICPROFILE, Scope.W_SHARE);
+        return Scope.build(Scope.R_BASICPROFILE, Scope.R_EMAILADDRESS);
     }
     public static final String PREF_KEY_LOADED_LEARNINGCENTER_DB = "LOADED_LEARNINGCENTER_DB_KEY";
     public static final String PREF_KEY_SELECTED_LANGUAGE = "LOCALE_HELPER_SELECTED_LANGUGAGE";
