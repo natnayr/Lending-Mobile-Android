@@ -122,10 +122,11 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
                 mLanguageBahasaIndoLabel));
         mLoginLangSpinner.setItems(languageSet);
 
-        mLoginLangSpinner.setSelectedIndex(0);
         String localeVal = LocaleHelper.getLanguage(getActivity());
         if(localeVal.equals(ConstantVariables.APP_LANG_ID)){
             mLoginLangSpinner.setSelectedIndex(1);
+        }else if(localeVal.equals(ConstantVariables.APP_LANG_EN)){
+            mLoginLangSpinner.setSelectedIndex(0);
         }
 
         mLoginLangSpinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
@@ -147,7 +148,7 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
                    @Override
                    public void onClick(View v) {
                         Toast.makeText(getActivity(), mLoginRequestingWait, Toast.LENGTH_LONG).show();
-
+                       ((AuthActivity) getActivity()).callLinkedinAuth();
                    }
                });
         return rootView;

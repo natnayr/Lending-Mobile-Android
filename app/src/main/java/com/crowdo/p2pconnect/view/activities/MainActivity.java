@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+
         mToolbar.setTitle(getString(R.string.toolbar_title_loan_list));
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             mToolbar.setElevation(0); //only 5.0 onwards

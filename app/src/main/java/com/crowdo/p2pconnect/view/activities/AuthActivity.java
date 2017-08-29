@@ -23,6 +23,7 @@ import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.model.core.Member;
 import com.crowdo.p2pconnect.model.response.AuthResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
+import com.crowdo.p2pconnect.oauth.LinkedInAuthHandler;
 import com.crowdo.p2pconnect.oauth.LinkedInConstants;
 import com.crowdo.p2pconnect.support.NetworkConnectionChecks;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
@@ -91,34 +92,11 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
     private AuthResponse authResponse;
     private View mRootView;
 
-
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.activity_auth);
         ButterKnife.bind(this);
-
-        ////////// TO REMOVE
-//        PackageInfo info;
-//        try {
-//            info = getPackageManager().getPackageInfo("com.crowdo.p2pconnect",
-//                    PackageManager.GET_SIGNATURES);
-//            for (Signature signature : info.signatures) {
-//                MessageDigest md;
-//                md = MessageDigest.getInstance("SHA");
-//                md.update(signature.toByteArray());
-//                String something = new String(Base64.encode(md.digest(), 0));
-//                //String something = new String(Base64.encodeBytes(md.digest()));
-//                Log.e(LOG_TAG, "ERROR hash key: " + something);
-//            }
-//        } catch (PackageManager.NameNotFoundException e1) {
-//            Log.e(LOG_TAG, "ERROR name not found: " + e1.toString());
-//        } catch (NoSuchAlgorithmException e) {
-//            Log.e(LOG_TAG, "ERROR no such an algorithm: " + e.toString());
-//        } catch (Exception e) {
-//            Log.e(LOG_TAG,  "ERROR exception: " + e.toString());
-//        }
-        /////////////
 
         mRootView = findViewById(android.R.id.content);
 
@@ -263,10 +241,22 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
         super.onStop();
     }
 
+    public void callLinkedinAuth(){
+        LinkedInAuthHandler liHandler = new LinkedInAuthHandler(mLinkedinClientID, mLinkedinClientSecret);
+        try {
+            String url = liHandler.getAuthorizationUrl();
+            Log.d(LOG_TAG, "APP callLinkedinAuth url:" + url);
+
+        }catch (Exception e){
+            Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
+        }
+    }
+
 //    private void submitLinkedin(LISession liSession){
 //        final com.linkedin.platform.AccessToken liAccessToken = liSession.getAccessToken();
 //        Log.d(LOG_TAG, "APP liSession token " + liSession.getAccessToken().getValue());
 //
+
 //        String url = "https://api.linkedin.com/v1/people/~:(id)/";
 //
 //        final APIHelper apiHelper = APIHelper.getInstance(this);

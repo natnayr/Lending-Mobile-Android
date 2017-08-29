@@ -126,12 +126,15 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
         });
 
         //Lang Locale Selector
-        final List<String> languageSet = new LinkedList<>(Arrays.asList(mLanguageEnglishLabel, mLanguageBahasaIndoLabel));
+        final List<String> languageSet = new LinkedList<>(Arrays.asList(mLanguageEnglishLabel,
+                mLanguageBahasaIndoLabel));
         mRegisterLangSpinner.setItems(languageSet);
-        mRegisterLangSpinner.setSelectedIndex(0);
+
         String localeVal = LocaleHelper.getLanguage(getActivity());
         if(localeVal.equals(ConstantVariables.APP_LANG_ID)){
             mRegisterLangSpinner.setSelectedIndex(1);
+        }else if(localeVal.equals(ConstantVariables.APP_LANG_EN)){
+            mRegisterLangSpinner.setSelectedIndex(0);
         }
 
         mRegisterLangSpinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {

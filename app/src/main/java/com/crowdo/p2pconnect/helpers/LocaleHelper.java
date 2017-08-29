@@ -8,7 +8,10 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
+
+import com.crowdo.p2pconnect.view.activities.MainActivity;
 
 import java.util.Locale;
 
@@ -18,6 +21,7 @@ import java.util.Locale;
 
 public class LocaleHelper {
 
+    private static final String LOG_TAG = LocaleHelper.class.getSimpleName();
 
     public static Context onAttach(Context context){
         String lang = getPersistentData(context, Locale.getDefault().getLanguage());
@@ -31,10 +35,7 @@ public class LocaleHelper {
 
     public static String getLanguage(Context context){
         String lang = getPersistentData(context, Locale.getDefault().getLanguage());
-        //either en or id
-        if(!lang.equals(ConstantVariables.APP_LANG_EN) || !lang.equals(ConstantVariables.APP_LANG_ID)) {
-            lang = ConstantVariables.APP_LANG_DEFAULT;
-        }
+
         return lang;
     }
 

@@ -342,7 +342,14 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
             finish();
         }
 
+        @JavascriptInterface
+        public void authSuccess(){
+        }
 
+        @JavascriptInterface
+        public void authFailed(){
+
+        }
     }
 
     @Override

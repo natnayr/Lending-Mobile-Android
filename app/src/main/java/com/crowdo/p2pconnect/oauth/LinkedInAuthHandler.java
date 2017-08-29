@@ -23,7 +23,7 @@ public class LinkedInAuthHandler {
         auth20Service = new ServiceBuilder(clientId).
                 apiSecret(clientKey)
                 .scope(LinkedInConstants.AUTHORIZATION_REQUEST_SCOPE)
-                .callback("http://www.google.com/")
+                .callback("http://localhost:3000/auth/linkedin/callback")
                 .state(LinkedInConstants.AUTHORIZATION_REQUEST_STATE)
                 .build(LinkedInApi20.instance());
     }
