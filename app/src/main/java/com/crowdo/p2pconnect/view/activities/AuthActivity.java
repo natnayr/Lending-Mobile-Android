@@ -19,16 +19,15 @@ import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.client.AuthClient;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
-import com.crowdo.p2pconnect.helpers.SharedPreferencesUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.model.core.Member;
 import com.crowdo.p2pconnect.model.response.AuthResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
+import com.crowdo.p2pconnect.oauth.LinkedInConstants;
 import com.crowdo.p2pconnect.support.NetworkConnectionChecks;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.view.fragments.LoginFragment;
 import com.crowdo.p2pconnect.view.fragments.RegisterFragment;
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -36,10 +35,9 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.linkedin.platform.LISession;
-import com.linkedin.platform.LISessionManager;
-import com.linkedin.platform.errors.LIAuthError;
-import com.linkedin.platform.listeners.AuthListener;
+import com.github.scribejava.apis.LinkedInApi;
+import com.github.scribejava.core.builder.ServiceBuilder;
+import com.github.scribejava.core.oauth.OAuth20Service;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,6 +73,9 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
     @BindString(R.string.auth_http_error_message) String mHttpErrorServerMessage;
     @BindString(R.string.auth_http_handling_message) String mHttpErrorHandlingMessage;
 
+    @BindString(R.string.linkedin_client_id) String mLinkedinClientID;
+    @BindString(R.string.linkedin_client_secret) String mLinkedinClientSecret;
+
 
     public final static String AUTH_MEMBER_EMAIL = "AUTH_MEMBER_EMAIL";
     public final static String AUTH_MEMBER_NAME = "AUTH_MEMBER_NAME";
@@ -84,7 +85,6 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
     public final static int REQUEST_FRAGMENT_RESULT = 123;
     public final static String FRAGMENT_CLASS_TAG_CALL = "AUTH_ACTIVITY_FRAGMENT_CLASS_TAG_CALL";
 
-    public AuthListener authListenerLI;
     private CallbackManager callbackManagerFB;
     private AuthClient mAuthClient;
     private Disposable disposableSocialAuthUser;
@@ -99,47 +99,47 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
         ButterKnife.bind(this);
 
         ////////// TO REMOVE
-        PackageInfo info;
-        try {
-            info = getPackageManager().getPackageInfo("com.crowdo.p2pconnect",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md;
-                md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                String something = new String(Base64.encode(md.digest(), 0));
-                //String something = new String(Base64.encodeBytes(md.digest()));
-                Log.e(LOG_TAG, "ERROR hash key: " + something);
-            }
-        } catch (PackageManager.NameNotFoundException e1) {
-            Log.e(LOG_TAG, "ERROR name not found: " + e1.toString());
-        } catch (NoSuchAlgorithmException e) {
-            Log.e(LOG_TAG, "ERROR no such an algorithm: " + e.toString());
-        } catch (Exception e) {
-            Log.e(LOG_TAG,  "ERROR exception: " + e.toString());
-        }
+//        PackageInfo info;
+//        try {
+//            info = getPackageManager().getPackageInfo("com.crowdo.p2pconnect",
+//                    PackageManager.GET_SIGNATURES);
+//            for (Signature signature : info.signatures) {
+//                MessageDigest md;
+//                md = MessageDigest.getInstance("SHA");
+//                md.update(signature.toByteArray());
+//                String something = new String(Base64.encode(md.digest(), 0));
+//                //String something = new String(Base64.encodeBytes(md.digest()));
+//                Log.e(LOG_TAG, "ERROR hash key: " + something);
+//            }
+//        } catch (PackageManager.NameNotFoundException e1) {
+//            Log.e(LOG_TAG, "ERROR name not found: " + e1.toString());
+//        } catch (NoSuchAlgorithmException e) {
+//            Log.e(LOG_TAG, "ERROR no such an algorithm: " + e.toString());
+//        } catch (Exception e) {
+//            Log.e(LOG_TAG,  "ERROR exception: " + e.toString());
+//        }
         /////////////
 
         mRootView = findViewById(android.R.id.content);
 
         callbackManagerFB = CallbackManager.Factory.create();
 
-        authListenerLI = new AuthListener() {
-            @Override
-            public void onAuthSuccess() {
-                LISession liSession = LISessionManager
-                        .getInstance(AuthActivity.this)
-                        .getSession();
-                submitLinkedin(liSession);
-            }
-
-            @Override
-            public void onAuthError(LIAuthError liAuthError) {
-                Log.d(LOG_TAG, "APP onAuthError: " + liAuthError.toString());
-                SnackBarUtil.snackBarForWarningCreate(mRootView,
-                        liAuthError.toString(), Snackbar.LENGTH_LONG).show();
-            }
-        };
+//        authListenerLI = new AuthListener() {
+//            @Override
+//            public void onAuthSuccess() {
+//                LISession liSession = LISessionManager
+//                        .getInstance(AuthActivity.this)
+//                        .getSession();
+//                submitLinkedin(liSession);
+//            }
+//
+//            @Override
+//            public void onAuthError(LIAuthError liAuthError) {
+//                Log.d(LOG_TAG, "APP onAuthError: " + liAuthError.toString());
+//                SnackBarUtil.snackBarForWarningCreate(mRootView,
+//                        liAuthError.toString(), Snackbar.LENGTH_LONG).show();
+//            }
+//        };
 
         LoginManager.getInstance().registerCallback(callbackManagerFB,
                 new FacebookCallback<LoginResult>() {
@@ -238,8 +238,8 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
                     .replace(R.id.auth_content, fragment)
                     .commitAllowingStateLoss();
         }else{
-            LISessionManager.getInstance(getApplicationContext()).onActivityResult(this,
-                    requestCode, resultCode, data);
+//            LISessionManager.getInstance(this).onActivityResult(this,
+//                    requestCode, resultCode, data);
             callbackManagerFB.onActivityResult(requestCode, resultCode, data);
 
         }
@@ -263,28 +263,64 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
         super.onStop();
     }
 
-    private void submitLinkedin(LISession liSession){
-
-        Log.d(LOG_TAG, "APP liSession token " + liSession.getAccessToken().getValue());
-
-    }
+//    private void submitLinkedin(LISession liSession){
+//        final com.linkedin.platform.AccessToken liAccessToken = liSession.getAccessToken();
+//        Log.d(LOG_TAG, "APP liSession token " + liSession.getAccessToken().getValue());
+//
+//        String url = "https://api.linkedin.com/v1/people/~:(id)/";
+//
+//        final APIHelper apiHelper = APIHelper.getInstance(this);
+//        apiHelper.getRequest(this, url, new ApiListener() {
+//            @Override
+//            public void onApiSuccess(ApiResponse apiResponse) {
+//                Log.d(LOG_TAG, "APP onApiSuccess Linkedin response: " + apiResponse.getResponseDataAsString());
+//
+//                String liId = null;
+//                try{
+//                    liId = apiResponse.getResponseDataAsJson().getString("id");
+//                }catch (JSONException jse){
+//                    Log.e(LOG_TAG, "ERROR " + jse.getMessage(), jse);
+//                    SnackBarUtil.snackBarForErrorCreate(mRootView, jse.getMessage(),
+//                            Snackbar.LENGTH_LONG).show();
+//                    return;
+//                }
+//
+//                if(liId != null) {
+//                    mAuthClient = AuthClient.getInstance(AuthActivity.this);
+//                    //Start fb hander here
+//                    mAuthClient.socialAuthUser(ConstantVariables.AUTH_LINKEDIN_PROVIDER_VALUE,
+//                            liId, liAccessToken.getValue(),
+//                            LocaleHelper.getLanguage(AuthActivity.this),
+//                            ConstantVariables.getUniqueAndroidID(AuthActivity.this))
+//                            .subscribeOn(Schedulers.io())
+//                            .observeOn(AndroidSchedulers.mainThread())
+//                            .subscribe(AuthActivity.this);
+//                }
+//            }
+//
+//            @Override
+//            public void onApiError(LIApiError liApiError) {
+//                Log.d(LOG_TAG, "APP onApiError status: " + liApiError.getHttpStatusCode());
+//                Log.d(LOG_TAG, "APP onApiError message: " + liApiError.getApiErrorResponse().getMessage());
+//                SnackBarUtil.snackBarForWarningCreate(mRootView,
+//                        "Linkedin Error Status " + liApiError.getApiErrorResponse().getStatus() + ": " +
+//                                liApiError.getApiErrorResponse().getMessage(),
+//                        Snackbar.LENGTH_LONG).show();
+//            }
+//        });
+//    }
 
     private void submitFB(LoginResult loginResult){
-        final AccessToken accessToken = loginResult.getAccessToken();
-
-        Log.d(LOG_TAG, "APP Login FB AccessToken: " + loginResult.getAccessToken().getToken());
+        final com.facebook.AccessToken fbAccessToken = loginResult.getAccessToken();
 
         GraphRequest request = GraphRequest.newMeRequest(
                 loginResult.getAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
-                        Log.d(LOG_TAG, "APP Login FB response: " + response.getRawResponse());
-                        String fbName = null;
                         String fbId = null;
 
                         try{
-                            fbName = object.getString("name");
                             fbId = object.getString("id");
                         }catch (JSONException jse){
                             Log.e(LOG_TAG, "ERROR " + jse.getMessage(), jse);
@@ -294,11 +330,11 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
                             return;
                         }
 
-                        if(fbName != null && fbId != null) {
+                        if(fbId != null) {
                             mAuthClient = AuthClient.getInstance(AuthActivity.this);
                             //Start fb hander here
                             mAuthClient.socialAuthUser(ConstantVariables.AUTH_FACEBOOK_PROVIDER_VALUE,
-                                    fbId, accessToken.getToken(),
+                                    fbId, fbAccessToken.getToken(),
                                     LocaleHelper.getLanguage(AuthActivity.this),
                                     ConstantVariables.getUniqueAndroidID(AuthActivity.this))
                                     .subscribeOn(Schedulers.io())

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.client.AuthClient;
@@ -25,8 +26,6 @@ import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.viewholders.LoginViewHolder;
 import com.facebook.login.widget.LoginButton;
 import com.jaredrummler.materialspinner.MaterialSpinner;
-import com.linkedin.platform.LISessionManager;
-import com.linkedin.platform.listeners.AuthListener;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -54,14 +53,13 @@ import retrofit2.Response;
 public class LoginFragment extends Fragment implements Observer<Response<AuthResponse>>{
 
     @BindView(R.id.auth_login_lang_spinner) MaterialSpinner mLoginLangSpinner;
-    @BindView(R.id.auth_login_fb_button) LoginButton mFBLoginButton;
-
     @BindString(R.string.auth_http_error_message) String mHttpErrorServerMessage;
     @BindString(R.string.auth_http_handling_message) String mHttpErrorHandlingMessage;
     @BindString(R.string.auth_email_incorrect_format) String mEmailIncorrectFormatMessage;
     @BindString(R.string.auth_email_not_valid) String mEmailInvalidPrompt;
     @BindString(R.string.language_english_label) String mLanguageEnglishLabel;
     @BindString(R.string.language_bahasa_label) String mLanguageBahasaIndoLabel;
+    @BindString(R.string.auth_social_wait) String mLoginRequestingWait;
 
     @BindColor(R.color.color_accent) int mColorAccent;
     @BindColor(R.color.color_icons_text) int mColorIconText;
@@ -148,9 +146,8 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
         viewHolder.mLoginLinkedinButton.setOnClickListener(new View.OnClickListener() {
                    @Override
                    public void onClick(View v) {
-                   LISessionManager.getInstance(getActivity()).init(getActivity(),
-                        ConstantVariables.getLinkedInBuildScope(),
-                           ((AuthActivity) getActivity()).authListenerLI, true);
+                        Toast.makeText(getActivity(), mLoginRequestingWait, Toast.LENGTH_LONG).show();
+
                    }
                });
         return rootView;

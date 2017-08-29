@@ -102,8 +102,8 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
         mWebView.setListener(WebViewActivity.this, WebViewActivity.this);
         mWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
         final Map<String, String> headerMap = new HashMap<>();
-        //if able to get authToken
 
+        //if able to get authToken
         AuthAccountManager authAccountManager = new AuthAccountManager();
         Account activeAccount = authAccountManager.getActiveAccount(getString(R.string.authentication_ACCOUNT));
         AccountManager.get(this).getAuthToken(activeAccount, getString(R.string.authentication_TOKEN),
@@ -191,19 +191,6 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
         }
 
         finish();
-    }
-
-    private boolean toBackStackOrParent(){
-        Intent upIntent = NavUtils.getParentActivityIntent(this);
-        if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-            TaskStackBuilder.create(this)
-                    .addNextIntentWithParentStack(upIntent)
-                    .startActivities();
-        } else {
-            //If no backstack then navigate to logical main list view
-            NavUtils.navigateUpTo(this, upIntent);
-        }
-        return true;
     }
 
     @Override
@@ -354,6 +341,8 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
             startActivity(intent);
             finish();
         }
+
+
     }
 
     @Override

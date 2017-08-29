@@ -9,11 +9,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.helpers.ConstantVariables;
+import com.facebook.login.widget.LoginButton;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -32,6 +36,14 @@ public class RegisterViewHolder {
     @BindView(R.id.auth_register_submit_text) public TextView mRegisterSubmitTextView;
     @BindView(R.id.auth_register_redirect_to_login_link) public TextView mRegisterRedirectToLoginTextView;
 
+    @BindView(R.id.auth_register_fb_button_shell_icon) ImageView mRegisterFBButtonIcon;
+    @BindView(R.id.auth_register_fb_button_shell) LinearLayout mRegisterFBButtonShell;
+    @BindView(R.id.auth_register_fb_button) public LoginButton mRegisterFBButton;
+    @BindView(R.id.auth_register_linkedin_button_icon) ImageView mRegisterLinkedinButtonIcon;
+    @BindView(R.id.auth_register_linkedin_button) public LinearLayout mRegisterLinkedinButton;
+
+    @BindString(R.string.auth_social_wait) String mRegisterRequestWait;
+
     private Context mContext;
     private static final String LOG_TAG = RegisterViewHolder.class.getSimpleName();
 
@@ -42,6 +54,7 @@ public class RegisterViewHolder {
 
     public void init(){
         mRegisterSubmitButton.setEnabled(false);
+        mRegisterSubmitTextView.setEnabled(false);
 
         //To set icons
         mRegisterNameEditText.setCompoundDrawables(
@@ -72,7 +85,6 @@ public class RegisterViewHolder {
                         .sizeRes(R.dimen.auth_field_drawable_icon_size),
                 null, null, null);
 
-
         //To set submit button behavior
         mRegisterNameEditText.addTextChangedListener(new SubmitEnablerTextWatcher(
                 new EditText[]{mRegisterNameEditText, mRegisterEmailEditText,
@@ -98,6 +110,31 @@ public class RegisterViewHolder {
                 new IconicsDrawable(mContext)
                         .icon(CommunityMaterial.Icon.cmd_window_close)
                         .sizeRes(R.dimen.auth_btn_drawable_close_icon_size));
+
+        mRegisterFBButtonIcon.setImageDrawable(
+                new IconicsDrawable(mContext)
+                        .icon(CommunityMaterial.Icon.cmd_facebook)
+                        .colorRes(R.color.color_icons_text)
+                        .sizeRes(R.dimen.auth_social_btn_icon_size));
+
+        mRegisterLinkedinButtonIcon.setImageDrawable(
+                new IconicsDrawable(mContext)
+                        .icon(CommunityMaterial.Icon.cmd_linkedin)
+                        .colorRes(R.color.color_icons_text)
+                        .sizeRes(R.dimen.auth_social_btn_icon_size));
+
+        //request permission for
+        mRegisterFBButton.setReadPermissions(ConstantVariables.AUTH_FACEBOOK_READ_PERMISSIONS);
+
+        mRegisterFBButtonShell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(v == mRegisterFBButtonShell){
+                    Toast.makeText(mContext, mRegisterRequestWait, Toast.LENGTH_LONG).show();
+                    mRegisterFBButton.performClick();
+                }
+            }
+        });
     }
 
 

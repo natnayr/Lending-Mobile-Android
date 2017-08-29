@@ -4,11 +4,6 @@ import android.content.Context;
 import android.os.Build;
 import android.provider.Settings;
 
-import com.linkedin.platform.utils.Scope;
-
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * Created by cwdsg05 on 26/1/17.
  */
@@ -46,9 +41,8 @@ public class ConstantVariables {
     public static final String[] AUTH_FACEBOOK_READ_PERMISSIONS = new String[]{"email", "user_work_history", "user_location", "user_education_history"};
 
     public static final String AUTH_LINKEDIN_PROVIDER_VALUE = "linkedin";
-    public static Scope getLinkedInBuildScope() {
-        return Scope.build(Scope.R_BASICPROFILE, Scope.R_EMAILADDRESS);
-    }
+    public static final String[] AUTH_LINKEDIN_READ_PERMISSIONS = new String[]{ };
+
     public static final String PREF_KEY_LOADED_LEARNINGCENTER_DB = "LOADED_LEARNINGCENTER_DB_KEY";
     public static final String PREF_KEY_SELECTED_LANGUAGE = "LOCALE_HELPER_SELECTED_LANGUGAGE";
     public static final String PREF_KEY_COOKIES = "C_IS_FOR_COOKIE_KEY";

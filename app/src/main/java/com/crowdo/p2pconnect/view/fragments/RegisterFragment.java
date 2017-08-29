@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.data.client.AuthClient;
@@ -63,6 +64,7 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
 
     @BindString(R.string.language_english_label) String mLanguageEnglishLabel;
     @BindString(R.string.language_bahasa_label) String mLanguageBahasaIndoLabel;
+    @BindString(R.string.auth_social_wait) String mRegisterRequestingWait;
 
     @BindColor(R.color.color_accent) int mColorAccent;
     @BindColor(R.color.color_icons_text) int mColorIconText;
@@ -143,6 +145,16 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
                     //indo
                     LocaleHelper.setLocale(getActivity(), ConstantVariables.APP_LANG_ID);
                     getActivity().recreate();
+                }
+            }
+        });
+
+        viewHolder.mRegisterLinkedinButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(v == viewHolder.mRegisterLinkedinButton){
+                    Toast.makeText(getActivity(), mRegisterRequestingWait, Toast.LENGTH_LONG).show();
+
                 }
             }
         });

@@ -13,6 +13,9 @@
     <string name="facebook_app_id" translatable="false">155117747942297</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb155117747942297</string>
 
+    <string name="linkedin_client_id" translatable="false">75wudfk13y91r8</string>
+    <string name="linkedin_client_secret" translatable="false">KGwSaojd66cc80wO</string>
+
     <!-- Main -->
     <string name="navmenu_label_actions">Actions</string>
     <string name="navmenu_label_preferences">Preferences</string>
@@ -80,6 +83,8 @@
     <string name="auth_register_submit_label">Sign Up</string>
     <string name="auth_register_membership_query_label">Already a member?</string>
     <string name="auth_register_membership_click_on_label">LOGIN</string>
+    <string name="auth_register_social_alternative">OR</string>
+    <string name="auth_register_social_text">Register with your social account</string>
 
     <!-- In App -->
     <string name="loan_list_action_search">Search Loan ID&#46;&#46;&#46;</string>

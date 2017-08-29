@@ -2,6 +2,7 @@
 
 <!--android:windowSoftInputMode="adjustResize|stateVisible"-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.crowdo.p2pconnect"
     android:installLocation="internalOnly">
     <uses-permission android:name="android.permission.INTERNET" />
