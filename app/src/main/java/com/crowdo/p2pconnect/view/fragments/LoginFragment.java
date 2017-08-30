@@ -273,14 +273,18 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
 
                     final Member member = authResponse.getMember();
 
+                    if(member == null) return;
+
                     final Bundle userData = new Bundle();
                     userData.putString(AuthActivity.AUTH_MEMBER_EMAIL, member.getEmail());
                     userData.putString(AuthActivity.AUTH_MEMBER_NAME, member.getName());
                     userData.putString(AuthActivity.AUTH_MEMBER_TOKEN, authResponse.getAuthToken());
                     userData.putString(AuthActivity.AUTH_MEMBER_LOCALE, member.getLocalePreference());
 
-                    //go back to AuthActivity to create account
-                    ((AuthActivity) getActivity()).finishAuth(userData);
+                    if(((AuthActivity) getActivity()) != null) {
+                        //go back to AuthActivity to create account
+                        ((AuthActivity) getActivity()).finishAuth(userData);
+                    }
                 }
             }
         }
