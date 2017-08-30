@@ -213,7 +213,8 @@ public class LearningCenterFragment extends Fragment{
     //Load Data from CSV
     public void populateData(){
         //show progress dialog
-//        progress.show();
+        progress.show();
+
         //on another thread
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
