@@ -228,11 +228,10 @@ public class MainActivity extends AppCompatActivity{
                                         "&device_id=" +
                                         ConstantVariables.getUniqueAndroidID(MainActivity.this);
 
-                                Intent intent = Henson.with(MainActivity.this)
-                                        .gotoWebViewActivity()
-                                        .mUrl(webViewUrl)
-                                        .build();
+                                Intent  intent = new Intent(MainActivity.this, WebViewActivity.class);
+                                intent.putExtra(WebViewActivity.URL_TARGET_EXTRA, webViewUrl);
                                 startActivity(intent);
+
                                 Log.d(LOG_TAG, "APP activity_webview launched to " + webViewUrl);
                                 return true;
                             }

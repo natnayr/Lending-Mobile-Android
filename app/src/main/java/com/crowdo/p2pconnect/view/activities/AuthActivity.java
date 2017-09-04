@@ -216,8 +216,6 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
                     .replace(R.id.auth_content, fragment)
                     .commitAllowingStateLoss();
         }else{
-//            LISessionManager.getInstance(this).onActivityResult(this,
-//                    requestCode, resultCode, data);
             callbackManagerFB.onActivityResult(requestCode, resultCode, data);
 
         }
@@ -247,58 +245,12 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
             String url = liHandler.getAuthorizationUrl();
             Log.d(LOG_TAG, "APP callLinkedinAuth url:" + url);
 
+
+
         }catch (Exception e){
             Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
         }
     }
-
-//    private void submitLinkedin(LISession liSession){
-//        final com.linkedin.platform.AccessToken liAccessToken = liSession.getAccessToken();
-//        Log.d(LOG_TAG, "APP liSession token " + liSession.getAccessToken().getValue());
-//
-
-//        String url = "https://api.linkedin.com/v1/people/~:(id)/";
-//
-//        final APIHelper apiHelper = APIHelper.getInstance(this);
-//        apiHelper.getRequest(this, url, new ApiListener() {
-//            @Override
-//            public void onApiSuccess(ApiResponse apiResponse) {
-//                Log.d(LOG_TAG, "APP onApiSuccess Linkedin response: " + apiResponse.getResponseDataAsString());
-//
-//                String liId = null;
-//                try{
-//                    liId = apiResponse.getResponseDataAsJson().getString("id");
-//                }catch (JSONException jse){
-//                    Log.e(LOG_TAG, "ERROR " + jse.getMessage(), jse);
-//                    SnackBarUtil.snackBarForErrorCreate(mRootView, jse.getMessage(),
-//                            Snackbar.LENGTH_LONG).show();
-//                    return;
-//                }
-//
-//                if(liId != null) {
-//                    mAuthClient = AuthClient.getInstance(AuthActivity.this);
-//                    //Start fb hander here
-//                    mAuthClient.socialAuthUser(ConstantVariables.AUTH_LINKEDIN_PROVIDER_VALUE,
-//                            liId, liAccessToken.getValue(),
-//                            LocaleHelper.getLanguage(AuthActivity.this),
-//                            ConstantVariables.getUniqueAndroidID(AuthActivity.this))
-//                            .subscribeOn(Schedulers.io())
-//                            .observeOn(AndroidSchedulers.mainThread())
-//                            .subscribe(AuthActivity.this);
-//                }
-//            }
-//
-//            @Override
-//            public void onApiError(LIApiError liApiError) {
-//                Log.d(LOG_TAG, "APP onApiError status: " + liApiError.getHttpStatusCode());
-//                Log.d(LOG_TAG, "APP onApiError message: " + liApiError.getApiErrorResponse().getMessage());
-//                SnackBarUtil.snackBarForWarningCreate(mRootView,
-//                        "Linkedin Error Status " + liApiError.getApiErrorResponse().getStatus() + ": " +
-//                                liApiError.getApiErrorResponse().getMessage(),
-//                        Snackbar.LENGTH_LONG).show();
-//            }
-//        });
-//    }
 
     private void submitFB(LoginResult loginResult){
         final com.facebook.AccessToken fbAccessToken = loginResult.getAccessToken();

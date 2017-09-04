@@ -58,11 +58,7 @@ dependencies {
     //Butterknife library (Bind helpers)
     compile 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
-    //Dart + Henson (Intent helpers)
-    compile 'com.f2prateek.dart:dart:2.0.2'
-    provided 'com.f2prateek.dart:dart-processor:2.0.2'
-    compile 'com.f2prateek.dart:henson:2.0.2'
-    provided 'com.f2prateek.dart:henson-processor:2.0.2'
+
     //Retrofit V2 (Async library)
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-moshi:2.3.0'

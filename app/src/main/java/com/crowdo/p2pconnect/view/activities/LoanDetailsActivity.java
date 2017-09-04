@@ -4,34 +4,44 @@ import android.animation.Animator;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.crowdo.p2pconnect.R;
+import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.support.NetworkConnectionChecks;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.view.fragments.LoanDetailsFragment;
-import com.f2prateek.dart.Dart;
-import com.f2prateek.dart.InjectExtra;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class LoanDetailsActivity extends AppCompatActivity {
 
-    public static final String LOG_TAG = LoanDetailsActivity.class.getSimpleName();
-
-    @InjectExtra public int id;
     @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindString(R.string.error_unable_to_pass_data) String mUnableDataLabel;
+
+    public static final String LOG_TAG = LoanDetailsActivity.class.getSimpleName();
+    public static final String LOAN_ID_EXTRA = "EXTRA_LOAN_ID";
+    private int loanId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loan_details);
         ButterKnife.bind(this);
-        Dart.inject(this);
+
+        this.loanId = getIntent().getIntExtra(LOAN_ID_EXTRA, -1);
+        if(loanId < 0){
+            SnackBarUtil.snackBarForErrorCreate(findViewById(android.R.id.content),
+                    mUnableDataLabel, Snackbar.LENGTH_LONG).show();
+            finish();
+        }
 
         //mToolbar view
         setSupportActionBar(mToolbar);
@@ -43,7 +53,7 @@ public class LoanDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle args = new Bundle();
-        args.putInt(LoanDetailsFragment.BUNDLE_ID_KEY, this.id);
+        args.putInt(LoanDetailsFragment.BUNDLE_ID_KEY, this.loanId);
 
         LoanDetailsFragment loanDetailsFragment = new LoanDetailsFragment();
         loanDetailsFragment.setArguments(args);
@@ -60,7 +70,7 @@ public class LoanDetailsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(id == android.R.id.home){
+        if(loanId == android.R.id.home){
             finish();
             return true;
         }

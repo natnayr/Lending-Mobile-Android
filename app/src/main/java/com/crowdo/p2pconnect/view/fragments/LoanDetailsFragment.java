@@ -44,10 +44,8 @@ import com.crowdo.p2pconnect.model.response.LoanDetailResponse;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.view.activities.CheckoutActivity;
-import com.crowdo.p2pconnect.view.activities.Henson;
 import com.crowdo.p2pconnect.viewholders.LoanDetailsViewHolder;
 import com.esafirm.rxdownloader.RxDownloader;
-import com.f2prateek.dart.Dart;
 
 import java.io.File;
 import java.io.IOException;
@@ -110,7 +108,7 @@ public class LoanDetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.initLoanId = Dart.get(getArguments(), BUNDLE_ID_KEY);
+        this.initLoanId = getArguments().getInt(BUNDLE_ID_KEY);
     }
 
     @Override

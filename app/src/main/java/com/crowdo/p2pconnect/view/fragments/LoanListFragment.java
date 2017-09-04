@@ -37,8 +37,8 @@ import com.crowdo.p2pconnect.model.response.LoanListResponse;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.view.activities.CheckoutActivity;
-import com.crowdo.p2pconnect.view.activities.Henson;
 import com.crowdo.p2pconnect.data.client.LoanClient;
+import com.crowdo.p2pconnect.view.activities.LoanDetailsActivity;
 import com.crowdo.p2pconnect.view.adapters.LoanListAdapter;
 import com.crowdo.p2pconnect.viewholders.LoanListFilterViewHolder;
 
@@ -118,11 +118,9 @@ public class LoanListFragment extends Fragment {
                                     View view, int position, long l) {
 
                 Loan item = (Loan) adapterView.getItemAtPosition(position);
-                Intent detailsIntent = Henson.with(getActivity())
-                        .gotoLoanDetailsActivity()
-                        .id(item.getId())
-                        .build();
-                detailsIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+                Intent detailsIntent = new Intent(getActivity(), LoanDetailsActivity.class);
+                detailsIntent.putExtra(LoanDetailsActivity.LOAN_ID_EXTRA, item.getId());
                 startActivity(detailsIntent);
             }
         });

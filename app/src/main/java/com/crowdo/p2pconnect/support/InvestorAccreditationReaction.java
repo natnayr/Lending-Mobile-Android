@@ -9,7 +9,7 @@ import com.crowdo.p2pconnect.data.APIServices;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
-import com.crowdo.p2pconnect.view.activities.Henson;
+import com.crowdo.p2pconnect.view.activities.WebViewActivity;
 
 /**
  * Created by cwdsg05 on 8/8/17.
@@ -31,12 +31,10 @@ public class InvestorAccreditationReaction {
                         "&device_id=" +
                         ConstantVariables.getUniqueAndroidID(activity);
 
-
-                Intent intent = Henson.with(activity)
-                        .gotoWebViewActivity()
-                        .mUrl(webViewUrl)
-                        .build();
+                Intent  intent = new Intent(activity, WebViewActivity.class);
+                intent.putExtra(WebViewActivity.URL_TARGET_EXTRA, webViewUrl);
                 activity.startActivity(intent);
+
             }
         });
 

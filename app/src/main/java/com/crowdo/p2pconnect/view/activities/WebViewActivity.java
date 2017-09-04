@@ -17,8 +17,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -40,8 +38,6 @@ import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.esafirm.rxdownloader.RxDownloader;
-import com.f2prateek.dart.Dart;
-import com.f2prateek.dart.InjectExtra;
 
 import java.io.File;
 import java.net.URI;
@@ -61,7 +57,6 @@ import im.delight.android.webview.AdvancedWebView;
 
 public class WebViewActivity extends AppCompatActivity implements AdvancedWebView.Listener{
 
-    public static final String LOG_TAG = WebViewActivity.class.getSimpleName();
 
     @BindView(R.id.webview) AdvancedWebView mWebView;
     @BindView(R.id.toolbar_webview) Toolbar mToolbar;
@@ -80,8 +75,10 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
     @BindString(R.string.downloaded_to_label) String mLabelDownloadedTo;
     @BindString(R.string.permissions_write_request) String mLabelExternalDriveRequest;
     @BindString(R.string.permissions_no_write_statement) String mLabelCannotWrite;
-
-    @InjectExtra public String mUrl;
+    @BindString(R.string.error_unable_to_pass_data) String mLabelUnableData;
+    public static final String URL_TARGET_EXTRA = "EXTRA_URL_TARGET";
+    public static final String LOG_TAG = WebViewActivity.class.getSimpleName();
+    private String mUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,14 +87,20 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
         ButterKnife.bind(WebViewActivity.this);
 
+        this.mUrl = getIntent().getStringExtra(URL_TARGET_EXTRA);
+        if(mUrl == null){
+            SnackBarUtil.snackBarForErrorCreate(findViewById(android.R.id.content),
+                    mLabelUnableData, Snackbar.LENGTH_LONG).show();
+            finish();
+        }
+
         //mToolbar view
         setSupportActionBar(mToolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        //inject intent settings
-        Dart.inject(WebViewActivity.this);
+
 
         mWebView.setListener(WebViewActivity.this, WebViewActivity.this);
         mWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
