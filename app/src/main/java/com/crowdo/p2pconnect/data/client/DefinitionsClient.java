@@ -7,8 +7,6 @@ import com.andretietz.retroauth.AndroidTokenType;
 import com.andretietz.retroauth.Retroauth;
 import com.crowdo.p2pconnect.support.DefinitionsRetrieval;
 import com.crowdo.p2pconnect.data.APIServices;
-import com.crowdo.p2pconnect.data.ReceivingCookiesInterceptor;
-import com.crowdo.p2pconnect.data.SendingCookiesInterceptor;
 import com.crowdo.p2pconnect.model.response.DefinitionBankInfoResponse;
 import com.crowdo.p2pconnect.oauth.AuthProvider;
 import com.serjltt.moshi.adapters.FallbackOnNull;
@@ -45,8 +43,6 @@ public class DefinitionsClient implements ClientInterface{
 
         OkHttpClient httpClient = new OkHttpClient.Builder()
 //                .addInterceptor(loggingInterceptor)
-                .addInterceptor(new SendingCookiesInterceptor(context))
-                .addInterceptor(new ReceivingCookiesInterceptor(context))
                 .build();
 
         AuthProvider provider = new AuthProvider();

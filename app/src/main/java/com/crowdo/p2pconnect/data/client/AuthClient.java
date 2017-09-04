@@ -3,8 +3,6 @@ package com.crowdo.p2pconnect.data.client;
 import android.content.Context;
 
 import com.crowdo.p2pconnect.data.APIServices;
-import com.crowdo.p2pconnect.data.SendingCookiesInterceptor;
-import com.crowdo.p2pconnect.data.ReceivingCookiesInterceptor;
 import com.crowdo.p2pconnect.model.request.LoginRequest;
 import com.crowdo.p2pconnect.model.request.RegisterRequest;
 import com.crowdo.p2pconnect.model.request.SocialRequest;

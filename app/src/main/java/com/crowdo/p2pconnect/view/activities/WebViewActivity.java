@@ -23,6 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.MimeTypeMap;
 import android.webkit.PermissionRequest;
@@ -96,6 +97,16 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
         //mToolbar view
         setSupportActionBar(mToolbar);
+
+        //Incognito for webview
+        CookieManager.getInstance().setAcceptCookie(false);
+        mWebView.getSettings().setCacheMode(mWebView.getSettings().LOAD_NO_CACHE);
+        mWebView.getSettings().setAppCacheEnabled(false);
+        mWebView.clearHistory();
+        mWebView.clearCache(true);
+
+        mWebView.clearFormData();
+        mWebView.getSettings().setSaveFormData(false);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

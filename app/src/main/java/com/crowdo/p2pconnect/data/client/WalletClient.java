@@ -6,8 +6,6 @@ import com.andretietz.retroauth.AndroidAuthenticationHandler;
 import com.andretietz.retroauth.AndroidTokenType;
 import com.andretietz.retroauth.Retroauth;
 import com.crowdo.p2pconnect.data.APIServices;
-import com.crowdo.p2pconnect.data.ReceivingCookiesInterceptor;
-import com.crowdo.p2pconnect.data.SendingCookiesInterceptor;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.model.request.TopUpSubmitRequest;
 import com.crowdo.p2pconnect.model.request.WithdrawSubmitRequest;
@@ -56,8 +54,6 @@ public class WalletClient implements ClientInterface{
 
         OkHttpClient httpClient = new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
-                .addInterceptor(new SendingCookiesInterceptor(context))
-                .addInterceptor(new ReceivingCookiesInterceptor(context))
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS)
