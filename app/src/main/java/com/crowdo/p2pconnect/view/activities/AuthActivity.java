@@ -21,6 +21,7 @@ import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.model.core.Member;
+import com.crowdo.p2pconnect.model.others.Server;
 import com.crowdo.p2pconnect.model.response.AuthResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
 import com.crowdo.p2pconnect.oauth.LinkedInAuthHandler;
@@ -299,10 +300,10 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
         if(response.isSuccessful()) {
             authResponse = response.body();
         }else {
+            String serverErrorMsg = "Error: Login/Register not successful";
+
             //failed login response from serverResponse, 4xx error
             if (HTTPResponseUtils.check4xxClientError(response.code())) {
-                String serverErrorMsg = "Error: Login not successful";
-
                 if (response.errorBody() != null) {
                     Converter<ResponseBody, MessageResponse> errorConverter =
                             mAuthClient.getRetrofit().responseBodyConverter(
@@ -310,9 +311,12 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
                     try {
                         MessageResponse errorResponse = errorConverter.convert(response.errorBody());
                         serverErrorMsg = errorResponse.getServer().getMessage();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
+                    } catch (IOException ioe) {
+                        ioe.printStackTrace();
+                        Log.e(LOG_TAG, "ERROR " + ioe.getMessage(), ioe);
+                    } catch(NullPointerException npe){
+                        npe.printStackTrace();
+                        Log.e(LOG_TAG, "ERROR " + npe.getMessage(), npe);
                     }
                 }
 
@@ -328,7 +332,7 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
             }
 
             //other errors, just throw
-            String errorBody = response.code() + " Error: " + response.message();
+            String errorBody = response.code() + serverErrorMsg;
             SnackBarUtil.snackBarForErrorCreate(mRootView,
                     errorBody,
                     Snackbar.LENGTH_SHORT).show();

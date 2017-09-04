@@ -314,12 +314,12 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void checkForCrashes() {
-        CrashManager.register(this, new CrashManagerListener() {
-            @Override
-            public boolean shouldAutoUploadCrashes() {
-                return true;
-            }
-        });
+//        CrashManager.register(this, new CrashManagerListener() {
+//            @Override
+//            public boolean shouldAutoUploadCrashes() {
+//                return true;
+//            }
+//        });
     }
 
 

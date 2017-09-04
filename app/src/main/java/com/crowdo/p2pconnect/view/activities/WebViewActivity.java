@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.MimeTypeMap;
 import android.webkit.PermissionRequest;
@@ -57,8 +58,6 @@ import im.delight.android.webview.AdvancedWebView;
  */
 
 public class WebViewActivity extends AppCompatActivity implements AdvancedWebView.Listener{
-
-
     @BindView(R.id.webview) AdvancedWebView mWebView;
     @BindView(R.id.toolbar_webview) Toolbar mToolbar;
     @BindView(R.id.webview_swipe_container) SwipeRefreshLayout swipeContainer;
@@ -98,16 +97,6 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
         //mToolbar view
         setSupportActionBar(mToolbar);
 
-        //Incognito for webview
-        CookieManager.getInstance().setAcceptCookie(false);
-        mWebView.getSettings().setCacheMode(mWebView.getSettings().LOAD_NO_CACHE);
-        mWebView.getSettings().setAppCacheEnabled(false);
-        mWebView.clearHistory();
-        mWebView.clearCache(true);
-
-        mWebView.clearFormData();
-        mWebView.getSettings().setSaveFormData(false);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -129,7 +118,6 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
                     String authToken = tokenBundle.getString(AccountManager.KEY_AUTHTOKEN);
 
                     if (authToken != null) {
-                        Log.d(LOG_TAG, "APP WebView AuthToken: " + authToken);
                         headerMap.put("Authorization", authToken);
                     }
 
@@ -187,6 +175,22 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
     @Override
     protected void onDestroy() {
+        mWebView.clearHistory();
+        mWebView.clearCache(true);
+        mWebView.clearFormData();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            CookieManager.getInstance().removeAllCookies(null);
+            CookieManager.getInstance().flush();
+        } else {
+            CookieSyncManager cookieSyncMngr=CookieSyncManager.createInstance(getApplicationContext());
+            cookieSyncMngr.startSync();
+            CookieManager cookieManager=CookieManager.getInstance();
+            cookieManager.removeAllCookie();
+            cookieManager.removeSessionCookie();
+            cookieSyncMngr.stopSync();
+            cookieSyncMngr.sync();
+        }
+
         mWebView.onDestroy();
         super.onDestroy();
     }
@@ -351,7 +355,6 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
         public void goToListing(){
             Log.d(LOG_TAG, "APP JavaScriptInterface goBackToListing() called");
             Intent intent = new Intent(WebViewActivity.this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
         }
@@ -407,6 +410,8 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base));
     }
+
+
 
 
 }
