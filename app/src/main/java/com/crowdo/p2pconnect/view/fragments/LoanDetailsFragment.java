@@ -88,12 +88,9 @@ public class LoanDetailsFragment extends Fragment {
     @BindString(R.string.loan_detail_invalid_investor_button_label) String mInvalidInvestorButtonLabel;
     @BindView(R.id.loan_details_swiperefresh) SwipeRefreshLayout mSwipeContainer;
 
-
     private static final String LOG_TAG = LoanDetailsFragment.class.getSimpleName();
 
     private LoanDetailsViewHolder viewHolder;
-    private LoanDetailResponse mLoanDetailResponse;
-    private AlertDialog alertDialog;
     public static final String BUNDLE_ID_KEY = "LOAN_DETAILS_FRAGMENTS_ID_KEY";
     private int initLoanId;
     private Disposable disposableGetLoanDetails;
@@ -215,9 +212,6 @@ public class LoanDetailsFragment extends Fragment {
 
     @Override
     public void onPause() {
-        if (alertDialog != null && alertDialog.isShowing()){
-            alertDialog.dismiss();
-        }
         if(disposableGetLoanDetails != null){
             disposableGetLoanDetails.dispose();
         }
@@ -259,7 +253,6 @@ public class LoanDetailsFragment extends Fragment {
                             LoanDetailResponse loanDetailResponse = response.body();
 
                             if(loanDetailResponse != null) {
-                                mLoanDetailResponse = loanDetailResponse;
                                 Log.d(LOG_TAG, "APP populateLoanDetails Rx onNext with loanId "
                                         + loanDetailResponse.getLoan().getLoanId() + " retreived.");
                                 viewHolder.attachView(loanDetailResponse, getActivity());
