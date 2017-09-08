@@ -84,10 +84,10 @@ public class AuthClient implements ClientInterface{
         return apiServices.getRequestOauthUrl(deviceID);
     }
 
-    public Observable<Response<AuthResponse>> postSocialAuthUser(String provider, String uid,
-                                                                 String accessToken, String localePreference,
-                                                                 String deviceId){
-        return apiServices.postSocialAuthUser(new SocialRequest(provider, uid, accessToken,
+    public Observable<Response<AuthResponse>> postFBSocialAuthUser(String provider, String uid,
+                                                                   String accessToken, String localePreference,
+                                                                   String deviceId){
+        return apiServices.postFBSocialAuthUser(new SocialRequest(provider, uid, accessToken,
                 localePreference, deviceId));
     }
 

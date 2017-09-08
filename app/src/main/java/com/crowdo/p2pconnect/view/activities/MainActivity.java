@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity{
                 .withSavedInstance(savedInstanceState)
                 .build();
 
+
         navDrawer.setSelection(DRAWER_SELECT_LOAN_LIST_FRAGMENT);
 
         TextView mNavDrawerAppLogo = (TextView) navDrawer.getHeader().findViewById(R.id.nav_header_app_title);
@@ -307,10 +308,26 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
+
+        //close drawer if left already opened
+        if(navDrawer.isDrawerOpen()) {
+            navDrawer.closeDrawer();
+        }
+
         checkForCrashes();
 
         //check network and invalidateTokenAndMakeCall if needed
         NetworkConnectionChecks.isOnline(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        //close drawer if left already opened
+        if(navDrawer.isDrawerOpen()) {
+            navDrawer.closeDrawer();
+        }
     }
 
     private void checkForCrashes() {

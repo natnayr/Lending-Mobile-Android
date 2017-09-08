@@ -40,8 +40,9 @@ public class ConstantVariables {
     public static final String AUTH_FACEBOOK_PROVIDER_VALUE = "facebook";
     public static final String[] AUTH_FACEBOOK_READ_PERMISSIONS = new String[]{"email", "user_work_history", "user_location", "user_education_history"};
 
-    public static final String AUTH_LINKEDIN_PROVIDER_VALUE = "linkedin";
-    public static final String[] AUTH_LINKEDIN_READ_PERMISSIONS = new String[]{ };
+    public static final String AUTH_LINKEDIN_REDIRECT_URL = "http://192.168.1.5:3000/api/v2/oauth/linkedin/callback";
+    public static final String AUTH_LINKEDIN_CLIENT_ID = "75wudfk13y91r8";
+    public static final String AUTH_LINKEDIN_CLIENT_SECRET = "KGwSaojd66cc80wO";
 
     public static final String PREF_KEY_LOADED_LEARNINGCENTER_DB = "LOADED_LEARNINGCENTER_DB_KEY";
     public static final String PREF_KEY_SELECTED_LANGUAGE = "LOCALE_HELPER_SELECTED_LANGUGAGE";

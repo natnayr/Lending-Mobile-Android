@@ -67,9 +67,9 @@ public interface APIServices {
     @Headers({"Content-type: application/json"})
     Observable<Response<LinkedInAuthUrlResponse>> getRequestOauthUrl(@Query("device_id") String deviceId);
 
-    @POST("oauth/social_login")
+    @POST("oauth/fb/social_login")
     @Headers({"Content-type: application/json"})
-    Observable<Response<AuthResponse>> postSocialAuthUser(@Body SocialRequest data);
+    Observable<Response<AuthResponse>> postFBSocialAuthUser(@Body SocialRequest data);
 
     @Authenticated({R.string.authentication_ACCOUNT, R.string.authentication_TOKEN})
     @GET("member/info")

@@ -58,8 +58,10 @@ public class TopUpHistoryFragment extends Fragment {
     @BindString(R.string.okay_label) String mOkay;
     @BindString(R.string.intent_file_chooser) String mOpenWith;
     @BindString(R.string.unable_open_file_label) String mErrorOpenFile;
+    @BindString(R.string.error_unable_to_download) String mErrorDownload;
     @BindString(R.string.top_up_invalid_investor_label) String mInvalidInvestorLabel;
     @BindString(R.string.top_up_invalid_investor_button_label) String mInvalidInvestorButtonLabel;
+
 
     private static final String LOG_TAG = TopUpHistoryFragment.class.getSimpleName();
     private TopUpHistoryAdapter mTopUpHistoryAdapter;
@@ -191,6 +193,9 @@ public class TopUpHistoryFragment extends Fragment {
                     public void onError(Throwable e) {
                         e.printStackTrace();
                         Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
+                        SnackBarUtil.snackBarForErrorCreate(getView(),
+                                mErrorDownload,
+                                Snackbar.LENGTH_LONG).show();
                     }
 
                     @Override

@@ -119,6 +119,8 @@ dependencies {
     compile 'org.jsoup:jsoup:1.10.3'
     //Facebook SDK
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+    //Scribe for LinkedIn OAuth 2.0
+    compile 'com.github.scribejava:scribejava-apis:4.2.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -157,7 +157,6 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
             public void onClick(View v) {
                 if(v == viewHolder.mRegisterLinkedinButton){
                     Toast.makeText(getActivity(), mRegisterRequestingWait, Toast.LENGTH_LONG).show();
-
                 }
             }
         });
