@@ -61,7 +61,6 @@ public class TopUpHistoryFragment extends Fragment {
     @BindString(R.string.top_up_invalid_investor_label) String mInvalidInvestorLabel;
     @BindString(R.string.top_up_invalid_investor_button_label) String mInvalidInvestorButtonLabel;
 
-
     private static final String LOG_TAG = TopUpHistoryFragment.class.getSimpleName();
     private TopUpHistoryAdapter mTopUpHistoryAdapter;
     private Disposable disposableGetTopUpHistory;

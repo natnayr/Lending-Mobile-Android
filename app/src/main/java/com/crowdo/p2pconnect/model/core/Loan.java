@@ -97,10 +97,10 @@ public class Loan {
     private String updatedAt;
 
     @Json(name = "underlying_agreement")
-    private String underlyingAgreement;
+    private URLAttachment underlyingAgreement;
 
     @Json(name = "master_agreement")
-    private String masterAgreement;
+    private URLAttachment masterAgreement;
 
     @Json(name = "funded_amount_cache")
     private Double fundedAmountCache;
@@ -142,365 +142,196 @@ public class Loan {
     private String liquidationFlag;
 
     @Json(name = "disbursed_proof")
-    private String disbursedProof;
+    private URLAttachment disbursedProof;
 
     public Integer getId() {
         return this.id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Integer getPartnerId() {
         return this.partnerId;
     }
 
-    public void setPartnerId(Integer partnerId) {
-        this.partnerId = partnerId;
-    }
-
     public Integer getPartnerPortfolioId() {
         return this.partnerPortfolioId;
-    }
-
-    public void setPartnerPortfolioId(Integer partnerPortfolioId) {
-        this.partnerPortfolioId = partnerPortfolioId;
     }
 
     public Integer getBorrowerId() {
         return this.borrowerId;
     }
 
-    public void setBorrowerId(Integer borrowerId) {
-        this.borrowerId = borrowerId;
-    }
-
     public String getCurrency() {
         return this.currency;
-    }
-
-    public void setCurrencyOut(String currency) {
-        this.currency = currency;
     }
 
     public String getLoanStatus() {
         return this.loanStatus;
     }
 
-    public void setLoanStatus(String loanStatus) {
-        this.loanStatus = loanStatus;
-    }
-
     public String getCustomerId() {
         return this.customerId;
-    }
-
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
     }
 
     public String getLoanId() {
         return this.loanId;
     }
 
-    public void setLoanId(String loanId) {
-        this.loanId = loanId.trim().toUpperCase();
-    }
-
     public String getLoanType() {
         return this.loanType;
-    }
-
-    public void setLoanType(String loanType) {
-        this.loanType = loanType;
     }
 
     public String getCollateral() {
         return this.collateral;
     }
 
-    public void setCollateral(String collateral) {
-        this.collateral = collateral;
-    }
-
     public String getCollateralDescription() {
         return this.collateralDescription;
-    }
-
-    public void setCollateralDescription(String collateralDescription) {
-        this.collateralDescription = collateralDescription;
     }
 
     public double getTargetAmount() {
         return this.targetAmount;
     }
 
-    public void setTargetAmount(double targetAmount) {
-        this.targetAmount = targetAmount;
-    }
-
     public double getInterestRate() {
         return this.interestRate;
-    }
-
-    public void setInterestRate(double interestRate) {
-        this.interestRate = interestRate;
     }
 
     public double getPmt() {
         return this.pmt;
     }
 
-    public void setPmt(double pmt) {
-        this.pmt = pmt;
-    }
-
     public double getTotalInterestOut() {
         return this.totalInterestOut;
-    }
-
-    public void setTotalInterestOut(double totalInterestOut) {
-        this.totalInterestOut = totalInterestOut;
     }
 
     public Integer getNumOfOnTimePayments() {
         return this.numOfOnTimePayments;
     }
 
-    public void setNumOfOnTimePayments(Integer numOfOnTimePayments) {
-        this.numOfOnTimePayments = numOfOnTimePayments;
-    }
-
     public Integer getNumOfDelayedPayments() {
         return this.numOfDelayedPayments;
-    }
-
-    public void setNumOfDelayedPayments(Integer numOfDelayedPayments) {
-        this.numOfDelayedPayments = numOfDelayedPayments;
     }
 
     public Integer getNumOfDefaultPayments() {
         return this.numOfDefaultPayments;
     }
 
-    public void setNumOfDefaultPayments(Integer numOfDefaultPayments) {
-        this.numOfDefaultPayments = numOfDefaultPayments;
-    }
-
     public Integer getOriginalTenure() {
         return this.originalTenure;
-    }
-
-    public void setOriginalTenure(Integer originalTenure) {
-        this.originalTenure = originalTenure;
     }
 
     public Integer getTenure() {
         return this.tenure;
     }
 
-    public void setTenure(Integer tenure) {
-        this.tenure = tenure;
-    }
-
     public String getFrequencyOut() {
         return this.frequencyOut;
-    }
-
-    public void setFrequencyOut(String frequencyOut) {
-        this.frequencyOut = frequencyOut;
     }
 
     public String getStartDate() {
         return this.startDate;
     }
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-
     public Integer getFundingDuration() {
         return this.fundingDuration;
-    }
-
-    public void setFundingDuration(Integer fundingDuration) {
-        this.fundingDuration = fundingDuration;
     }
 
     public String getFundingStartDate() {
         return this.fundingStartDate;
     }
 
-    public void setFundingStartDate(String fundingStartDate) {
-        this.fundingStartDate = fundingStartDate;
-    }
-
     public String getFundingEndDate() {
         return this.fundingEndDate;
-    }
-
-    public void setFundingEndDate(String fundingEndDate) {
-        this.fundingEndDate = fundingEndDate;
     }
 
     public Integer getInvestmentsCount() {
         return this.investmentsCount;
     }
 
-    public void setInvestmentsCount(Integer investmentsCount) {
-        this.investmentsCount = investmentsCount;
-    }
-
     public String getGrade() {
         return this.grade;
-    }
-
-    public void setGrade(String grade) {
-        this.grade = grade;
     }
 
     public String getCreatedAt() {
         return this.createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public String getUpdatedAt() {
         return this.updatedAt;
     }
 
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public String getUnderlyingAgreement() {
+    public URLAttachment getUnderlyingAgreement() {
         return this.underlyingAgreement;
     }
 
-    public void setUnderlyingAgreement(String underlyingAgreement) {
-        this.underlyingAgreement = underlyingAgreement;
-    }
-
-    public String getMasterAgreement() {
+    public URLAttachment getMasterAgreement() {
         return this.masterAgreement;
-    }
-
-    public void setMasterAgreement(String masterAgreement) {
-        this.masterAgreement = masterAgreement;
     }
 
     public double getFundedAmountCache() {
         return this.fundedAmountCache;
     }
 
-    public void setFundedAmountCache(double fundedAmountCache) {
-        this.fundedAmountCache = fundedAmountCache;
-    }
-
     public boolean isOnePercentPromotion() {
         return this.onePercentPromotion;
-    }
-
-    public void setOnePercentPromotion(boolean onePercentPromotion) {
-        this.onePercentPromotion = onePercentPromotion;
     }
 
     public Integer getLoanToValue() {
         return this.loanToValue;
     }
 
-    public void setLoanToValue(Integer loanToValue) {
-        this.loanToValue = loanToValue;
-    }
-
     public Integer getBorrowerAge() {
         return this.borrowerAge;
-    }
-
-    public void setBorrowerAge(Integer borrowerAge) {
-        this.borrowerAge = borrowerAge;
     }
 
     public String getBorrowerGender() {
         return this.borrowerGender;
     }
 
-    public void setBorrowerGender(String borrowerGender) {
-        this.borrowerGender = borrowerGender;
-    }
-
     public Integer getFundedPercentageCache() {
         return this.fundedPercentageCache;
-    }
-
-    public void setFundedPercentageCache(Integer fundedPercentageCache) {
-        this.fundedPercentageCache = fundedPercentageCache;
     }
 
     public double getFundingAmountToCompleteCache() {
         return this.fundingAmountToCompleteCache;
     }
 
-    public void setFundingAmountToCompleteCache(double fundingAmountToCompleteCache) {
-        this.fundingAmountToCompleteCache = fundingAmountToCompleteCache;
-    }
-
     public boolean isUnderlyingApproved() {
         return this.underlyingApproved;
-    }
-
-    public void setUnderlyingApproved(boolean underlyingApproved) {
-        this.underlyingApproved = underlyingApproved;
     }
 
     public String getUnderlyingApprovedAt() {
         return this.underlyingApprovedAt;
     }
 
-    public void setUnderlyingApprovedAt(String underlyingApprovedAt) {
-        this.underlyingApprovedAt = underlyingApprovedAt;
-    }
-
     public Integer getSortWeight() {
         return this.sortWeight;
-    }
-
-    public void setSortWeight(Integer sortWeight) {
-        this.sortWeight = sortWeight;
     }
 
     public String getRejectReason() {
         return this.rejectReason;
     }
 
-    public void setRejectReason(String rejectReason) {
-        this.rejectReason = rejectReason;
-    }
-
     public String getSecurity() {
         return this.security;
-    }
-
-    public void setSecurity(String security) {
-        this.security = security;
     }
 
     public String getLiquidationFlag() {
         return this.liquidationFlag;
     }
 
-    public void setLiquidationFlag(String liquidationFlag) {
-        this.liquidationFlag = liquidationFlag;
-    }
-
-    public String getDisbursedProof() {
+    public URLAttachment getDisbursedProof() {
         return this.disbursedProof;
     }
 
-    public void setDisbursedProof(String disbursedProof) {
-        this.disbursedProof = disbursedProof;
+    private static class URLAttachment {
+
+        @Json(name = "url")
+        private String url;
+
+        public String getUrl() {
+            return url;
+        }
+
     }
 }

@@ -77,8 +77,11 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
     @BindString(R.string.permissions_no_write_statement) String mLabelCannotWrite;
     @BindString(R.string.error_unable_to_pass_data) String mLabelUnableData;
     public static final String URL_TARGET_EXTRA = "EXTRA_URL_TARGET";
+    public static final String REQUIRE_AUTH_TOKEN_EXTRA = "EXTRA_REQUIRE_AUTH_TOKEN";
+
     public static final String LOG_TAG = WebViewActivity.class.getSimpleName();
     private String mUrl;
+    private boolean mRequireAuthTokenCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +91,8 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
         ButterKnife.bind(WebViewActivity.this);
 
         this.mUrl = getIntent().getStringExtra(URL_TARGET_EXTRA);
+        this.mRequireAuthTokenCheck = getIntent().getBooleanExtra(REQUIRE_AUTH_TOKEN_EXTRA, true);
+
         if(mUrl == null){
             SnackBarUtil.snackBarForErrorCreate(findViewById(android.R.id.content),
                     mLabelUnableData, Snackbar.LENGTH_LONG).show();
@@ -107,27 +112,31 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
         final Map<String, String> headerMap = new HashMap<>();
 
         //if able to get authToken
-        AuthAccountManager authAccountManager = new AuthAccountManager();
-        Account activeAccount = authAccountManager.getActiveAccount(getString(R.string.authentication_ACCOUNT));
-        AccountManager.get(this).getAuthToken(activeAccount, getString(R.string.authentication_TOKEN),
-                null, this, new AccountManagerCallback<Bundle>() {
-            @Override
-            public void run(AccountManagerFuture<Bundle> future) {
-                try {
-                    Bundle tokenBundle = future.getResult();
-                    String authToken = tokenBundle.getString(AccountManager.KEY_AUTHTOKEN);
+        if(mRequireAuthTokenCheck) {
+            AuthAccountManager authAccountManager = new AuthAccountManager();
+            Account activeAccount = authAccountManager.getActiveAccount(getString(R.string.authentication_ACCOUNT));
+            AccountManager.get(this).getAuthToken(activeAccount, getString(R.string.authentication_TOKEN),
+                    null, this, new AccountManagerCallback<Bundle>() {
+                        @Override
+                        public void run(AccountManagerFuture<Bundle> future) {
+                            try {
+                                Bundle tokenBundle = future.getResult();
+                                String authToken = tokenBundle.getString(AccountManager.KEY_AUTHTOKEN);
 
-                    if (authToken != null) {
-                        headerMap.put("Authorization", authToken);
-                    }
+                                if (authToken != null) {
+                                    headerMap.put("Authorization", authToken);
+                                }
 
-                    mWebView.loadUrl(mUrl, headerMap);
+                                mWebView.loadUrl(mUrl, headerMap);
 
-                }catch (Exception e){
-                    Log.e(LOG_TAG, e.getMessage(), e);
-                }
-            }
-        }, null);
+                            } catch (Exception e) {
+                                Log.e(LOG_TAG, e.getMessage(), e);
+                            }
+                        }
+                    }, null);
+        }else{
+            mWebView.loadUrl(mUrl);
+        }
 
         mWebView.setWebChromeClient(new WebChromeClient(){
             @Override
@@ -360,11 +369,12 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
         }
 
         @JavascriptInterface
-        public void authSuccess(){
+        public void authSuccess(String authResponse){
+            Log.d(LOG_TAG, "APP authSuccess: " + authResponse);
         }
 
         @JavascriptInterface
-        public void authFailed(){
+        public void authFailed(String authResponse){
 
         }
     }

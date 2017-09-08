@@ -210,7 +210,7 @@ public class RegisterFragment extends Fragment implements Observer<Response<Auth
         }
 
         mAuthClient = AuthClient.getInstance(getActivity());
-        mAuthClient.registerUser(inputEmail, inputName, inputPassword, inputConfirmPassword,
+        mAuthClient.postRegisterUser(inputEmail, inputName, inputPassword, inputConfirmPassword,
                         LocaleHelper.getLanguage(getActivity()),
                         ConstantVariables.getUniqueAndroidID(getActivity()))
                 .subscribeOn(Schedulers.io())

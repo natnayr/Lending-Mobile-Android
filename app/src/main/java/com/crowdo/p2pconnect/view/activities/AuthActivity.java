@@ -3,13 +3,9 @@ package com.crowdo.p2pconnect.view.activities;
 import android.accounts.Account;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -21,11 +17,9 @@ import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.model.core.Member;
-import com.crowdo.p2pconnect.model.others.Server;
 import com.crowdo.p2pconnect.model.response.AuthResponse;
+import com.crowdo.p2pconnect.model.response.LinkedInAuthUrlResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
-import com.crowdo.p2pconnect.oauth.LinkedInAuthHandler;
-import com.crowdo.p2pconnect.oauth.LinkedInConstants;
 import com.crowdo.p2pconnect.support.NetworkConnectionChecks;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.view.fragments.LoginFragment;
@@ -37,17 +31,12 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.github.scribejava.apis.LinkedInApi;
-import com.github.scribejava.core.builder.ServiceBuilder;
-import com.github.scribejava.core.oauth.OAuth20Service;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -56,6 +45,7 @@ import butterknife.BindString;
 import butterknife.ButterKnife;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
@@ -84,12 +74,15 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
     public final static String AUTH_MEMBER_TOKEN = "AUTH_MEMBER_TOKEN";
     public final static String AUTH_MEMBER_LOCALE = "AUTH_MEMBER_LOCALE";
 
-    public final static int REQUEST_FRAGMENT_RESULT = 123;
+    public final static int REQUEST_FRAGMENT_RESULT = 4562;
+    public final static int REQUEST_LINKEDIN_OAUTH_RESULT = 9123
+            ;
     public final static String FRAGMENT_CLASS_TAG_CALL = "AUTH_ACTIVITY_FRAGMENT_CLASS_TAG_CALL";
 
     private CallbackManager callbackManagerFB;
     private AuthClient mAuthClient;
     private Disposable disposableSocialAuthUser;
+    private Disposable disposableLinkedinOauthUrlRequest;
     private AuthResponse authResponse;
     private View mRootView;
 
@@ -102,23 +95,6 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
         mRootView = findViewById(android.R.id.content);
 
         callbackManagerFB = CallbackManager.Factory.create();
-
-//        authListenerLI = new AuthListener() {
-//            @Override
-//            public void onAuthSuccess() {
-//                LISession liSession = LISessionManager
-//                        .getInstance(AuthActivity.this)
-//                        .getSession();
-//                submitLinkedin(liSession);
-//            }
-//
-//            @Override
-//            public void onAuthError(LIAuthError liAuthError) {
-//                Log.d(LOG_TAG, "APP onAuthError: " + liAuthError.toString());
-//                SnackBarUtil.snackBarForWarningCreate(mRootView,
-//                        liAuthError.toString(), Snackbar.LENGTH_LONG).show();
-//            }
-//        };
 
         LoginManager.getInstance().registerCallback(callbackManagerFB,
                 new FacebookCallback<LoginResult>() {
@@ -216,9 +192,11 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.auth_content, fragment)
                     .commitAllowingStateLoss();
+        }else if(requestCode == REQUEST_LINKEDIN_OAUTH_RESULT){
+
+
         }else{
             callbackManagerFB.onActivityResult(requestCode, resultCode, data);
-
         }
     }
 
@@ -240,18 +218,7 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
         super.onStop();
     }
 
-    public void callLinkedinAuth(){
-        LinkedInAuthHandler liHandler = new LinkedInAuthHandler(mLinkedinClientID, mLinkedinClientSecret);
-        try {
-            String url = liHandler.getAuthorizationUrl();
-            Log.d(LOG_TAG, "APP callLinkedinAuth url:" + url);
 
-
-
-        }catch (Exception e){
-            Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
-        }
-    }
 
     private void submitFB(LoginResult loginResult){
         final com.facebook.AccessToken fbAccessToken = loginResult.getAccessToken();
@@ -276,7 +243,7 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
                         if(fbId != null) {
                             mAuthClient = AuthClient.getInstance(AuthActivity.this);
                             //Start fb hander here
-                            mAuthClient.socialAuthUser(ConstantVariables.AUTH_FACEBOOK_PROVIDER_VALUE,
+                            mAuthClient.postSocialAuthUser(ConstantVariables.AUTH_FACEBOOK_PROVIDER_VALUE,
                                     fbId, fbAccessToken.getToken(),
                                     LocaleHelper.getLanguage(AuthActivity.this),
                                     ConstantVariables.getUniqueAndroidID(AuthActivity.this))
@@ -382,5 +349,87 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
                 }
             }
         }
+    }
+
+    public void callLinkedinAuth(){
+        mAuthClient = AuthClient.getInstance(AuthActivity.this);
+
+        mAuthClient.getRequestLinkedInOAuthUrl(ConstantVariables.getUniqueAndroidID(AuthActivity.this))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<LinkedInAuthUrlResponse>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposableLinkedinOauthUrlRequest = d;
+                    }
+
+                    @Override
+                    public void onNext(Response<LinkedInAuthUrlResponse> response) {
+                        if(response.isSuccessful()) {
+                            String linkedinOAuthUrl = response.body().getOauthUrl();
+                            Log.d(LOG_TAG, "APP linkedinOAuthUrl: " + linkedinOAuthUrl);
+
+                            Intent webViewIntent = new Intent(AuthActivity.this, WebViewActivity.class);
+                            webViewIntent.putExtra(WebViewActivity.URL_TARGET_EXTRA, linkedinOAuthUrl);
+                            webViewIntent.putExtra(WebViewActivity.REQUIRE_AUTH_TOKEN_EXTRA, false);
+
+                            AuthActivity.this.startActivity(webViewIntent);
+                        }else {
+                            String serverErrorMsg = "Error: Login/Register not successful";
+
+                            //failed login response from serverResponse, 4xx error
+                            if (HTTPResponseUtils.check4xxClientError(response.code())) {
+                                if (response.errorBody() != null) {
+                                    Converter<ResponseBody, MessageResponse> errorConverter =
+                                            mAuthClient.getRetrofit().responseBodyConverter(
+                                                    MessageResponse.class, new Annotation[0]);
+                                    try {
+                                        MessageResponse errorResponse = errorConverter.convert(response.errorBody());
+                                        serverErrorMsg = errorResponse.getServer().getMessage();
+                                    } catch (IOException ioe) {
+                                        ioe.printStackTrace();
+                                        Log.e(LOG_TAG, "ERROR " + ioe.getMessage(), ioe);
+                                    } catch(NullPointerException npe){
+                                        npe.printStackTrace();
+                                        Log.e(LOG_TAG, "ERROR " + npe.getMessage(), npe);
+                                    }
+                                }
+
+                                //Error Snackbar
+                                SnackBarUtil.snackBarForWarningCreate(mRootView,
+                                        serverErrorMsg, Snackbar.LENGTH_SHORT).show();
+                                try {
+                                    TimeUnit.SECONDS.sleep(1);
+                                } catch (InterruptedException ex) {
+                                    Thread.currentThread().interrupt();
+                                }
+                                return;
+                            }
+
+                            //other errors, just throw
+                            String errorBody = response.code() + serverErrorMsg;
+                            SnackBarUtil.snackBarForErrorCreate(mRootView,
+                                    errorBody,
+                                    Snackbar.LENGTH_SHORT).show();
+                            Log.e(LOG_TAG, "ERROR " + errorBody);
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        e.printStackTrace();
+                        Log.e(LOG_TAG, "ERROR " + e.getMessage(), e);
+                        if(mRootView != null) {
+                            SnackBarUtil.snackBarForErrorCreate(mRootView,
+                                    mHttpErrorServerMessage,
+                                    Snackbar.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }

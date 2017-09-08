@@ -24,7 +24,6 @@ import com.crowdo.p2pconnect.helpers.SoftInputHelper;
 import com.crowdo.p2pconnect.model.core.Member;
 import com.crowdo.p2pconnect.view.activities.AuthActivity;
 import com.crowdo.p2pconnect.viewholders.LoginViewHolder;
-import com.facebook.login.widget.LoginButton;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.io.IOException;
@@ -183,7 +182,7 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
 
         //do http call
         authClient = AuthClient.getInstance(getActivity());
-        authClient.loginUser(inputEmail, inputPassword,
+        authClient.postLoginUser(inputEmail, inputPassword,
                 ConstantVariables.getUniqueAndroidID(getActivity()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

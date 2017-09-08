@@ -16,6 +16,7 @@ import com.crowdo.p2pconnect.model.response.CheckBidResponse;
 import com.crowdo.p2pconnect.model.response.CheckoutSummaryResponse;
 import com.crowdo.p2pconnect.model.response.CheckoutUpdateResponse;
 import com.crowdo.p2pconnect.model.response.DefinitionBankInfoResponse;
+import com.crowdo.p2pconnect.model.response.LinkedInAuthUrlResponse;
 import com.crowdo.p2pconnect.model.response.LoanDetailResponse;
 import com.crowdo.p2pconnect.model.response.LoanListResponse;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
@@ -49,7 +50,8 @@ public interface APIServices {
 
     public static final String P2P_BASE_URL = "https://crowdo.co.id/";
 
-    public static final String API_LIVE_BASE_URL = "https://api.crowdo.com/";
+    public static final String API_LIVE_BASE_URL = "http://192.168.1.5:3000/";
+//    public static final String API_LIVE_BASE_URL = "https://api.crowdo.com/";
     public static final String LIVE_STAGE = "api/v2/";
     public static final String LIVE_DOCS = "docs";
 
@@ -60,6 +62,10 @@ public interface APIServices {
     @POST("oauth/register")
     @Headers({"Content-type: application/json"})
     Observable<Response<AuthResponse>> postRegisterUser(@Body RegisterRequest data);
+
+    @GET("oauth/linkedin/request_oauth_url")
+    @Headers({"Content-type: application/json"})
+    Observable<Response<LinkedInAuthUrlResponse>> getRequestOauthUrl(@Query("device_id") String deviceId);
 
     @POST("oauth/social_login")
     @Headers({"Content-type: application/json"})
