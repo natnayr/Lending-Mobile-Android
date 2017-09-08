@@ -20,8 +20,8 @@ public class LinkedInAuthHandler {
     public LinkedInAuthHandler(String clientId, String clientKey, Context context){
         auth20Service = new ServiceBuilder(clientId).
                 apiSecret(clientKey)
-                .scope(LinkedinAuthConstant.AUTHORIZATION_REQUEST_SCOPE)
-                .callback(ConstantVariables.AUTH_LINKEDIN_REDIRECT_URL)
+                .scope(SocialAuthConstant.AUTHORIZATION_REQUEST_SCOPE)
+                .callback(SocialAuthConstant.AUTH_LINKEDIN_REDIRECT_URL)
                 .state(ConstantVariables.getUniqueAndroidID(context))
                 .build(LinkedInApi20.instance());
     }

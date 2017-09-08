@@ -39,6 +39,7 @@ import com.crowdo.p2pconnect.helpers.ConstantVariables;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.helpers.PermissionsUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
+import com.crowdo.p2pconnect.oauth.SocialAuthConstant;
 import com.esafirm.rxdownloader.RxDownloader;
 
 import java.io.File;
@@ -369,13 +370,22 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
         }
 
         @JavascriptInterface
-        public void authSuccess(String authResponse){
-            Log.d(LOG_TAG, "APP authSuccess: " + authResponse);
+        public void authSuccess(String email, String name, String authToken, String locale){
+            Intent data = new Intent();
+            data.putExtra(SocialAuthConstant.AUTH_LINKEDIN_RESULT_EMAIL_EXTRA, email);
+            data.putExtra(SocialAuthConstant.AUTH_LINKEDIN_RESULT_NAME_EXTRA, name);
+            data.putExtra(SocialAuthConstant.AUTH_LINKEDIN_RESULT_TOKEN_EXTRA, authToken);
+            data.putExtra(SocialAuthConstant.AUTH_LINKEDIN_RESULT_LOCALE_EXTRA, locale);
+            setResult(RESULT_OK, data);
+            finish();
         }
 
         @JavascriptInterface
-        public void authFailed(String authResponse){
-
+        public void authFailed(String reason){
+            Intent data = new Intent();
+            data.putExtra(SocialAuthConstant.AUTH_LINKEDIN_RESULT_FAILURE_EXTRA, reason);
+            setResult(RESULT_CANCELED, data);
+            finish();
         }
     }
 

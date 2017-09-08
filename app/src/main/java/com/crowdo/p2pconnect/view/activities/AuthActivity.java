@@ -21,6 +21,7 @@ import com.crowdo.p2pconnect.model.response.AuthResponse;
 import com.crowdo.p2pconnect.model.response.LinkedInAuthUrlResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
 import com.crowdo.p2pconnect.oauth.LinkedInAuthHandler;
+import com.crowdo.p2pconnect.oauth.SocialAuthConstant;
 import com.crowdo.p2pconnect.support.NetworkConnectionChecks;
 import com.crowdo.p2pconnect.helpers.LocaleHelper;
 import com.crowdo.p2pconnect.view.fragments.LoginFragment;
@@ -111,7 +112,7 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
                         SnackBarUtil.snackBarForInfoCreate(mRootView, mFbEmailRequired,
                                 Snackbar.LENGTH_LONG).show();
                         LoginManager.getInstance().logInWithReadPermissions(AuthActivity.this,
-                                Arrays.asList(ConstantVariables.AUTH_FACEBOOK_READ_PERMISSIONS));
+                                Arrays.asList(SocialAuthConstant.AUTH_FACEBOOK_READ_PERMISSIONS));
                     }else{
                         submitFB(loginResult);
                     }
@@ -154,7 +155,6 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
     }
 
     public void finishAuth(Bundle userData){
-
         Log.d(LOG_TAG, "APP finishAuth");
         final String accountUserName = userData.getString(AuthActivity.AUTH_MEMBER_NAME);
         final String accountUserEmail = userData.getString(AuthActivity.AUTH_MEMBER_EMAIL);
@@ -195,8 +195,28 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
                     .replace(R.id.auth_content, fragment)
                     .commitAllowingStateLoss();
         }else if(requestCode == REQUEST_LINKEDIN_OAUTH_RESULT){
+            if(resultCode == RESULT_OK){
+                Log.d(LOG_TAG, "APP WebView RESULT_OK");
+                String name = data.getStringExtra(SocialAuthConstant.AUTH_LINKEDIN_RESULT_NAME_EXTRA);
+                String email = data.getStringExtra(SocialAuthConstant.AUTH_LINKEDIN_RESULT_EMAIL_EXTRA);
+                String token = data.getStringExtra(SocialAuthConstant.AUTH_LINKEDIN_RESULT_TOKEN_EXTRA);
+                String locale = data.getStringExtra(SocialAuthConstant.AUTH_LINKEDIN_RESULT_LOCALE_EXTRA);
 
+                final Bundle userData = new Bundle();
+                userData.putString(AuthActivity.AUTH_MEMBER_EMAIL, email);
+                userData.putString(AuthActivity.AUTH_MEMBER_NAME, name);
+                userData.putString(AuthActivity.AUTH_MEMBER_TOKEN, token);
+                userData.putString(AuthActivity.AUTH_MEMBER_LOCALE, locale);
 
+                //go back to AuthActivity to create account
+                finishAuth(userData);
+
+            }else if(resultCode == RESULT_CANCELED){
+                Log.d(LOG_TAG, "APP WebView RESULT_CANCELED");
+                String errorMsg = data.getStringExtra(SocialAuthConstant.AUTH_LINKEDIN_RESULT_FAILURE_EXTRA);
+                SnackBarUtil.snackBarForWarningCreate(mRootView, errorMsg,
+                        Snackbar.LENGTH_LONG).show();
+            }
         }else{
             callbackManagerFB.onActivityResult(requestCode, resultCode, data);
         }
@@ -219,7 +239,6 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
         }
         super.onStop();
     }
-
 
 
     private void submitFB(LoginResult loginResult){
@@ -245,7 +264,8 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
                         if(fbId != null) {
                             mAuthClient = AuthClient.getInstance(AuthActivity.this);
                             //Start fb hander here
-                            mAuthClient.postFBSocialAuthUser(ConstantVariables.AUTH_FACEBOOK_PROVIDER_VALUE,
+                            mAuthClient.postFBSocialAuthUser(
+                                    SocialAuthConstant.AUTH_FACEBOOK_PROVIDER_VALUE,
                                     fbId, fbAccessToken.getToken(),
                                     LocaleHelper.getLanguage(AuthActivity.this),
                                     ConstantVariables.getUniqueAndroidID(AuthActivity.this))
@@ -354,8 +374,9 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
     }
 
     public void callLinkedinAuth(){
-        LinkedInAuthHandler linkedInAuthHandler = new LinkedInAuthHandler(ConstantVariables.AUTH_LINKEDIN_CLIENT_ID,
-                ConstantVariables.AUTH_LINKEDIN_CLIENT_SECRET, this);
+        LinkedInAuthHandler linkedInAuthHandler = new LinkedInAuthHandler(
+                SocialAuthConstant.AUTH_LINKEDIN_CLIENT_ID,
+                SocialAuthConstant.AUTH_LINKEDIN_CLIENT_SECRET, this);
 
         try {
             final String linkedInAuthUrl = linkedInAuthHandler.getAuthorizationUrl();
@@ -363,8 +384,7 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
             Intent webViewIntent = new Intent(AuthActivity.this, WebViewActivity.class);
             webViewIntent.putExtra(WebViewActivity.URL_TARGET_EXTRA, linkedInAuthUrl);
             webViewIntent.putExtra(WebViewActivity.REQUIRE_AUTH_TOKEN_EXTRA, false);
-
-            AuthActivity.this.startActivity(webViewIntent);
+            AuthActivity.this.startActivityForResult(webViewIntent, REQUEST_LINKEDIN_OAUTH_RESULT);
 
         }catch (IOException ioe){
             Log.e(LOG_TAG, "ERROR " + ioe.getMessage(), ioe);

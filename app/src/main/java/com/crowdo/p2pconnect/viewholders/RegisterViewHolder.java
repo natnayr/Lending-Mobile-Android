@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.crowdo.p2pconnect.R;
 import com.crowdo.p2pconnect.helpers.ConstantVariables;
+import com.crowdo.p2pconnect.oauth.SocialAuthConstant;
 import com.facebook.login.widget.LoginButton;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -124,7 +125,7 @@ public class RegisterViewHolder {
                         .sizeRes(R.dimen.auth_social_btn_icon_size));
 
         //request permission for
-        mRegisterFBButton.setReadPermissions(ConstantVariables.AUTH_FACEBOOK_READ_PERMISSIONS);
+        mRegisterFBButton.setReadPermissions(SocialAuthConstant.AUTH_FACEBOOK_READ_PERMISSIONS);
 
         mRegisterFBButtonShell.setOnClickListener(new View.OnClickListener() {
             @Override
