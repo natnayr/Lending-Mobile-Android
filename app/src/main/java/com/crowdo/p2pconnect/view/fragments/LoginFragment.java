@@ -252,6 +252,7 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
         }
     }
 
+
     @Override
     public void onComplete() {
         Log.d(LOG_TAG, "APP onCompleted");

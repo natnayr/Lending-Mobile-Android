@@ -84,7 +84,7 @@
     <string name="auth_register_user_email_label">Alamat Email</string>
     <string name="auth_email_not_valid">Anda telah memasukkan email yang tidak valid</string>
     <string name="auth_register_user_name_label">Nama</string>
-    <string name="auth_register_membership_click_on_label">Login disini</string>
+    <string name="auth_register_membership_click_on_label">LOGIN DISINI</string>
     <string name="auth_login_user_password_label">Sandi</string>
     <string name="auth_login_title_label">Login</string>
     <string name="auth_http_error_message">Maaf, Terjadi kesalahan server</string>
@@ -189,5 +189,14 @@
     <string name="prompt_download_latest_version_title">Pembaruan tersedia</string>
     <string name="download_label">Unduh</string>
     <string name="prompt_download_latest_version_message">Silahkan unduh versi terbaru untuk fitur dan perbaikan baru.</string>
+    <string name="auth_login_social_alternative">ATAU</string>
+    <string name="auth_welcome_message">Welcome&#160;</string>
+    <string name="error_unable_to_download">Maaf, tidak dapat melakukan pengunduha</string>
+    <string name="error_unable_to_pass_data">Maaf, terdapat kesalahan</string>
+    <string name="auth_register_social_alternative">ATAU</string>
+    <string name="auth_register_social_text">Mendaftar dengan akuj media sosial anda</string>
+    <string name="auth_login_social_text">Masuk dengan akun media sosial anda</string>
+    <string name="auth_fb_email_permission_required">Maaf, EMAIL anda diperlukan untuk masuk/mendaftar melalui Facebook</string>
+    <string name="auth_social_wait">Memproses Permohonan&#46;&#46;&#160;Silahkan Tunggu</string>
 
 </resources>

@@ -64,7 +64,7 @@
     <string name="auth_fb" translatable="false">Facebook</string>
     <string name="auth_linkedin" translatable="false">Linkedin</string>
     <string name="auth_social_wait">Requesting&#46;&#46;&#160;Please Wait</string>
-    <string name="auth_fb_email_permission_required">Sry, your EMAIL permission is required for Login/Register via Facebook</string>
+    <string name="auth_fb_email_permission_required">Sorry, your EMAIL permission is required for Login/Register via Facebook</string>
 
     <string name="auth_login_title_label">Login</string>
     <string name="auth_login_user_email_label">User Email</string>
