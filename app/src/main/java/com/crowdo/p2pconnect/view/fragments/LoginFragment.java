@@ -72,7 +72,6 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
     private Disposable disposableLoginUser;
     private AuthResponse authResponse;
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -279,10 +278,12 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
                     userData.putString(AuthActivity.AUTH_MEMBER_NAME, member.getName());
                     userData.putString(AuthActivity.AUTH_MEMBER_TOKEN, authResponse.getAuthToken());
                     userData.putString(AuthActivity.AUTH_MEMBER_LOCALE, member.getLocalePreference());
+                    if(getActivity() != null) {
 
-                    if(((AuthActivity) getActivity()) != null) {
-                        //go back to AuthActivity to create account
-                        ((AuthActivity) getActivity()).finishAuth(userData);
+                        if (getActivity() instanceof AuthActivity) {
+                            //go back to AuthActivity to create account
+                            ((AuthActivity) getActivity()).finishAuth(userData);
+                        }
                     }
                 }
             }

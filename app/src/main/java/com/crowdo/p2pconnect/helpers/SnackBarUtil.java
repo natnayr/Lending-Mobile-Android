@@ -38,7 +38,7 @@ public class SnackBarUtil {
                 .warning();
     }
 
-    public static Snackbar snackBarForErrorCreate(View view, String msg, int snackBarDuration) {
+    public static Snackbar snackBarForErrorCreate(View view, String msg, int snackBarDuration) throws IllegalStateException{
 
         return Snacky.builder()
                 .setView(view)

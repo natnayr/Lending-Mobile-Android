@@ -101,18 +101,21 @@ public class LaunchActivity extends AppCompatActivity implements
                 mHolder.addCallback(new SurfaceHolder.Callback() {
                     @Override
                     public void surfaceCreated(SurfaceHolder holder) {
-                        mPlayer = new MediaPlayer();
-                        mPlayer.setDisplay(mHolder);
-                        mPlayer.setLooping(true);
                         try {
+                            mPlayer = new MediaPlayer();
+                            mPlayer.setDisplay(mHolder);
+                            mPlayer.setLooping(true);
                             mPlayer.setDataSource(mContext, videoUri);
                             mPlayer.setOnPreparedListener(LaunchActivity.this);
                             mPlayer.setOnErrorListener(LaunchActivity.this);
                             mPlayer.prepare();
 
-                        } catch (IOException e) {
-                            Log.e(LOG_TAG, "ERROR surfaceCreated error " + e.getMessage(), e);
-                            e.printStackTrace();
+                        } catch (IOException ioe) {
+                            Log.e(LOG_TAG, "ERROR surfaceCreated error " + ioe.getMessage(), ioe);
+                            ioe.printStackTrace();
+                        } catch (IllegalStateException ise){
+                            Log.e(LOG_TAG, "ERROR surfaceCreated error " + ise.getMessage(), ise);
+                            ise.printStackTrace();
                         }
                     }
 
