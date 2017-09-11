@@ -18,7 +18,6 @@ import com.crowdo.p2pconnect.helpers.HTTPResponseUtils;
 import com.crowdo.p2pconnect.helpers.SnackBarUtil;
 import com.crowdo.p2pconnect.model.core.Member;
 import com.crowdo.p2pconnect.model.response.AuthResponse;
-import com.crowdo.p2pconnect.model.response.LinkedInAuthUrlResponse;
 import com.crowdo.p2pconnect.model.response.MessageResponse;
 import com.crowdo.p2pconnect.oauth.LinkedInAuthHandler;
 import com.crowdo.p2pconnect.oauth.SocialAuthConstant;
@@ -48,7 +47,6 @@ import butterknife.BindString;
 import butterknife.ButterKnife;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
@@ -67,7 +65,7 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
     @BindString(R.string.auth_fb_email_permission_required) String mFbEmailRequired;
     @BindString(R.string.auth_http_error_message) String mHttpErrorServerMessage;
     @BindString(R.string.auth_http_handling_message) String mHttpErrorHandlingMessage;
-
+    @BindString(R.string.wait_message) String mWaitLabel;
     @BindString(R.string.linkedin_client_id) String mLinkedinClientID;
     @BindString(R.string.linkedin_client_secret) String mLinkedinClientSecret;
 
@@ -78,14 +76,12 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
     public final static String AUTH_MEMBER_LOCALE = "AUTH_MEMBER_LOCALE";
 
     public final static int REQUEST_FRAGMENT_RESULT = 4562;
-    public final static int REQUEST_LINKEDIN_OAUTH_RESULT = 9123
-            ;
+    public final static int REQUEST_LINKEDIN_OAUTH_RESULT = 9123;
     public final static String FRAGMENT_CLASS_TAG_CALL = "AUTH_ACTIVITY_FRAGMENT_CLASS_TAG_CALL";
 
     private CallbackManager callbackManagerFB;
     private AuthClient mAuthClient;
     private Disposable disposableSocialAuthUser;
-    private Disposable disposableLinkedinOauthUrlRequest;
     private AuthResponse authResponse;
     private View mRootView;
 
@@ -114,6 +110,8 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
                         LoginManager.getInstance().logInWithReadPermissions(AuthActivity.this,
                                 Arrays.asList(SocialAuthConstant.AUTH_FACEBOOK_READ_PERMISSIONS));
                     }else{
+                        SnackBarUtil.snackBarForInfoCreate(mRootView, mWaitLabel,
+                                Snackbar.LENGTH_SHORT).show();
                         submitFB(loginResult);
                     }
                 }
@@ -213,9 +211,13 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
 
             }else if(resultCode == RESULT_CANCELED){
                 Log.d(LOG_TAG, "APP WebView RESULT_CANCELED");
-                String errorMsg = data.getStringExtra(SocialAuthConstant.AUTH_LINKEDIN_RESULT_FAILURE_EXTRA);
-                SnackBarUtil.snackBarForWarningCreate(mRootView, errorMsg,
-                        Snackbar.LENGTH_LONG).show();
+                if(data != null) {
+                    if(data.hasExtra(SocialAuthConstant.AUTH_LINKEDIN_RESULT_FAILURE_EXTRA)) {
+                        String errorMsg = data.getStringExtra(SocialAuthConstant.AUTH_LINKEDIN_RESULT_FAILURE_EXTRA);
+                        SnackBarUtil.snackBarForWarningCreate(mRootView, errorMsg,
+                                Snackbar.LENGTH_LONG).show();
+                    }
+                }
             }
         }else{
             callbackManagerFB.onActivityResult(requestCode, resultCode, data);
