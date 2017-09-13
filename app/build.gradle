@@ -8,8 +8,8 @@ android {
         applicationId "com.crowdo.p2pconnect"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 31
-        versionName "0.1.3.2"
+        versionCode 35
+        versionName "0.1.4.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [HOCKEYAPP_APP_ID: "26edfa1f4e314714a244f6d7b972b529"]
         multiDexEnabled true
