@@ -47,10 +47,18 @@ import butterknife.ButterKnife;
 
 /**
  * Created by cwdsg05 on 3/2/17.
+ *
+ * MainActivity is the landing default activity, many background and support functions are implemented
+ * onCreate:
+ *  1. HockeyApp's CrashManager initialisation for crash-reporting
+ *  2. APP version checking - prompts user to update, links to google play store
+ *  3. Menu NavDrawer creation - plugin mikepenz:materialdrawer
+ *
  */
 
 public class MainActivity extends AppCompatActivity{
 
+    //ButterKnife
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindString(R.string.pre_exit_question) String mPreExitQuestion;
     @BindString(R.string.language_english_label) String mLanguageEnglish;
@@ -59,6 +67,7 @@ public class MainActivity extends AppCompatActivity{
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private Drawer navDrawer;
 
+    // Assigned uniqueIDs for navDrawer menu options
     private static final int DRAWER_SELECT_LOAN_LIST_FRAGMENT = 100;
     private static final int DRAWER_SELECT_LEARNING_CENTER_FRAGMENT = 101;
     private static final int DRAWER_SELECT_ACCOUNT_TOP_UP = 102;
