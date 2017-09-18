@@ -70,6 +70,8 @@ public class UpdateChecking{
         protected void onPostExecute(JSONObject jsonObject) {
             if(latestVersion != null){
                 if(!currentVersion.equalsIgnoreCase(latestVersion)){
+                    Log.d(LOG_TAG, "APP: currentVersion=" + currentVersion +
+                            " latestVersion:" + latestVersion );
                     if(!mActivity.isFinishing()){
                         showUpdateDialog();
                     }

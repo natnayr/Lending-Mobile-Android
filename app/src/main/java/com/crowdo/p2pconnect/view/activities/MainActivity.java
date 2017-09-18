@@ -51,9 +51,9 @@ import butterknife.ButterKnife;
  * MainActivity is the landing default activity, many background and support functions are implemented
  * onCreate:
  *  1. HockeyApp's CrashManager initialisation for crash-reporting
- *  2. APP version checking - prompts user to update, links to google play store
+ *  2. Update APP (version checking & prompt) - user to update, opens intent to google play store
  *  3. Menu NavDrawer creation - plugin mikepenz:materialdrawer
- *
+ *  4.
  */
 
 public class MainActivity extends AppCompatActivity{
@@ -212,9 +212,18 @@ public class MainActivity extends AppCompatActivity{
                                     return true;
 
                                 case DRAWER_SELECT_APPLY_AS_INVESTOR:
-                                    action = "register_as_investor";
-                                    webCall = true;
-                                    break;
+                                    final String locale = LocaleHelper.getLanguage(MainActivity.this);
+                                    String webViewUrl = APIServices.P2P_BASE_URL +
+                                            "mobile2/register_as_investor" +
+                                            "?lang=" + locale +
+                                            "&device_id=" +
+                                            ConstantVariables.getUniqueAndroidID(MainActivity.this);
+
+                                    Log.d(LOG_TAG, "APP activity_webview launched to " + webViewUrl);
+                                    Intent  intent = new Intent(MainActivity.this, WebViewActivity.class);
+                                    intent.putExtra(WebViewActivity.URL_TARGET_EXTRA, webViewUrl);
+                                    startActivity(intent);
+                                    return true;
 
                                 case DRAWER_SELECT_LOGOUT:
                                     LoginManager.getInstance().logOut();
@@ -228,22 +237,6 @@ public class MainActivity extends AppCompatActivity{
                                     return true;
                                 default:
                                     return false; //default close
-                            }
-
-                            if(webCall == true && action != null) {
-                                final String locale = LocaleHelper.getLanguage(MainActivity.this);
-                                String webViewUrl = APIServices.P2P_BASE_URL +
-                                        "mobile2/" + action +
-                                        "?lang=" + locale +
-                                        "&device_id=" +
-                                        ConstantVariables.getUniqueAndroidID(MainActivity.this);
-
-                                Intent  intent = new Intent(MainActivity.this, WebViewActivity.class);
-                                intent.putExtra(WebViewActivity.URL_TARGET_EXTRA, webViewUrl);
-                                startActivity(intent);
-
-                                Log.d(LOG_TAG, "APP activity_webview launched to " + webViewUrl);
-                                return true;
                             }
 
                             if (fragmentClass != null) {
@@ -267,7 +260,6 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     public void onBackPressed() {
-
         super.onBackPressed();
     }
 
@@ -311,6 +303,7 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void attachBaseContext(Context base) {
+        //Locale attaching
         super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 

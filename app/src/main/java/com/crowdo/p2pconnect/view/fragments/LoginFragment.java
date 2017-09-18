@@ -145,7 +145,7 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
         viewHolder.mLoginLinkedinButton.setOnClickListener(new View.OnClickListener() {
                    @Override
                    public void onClick(View v) {
-                        Toast.makeText(getActivity(), mLoginRequestingWait, Toast.LENGTH_LONG).show();
+                       Toast.makeText(getActivity(), mLoginRequestingWait, Toast.LENGTH_LONG).show();
                        ((AuthActivity) getActivity()).callLinkedinAuth();
                    }
                });
@@ -177,7 +177,6 @@ public class LoginFragment extends Fragment implements Observer<Response<AuthRes
             viewHolder.mLoginEmailEditText.setError(mEmailInvalidPrompt);
             return;
         }
-
 
         //do http call
         authClient = AuthClient.getInstance(getActivity());

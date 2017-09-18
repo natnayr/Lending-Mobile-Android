@@ -108,13 +108,22 @@ public class WithdrawSubmitFragment extends Fragment {
                 //user transfer ammount
                 String amountInput = viewHolder.mSubmitTransferAmountEditText
                         .getText().toString().trim().replaceAll("[^\\d.]", "");
-                if("".equals(amountInput) || Long.parseLong(amountInput) <= 0){
-                    SnackBarUtil.snackBarForInfoCreate(getView(), mEnteredAmountEmptyStatement,
+                try {
+                    if ("".equals(amountInput) || Long.parseLong(amountInput) <= 0) {
+                        SnackBarUtil.snackBarForInfoCreate(getView(), mEnteredAmountEmptyStatement,
+                                Snackbar.LENGTH_SHORT).show();
+                        return;
+                    }
+                    transferAmount(amountInput);
+
+                }catch (NumberFormatException nfe){
+                    Log.d(LOG_TAG, "ERROR: " + nfe.getMessage(), nfe);
+                    nfe.printStackTrace();
+
+                    SnackBarUtil.snackBarForErrorCreate(getView(), "Please enter your amount manually",
                             Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-
-                transferAmount(amountInput);
             }
         });
 
