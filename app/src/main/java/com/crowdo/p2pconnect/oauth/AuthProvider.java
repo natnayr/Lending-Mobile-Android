@@ -31,7 +31,9 @@ public class AuthProvider implements Provider<Account, AndroidTokenType, Android
     @Override
     public boolean retryRequired(int count, Response response, TokenStorage<Account, AndroidTokenType, AndroidToken> tokenStorage, Account account, AndroidTokenType androidTokenType, AndroidToken androidToken) {
         if(!response.isSuccessful()){
+            //Provider injects logic to take action for 401.
             if(response.code() == ConstantVariables.HTTP_UNAUTHORISED){
+                //remove token from AccountManager, missing token triggers AuthActivity via retroauth
                 tokenStorage.removeToken(account, androidTokenType, androidToken);
                 return true;
             }
@@ -41,6 +43,8 @@ public class AuthProvider implements Provider<Account, AndroidTokenType, Android
     }
 
     public void onRetrofitCreated(Retrofit retrofit){
+        //Boilerplate code from retroauth to "inject" logic into API calls
+        // Note: annotations in APIServices.class => @Authenticated define which API call is authentication.
         this.apiServices = retrofit.create(APIServices.class);
     }
 }

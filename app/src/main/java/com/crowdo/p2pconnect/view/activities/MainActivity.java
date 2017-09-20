@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity{
                                             new CallBackUtil<MemberInfoResponse>() {
                                         @Override
                                         public void eventCallBack(MemberInfoResponse response) {
-                                            // do nothing
+                                            // do nothing after
                                         }
                                     });
                                     return true;

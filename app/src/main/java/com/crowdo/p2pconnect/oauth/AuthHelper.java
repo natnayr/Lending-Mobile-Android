@@ -11,11 +11,16 @@ import com.crowdo.p2pconnect.helpers.CallBackUtil;
 import com.crowdo.p2pconnect.model.response.MemberInfoResponse;
 
 /**
- * Created by cwdsg05 on 20/7/17.
+ * Custom Helper class using RetroAuth to change AccountManager status
  */
-
 public class AuthHelper {
 
+    /**
+     * To force Logout via RetroAuth token invalidation and do casual API call.
+     *
+     * @param activity current Activity being called
+     * @param callBackUtil handle during post-logout (currently nothing)
+     */
     public static void invalidateTokenAndMakeCall(Activity activity, CallBackUtil<MemberInfoResponse> callBackUtil){
         AuthAccountManager authAccountManager = new AuthAccountManager();
         Account activeAccount = authAccountManager
@@ -24,7 +29,9 @@ public class AuthHelper {
             AccountManager.get(activity).setAuthToken(activeAccount,
                     activity.getString(R.string.authentication_TOKEN),
                     activity.getString(R.string.authentication_INVALID_TOKEN));
-            //call member retreival
+
+
+            //fake API call to MemberInfo to trigger AuthActivity via 401 status
             new MemberInfoRetrieval().retrieveInfo(activity,
                     callBackUtil);
 

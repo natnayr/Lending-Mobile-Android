@@ -54,7 +54,7 @@ import retrofit2.Converter;
 import retrofit2.Response;
 
 /**
- * AuthActivity is the landing activity for any "Failed to Authenticate" (e.g. status 412) requests,
+ * AuthActivity is the landing activity for any "Failed to Authenticate" (e.g. status 401) requests,
  * startActivity to call this activity is located as the RetroAuth implementation for AuthenticationActivity under manifest for:
  * <action android:name="com.crowdo.p2pconnect.ACTION"/>.
  *
@@ -122,6 +122,8 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
                     }else{
                         SnackBarUtil.snackBarForInfoCreate(mRootView, mWaitLabel,
                                 Snackbar.LENGTH_SHORT).show();
+
+                        //process results, request API for crowdo token, using fb token
                         submitFB(loginResult);
                     }
                 }
@@ -215,7 +217,8 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
                     .replace(R.id.auth_content, fragment)
                     .commitAllowingStateLoss();
         }else if(requestCode == REQUEST_LINKEDIN_OAUTH_RESULT){
-            //Response for Social Linkedin Auth which uses webview
+            //Response for Social Linkedin Auth which uses webview for OAuth callback,
+            //response from webview contains crowdo token.
             if(resultCode == RESULT_OK){
                 //SUCCESS
                 Log.d(LOG_TAG, "APP WebView RESULT_OK");
@@ -230,7 +233,7 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
                 userData.putString(AuthActivity.AUTH_MEMBER_TOKEN, token);
                 userData.putString(AuthActivity.AUTH_MEMBER_LOCALE, locale);
 
-                //Create Account
+                //Create Account with finishAuth
                 finishAuth(userData);
 
             }else if(resultCode == RESULT_CANCELED){
@@ -246,7 +249,7 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
                 }
             }
         }else{
-            //Facebook Ndroid SDK passing response to registerCallback implementation on top^
+            //Facebook Ndroid SDK passing response to LoginManager's registerCallback() *implementation on top^
             callbackManagerFB.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -270,17 +273,18 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
         super.onStop();
     }
 
-
+    // Post
     private void submitFB(LoginResult loginResult){
-        //get token first
+        //get fb token
         final com.facebook.AccessToken fbAccessToken = loginResult.getAccessToken();
 
-        //Post Authentication, do GraphAPI calls to get data
+        //post FB Token handling, do GraphAPI calls to get user info (id only)
         GraphRequest request = GraphRequest.newMeRequest(
                 loginResult.getAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
+                        //
                         String fbId = null;
 
                         try{
@@ -294,7 +298,8 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
 
                         if(fbId != null) {
                             mAuthClient = AuthClient.getInstance(AuthActivity.this);
-                            //Start fb hander here
+                            // API call to pass FB ID & Token to authenticate + login/register user via token,
+                            // response is identical to login/register fragment implementation
                             mAuthClient.postFBSocialAuthUser(
                                     SocialAuthConstant.AUTH_FACEBOOK_PROVIDER_VALUE,
                                     fbId, fbAccessToken.getToken(),
@@ -315,6 +320,12 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
         this.disposableSocialAuthUser = d;
     }
 
+    /**
+     * Crowdo Social Auth response (for fb currently),
+     * set object as global authResponse for onComplete()
+     *
+     * @param response from API Call
+     */
     @Override
     public void onNext(Response<AuthResponse> response) {
         if(response.isSuccessful()) {
@@ -360,6 +371,10 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
         }
     }
 
+    /**
+     * Error handling and notifying user
+     * @param e
+     */
     @Override
     public void onError(Throwable e) {
         //HTTP ERROR Handling
@@ -372,6 +387,9 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
         }
     }
 
+    /**
+     * onComplete, massage authResponse (if !null) for finishAuth()
+     */
     @Override
     public void onComplete() {
         Log.d(LOG_TAG, "APP onCompleted");
@@ -391,6 +409,7 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
 
                     final Member member = authResponse.getMember();
 
+                    //assign bundle keys to AccountManager
                     final Bundle userData = new Bundle();
                     userData.putString(AuthActivity.AUTH_MEMBER_EMAIL, member.getEmail());
                     userData.putString(AuthActivity.AUTH_MEMBER_NAME, member.getName());
