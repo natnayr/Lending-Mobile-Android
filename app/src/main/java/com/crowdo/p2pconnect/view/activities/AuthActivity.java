@@ -54,7 +54,14 @@ import retrofit2.Converter;
 import retrofit2.Response;
 
 /**
- * Created by cwdsg05 on 10/3/17.
+ * AuthActivity is the landing activity for any "Failed to Authenticate" (e.g. status 412) requests,
+ * startActivity to call this activity is located as the RetroAuth implementation for AuthenticationActivity under manifest for:
+ * <action android:name="com.crowdo.p2pconnect.ACTION"/>.
+ *
+ * Note: as this activity for authentication failure, LaunchActivity is used only as the CHILD activity of this.
+ * LaunchsActivity does not create new AuthActivity but simply terminates when login/register is clicked and fragment is handled here.
+ *
+ * See implementation: github.com/andretietz/retroauth/tree/master/retroauth-android
  */
 
 public class AuthActivity extends AuthenticationActivity implements Observer<Response<AuthResponse>> {
@@ -69,14 +76,17 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
     @BindString(R.string.linkedin_client_id) String mLinkedinClientID;
     @BindString(R.string.linkedin_client_secret) String mLinkedinClientSecret;
 
-
+    // KEYS for Android Account Manager
     public final static String AUTH_MEMBER_EMAIL = "AUTH_MEMBER_EMAIL";
     public final static String AUTH_MEMBER_NAME = "AUTH_MEMBER_NAME";
     public final static String AUTH_MEMBER_TOKEN = "AUTH_MEMBER_TOKEN";
     public final static String AUTH_MEMBER_LOCALE = "AUTH_MEMBER_LOCALE";
 
+    // for onActivityResult
     public final static int REQUEST_FRAGMENT_RESULT = 4562;
     public final static int REQUEST_LINKEDIN_OAUTH_RESULT = 9123;
+
+    // Fragment tag for Login/Registration Fragment
     public final static String FRAGMENT_CLASS_TAG_CALL = "AUTH_ACTIVITY_FRAGMENT_CLASS_TAG_CALL";
 
     private CallbackManager callbackManagerFB;
@@ -93,8 +103,8 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
 
         mRootView = findViewById(android.R.id.content);
 
+        // Facebook ndroid sdk
         callbackManagerFB = CallbackManager.Factory.create();
-
         LoginManager.getInstance().registerCallback(callbackManagerFB,
                 new FacebookCallback<LoginResult>() {
             @Override
@@ -130,6 +140,7 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
 
         Bundle extras = getIntent().getExtras();
 
+        // onCreate detect fragment choice from LaunchActivity or others
         Fragment fragment = null;
         String fragmentTag = extras.getString(FRAGMENT_CLASS_TAG_CALL);
         if(fragmentTag != null) {
@@ -139,9 +150,10 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
                 fragment = new RegisterFragment();
             }
         }else{
-            fragment = new LoginFragment(); //default
+            fragment = new LoginFragment(); //Default fragment
         }
-        //fragment should be either Login or Register
+
+        //fragment should be either Login or Register by here
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.auth_content, fragment)
                 .commit();
@@ -152,6 +164,11 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
         super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 
+    /**
+     * Method is used for the creation of AccoutManager instance, stores token into account under AccountManager
+     * using RetroAuth plugin (see gradle) along with other misc details for identification.
+     * @param userData key-value bundle with 4 keys, name, email, token, locale
+     */
     public void finishAuth(Bundle userData){
         Log.d(LOG_TAG, "APP finishAuth");
         final String accountUserName = userData.getString(AuthActivity.AUTH_MEMBER_NAME);
@@ -159,20 +176,23 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
         final String accountAuthToken = userData.getString(AuthActivity.AUTH_MEMBER_TOKEN);
         final String accountUserLocale = userData.getString(AuthActivity.AUTH_MEMBER_LOCALE);
 
+        //retreive token, if present then continue
         if(accountAuthToken != null) {
             Toast.makeText(AuthActivity.this, mWelcomeMessage +
                     accountUserName, Toast.LENGTH_LONG).show();
 
+            //Retroauth plugin methods used here for ease of creating token auth account
             final Account userAccount = createOrGetAccount(accountUserName);
             storeToken(userAccount, getRequestedTokenType(), accountAuthToken);
             storeUserData(userAccount, getString(R.string.authentication_EMAIL), accountUserEmail);
             storeUserData(userAccount, getString(R.string.authentication_LOCALE), accountUserLocale);
-            finalizeAuthentication(userAccount);
+            finalizeAuthentication(userAccount); //does finish() call to end activity (to main)
         }
     }
 
     @Override
     public void onBackPressed() {
+        // reverse effect, when "back" button is pressed LaunchActivity is started
         Intent launchIntent = new Intent(AuthActivity.this, LaunchActivity.class);
         startActivityForResult(launchIntent, REQUEST_FRAGMENT_RESULT);
     }
@@ -182,6 +202,8 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
         Log.d(LOG_TAG, "APP Auth onActivityResult " + requestCode);
 
         if(requestCode == REQUEST_FRAGMENT_RESULT) {
+            // From LaunchActivity login/register button click, fragment is called.
+            // Note: Launch Activity is Child fragment of AuthActivity
             Fragment fragment = null;
             if(resultCode == LaunchActivity.RESULT_CODE_REGISTER){
                 fragment = new RegisterFragment();
@@ -193,7 +215,9 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
                     .replace(R.id.auth_content, fragment)
                     .commitAllowingStateLoss();
         }else if(requestCode == REQUEST_LINKEDIN_OAUTH_RESULT){
+            //Response for Social Linkedin Auth which uses webview
             if(resultCode == RESULT_OK){
+                //SUCCESS
                 Log.d(LOG_TAG, "APP WebView RESULT_OK");
                 String name = data.getStringExtra(SocialAuthConstant.AUTH_LINKEDIN_RESULT_NAME_EXTRA);
                 String email = data.getStringExtra(SocialAuthConstant.AUTH_LINKEDIN_RESULT_EMAIL_EXTRA);
@@ -206,13 +230,15 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
                 userData.putString(AuthActivity.AUTH_MEMBER_TOKEN, token);
                 userData.putString(AuthActivity.AUTH_MEMBER_LOCALE, locale);
 
-                //go back to AuthActivity to create account
+                //Create Account
                 finishAuth(userData);
 
             }else if(resultCode == RESULT_CANCELED){
+                //FAILURE
                 Log.d(LOG_TAG, "APP WebView RESULT_CANCELED");
                 if(data != null) {
                     if(data.hasExtra(SocialAuthConstant.AUTH_LINKEDIN_RESULT_FAILURE_EXTRA)) {
+                        //Tell user failure
                         String errorMsg = data.getStringExtra(SocialAuthConstant.AUTH_LINKEDIN_RESULT_FAILURE_EXTRA);
                         SnackBarUtil.snackBarForWarningCreate(mRootView, errorMsg,
                                 Snackbar.LENGTH_LONG).show();
@@ -220,6 +246,7 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
                 }
             }
         }else{
+            //Facebook Ndroid SDK passing response to registerCallback implementation on top^
             callbackManagerFB.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -234,6 +261,7 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
 
     @Override
     protected void onStop() {
+        // dispose
         if(disposableSocialAuthUser != null){
             if(!disposableSocialAuthUser.isDisposed()){
                 disposableSocialAuthUser.dispose();
@@ -244,8 +272,10 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
 
 
     private void submitFB(LoginResult loginResult){
+        //get token first
         final com.facebook.AccessToken fbAccessToken = loginResult.getAccessToken();
 
+        //Post Authentication, do GraphAPI calls to get data
         GraphRequest request = GraphRequest.newMeRequest(
                 loginResult.getAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
@@ -257,7 +287,6 @@ public class AuthActivity extends AuthenticationActivity implements Observer<Res
                             fbId = object.getString("id");
                         }catch (JSONException jse){
                             Log.e(LOG_TAG, "ERROR " + jse.getMessage(), jse);
-
                             SnackBarUtil.snackBarForErrorCreate(mRootView, jse.getMessage(),
                                     Snackbar.LENGTH_LONG).show();
                             return;

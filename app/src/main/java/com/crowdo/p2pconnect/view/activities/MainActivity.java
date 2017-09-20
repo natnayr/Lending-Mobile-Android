@@ -50,10 +50,10 @@ import butterknife.ButterKnife;
  *
  * MainActivity is the landing default activity, many background and support functions are implemented
  * onCreate:
- *  1. HockeyApp's CrashManager initialisation for crash-reporting
+ *  1. HockeyApp's CrashManager initialisation for crash-reporting.
  *  2. Update APP (version checking & prompt) - user to update, opens intent to google play store
- *  3. Menu NavDrawer creation - plugin mikepenz:materialdrawer
- *  4.
+ *  3. Menu NavDrawer creation - plugin mikepenz:materialdrawer.
+ *  4. Locale setting
  */
 
 public class MainActivity extends AppCompatActivity{
@@ -119,6 +119,11 @@ public class MainActivity extends AppCompatActivity{
         updateChecking.getCurrentVersion(this);
     }
 
+    /**
+     * Method to create menu from plugin "MickePenz MaterialDrawer"
+     *
+     * @return new DrawerBuilder
+     */
     private DrawerBuilder buildNavigationDrawer(){
         return new DrawerBuilder()
                 .withActivity(this)
@@ -147,6 +152,7 @@ public class MainActivity extends AppCompatActivity{
                                 .withIcon(CommunityMaterial.Icon.cmd_square_inc_cash)
                                 .withSelectable(false),
                         new SectionDrawerItem().withName(R.string.navmenu_label_preferences),
+                        // explandable section for language
                         new ExpandableDrawerItem().withIdentifier(DRAWER_SELECT_LANGUAGE_CHANGE)
                                 .withName(R.string.navmenu_label_language)
                                 .withIcon(CommunityMaterial.Icon.cmd_translate)
@@ -160,6 +166,7 @@ public class MainActivity extends AppCompatActivity{
                                             .withName(R.string.language_bahasa_label).withLevel(2)
                                             .withSelectable(false)
                                 ),
+                        // "Actions" are webviews links to p2p
                         new SectionDrawerItem().withName(R.string.navmenu_label_actions),
                         new SecondaryDrawerItem().withIdentifier(DRAWER_SELECT_APPLY_AS_INVESTOR)
                                 .withName(R.string.toolbar_title_apply_investor)
@@ -171,6 +178,7 @@ public class MainActivity extends AppCompatActivity{
                                 .withIcon(CommunityMaterial.Icon.cmd_logout_variant)
                                 .withSelectable(false)
                 )
+                // handle item onClick here
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
@@ -212,6 +220,7 @@ public class MainActivity extends AppCompatActivity{
                                     return true;
 
                                 case DRAWER_SELECT_APPLY_AS_INVESTOR:
+                                    //Only
                                     final String locale = LocaleHelper.getLanguage(MainActivity.this);
                                     String webViewUrl = APIServices.P2P_BASE_URL +
                                             "mobile2/register_as_investor" +
@@ -303,7 +312,7 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void attachBaseContext(Context base) {
-        //Locale attaching
+        //Locale attaching for language
         super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 
@@ -311,14 +320,15 @@ public class MainActivity extends AppCompatActivity{
     protected void onResume() {
         super.onResume();
 
-        //close drawer if left already opened
+        //close menu drawer if left opened
         if(navDrawer.isDrawerOpen()) {
             navDrawer.closeDrawer();
         }
 
+        //re-instate register for crash-analytics
         checkForCrashes();
 
-        //check network and invalidateTokenAndMakeCall if needed
+        //in-built check network and inform user
         NetworkConnectionChecks.isOnline(this);
     }
 
@@ -333,6 +343,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void checkForCrashes() {
+        // HockeyApp
         CrashManager.register(this, new CrashManagerListener() {
             @Override
             public boolean shouldAutoUploadCrashes() {
